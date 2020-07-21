@@ -110,7 +110,7 @@ RESET
 Text Label 1350 6800 2    50   ~ 0
 RESET
 $Comp
-L MF_Switches:TACT_4.2MM SW1
+L mainboard-rescue:TACT_4.2MM-MF_Switches SW1
 U 1 1 5F0A59B0
 P 1700 7000
 F 0 "SW1" H 1700 7350 45  0000 C CNN
@@ -304,7 +304,7 @@ F 3 "" H 5700 7100 50  0001 C CNN
 $EndComp
 NoConn ~ 5700 7000
 $Comp
-L MF_Connectors:USB_MICRO_RIGHT J3
+L mainboard-rescue:USB_MICRO_RIGHT-MF_Connectors J3
 U 1 1 5F0B0468
 P 6550 5600
 F 0 "J3" H 6322 5592 45  0000 R CNN

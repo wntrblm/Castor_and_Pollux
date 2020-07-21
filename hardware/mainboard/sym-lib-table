@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name mainboard-rescue)(type Legacy)(uri ${KIPRJMOD}/mainboard-rescue.lib)(options "")(descr ""))
+)
