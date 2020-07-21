@@ -1,0 +1,1158 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector_Generic:Conn_01x14 J1
+U 1 1 5F052E6B
+P 1550 1450
+F 0 "J1" V 1675 1396 50  0000 C CNN
+F 1 "top header" V 1766 1396 50  0000 C CNN
+F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X14" H 1550 1450 50  0001 C CNN
+F 3 "~" H 1550 1450 50  0001 C CNN
+	1    1550 1450
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x14 J5
+U 1 1 5F0559EF
+P 1550 2800
+F 0 "J5" V 1675 2746 50  0000 C CNN
+F 1 "almost bottom header" V 1766 2746 50  0000 C CNN
+F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X14" H 1550 2800 50  0001 C CNN
+F 3 "~" H 1550 2800 50  0001 C CNN
+	1    1550 2800
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x24 J4
+U 1 1 5F057AF4
+P 2050 4300
+F 0 "J4" V 2175 4246 50  0000 C CNN
+F 1 "bottom header" V 2266 4246 50  0000 C CNN
+F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X24" H 2050 4300 50  0001 C CNN
+F 3 "~" H 2050 4300 50  0001 C CNN
+	1    2050 4300
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0101
+U 1 1 5F0617DF
+P 2150 1250
+F 0 "#PWR0101" H 2150 1000 50  0001 C CNN
+F 1 "GND" H 2155 1077 50  0000 C CNN
+F 2 "" H 2150 1250 50  0001 C CNN
+F 3 "" H 2150 1250 50  0001 C CNN
+	1    2150 1250
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5F061EFB
+P 850 1250
+F 0 "#PWR0102" H 850 1000 50  0001 C CNN
+F 1 "GND" H 855 1077 50  0000 C CNN
+F 2 "" H 850 1250 50  0001 C CNN
+F 3 "" H 850 1250 50  0001 C CNN
+	1    850  1250
+	-1   0    0    1   
+$EndComp
+Text Label 2050 1050 1    50   ~ 0
+-12v-raw
+Text Label 1950 1050 1    50   ~ 0
+-12v-raw
+Wire Wire Line
+	1950 1050 1950 1250
+Wire Wire Line
+	2050 1250 2050 1050
+Text Label 950  1050 1    50   ~ 0
++12v-raw
+Text Label 1050 1050 1    50   ~ 0
++12v-raw
+Text Label 1150 1050 1    50   ~ 0
+dotstar_clk
+Text Label 1250 1050 1    50   ~ 0
+dotstar_data
+Text Label 850  2350 1    50   ~ 0
+castor_sub_mix_in
+Text Label 950  2350 1    50   ~ 0
+castor_pwm_out
+Text Label 1050 2350 1    50   ~ 0
+castor_mix_out
+Text Label 1150 2350 1    50   ~ 0
+pollux_sub_mix_in
+Text Label 1250 2350 1    50   ~ 0
+pollux_mix_out
+Text Label 1350 2350 1    50   ~ 0
+pollux_pwm_out
+Text Label 1650 2350 1    50   ~ 0
+mix_pot_out
+Text Label 1750 2350 1    50   ~ 0
+mix_out
+Text Label 1850 2350 1    50   ~ 0
+mix_pot_in
+Text Label 1950 2350 1    50   ~ 0
+cv_a_pot
+Text Label 2050 2350 1    50   ~ 0
+cv_b_jack
+Text Label 2150 2350 1    50   ~ 0
+cv_a_jack
+$Comp
+L power:GND #PWR0105
+U 1 1 5F06E57D
+P 1450 2600
+F 0 "#PWR0105" H 1450 2350 50  0001 C CNN
+F 1 "GND" H 1455 2427 50  0000 C CNN
+F 2 "" H 1450 2600 50  0001 C CNN
+F 3 "" H 1450 2600 50  0001 C CNN
+	1    1450 2600
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5F06EAD3
+P 1550 2600
+F 0 "#PWR0106" H 1550 2350 50  0001 C CNN
+F 1 "GND" H 1555 2427 50  0000 C CNN
+F 2 "" H 1550 2600 50  0001 C CNN
+F 3 "" H 1550 2600 50  0001 C CNN
+	1    1550 2600
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	850  2350 850  2600
+Wire Wire Line
+	950  2600 950  2350
+Wire Wire Line
+	1050 2350 1050 2600
+Wire Wire Line
+	1150 2600 1150 2350
+Wire Wire Line
+	1250 2350 1250 2600
+Wire Wire Line
+	1350 2600 1350 2350
+Wire Wire Line
+	1650 2350 1650 2600
+Wire Wire Line
+	1750 2600 1750 2350
+Wire Wire Line
+	1850 2350 1850 2600
+Wire Wire Line
+	1950 2600 1950 2350
+Wire Wire Line
+	2050 2350 2050 2600
+Wire Wire Line
+	2150 2600 2150 2350
+$Comp
+L power:GND #PWR0107
+U 1 1 5F07149C
+P 850 4100
+F 0 "#PWR0107" H 850 3850 50  0001 C CNN
+F 1 "GND" H 855 3927 50  0000 C CNN
+F 2 "" H 850 4100 50  0001 C CNN
+F 3 "" H 850 4100 50  0001 C CNN
+	1    850  4100
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0108
+U 1 1 5F071A4A
+P 1950 4100
+F 0 "#PWR0108" H 1950 3850 50  0001 C CNN
+F 1 "GND" H 1955 3927 50  0000 C CNN
+F 2 "" H 1950 4100 50  0001 C CNN
+F 3 "" H 1950 4100 50  0001 C CNN
+	1    1950 4100
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0109
+U 1 1 5F071FCC
+P 2050 4100
+F 0 "#PWR0109" H 2050 3850 50  0001 C CNN
+F 1 "GND" H 2055 3927 50  0000 C CNN
+F 2 "" H 2050 4100 50  0001 C CNN
+F 3 "" H 2050 4100 50  0001 C CNN
+	1    2050 4100
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0110
+U 1 1 5F072188
+P 3150 4100
+F 0 "#PWR0110" H 3150 3850 50  0001 C CNN
+F 1 "GND" H 3155 3927 50  0000 C CNN
+F 2 "" H 3150 4100 50  0001 C CNN
+F 3 "" H 3150 4100 50  0001 C CNN
+	1    3150 4100
+	-1   0    0    1   
+$EndComp
+Text Label 950  3850 1    50   ~ 0
+castor_ramp_out
+Text Label 1050 3850 1    50   ~ 0
+castor_sub_out
+Text Label 1150 3850 1    50   ~ 0
+castor_ramp_mix_in
+Text Label 1250 3850 1    50   ~ 0
+castor_pwm_mix_in
+Text Label 1350 3850 1    50   ~ 0
+pollux_ramp_out
+Text Label 1650 3850 1    50   ~ 0
+pollux_pwm_mix_in
+Wire Wire Line
+	950  3850 950  4100
+Wire Wire Line
+	1050 4100 1050 3850
+Wire Wire Line
+	1150 3850 1150 4100
+Wire Wire Line
+	1250 3850 1250 4100
+Wire Wire Line
+	1350 3850 1350 4100
+Text Label 1450 3850 1    50   ~ 0
+pollux_sub_out
+Text Label 1550 3850 1    50   ~ 0
+pollux_ramp_mix_in
+Wire Wire Line
+	1450 3850 1450 4100
+Wire Wire Line
+	1550 4100 1550 3850
+Wire Wire Line
+	1650 3850 1650 4100
+Text Label 2450 3850 1    50   ~ 0
+cv_b_pot
+Text Label 2550 3850 1    50   ~ 0
+duty_a_pot
+Text Label 2650 3850 1    50   ~ 0
+phase_pot
+Text Label 2750 3850 1    50   ~ 0
+duty_b_pot
+Text Label 2850 3850 1    50   ~ 0
+phase_jack
+Text Label 3050 3850 1    50   ~ 0
+duty_a_jack
+Text Label 2950 3850 1    50   ~ 0
+duty_b_jack
+Wire Wire Line
+	2450 3850 2450 4100
+Wire Wire Line
+	2550 3850 2550 4100
+Wire Wire Line
+	2650 4100 2650 3850
+Wire Wire Line
+	2750 3850 2750 4100
+Wire Wire Line
+	2850 4100 2850 3850
+Wire Wire Line
+	2950 3850 2950 4100
+Wire Wire Line
+	3050 4100 3050 3850
+$Comp
+L Connector:AudioJack2_SwitchT J2
+U 1 1 5F07F4D9
+P 4850 950
+F 0 "J2" H 4670 883 50  0000 R CNN
+F 1 "CV A" H 4670 974 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 950 50  0001 C CNN
+F 3 "~" H 4850 950 50  0001 C CNN
+	1    4850 950 
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J3
+U 1 1 5F07FDA5
+P 4850 1400
+F 0 "J3" H 4670 1333 50  0000 R CNN
+F 1 "Duty A" H 4670 1424 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 1400 50  0001 C CNN
+F 3 "~" H 4850 1400 50  0001 C CNN
+	1    4850 1400
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J7
+U 1 1 5F080386
+P 4850 1850
+F 0 "J7" H 4670 1783 50  0000 R CNN
+F 1 "Ramp A" H 4670 1874 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 1850 50  0001 C CNN
+F 3 "~" H 4850 1850 50  0001 C CNN
+	1    4850 1850
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J8
+U 1 1 5F080832
+P 4850 2300
+F 0 "J8" H 4670 2233 50  0000 R CNN
+F 1 "PWM A" H 4670 2324 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 2300 50  0001 C CNN
+F 3 "~" H 4850 2300 50  0001 C CNN
+	1    4850 2300
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J9
+U 1 1 5F080D52
+P 4850 2750
+F 0 "J9" H 4670 2683 50  0000 R CNN
+F 1 "Sub A" H 4670 2774 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 2750 50  0001 C CNN
+F 3 "~" H 4850 2750 50  0001 C CNN
+	1    4850 2750
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J10
+U 1 1 5F0814A4
+P 4850 3200
+F 0 "J10" H 4670 3133 50  0000 R CNN
+F 1 "Mix A" H 4670 3224 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 3200 50  0001 C CNN
+F 3 "~" H 4850 3200 50  0001 C CNN
+	1    4850 3200
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J11
+U 1 1 5F081FB5
+P 7300 1000
+F 0 "J11" H 7120 933 50  0000 R CNN
+F 1 "CV B" H 7120 1024 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 1000 50  0001 C CNN
+F 3 "~" H 7300 1000 50  0001 C CNN
+	1    7300 1000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J12
+U 1 1 5F081FBF
+P 7300 1450
+F 0 "J12" H 7120 1383 50  0000 R CNN
+F 1 "Duty B" H 7120 1474 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 1450 50  0001 C CNN
+F 3 "~" H 7300 1450 50  0001 C CNN
+	1    7300 1450
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J13
+U 1 1 5F081FC9
+P 7300 1900
+F 0 "J13" H 7120 1833 50  0000 R CNN
+F 1 "Ramp B" H 7120 1924 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 1900 50  0001 C CNN
+F 3 "~" H 7300 1900 50  0001 C CNN
+	1    7300 1900
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J14
+U 1 1 5F081FD3
+P 7300 2350
+F 0 "J14" H 7120 2283 50  0000 R CNN
+F 1 "PWM B" H 7120 2374 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 2350 50  0001 C CNN
+F 3 "~" H 7300 2350 50  0001 C CNN
+	1    7300 2350
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J15
+U 1 1 5F081FDD
+P 7300 2800
+F 0 "J15" H 7120 2733 50  0000 R CNN
+F 1 "Sub B" H 7120 2824 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 2800 50  0001 C CNN
+F 3 "~" H 7300 2800 50  0001 C CNN
+	1    7300 2800
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J16
+U 1 1 5F081FE7
+P 7300 3250
+F 0 "J16" H 7120 3183 50  0000 R CNN
+F 1 "Mix B" H 7120 3274 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 3250 50  0001 C CNN
+F 3 "~" H 7300 3250 50  0001 C CNN
+	1    7300 3250
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0111
+U 1 1 5F088326
+P 4650 1050
+F 0 "#PWR0111" H 4650 800 50  0001 C CNN
+F 1 "GND" V 4655 922 50  0000 R CNN
+F 2 "" H 4650 1050 50  0001 C CNN
+F 3 "" H 4650 1050 50  0001 C CNN
+	1    4650 1050
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0112
+U 1 1 5F088A59
+P 4650 1500
+F 0 "#PWR0112" H 4650 1250 50  0001 C CNN
+F 1 "GND" V 4655 1372 50  0000 R CNN
+F 2 "" H 4650 1500 50  0001 C CNN
+F 3 "" H 4650 1500 50  0001 C CNN
+	1    4650 1500
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0113
+U 1 1 5F088DFB
+P 4650 1950
+F 0 "#PWR0113" H 4650 1700 50  0001 C CNN
+F 1 "GND" V 4655 1822 50  0000 R CNN
+F 2 "" H 4650 1950 50  0001 C CNN
+F 3 "" H 4650 1950 50  0001 C CNN
+	1    4650 1950
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0114
+U 1 1 5F0890EC
+P 4650 2400
+F 0 "#PWR0114" H 4650 2150 50  0001 C CNN
+F 1 "GND" V 4655 2272 50  0000 R CNN
+F 2 "" H 4650 2400 50  0001 C CNN
+F 3 "" H 4650 2400 50  0001 C CNN
+	1    4650 2400
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0115
+U 1 1 5F089345
+P 4650 2850
+F 0 "#PWR0115" H 4650 2600 50  0001 C CNN
+F 1 "GND" V 4655 2722 50  0000 R CNN
+F 2 "" H 4650 2850 50  0001 C CNN
+F 3 "" H 4650 2850 50  0001 C CNN
+	1    4650 2850
+	0    1    1    0   
+$EndComp
+Text Label 4450 950  2    50   ~ 0
+cv_a_jack
+$Comp
+L power:GND #PWR0116
+U 1 1 5F089F1E
+P 4650 850
+F 0 "#PWR0116" H 4650 600 50  0001 C CNN
+F 1 "GND" V 4655 722 50  0000 R CNN
+F 2 "" H 4650 850 50  0001 C CNN
+F 3 "" H 4650 850 50  0001 C CNN
+	1    4650 850 
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4450 950  4650 950 
+Text Label 4450 1400 2    50   ~ 0
+duty_a_jack
+Wire Wire Line
+	4450 1400 4650 1400
+$Comp
+L power:GND #PWR0117
+U 1 1 5F08B8F5
+P 4650 1300
+F 0 "#PWR0117" H 4650 1050 50  0001 C CNN
+F 1 "GND" V 4655 1172 50  0000 R CNN
+F 2 "" H 4650 1300 50  0001 C CNN
+F 3 "" H 4650 1300 50  0001 C CNN
+	1    4650 1300
+	0    1    1    0   
+$EndComp
+NoConn ~ 4650 1750
+NoConn ~ 4650 2200
+NoConn ~ 4650 2650
+NoConn ~ 4650 3100
+Text Label 4450 1850 2    50   ~ 0
+castor_ramp_out
+Text Label 4450 2750 2    50   ~ 0
+castor_sub_out
+Text Label 4450 2300 2    50   ~ 0
+castor_pwm_out
+Text Label 6900 3250 2    50   ~ 0
+pollux_mix_out
+Text Label 4500 3200 2    50   ~ 0
+castor_mix_out
+Wire Wire Line
+	4500 3200 4650 3200
+Wire Wire Line
+	4450 2750 4650 2750
+Wire Wire Line
+	4450 2300 4650 2300
+Wire Wire Line
+	4450 1850 4650 1850
+$Comp
+L power:GND #PWR0118
+U 1 1 5F092DD5
+P 4650 3300
+F 0 "#PWR0118" H 4650 3050 50  0001 C CNN
+F 1 "GND" V 4655 3172 50  0000 R CNN
+F 2 "" H 4650 3300 50  0001 C CNN
+F 3 "" H 4650 3300 50  0001 C CNN
+	1    4650 3300
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0119
+U 1 1 5F093218
+P 7100 900
+F 0 "#PWR0119" H 7100 650 50  0001 C CNN
+F 1 "GND" V 7105 772 50  0000 R CNN
+F 2 "" H 7100 900 50  0001 C CNN
+F 3 "" H 7100 900 50  0001 C CNN
+	1    7100 900 
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0120
+U 1 1 5F0935D3
+P 7100 1100
+F 0 "#PWR0120" H 7100 850 50  0001 C CNN
+F 1 "GND" V 7105 972 50  0000 R CNN
+F 2 "" H 7100 1100 50  0001 C CNN
+F 3 "" H 7100 1100 50  0001 C CNN
+	1    7100 1100
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0121
+U 1 1 5F0936E6
+P 7100 1350
+F 0 "#PWR0121" H 7100 1100 50  0001 C CNN
+F 1 "GND" V 7105 1222 50  0000 R CNN
+F 2 "" H 7100 1350 50  0001 C CNN
+F 3 "" H 7100 1350 50  0001 C CNN
+	1    7100 1350
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0122
+U 1 1 5F09392F
+P 7100 1550
+F 0 "#PWR0122" H 7100 1300 50  0001 C CNN
+F 1 "GND" V 7105 1422 50  0000 R CNN
+F 2 "" H 7100 1550 50  0001 C CNN
+F 3 "" H 7100 1550 50  0001 C CNN
+	1    7100 1550
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0123
+U 1 1 5F093B6A
+P 7100 2000
+F 0 "#PWR0123" H 7100 1750 50  0001 C CNN
+F 1 "GND" V 7105 1872 50  0000 R CNN
+F 2 "" H 7100 2000 50  0001 C CNN
+F 3 "" H 7100 2000 50  0001 C CNN
+	1    7100 2000
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0124
+U 1 1 5F093F55
+P 7100 2450
+F 0 "#PWR0124" H 7100 2200 50  0001 C CNN
+F 1 "GND" V 7105 2322 50  0000 R CNN
+F 2 "" H 7100 2450 50  0001 C CNN
+F 3 "" H 7100 2450 50  0001 C CNN
+	1    7100 2450
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0125
+U 1 1 5F094221
+P 7100 2900
+F 0 "#PWR0125" H 7100 2650 50  0001 C CNN
+F 1 "GND" V 7105 2772 50  0000 R CNN
+F 2 "" H 7100 2900 50  0001 C CNN
+F 3 "" H 7100 2900 50  0001 C CNN
+	1    7100 2900
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0126
+U 1 1 5F09444A
+P 7100 3350
+F 0 "#PWR0126" H 7100 3100 50  0001 C CNN
+F 1 "GND" V 7105 3222 50  0000 R CNN
+F 2 "" H 7100 3350 50  0001 C CNN
+F 3 "" H 7100 3350 50  0001 C CNN
+	1    7100 3350
+	0    1    1    0   
+$EndComp
+NoConn ~ 7100 3150
+NoConn ~ 7100 2700
+NoConn ~ 7100 2250
+NoConn ~ 7100 1800
+Text Label 6900 1450 2    50   ~ 0
+duty_b_jack
+Text Label 6900 1000 2    50   ~ 0
+cv_b_jack
+Text Label 6900 1900 2    50   ~ 0
+pollux_ramp_out
+Text Label 6900 2800 2    50   ~ 0
+pollux_sub_out
+Text Label 6900 2350 2    50   ~ 0
+pollux_pwm_out
+Wire Wire Line
+	6900 2350 7100 2350
+Wire Wire Line
+	6900 1900 7100 1900
+Wire Wire Line
+	6900 1450 7100 1450
+Wire Wire Line
+	6900 2800 7100 2800
+Wire Wire Line
+	6900 3250 7100 3250
+$Comp
+L Connector:AudioJack2_SwitchT J17
+U 1 1 5F09B62C
+P 9550 1000
+F 0 "J17" H 9370 933 50  0000 R CNN
+F 1 "Mix" H 9370 1024 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 9550 1000 50  0001 C CNN
+F 3 "~" H 9550 1000 50  0001 C CNN
+	1    9550 1000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector:AudioJack2_SwitchT J18
+U 1 1 5F09D850
+P 9550 1600
+F 0 "J18" H 9370 1533 50  0000 R CNN
+F 1 "Phase" H 9370 1624 50  0000 R CNN
+F 2 "jackboard:WQP-PJ301M-12_JACK" H 9550 1600 50  0001 C CNN
+F 3 "~" H 9550 1600 50  0001 C CNN
+	1    9550 1600
+	-1   0    0    1   
+$EndComp
+Text Label 9350 1000 2    50   ~ 0
+mix_out
+$Comp
+L power:GND #PWR0127
+U 1 1 5F09DEE5
+P 9350 1100
+F 0 "#PWR0127" H 9350 850 50  0001 C CNN
+F 1 "GND" V 9355 972 50  0000 R CNN
+F 2 "" H 9350 1100 50  0001 C CNN
+F 3 "" H 9350 1100 50  0001 C CNN
+	1    9350 1100
+	0    1    1    0   
+$EndComp
+NoConn ~ 9350 900 
+Text Label 9350 1600 2    50   ~ 0
+phase_jack
+$Comp
+L power:GND #PWR0128
+U 1 1 5F09F063
+P 9350 1700
+F 0 "#PWR0128" H 9350 1450 50  0001 C CNN
+F 1 "GND" V 9355 1572 50  0000 R CNN
+F 2 "" H 9350 1700 50  0001 C CNN
+F 3 "" H 9350 1700 50  0001 C CNN
+	1    9350 1700
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0129
+U 1 1 5F09F52B
+P 9350 1500
+F 0 "#PWR0129" H 9350 1250 50  0001 C CNN
+F 1 "GND" V 9355 1372 50  0000 R CNN
+F 2 "" H 9350 1500 50  0001 C CNN
+F 3 "" H 9350 1500 50  0001 C CNN
+	1    9350 1500
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_POT_US RV1
+U 1 1 5F0A000C
+P 4300 4050
+F 0 "RV1" H 4233 4096 50  0000 R CNN
+F 1 "CV A" H 4233 4005 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 4300 4050 50  0001 C CNN
+F 3 "~" H 4300 4050 50  0001 C CNN
+	1    4300 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0130
+U 1 1 5F0A1201
+P 4300 4200
+F 0 "#PWR0130" H 4300 3950 50  0001 C CNN
+F 1 "GND" H 4305 4027 50  0000 C CNN
+F 2 "" H 4300 4200 50  0001 C CNN
+F 3 "" H 4300 4200 50  0001 C CNN
+	1    4300 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3VA #PWR0131
+U 1 1 5F0A1855
+P 4300 3900
+F 0 "#PWR0131" H 4300 3750 50  0001 C CNN
+F 1 "+3.3VA" H 4315 4073 50  0000 C CNN
+F 2 "" H 4300 3900 50  0001 C CNN
+F 3 "" H 4300 3900 50  0001 C CNN
+	1    4300 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV2
+U 1 1 5F0ABF2C
+P 4300 4850
+F 0 "RV2" H 4233 4896 50  0000 R CNN
+F 1 "Duty A" H 4233 4805 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 4300 4850 50  0001 C CNN
+F 3 "~" H 4300 4850 50  0001 C CNN
+	1    4300 4850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0132
+U 1 1 5F0ABF32
+P 4300 5000
+F 0 "#PWR0132" H 4300 4750 50  0001 C CNN
+F 1 "GND" H 4305 4827 50  0000 C CNN
+F 2 "" H 4300 5000 50  0001 C CNN
+F 3 "" H 4300 5000 50  0001 C CNN
+	1    4300 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3VA #PWR0133
+U 1 1 5F0ABF38
+P 4300 4700
+F 0 "#PWR0133" H 4300 4550 50  0001 C CNN
+F 1 "+3.3VA" H 4315 4873 50  0000 C CNN
+F 2 "" H 4300 4700 50  0001 C CNN
+F 3 "" H 4300 4700 50  0001 C CNN
+	1    4300 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV3
+U 1 1 5F0AD94F
+P 4300 5650
+F 0 "RV3" H 4233 5696 50  0000 R CNN
+F 1 "Ramp A" H 4233 5605 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 4300 5650 50  0001 C CNN
+F 3 "~" H 4300 5650 50  0001 C CNN
+	1    4300 5650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0134
+U 1 1 5F0AD955
+P 4300 5800
+F 0 "#PWR0134" H 4300 5550 50  0001 C CNN
+F 1 "GND" H 4305 5627 50  0000 C CNN
+F 2 "" H 4300 5800 50  0001 C CNN
+F 3 "" H 4300 5800 50  0001 C CNN
+	1    4300 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV4
+U 1 1 5F0AF0F6
+P 4300 6450
+F 0 "RV4" H 4233 6496 50  0000 R CNN
+F 1 "PWM A" H 4233 6405 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 4300 6450 50  0001 C CNN
+F 3 "~" H 4300 6450 50  0001 C CNN
+	1    4300 6450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0135
+U 1 1 5F0AF0FC
+P 4300 6600
+F 0 "#PWR0135" H 4300 6350 50  0001 C CNN
+F 1 "GND" H 4305 6427 50  0000 C CNN
+F 2 "" H 4300 6600 50  0001 C CNN
+F 3 "" H 4300 6600 50  0001 C CNN
+	1    4300 6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV5
+U 1 1 5F0B0BD3
+P 4300 7250
+F 0 "RV5" H 4233 7296 50  0000 R CNN
+F 1 "Sub A" H 4233 7205 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 4300 7250 50  0001 C CNN
+F 3 "~" H 4300 7250 50  0001 C CNN
+	1    4300 7250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0136
+U 1 1 5F0B0BD9
+P 4300 7400
+F 0 "#PWR0136" H 4300 7150 50  0001 C CNN
+F 1 "GND" H 4305 7227 50  0000 C CNN
+F 2 "" H 4300 7400 50  0001 C CNN
+F 3 "" H 4300 7400 50  0001 C CNN
+	1    4300 7400
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV6
+U 1 1 5F0B8A89
+P 5900 4050
+F 0 "RV6" H 5833 4096 50  0000 R CNN
+F 1 "CV B" H 5833 4005 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 5900 4050 50  0001 C CNN
+F 3 "~" H 5900 4050 50  0001 C CNN
+	1    5900 4050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0137
+U 1 1 5F0B8A8F
+P 5900 4200
+F 0 "#PWR0137" H 5900 3950 50  0001 C CNN
+F 1 "GND" H 5905 4027 50  0000 C CNN
+F 2 "" H 5900 4200 50  0001 C CNN
+F 3 "" H 5900 4200 50  0001 C CNN
+	1    5900 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3VA #PWR0138
+U 1 1 5F0B8A95
+P 5900 3900
+F 0 "#PWR0138" H 5900 3750 50  0001 C CNN
+F 1 "+3.3VA" H 5915 4073 50  0000 C CNN
+F 2 "" H 5900 3900 50  0001 C CNN
+F 3 "" H 5900 3900 50  0001 C CNN
+	1    5900 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV7
+U 1 1 5F0B8A9B
+P 5900 4850
+F 0 "RV7" H 5833 4896 50  0000 R CNN
+F 1 "Duty B" H 5833 4805 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 5900 4850 50  0001 C CNN
+F 3 "~" H 5900 4850 50  0001 C CNN
+	1    5900 4850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0139
+U 1 1 5F0B8AA1
+P 5900 5000
+F 0 "#PWR0139" H 5900 4750 50  0001 C CNN
+F 1 "GND" H 5905 4827 50  0000 C CNN
+F 2 "" H 5900 5000 50  0001 C CNN
+F 3 "" H 5900 5000 50  0001 C CNN
+	1    5900 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3VA #PWR0140
+U 1 1 5F0B8AA7
+P 5900 4700
+F 0 "#PWR0140" H 5900 4550 50  0001 C CNN
+F 1 "+3.3VA" H 5915 4873 50  0000 C CNN
+F 2 "" H 5900 4700 50  0001 C CNN
+F 3 "" H 5900 4700 50  0001 C CNN
+	1    5900 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV8
+U 1 1 5F0B8AAD
+P 5900 5650
+F 0 "RV8" H 5833 5696 50  0000 R CNN
+F 1 "Ramp B" H 5833 5605 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 5900 5650 50  0001 C CNN
+F 3 "~" H 5900 5650 50  0001 C CNN
+	1    5900 5650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0141
+U 1 1 5F0B8AB3
+P 5900 5800
+F 0 "#PWR0141" H 5900 5550 50  0001 C CNN
+F 1 "GND" H 5905 5627 50  0000 C CNN
+F 2 "" H 5900 5800 50  0001 C CNN
+F 3 "" H 5900 5800 50  0001 C CNN
+	1    5900 5800
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV9
+U 1 1 5F0B8ABF
+P 5900 6450
+F 0 "RV9" H 5833 6496 50  0000 R CNN
+F 1 "PWM B" H 5833 6405 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 5900 6450 50  0001 C CNN
+F 3 "~" H 5900 6450 50  0001 C CNN
+	1    5900 6450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0142
+U 1 1 5F0B8AC5
+P 5900 6600
+F 0 "#PWR0142" H 5900 6350 50  0001 C CNN
+F 1 "GND" H 5905 6427 50  0000 C CNN
+F 2 "" H 5900 6600 50  0001 C CNN
+F 3 "" H 5900 6600 50  0001 C CNN
+	1    5900 6600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV10
+U 1 1 5F0B8AD1
+P 5900 7250
+F 0 "RV10" H 5833 7296 50  0000 R CNN
+F 1 "Sub B" H 5833 7205 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 5900 7250 50  0001 C CNN
+F 3 "~" H 5900 7250 50  0001 C CNN
+	1    5900 7250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0143
+U 1 1 5F0B8AD7
+P 5900 7400
+F 0 "#PWR0143" H 5900 7150 50  0001 C CNN
+F 1 "GND" H 5905 7227 50  0000 C CNN
+F 2 "" H 5900 7400 50  0001 C CNN
+F 3 "" H 5900 7400 50  0001 C CNN
+	1    5900 7400
+	1    0    0    -1  
+$EndComp
+Text Label 4550 4050 0    50   ~ 0
+cv_a_pot
+Wire Wire Line
+	4550 4050 4450 4050
+Text Label 4550 4850 0    50   ~ 0
+duty_a_pot
+Wire Wire Line
+	4550 4850 4450 4850
+Text Label 6200 5650 0    50   ~ 0
+pollux_ramp_mix_in
+Wire Wire Line
+	4550 5650 4450 5650
+Text Label 4550 5650 0    50   ~ 0
+castor_ramp_mix_in
+Text Label 4300 5400 2    50   ~ 0
+castor_ramp_out
+Wire Wire Line
+	4300 5400 4300 5500
+Text Label 6200 6450 0    50   ~ 0
+pollux_pwm_mix_in
+Text Label 4600 6450 0    50   ~ 0
+castor_pwm_mix_in
+Wire Wire Line
+	4600 6450 4450 6450
+Text Label 4300 6200 2    50   ~ 0
+castor_pwm_out
+Wire Wire Line
+	4300 6200 4300 6300
+Text Label 4300 6950 2    50   ~ 0
+castor_sub_out
+Wire Wire Line
+	4300 6950 4300 7100
+Text Label 6200 7250 0    50   ~ 0
+pollux_sub_mix_in
+Text Label 4600 7250 0    50   ~ 0
+castor_sub_mix_in
+Wire Wire Line
+	4600 7250 4450 7250
+Text Label 6200 4050 0    50   ~ 0
+cv_b_pot
+Wire Wire Line
+	6200 4050 6050 4050
+Text Label 6200 4850 0    50   ~ 0
+duty_b_pot
+Wire Wire Line
+	6200 4850 6050 4850
+Wire Wire Line
+	6200 7250 6050 7250
+Wire Wire Line
+	6050 6450 6200 6450
+Wire Wire Line
+	6200 5650 6050 5650
+Text Label 5900 5400 2    50   ~ 0
+pollux_ramp_out
+Wire Wire Line
+	5900 5400 5900 5500
+Text Label 5900 6200 2    50   ~ 0
+pollux_pwm_out
+Wire Wire Line
+	5900 6200 5900 6300
+Text Label 5900 7000 2    50   ~ 0
+pollux_sub_out
+Wire Wire Line
+	5900 7000 5900 7100
+$Comp
+L Device:R_POT_US RV11
+U 1 1 5F0EA75D
+P 7650 4850
+F 0 "RV11" H 7583 4896 50  0000 R CNN
+F 1 "Mix" H 7583 4805 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 7650 4850 50  0001 C CNN
+F 3 "~" H 7650 4850 50  0001 C CNN
+	1    7650 4850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_POT_US RV12
+U 1 1 5F0EBD75
+P 7650 5650
+F 0 "RV12" H 7583 5696 50  0000 R CNN
+F 1 "Phase" H 7583 5605 50  0000 R CNN
+F 2 "jackboard:Alpha_Pot" H 7650 5650 50  0001 C CNN
+F 3 "~" H 7650 5650 50  0001 C CNN
+	1    7650 5650
+	1    0    0    -1  
+$EndComp
+Text Label 7950 4850 0    50   ~ 0
+mix_pot_in
+Wire Wire Line
+	7950 4850 7800 4850
+Text Label 7650 4600 2    50   ~ 0
+mix_pot_out
+Wire Wire Line
+	7650 4600 7650 4700
+$Comp
+L power:GND #PWR0144
+U 1 1 5F0EF6AC
+P 7650 5800
+F 0 "#PWR0144" H 7650 5550 50  0001 C CNN
+F 1 "GND" H 7655 5627 50  0000 C CNN
+F 2 "" H 7650 5800 50  0001 C CNN
+F 3 "" H 7650 5800 50  0001 C CNN
+	1    7650 5800
+	1    0    0    -1  
+$EndComp
+Text Label 7950 5650 0    50   ~ 0
+phase_pot
+Wire Wire Line
+	7950 5650 7800 5650
+$Comp
+L power:GND #PWR0145
+U 1 1 5F0F1202
+P 7650 5000
+F 0 "#PWR0145" H 7650 4750 50  0001 C CNN
+F 1 "GND" H 7655 4827 50  0000 C CNN
+F 2 "" H 7650 5000 50  0001 C CNN
+F 3 "" H 7650 5000 50  0001 C CNN
+	1    7650 5000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3VA #PWR0146
+U 1 1 5F0F41E5
+P 7650 5500
+F 0 "#PWR0146" H 7650 5350 50  0001 C CNN
+F 1 "+3.3VA" H 7665 5673 50  0000 C CNN
+F 2 "" H 7650 5500 50  0001 C CNN
+F 3 "" H 7650 5500 50  0001 C CNN
+	1    7650 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5F156158
+P 1850 1250
+F 0 "#PWR0103" H 1850 1000 50  0001 C CNN
+F 1 "GND" H 1855 1077 50  0000 C CNN
+F 2 "" H 1850 1250 50  0001 C CNN
+F 3 "" H 1850 1250 50  0001 C CNN
+	1    1850 1250
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 5F1566A8
+P 1750 1250
+F 0 "#PWR0104" H 1750 1000 50  0001 C CNN
+F 1 "GND" H 1755 1077 50  0000 C CNN
+F 2 "" H 1750 1250 50  0001 C CNN
+F 3 "" H 1750 1250 50  0001 C CNN
+	1    1750 1250
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0147
+U 1 1 5F15688A
+P 1650 1250
+F 0 "#PWR0147" H 1650 1000 50  0001 C CNN
+F 1 "GND" H 1655 1077 50  0000 C CNN
+F 2 "" H 1650 1250 50  0001 C CNN
+F 3 "" H 1650 1250 50  0001 C CNN
+	1    1650 1250
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0148
+U 1 1 5F156A9C
+P 1450 1250
+F 0 "#PWR0148" H 1450 1000 50  0001 C CNN
+F 1 "GND" H 1455 1077 50  0000 C CNN
+F 2 "" H 1450 1250 50  0001 C CNN
+F 3 "" H 1450 1250 50  0001 C CNN
+	1    1450 1250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	950  1050 950  1250
+Wire Wire Line
+	1050 1250 1050 1050
+Wire Wire Line
+	1150 1050 1150 1250
+Wire Wire Line
+	1250 1250 1250 1050
+$Comp
+L power:+3.3VA #PWR0149
+U 1 1 5F15E519
+P 1350 1000
+F 0 "#PWR0149" H 1350 850 50  0001 C CNN
+F 1 "+3.3VA" V 1350 1250 50  0000 C CNN
+F 2 "" H 1350 1000 50  0001 C CNN
+F 3 "" H 1350 1000 50  0001 C CNN
+	1    1350 1000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0150
+U 1 1 5F15FAA4
+P 1550 1000
+F 0 "#PWR0150" H 1550 850 50  0001 C CNN
+F 1 "+3.3V" V 1550 1250 50  0000 C CNN
+F 2 "" H 1550 1000 50  0001 C CNN
+F 3 "" H 1550 1000 50  0001 C CNN
+	1    1550 1000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1350 1000 1350 1250
+Wire Wire Line
+	1550 1250 1550 1000
+Wire Wire Line
+	6900 1000 7100 1000
+$EndSCHEMATC

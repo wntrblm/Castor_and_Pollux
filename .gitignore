@@ -1,0 +1,15 @@
+*.mpy
+.idea
+__pycache__
+_build
+*.pyc
+.env
+build*
+bundles
+*.DS_Store
+.eggs
+dist
+**/*.egg-info
+.vscode
+.nox
+.coverage

@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name jackboard)(type KiCad)(uri C:/Users/jjram/workspace/Winterbloom_Castor_and_Pollux/hardware/jackboard.pretty)(options "")(descr ""))
+)

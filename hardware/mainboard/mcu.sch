@@ -1,0 +1,652 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr USLetter 11000 8500
+encoding utf-8
+Sheet 6 7
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCU_Microchip_SAMD:ATSAMD21G18A-AUT U7
+U 1 1 5F09F6EC
+P 2850 3850
+F 0 "U7" H 3450 2000 50  0000 C CNN
+F 1 "ATSAMD21G18A-AUT" H 3500 2100 50  0000 C CNN
+F 2 "Package_QFP:TQFP-48_7x7mm_P0.5mm" H 1900 2100 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/SAMD21-Family-DataSheet-DS40001882D.pdf" H 2850 4850 50  0001 C CNN
+F 4 "no" H 2850 3850 50  0001 C CNN "finalized"
+F 5 "ATSAMD21G18A-AUT" H 2850 3850 50  0001 C CNN "mpn"
+	1    2850 3850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C18
+U 1 1 5F0A0CA4
+P 3050 1650
+F 0 "C18" H 3165 1696 50  0000 L CNN
+F 1 "1uF" H 3165 1605 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3088 1500 50  0001 C CNN
+F 3 "~" H 3050 1650 50  0001 C CNN
+F 4 "no" H 3050 1650 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-1uF" H 3050 1650 50  0001 C CNN "mpn"
+	1    3050 1650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3050 1950 3050 1800
+$Comp
+L power:GND #PWR052
+U 1 1 5F0A17AC
+P 3050 1500
+F 0 "#PWR052" H 3050 1250 50  0001 C CNN
+F 1 "GND" H 3055 1327 50  0000 C CNN
+F 2 "" H 3050 1500 50  0001 C CNN
+F 3 "" H 3050 1500 50  0001 C CNN
+	1    3050 1500
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:+3.3V #PWR048
+U 1 1 5F0A191F
+P 2650 1500
+F 0 "#PWR048" H 2650 1350 50  0001 C CNN
+F 1 "+3.3V" H 2665 1673 50  0000 C CNN
+F 2 "" H 2650 1500 50  0001 C CNN
+F 3 "" H 2650 1500 50  0001 C CNN
+	1    2650 1500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2650 1500 2650 1950
+Wire Wire Line
+	2750 1950 2650 1950
+Connection ~ 2650 1950
+$Comp
+L power:GND #PWR049
+U 1 1 5F0A31F5
+P 2750 5750
+F 0 "#PWR049" H 2750 5500 50  0001 C CNN
+F 1 "GND" H 2755 5577 50  0000 C CNN
+F 2 "" H 2750 5750 50  0001 C CNN
+F 3 "" H 2750 5750 50  0001 C CNN
+	1    2750 5750
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR051
+U 1 1 5F0A3395
+P 2950 5750
+F 0 "#PWR051" H 2950 5500 50  0001 C CNN
+F 1 "GND" H 2955 5577 50  0000 C CNN
+F 2 "" H 2950 5750 50  0001 C CNN
+F 3 "" H 2950 5750 50  0001 C CNN
+	1    2950 5750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2850 1950 2950 1950
+$Comp
+L power:+3.3VA #PWR050
+U 1 1 5F0A3EB5
+P 2850 1350
+F 0 "#PWR050" H 2850 1200 50  0001 C CNN
+F 1 "+3.3VA" H 2865 1523 50  0000 C CNN
+F 2 "" H 2850 1350 50  0001 C CNN
+F 3 "" H 2850 1350 50  0001 C CNN
+	1    2850 1350
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2850 1350 2850 1950
+Text Label 1850 5350 2    50   ~ 0
+RESET
+Text Label 1350 6800 2    50   ~ 0
+RESET
+$Comp
+L MF_Switches:TACT_4.2MM SW1
+U 1 1 5F0A59B0
+P 1700 7000
+F 0 "SW1" H 1700 7350 45  0000 C CNN
+F 1 "RESET" H 1700 7250 45  0000 C CNN
+F 2 "MF_Switches:MF_Switches-TACT4.2MM" H 1590 7150 20  0001 L CNN
+F 3 "" H 1700 7000 60  0001 C CNN
+F 4 "no" H 1700 7000 50  0001 C CNN "finalized"
+F 5 "MF-SW-TACT-4.2MM" H 1700 7000 50  0001 C CNN "mpn"
+	1    1700 7000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1600 6900 1600 6800
+Wire Wire Line
+	1600 6800 1800 6800
+Wire Wire Line
+	1800 6800 1800 6900
+Wire Wire Line
+	1600 7100 1600 7200
+Wire Wire Line
+	1600 7200 1800 7200
+Wire Wire Line
+	1800 7200 1800 7100
+$Comp
+L power:GND #PWR047
+U 1 1 5F0A6E1E
+P 1800 7200
+F 0 "#PWR047" H 1800 6950 50  0001 C CNN
+F 1 "GND" H 1805 7027 50  0000 C CNN
+F 2 "" H 1800 7200 50  0001 C CNN
+F 3 "" H 1800 7200 50  0001 C CNN
+	1    1800 7200
+	1    0    0    -1  
+$EndComp
+Connection ~ 1800 7200
+Wire Wire Line
+	1350 6800 1600 6800
+Connection ~ 1600 6800
+Text Label 1850 4650 2    50   ~ 0
+D-
+Text Label 1850 4750 2    50   ~ 0
+D+
+Text Label 1850 5050 2    50   ~ 0
+SWCLK
+Text Label 1850 5150 2    50   ~ 0
+SWDIO
+$Comp
+L Device:C C19
+U 1 1 5F0A7BBE
+P 3150 7000
+F 0 "C19" H 3265 7046 50  0000 L CNN
+F 1 "0.1uF" H 3265 6955 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3188 6850 50  0001 C CNN
+F 3 "~" H 3150 7000 50  0001 C CNN
+F 4 "no" H 3150 7000 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-0.1uF" H 3150 7000 50  0001 C CNN "mpn"
+	1    3150 7000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR054
+U 1 1 5F0A7E03
+P 3150 7150
+F 0 "#PWR054" H 3150 6900 50  0001 C CNN
+F 1 "GND" H 3155 6977 50  0000 C CNN
+F 2 "" H 3150 7150 50  0001 C CNN
+F 3 "" H 3150 7150 50  0001 C CNN
+	1    3150 7150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR053
+U 1 1 5F0A828C
+P 3150 6850
+F 0 "#PWR053" H 3150 6700 50  0001 C CNN
+F 1 "+3.3V" H 3165 7023 50  0000 C CNN
+F 2 "" H 3150 6850 50  0001 C CNN
+F 3 "" H 3150 6850 50  0001 C CNN
+	1    3150 6850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C20
+U 1 1 5F0A96A9
+P 3650 7000
+F 0 "C20" H 3765 7046 50  0000 L CNN
+F 1 "0.1uF" H 3765 6955 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3688 6850 50  0001 C CNN
+F 3 "~" H 3650 7000 50  0001 C CNN
+F 4 "no" H 3650 7000 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-0.1uF" H 3650 7000 50  0001 C CNN "mpn"
+	1    3650 7000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR056
+U 1 1 5F0A96AF
+P 3650 7150
+F 0 "#PWR056" H 3650 6900 50  0001 C CNN
+F 1 "GND" H 3655 6977 50  0000 C CNN
+F 2 "" H 3650 7150 50  0001 C CNN
+F 3 "" H 3650 7150 50  0001 C CNN
+	1    3650 7150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR055
+U 1 1 5F0A96B5
+P 3650 6850
+F 0 "#PWR055" H 3650 6700 50  0001 C CNN
+F 1 "+3.3V" H 3665 7023 50  0000 C CNN
+F 2 "" H 3650 6850 50  0001 C CNN
+F 3 "" H 3650 6850 50  0001 C CNN
+	1    3650 6850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C21
+U 1 1 5F0ABA5B
+P 4150 7000
+F 0 "C21" H 4265 7046 50  0000 L CNN
+F 1 "0.1uF" H 4265 6955 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 4188 6850 50  0001 C CNN
+F 3 "~" H 4150 7000 50  0001 C CNN
+F 4 "no" H 4150 7000 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-0.1uF" H 4150 7000 50  0001 C CNN "mpn"
+	1    4150 7000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR058
+U 1 1 5F0ABA61
+P 4150 7150
+F 0 "#PWR058" H 4150 6900 50  0001 C CNN
+F 1 "GND" H 4155 6977 50  0000 C CNN
+F 2 "" H 4150 7150 50  0001 C CNN
+F 3 "" H 4150 7150 50  0001 C CNN
+	1    4150 7150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR057
+U 1 1 5F0ABA67
+P 4150 6850
+F 0 "#PWR057" H 4150 6700 50  0001 C CNN
+F 1 "+3.3V" H 4165 7023 50  0000 C CNN
+F 2 "" H 4150 6850 50  0001 C CNN
+F 3 "" H 4150 6850 50  0001 C CNN
+	1    4150 6850
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_02x03_Counter_Clockwise J2
+U 1 1 5F0AD469
+P 5400 7100
+F 0 "J2" H 5450 7417 50  0000 C CNN
+F 1 "Tag-Connect SWD" H 5450 7326 50  0000 C CNN
+F 2 "Connector:Tag-Connect_TC2030-IDC-NL_2x03_P1.27mm_Vertical" H 5400 7100 50  0001 C CNN
+F 3 "~" H 5400 7100 50  0001 C CNN
+F 4 "no" H 5400 7100 50  0001 C CNN "finalized"
+	1    5400 7100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR060
+U 1 1 5F0ADE5F
+P 5200 7000
+F 0 "#PWR060" H 5200 6850 50  0001 C CNN
+F 1 "+3.3V" V 5215 7128 50  0000 L CNN
+F 2 "" H 5200 7000 50  0001 C CNN
+F 3 "" H 5200 7000 50  0001 C CNN
+	1    5200 7000
+	0    -1   -1   0   
+$EndComp
+Text Label 5200 7100 2    50   ~ 0
+SWDIO
+Text Label 5200 7200 2    50   ~ 0
+RESET
+Text Label 5700 7200 0    50   ~ 0
+SWCLK
+$Comp
+L power:GND #PWR062
+U 1 1 5F0AE912
+P 5700 7100
+F 0 "#PWR062" H 5700 6850 50  0001 C CNN
+F 1 "GND" V 5705 6972 50  0000 R CNN
+F 2 "" H 5700 7100 50  0001 C CNN
+F 3 "" H 5700 7100 50  0001 C CNN
+	1    5700 7100
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 5700 7000
+$Comp
+L MF_Connectors:USB_MICRO_RIGHT J3
+U 1 1 5F0B0468
+P 6550 5600
+F 0 "J3" H 6322 5592 45  0000 R CNN
+F 1 "USB_MICRO_RIGHT" H 6322 5508 45  0000 R CNN
+F 2 "MF_Connectors:MF_Connectors-MICROUSB-RIGHT" V 6318 5454 20  0001 C CNN
+F 3 "" H 6541 5600 60  0000 C CNN
+F 4 "no" H 6550 5600 50  0001 C CNN "finalized"
+F 5 "MF-CON-MICROUSB-RIGHT" H 6550 5600 50  0001 C CNN "mpn"
+	1    6550 5600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR066
+U 1 1 5F0B3549
+P 6550 6100
+F 0 "#PWR066" H 6550 5850 50  0001 C CNN
+F 1 "GND" H 6555 5927 50  0000 C CNN
+F 2 "" H 6550 6100 50  0001 C CNN
+F 3 "" H 6550 6100 50  0001 C CNN
+	1    6550 6100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR067
+U 1 1 5F0B3BA8
+P 6850 5800
+F 0 "#PWR067" H 6850 5550 50  0001 C CNN
+F 1 "GND" H 6855 5627 50  0000 C CNN
+F 2 "" H 6850 5800 50  0001 C CNN
+F 3 "" H 6850 5800 50  0001 C CNN
+	1    6850 5800
+	1    0    0    -1  
+$EndComp
+Text Label 6850 5600 0    50   ~ 0
+D+
+Text Label 6850 5500 0    50   ~ 0
+D-
+NoConn ~ 6550 5200
+NoConn ~ 6850 5700
+$Comp
+L Analog_DAC:MCP4728 U8
+U 1 1 5F0B5CF9
+P 6550 4100
+F 0 "U8" H 6850 4450 50  0000 C CNN
+F 1 "MCP4728" H 6850 4350 50  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 6550 3500 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22187E.pdf" H 6550 4350 50  0001 C CNN
+F 4 "no" H 6550 4100 50  0001 C CNN "finalized"
+F 5 "MCP4728" H 6550 4100 50  0001 C CNN "mpn"
+	1    6550 4100
+	1    0    0    -1  
+$EndComp
+NoConn ~ 5950 4300
+$Comp
+L power:GND #PWR065
+U 1 1 5F0B7121
+P 6550 4500
+F 0 "#PWR065" H 6550 4250 50  0001 C CNN
+F 1 "GND" H 6555 4327 50  0000 C CNN
+F 2 "" H 6550 4500 50  0001 C CNN
+F 3 "" H 6550 4500 50  0001 C CNN
+	1    6550 4500
+	1    0    0    -1  
+$EndComp
+Text HLabel 7150 4000 2    50   Input ~ 0
+CV_A
+Text HLabel 7150 4100 2    50   Input ~ 0
+CV_B
+Text HLabel 7150 4200 2    50   Input ~ 0
+CV_C
+Text HLabel 7150 4300 2    50   Input ~ 0
+CV_D
+Text Label 1850 4450 2    50   ~ 0
+SDA
+Text Label 1850 4550 2    50   ~ 0
+SCL
+Text Notes 850  4500 0    50   ~ 0
+i2c on SERCOM3
+Text Label 5950 4100 2    50   ~ 0
+SDA
+Text Label 5950 4000 2    50   ~ 0
+SCL
+$Comp
+L Device:R_US R24
+U 1 1 5F0BDB92
+P 4900 4150
+F 0 "R24" H 4968 4196 50  0000 L CNN
+F 1 "4.7k" H 4968 4105 50  0000 L CNN
+F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 4940 4140 50  0001 C CNN
+F 3 "~" H 4900 4150 50  0001 C CNN
+F 4 "no" H 4900 4150 50  0001 C CNN "finalized"
+F 5 "ERA8AEB222V" H 4900 4150 50  0001 C CNN "mpn"
+	1    4900 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_US R25
+U 1 1 5F0BDEF2
+P 5300 4150
+F 0 "R25" H 5368 4196 50  0000 L CNN
+F 1 "4.7k" H 5368 4105 50  0000 L CNN
+F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 5340 4140 50  0001 C CNN
+F 3 "~" H 5300 4150 50  0001 C CNN
+F 4 "no" H 5300 4150 50  0001 C CNN "finalized"
+F 5 "ERA8AEB222V" H 5300 4150 50  0001 C CNN "mpn"
+	1    5300 4150
+	1    0    0    -1  
+$EndComp
+Text Label 4900 4300 3    50   ~ 0
+SDA
+Text Label 5300 4300 3    50   ~ 0
+SCL
+$Comp
+L power:+3.3V #PWR059
+U 1 1 5F0BE3C5
+P 4900 4000
+F 0 "#PWR059" H 4900 3850 50  0001 C CNN
+F 1 "+3.3V" H 4915 4173 50  0000 C CNN
+F 2 "" H 4900 4000 50  0001 C CNN
+F 3 "" H 4900 4000 50  0001 C CNN
+	1    4900 4000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR061
+U 1 1 5F0BEB01
+P 5300 4000
+F 0 "#PWR061" H 5300 3850 50  0001 C CNN
+F 1 "+3.3V" H 5315 4173 50  0000 C CNN
+F 2 "" H 5300 4000 50  0001 C CNN
+F 3 "" H 5300 4000 50  0001 C CNN
+	1    5300 4000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR063
+U 1 1 5F0BF242
+P 5950 4200
+F 0 "#PWR063" H 5950 3950 50  0001 C CNN
+F 1 "GND" V 5955 4072 50  0000 R CNN
+F 2 "" H 5950 4200 50  0001 C CNN
+F 3 "" H 5950 4200 50  0001 C CNN
+	1    5950 4200
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:C C22
+U 1 1 5F0C2666
+P 7650 4150
+F 0 "C22" H 7765 4196 50  0000 L CNN
+F 1 "0.1uF" H 7765 4105 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7688 4000 50  0001 C CNN
+F 3 "~" H 7650 4150 50  0001 C CNN
+F 4 "no" H 7650 4150 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-0.1uF" H 7650 4150 50  0001 C CNN "mpn"
+	1    7650 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR069
+U 1 1 5F0C2670
+P 7650 4300
+F 0 "#PWR069" H 7650 4050 50  0001 C CNN
+F 1 "GND" H 7655 4127 50  0000 C CNN
+F 2 "" H 7650 4300 50  0001 C CNN
+F 3 "" H 7650 4300 50  0001 C CNN
+	1    7650 4300
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C23
+U 1 1 5F0C732A
+P 8200 4150
+F 0 "C23" H 8315 4196 50  0000 L CNN
+F 1 "10uF" H 8315 4105 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8238 4000 50  0001 C CNN
+F 3 "~" H 8200 4150 50  0001 C CNN
+F 4 "no" H 8200 4150 50  0001 C CNN "finalized"
+F 5 "MF-CAP-1206-10uF" H 8200 4150 50  0001 C CNN "mpn"
+	1    8200 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR071
+U 1 1 5F0C7330
+P 8200 4300
+F 0 "#PWR071" H 8200 4050 50  0001 C CNN
+F 1 "GND" H 8205 4127 50  0000 C CNN
+F 2 "" H 8200 4300 50  0001 C CNN
+F 3 "" H 8200 4300 50  0001 C CNN
+	1    8200 4300
+	1    0    0    -1  
+$EndComp
+Text HLabel 5900 1000 2    50   Output ~ 0
+square_out_a
+Text HLabel 5900 1150 2    50   Output ~ 0
+square_out_b
+Text HLabel 5900 1300 2    50   Input ~ 0
+dotstar_data
+Text HLabel 5900 1450 2    50   Input ~ 0
+dotstar_clk
+Text HLabel 5900 1600 2    50   Input ~ 0
+cv_a_in
+Text HLabel 5900 1900 2    50   Input ~ 0
+cv_b_in
+Text HLabel 5900 1750 2    50   Input ~ 0
+cv_a_pot
+Text HLabel 5900 2050 2    50   Input ~ 0
+cv_b_pot
+Text HLabel 5900 2350 2    50   Input ~ 0
+duty_a_pot
+Text HLabel 5900 2650 2    50   Input ~ 0
+duty_b_pot
+Text HLabel 5900 2200 2    50   Input ~ 0
+duty_a_in
+Text HLabel 5900 2500 2    50   Input ~ 0
+duty_b_in
+Text HLabel 5900 2800 2    50   Input ~ 0
+phase_in
+Text HLabel 5900 2950 2    50   Input ~ 0
+phase_pot
+Text HLabel 5900 3100 2    50   Output ~ 0
+jack_detection_probe
+Text Label 1850 2450 2    50   ~ 0
+AIN0
+Text Label 1850 2650 2    50   ~ 0
+AIN4
+Text Label 1850 2750 2    50   ~ 0
+AIN5
+Text Label 3850 2450 0    50   ~ 0
+AIN2
+Text Label 3850 2550 0    50   ~ 0
+AIN3
+Text Label 3850 2250 0    50   ~ 0
+AIN10
+Text Label 1850 2550 2    50   ~ 0
+VREFA
+Text Label 1850 2850 2    50   ~ 0
+AIN6
+Text Label 1850 2950 2    50   ~ 0
+AIN7
+Text Label 3850 2350 0    50   ~ 0
+AIN11
+Text Label 1850 3050 2    50   ~ 0
+AIN16
+Text Label 1850 3150 2    50   ~ 0
+AIN17
+Text Label 1850 3250 2    50   ~ 0
+AIN18
+Text Label 1850 3850 2    50   ~ 0
+TCC2WO0
+Text Label 1850 3950 2    50   ~ 0
+TCC0WO7
+Text Label 1850 3350 2    50   ~ 0
+TCC1WO1
+Text Label 5550 1150 2    50   ~ 0
+TCC0WO7
+Text Label 5500 1600 2    50   ~ 0
+AIN0
+Text Label 5500 2200 2    50   ~ 0
+AIN4
+Text Label 5500 2500 2    50   ~ 0
+AIN5
+Text Label 5500 2050 2    50   ~ 0
+AIN6
+Text Label 5500 1750 2    50   ~ 0
+AIN7
+Text Label 5500 2350 2    50   ~ 0
+AIN16
+Text Notes 6500 1950 0    50   ~ 0
+Assignments can be changed to suit layout
+Text Label 5500 2950 2    50   ~ 0
+AIN17
+Text Label 5500 2650 2    50   ~ 0
+AIN18
+Text Label 1850 4150 2    50   ~ 0
+D12
+Text Label 5500 3100 2    50   ~ 0
+D12
+$Comp
+L power:+3.3VA #PWR0104
+U 1 1 5F273012
+P 6550 3800
+F 0 "#PWR0104" H 6550 3650 50  0001 C CNN
+F 1 "+3.3VA" H 6565 3973 50  0000 C CNN
+F 2 "" H 6550 3800 50  0001 C CNN
+F 3 "" H 6550 3800 50  0001 C CNN
+	1    6550 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3VA #PWR0105
+U 1 1 5F273937
+P 7650 4000
+F 0 "#PWR0105" H 7650 3850 50  0001 C CNN
+F 1 "+3.3VA" H 7665 4173 50  0000 C CNN
+F 2 "" H 7650 4000 50  0001 C CNN
+F 3 "" H 7650 4000 50  0001 C CNN
+	1    7650 4000
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3VA #PWR0106
+U 1 1 5F273C67
+P 8200 4000
+F 0 "#PWR0106" H 8200 3850 50  0001 C CNN
+F 1 "+3.3VA" H 8215 4173 50  0000 C CNN
+F 2 "" H 8200 4000 50  0001 C CNN
+F 3 "" H 8200 4000 50  0001 C CNN
+	1    8200 4000
+	1    0    0    -1  
+$EndComp
+Text Label 5550 1000 2    50   ~ 0
+TCC2WO0
+Wire Wire Line
+	5550 1000 5900 1000
+Wire Wire Line
+	5550 1150 5900 1150
+Wire Wire Line
+	5500 1600 5900 1600
+Wire Wire Line
+	5900 1750 5500 1750
+Wire Wire Line
+	5500 1900 5900 1900
+Wire Wire Line
+	5900 2050 5500 2050
+Wire Wire Line
+	5500 2200 5900 2200
+Wire Wire Line
+	5900 2350 5500 2350
+Wire Wire Line
+	5500 2500 5900 2500
+Wire Wire Line
+	5900 2650 5500 2650
+Wire Wire Line
+	5500 2800 5900 2800
+Wire Wire Line
+	5500 2950 5900 2950
+Wire Wire Line
+	5900 3100 5500 3100
+Text Label 5500 1900 2    50   ~ 0
+AIN2
+Text Label 5500 2800 2    50   ~ 0
+AIN3
+$EndSCHEMATC
