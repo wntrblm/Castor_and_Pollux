@@ -13,251 +13,38 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-$Comp
-L Connector_Generic:Conn_01x14 J1
-U 1 1 5F052E6B
-P 1550 1450
-F 0 "J1" V 1675 1396 50  0000 C CNN
-F 1 "top header" V 1766 1396 50  0000 C CNN
-F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X14" H 1550 1450 50  0001 C CNN
-F 3 "~" H 1550 1450 50  0001 C CNN
-	1    1550 1450
-	0    1    1    0   
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x14 J5
-U 1 1 5F0559EF
-P 1550 2800
-F 0 "J5" V 1675 2746 50  0000 C CNN
-F 1 "almost bottom header" V 1766 2746 50  0000 C CNN
-F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X14" H 1550 2800 50  0001 C CNN
-F 3 "~" H 1550 2800 50  0001 C CNN
-	1    1550 2800
-	0    1    1    0   
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x24 J4
-U 1 1 5F057AF4
-P 2050 4300
-F 0 "J4" V 2175 4246 50  0000 C CNN
-F 1 "bottom header" V 2266 4246 50  0000 C CNN
-F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X24" H 2050 4300 50  0001 C CNN
-F 3 "~" H 2050 4300 50  0001 C CNN
-	1    2050 4300
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR0101
-U 1 1 5F0617DF
-P 2150 1250
-F 0 "#PWR0101" H 2150 1000 50  0001 C CNN
-F 1 "GND" H 2155 1077 50  0000 C CNN
-F 2 "" H 2150 1250 50  0001 C CNN
-F 3 "" H 2150 1250 50  0001 C CNN
-	1    2150 1250
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0102
-U 1 1 5F061EFB
-P 850 1250
-F 0 "#PWR0102" H 850 1000 50  0001 C CNN
-F 1 "GND" H 855 1077 50  0000 C CNN
-F 2 "" H 850 1250 50  0001 C CNN
-F 3 "" H 850 1250 50  0001 C CNN
-	1    850  1250
-	-1   0    0    1   
-$EndComp
-Text Label 2050 1050 1    50   ~ 0
+Text Label 2950 4900 0    50   ~ 0
 -12v-raw
-Text Label 1950 1050 1    50   ~ 0
+Text Label 2950 4800 0    50   ~ 0
 -12v-raw
-Wire Wire Line
-	1950 1050 1950 1250
-Wire Wire Line
-	2050 1250 2050 1050
-Text Label 950  1050 1    50   ~ 0
-+12v-raw
-Text Label 1050 1050 1    50   ~ 0
-+12v-raw
-Text Label 1150 1050 1    50   ~ 0
-dotstar_clk
-Text Label 1250 1050 1    50   ~ 0
-dotstar_data
-Text Label 850  2350 1    50   ~ 0
-castor_sub_mix_in
-Text Label 950  2350 1    50   ~ 0
-castor_pwm_out
-Text Label 1050 2350 1    50   ~ 0
-castor_mix_out
-Text Label 1150 2350 1    50   ~ 0
-pollux_sub_mix_in
-Text Label 1250 2350 1    50   ~ 0
-pollux_mix_out
-Text Label 1350 2350 1    50   ~ 0
-pollux_pwm_out
-Text Label 1650 2350 1    50   ~ 0
+Text Label 2950 6300 0    50   ~ 0
 mix_pot_out
-Text Label 1750 2350 1    50   ~ 0
+Text Label 2950 6500 0    50   ~ 0
 mix_out
-Text Label 1850 2350 1    50   ~ 0
+Text Label 2950 6400 0    50   ~ 0
 mix_pot_in
-Text Label 1950 2350 1    50   ~ 0
+Text Label 2950 5300 0    50   ~ 0
 cv_a_pot
-Text Label 2050 2350 1    50   ~ 0
+Text Label 2950 6000 0    50   ~ 0
 cv_b_jack
-Text Label 2150 2350 1    50   ~ 0
+Text Label 2950 5900 0    50   ~ 0
 cv_a_jack
-$Comp
-L power:GND #PWR0105
-U 1 1 5F06E57D
-P 1450 2600
-F 0 "#PWR0105" H 1450 2350 50  0001 C CNN
-F 1 "GND" H 1455 2427 50  0000 C CNN
-F 2 "" H 1450 2600 50  0001 C CNN
-F 3 "" H 1450 2600 50  0001 C CNN
-	1    1450 2600
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0106
-U 1 1 5F06EAD3
-P 1550 2600
-F 0 "#PWR0106" H 1550 2350 50  0001 C CNN
-F 1 "GND" H 1555 2427 50  0000 C CNN
-F 2 "" H 1550 2600 50  0001 C CNN
-F 3 "" H 1550 2600 50  0001 C CNN
-	1    1550 2600
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	850  2350 850  2600
-Wire Wire Line
-	950  2600 950  2350
-Wire Wire Line
-	1050 2350 1050 2600
-Wire Wire Line
-	1150 2600 1150 2350
-Wire Wire Line
-	1250 2350 1250 2600
-Wire Wire Line
-	1350 2600 1350 2350
-Wire Wire Line
-	1650 2350 1650 2600
-Wire Wire Line
-	1750 2600 1750 2350
-Wire Wire Line
-	1850 2350 1850 2600
-Wire Wire Line
-	1950 2600 1950 2350
-Wire Wire Line
-	2050 2350 2050 2600
-Wire Wire Line
-	2150 2600 2150 2350
-$Comp
-L power:GND #PWR0107
-U 1 1 5F07149C
-P 850 4100
-F 0 "#PWR0107" H 850 3850 50  0001 C CNN
-F 1 "GND" H 855 3927 50  0000 C CNN
-F 2 "" H 850 4100 50  0001 C CNN
-F 3 "" H 850 4100 50  0001 C CNN
-	1    850  4100
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0108
-U 1 1 5F071A4A
-P 1950 4100
-F 0 "#PWR0108" H 1950 3850 50  0001 C CNN
-F 1 "GND" H 1955 3927 50  0000 C CNN
-F 2 "" H 1950 4100 50  0001 C CNN
-F 3 "" H 1950 4100 50  0001 C CNN
-	1    1950 4100
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0109
-U 1 1 5F071FCC
-P 2050 4100
-F 0 "#PWR0109" H 2050 3850 50  0001 C CNN
-F 1 "GND" H 2055 3927 50  0000 C CNN
-F 2 "" H 2050 4100 50  0001 C CNN
-F 3 "" H 2050 4100 50  0001 C CNN
-	1    2050 4100
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0110
-U 1 1 5F072188
-P 3150 4100
-F 0 "#PWR0110" H 3150 3850 50  0001 C CNN
-F 1 "GND" H 3155 3927 50  0000 C CNN
-F 2 "" H 3150 4100 50  0001 C CNN
-F 3 "" H 3150 4100 50  0001 C CNN
-	1    3150 4100
-	-1   0    0    1   
-$EndComp
-Text Label 950  3850 1    50   ~ 0
+Text Label 1250 5800 2    50   ~ 0
 castor_ramp_out
-Text Label 1050 3850 1    50   ~ 0
+Text Label 1250 6000 2    50   ~ 0
 castor_sub_out
-Text Label 1150 3850 1    50   ~ 0
+Text Label 1250 6100 2    50   ~ 0
 castor_ramp_mix_in
-Text Label 1250 3850 1    50   ~ 0
+Text Label 1250 6200 2    50   ~ 0
 castor_pwm_mix_in
-Text Label 1350 3850 1    50   ~ 0
+Text Label 1250 5100 2    50   ~ 0
 pollux_ramp_out
-Text Label 1650 3850 1    50   ~ 0
+Text Label 1250 5500 2    50   ~ 0
 pollux_pwm_mix_in
-Wire Wire Line
-	950  3850 950  4100
-Wire Wire Line
-	1050 4100 1050 3850
-Wire Wire Line
-	1150 3850 1150 4100
-Wire Wire Line
-	1250 3850 1250 4100
-Wire Wire Line
-	1350 3850 1350 4100
-Text Label 1450 3850 1    50   ~ 0
+Text Label 1250 5300 2    50   ~ 0
 pollux_sub_out
-Text Label 1550 3850 1    50   ~ 0
+Text Label 1250 5400 2    50   ~ 0
 pollux_ramp_mix_in
-Wire Wire Line
-	1450 3850 1450 4100
-Wire Wire Line
-	1550 4100 1550 3850
-Wire Wire Line
-	1650 3850 1650 4100
-Text Label 2450 3850 1    50   ~ 0
-cv_b_pot
-Text Label 2550 3850 1    50   ~ 0
-duty_a_pot
-Text Label 2650 3850 1    50   ~ 0
-phase_pot
-Text Label 2750 3850 1    50   ~ 0
-duty_b_pot
-Text Label 2850 3850 1    50   ~ 0
-phase_jack
-Text Label 3050 3850 1    50   ~ 0
-duty_a_jack
-Text Label 2950 3850 1    50   ~ 0
-duty_b_jack
-Wire Wire Line
-	2450 3850 2450 4100
-Wire Wire Line
-	2550 3850 2550 4100
-Wire Wire Line
-	2650 4100 2650 3850
-Wire Wire Line
-	2750 3850 2750 4100
-Wire Wire Line
-	2850 4100 2850 3850
-Wire Wire Line
-	2950 3850 2950 4100
-Wire Wire Line
-	3050 4100 3050 3850
 $Comp
 L Connector:AudioJack2_SwitchT J2
 U 1 1 5F07F4D9
@@ -1076,83 +863,582 @@ F 3 "" H 7650 5500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0103
-U 1 1 5F156158
-P 1850 1250
-F 0 "#PWR0103" H 1850 1000 50  0001 C CNN
-F 1 "GND" H 1855 1077 50  0000 C CNN
-F 2 "" H 1850 1250 50  0001 C CNN
-F 3 "" H 1850 1250 50  0001 C CNN
-	1    1850 1250
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0104
-U 1 1 5F1566A8
-P 1750 1250
-F 0 "#PWR0104" H 1750 1000 50  0001 C CNN
-F 1 "GND" H 1755 1077 50  0000 C CNN
-F 2 "" H 1750 1250 50  0001 C CNN
-F 3 "" H 1750 1250 50  0001 C CNN
-	1    1750 1250
-	-1   0    0    1   
-$EndComp
-$Comp
 L power:GND #PWR0147
 U 1 1 5F15688A
-P 1650 1250
-F 0 "#PWR0147" H 1650 1000 50  0001 C CNN
-F 1 "GND" H 1655 1077 50  0000 C CNN
-F 2 "" H 1650 1250 50  0001 C CNN
-F 3 "" H 1650 1250 50  0001 C CNN
-	1    1650 1250
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0148
-U 1 1 5F156A9C
-P 1450 1250
-F 0 "#PWR0148" H 1450 1000 50  0001 C CNN
-F 1 "GND" H 1455 1077 50  0000 C CNN
-F 2 "" H 1450 1250 50  0001 C CNN
-F 3 "" H 1450 1250 50  0001 C CNN
-	1    1450 1250
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	950  1050 950  1250
-Wire Wire Line
-	1050 1250 1050 1050
-Wire Wire Line
-	1150 1050 1150 1250
-Wire Wire Line
-	1250 1250 1250 1050
-$Comp
-L power:+3.3VA #PWR0149
-U 1 1 5F15E519
-P 1350 1000
-F 0 "#PWR0149" H 1350 850 50  0001 C CNN
-F 1 "+3.3VA" V 1350 1250 50  0000 C CNN
-F 2 "" H 1350 1000 50  0001 C CNN
-F 3 "" H 1350 1000 50  0001 C CNN
-	1    1350 1000
-	1    0    0    -1  
+P 2600 4700
+F 0 "#PWR0147" H 2600 4450 50  0001 C CNN
+F 1 "GND" V 2600 4500 50  0000 C CNN
+F 2 "" H 2600 4700 50  0001 C CNN
+F 3 "" H 2600 4700 50  0001 C CNN
+	1    2600 4700
+	0    -1   -1   0   
 $EndComp
 $Comp
 L power:+3.3V #PWR0150
 U 1 1 5F15FAA4
-P 1550 1000
-F 0 "#PWR0150" H 1550 850 50  0001 C CNN
-F 1 "+3.3V" V 1550 1250 50  0000 C CNN
-F 2 "" H 1550 1000 50  0001 C CNN
-F 3 "" H 1550 1000 50  0001 C CNN
-	1    1550 1000
+P 2950 5000
+F 0 "#PWR0150" H 2950 4850 50  0001 C CNN
+F 1 "+3.3V" V 2950 5250 50  0000 C CNN
+F 2 "" H 2950 5000 50  0001 C CNN
+F 3 "" H 2950 5000 50  0001 C CNN
+	1    2950 5000
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	6900 1000 7100 1000
+$Comp
+L Connector_Generic:Conn_01x20 J4
+U 1 1 5F1930EB
+P 2400 5700
+F 0 "J4" H 2318 4475 50  0000 C CNN
+F 1 "right header" H 2318 4566 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical" H 2400 5700 50  0001 C CNN
+F 3 "~" H 2400 5700 50  0001 C CNN
+	1    2400 5700
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0101
+U 1 1 5F1AF21B
+P 2600 6600
+F 0 "#PWR0101" H 2600 6350 50  0001 C CNN
+F 1 "GND" V 2600 6400 50  0000 C CNN
+F 2 "" H 2600 6600 50  0001 C CNN
+F 3 "" H 2600 6600 50  0001 C CNN
+	1    2600 6600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5F1AF8C8
+P 1500 4700
+F 0 "#PWR0103" H 1500 4450 50  0001 C CNN
+F 1 "GND" V 1500 4500 50  0000 C CNN
+F 2 "" H 1500 4700 50  0001 C CNN
+F 3 "" H 1500 4700 50  0001 C CNN
+	1    1500 4700
+	0    1    -1   0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x20 J1
+U 1 1 5F190AF5
+P 1700 5700
+F 0 "J1" H 1650 4450 50  0000 L CNN
+F 1 "left header" H 1500 4550 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical" H 1700 5700 50  0001 C CNN
+F 3 "~" H 1700 5700 50  0001 C CNN
+	1    1700 5700
+	1    0    0    1   
+$EndComp
+$Comp
+L power:+3.3VA #PWR0149
+U 1 1 5F15E519
+P 1250 5000
+F 0 "#PWR0149" H 1250 4850 50  0001 C CNN
+F 1 "+3.3VA" V 1250 5250 50  0000 C CNN
+F 2 "" H 1250 5000 50  0001 C CNN
+F 3 "" H 1250 5000 50  0001 C CNN
+	1    1250 5000
+	0    -1   1    0   
+$EndComp
+Text Label 2950 5800 0    50   ~ 0
+duty_b_jack
+Text Label 2950 6200 0    50   ~ 0
+duty_a_jack
+Text Label 2950 6100 0    50   ~ 0
+phase_jack
+Text Label 2950 5700 0    50   ~ 0
+duty_b_pot
+Text Label 2950 5500 0    50   ~ 0
+phase_pot
+Text Label 2950 5600 0    50   ~ 0
+duty_a_pot
+Text Label 2950 5400 0    50   ~ 0
+cv_b_pot
+Text Label 1250 5200 2    50   ~ 0
+pollux_pwm_out
+Text Label 1250 5700 2    50   ~ 0
+pollux_mix_out
+Text Label 1250 5600 2    50   ~ 0
+pollux_sub_mix_in
+Text Label 1250 6400 2    50   ~ 0
+castor_mix_out
+Text Label 1250 5900 2    50   ~ 0
+castor_pwm_out
+Text Label 1250 6300 2    50   ~ 0
+castor_sub_mix_in
+Text Label 2950 5200 0    50   ~ 0
+dotstar_data
+Text Label 2950 5100 0    50   ~ 0
+dotstar_clk
+Text Label 1250 4900 2    50   ~ 0
++12v-raw
+Text Label 1250 4800 2    50   ~ 0
++12v-raw
+$Comp
+L power:GND #PWR0102
+U 1 1 5F061EFB
+P 1500 6600
+F 0 "#PWR0102" H 1500 6350 50  0001 C CNN
+F 1 "GND" V 1500 6400 50  0000 C CNN
+F 2 "" H 1500 6600 50  0001 C CNN
+F 3 "" H 1500 6600 50  0001 C CNN
+	1    1500 6600
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	1250 4800 1500 4800
+Wire Wire Line
+	1500 4900 1250 4900
+Wire Wire Line
+	1250 5000 1500 5000
+Wire Wire Line
+	1500 5100 1250 5100
+Wire Wire Line
+	1250 5200 1500 5200
+Wire Wire Line
+	1500 5300 1250 5300
+Wire Wire Line
+	1250 5400 1500 5400
+Wire Wire Line
+	1250 5500 1500 5500
+Wire Wire Line
+	1500 5600 1250 5600
+Wire Wire Line
+	1250 5700 1500 5700
+Wire Wire Line
+	1500 5800 1250 5800
+Wire Wire Line
+	1250 5900 1500 5900
+Wire Wire Line
+	1250 6000 1500 6000
+Wire Wire Line
+	1500 6100 1250 6100
+Wire Wire Line
+	1250 6200 1500 6200
+Wire Wire Line
+	1500 6300 1250 6300
+Wire Wire Line
+	1250 6400 1500 6400
+Wire Wire Line
+	2600 4800 2950 4800
+Wire Wire Line
+	2950 4900 2600 4900
+Wire Wire Line
+	2600 5000 2950 5000
+Wire Wire Line
+	2600 5100 2950 5100
+Wire Wire Line
+	2950 5200 2600 5200
+Wire Wire Line
+	2600 5300 2950 5300
+Wire Wire Line
+	2950 5400 2600 5400
+Wire Wire Line
+	2600 5500 2950 5500
+Wire Wire Line
+	2950 5600 2600 5600
+Wire Wire Line
+	2600 5700 2950 5700
+Wire Wire Line
+	2950 5800 2600 5800
+Wire Wire Line
+	2600 5900 2950 5900
+Wire Wire Line
+	2950 6000 2600 6000
+Wire Wire Line
+	2600 6100 2950 6100
+Wire Wire Line
+	2950 6200 2600 6200
+Wire Wire Line
+	2600 6300 2950 6300
+Wire Wire Line
+	2950 6400 2600 6400
+Wire Wire Line
+	2600 6500 2950 6500
+$Comp
+L Connector_Generic:Conn_02x05_Odd_Even J5
+U 1 1 5F205C8A
+P 2050 3250
+F 0 "J5" H 2100 3667 50  0000 C CNN
+F 1 "Eurorack Power" H 2100 3576 50  0000 C CNN
+F 2 "Connectors:2X5-SHROUDED_LOCK" H 2050 3250 50  0001 C CNN
+F 3 "~" H 2050 3250 50  0001 C CNN
+	1    2050 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0108
+U 1 1 5F20D572
+P 2350 3350
+F 0 "#PWR0108" H 2350 3100 50  0001 C CNN
+F 1 "GND" V 2355 3222 50  0000 R CNN
+F 2 "" H 2350 3350 50  0001 C CNN
+F 3 "" H 2350 3350 50  0001 C CNN
+	1    2350 3350
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0109
+U 1 1 5F20DD75
+P 2350 3250
+F 0 "#PWR0109" H 2350 3000 50  0001 C CNN
+F 1 "GND" V 2355 3122 50  0000 R CNN
+F 2 "" H 2350 3250 50  0001 C CNN
+F 3 "" H 2350 3250 50  0001 C CNN
+	1    2350 3250
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0110
+U 1 1 5F20DF32
+P 2350 3150
+F 0 "#PWR0110" H 2350 2900 50  0001 C CNN
+F 1 "GND" V 2355 3022 50  0000 R CNN
+F 2 "" H 2350 3150 50  0001 C CNN
+F 3 "" H 2350 3150 50  0001 C CNN
+	1    2350 3150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0148
+U 1 1 5F20E199
+P 1850 3150
+F 0 "#PWR0148" H 1850 2900 50  0001 C CNN
+F 1 "GND" V 1855 3022 50  0000 R CNN
+F 2 "" H 1850 3150 50  0001 C CNN
+F 3 "" H 1850 3150 50  0001 C CNN
+	1    1850 3150
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0151
+U 1 1 5F20E59B
+P 1850 3250
+F 0 "#PWR0151" H 1850 3000 50  0001 C CNN
+F 1 "GND" V 1855 3122 50  0000 R CNN
+F 2 "" H 1850 3250 50  0001 C CNN
+F 3 "" H 1850 3250 50  0001 C CNN
+	1    1850 3250
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0152
+U 1 1 5F20E8DF
+P 1850 3350
+F 0 "#PWR0152" H 1850 3100 50  0001 C CNN
+F 1 "GND" V 1855 3222 50  0000 R CNN
+F 2 "" H 1850 3350 50  0001 C CNN
+F 3 "" H 1850 3350 50  0001 C CNN
+	1    1850 3350
+	0    1    1    0   
+$EndComp
+Text Label 2350 3050 0    50   ~ 0
+-12v-raw
+Text Label 1850 3050 2    50   ~ 0
+-12v-raw
+Text Label 1850 3450 2    50   ~ 0
++12v-raw
+Text Label 2350 3450 0    50   ~ 0
++12v-raw
+$Comp
+L LED:APA102-2020 D1
+U 1 1 5F2949B6
+P 8700 2600
+F 0 "D1" H 8700 3081 50  0000 C CNN
+F 1 "APA102-2020" H 8700 2990 50  0000 C CNN
+F 2 "LED_SMD:LED-APA102-2020" H 8750 2300 50  0001 L TNN
+F 3 "http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf" H 8800 2225 50  0001 L TNN
+	1    8700 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED:APA102-2020 D2
+U 1 1 5F296FA3
+P 9450 2600
+F 0 "D2" H 9450 3081 50  0000 C CNN
+F 1 "APA102-2020" H 9450 2990 50  0000 C CNN
+F 2 "LED_SMD:LED-APA102-2020" H 9500 2300 50  0001 L TNN
+F 3 "http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf" H 9550 2225 50  0001 L TNN
+	1    9450 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED:APA102-2020 D3
+U 1 1 5F297B96
+P 10200 2600
+F 0 "D3" H 10200 3081 50  0000 C CNN
+F 1 "APA102-2020" H 10200 2990 50  0000 C CNN
+F 2 "LED_SMD:LED-APA102-2020" H 10250 2300 50  0001 L TNN
+F 3 "http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf" H 10300 2225 50  0001 L TNN
+	1    10200 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED:APA102-2020 D4
+U 1 1 5F298C93
+P 8650 3900
+F 0 "D4" H 8650 4381 50  0000 C CNN
+F 1 "APA102-2020" H 8650 4290 50  0000 C CNN
+F 2 "LED_SMD:LED-APA102-2020" H 8700 3600 50  0001 L TNN
+F 3 "http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf" H 8750 3525 50  0001 L TNN
+	1    8650 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED:APA102-2020 D5
+U 1 1 5F2994FF
+P 9400 3900
+F 0 "D5" H 9400 4381 50  0000 C CNN
+F 1 "APA102-2020" H 9400 4290 50  0000 C CNN
+F 2 "LED_SMD:LED-APA102-2020" H 9450 3600 50  0001 L TNN
+F 3 "http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf" H 9500 3525 50  0001 L TNN
+	1    9400 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED:APA102-2020 D6
+U 1 1 5F29A652
+P 10200 3900
+F 0 "D6" H 10200 4381 50  0000 C CNN
+F 1 "APA102-2020" H 10200 4290 50  0000 C CNN
+F 2 "LED_SMD:LED-APA102-2020" H 10250 3600 50  0001 L TNN
+F 3 "http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf" H 10300 3525 50  0001 L TNN
+	1    10200 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED:APA102-2020 D7
+U 1 1 5F29B372
+P 9450 5200
+F 0 "D7" H 9450 5681 50  0000 C CNN
+F 1 "APA102-2020" H 9450 5590 50  0000 C CNN
+F 2 "LED_SMD:LED-APA102-2020" H 9500 4900 50  0001 L TNN
+F 3 "http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf" H 9550 4825 50  0001 L TNN
+	1    9450 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L LED:APA102-2020 D8
+U 1 1 5F29CB50
+P 10250 5200
+F 0 "D8" H 10250 5681 50  0000 C CNN
+F 1 "APA102-2020" H 10250 5590 50  0000 C CNN
+F 2 "LED_SMD:LED-APA102-2020" H 10300 4900 50  0001 L TNN
+F 3 "http://www.led-color.com/upload/201604/APA102-2020%20SMD%20LED.pdf" H 10350 4825 50  0001 L TNN
+	1    10250 5200
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1350 1000 1350 1250
+	4800 5000 4800 2350
 Wire Wire Line
-	1550 1250 1550 1000
+	4800 2350 2950 2350
 Wire Wire Line
-	6900 1000 7100 1000
+	9000 2500 9150 2500
+Wire Wire Line
+	9000 2600 9150 2600
+Wire Wire Line
+	9750 2500 9900 2500
+Wire Wire Line
+	9750 2600 9900 2600
+Wire Wire Line
+	10500 2500 10600 2500
+Wire Wire Line
+	8250 3350 8250 3800
+Wire Wire Line
+	8250 3800 8350 3800
+Wire Wire Line
+	10500 2600 10650 2600
+Wire Wire Line
+	8200 3900 8350 3900
+Wire Wire Line
+	8950 3800 9100 3800
+Wire Wire Line
+	8950 3900 9100 3900
+Wire Wire Line
+	9700 3800 9900 3800
+Wire Wire Line
+	9700 3900 9900 3900
+Wire Wire Line
+	10500 3800 10600 3800
+Wire Wire Line
+	10600 3800 10600 4300
+Wire Wire Line
+	10600 4300 9000 4300
+Wire Wire Line
+	8950 4350 10650 4350
+Wire Wire Line
+	10650 4350 10650 3900
+Wire Wire Line
+	10650 3900 10500 3900
+Wire Wire Line
+	9750 5100 9950 5100
+Wire Wire Line
+	9950 5200 9750 5200
+NoConn ~ 10550 5100
+NoConn ~ 10550 5200
+$Comp
+L power:GND #PWR0104
+U 1 1 5F2D5966
+P 9450 5500
+F 0 "#PWR0104" H 9450 5250 50  0001 C CNN
+F 1 "GND" H 9455 5327 50  0001 C CNN
+F 2 "" H 9450 5500 50  0001 C CNN
+F 3 "" H 9450 5500 50  0001 C CNN
+	1    9450 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5F2D64B6
+P 10250 5500
+F 0 "#PWR0105" H 10250 5250 50  0001 C CNN
+F 1 "GND" H 10255 5327 50  0001 C CNN
+F 2 "" H 10250 5500 50  0001 C CNN
+F 3 "" H 10250 5500 50  0001 C CNN
+	1    10250 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5F2D67B9
+P 10200 4200
+F 0 "#PWR0106" H 10200 3950 50  0001 C CNN
+F 1 "GND" H 10205 4027 50  0001 C CNN
+F 2 "" H 10200 4200 50  0001 C CNN
+F 3 "" H 10200 4200 50  0001 C CNN
+	1    10200 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0107
+U 1 1 5F2D6ABC
+P 9400 4200
+F 0 "#PWR0107" H 9400 3950 50  0001 C CNN
+F 1 "GND" H 9405 4027 50  0001 C CNN
+F 2 "" H 9400 4200 50  0001 C CNN
+F 3 "" H 9400 4200 50  0001 C CNN
+	1    9400 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0153
+U 1 1 5F2D6FBD
+P 8650 4200
+F 0 "#PWR0153" H 8650 3950 50  0001 C CNN
+F 1 "GND" H 8655 4027 50  0001 C CNN
+F 2 "" H 8650 4200 50  0001 C CNN
+F 3 "" H 8650 4200 50  0001 C CNN
+	1    8650 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0154
+U 1 1 5F2D7447
+P 8700 2900
+F 0 "#PWR0154" H 8700 2650 50  0001 C CNN
+F 1 "GND" H 8705 2727 50  0001 C CNN
+F 2 "" H 8700 2900 50  0001 C CNN
+F 3 "" H 8700 2900 50  0001 C CNN
+	1    8700 2900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0155
+U 1 1 5F2D76B1
+P 9450 2900
+F 0 "#PWR0155" H 9450 2650 50  0001 C CNN
+F 1 "GND" H 9455 2727 50  0001 C CNN
+F 2 "" H 9450 2900 50  0001 C CNN
+F 3 "" H 9450 2900 50  0001 C CNN
+	1    9450 2900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0156
+U 1 1 5F2D7AF7
+P 10200 2900
+F 0 "#PWR0156" H 10200 2650 50  0001 C CNN
+F 1 "GND" H 10205 2727 50  0001 C CNN
+F 2 "" H 10200 2900 50  0001 C CNN
+F 3 "" H 10200 2900 50  0001 C CNN
+	1    10200 2900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8250 3350 10650 3350
+Wire Wire Line
+	10650 2600 10650 3350
+Wire Wire Line
+	10600 3300 8200 3300
+Wire Wire Line
+	10600 2500 10600 3300
+Wire Wire Line
+	8200 3300 8200 3900
+Wire Wire Line
+	9000 4300 9000 5100
+Wire Wire Line
+	9000 5100 9150 5100
+Wire Wire Line
+	8950 5200 9150 5200
+Wire Wire Line
+	8950 4350 8950 5200
+Text Label 8400 2500 2    50   ~ 0
+dotstar_data
+Text Label 8400 2600 2    50   ~ 0
+dotstar_clk
+Wire Wire Line
+	8700 2300 9450 2300
+Wire Wire Line
+	9450 2300 10200 2300
+Connection ~ 9450 2300
+Wire Wire Line
+	10200 2300 10700 2300
+Connection ~ 10200 2300
+$Comp
+L power:+3.3V #PWR0157
+U 1 1 5F312509
+P 10700 2300
+F 0 "#PWR0157" H 10700 2150 50  0001 C CNN
+F 1 "+3.3V" V 10700 2550 50  0000 C CNN
+F 2 "" H 10700 2300 50  0001 C CNN
+F 3 "" H 10700 2300 50  0001 C CNN
+	1    10700 2300
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3.3V #PWR0158
+U 1 1 5F31323B
+P 10750 3600
+F 0 "#PWR0158" H 10750 3450 50  0001 C CNN
+F 1 "+3.3V" V 10750 3850 50  0000 C CNN
+F 2 "" H 10750 3600 50  0001 C CNN
+F 3 "" H 10750 3600 50  0001 C CNN
+	1    10750 3600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	8650 3600 9400 3600
+Wire Wire Line
+	9400 3600 10200 3600
+Connection ~ 9400 3600
+Wire Wire Line
+	10200 3600 10750 3600
+Connection ~ 10200 3600
+$Comp
+L power:+3.3V #PWR0159
+U 1 1 5F328525
+P 10750 4900
+F 0 "#PWR0159" H 10750 4750 50  0001 C CNN
+F 1 "+3.3V" V 10750 5150 50  0000 C CNN
+F 2 "" H 10750 4900 50  0001 C CNN
+F 3 "" H 10750 4900 50  0001 C CNN
+	1    10750 4900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9450 4900 10250 4900
+Wire Wire Line
+	10250 4900 10750 4900
+Connection ~ 10250 4900
 $EndSCHEMATC
