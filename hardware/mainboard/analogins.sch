@@ -21,8 +21,8 @@ F 0 "U13" H 2400 1517 50  0000 C CNN
 F 1 "MCP6004" H 2400 1426 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 1250 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2450 1350 50  0001 C CNN
-F 4 "no" H 2400 1150 50  0001 C CNN "finalized"
-F 5 "MCP6004" H 2400 1150 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 1150 50  0001 C CNN "finalized"
+F 5 "MCP6004T-I/ST" H 2400 1150 50  0001 C CNN "mpn"
 	1    2400 1150
 	1    0    0    -1  
 $EndComp
@@ -32,10 +32,11 @@ U 1 1 5F368C48
 P 1500 1250
 F 0 "R48" V 1295 1250 50  0000 C CNN
 F 1 "100k" V 1386 1250 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 1540 1240 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 1240 50  0001 C CNN
 F 3 "~" H 1500 1250 50  0001 C CNN
-F 4 "no" H 1500 1250 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 1500 1250 50  0001 C CNN "mpn"
+F 4 "yes" H 1500 1250 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 1500 1250 50  0001 C CNN "mpn"
+F 6 "0.5%" H 1500 1250 50  0001 C CNN "Reqs"
 	1    1500 1250
 	0    1    1    0   
 $EndComp
@@ -44,11 +45,11 @@ L Device:R_US R49
 U 1 1 5F369216
 P 1500 1550
 F 0 "R49" V 1295 1550 50  0000 C CNN
-F 1 "TBD" V 1386 1550 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 1540 1540 50  0001 C CNN
+F 1 "169k" V 1386 1550 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 1540 50  0001 C CNN
 F 3 "~" H 1500 1550 50  0001 C CNN
-F 4 "no" H 1500 1550 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 1500 1550 50  0001 C CNN "mpn"
+F 4 "yes" H 1500 1550 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB1693V" H 1500 1550 50  0001 C CNN "mpn"
 	1    1500 1550
 	0    1    1    0   
 $EndComp
@@ -57,11 +58,11 @@ L Device:R_US R56
 U 1 1 5F369771
 P 2400 1650
 F 0 "R56" V 2195 1650 50  0000 C CNN
-F 1 "TBD" V 2286 1650 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 2440 1640 50  0001 C CNN
+F 1 "56k" V 2286 1650 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 1640 50  0001 C CNN
 F 3 "~" H 2400 1650 50  0001 C CNN
-F 4 "no" H 2400 1650 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 2400 1650 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 1650 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB563V" H 2400 1650 50  0001 C CNN "mpn"
 	1    2400 1650
 	0    1    1    0   
 $EndComp
@@ -70,11 +71,11 @@ L Device:C_Small C37
 U 1 1 5F3699C0
 P 2400 2000
 F 0 "C37" V 2629 2000 50  0000 C CNN
-F 1 "TBD" V 2538 2000 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2400 2000 50  0001 C CNN
+F 1 "2.2nF" V 2538 2000 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 2000 50  0001 C CNN
 F 3 "~" H 2400 2000 50  0001 C CNN
-F 4 "no" H 2400 2000 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 2400 2000 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 2000 50  0001 C CNN "finalized"
+F 5 "GRM1885C1H222JA01D" H 2400 2000 50  0001 C CNN "mpn"
 	1    2400 2000
 	0    -1   -1   0   
 $EndComp
@@ -127,9 +128,9 @@ Connection ~ 2700 1150
 Text HLabel 2900 1150 2    50   Input ~ 0
 cv_a_scaled
 Text Notes 2800 1300 0    50   ~ 0
-0 - 3.3v
-Text Notes 900  1150 0    50   ~ 0
-Range TBD
+0.05v to 3.31v
+Text Notes 950  1200 0    50   ~ 0
+0v to +6v
 $Comp
 L Amplifier_Operational:MCP6004 U13
 U 2 1 5F36F355
@@ -138,8 +139,8 @@ F 0 "U13" H 2400 3017 50  0000 C CNN
 F 1 "MCP6004" H 2400 2926 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 2750 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2450 2850 50  0001 C CNN
-F 4 "no" H 2400 2650 50  0001 C CNN "finalized"
-F 5 "MCP6004" H 2400 2650 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 2650 50  0001 C CNN "finalized"
+F 5 "MCP6004T-I/ST" H 2400 2650 50  0001 C CNN "mpn"
 	2    2400 2650
 	1    0    0    -1  
 $EndComp
@@ -149,10 +150,11 @@ U 1 1 5F36F35F
 P 1500 2750
 F 0 "R50" V 1295 2750 50  0000 C CNN
 F 1 "100k" V 1386 2750 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 1540 2740 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 2740 50  0001 C CNN
 F 3 "~" H 1500 2750 50  0001 C CNN
-F 4 "no" H 1500 2750 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 1500 2750 50  0001 C CNN "mpn"
+F 4 "yes" H 1500 2750 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 1500 2750 50  0001 C CNN "mpn"
+F 6 "0.5%" H 1500 2750 50  0001 C CNN "Reqs"
 	1    1500 2750
 	0    1    1    0   
 $EndComp
@@ -161,11 +163,11 @@ L Device:R_US R51
 U 1 1 5F36F369
 P 1500 3050
 F 0 "R51" V 1295 3050 50  0000 C CNN
-F 1 "TBD" V 1386 3050 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 1540 3040 50  0001 C CNN
+F 1 "169k" V 1386 3050 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 3040 50  0001 C CNN
 F 3 "~" H 1500 3050 50  0001 C CNN
-F 4 "no" H 1500 3050 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 1500 3050 50  0001 C CNN "mpn"
+F 4 "yes" H 1500 3050 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB1693V" H 1500 3050 50  0001 C CNN "mpn"
 	1    1500 3050
 	0    1    1    0   
 $EndComp
@@ -174,11 +176,11 @@ L Device:R_US R57
 U 1 1 5F36F373
 P 2400 3150
 F 0 "R57" V 2195 3150 50  0000 C CNN
-F 1 "TBD" V 2286 3150 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 2440 3140 50  0001 C CNN
+F 1 "56k" V 2286 3150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 3140 50  0001 C CNN
 F 3 "~" H 2400 3150 50  0001 C CNN
-F 4 "no" H 2400 3150 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 2400 3150 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 3150 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB563V" H 2400 3150 50  0001 C CNN "mpn"
 	1    2400 3150
 	0    1    1    0   
 $EndComp
@@ -187,11 +189,11 @@ L Device:C_Small C38
 U 1 1 5F36F37D
 P 2400 3500
 F 0 "C38" V 2629 3500 50  0000 C CNN
-F 1 "TBD" V 2538 3500 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2400 3500 50  0001 C CNN
+F 1 "2.2nF" V 2538 3500 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 3500 50  0001 C CNN
 F 3 "~" H 2400 3500 50  0001 C CNN
-F 4 "no" H 2400 3500 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 2400 3500 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 3500 50  0001 C CNN "finalized"
+F 5 "GRM1885C1H222JA01D" H 2400 3500 50  0001 C CNN "mpn"
 	1    2400 3500
 	0    -1   -1   0   
 $EndComp
@@ -242,9 +244,9 @@ Connection ~ 2700 2650
 Text HLabel 2900 2650 2    50   Input ~ 0
 cv_b_scaled
 Text Notes 2800 2800 0    50   ~ 0
-0 - 3.3v
-Text Notes 900  2650 0    50   ~ 0
-Range TBD
+0.05v to 3.31v
+Text Notes 900  2700 0    50   ~ 0
+0v to +6v
 $Comp
 L Amplifier_Operational:MCP6004 U13
 U 3 1 5F375333
@@ -253,8 +255,8 @@ F 0 "U13" H 2400 4467 50  0000 C CNN
 F 1 "MCP6004" H 2400 4376 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 4200 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2450 4300 50  0001 C CNN
-F 4 "no" H 2400 4100 50  0001 C CNN "finalized"
-F 5 "MCP6004" H 2400 4100 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 4100 50  0001 C CNN "finalized"
+F 5 "MCP6004T-I/ST" H 2400 4100 50  0001 C CNN "mpn"
 	3    2400 4100
 	1    0    0    -1  
 $EndComp
@@ -264,10 +266,11 @@ U 1 1 5F37533D
 P 1500 4200
 F 0 "R52" V 1295 4200 50  0000 C CNN
 F 1 "100k" V 1386 4200 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 1540 4190 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 4190 50  0001 C CNN
 F 3 "~" H 1500 4200 50  0001 C CNN
-F 4 "no" H 1500 4200 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 1500 4200 50  0001 C CNN "mpn"
+F 4 "yes" H 1500 4200 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 1500 4200 50  0001 C CNN "mpn"
+F 6 "0.5%" H 1500 4200 50  0001 C CNN "Reqs"
 	1    1500 4200
 	0    1    1    0   
 $EndComp
@@ -276,11 +279,11 @@ L Device:R_US R53
 U 1 1 5F375347
 P 1500 4500
 F 0 "R53" V 1295 4500 50  0000 C CNN
-F 1 "TBD" V 1386 4500 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 1540 4490 50  0001 C CNN
+F 1 "200k" V 1386 4500 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 4490 50  0001 C CNN
 F 3 "~" H 1500 4500 50  0001 C CNN
-F 4 "no" H 1500 4500 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 1500 4500 50  0001 C CNN "mpn"
+F 4 "yes" H 1500 4500 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB204V" H 1500 4500 50  0001 C CNN "mpn"
 	1    1500 4500
 	0    1    1    0   
 $EndComp
@@ -289,11 +292,11 @@ L Device:R_US R58
 U 1 1 5F375351
 P 2400 4600
 F 0 "R58" V 2195 4600 50  0000 C CNN
-F 1 "TBD" V 2286 4600 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 2440 4590 50  0001 C CNN
+F 1 "64.9k" V 2286 4600 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 4590 50  0001 C CNN
 F 3 "~" H 2400 4600 50  0001 C CNN
-F 4 "no" H 2400 4600 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 2400 4600 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 4600 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB6492V" H 2400 4600 50  0001 C CNN "mpn"
 	1    2400 4600
 	0    1    1    0   
 $EndComp
@@ -302,11 +305,11 @@ L Device:C_Small C39
 U 1 1 5F37535B
 P 2400 4950
 F 0 "C39" V 2629 4950 50  0000 C CNN
-F 1 "TBD" V 2538 4950 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2400 4950 50  0001 C CNN
+F 1 "4.7nF" V 2538 4950 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 4950 50  0001 C CNN
 F 3 "~" H 2400 4950 50  0001 C CNN
-F 4 "no" H 2400 4950 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 2400 4950 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 4950 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-4.7nF" H 2400 4950 50  0001 C CNN "mpn"
 	1    2400 4950
 	0    -1   -1   0   
 $EndComp
@@ -357,9 +360,9 @@ Connection ~ 2700 4100
 Text HLabel 2900 4100 2    50   Input ~ 0
 duty_a_scaled
 Text Notes 2800 4250 0    50   ~ 0
-0 - 3.3v
+0v to +3.25v
 Text Notes 900  4100 0    50   ~ 0
-Range TBD
+0v to +5v
 Text HLabel 1350 4200 0    50   Input ~ 0
 duty_a_jack
 Text HLabel 1350 2750 0    50   Input ~ 0
@@ -372,8 +375,8 @@ F 0 "U13" H 2400 5917 50  0000 C CNN
 F 1 "MCP6004" H 2400 5826 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 5650 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2450 5750 50  0001 C CNN
-F 4 "no" H 2400 5550 50  0001 C CNN "finalized"
-F 5 "MCP6004" H 2400 5550 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 5550 50  0001 C CNN "finalized"
+F 5 "MCP6004T-I/ST" H 2400 5550 50  0001 C CNN "mpn"
 	4    2400 5550
 	1    0    0    -1  
 $EndComp
@@ -383,10 +386,11 @@ U 1 1 5F37F2E7
 P 1500 5650
 F 0 "R54" V 1295 5650 50  0000 C CNN
 F 1 "100k" V 1386 5650 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 1540 5640 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 5640 50  0001 C CNN
 F 3 "~" H 1500 5650 50  0001 C CNN
-F 4 "no" H 1500 5650 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 1500 5650 50  0001 C CNN "mpn"
+F 4 "yes" H 1500 5650 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 1500 5650 50  0001 C CNN "mpn"
+F 6 "0.5%" H 1500 5650 50  0001 C CNN "Reqs"
 	1    1500 5650
 	0    1    1    0   
 $EndComp
@@ -395,11 +399,11 @@ L Device:R_US R55
 U 1 1 5F37F2ED
 P 1500 5950
 F 0 "R55" V 1295 5950 50  0000 C CNN
-F 1 "TBD" V 1386 5950 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 1540 5940 50  0001 C CNN
+F 1 "200k" V 1386 5950 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 5940 50  0001 C CNN
 F 3 "~" H 1500 5950 50  0001 C CNN
-F 4 "no" H 1500 5950 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 1500 5950 50  0001 C CNN "mpn"
+F 4 "yes" H 1500 5950 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB204V" H 1500 5950 50  0001 C CNN "mpn"
 	1    1500 5950
 	0    1    1    0   
 $EndComp
@@ -408,11 +412,11 @@ L Device:R_US R59
 U 1 1 5F37F2F3
 P 2400 6050
 F 0 "R59" V 2195 6050 50  0000 C CNN
-F 1 "TBD" V 2286 6050 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 2440 6040 50  0001 C CNN
+F 1 "64.9k" V 2286 6050 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 6040 50  0001 C CNN
 F 3 "~" H 2400 6050 50  0001 C CNN
-F 4 "no" H 2400 6050 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 2400 6050 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 6050 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB6492V" H 2400 6050 50  0001 C CNN "mpn"
 	1    2400 6050
 	0    1    1    0   
 $EndComp
@@ -421,11 +425,11 @@ L Device:C_Small C40
 U 1 1 5F37F2F9
 P 2400 6400
 F 0 "C40" V 2629 6400 50  0000 C CNN
-F 1 "TBD" V 2538 6400 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2400 6400 50  0001 C CNN
+F 1 "4.7nF" V 2538 6400 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 6400 50  0001 C CNN
 F 3 "~" H 2400 6400 50  0001 C CNN
-F 4 "no" H 2400 6400 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 2400 6400 50  0001 C CNN "mpn"
+F 4 "yes" H 2400 6400 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-4.7nF" H 2400 6400 50  0001 C CNN "mpn"
 	1    2400 6400
 	0    -1   -1   0   
 $EndComp
@@ -476,9 +480,9 @@ Connection ~ 2700 5550
 Text HLabel 2900 5550 2    50   Input ~ 0
 duty_b_scaled
 Text Notes 2800 5700 0    50   ~ 0
-0 - 3.3v
+0v to +3.25v
 Text Notes 900  5550 0    50   ~ 0
-Range TBD
+0v to +5v
 Text HLabel 1350 5650 0    50   Input ~ 0
 duty_b_jack
 $Comp
@@ -489,7 +493,7 @@ F 0 "U14" H 6094 1246 50  0000 L CNN
 F 1 "MCP6001-OT" H 5750 1350 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23-5" H 5650 1000 50  0001 L CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 5750 1400 50  0001 C CNN
-F 4 "no" H 5750 1200 50  0001 C CNN "finalized"
+F 4 "yes" H 5750 1200 50  0001 C CNN "finalized"
 F 5 "MCP6001T-I/OT" H 5750 1200 50  0001 C CNN "mpn"
 	1    5750 1200
 	1    0    0    -1  
@@ -500,10 +504,11 @@ U 1 1 5F3849CF
 P 4850 1300
 F 0 "R60" V 4645 1300 50  0000 C CNN
 F 1 "100k" V 4736 1300 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 4890 1290 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4890 1290 50  0001 C CNN
 F 3 "~" H 4850 1300 50  0001 C CNN
-F 4 "no" H 4850 1300 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 4850 1300 50  0001 C CNN "mpn"
+F 4 "yes" H 4850 1300 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 4850 1300 50  0001 C CNN "mpn"
+F 6 "0.5%" H 4850 1300 50  0001 C CNN "Reqs"
 	1    4850 1300
 	0    1    1    0   
 $EndComp
@@ -512,11 +517,11 @@ L Device:R_US R61
 U 1 1 5F3849D5
 P 4850 1600
 F 0 "R61" V 4645 1600 50  0000 C CNN
-F 1 "TBD" V 4736 1600 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 4890 1590 50  0001 C CNN
+F 1 "200k" V 4736 1600 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4890 1590 50  0001 C CNN
 F 3 "~" H 4850 1600 50  0001 C CNN
-F 4 "no" H 4850 1600 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 4850 1600 50  0001 C CNN "mpn"
+F 4 "yes" H 4850 1600 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB204V" H 4850 1600 50  0001 C CNN "mpn"
 	1    4850 1600
 	0    1    1    0   
 $EndComp
@@ -525,11 +530,11 @@ L Device:R_US R62
 U 1 1 5F3849DB
 P 5750 2000
 F 0 "R62" V 5545 2000 50  0000 C CNN
-F 1 "TBD" V 5636 2000 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 5790 1990 50  0001 C CNN
+F 1 "64.9k" V 5636 2000 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5790 1990 50  0001 C CNN
 F 3 "~" H 5750 2000 50  0001 C CNN
-F 4 "no" H 5750 2000 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 5750 2000 50  0001 C CNN "mpn"
+F 4 "yes" H 5750 2000 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB6492V" H 5750 2000 50  0001 C CNN "mpn"
 	1    5750 2000
 	0    1    1    0   
 $EndComp
@@ -538,11 +543,11 @@ L Device:C_Small C41
 U 1 1 5F3849E1
 P 5750 2350
 F 0 "C41" V 5979 2350 50  0000 C CNN
-F 1 "TBD" V 5888 2350 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 5750 2350 50  0001 C CNN
+F 1 "4.7nF" V 5888 2350 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 5750 2350 50  0001 C CNN
 F 3 "~" H 5750 2350 50  0001 C CNN
-F 4 "no" H 5750 2350 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 5750 2350 50  0001 C CNN "mpn"
+F 4 "yes" H 5750 2350 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-4.7nF" H 5750 2350 50  0001 C CNN "mpn"
 	1    5750 2350
 	0    -1   -1   0   
 $EndComp
@@ -589,9 +594,9 @@ Wire Wire Line
 Text HLabel 6250 1200 2    50   Input ~ 0
 phase_scaled
 Text Notes 6150 1350 0    50   ~ 0
-0 - 3.3v
+0v to +3.25v
 Text Notes 4250 1200 0    50   ~ 0
-Range TBD
+0v to +5v
 $Comp
 L power:GND #PWR0120
 U 1 1 5F3905AF
@@ -628,8 +633,8 @@ F 0 "U13" H 7508 5996 50  0000 L CNN
 F 1 "MCP6004" H 7508 5905 50  0000 L CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 7500 6050 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 7600 6150 50  0001 C CNN
-F 4 "no" H 7550 5950 50  0001 C CNN "finalized"
-F 5 "MCP6004" H 7550 5950 50  0001 C CNN "mpn"
+F 4 "yes" H 7550 5950 50  0001 C CNN "finalized"
+F 5 "MCP6004T-I/ST" H 7550 5950 50  0001 C CNN "mpn"
 	5    7550 5950
 	1    0    0    -1  
 $EndComp
@@ -650,9 +655,9 @@ U 1 1 5F39ACBA
 P 8350 6000
 F 0 "C42" H 8258 5954 50  0000 R CNN
 F 1 "0.1uF" H 8258 6045 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8350 6000 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8350 6000 50  0001 C CNN
 F 3 "~" H 8350 6000 50  0001 C CNN
-F 4 "no" H 8350 6000 50  0001 C CNN "finalized"
+F 4 "yes" H 8350 6000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 8350 6000 50  0001 C CNN "mpn"
 	1    8350 6000
 	-1   0    0    1   
@@ -696,9 +701,9 @@ U 1 1 5F39E344
 P 8950 6000
 F 0 "C43" H 8858 5954 50  0000 R CNN
 F 1 "0.1uF" H 8858 6045 50  0000 R CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8950 6000 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8950 6000 50  0001 C CNN
 F 3 "~" H 8950 6000 50  0001 C CNN
-F 4 "no" H 8950 6000 50  0001 C CNN "finalized"
+F 4 "yes" H 8950 6000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 8950 6000 50  0001 C CNN "mpn"
 	1    8950 6000
 	-1   0    0    1   
@@ -725,4 +730,14 @@ F 3 "" H 8950 5900 50  0001 C CNN
 	1    8950 5900
 	1    0    0    -1  
 $EndComp
+Text Notes 2800 1900 0    50   ~ 0
+low-pass cutoff @ 1.3kHz
+Text Notes 2800 3400 0    50   ~ 0
+low-pass cutoff @ 1.3kHz
+Text Notes 2750 4900 0    50   ~ 0
+low-pass cutoff @ 0.5kHz
+Text Notes 2750 6300 0    50   ~ 0
+low-pass cutoff @ 0.5kHz
+Text Notes 6100 2250 0    50   ~ 0
+low-pass cutoff @ 0.5kHz
 $EndSCHEMATC

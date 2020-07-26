@@ -21,7 +21,7 @@ F 0 "U7" H 3450 2000 50  0000 C CNN
 F 1 "ATSAMD21G18A-AUT" H 3500 2100 50  0000 C CNN
 F 2 "Package_QFP:TQFP-48_7x7mm_P0.5mm" H 1900 2100 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/SAMD21-Family-DataSheet-DS40001882D.pdf" H 2850 4850 50  0001 C CNN
-F 4 "no" H 2850 3850 50  0001 C CNN "finalized"
+F 4 "yes" H 2850 3850 50  0001 C CNN "finalized"
 F 5 "ATSAMD21G18A-AUT" H 2850 3850 50  0001 C CNN "mpn"
 	1    2850 3850
 	1    0    0    -1  
@@ -32,9 +32,9 @@ U 1 1 5F0A0CA4
 P 3050 1650
 F 0 "C18" H 3165 1696 50  0000 L CNN
 F 1 "1uF" H 3165 1605 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3088 1500 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3088 1500 50  0001 C CNN
 F 3 "~" H 3050 1650 50  0001 C CNN
-F 4 "no" H 3050 1650 50  0001 C CNN "finalized"
+F 4 "yes" H 3050 1650 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-1uF" H 3050 1650 50  0001 C CNN "mpn"
 	1    3050 1650
 	1    0    0    -1  
@@ -117,7 +117,7 @@ F 0 "SW1" H 1700 7350 45  0000 C CNN
 F 1 "RESET" H 1700 7250 45  0000 C CNN
 F 2 "MF_Switches:MF_Switches-TACT4.2MM" H 1590 7150 20  0001 L CNN
 F 3 "" H 1700 7000 60  0001 C CNN
-F 4 "no" H 1700 7000 50  0001 C CNN "finalized"
+F 4 "yes" H 1700 7000 50  0001 C CNN "finalized"
 F 5 "MF-SW-TACT-4.2MM" H 1700 7000 50  0001 C CNN "mpn"
 	1    1700 7000
 	1    0    0    -1  
@@ -163,9 +163,9 @@ U 1 1 5F0A7BBE
 P 3150 7000
 F 0 "C19" H 3265 7046 50  0000 L CNN
 F 1 "0.1uF" H 3265 6955 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3188 6850 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3188 6850 50  0001 C CNN
 F 3 "~" H 3150 7000 50  0001 C CNN
-F 4 "no" H 3150 7000 50  0001 C CNN "finalized"
+F 4 "yes" H 3150 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3150 7000 50  0001 C CNN "mpn"
 	1    3150 7000
 	1    0    0    -1  
@@ -198,9 +198,9 @@ U 1 1 5F0A96A9
 P 3650 7000
 F 0 "C20" H 3765 7046 50  0000 L CNN
 F 1 "0.1uF" H 3765 6955 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3688 6850 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3688 6850 50  0001 C CNN
 F 3 "~" H 3650 7000 50  0001 C CNN
-F 4 "no" H 3650 7000 50  0001 C CNN "finalized"
+F 4 "yes" H 3650 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3650 7000 50  0001 C CNN "mpn"
 	1    3650 7000
 	1    0    0    -1  
@@ -233,9 +233,9 @@ U 1 1 5F0ABA5B
 P 4150 7000
 F 0 "C21" H 4265 7046 50  0000 L CNN
 F 1 "0.1uF" H 4265 6955 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 4188 6850 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 4188 6850 50  0001 C CNN
 F 3 "~" H 4150 7000 50  0001 C CNN
-F 4 "no" H 4150 7000 50  0001 C CNN "finalized"
+F 4 "yes" H 4150 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 4150 7000 50  0001 C CNN "mpn"
 	1    4150 7000
 	1    0    0    -1  
@@ -270,7 +270,7 @@ F 0 "J2" H 5450 7417 50  0000 C CNN
 F 1 "Tag-Connect SWD" H 5450 7326 50  0000 C CNN
 F 2 "Connector:Tag-Connect_TC2030-IDC-NL_2x03_P1.27mm_Vertical" H 5400 7100 50  0001 C CNN
 F 3 "~" H 5400 7100 50  0001 C CNN
-F 4 "no" H 5400 7100 50  0001 C CNN "finalized"
+F 4 "" H 5400 7100 50  0001 C CNN "finalized"
 	1    5400 7100
 	1    0    0    -1  
 $EndComp
@@ -311,7 +311,7 @@ F 0 "J3" H 6322 5592 45  0000 R CNN
 F 1 "USB_MICRO_RIGHT" H 6322 5508 45  0000 R CNN
 F 2 "MF_Connectors:MF_Connectors-MICROUSB-RIGHT" V 6318 5454 20  0001 C CNN
 F 3 "" H 6541 5600 60  0000 C CNN
-F 4 "no" H 6550 5600 50  0001 C CNN "finalized"
+F 4 "yes" H 6550 5600 50  0001 C CNN "finalized"
 F 5 "MF-CON-MICROUSB-RIGHT" H 6550 5600 50  0001 C CNN "mpn"
 	1    6550 5600
 	1    0    0    -1  
@@ -352,8 +352,8 @@ F 0 "U8" H 6850 4450 50  0000 C CNN
 F 1 "MCP4728" H 6850 4350 50  0000 C CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 6550 3500 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22187E.pdf" H 6550 4350 50  0001 C CNN
-F 4 "no" H 6550 4100 50  0001 C CNN "finalized"
-F 5 "MCP4728" H 6550 4100 50  0001 C CNN "mpn"
+F 4 "yes" H 6550 4100 50  0001 C CNN "finalized"
+F 5 "MCP4728A0T-E/UN" H 6550 4100 50  0001 C CNN "mpn"
 	1    6550 4100
 	1    0    0    -1  
 $EndComp
@@ -377,66 +377,54 @@ Text HLabel 7150 4200 2    50   Input ~ 0
 CV_C
 Text HLabel 7150 4300 2    50   Input ~ 0
 CV_D
-Text Label 1850 4450 2    50   ~ 0
-SDA
-Text Label 1850 4550 2    50   ~ 0
-SCL
-Text Notes 850  4500 0    50   ~ 0
-i2c on SERCOM3
-Text Label 5950 4100 2    50   ~ 0
-SDA
-Text Label 5950 4000 2    50   ~ 0
-SCL
+Text Notes 1100 2100 0    50   ~ 0
+i2c on SERCOM1
 $Comp
 L Device:R_US R24
 U 1 1 5F0BDB92
-P 4900 4150
-F 0 "R24" H 4968 4196 50  0000 L CNN
-F 1 "4.7k" H 4968 4105 50  0000 L CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 4940 4140 50  0001 C CNN
-F 3 "~" H 4900 4150 50  0001 C CNN
-F 4 "no" H 4900 4150 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 4900 4150 50  0001 C CNN "mpn"
-	1    4900 4150
+P 4700 4150
+F 0 "R24" H 4768 4196 50  0000 L CNN
+F 1 "4.7k" H 4768 4105 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4740 4140 50  0001 C CNN
+F 3 "~" H 4700 4150 50  0001 C CNN
+F 4 "yes" H 4700 4150 50  0001 C CNN "finalized"
+F 5 "MF-RES-0603-4.7K" H 4700 4150 50  0001 C CNN "mpn"
+	1    4700 4150
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R_US R25
 U 1 1 5F0BDEF2
-P 5300 4150
-F 0 "R25" H 5368 4196 50  0000 L CNN
-F 1 "4.7k" H 5368 4105 50  0000 L CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 5340 4140 50  0001 C CNN
-F 3 "~" H 5300 4150 50  0001 C CNN
-F 4 "no" H 5300 4150 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 5300 4150 50  0001 C CNN "mpn"
-	1    5300 4150
+P 5100 4150
+F 0 "R25" H 5168 4196 50  0000 L CNN
+F 1 "4.7k" H 5168 4105 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5140 4140 50  0001 C CNN
+F 3 "~" H 5100 4150 50  0001 C CNN
+F 4 "yes" H 5100 4150 50  0001 C CNN "finalized"
+F 5 "MF-RES-0603-4.7K" H 5100 4150 50  0001 C CNN "mpn"
+	1    5100 4150
 	1    0    0    -1  
 $EndComp
-Text Label 4900 4300 3    50   ~ 0
-SDA
-Text Label 5300 4300 3    50   ~ 0
-SCL
 $Comp
 L power:+3.3V #PWR059
 U 1 1 5F0BE3C5
-P 4900 4000
-F 0 "#PWR059" H 4900 3850 50  0001 C CNN
-F 1 "+3.3V" H 4915 4173 50  0000 C CNN
-F 2 "" H 4900 4000 50  0001 C CNN
-F 3 "" H 4900 4000 50  0001 C CNN
-	1    4900 4000
+P 4700 4000
+F 0 "#PWR059" H 4700 3850 50  0001 C CNN
+F 1 "+3.3V" H 4715 4173 50  0000 C CNN
+F 2 "" H 4700 4000 50  0001 C CNN
+F 3 "" H 4700 4000 50  0001 C CNN
+	1    4700 4000
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:+3.3V #PWR061
 U 1 1 5F0BEB01
-P 5300 4000
-F 0 "#PWR061" H 5300 3850 50  0001 C CNN
-F 1 "+3.3V" H 5315 4173 50  0000 C CNN
-F 2 "" H 5300 4000 50  0001 C CNN
-F 3 "" H 5300 4000 50  0001 C CNN
-	1    5300 4000
+P 5100 4000
+F 0 "#PWR061" H 5100 3850 50  0001 C CNN
+F 1 "+3.3V" H 5115 4173 50  0000 C CNN
+F 2 "" H 5100 4000 50  0001 C CNN
+F 3 "" H 5100 4000 50  0001 C CNN
+	1    5100 4000
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -456,9 +444,9 @@ U 1 1 5F0C2666
 P 7650 4150
 F 0 "C22" H 7765 4196 50  0000 L CNN
 F 1 "0.1uF" H 7765 4105 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7688 4000 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7688 4000 50  0001 C CNN
 F 3 "~" H 7650 4150 50  0001 C CNN
-F 4 "no" H 7650 4150 50  0001 C CNN "finalized"
+F 4 "yes" H 7650 4150 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 7650 4150 50  0001 C CNN "mpn"
 	1    7650 4150
 	1    0    0    -1  
@@ -482,7 +470,7 @@ F 0 "C23" H 8315 4196 50  0000 L CNN
 F 1 "10uF" H 8315 4105 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8238 4000 50  0001 C CNN
 F 3 "~" H 8200 4150 50  0001 C CNN
-F 4 "no" H 8200 4150 50  0001 C CNN "finalized"
+F 4 "yes" H 8200 4150 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 8200 4150 50  0001 C CNN "mpn"
 	1    8200 4150
 	1    0    0    -1  
@@ -531,17 +519,15 @@ jack_detection_probe
 Text Label 1850 2450 2    50   ~ 0
 AIN0
 Text Label 1850 2650 2    50   ~ 0
-AIN4
+AIN4(VREFB)
 Text Label 1850 2750 2    50   ~ 0
 AIN5
-Text Label 3850 2450 0    50   ~ 0
-AIN2
 Text Label 3850 2550 0    50   ~ 0
 AIN3
 Text Label 3850 2250 0    50   ~ 0
 AIN10
 Text Label 1850 2550 2    50   ~ 0
-VREFA
+AIN1(VREFA)
 Text Label 1850 2850 2    50   ~ 0
 AIN6
 Text Label 1850 2950 2    50   ~ 0
@@ -549,40 +535,30 @@ AIN7
 Text Label 3850 2350 0    50   ~ 0
 AIN11
 Text Label 1850 3050 2    50   ~ 0
-AIN16
+AIN16(VDDIO)
 Text Label 1850 3150 2    50   ~ 0
-AIN17
+AIN17(VDDIO)
 Text Label 1850 3250 2    50   ~ 0
-AIN18
+AIN18(VDDIO)
 Text Label 1850 3850 2    50   ~ 0
 TCC2WO0
 Text Label 1850 3950 2    50   ~ 0
 TCC0WO7
 Text Label 1850 3350 2    50   ~ 0
 TCC1WO1
-Text Label 5550 1150 2    50   ~ 0
+Text Label 5550 1000 2    50   ~ 0
 TCC0WO7
-Text Label 5500 1600 2    50   ~ 0
+Text Label 5500 2950 2    50   ~ 0
 AIN0
 Text Label 5500 2200 2    50   ~ 0
-AIN4
-Text Label 5500 2500 2    50   ~ 0
 AIN5
-Text Label 5500 2050 2    50   ~ 0
+Text Label 5500 1600 2    50   ~ 0
 AIN6
-Text Label 5500 1750 2    50   ~ 0
+Text Label 5500 1900 2    50   ~ 0
 AIN7
-Text Label 5500 2350 2    50   ~ 0
-AIN16
-Text Notes 6500 1950 0    50   ~ 0
+Text Notes 5150 800  0    50   ~ 0
 Assignments can be changed to suit layout
-Text Label 5500 2950 2    50   ~ 0
-AIN17
-Text Label 5500 2650 2    50   ~ 0
-AIN18
 Text Label 1850 4150 2    50   ~ 0
-D12
-Text Label 5500 3100 2    50   ~ 0
 D12
 $Comp
 L power:+3.3VA #PWR0104
@@ -617,7 +593,7 @@ F 3 "" H 8200 4000 50  0001 C CNN
 	1    8200 4000
 	1    0    0    -1  
 $EndComp
-Text Label 5550 1000 2    50   ~ 0
+Text Label 5550 1150 2    50   ~ 0
 TCC2WO0
 Wire Wire Line
 	5550 1000 5900 1000
@@ -645,8 +621,81 @@ Wire Wire Line
 	5500 2950 5900 2950
 Wire Wire Line
 	5900 3100 5500 3100
-Text Label 5500 1900 2    50   ~ 0
-AIN2
 Text Label 5500 2800 2    50   ~ 0
+AIN2
+Text Label 5500 2500 2    50   ~ 0
 AIN3
+Text Label 5500 2050 2    50   ~ 0
+AIN10
+Text Label 5500 1750 2    50   ~ 0
+AIN11
+Text Label 3850 2450 0    50   ~ 0
+AIN2
+Text Label 4150 1200 2    50   ~ 0
+AIN1(VREFA)
+Text Label 5500 2350 2    50   ~ 0
+AIN16(VDDIO)
+Text Label 5500 2650 2    50   ~ 0
+AIN17(VDDIO)
+Text Label 1850 2250 2    50   ~ 0
+SERCOM1[0]
+Text Label 1850 2350 2    50   ~ 0
+SERCOM1[1]
+Text Label 5950 4100 2    50   ~ 0
+SERCOM1[0]
+Text Label 5950 4000 2    50   ~ 0
+SERCOM1[1]
+Text Label 4700 4300 3    50   ~ 0
+SERCOM1[0]
+Text Label 5100 4300 3    50   ~ 0
+SERCOM1[1]
+$Comp
+L power:+3.3VA #PWR0139
+U 1 1 5F40D255
+P 4150 1200
+F 0 "#PWR0139" H 4150 1050 50  0001 C CNN
+F 1 "+3.3VA" H 4165 1373 50  0000 C CNN
+F 2 "" H 4150 1200 50  0001 C CNN
+F 3 "" H 4150 1200 50  0001 C CNN
+	1    4150 1200
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:TestPoint TP3
+U 1 1 5F1CE8E8
+P 7850 1000
+F 0 "TP3" V 7804 1188 50  0000 L CNN
+F 1 "SQ1" V 7895 1188 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8050 1000 50  0001 C CNN
+F 3 "~" H 8050 1000 50  0001 C CNN
+	1    7850 1000
+	0    1    1    0   
+$EndComp
+Text Label 7850 1000 2    50   ~ 0
+TCC0WO7
+$Comp
+L Connector:TestPoint TP4
+U 1 1 5F1D0359
+P 7850 1200
+F 0 "TP4" V 7804 1388 50  0000 L CNN
+F 1 "SQ2" V 7895 1388 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8050 1200 50  0001 C CNN
+F 3 "~" H 8050 1200 50  0001 C CNN
+	1    7850 1200
+	0    1    1    0   
+$EndComp
+Text Label 7850 1200 2    50   ~ 0
+TCC2WO0
+Text Label 3850 2850 0    50   ~ 0
+SERCOM5[2]
+Text Label 3850 2950 0    50   ~ 0
+SERCOM5[3]
+Text Label 5550 1450 2    50   ~ 0
+SERCOM5[2]
+Text Label 5550 1300 2    50   ~ 0
+SERCOM5[3]
+Wire Wire Line
+	5550 1450 5900 1450
+Wire Wire Line
+	5900 1300 5550 1300
 $EndSCHEMATC

@@ -22,15 +22,17 @@ F2 "-12v-raw" I R 8750 4600 50
 F3 "+12v-raw" I R 8750 4450 50 
 $EndSheet
 $Comp
-L Connector_Generic:Conn_01x24 J4
+L Connector_Generic:Conn_01x20 J4
 U 1 1 5F4A7F99
-P 4350 7450
-F 0 "J4" V 4475 7396 50  0000 C CNN
-F 1 "bottom header" V 4566 7396 50  0000 C CNN
-F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X24" H 4350 7450 50  0001 C CNN
-F 3 "~" H 4350 7450 50  0001 C CNN
-	1    4350 7450
-	0    1    1    0   
+P 2400 6750
+F 0 "J4" V 2525 6696 50  0000 C CNN
+F 1 "left header" V 2616 6696 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical" H 2400 6750 50  0001 C CNN
+F 3 "~" H 2400 6750 50  0001 C CNN
+F 4 "yes" H 2400 6750 50  0001 C CNN "finalized"
+F 5 "MF-CON-2.54mm-01x20" H 2400 6750 50  0001 C CNN "mpn"
+	1    2400 6750
+	1    0    0    1   
 $EndComp
 $Sheet
 S 7600 1750 1350 1150
@@ -73,24 +75,6 @@ Wire Wire Line
 	4100 2950 4850 2950
 Wire Wire Line
 	2800 1350 4200 1350
-Wire Wire Line
-	4150 1450 2800 1450
-Wire Wire Line
-	4150 1450 4150 2800
-Wire Wire Line
-	2800 1550 4100 1550
-Wire Wire Line
-	4100 1550 4100 2950
-Wire Wire Line
-	4500 1650 2800 1650
-Wire Wire Line
-	4500 1400 4500 1650
-Wire Wire Line
-	2800 1750 4600 1750
-Wire Wire Line
-	4600 1750 4600 1550
-Wire Wire Line
-	4600 1550 4850 1550
 $Sheet
 S 1300 3700 1650 1300
 U 5F3674A8
@@ -296,247 +280,136 @@ Wire Wire Line
 	8950 2350 9050 2350
 Wire Wire Line
 	8950 2200 9050 2200
-Text Label 1950 6950 1    50   ~ 0
+Text Label 3600 7350 0    50   ~ 0
 mix_pot_out
-Text Label 2150 6950 1    50   ~ 0
+Text Label 3600 7450 0    50   ~ 0
 mix_pot_in
-Text Label 2050 6950 1    50   ~ 0
+Text Label 3600 7550 0    50   ~ 0
 mix_out
-Text Label 2250 6950 1    50   ~ 0
+Text Label 3600 6350 0    50   ~ 0
 cv_a_pot
-Text Label 4750 6950 1    50   ~ 0
+Text Label 3600 6450 0    50   ~ 0
 cv_b_pot
-Text Label 4850 6950 1    50   ~ 0
-duty_a_pot
-Text Label 5050 6950 1    50   ~ 0
-duty_b_pot
-Text Label 4950 6950 1    50   ~ 0
-phase_pot
-Text Label 2350 6950 1    50   ~ 0
+Text Label 3600 7050 0    50   ~ 0
 cv_b_jack
-Text Label 2450 6950 1    50   ~ 0
+Text Label 3600 6950 0    50   ~ 0
 cv_a_jack
-Text Label 5350 6950 1    50   ~ 0
-duty_a_jack
-Text Label 5250 6950 1    50   ~ 0
-duty_b_jack
-Text Label 5150 6950 1    50   ~ 0
-phase_jack
 $Comp
 L power:GND #PWR0136
 U 1 1 5F5062C4
-P 3150 7250
-F 0 "#PWR0136" H 3150 7000 50  0001 C CNN
-F 1 "GND" H 3155 7077 50  0000 C CNN
-F 2 "" H 3150 7250 50  0001 C CNN
-F 3 "" H 3150 7250 50  0001 C CNN
-	1    3150 7250
-	-1   0    0    1   
+P 2200 5750
+F 0 "#PWR0136" H 2200 5500 50  0001 C CNN
+F 1 "GND" V 2200 5550 50  0000 C CNN
+F 2 "" H 2200 5750 50  0001 C CNN
+F 3 "" H 2200 5750 50  0001 C CNN
+	1    2200 5750
+	0    1    -1   0   
 $EndComp
 $Comp
-L power:GND #PWR0137
-U 1 1 5F50641A
-P 5450 7250
-F 0 "#PWR0137" H 5450 7000 50  0001 C CNN
-F 1 "GND" H 5455 7077 50  0000 C CNN
-F 2 "" H 5450 7250 50  0001 C CNN
-F 3 "" H 5450 7250 50  0001 C CNN
-	1    5450 7250
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0138
-U 1 1 5F506BA1
-P 4250 7250
-F 0 "#PWR0138" H 4250 7000 50  0001 C CNN
-F 1 "GND" H 4255 7077 50  0000 C CNN
-F 2 "" H 4250 7250 50  0001 C CNN
-F 3 "" H 4250 7250 50  0001 C CNN
-	1    4250 7250
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0139
-U 1 1 5F5070A0
-P 4350 7250
-F 0 "#PWR0139" H 4350 7000 50  0001 C CNN
-F 1 "GND" H 4355 7077 50  0000 C CNN
-F 2 "" H 4350 7250 50  0001 C CNN
-F 3 "" H 4350 7250 50  0001 C CNN
-	1    4350 7250
-	-1   0    0    1   
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x14 J5
+L Connector_Generic:Conn_01x20 J5
 U 1 1 5F5071F3
-P 1850 7450
-F 0 "J5" V 1975 7396 50  0000 C CNN
-F 1 "almost bottom header" V 2066 7396 50  0000 C CNN
-F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X14" H 1850 7450 50  0001 C CNN
-F 3 "~" H 1850 7450 50  0001 C CNN
-	1    1850 7450
-	0    1    1    0   
+P 3100 6750
+F 0 "J5" V 3225 6696 50  0000 C CNN
+F 1 "right header" V 3316 6696 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical" H 3100 6750 50  0001 C CNN
+F 3 "~" H 3100 6750 50  0001 C CNN
+F 4 "yes" H 3100 6750 50  0001 C CNN "finalized"
+F 5 "MF-CON-2.54mm-01x20" H 3100 6750 50  0001 C CNN "mpn"
+	1    3100 6750
+	-1   0    0    1   
 $EndComp
-Text Label 1450 7000 1    50   ~ 0
+Text Label 1950 6650 2    50   ~ 0
 pollux_sub_mix_in
-Text Label 3950 7000 1    50   ~ 0
+Text Label 1950 6550 2    50   ~ 0
 pollux_pwm_mix_in
-Text Label 3850 7000 1    50   ~ 0
+Text Label 1950 6450 2    50   ~ 0
 pollux_ramp_mix_in
-Text Label 1550 7000 1    50   ~ 0
+Text Label 1950 6750 2    50   ~ 0
 pollux_mix_out
-Text Label 3750 7000 1    50   ~ 0
+Text Label 1950 6350 2    50   ~ 0
 pollux_sub_out
-Text Label 1650 7000 1    50   ~ 0
+Text Label 1950 6250 2    50   ~ 0
 pollux_pwm_out
-Text Label 3650 7000 1    50   ~ 0
+Text Label 1950 6150 2    50   ~ 0
 pollux_ramp_out
 Wire Wire Line
-	3550 7000 3550 7250
+	1950 7250 2200 7250
 Wire Wire Line
-	3450 7000 3450 7250
+	1950 7150 2200 7150
 Wire Wire Line
-	3350 7250 3350 7000
+	2200 7050 1950 7050
 Wire Wire Line
-	3250 7000 3250 7250
-Text Label 1350 7000 1    50   ~ 0
+	1950 6850 2200 6850
+Text Label 1950 7450 2    50   ~ 0
 castor_mix_out
-Text Label 3350 7000 1    50   ~ 0
+Text Label 1950 7050 2    50   ~ 0
 castor_sub_out
-Text Label 1250 7000 1    50   ~ 0
+Text Label 1950 6950 2    50   ~ 0
 castor_pwm_out
-Text Label 3250 7000 1    50   ~ 0
+Text Label 1950 6850 2    50   ~ 0
 castor_ramp_out
 Wire Wire Line
-	1150 7000 1150 7250
+	1950 7350 2200 7350
 Wire Wire Line
-	1250 7000 1250 7250
+	1950 6950 2200 6950
 Wire Wire Line
-	1350 7000 1350 7250
-Text Label 1150 7000 1    50   ~ 0
+	1950 7450 2200 7450
+Text Label 1950 7350 2    50   ~ 0
 castor_sub_mix_in
-Text Label 3550 7000 1    50   ~ 0
+Text Label 1950 7250 2    50   ~ 0
 castor_pwm_mix_in
-Text Label 3450 7000 1    50   ~ 0
+Text Label 1950 7150 2    50   ~ 0
 castor_ramp_mix_in
 Wire Wire Line
-	1450 7000 1450 7250
+	1950 6650 2200 6650
 Wire Wire Line
-	1550 7250 1550 7000
+	2200 6750 1950 6750
 Wire Wire Line
-	1650 7000 1650 7250
+	1950 6350 2200 6350
 Wire Wire Line
-	3950 7000 3950 7250
+	1950 6550 2200 6550
 Wire Wire Line
-	3850 7250 3850 7000
+	2200 6450 1950 6450
 Wire Wire Line
-	3750 7000 3750 7250
+	1950 6250 2200 6250
 Wire Wire Line
-	3650 7250 3650 7000
+	2200 6150 1950 6150
 Wire Wire Line
-	1950 6950 1950 7250
+	3600 7350 3300 7350
 Wire Wire Line
-	2050 6950 2050 7250
+	3600 7550 3300 7550
 Wire Wire Line
-	2150 6950 2150 7250
+	3600 7450 3300 7450
 $Comp
 L power:GND #PWR0142
 U 1 1 5F566FE6
-P 1750 7250
-F 0 "#PWR0142" H 1750 7000 50  0001 C CNN
-F 1 "GND" H 1755 7077 50  0000 C CNN
-F 2 "" H 1750 7250 50  0001 C CNN
-F 3 "" H 1750 7250 50  0001 C CNN
-	1    1750 7250
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0143
-U 1 1 5F56759F
-P 1850 7250
-F 0 "#PWR0143" H 1850 7000 50  0001 C CNN
-F 1 "GND" H 1855 7077 50  0000 C CNN
-F 2 "" H 1850 7250 50  0001 C CNN
-F 3 "" H 1850 7250 50  0001 C CNN
-	1    1850 7250
-	-1   0    0    1   
+P 3300 5750
+F 0 "#PWR0142" H 3300 5500 50  0001 C CNN
+F 1 "GND" V 3300 5550 50  0000 C CNN
+F 2 "" H 3300 5750 50  0001 C CNN
+F 3 "" H 3300 5750 50  0001 C CNN
+	1    3300 5750
+	0    -1   -1   0   
 $EndComp
 Wire Wire Line
-	2350 6950 2350 7250
+	3600 6350 3300 6350
 Wire Wire Line
-	2450 7250 2450 6950
-Wire Wire Line
-	5150 6950 5150 7250
-Wire Wire Line
-	5250 7250 5250 6950
-Wire Wire Line
-	5350 6950 5350 7250
-Wire Wire Line
-	4750 7250 4750 6950
-Wire Wire Line
-	4850 6950 4850 7250
-Wire Wire Line
-	4950 7250 4950 6950
-Wire Wire Line
-	5050 6950 5050 7250
-Wire Wire Line
-	2250 6950 2250 7250
-$Comp
-L Connector_Generic:Conn_01x14 J1
-U 1 1 5F5AB310
-P 7600 6400
-F 0 "J1" V 7725 6346 50  0000 C CNN
-F 1 "top header" V 7816 6346 50  0000 C CNN
-F 2 "MF_Connectors:MF_Connectors-PTH_2.54MM_01X14" H 7600 6400 50  0001 C CNN
-F 3 "~" H 7600 6400 50  0001 C CNN
-	1    7600 6400
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR0144
-U 1 1 5F5AEF8C
-P 8200 6200
-F 0 "#PWR0144" H 8200 5950 50  0001 C CNN
-F 1 "GND" H 8205 6027 50  0000 C CNN
-F 2 "" H 8200 6200 50  0001 C CNN
-F 3 "" H 8200 6200 50  0001 C CNN
-	1    8200 6200
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0145
-U 1 1 5F5AFBFE
-P 6900 6200
-F 0 "#PWR0145" H 6900 5950 50  0001 C CNN
-F 1 "GND" H 6905 6027 50  0000 C CNN
-F 2 "" H 6900 6200 50  0001 C CNN
-F 3 "" H 6900 6200 50  0001 C CNN
-	1    6900 6200
-	-1   0    0    1   
-$EndComp
-Text Label 8000 5950 1    50   ~ 0
+	3300 6450 3600 6450
+Text Label 1950 5850 2    50   ~ 0
 -12v-raw
-Text Label 8100 5950 1    50   ~ 0
+Text Label 1950 5950 2    50   ~ 0
 -12v-raw
-Wire Wire Line
-	8100 5950 8100 6200
-Wire Wire Line
-	8000 6200 8000 5950
 Text Label 9000 4450 0    50   ~ 0
 +12v-raw
-Text Label 7000 5950 1    50   ~ 0
+Text Label 3550 5850 0    50   ~ 0
 +12v-raw
-Wire Wire Line
-	7000 5950 7000 6200
-Wire Wire Line
-	7100 5950 7100 6200
 Text Label 9000 4600 0    50   ~ 0
 -12v-raw
 Wire Wire Line
 	9000 4450 8750 4450
 Wire Wire Line
 	8750 4600 9000 4600
-Text Label 7100 5950 1    50   ~ 0
+Text Label 3550 5950 0    50   ~ 0
 +12v-raw
 Text Label 3050 850  0    50   ~ 0
 dotstar_data
@@ -546,82 +419,132 @@ Wire Wire Line
 	2800 850  3050 850 
 Wire Wire Line
 	2800 950  3050 950 
-Text Label 7300 5950 1    50   ~ 0
+Text Label 3550 6250 0    50   ~ 0
 dotstar_data
-Text Label 7200 5950 1    50   ~ 0
+Text Label 3550 6150 0    50   ~ 0
 dotstar_clk
-Wire Wire Line
-	7200 5950 7200 6200
-Wire Wire Line
-	7300 6200 7300 5950
-$Comp
-L power:GND #PWR0140
-U 1 1 5F6B45E0
-P 7800 6200
-F 0 "#PWR0140" H 7800 5950 50  0001 C CNN
-F 1 "GND" H 7805 6027 50  0000 C CNN
-F 2 "" H 7800 6200 50  0001 C CNN
-F 3 "" H 7800 6200 50  0001 C CNN
-	1    7800 6200
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0141
-U 1 1 5F6B4E84
-P 7900 6200
-F 0 "#PWR0141" H 7900 5950 50  0001 C CNN
-F 1 "GND" H 7905 6027 50  0000 C CNN
-F 2 "" H 7900 6200 50  0001 C CNN
-F 3 "" H 7900 6200 50  0001 C CNN
-	1    7900 6200
-	-1   0    0    1   
-$EndComp
 $Comp
 L power:+3.3V #PWR0146
 U 1 1 5F6BDFA3
-P 7600 5950
-F 0 "#PWR0146" H 7600 5800 50  0001 C CNN
-F 1 "+3.3V" V 7600 6200 50  0000 C CNN
-F 2 "" H 7600 5950 50  0001 C CNN
-F 3 "" H 7600 5950 50  0001 C CNN
-	1    7600 5950
-	1    0    0    -1  
+P 3550 6050
+F 0 "#PWR0146" H 3550 5900 50  0001 C CNN
+F 1 "+3.3V" V 3550 6300 50  0000 C CNN
+F 2 "" H 3550 6050 50  0001 C CNN
+F 3 "" H 3550 6050 50  0001 C CNN
+	1    3550 6050
+	0    1    1    0   
 $EndComp
 $Comp
 L power:+3.3VA #PWR0147
 U 1 1 5F6BED82
-P 7400 5950
-F 0 "#PWR0147" H 7400 5800 50  0001 C CNN
-F 1 "+3.3VA" V 7400 6200 50  0000 C CNN
-F 2 "" H 7400 5950 50  0001 C CNN
-F 3 "" H 7400 5950 50  0001 C CNN
-	1    7400 5950
+P 1950 6050
+F 0 "#PWR0147" H 1950 5900 50  0001 C CNN
+F 1 "+3.3VA" V 1950 6300 50  0000 C CNN
+F 2 "" H 1950 6050 50  0001 C CNN
+F 3 "" H 1950 6050 50  0001 C CNN
+	1    1950 6050
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	2800 1450 4500 1450
+Wire Wire Line
+	4500 1450 4500 1400
+Wire Wire Line
+	2800 1550 4850 1550
+Wire Wire Line
+	4150 2800 4150 1650
+Wire Wire Line
+	4150 1650 2800 1650
+Wire Wire Line
+	2800 1750 4100 1750
+Wire Wire Line
+	4100 1750 4100 2950
+Wire Wire Line
+	3550 5850 3300 5850
+Wire Wire Line
+	3550 5950 3300 5950
+Wire Wire Line
+	3550 6050 3300 6050
+Wire Wire Line
+	3550 6150 3300 6150
+Wire Wire Line
+	3550 6250 3300 6250
+Wire Wire Line
+	1950 5850 2200 5850
+Wire Wire Line
+	2200 5950 1950 5950
+Wire Wire Line
+	1950 6050 2200 6050
+Wire Wire Line
+	3600 7050 3300 7050
+Wire Wire Line
+	3300 7250 3600 7250
+Wire Wire Line
+	3600 6850 3300 6850
+Wire Wire Line
+	3600 6550 3300 6550
+Wire Wire Line
+	3300 6950 3600 6950
+Wire Wire Line
+	3600 7150 3300 7150
+Text Label 3600 7150 0    50   ~ 0
+phase_jack
+Text Label 3600 6850 0    50   ~ 0
+duty_b_jack
+Text Label 3600 7250 0    50   ~ 0
+duty_a_jack
+Text Label 3600 6550 0    50   ~ 0
+phase_pot
+Text Label 3600 6750 0    50   ~ 0
+duty_b_pot
+Text Label 3600 6650 0    50   ~ 0
+duty_a_pot
+$Comp
+L power:GND #PWR0137
+U 1 1 5F3D4789
+P 3300 7650
+F 0 "#PWR0137" H 3300 7400 50  0001 C CNN
+F 1 "GND" V 3300 7450 50  0000 C CNN
+F 2 "" H 3300 7650 50  0001 C CNN
+F 3 "" H 3300 7650 50  0001 C CNN
+	1    3300 7650
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0138
+U 1 1 5F3D4BB0
+P 2200 7650
+F 0 "#PWR0138" H 2200 7400 50  0001 C CNN
+F 1 "GND" V 2200 7450 50  0000 C CNN
+F 2 "" H 2200 7650 50  0001 C CNN
+F 3 "" H 2200 7650 50  0001 C CNN
+	1    2200 7650
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	3600 6750 3300 6750
+Wire Wire Line
+	3600 6650 3300 6650
+$Comp
+L Mechanical:MountingHole_Pad MH1
+U 1 1 5F48E605
+P 6350 6200
+F 0 "MH1" H 6450 6249 50  0000 L CNN
+F 1 "M3" H 6450 6158 50  0000 L CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 6350 6200 50  0001 C CNN
+F 3 "~" H 6350 6200 50  0001 C CNN
+	1    6350 6200
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	7400 5950 7400 6200
-Wire Wire Line
-	7600 6200 7600 5950
 $Comp
-L power:GND #PWR0148
-U 1 1 5F6C4C01
-P 7500 6200
-F 0 "#PWR0148" H 7500 5950 50  0001 C CNN
-F 1 "GND" H 7505 6027 50  0000 C CNN
-F 2 "" H 7500 6200 50  0001 C CNN
-F 3 "" H 7500 6200 50  0001 C CNN
-	1    7500 6200
-	-1   0    0    1   
-$EndComp
-$Comp
-L power:GND #PWR0149
-U 1 1 5F6C506F
-P 7700 6200
-F 0 "#PWR0149" H 7700 5950 50  0001 C CNN
-F 1 "GND" H 7705 6027 50  0000 C CNN
-F 2 "" H 7700 6200 50  0001 C CNN
-F 3 "" H 7700 6200 50  0001 C CNN
-	1    7700 6200
-	-1   0    0    1   
+L power:GND #PWR0140
+U 1 1 5F48F1EB
+P 6350 6300
+F 0 "#PWR0140" H 6350 6050 50  0001 C CNN
+F 1 "GND" H 6355 6127 50  0000 C CNN
+F 2 "" H 6350 6300 50  0001 C CNN
+F 3 "" H 6350 6300 50  0001 C CNN
+	1    6350 6300
+	1    0    0    -1  
 $EndComp
 $EndSCHEMATC

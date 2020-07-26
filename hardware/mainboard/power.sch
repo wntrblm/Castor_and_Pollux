@@ -21,7 +21,7 @@ F 0 "D1" H 2250 1300 50  0000 C CNN
 F 1 "MMBT4148" H 2250 1200 50  0000 C CNN
 F 2 "Diode_SMD:D_SOD-123" H 2250 1100 50  0001 C CNN
 F 3 "~" H 2250 1100 50  0001 C CNN
-F 4 "no" H 2250 1100 50  0001 C CNN "finalized"
+F 4 "yes" H 2250 1100 50  0001 C CNN "finalized"
 F 5 "MF-DIO-SOD123-1N4148" H 2250 1100 50  0001 C CNN "mpn"
 	1    2250 1100
 	1    0    0    -1  
@@ -34,7 +34,7 @@ F 0 "D2" H 2250 1500 50  0000 C CNN
 F 1 "MMBT4148" H 2250 1700 50  0000 C CNN
 F 2 "Diode_SMD:D_SOD-123" H 2250 1600 50  0001 C CNN
 F 3 "~" H 2250 1600 50  0001 C CNN
-F 4 "no" H 2250 1600 50  0001 C CNN "finalized"
+F 4 "yes" H 2250 1600 50  0001 C CNN "finalized"
 F 5 "MF-DIO-SOD123-1N4148" H 2250 1600 50  0001 C CNN "mpn"
 	1    2250 1600
 	-1   0    0    1   
@@ -69,7 +69,8 @@ F 0 "U2" H 4650 1442 50  0000 C CNN
 F 1 "LM1117-3.3" H 4650 1351 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-223-3_TabPin2" H 4650 1200 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/lm1117.pdf" H 4650 1200 50  0001 C CNN
-F 4 "no" H 4650 1200 50  0001 C CNN "finalized"
+F 4 "yes" H 4650 1200 50  0001 C CNN "finalized"
+F 5 "LM1117IMP-3.3/NOPB" H 4650 1200 50  0001 C CNN "mpn"
 	1    4650 1200
 	1    0    0    -1  
 $EndComp
@@ -104,9 +105,9 @@ U 1 1 5F080120
 P 5600 1350
 F 0 "C4" H 5715 1396 50  0000 L CNN
 F 1 "0.1uF" H 5715 1305 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 5638 1200 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 5638 1200 50  0001 C CNN
 F 3 "~" H 5600 1350 50  0001 C CNN
-F 4 "no" H 5600 1350 50  0001 C CNN "finalized"
+F 4 "yes" H 5600 1350 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 5600 1350 50  0001 C CNN "mpn"
 	1    5600 1350
 	1    0    0    -1  
@@ -120,7 +121,7 @@ F 1 "Ferrite_Bead_Small" H 5850 1145 50  0001 R CNN
 F 2 "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5880 1100 50  0001 C CNN
 F 3 "~" H 5950 1100 50  0001 C CNN
 F 4 "710-742792664" H 5950 1100 50  0001 C CNN "mpn"
-F 5 "no" H 5950 1100 50  0001 C CNN "finalized"
+F 5 "yes" H 5950 1100 50  0001 C CNN "finalized"
 	1    5950 1100
 	-1   0    0    1   
 $EndComp
@@ -227,7 +228,7 @@ F 1 "Ferrite_Bead_Small" V 1946 1600 50  0001 C CNN
 F 2 "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1730 1600 50  0001 C CNN
 F 3 "~" H 1800 1600 50  0001 C CNN
 F 4 "710-742792664" H 1800 1600 50  0001 C CNN "mpn"
-F 5 "no" H 1800 1600 50  0001 C CNN "finalized"
+F 5 "yes" H 1800 1600 50  0001 C CNN "finalized"
 	1    1800 1600
 	0    -1   -1   0   
 $EndComp
@@ -245,7 +246,7 @@ F 0 "U1" V 2150 3100 50  0000 L CNN
 F 1 "LM4040DBZ-10" V 2250 2600 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 2200 3100 50  0001 C CIN
 F 3 "http://www.ti.com/lit/ds/symlink/lm4040-n.pdf" H 2200 3300 50  0001 C CIN
-F 4 "no" H 2200 3300 50  0001 C CNN "finalized"
+F 4 "yes" H 2200 3300 50  0001 C CNN "finalized"
 F 5 "LM4040DIM3-10.0/NOPB" H 2200 3300 50  0001 C CNN "mpn"
 	1    2200 3300
 	0    1    1    0   
@@ -278,10 +279,11 @@ U 1 1 5F097E19
 P 2200 2800
 F 0 "R1" H 2268 2846 50  0000 L CNN
 F 1 "2.2k" H 2268 2755 50  0000 L CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 2240 2790 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2240 2790 50  0001 C CNN
 F 3 "~" H 2200 2800 50  0001 C CNN
 F 4 "no" H 2200 2800 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 2200 2800 50  0001 C CNN "mpn"
+F 5 "ERA-3AED222V" H 2200 2800 50  0001 C CNN "mpn"
+F 6 "1%" H 2200 2800 50  0001 C CNN "Reqs"
 	1    2200 2800
 	1    0    0    -1  
 $EndComp
@@ -293,9 +295,9 @@ U 1 1 5F09C492
 P 2550 3300
 F 0 "C1" H 2665 3346 50  0000 L CNN
 F 1 "0.1uF" H 2665 3255 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2588 3150 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2588 3150 50  0001 C CNN
 F 3 "~" H 2550 3300 50  0001 C CNN
-F 4 "no" H 2550 3300 50  0001 C CNN "finalized"
+F 4 "yes" H 2550 3300 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2550 3300 50  0001 C CNN "mpn"
 	1    2550 3300
 	1    0    0    -1  
@@ -332,7 +334,7 @@ F 1 "Ferrite_Bead_Small" V 1946 1100 50  0001 C CNN
 F 2 "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1730 1100 50  0001 C CNN
 F 3 "~" H 1800 1100 50  0001 C CNN
 F 4 "710-742792664" H 1800 1100 50  0001 C CNN "mpn"
-F 5 "no" H 1800 1100 50  0001 C CNN "finalized"
+F 5 "yes" H 1800 1100 50  0001 C CNN "finalized"
 	1    1800 1100
 	0    -1   -1   0   
 $EndComp

@@ -21,10 +21,11 @@ AR Path="/5F016AD7/5EE545BA" Ref="C6"  Part="1"
 AR Path="/5F0E55E2/5EE545BA" Ref="C25"  Part="1" 
 F 0 "C6" V 2098 1250 50  0000 C CNN
 F 1 "4.7nF" V 2189 1250 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2388 1100 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2388 1100 50  0001 C CNN
 F 3 "~" H 2350 1250 50  0001 C CNN
-F 4 "accurate" H 2350 1250 50  0001 C CNN "Reqs"
-F 5 "no" H 2350 1250 50  0001 C CNN "finalized"
+F 4 "C0G 1%" H 2350 1250 50  0001 C CNN "Reqs"
+F 5 "yes" H 2350 1250 50  0001 C CNN "finalized"
+F 6 "C0603C472F5GACTU" H 2350 1250 50  0001 C CNN "mpn"
 	1    2350 1250
 	0    1    1    0   
 $EndComp
@@ -35,11 +36,11 @@ P 3300 1400
 AR Path="/5F016AD7/5EE54BED" Ref="R4"  Part="1" 
 AR Path="/5F0E55E2/5EE54BED" Ref="R28"  Part="1" 
 F 0 "R4" H 3232 1354 50  0000 R CNN
-F 1 "5k" H 3232 1445 50  0000 R CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 3340 1390 50  0001 C CNN
+F 1 "5.1k" H 3232 1445 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3340 1390 50  0001 C CNN
 F 3 "~" H 3300 1400 50  0001 C CNN
-F 4 "no" H 3300 1400 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 3300 1400 50  0001 C CNN "mpn"
+F 4 "yes" H 3300 1400 50  0001 C CNN "finalized"
+F 5 "ERA-3AED512V" H 3300 1400 50  0001 C CNN "mpn"
 	1    3300 1400
 	-1   0    0    1   
 $EndComp
@@ -51,10 +52,11 @@ AR Path="/5F016AD7/5EE57A56" Ref="R2"  Part="1"
 AR Path="/5F0E55E2/5EE57A56" Ref="R26"  Part="1" 
 F 0 "R2" H 2432 1354 50  0000 R CNN
 F 1 "10k" H 2432 1445 50  0000 R CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 2540 1390 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2540 1390 50  0001 C CNN
 F 3 "~" H 2500 1400 50  0001 C CNN
-F 4 "no" H 2500 1400 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 2500 1400 50  0001 C CNN "mpn"
+F 4 "yes" H 2500 1400 50  0001 C CNN "finalized"
+F 5 "ERA-3AED103V" H 2500 1400 50  0001 C CNN "mpn"
+F 6 "1%" H 2500 1400 50  0001 C CNN "Reqs"
 	1    2500 1400
 	-1   0    0    1   
 $EndComp
@@ -81,10 +83,11 @@ AR Path="/5F016AD7/5EE5D698" Ref="C9"  Part="1"
 AR Path="/5F0E55E2/5EE5D698" Ref="C28"  Part="1" 
 F 0 "C9" V 3048 2500 50  0000 C CNN
 F 1 "4.7nF" V 3139 2500 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3338 2350 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3338 2350 50  0001 C CNN
 F 3 "~" H 3300 2500 50  0001 C CNN
-F 4 "accurate" H 3300 2500 50  0001 C CNN "Reqs"
-F 5 "no" H 3300 2500 50  0001 C CNN "finalized"
+F 4 "C0G 1%" H 3300 2500 50  0001 C CNN "Reqs"
+F 5 "yes" H 3300 2500 50  0001 C CNN "finalized"
+F 6 "C0603C472F5GACTU" H 3300 2500 50  0001 C CNN "mpn"
 	1    3300 2500
 	0    1    1    0   
 $EndComp
@@ -110,8 +113,8 @@ F 0 "U3" H 3400 2700 50  0000 C CNN
 F 1 "TL074" H 3400 2800 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 3250 3050 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 3350 3150 50  0001 C CNN
-F 4 "no" H 3300 2950 50  0001 C CNN "finalized"
-F 5 "TL074" H 3300 2950 50  0001 C CNN "mpn"
+F 4 "yes" H 3300 2950 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 3300 2950 50  0001 C CNN "mpn"
 	2    3300 2950
 	1    0    0    1   
 $EndComp
@@ -138,8 +141,8 @@ F 0 "U3" H 2000 2450 50  0000 C CNN
 F 1 "TL074" H 2000 2550 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 1950 2950 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 2050 3050 50  0001 C CNN
-F 4 "no" H 2000 2850 50  0001 C CNN "finalized"
-F 5 "TL074" H 2000 2850 50  0001 C CNN "mpn"
+F 4 "yes" H 2000 2850 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 2000 2850 50  0001 C CNN "mpn"
 	1    2000 2850
 	1    0    0    1   
 $EndComp
@@ -157,10 +160,11 @@ AR Path="/5F016AD7/5EE67C3A" Ref="R3"  Part="1"
 AR Path="/5F0E55E2/5EE67C3A" Ref="R27"  Part="1" 
 F 0 "R3" V 2755 2850 50  0000 C CNN
 F 1 "470k" V 2664 2850 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 2590 2840 50  0001 C CNN
+F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2590 2840 50  0001 C CNN
 F 3 "~" H 2550 2850 50  0001 C CNN
-F 4 "no" H 2550 2850 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 2550 2850 50  0001 C CNN "mpn"
+F 4 "yes" H 2550 2850 50  0001 C CNN "finalized"
+F 5 "ERA-6AEB474V" H 2550 2850 50  0001 C CNN "mpn"
+F 6 "0.5%" H 2550 2850 50  0001 C CNN "Reqs"
 	1    2550 2850
 	0    -1   -1   0   
 $EndComp
@@ -178,10 +182,11 @@ AR Path="/5F016AD7/5EE6F81D" Ref="R5"  Part="1"
 AR Path="/5F0E55E2/5EE6F81D" Ref="R29"  Part="1" 
 F 0 "R5" V 4405 2950 50  0000 C CNN
 F 1 "1.3k" V 4314 2950 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 4240 2940 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4240 2940 50  0001 C CNN
 F 3 "~" H 4200 2950 50  0001 C CNN
-F 4 "no" H 4200 2950 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 4200 2950 50  0001 C CNN "mpn"
+F 4 "yes" H 4200 2950 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB132V" H 4200 2950 50  0001 C CNN "mpn"
+F 6 "0.5%" H 4200 2950 50  0001 C CNN "Reqs"
 	1    4200 2950
 	0    -1   -1   0   
 $EndComp
@@ -195,8 +200,8 @@ F 0 "U3" H 4850 2683 50  0000 C CNN
 F 1 "TL074" H 4850 2774 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 4800 3150 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 4900 3250 50  0001 C CNN
-F 4 "no" H 4850 3050 50  0001 C CNN "finalized"
-F 5 "TL074" H 4850 3050 50  0001 C CNN "mpn"
+F 4 "yes" H 4850 3050 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 4850 3050 50  0001 C CNN "mpn"
 	3    4850 3050
 	1    0    0    1   
 $EndComp
@@ -221,10 +226,11 @@ AR Path="/5F016AD7/5EE734E5" Ref="R6"  Part="1"
 AR Path="/5F0E55E2/5EE734E5" Ref="R30"  Part="1" 
 F 0 "R6" V 5055 2550 50  0000 C CNN
 F 1 "10k" V 4964 2550 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 4890 2540 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4890 2540 50  0001 C CNN
 F 3 "~" H 4850 2550 50  0001 C CNN
-F 4 "no" H 4850 2550 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 4850 2550 50  0001 C CNN "mpn"
+F 4 "yes" H 4850 2550 50  0001 C CNN "finalized"
+F 5 "ERA-3AED103V" H 4850 2550 50  0001 C CNN "mpn"
+F 6 "1%" H 4850 2550 50  0001 C CNN "Reqs"
 	1    4850 2550
 	0    -1   -1   0   
 $EndComp
@@ -276,10 +282,10 @@ AR Path="/5F016AD7/5EE9E8B8" Ref="U4"  Part="1"
 AR Path="/5F0E55E2/5EE9E8B8" Ref="U10"  Part="1" 
 F 0 "U4" H 2050 4731 50  0000 C CNN
 F 1 "74LVC2G74" H 2050 4650 50  0000 C CNN
-F 2 "Package_SO:VSSOP-8_2.3x2mm_P0.5mm" H 2050 4300 50  0001 C CNN
+F 2 "Package_SO:TSSOP-8_3x3mm_P0.65mm" H 2050 4300 50  0001 C CNN
 F 3 "http://www.ti.com/lit/sg/scyt129e/scyt129e.pdf" H 2050 4300 50  0001 C CNN
-F 4 "no" H 2050 4300 50  0001 C CNN "finalized"
-F 5 "74LVC2G74" H 2050 4300 50  0001 C CNN "mpn"
+F 4 "yes" H 2050 4300 50  0001 C CNN "finalized"
+F 5 "74LVC2G74DP,125" H 2050 4300 50  0001 C CNN "mpn"
 	1    2050 4300
 	1    0    0    -1  
 $EndComp
@@ -317,7 +323,7 @@ F 0 "C11" V 7698 1550 50  0000 C CNN
 F 1 "10uF" V 7789 1550 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7988 1400 50  0001 C CNN
 F 3 "~" H 7950 1550 50  0001 C CNN
-F 4 "no" H 7950 1550 50  0001 C CNN "finalized"
+F 4 "yes" H 7950 1550 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 7950 1550 50  0001 C CNN "mpn"
 	1    7950 1550
 	0    1    1    0   
@@ -332,10 +338,11 @@ AR Path="/5F016AD7/5EEB136A" Ref="R13"  Part="1"
 AR Path="/5F0E55E2/5EEB136A" Ref="R37"  Part="1" 
 F 0 "R13" V 8555 1550 50  0000 C CNN
 F 1 "10k" V 8464 1550 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8390 1540 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8390 1540 50  0001 C CNN
 F 3 "~" H 8350 1550 50  0001 C CNN
-F 4 "no" H 8350 1550 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8350 1550 50  0001 C CNN "mpn"
+F 4 "yes" H 8350 1550 50  0001 C CNN "finalized"
+F 5 "ERA-3AED103V" H 8350 1550 50  0001 C CNN "mpn"
+F 6 "1%" H 8350 1550 50  0001 C CNN "Reqs"
 	1    8350 1550
 	0    -1   -1   0   
 $EndComp
@@ -363,11 +370,12 @@ P 8850 1250
 AR Path="/5F016AD7/5EEB49FC" Ref="R16"  Part="1" 
 AR Path="/5F0E55E2/5EEB49FC" Ref="R40"  Part="1" 
 F 0 "R16" V 8950 1350 50  0000 C CNN
-F 1 "47k" V 8950 1150 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8890 1240 50  0001 C CNN
+F 1 "36.5k" V 8950 1150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8890 1240 50  0001 C CNN
 F 3 "~" H 8850 1250 50  0001 C CNN
-F 4 "no" H 8850 1250 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8850 1250 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 1250 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB3652V" H 8850 1250 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8850 1250 50  0001 C CNN "Reqs"
 	1    8850 1250
 	0    -1   -1   0   
 $EndComp
@@ -379,10 +387,11 @@ AR Path="/5F016AD7/5EEB763A" Ref="R20"  Part="1"
 AR Path="/5F0E55E2/5EEB763A" Ref="R44"  Part="1" 
 F 0 "R20" V 9605 1650 50  0000 C CNN
 F 1 "1k" V 9514 1650 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 9440 1640 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9440 1640 50  0001 C CNN
 F 3 "~" H 9400 1650 50  0001 C CNN
-F 4 "no" H 9400 1650 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 9400 1650 50  0001 C CNN "mpn"
+F 4 "yes" H 9400 1650 50  0001 C CNN "finalized"
+F 5 "ERA-3AED102V" H 9400 1650 50  0001 C CNN "mpn"
+F 6 "thin film" H 9400 1650 50  0001 C CNN "Reqs"
 	1    9400 1650
 	0    -1   -1   0   
 $EndComp
@@ -400,8 +409,8 @@ F 0 "U6" H 9000 5350 50  0000 C CNN
 F 1 "TL074" H 9000 5450 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 8800 5700 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 8900 5800 50  0001 C CNN
-F 4 "no" H 8850 5600 50  0001 C CNN "finalized"
-F 5 "TL074" H 8850 5600 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 5600 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 8850 5600 50  0001 C CNN "mpn"
 	3    8850 5600
 	1    0    0    1   
 $EndComp
@@ -426,10 +435,11 @@ AR Path="/5F016AD7/5EF0487D" Ref="R23"  Part="1"
 AR Path="/5F0E55E2/5EF0487D" Ref="R47"  Part="1" 
 F 0 "R23" V 9605 5600 50  0000 C CNN
 F 1 "1k" V 9514 5600 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 9440 5590 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9440 5590 50  0001 C CNN
 F 3 "~" H 9400 5600 50  0001 C CNN
-F 4 "no" H 9400 5600 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 9400 5600 50  0001 C CNN "mpn"
+F 4 "yes" H 9400 5600 50  0001 C CNN "finalized"
+F 5 "ERA-3AED102V" H 9400 5600 50  0001 C CNN "mpn"
+F 6 "thin film" H 9400 5600 50  0001 C CNN "Reqs"
 	1    9400 5600
 	0    -1   -1   0   
 $EndComp
@@ -443,10 +453,11 @@ AR Path="/5F016AD7/5EF07959" Ref="R19"  Part="1"
 AR Path="/5F0E55E2/5EF07959" Ref="R43"  Part="1" 
 F 0 "R19" V 8950 5300 50  0000 C CNN
 F 1 "100k" V 8950 5100 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8890 5190 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8890 5190 50  0001 C CNN
 F 3 "~" H 8850 5200 50  0001 C CNN
-F 4 "no" H 8850 5200 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8850 5200 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 5200 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 8850 5200 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8850 5200 50  0001 C CNN "Reqs"
 	1    8850 5200
 	0    -1   -1   0   
 $EndComp
@@ -462,10 +473,11 @@ AR Path="/5F016AD7/5EF135D0" Ref="R7"  Part="1"
 AR Path="/5F0E55E2/5EF135D0" Ref="R31"  Part="1" 
 F 0 "R7" V 8205 4800 50  0000 C CNN
 F 1 "100k" V 8114 4800 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8040 4790 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8040 4790 50  0001 C CNN
 F 3 "~" H 8000 4800 50  0001 C CNN
-F 4 "no" H 8000 4800 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8000 4800 50  0001 C CNN "mpn"
+F 4 "yes" H 8000 4800 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 8000 4800 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8000 4800 50  0001 C CNN "Reqs"
 	1    8000 4800
 	0    -1   -1   0   
 $EndComp
@@ -477,10 +489,11 @@ AR Path="/5F016AD7/5EF1C809" Ref="R8"  Part="1"
 AR Path="/5F0E55E2/5EF1C809" Ref="R32"  Part="1" 
 F 0 "R8" V 8205 5500 50  0000 C CNN
 F 1 "100k" V 8114 5500 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8040 5490 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8040 5490 50  0001 C CNN
 F 3 "~" H 8000 5500 50  0001 C CNN
-F 4 "no" H 8000 5500 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8000 5500 50  0001 C CNN "mpn"
+F 4 "yes" H 8000 5500 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 8000 5500 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8000 5500 50  0001 C CNN "Reqs"
 	1    8000 5500
 	0    -1   -1   0   
 $EndComp
@@ -505,10 +518,11 @@ AR Path="/5F016AD7/5EF206B0" Ref="R9"  Part="1"
 AR Path="/5F0E55E2/5EF206B0" Ref="R33"  Part="1" 
 F 0 "R9" V 8205 6200 50  0000 C CNN
 F 1 "100k" V 8114 6200 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8040 6190 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8040 6190 50  0001 C CNN
 F 3 "~" H 8000 6200 50  0001 C CNN
-F 4 "no" H 8000 6200 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8000 6200 50  0001 C CNN "mpn"
+F 4 "yes" H 8000 6200 50  0001 C CNN "finalized"
+F 5 "ERA-3AED104V" H 8000 6200 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8000 6200 50  0001 C CNN "Reqs"
 	1    8000 6200
 	0    -1   -1   0   
 $EndComp
@@ -546,8 +560,8 @@ F 0 "U3" H 3958 6896 50  0000 L CNN
 F 1 "TL074" H 3958 6805 50  0000 L CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 3950 6950 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 4050 7050 50  0001 C CNN
-F 4 "no" H 4000 6850 50  0001 C CNN "finalized"
-F 5 "TL074" H 4000 6850 50  0001 C CNN "mpn"
+F 4 "yes" H 4000 6850 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 4000 6850 50  0001 C CNN "mpn"
 	5    4000 6850
 	1    0    0    -1  
 $EndComp
@@ -561,8 +575,8 @@ F 0 "U6" H 4408 6896 50  0000 L CNN
 F 1 "TL074" H 4408 6805 50  0000 L CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 4400 6950 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 4500 7050 50  0001 C CNN
-F 4 "no" H 4450 6850 50  0001 C CNN "finalized"
-F 5 "TL074" H 4450 6850 50  0001 C CNN "mpn"
+F 4 "yes" H 4450 6850 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 4450 6850 50  0001 C CNN "mpn"
 	5    4450 6850
 	1    0    0    -1  
 $EndComp
@@ -574,10 +588,11 @@ AR Path="/5F016AD7/5EF9C5F8" Ref="R10"  Part="1"
 AR Path="/5F0E55E2/5EF9C5F8" Ref="R34"  Part="1" 
 F 0 "R10" H 8218 1746 50  0000 L CNN
 F 1 "47k" H 8218 1655 50  0000 L CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8190 1690 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8190 1690 50  0001 C CNN
 F 3 "~" H 8150 1700 50  0001 C CNN
-F 4 "no" H 8150 1700 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8150 1700 50  0001 C CNN "mpn"
+F 4 "yes" H 8150 1700 50  0001 C CNN "finalized"
+F 5 "ERA-3AED473V" H 8150 1700 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8150 1700 50  0001 C CNN "Reqs"
 	1    8150 1700
 	1    0    0    -1  
 $EndComp
@@ -597,14 +612,14 @@ F 3 "" H 8150 1850 50  0001 C CNN
 	1    8150 1850
 	1    0    0    -1  
 $EndComp
-Text Notes 7800 750  0    39   ~ 0
-input high-pass cutoff @ 1Hz
+Text Notes 7800 800  0    39   ~ 0
+input high-pass cutoff @ 1Hz\noutput low-pass cutoff @ 200kHz
 Text Notes 7250 1700 0    50   ~ 0
 0v - 3.3v
 Text Notes 9800 1800 0    50   ~ 0
-8Vpp
+6Vpp
 Text Notes 8950 1800 0    39   ~ 0
-Gain: -4.7
+Gain: -3.65
 $Comp
 L Device:C C14
 U 1 1 5EFA0480
@@ -612,11 +627,11 @@ P 8850 1000
 AR Path="/5F016AD7/5EFA0480" Ref="C14"  Part="1" 
 AR Path="/5F0E55E2/5EFA0480" Ref="C33"  Part="1" 
 F 0 "C14" V 8750 850 50  0000 C CNN
-F 1 "18pF" V 8750 1150 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8888 850 50  0001 C CNN
+F 1 "22pf" V 8750 1150 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 850 50  0001 C CNN
 F 3 "~" H 8850 1000 50  0001 C CNN
-F 4 "no" H 8850 1000 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 8850 1000 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 1000 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-22pF" H 8850 1000 50  0001 C CNN "mpn"
 	1    8850 1000
 	0    1    1    0   
 $EndComp
@@ -630,8 +645,8 @@ F 0 "U6" H 8950 1400 50  0000 C CNN
 F 1 "TL074" H 8950 1500 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 8800 1750 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 8900 1850 50  0001 C CNN
-F 4 "no" H 8850 1650 50  0001 C CNN "finalized"
-F 5 "TL074" H 8850 1650 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 1650 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 8850 1650 50  0001 C CNN "mpn"
 	1    8850 1650
 	1    0    0    1   
 $EndComp
@@ -669,7 +684,7 @@ F 0 "C12" V 7698 2700 50  0000 C CNN
 F 1 "10uF" V 7789 2700 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7988 2550 50  0001 C CNN
 F 3 "~" H 7950 2700 50  0001 C CNN
-F 4 "no" H 7950 2700 50  0001 C CNN "finalized"
+F 4 "yes" H 7950 2700 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 7950 2700 50  0001 C CNN "mpn"
 	1    7950 2700
 	0    1    1    0   
@@ -684,10 +699,11 @@ AR Path="/5F016AD7/5EFB53DA" Ref="R14"  Part="1"
 AR Path="/5F0E55E2/5EFB53DA" Ref="R38"  Part="1" 
 F 0 "R14" V 8555 2700 50  0000 C CNN
 F 1 "10k" V 8464 2700 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8390 2690 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8390 2690 50  0001 C CNN
 F 3 "~" H 8350 2700 50  0001 C CNN
-F 4 "no" H 8350 2700 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8350 2700 50  0001 C CNN "mpn"
+F 4 "yes" H 8350 2700 50  0001 C CNN "finalized"
+F 5 "ERA-3AED103V" H 8350 2700 50  0001 C CNN "mpn"
+F 6 "1%" H 8350 2700 50  0001 C CNN "Reqs"
 	1    8350 2700
 	0    -1   -1   0   
 $EndComp
@@ -715,11 +731,12 @@ P 8850 2400
 AR Path="/5F016AD7/5EFB53F0" Ref="R17"  Part="1" 
 AR Path="/5F0E55E2/5EFB53F0" Ref="R41"  Part="1" 
 F 0 "R17" V 8950 2500 50  0000 C CNN
-F 1 "47k" V 8950 2300 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8890 2390 50  0001 C CNN
+F 1 "36.5k" V 8950 2300 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8890 2390 50  0001 C CNN
 F 3 "~" H 8850 2400 50  0001 C CNN
-F 4 "no" H 8850 2400 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8850 2400 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 2400 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB3652V" H 8850 2400 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8850 2400 50  0001 C CNN "Reqs"
 	1    8850 2400
 	0    -1   -1   0   
 $EndComp
@@ -731,10 +748,11 @@ AR Path="/5F016AD7/5EFB53FA" Ref="R21"  Part="1"
 AR Path="/5F0E55E2/5EFB53FA" Ref="R45"  Part="1" 
 F 0 "R21" V 9605 2800 50  0000 C CNN
 F 1 "1k" V 9514 2800 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 9440 2790 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9440 2790 50  0001 C CNN
 F 3 "~" H 9400 2800 50  0001 C CNN
-F 4 "no" H 9400 2800 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 9400 2800 50  0001 C CNN "mpn"
+F 4 "yes" H 9400 2800 50  0001 C CNN "finalized"
+F 5 "ERA-3AED102V" H 9400 2800 50  0001 C CNN "mpn"
+F 6 "thin film" H 9400 2800 50  0001 C CNN "Reqs"
 	1    9400 2800
 	0    -1   -1   0   
 $EndComp
@@ -748,10 +766,11 @@ AR Path="/5F016AD7/5EFB5405" Ref="R11"  Part="1"
 AR Path="/5F0E55E2/5EFB5405" Ref="R35"  Part="1" 
 F 0 "R11" H 8218 2896 50  0000 L CNN
 F 1 "47k" H 8218 2805 50  0000 L CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8190 2840 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8190 2840 50  0001 C CNN
 F 3 "~" H 8150 2850 50  0001 C CNN
-F 4 "no" H 8150 2850 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8150 2850 50  0001 C CNN "mpn"
+F 4 "yes" H 8150 2850 50  0001 C CNN "finalized"
+F 5 "ERA-3AED473V" H 8150 2850 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8150 2850 50  0001 C CNN "Reqs"
 	1    8150 2850
 	1    0    0    -1  
 $EndComp
@@ -772,7 +791,7 @@ F 3 "" H 8150 3000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Notes 8950 2950 0    39   ~ 0
-Gain: -4.7
+Gain: -3.65
 $Comp
 L Device:C C15
 U 1 1 5EFB541C
@@ -780,11 +799,11 @@ P 8850 2150
 AR Path="/5F016AD7/5EFB541C" Ref="C15"  Part="1" 
 AR Path="/5F0E55E2/5EFB541C" Ref="C34"  Part="1" 
 F 0 "C15" V 8750 2000 50  0000 C CNN
-F 1 "18pF" V 8750 2300 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8888 2000 50  0001 C CNN
+F 1 "22pF" V 8750 2300 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 2000 50  0001 C CNN
 F 3 "~" H 8850 2150 50  0001 C CNN
-F 4 "no" H 8850 2150 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 8850 2150 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 2150 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-22pF" H 8850 2150 50  0001 C CNN "mpn"
 	1    8850 2150
 	0    1    1    0   
 $EndComp
@@ -798,8 +817,8 @@ F 0 "U6" H 8950 2550 50  0000 C CNN
 F 1 "TL074" H 8950 2650 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 8800 2900 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 8900 3000 50  0001 C CNN
-F 4 "no" H 8850 2800 50  0001 C CNN "finalized"
-F 5 "TL074" H 8850 2800 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 2800 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 8850 2800 50  0001 C CNN "mpn"
 	4    8850 2800
 	1    0    0    1   
 $EndComp
@@ -847,7 +866,7 @@ $EndComp
 Text Notes 7250 2850 0    50   ~ 0
 0v - 3.3v
 Text Notes 9800 2950 0    50   ~ 0
-8Vpp
+6Vpp
 Wire Notes Line
 	1600 5750 2550 5750
 Wire Notes Line
@@ -966,9 +985,9 @@ AR Path="/5F016AD7/5EFFFC28" Ref="C10"  Part="1"
 AR Path="/5F0E55E2/5EFFFC28" Ref="C29"  Part="1" 
 F 0 "C10" H 3565 6896 50  0000 L CNN
 F 1 "0.1uF" H 3565 6805 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3488 6700 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3488 6700 50  0001 C CNN
 F 3 "~" H 3450 6850 50  0001 C CNN
-F 4 "no" H 3450 6850 50  0001 C CNN "finalized"
+F 4 "yes" H 3450 6850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3450 6850 50  0001 C CNN "mpn"
 	1    3450 6850
 	1    0    0    -1  
@@ -981,9 +1000,9 @@ AR Path="/5F016AD7/5F001083" Ref="C8"  Part="1"
 AR Path="/5F0E55E2/5F001083" Ref="C27"  Part="1" 
 F 0 "C8" H 3115 6896 50  0000 L CNN
 F 1 "0.1uF" H 3115 6805 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 3038 6700 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3038 6700 50  0001 C CNN
 F 3 "~" H 3000 6850 50  0001 C CNN
-F 4 "no" H 3000 6850 50  0001 C CNN "finalized"
+F 4 "yes" H 3000 6850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3000 6850 50  0001 C CNN "mpn"
 	1    3000 6850
 	1    0    0    -1  
@@ -996,9 +1015,9 @@ AR Path="/5F016AD7/5F00143D" Ref="C7"  Part="1"
 AR Path="/5F0E55E2/5F00143D" Ref="C26"  Part="1" 
 F 0 "C7" H 2665 6896 50  0000 L CNN
 F 1 "0.1uF" H 2665 6805 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2588 6700 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2588 6700 50  0001 C CNN
 F 3 "~" H 2550 6850 50  0001 C CNN
-F 4 "no" H 2550 6850 50  0001 C CNN "finalized"
+F 4 "yes" H 2550 6850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2550 6850 50  0001 C CNN "mpn"
 	1    2550 6850
 	1    0    0    -1  
@@ -1011,9 +1030,9 @@ AR Path="/5F016AD7/5F0018F0" Ref="C5"  Part="1"
 AR Path="/5F0E55E2/5F0018F0" Ref="C24"  Part="1" 
 F 0 "C5" H 2215 6896 50  0000 L CNN
 F 1 "0.1uF" H 2215 6805 50  0000 L CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 2138 6700 50  0001 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2138 6700 50  0001 C CNN
 F 3 "~" H 2100 6850 50  0001 C CNN
-F 4 "no" H 2100 6850 50  0001 C CNN "finalized"
+F 4 "yes" H 2100 6850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2100 6850 50  0001 C CNN "mpn"
 	1    2100 6850
 	1    0    0    -1  
@@ -1116,11 +1135,11 @@ P 8850 4900
 AR Path="/5F016AD7/5F0B2AE6" Ref="C17"  Part="1" 
 AR Path="/5F0E55E2/5F0B2AE6" Ref="C36"  Part="1" 
 F 0 "C17" V 8750 4750 50  0000 C CNN
-F 1 "18pF" V 8750 5050 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8888 4750 50  0001 C CNN
+F 1 "8.2pF" V 8750 5100 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 4750 50  0001 C CNN
 F 3 "~" H 8850 4900 50  0001 C CNN
-F 4 "no" H 8850 4900 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 8850 4900 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 4900 50  0001 C CNN "finalized"
+F 5 "CM1885C2A8R2DA16D" H 8850 4900 50  0001 C CNN "mpn"
 	1    8850 4900
 	0    1    1    0   
 $EndComp
@@ -1166,7 +1185,7 @@ F 0 "Q1" V 3535 1750 50  0000 C CNN
 F 1 "MMBT3904" V 3626 1750 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 3500 1675 50  0001 L CIN
 F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 3300 1750 50  0001 L CNN
-F 4 "no" H 3300 1750 50  0001 C CNN "finalized"
+F 4 "yes" H 3300 1750 50  0001 C CNN "finalized"
 F 5 "MF-DSC-SOT233-MMBT3904" H 3300 1750 50  0001 C CNN "mpn"
 	1    3300 1750
 	0    1    1    0   
@@ -1211,8 +1230,8 @@ F 0 "U3" H 4900 1000 50  0000 C CNN
 F 1 "TL074" H 4900 1100 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 4850 1600 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 4950 1700 50  0001 C CNN
-F 4 "no" H 4900 1500 50  0001 C CNN "finalized"
-F 5 "TL074" H 4900 1500 50  0001 C CNN "mpn"
+F 4 "yes" H 4900 1500 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 4900 1500 50  0001 C CNN "mpn"
 	4    4900 1500
 	1    0    0    1   
 $EndComp
@@ -1270,7 +1289,7 @@ F 0 "U5" H 2100 5100 50  0000 C CNN
 F 1 "MCP6001-OT" H 2300 5200 50  0000 C CNN
 F 2 "Package_TO_SOT_SMD:SOT-23-5" H 2000 5150 50  0001 L CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2100 5550 50  0001 C CNN
-F 4 "no" H 2100 5350 50  0001 C CNN "finalized"
+F 4 "yes" H 2100 5350 50  0001 C CNN "finalized"
 F 5 "MCP6001T-I/OT" H 2100 5350 50  0001 C CNN "mpn"
 	1    2100 5350
 	1    0    0    1   
@@ -1318,12 +1337,10 @@ Text HLabel 9800 3950 2    50   Input ~ 0
 sub_out
 Text Label 7650 3850 2    50   ~ 0
 sub_pre
-Text Notes 6400 3150 0    20   ~ 0
-all of these are probably too loud since they're really 16Vpp. Recalcuate this garbage.
 Text Notes 7250 4000 0    50   ~ 0
 0v - 3.3v
 Text Notes 9800 4100 0    50   ~ 0
-8Vpp
+6Vpp
 Wire Notes Line
 	9750 500  9750 6600
 Wire Notes Line
@@ -1362,8 +1379,8 @@ F 0 "U6" H 8950 3700 50  0000 C CNN
 F 1 "TL074" H 8950 3800 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 8800 4050 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 8900 4150 50  0001 C CNN
-F 4 "no" H 8850 3950 50  0001 C CNN "finalized"
-F 5 "TL074" H 8850 3950 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 3950 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 8850 3950 50  0001 C CNN "mpn"
 	2    8850 3950
 	1    0    0    1   
 $EndComp
@@ -1374,16 +1391,16 @@ P 8850 3300
 AR Path="/5F016AD7/5EFC1D9A" Ref="C16"  Part="1" 
 AR Path="/5F0E55E2/5EFC1D9A" Ref="C35"  Part="1" 
 F 0 "C16" V 8750 3150 50  0000 C CNN
-F 1 "18pF" V 8750 3450 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8888 3150 50  0001 C CNN
+F 1 "22pF" V 8750 3450 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 3150 50  0001 C CNN
 F 3 "~" H 8850 3300 50  0001 C CNN
-F 4 "no" H 8850 3300 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-18pF" H 8850 3300 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 3300 50  0001 C CNN "finalized"
+F 5 "MF-CAP-0603-22pF" H 8850 3300 50  0001 C CNN "mpn"
 	1    8850 3300
 	0    1    1    0   
 $EndComp
 Text Notes 8950 4100 0    39   ~ 0
-Gain: -4.7
+Gain: -3.65
 $Comp
 L power:GND #PWR042
 U 1 1 5EFC1D8F
@@ -1408,10 +1425,11 @@ AR Path="/5F016AD7/5EFC1D83" Ref="R12"  Part="1"
 AR Path="/5F0E55E2/5EFC1D83" Ref="R36"  Part="1" 
 F 0 "R12" H 8218 4046 50  0000 L CNN
 F 1 "47k" H 8218 3955 50  0000 L CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8190 3990 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8190 3990 50  0001 C CNN
 F 3 "~" H 8150 4000 50  0001 C CNN
-F 4 "no" H 8150 4000 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8150 4000 50  0001 C CNN "mpn"
+F 4 "yes" H 8150 4000 50  0001 C CNN "finalized"
+F 5 "ERA-3AED473V" H 8150 4000 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8150 4000 50  0001 C CNN "Reqs"
 	1    8150 4000
 	1    0    0    -1  
 $EndComp
@@ -1425,10 +1443,11 @@ AR Path="/5F016AD7/5EFC1D78" Ref="R22"  Part="1"
 AR Path="/5F0E55E2/5EFC1D78" Ref="R46"  Part="1" 
 F 0 "R22" V 9605 3950 50  0000 C CNN
 F 1 "1k" V 9514 3950 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 9440 3940 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9440 3940 50  0001 C CNN
 F 3 "~" H 9400 3950 50  0001 C CNN
-F 4 "no" H 9400 3950 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 9400 3950 50  0001 C CNN "mpn"
+F 4 "yes" H 9400 3950 50  0001 C CNN "finalized"
+F 5 "ERA-3AED102V" H 9400 3950 50  0001 C CNN "mpn"
+F 6 "thin film" H 9400 3950 50  0001 C CNN "Reqs"
 	1    9400 3950
 	0    -1   -1   0   
 $EndComp
@@ -1439,11 +1458,12 @@ P 8850 3550
 AR Path="/5F016AD7/5EFC1D6E" Ref="R18"  Part="1" 
 AR Path="/5F0E55E2/5EFC1D6E" Ref="R42"  Part="1" 
 F 0 "R18" V 8950 3650 50  0000 C CNN
-F 1 "47k" V 8950 3450 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8890 3540 50  0001 C CNN
+F 1 "36.5k" V 8950 3450 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8890 3540 50  0001 C CNN
 F 3 "~" H 8850 3550 50  0001 C CNN
-F 4 "no" H 8850 3550 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8850 3550 50  0001 C CNN "mpn"
+F 4 "yes" H 8850 3550 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB3652V" H 8850 3550 50  0001 C CNN "mpn"
+F 6 "0.5%" H 8850 3550 50  0001 C CNN "Reqs"
 	1    8850 3550
 	0    -1   -1   0   
 $EndComp
@@ -1472,10 +1492,11 @@ AR Path="/5F016AD7/5EFC1D58" Ref="R15"  Part="1"
 AR Path="/5F0E55E2/5EFC1D58" Ref="R39"  Part="1" 
 F 0 "R15" V 8555 3850 50  0000 C CNN
 F 1 "10k" V 8464 3850 50  0000 C CNN
-F 2 "Resistor_SMD:R_1206_3216Metric_Pad1.42x1.75mm_HandSolder" V 8390 3840 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8390 3840 50  0001 C CNN
 F 3 "~" H 8350 3850 50  0001 C CNN
-F 4 "no" H 8350 3850 50  0001 C CNN "finalized"
-F 5 "ERA8AEB222V" H 8350 3850 50  0001 C CNN "mpn"
+F 4 "yes" H 8350 3850 50  0001 C CNN "finalized"
+F 5 "ERA-3AED103V" H 8350 3850 50  0001 C CNN "mpn"
+F 6 "1%" H 8350 3850 50  0001 C CNN "Reqs"
 	1    8350 3850
 	0    -1   -1   0   
 $EndComp
@@ -1491,7 +1512,7 @@ F 0 "C13" V 7698 3850 50  0000 C CNN
 F 1 "10uF" V 7789 3850 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7988 3700 50  0001 C CNN
 F 3 "~" H 7950 3850 50  0001 C CNN
-F 4 "no" H 7950 3850 50  0001 C CNN "finalized"
+F 4 "yes" H 7950 3850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 7950 3850 50  0001 C CNN "mpn"
 	1    7950 3850
 	0    1    1    0   
@@ -1511,4 +1532,8 @@ F 3 "~" H 5350 3500 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5150 3050 5150 3500
+Text Notes 8850 4500 0    39   ~ 0
+High-pass cutoff @ 194kHz
+Text Notes 8850 5800 0    39   ~ 0
+Gain: -1
 $EndSCHEMATC
