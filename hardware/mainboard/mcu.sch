@@ -20,7 +20,7 @@ P 2850 3850
 F 0 "U7" H 3450 2000 50  0000 C CNN
 F 1 "ATSAMD21G18A-AUT" H 3500 2100 50  0000 C CNN
 F 2 "Package_QFP:TQFP-48_7x7mm_P0.5mm" H 1900 2100 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/SAMD21-Family-DataSheet-DS40001882D.pdf" H 2850 4850 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_Data%20Sheet_DS40001882E.pdf" H 2850 4850 50  0001 C CNN
 F 4 "yes" H 2850 3850 50  0001 C CNN "finalized"
 F 5 "ATSAMD21G18A-AUT" H 2850 3850 50  0001 C CNN "mpn"
 	1    2850 3850
@@ -36,6 +36,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3088 1500 50  
 F 3 "~" H 3050 1650 50  0001 C CNN
 F 4 "yes" H 3050 1650 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-1uF" H 3050 1650 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 3050 1650 50  0001 C CNN "mpn specs"
 	1    3050 1650
 	1    0    0    -1  
 $EndComp
@@ -167,6 +168,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3188 6850 50  
 F 3 "~" H 3150 7000 50  0001 C CNN
 F 4 "yes" H 3150 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3150 7000 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 3150 7000 50  0001 C CNN "mpn specs"
 	1    3150 7000
 	1    0    0    -1  
 $EndComp
@@ -202,6 +204,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3688 6850 50  
 F 3 "~" H 3650 7000 50  0001 C CNN
 F 4 "yes" H 3650 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3650 7000 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 3650 7000 50  0001 C CNN "mpn specs"
 	1    3650 7000
 	1    0    0    -1  
 $EndComp
@@ -237,6 +240,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 4188 6850 50  
 F 3 "~" H 4150 7000 50  0001 C CNN
 F 4 "yes" H 4150 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 4150 7000 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 4150 7000 50  0001 C CNN "mpn specs"
 	1    4150 7000
 	1    0    0    -1  
 $EndComp
@@ -389,6 +393,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4840 5890 50  0
 F 3 "~" H 4800 5900 50  0001 C CNN
 F 4 "yes" H 4800 5900 50  0001 C CNN "finalized"
 F 5 "MF-RES-0603-4.7K" H 4800 5900 50  0001 C CNN "mpn"
+F 6 "100mW" H 4800 5900 50  0001 C CNN "mpn specs"
 	1    4800 5900
 	1    0    0    -1  
 $EndComp
@@ -402,6 +407,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5240 5890 50  0
 F 3 "~" H 5200 5900 50  0001 C CNN
 F 4 "yes" H 5200 5900 50  0001 C CNN "finalized"
 F 5 "MF-RES-0603-4.7K" H 5200 5900 50  0001 C CNN "mpn"
+F 6 "100mW" H 5200 5900 50  0001 C CNN "mpn specs"
 	1    5200 5900
 	1    0    0    -1  
 $EndComp
@@ -448,6 +454,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7788 5750 50  
 F 3 "~" H 7750 5900 50  0001 C CNN
 F 4 "yes" H 7750 5900 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 7750 5900 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 7750 5900 50  0001 C CNN "mpn specs"
 	1    7750 5900
 	1    0    0    -1  
 $EndComp
@@ -472,6 +479,7 @@ F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8338 5750 50  
 F 3 "~" H 8300 5900 50  0001 C CNN
 F 4 "yes" H 8300 5900 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 8300 5900 50  0001 C CNN "mpn"
+F 6 "10% 16v" H 8300 5900 50  0001 C CNN "mpn specs"
 	1    8300 5900
 	1    0    0    -1  
 $EndComp
@@ -708,6 +716,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2738 6850 50  
 F 3 "~" H 2700 7000 50  0001 C CNN
 F 4 "yes" H 2700 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2700 7000 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 2700 7000 50  0001 C CNN "mpn specs"
 	1    2700 7000
 	1    0    0    -1  
 $EndComp
@@ -743,6 +752,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2288 6850 50  
 F 3 "~" H 2250 7000 50  0001 C CNN
 F 4 "yes" H 2250 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2250 7000 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 2250 7000 50  0001 C CNN "mpn specs"
 	1    2250 7000
 	1    0    0    -1  
 $EndComp
@@ -787,4 +797,8 @@ NoConn ~ 5500 3550
 Text Label 5500 3850 2    50   ~ 0
 TCC1WO1
 NoConn ~ 5500 3850
+Text Notes 6900 6400 0    50   ~ 0
+0.8mA (typ)\n1.4mA (max)
+Text Notes 3250 5850 0    50   ~ 0
+10mA (est)
 $EndSCHEMATC

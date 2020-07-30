@@ -50,6 +50,7 @@ F 3 "~" H 2800 2300 50  0001 C CNN
 F 4 "0.5%" H 2800 2300 50  0001 C CNN "Reqs"
 F 5 "yes" H 2800 2300 50  0001 C CNN "finalized"
 F 6 "ERA-3AED104V" H 2800 2300 50  0001 C CNN "mpn"
+F 7 "100mW" H 2800 2300 50  0001 C CNN "mpn specs"
 	1    2800 2300
 	0    1    1    0   
 $EndComp
@@ -68,6 +69,7 @@ F 3 "~" H 2800 2500 50  0001 C CNN
 F 4 "0.5%" H 2800 2500 50  0001 C CNN "Reqs"
 F 5 "yes" H 2800 2500 50  0001 C CNN "finalized"
 F 6 "ERA-3AED104V" H 2800 2500 50  0001 C CNN "mpn"
+F 7 "100mW" H 2800 2500 50  0001 C CNN "mpn specs"
 	1    2800 2500
 	0    1    1    0   
 $EndComp
@@ -82,6 +84,7 @@ F 3 "~" H 3100 2800 50  0001 C CNN
 F 4 "0.5%" H 3100 2800 50  0001 C CNN "Reqs"
 F 5 "yes" H 3100 2800 50  0001 C CNN "finalized"
 F 6 "ERA-3AED104V" H 3100 2800 50  0001 C CNN "mpn"
+F 7 "100mW" H 3100 2800 50  0001 C CNN "mpn specs"
 	1    3100 2800
 	-1   0    0    1   
 $EndComp
@@ -109,6 +112,7 @@ F 3 "~" H 3350 2050 50  0001 C CNN
 F 4 "0.5%" H 3350 2050 50  0001 C CNN "Reqs"
 F 5 "yes" H 3350 2050 50  0001 C CNN "finalized"
 F 6 "ERA-3AED104V" H 3350 2050 50  0001 C CNN "mpn"
+F 7 "100mW" H 3350 2050 50  0001 C CNN "mpn specs"
 	1    3350 2050
 	0    -1   -1   0   
 $EndComp
@@ -143,6 +147,7 @@ F 3 "~" H 2650 3750 50  0001 C CNN
 F 4 "0.5%" H 2650 3750 50  0001 C CNN "Reqs"
 F 5 "yes" H 2650 3750 50  0001 C CNN "finalized"
 F 6 "ERA-3AED104V" H 2650 3750 50  0001 C CNN "mpn"
+F 7 "100mW" H 2650 3750 50  0001 C CNN "mpn specs"
 	1    2650 3750
 	0    -1   -1   0   
 $EndComp
@@ -156,6 +161,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3350 1700 50  
 F 3 "~" H 3350 1700 50  0001 C CNN
 F 4 "yes" H 3350 1700 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-18pF" H 3350 1700 50  0001 C CNN "mpn"
+F 6 "5% 50v" H 3350 1700 50  0001 C CNN "mpn specs"
 	1    3350 1700
 	0    1    1    0   
 $EndComp
@@ -189,6 +195,7 @@ F 3 "~" H 2650 4050 50  0001 C CNN
 F 4 "0.5%" H 2650 4050 50  0001 C CNN "Reqs"
 F 5 "yes" H 2650 4050 50  0001 C CNN "finalized"
 F 6 "ERA-3AED104V" H 2650 4050 50  0001 C CNN "mpn"
+F 7 "100mW" H 2650 4050 50  0001 C CNN "mpn specs"
 	1    2650 4050
 	0    -1   -1   0   
 $EndComp
@@ -236,6 +243,7 @@ F 3 "~" H 3400 3800 50  0001 C CNN
 F 4 "0.5%" H 3400 3800 50  0001 C CNN "Reqs"
 F 5 "yes" H 3400 3800 50  0001 C CNN "finalized"
 F 6 "ERA-3AED104V" H 3400 3800 50  0001 C CNN "mpn"
+F 7 "100mW" H 3400 3800 50  0001 C CNN "mpn specs"
 	1    3400 3800
 	0    -1   -1   0   
 $EndComp
@@ -259,6 +267,7 @@ F 3 "~" H 4000 4150 50  0001 C CNN
 F 4 "0.5%" H 4000 4150 50  0001 C CNN "Reqs"
 F 5 "yes" H 4000 4150 50  0001 C CNN "finalized"
 F 6 "ERA-3AED104V" H 4000 4150 50  0001 C CNN "mpn"
+F 7 "100mW" H 4000 4150 50  0001 C CNN "mpn specs"
 	1    4000 4150
 	0    -1   -1   0   
 $EndComp
@@ -277,6 +286,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3400 3450 50  
 F 3 "~" H 3400 3450 50  0001 C CNN
 F 4 "yes" H 3400 3450 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-18pF" H 3400 3450 50  0001 C CNN "mpn"
+F 6 "5% 50v" H 3400 3450 50  0001 C CNN "mpn specs"
 	1    3400 3450
 	0    1    1    0   
 $EndComp
@@ -346,6 +356,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 6600 3100 50  
 F 3 "~" H 6600 3100 50  0001 C CNN
 F 4 "yes" H 6600 3100 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 6600 3100 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 6600 3100 50  0001 C CNN "mpn specs"
 	1    6600 3100
 	-1   0    0    1   
 $EndComp
@@ -359,6 +370,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 7100 3100 50  
 F 3 "~" H 7100 3100 50  0001 C CNN
 F 4 "yes" H 7100 3100 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 7100 3100 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 7100 3100 50  0001 C CNN "mpn specs"
 	1    7100 3100
 	-1   0    0    1   
 $EndComp

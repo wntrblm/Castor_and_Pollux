@@ -20,7 +20,7 @@ P 2400 1150
 F 0 "U13" H 2400 1517 50  0000 C CNN
 F 1 "MCP6004" H 2400 1426 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 1250 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2450 1350 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 2450 1350 50  0001 C CNN
 F 4 "yes" H 2400 1150 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 2400 1150 50  0001 C CNN "mpn"
 	1    2400 1150
@@ -37,6 +37,7 @@ F 3 "~" H 1500 1250 50  0001 C CNN
 F 4 "yes" H 1500 1250 50  0001 C CNN "finalized"
 F 5 "ERA-3AED104V" H 1500 1250 50  0001 C CNN "mpn"
 F 6 "0.5%" H 1500 1250 50  0001 C CNN "Reqs"
+F 7 "100mW" H 1500 1250 50  0001 C CNN "mpn specs"
 	1    1500 1250
 	0    1    1    0   
 $EndComp
@@ -50,6 +51,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 1540 50  0
 F 3 "~" H 1500 1550 50  0001 C CNN
 F 4 "yes" H 1500 1550 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB1693V" H 1500 1550 50  0001 C CNN "mpn"
+F 6 "100mW" H 1500 1550 50  0001 C CNN "mpn specs"
 	1    1500 1550
 	0    1    1    0   
 $EndComp
@@ -63,6 +65,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 1640 50  0
 F 3 "~" H 2400 1650 50  0001 C CNN
 F 4 "yes" H 2400 1650 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB563V" H 2400 1650 50  0001 C CNN "mpn"
+F 6 "100mW" H 2400 1650 50  0001 C CNN "mpn specs"
 	1    2400 1650
 	0    1    1    0   
 $EndComp
@@ -76,6 +79,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 2000 50  
 F 3 "~" H 2400 2000 50  0001 C CNN
 F 4 "yes" H 2400 2000 50  0001 C CNN "finalized"
 F 5 "GRM1885C1H222JA01D" H 2400 2000 50  0001 C CNN "mpn"
+F 6 "5% 100v" H 2400 2000 50  0001 C CNN "mpn specs"
 	1    2400 2000
 	0    -1   -1   0   
 $EndComp
@@ -138,7 +142,7 @@ P 2400 2650
 F 0 "U13" H 2400 3017 50  0000 C CNN
 F 1 "MCP6004" H 2400 2926 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 2750 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2450 2850 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 2450 2850 50  0001 C CNN
 F 4 "yes" H 2400 2650 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 2400 2650 50  0001 C CNN "mpn"
 	2    2400 2650
@@ -155,6 +159,7 @@ F 3 "~" H 1500 2750 50  0001 C CNN
 F 4 "yes" H 1500 2750 50  0001 C CNN "finalized"
 F 5 "ERA-3AED104V" H 1500 2750 50  0001 C CNN "mpn"
 F 6 "0.5%" H 1500 2750 50  0001 C CNN "Reqs"
+F 7 "100mW" H 1500 2750 50  0001 C CNN "mpn specs"
 	1    1500 2750
 	0    1    1    0   
 $EndComp
@@ -168,6 +173,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 3040 50  0
 F 3 "~" H 1500 3050 50  0001 C CNN
 F 4 "yes" H 1500 3050 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB1693V" H 1500 3050 50  0001 C CNN "mpn"
+F 6 "100mW" H 1500 3050 50  0001 C CNN "mpn specs"
 	1    1500 3050
 	0    1    1    0   
 $EndComp
@@ -181,6 +187,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 3140 50  0
 F 3 "~" H 2400 3150 50  0001 C CNN
 F 4 "yes" H 2400 3150 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB563V" H 2400 3150 50  0001 C CNN "mpn"
+F 6 "100mW" H 2400 3150 50  0001 C CNN "mpn specs"
 	1    2400 3150
 	0    1    1    0   
 $EndComp
@@ -194,6 +201,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 3500 50  
 F 3 "~" H 2400 3500 50  0001 C CNN
 F 4 "yes" H 2400 3500 50  0001 C CNN "finalized"
 F 5 "GRM1885C1H222JA01D" H 2400 3500 50  0001 C CNN "mpn"
+F 6 "5% 100v" H 2400 3500 50  0001 C CNN "mpn specs"
 	1    2400 3500
 	0    -1   -1   0   
 $EndComp
@@ -254,7 +262,7 @@ P 2400 4100
 F 0 "U13" H 2400 4467 50  0000 C CNN
 F 1 "MCP6004" H 2400 4376 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 4200 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2450 4300 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 2450 4300 50  0001 C CNN
 F 4 "yes" H 2400 4100 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 2400 4100 50  0001 C CNN "mpn"
 	3    2400 4100
@@ -271,6 +279,7 @@ F 3 "~" H 1500 4200 50  0001 C CNN
 F 4 "yes" H 1500 4200 50  0001 C CNN "finalized"
 F 5 "ERA-3AED104V" H 1500 4200 50  0001 C CNN "mpn"
 F 6 "0.5%" H 1500 4200 50  0001 C CNN "Reqs"
+F 7 "100mW" H 1500 4200 50  0001 C CNN "mpn specs"
 	1    1500 4200
 	0    1    1    0   
 $EndComp
@@ -284,6 +293,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 4490 50  0
 F 3 "~" H 1500 4500 50  0001 C CNN
 F 4 "yes" H 1500 4500 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB204V" H 1500 4500 50  0001 C CNN "mpn"
+F 6 "100mW" H 1500 4500 50  0001 C CNN "mpn specs"
 	1    1500 4500
 	0    1    1    0   
 $EndComp
@@ -297,6 +307,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 4590 50  0
 F 3 "~" H 2400 4600 50  0001 C CNN
 F 4 "yes" H 2400 4600 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB6492V" H 2400 4600 50  0001 C CNN "mpn"
+F 6 "100mW" H 2400 4600 50  0001 C CNN "mpn specs"
 	1    2400 4600
 	0    1    1    0   
 $EndComp
@@ -310,6 +321,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 4950 50  
 F 3 "~" H 2400 4950 50  0001 C CNN
 F 4 "yes" H 2400 4950 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-4.7nF" H 2400 4950 50  0001 C CNN "mpn"
+F 6 "10% 50v" H 2400 4950 50  0001 C CNN "mpn specs"
 	1    2400 4950
 	0    -1   -1   0   
 $EndComp
@@ -374,7 +386,7 @@ P 2400 5550
 F 0 "U13" H 2400 5917 50  0000 C CNN
 F 1 "MCP6004" H 2400 5826 50  0000 C CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 5650 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 2450 5750 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 2450 5750 50  0001 C CNN
 F 4 "yes" H 2400 5550 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 2400 5550 50  0001 C CNN "mpn"
 	4    2400 5550
@@ -391,6 +403,7 @@ F 3 "~" H 1500 5650 50  0001 C CNN
 F 4 "yes" H 1500 5650 50  0001 C CNN "finalized"
 F 5 "ERA-3AED104V" H 1500 5650 50  0001 C CNN "mpn"
 F 6 "0.5%" H 1500 5650 50  0001 C CNN "Reqs"
+F 7 "100mW" H 1500 5650 50  0001 C CNN "mpn specs"
 	1    1500 5650
 	0    1    1    0   
 $EndComp
@@ -404,6 +417,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 5940 50  0
 F 3 "~" H 1500 5950 50  0001 C CNN
 F 4 "yes" H 1500 5950 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB204V" H 1500 5950 50  0001 C CNN "mpn"
+F 6 "100mW" H 1500 5950 50  0001 C CNN "mpn specs"
 	1    1500 5950
 	0    1    1    0   
 $EndComp
@@ -417,6 +431,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 6040 50  0
 F 3 "~" H 2400 6050 50  0001 C CNN
 F 4 "yes" H 2400 6050 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB6492V" H 2400 6050 50  0001 C CNN "mpn"
+F 6 "100mW" H 2400 6050 50  0001 C CNN "mpn specs"
 	1    2400 6050
 	0    1    1    0   
 $EndComp
@@ -430,6 +445,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 6400 50  
 F 3 "~" H 2400 6400 50  0001 C CNN
 F 4 "yes" H 2400 6400 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-4.7nF" H 2400 6400 50  0001 C CNN "mpn"
+F 6 "10% 50v" H 2400 6400 50  0001 C CNN "mpn specs"
 	1    2400 6400
 	0    -1   -1   0   
 $EndComp
@@ -509,6 +525,7 @@ F 3 "~" H 4850 1300 50  0001 C CNN
 F 4 "yes" H 4850 1300 50  0001 C CNN "finalized"
 F 5 "ERA-3AED104V" H 4850 1300 50  0001 C CNN "mpn"
 F 6 "0.5%" H 4850 1300 50  0001 C CNN "Reqs"
+F 7 "100mW" H 4850 1300 50  0001 C CNN "mpn specs"
 	1    4850 1300
 	0    1    1    0   
 $EndComp
@@ -522,6 +539,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4890 1590 50  0
 F 3 "~" H 4850 1600 50  0001 C CNN
 F 4 "yes" H 4850 1600 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB204V" H 4850 1600 50  0001 C CNN "mpn"
+F 6 "100mW" H 4850 1600 50  0001 C CNN "mpn specs"
 	1    4850 1600
 	0    1    1    0   
 $EndComp
@@ -535,6 +553,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5790 1990 50  0
 F 3 "~" H 5750 2000 50  0001 C CNN
 F 4 "yes" H 5750 2000 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB6492V" H 5750 2000 50  0001 C CNN "mpn"
+F 6 "100mW" H 5750 2000 50  0001 C CNN "mpn specs"
 	1    5750 2000
 	0    1    1    0   
 $EndComp
@@ -548,6 +567,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 5750 2350 50  
 F 3 "~" H 5750 2350 50  0001 C CNN
 F 4 "yes" H 5750 2350 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-4.7nF" H 5750 2350 50  0001 C CNN "mpn"
+F 6 "10% 50v" H 5750 2350 50  0001 C CNN "mpn specs"
 	1    5750 2350
 	0    -1   -1   0   
 $EndComp
@@ -632,7 +652,7 @@ P 7550 5950
 F 0 "U13" H 7508 5996 50  0000 L CNN
 F 1 "MCP6004" H 7508 5905 50  0000 L CNN
 F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 7500 6050 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 7600 6150 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 7600 6150 50  0001 C CNN
 F 4 "yes" H 7550 5950 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 7550 5950 50  0001 C CNN "mpn"
 	5    7550 5950
@@ -659,6 +679,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8350 6000 50  
 F 3 "~" H 8350 6000 50  0001 C CNN
 F 4 "yes" H 8350 6000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 8350 6000 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 8350 6000 50  0001 C CNN "mpn specs"
 	1    8350 6000
 	-1   0    0    1   
 $EndComp
@@ -705,6 +726,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8950 6000 50  
 F 3 "~" H 8950 6000 50  0001 C CNN
 F 4 "yes" H 8950 6000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 8950 6000 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 8950 6000 50  0001 C CNN "mpn specs"
 	1    8950 6000
 	-1   0    0    1   
 $EndComp
@@ -740,4 +762,6 @@ Text Notes 2750 6300 0    50   ~ 0
 low-pass cutoff @ 0.5kHz
 Text Notes 6100 2250 0    50   ~ 0
 low-pass cutoff @ 0.5kHz
+Text Notes 6700 6000 0    50   ~ 0
+4mA (max, est)
 $EndSCHEMATC

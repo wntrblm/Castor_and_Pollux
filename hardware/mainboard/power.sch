@@ -93,9 +93,10 @@ F 0 "C3" H 5315 1396 50  0000 L CNN
 F 1 "47uF" H 5315 1305 50  0000 L CNN
 F 2 "Capacitor_SMD:CP_Elec_6.3x5.8" H 5200 1350 50  0001 C CNN
 F 3 "~" H 5200 1350 50  0001 C CNN
-F 4 "ESR 0.3-22 Ohms" H 5200 1350 50  0001 C CNN "Reqs"
+F 4 "ESR 0.3-22 Ohms, 16v+" H 5200 1350 50  0001 C CNN "Reqs"
 F 5 "EEE-FK1V470P" H 5200 1350 50  0001 C CNN "mpn"
 F 6 "yes" H 5200 1350 50  0001 C CNN "finalized"
+F 7 "20%, 35v, 0.36 Ohms" H 5200 1350 50  0001 C CNN "mpn specs"
 	1    5200 1350
 	1    0    0    -1  
 $EndComp
@@ -109,6 +110,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 5638 1200 50  
 F 3 "~" H 5600 1350 50  0001 C CNN
 F 4 "yes" H 5600 1350 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 5600 1350 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 5600 1350 50  0001 C CNN "mpn specs"
 	1    5600 1350
 	1    0    0    -1  
 $EndComp
@@ -122,6 +124,7 @@ F 2 "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5880 1100 50  0
 F 3 "~" H 5950 1100 50  0001 C CNN
 F 4 "710-742792664" H 5950 1100 50  0001 C CNN "mpn"
 F 5 "yes" H 5950 1100 50  0001 C CNN "finalized"
+F 6 "300mA, 600 mOhms DC, 1 kOhms AC" H 5950 1100 50  0001 C CNN "mpn specs"
 	1    5950 1100
 	-1   0    0    1   
 $EndComp
@@ -200,6 +203,8 @@ F 2 "Capacitor_SMD:CP_Elec_6.3x5.8" H 4100 1350 50  0001 C CNN
 F 3 "~" H 4100 1350 50  0001 C CNN
 F 4 "EEE-FK1V470P" H 4100 1350 50  0001 C CNN "mpn"
 F 5 "yes" H 4100 1350 50  0001 C CNN "finalized"
+F 6 "ESR 0.3-22 Ohms, 16v+" H 4100 1350 50  0001 C CNN "Reqs"
+F 7 "20%, 35v, 0.36 Ohms" H 4100 1350 50  0001 C CNN "mpn specs"
 	1    4100 1350
 	1    0    0    -1  
 $EndComp
@@ -229,6 +234,7 @@ F 2 "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1730 1750 50  0
 F 3 "~" H 1800 1750 50  0001 C CNN
 F 4 "710-742792664" H 1800 1750 50  0001 C CNN "mpn"
 F 5 "yes" H 1800 1750 50  0001 C CNN "finalized"
+F 6 "300mA, 600 mOhms DC, 1 kOhms AC" H 1800 1750 50  0001 C CNN "mpn specs"
 	1    1800 1750
 	0    -1   -1   0   
 $EndComp
@@ -284,6 +290,7 @@ F 3 "~" H 2200 2800 50  0001 C CNN
 F 4 "no" H 2200 2800 50  0001 C CNN "finalized"
 F 5 "ERA-3AED222V" H 2200 2800 50  0001 C CNN "mpn"
 F 6 "1%" H 2200 2800 50  0001 C CNN "Reqs"
+F 7 "100mW" H 2200 2800 50  0001 C CNN "mpn specs"
 	1    2200 2800
 	1    0    0    -1  
 $EndComp
@@ -299,6 +306,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2588 3150 50  
 F 3 "~" H 2550 3300 50  0001 C CNN
 F 4 "yes" H 2550 3300 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2550 3300 50  0001 C CNN "mpn"
+F 6 "10%, 25v" H 2550 3300 50  0001 C CNN "mpn specs"
 	1    2550 3300
 	1    0    0    -1  
 $EndComp
@@ -335,6 +343,7 @@ F 2 "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1730 1100 50  0
 F 3 "~" H 1800 1100 50  0001 C CNN
 F 4 "710-742792664" H 1800 1100 50  0001 C CNN "mpn"
 F 5 "yes" H 1800 1100 50  0001 C CNN "finalized"
+F 6 "300mA, 600 mOhms DC, 1 kOhms AC" H 1800 1100 50  0001 C CNN "mpn specs"
 	1    1800 1100
 	0    -1   -1   0   
 $EndComp
@@ -369,6 +378,7 @@ F 2 "Capacitor_SMD:C_1210_3225Metric_Pad1.42x2.65mm_HandSolder" H 4438 2800 50  
 F 3 "~" H 4400 2950 50  0001 C CNN
 F 4 "GRM32ER71E226ME15L" H 4400 2950 50  0001 C CNN "mpn"
 F 5 "yes" H 4400 2950 50  0001 C CNN "finalized"
+F 6 "20% 25v" H 4400 2950 50  0001 C CNN "mpn specs"
 	1    4400 2950
 	1    0    0    -1  
 $EndComp
@@ -441,4 +451,6 @@ F 3 "~" H 5950 1000 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Connection ~ 5950 1000
+Text Notes 1400 3650 0    50   ~ 0
+cathode current:\n75 uA to 15 mA\n660 uA (sim)\n
 $EndSCHEMATC
