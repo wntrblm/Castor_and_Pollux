@@ -801,4 +801,43 @@ Text Notes 6900 6400 0    50   ~ 0
 0.8mA (typ)\n1.4mA (max)
 Text Notes 3250 5850 0    50   ~ 0
 10mA (est)
+$Comp
+L Connector:TestPoint TP5
+U 1 1 5F267ECE
+P 5250 7450
+F 0 "TP5" V 5204 7638 50  0000 L CNN
+F 1 "SWDIO" V 5295 7638 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 5450 7450 50  0001 C CNN
+F 3 "~" H 5450 7450 50  0001 C CNN
+	1    5250 7450
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:TestPoint TP6
+U 1 1 5F2687E0
+P 5250 7650
+F 0 "TP6" V 5204 7838 50  0000 L CNN
+F 1 "SWCLK" V 5295 7838 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 5450 7650 50  0001 C CNN
+F 3 "~" H 5450 7650 50  0001 C CNN
+	1    5250 7650
+	0    1    1    0   
+$EndComp
+Text Label 5250 7450 2    50   ~ 0
+SWDIO
+Text Label 5250 7650 2    50   ~ 0
+SWCLK
+Text Label 5250 7850 2    50   ~ 0
+RESET
+$Comp
+L Connector:TestPoint TP7
+U 1 1 5F2692FE
+P 5250 7850
+F 0 "TP7" V 5204 8038 50  0000 L CNN
+F 1 "RESET" V 5295 8038 50  0000 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 5450 7850 50  0001 C CNN
+F 3 "~" H 5450 7850 50  0001 C CNN
+	1    5250 7850
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC
