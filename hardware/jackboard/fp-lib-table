@@ -1,4 +1,4 @@
 (fp_lib_table
-  (lib (name jackboard)(type KiCad)(uri C:/Users/jjram/workspace/Winterbloom_Castor_and_Pollux/hardware/jackboard.pretty)(options "")(descr ""))
   (lib (name Connectors)(type KiCad)(uri /Users/stargirl/workspace/SparkFun-KiCad-Libraries/Footprints/Connectors.pretty)(options "")(descr ""))
+  (lib (name jackboard)(type KiCad)(uri ${KIPRJMOD}/jackboard.pretty)(options "")(descr ""))
 )
