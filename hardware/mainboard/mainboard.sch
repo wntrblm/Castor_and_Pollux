@@ -31,6 +31,7 @@ F 2 "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical" H 2400 6750 50 
 F 3 "~" H 2400 6750 50  0001 C CNN
 F 4 "yes" H 2400 6750 50  0001 C CNN "finalized"
 F 5 "MF-CON-2.54mm-01x20" H 2400 6750 50  0001 C CNN "mpn"
+F 6 "929974-01-20-RK" H 2400 6750 50  0001 C CNN "mpn alt"
 	1    2400 6750
 	1    0    0    1   
 $EndComp
@@ -315,6 +316,7 @@ F 2 "Connector_PinHeader_2.54mm:PinHeader_1x20_P2.54mm_Vertical" H 3100 6750 50 
 F 3 "~" H 3100 6750 50  0001 C CNN
 F 4 "yes" H 3100 6750 50  0001 C CNN "finalized"
 F 5 "MF-CON-2.54mm-01x20" H 3100 6750 50  0001 C CNN "mpn"
+F 6 "929974-01-20-RK" H 3100 6750 50  0001 C CNN "mpn alt"
 	1    3100 6750
 	-1   0    0    1   
 $EndComp

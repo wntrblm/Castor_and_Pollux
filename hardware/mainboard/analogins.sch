@@ -322,6 +322,7 @@ F 3 "~" H 2400 4950 50  0001 C CNN
 F 4 "yes" H 2400 4950 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-4.7nF" H 2400 4950 50  0001 C CNN "mpn"
 F 6 "10% 50v" H 2400 4950 50  0001 C CNN "mpn specs"
+F 7 "GRM1885C1H472JA01D" H 2400 4950 50  0001 C CNN "mpn alt"
 	1    2400 4950
 	0    -1   -1   0   
 $EndComp
@@ -446,6 +447,7 @@ F 3 "~" H 2400 6400 50  0001 C CNN
 F 4 "yes" H 2400 6400 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-4.7nF" H 2400 6400 50  0001 C CNN "mpn"
 F 6 "10% 50v" H 2400 6400 50  0001 C CNN "mpn specs"
+F 7 "GRM1885C1H472JA01D" H 2400 6400 50  0001 C CNN "mpn alt"
 	1    2400 6400
 	0    -1   -1   0   
 $EndComp
@@ -568,6 +570,7 @@ F 3 "~" H 5750 2350 50  0001 C CNN
 F 4 "yes" H 5750 2350 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-4.7nF" H 5750 2350 50  0001 C CNN "mpn"
 F 6 "10% 50v" H 5750 2350 50  0001 C CNN "mpn specs"
+F 7 "GRM1885C1H472JA01D" H 5750 2350 50  0001 C CNN "mpn alt"
 	1    5750 2350
 	0    -1   -1   0   
 $EndComp
@@ -680,6 +683,7 @@ F 3 "~" H 8350 6000 50  0001 C CNN
 F 4 "yes" H 8350 6000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 8350 6000 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 8350 6000 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 8350 6000 50  0001 C CNN "mpn alt"
 	1    8350 6000
 	-1   0    0    1   
 $EndComp
@@ -727,6 +731,7 @@ F 3 "~" H 8950 6000 50  0001 C CNN
 F 4 "yes" H 8950 6000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 8950 6000 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 8950 6000 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 8950 6000 50  0001 C CNN "mpn alt"
 	1    8950 6000
 	-1   0    0    1   
 $EndComp

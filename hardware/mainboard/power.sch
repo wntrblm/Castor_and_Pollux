@@ -23,6 +23,7 @@ F 2 "Diode_SMD:D_SOD-123" H 2250 1100 50  0001 C CNN
 F 3 "~" H 2250 1100 50  0001 C CNN
 F 4 "yes" H 2250 1100 50  0001 C CNN "finalized"
 F 5 "MF-DIO-SOD123-1N4148" H 2250 1100 50  0001 C CNN "mpn"
+F 6 "1N4148W-7-F" H 2250 1100 50  0001 C CNN "mpn alt"
 	1    2250 1100
 	1    0    0    -1  
 $EndComp
@@ -36,6 +37,7 @@ F 2 "Diode_SMD:D_SOD-123" H 2250 1750 50  0001 C CNN
 F 3 "~" H 2250 1750 50  0001 C CNN
 F 4 "yes" H 2250 1750 50  0001 C CNN "finalized"
 F 5 "MF-DIO-SOD123-1N4148" H 2250 1750 50  0001 C CNN "mpn"
+F 6 "1N4148W-7-F" H 2250 1750 50  0001 C CNN "mpn alt"
 	1    2250 1750
 	-1   0    0    1   
 $EndComp
@@ -97,6 +99,7 @@ F 4 "ESR 0.3-22 Ohms, 16v+" H 5200 1350 50  0001 C CNN "Reqs"
 F 5 "EEE-FK1V470P" H 5200 1350 50  0001 C CNN "mpn"
 F 6 "yes" H 5200 1350 50  0001 C CNN "finalized"
 F 7 "20%, 35v, 0.36 Ohms" H 5200 1350 50  0001 C CNN "mpn specs"
+F 8 "EEE-FK1H470XP" H 5200 1350 50  0001 C CNN "mpn alt"
 	1    5200 1350
 	1    0    0    -1  
 $EndComp
@@ -111,6 +114,7 @@ F 3 "~" H 5600 1350 50  0001 C CNN
 F 4 "yes" H 5600 1350 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 5600 1350 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 5600 1350 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 5600 1350 50  0001 C CNN "mpn alt"
 	1    5600 1350
 	1    0    0    -1  
 $EndComp
@@ -205,6 +209,7 @@ F 4 "EEE-FK1V470P" H 4100 1350 50  0001 C CNN "mpn"
 F 5 "yes" H 4100 1350 50  0001 C CNN "finalized"
 F 6 "ESR 0.3-22 Ohms, 16v+" H 4100 1350 50  0001 C CNN "Reqs"
 F 7 "20%, 35v, 0.36 Ohms" H 4100 1350 50  0001 C CNN "mpn specs"
+F 8 "EEE-FK1H470XP" H 4100 1350 50  0001 C CNN "mpn alt"
 	1    4100 1350
 	1    0    0    -1  
 $EndComp
@@ -307,6 +312,7 @@ F 3 "~" H 2550 3300 50  0001 C CNN
 F 4 "yes" H 2550 3300 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2550 3300 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 2550 3300 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 2550 3300 50  0001 C CNN "mpn alt"
 	1    2550 3300
 	1    0    0    -1  
 $EndComp

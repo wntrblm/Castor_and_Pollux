@@ -37,6 +37,7 @@ F 3 "~" H 3050 1650 50  0001 C CNN
 F 4 "yes" H 3050 1650 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-1uF" H 3050 1650 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 3050 1650 50  0001 C CNN "mpn specs"
+F 7 "GCM188R71E105KA64D" H 3050 1650 50  0001 C CNN "mpn alt"
 	1    3050 1650
 	1    0    0    -1  
 $EndComp
@@ -120,6 +121,7 @@ F 2 "MF_Switches:MF_Switches-TACT4.2MM" H 1340 7150 20  0001 L CNN
 F 3 "" H 1450 7000 60  0001 C CNN
 F 4 "yes" H 1450 7000 50  0001 C CNN "finalized"
 F 5 "MF-SW-TACT-4.2MM" H 1450 7000 50  0001 C CNN "mpn"
+F 6 "PTS810SJK250SMTRLFS" H 1450 7000 50  0001 C CNN "mpn alt"
 	1    1450 7000
 	1    0    0    -1  
 $EndComp
@@ -169,6 +171,7 @@ F 3 "~" H 3150 7000 50  0001 C CNN
 F 4 "yes" H 3150 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3150 7000 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 3150 7000 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 3150 7000 50  0001 C CNN "mpn alt"
 	1    3150 7000
 	1    0    0    -1  
 $EndComp
@@ -205,6 +208,7 @@ F 3 "~" H 3650 7000 50  0001 C CNN
 F 4 "yes" H 3650 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3650 7000 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 3650 7000 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 3650 7000 50  0001 C CNN "mpn alt"
 	1    3650 7000
 	1    0    0    -1  
 $EndComp
@@ -241,6 +245,7 @@ F 3 "~" H 4150 7000 50  0001 C CNN
 F 4 "yes" H 4150 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 4150 7000 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 4150 7000 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 4150 7000 50  0001 C CNN "mpn alt"
 	1    4150 7000
 	1    0    0    -1  
 $EndComp
@@ -317,6 +322,7 @@ F 2 "MF_Connectors:MF_Connectors-MICROUSB-RIGHT" V 9568 5704 20  0001 C CNN
 F 3 "" H 9791 5850 60  0000 C CNN
 F 4 "yes" H 9800 5850 50  0001 C CNN "finalized"
 F 5 "MF-CON-MICROUSB-RIGHT" H 9800 5850 50  0001 C CNN "mpn"
+F 6 "10118193-0001LF" H 9800 5850 50  0001 C CNN "mpn alt"
 	1    9800 5850
 	1    0    0    -1  
 $EndComp
@@ -394,6 +400,7 @@ F 3 "~" H 4800 5900 50  0001 C CNN
 F 4 "yes" H 4800 5900 50  0001 C CNN "finalized"
 F 5 "MF-RES-0603-4.7K" H 4800 5900 50  0001 C CNN "mpn"
 F 6 "100mW" H 4800 5900 50  0001 C CNN "mpn specs"
+F 7 "ERA-3AED472V" H 4800 5900 50  0001 C CNN "mpn alt"
 	1    4800 5900
 	1    0    0    -1  
 $EndComp
@@ -408,6 +415,7 @@ F 3 "~" H 5200 5900 50  0001 C CNN
 F 4 "yes" H 5200 5900 50  0001 C CNN "finalized"
 F 5 "MF-RES-0603-4.7K" H 5200 5900 50  0001 C CNN "mpn"
 F 6 "100mW" H 5200 5900 50  0001 C CNN "mpn specs"
+F 7 "ERA-3AED472V" H 5200 5900 50  0001 C CNN "mpn alt"
 	1    5200 5900
 	1    0    0    -1  
 $EndComp
@@ -455,6 +463,7 @@ F 3 "~" H 7750 5900 50  0001 C CNN
 F 4 "yes" H 7750 5900 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 7750 5900 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 7750 5900 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 7750 5900 50  0001 C CNN "mpn alt"
 	1    7750 5900
 	1    0    0    -1  
 $EndComp
@@ -480,6 +489,7 @@ F 3 "~" H 8300 5900 50  0001 C CNN
 F 4 "yes" H 8300 5900 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 8300 5900 50  0001 C CNN "mpn"
 F 6 "10% 16v" H 8300 5900 50  0001 C CNN "mpn specs"
+F 7 "GRT31CR61H106ME01L" H 8300 5900 50  0001 C CNN "mpn alt"
 	1    8300 5900
 	1    0    0    -1  
 $EndComp
@@ -717,6 +727,7 @@ F 3 "~" H 2700 7000 50  0001 C CNN
 F 4 "yes" H 2700 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2700 7000 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 2700 7000 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 2700 7000 50  0001 C CNN "mpn alt"
 	1    2700 7000
 	1    0    0    -1  
 $EndComp
@@ -753,6 +764,7 @@ F 3 "~" H 2250 7000 50  0001 C CNN
 F 4 "yes" H 2250 7000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2250 7000 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 2250 7000 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 2250 7000 50  0001 C CNN "mpn alt"
 	1    2250 7000
 	1    0    0    -1  
 $EndComp

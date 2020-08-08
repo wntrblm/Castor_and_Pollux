@@ -333,6 +333,7 @@ F 3 "~" H 7950 1550 50  0001 C CNN
 F 4 "yes" H 7950 1550 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 7950 1550 50  0001 C CNN "mpn"
 F 6 "10% 16v" H 7950 1550 50  0001 C CNN "mpn specs"
+F 7 "GRT31CR61H106ME01L" H 7950 1550 50  0001 C CNN "mpn alt"
 	1    7950 1550
 	0    1    1    0   
 $EndComp
@@ -650,6 +651,7 @@ F 3 "~" H 8850 1000 50  0001 C CNN
 F 4 "yes" H 8850 1000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-22pF" H 8850 1000 50  0001 C CNN "mpn"
 F 6 "5% 100v" H 8850 1000 50  0001 C CNN "mpn specs"
+F 7 "GCM1885C2A220JA16D" H 8850 1000 50  0001 C CNN "mpn alt"
 	1    8850 1000
 	0    1    1    0   
 $EndComp
@@ -705,6 +707,7 @@ F 3 "~" H 7950 2700 50  0001 C CNN
 F 4 "yes" H 7950 2700 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 7950 2700 50  0001 C CNN "mpn"
 F 6 "10% 16v" H 7950 2700 50  0001 C CNN "mpn specs"
+F 7 "GRT31CR61H106ME01L" H 7950 2700 50  0001 C CNN "mpn alt"
 	1    7950 2700
 	0    1    1    0   
 $EndComp
@@ -828,6 +831,7 @@ F 3 "~" H 8850 2150 50  0001 C CNN
 F 4 "yes" H 8850 2150 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-22pF" H 8850 2150 50  0001 C CNN "mpn"
 F 6 "5% 100v" H 8850 2150 50  0001 C CNN "mpn specs"
+F 7 "GCM1885C2A220JA16D" H 8850 2150 50  0001 C CNN "mpn alt"
 	1    8850 2150
 	0    1    1    0   
 $EndComp
@@ -1014,6 +1018,7 @@ F 3 "~" H 3450 6850 50  0001 C CNN
 F 4 "yes" H 3450 6850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3450 6850 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 3450 6850 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 3450 6850 50  0001 C CNN "mpn alt"
 	1    3450 6850
 	1    0    0    -1  
 $EndComp
@@ -1030,6 +1035,7 @@ F 3 "~" H 3000 6850 50  0001 C CNN
 F 4 "yes" H 3000 6850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 3000 6850 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 3000 6850 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 3000 6850 50  0001 C CNN "mpn alt"
 	1    3000 6850
 	1    0    0    -1  
 $EndComp
@@ -1046,6 +1052,7 @@ F 3 "~" H 2550 6850 50  0001 C CNN
 F 4 "yes" H 2550 6850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2550 6850 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 2550 6850 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 2550 6850 50  0001 C CNN "mpn alt"
 	1    2550 6850
 	1    0    0    -1  
 $EndComp
@@ -1062,6 +1069,7 @@ F 3 "~" H 2100 6850 50  0001 C CNN
 F 4 "yes" H 2100 6850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2100 6850 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 2100 6850 50  0001 C CNN "mpn specs"
+F 7 "GRM188R72A104KA35D" H 2100 6850 50  0001 C CNN "mpn alt"
 	1    2100 6850
 	1    0    0    -1  
 $EndComp
@@ -1167,8 +1175,8 @@ F 1 "8.2pF" V 8750 5100 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 4750 50  0001 C CNN
 F 3 "~" H 8850 4900 50  0001 C CNN
 F 4 "yes" H 8850 4900 50  0001 C CNN "finalized"
-F 5 "CM1885C2A8R2DA16D" H 8850 4900 50  0001 C CNN "mpn"
-F 6 "+/-0.5pF 100v" H 8850 4900 50  0001 C CNN "mpn specs"
+F 5 "GCM1885C2A8R2DA16D" H 8850 4900 50  0001 C CNN "mpn"
+F 6 "" H 8850 4900 50  0001 C CNN "mpn specs"
 	1    8850 4900
 	0    1    1    0   
 $EndComp
@@ -1216,6 +1224,7 @@ F 2 "Package_TO_SOT_SMD:SOT-23" H 3500 1675 50  0001 L CIN
 F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 3300 1750 50  0001 L CNN
 F 4 "yes" H 3300 1750 50  0001 C CNN "finalized"
 F 5 "MF-DSC-SOT233-MMBT3904" H 3300 1750 50  0001 C CNN "mpn"
+F 6 "MMBT3904,215" H 3300 1750 50  0001 C CNN "mpn alt"
 	1    3300 1750
 	0    1    1    0   
 $EndComp
@@ -1426,6 +1435,7 @@ F 3 "~" H 8850 3300 50  0001 C CNN
 F 4 "yes" H 8850 3300 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-22pF" H 8850 3300 50  0001 C CNN "mpn"
 F 6 "5% 100v" H 8850 3300 50  0001 C CNN "mpn specs"
+F 7 "GCM1885C2A220JA16D" H 8850 3300 50  0001 C CNN "mpn alt"
 	1    8850 3300
 	0    1    1    0   
 $EndComp
@@ -1549,6 +1559,7 @@ F 3 "~" H 7950 3850 50  0001 C CNN
 F 4 "yes" H 7950 3850 50  0001 C CNN "finalized"
 F 5 "MF-CAP-1206-10uF" H 7950 3850 50  0001 C CNN "mpn"
 F 6 "10% 16v" H 7950 3850 50  0001 C CNN "mpn specs"
+F 7 "GRT31CR61H106ME01L" H 7950 3850 50  0001 C CNN "mpn alt"
 	1    7950 3850
 	0    1    1    0   
 $EndComp
