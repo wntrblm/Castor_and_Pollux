@@ -12,7 +12,7 @@ SIZE = arm-none-eabi-size
 
 
 ##############################################################################
-.PHONY: all directory clean size
+.PHONY: all directory clean size firmware
 
 
 ifeq ($(OS), Windows_NT)
@@ -37,10 +37,16 @@ CFLAGS += -MD -MP -MT $(BUILD)/$(*F).o -MF $(BUILD)/$(@F).d
 # Optimizations
 # Enable dead code elimination
 CFLAGS += -fdata-sections -ffunction-sections
-# Enable link-time optimization
-#CFLAGS += -flto -flto-partition=none
-# Optimize for speed instead of size, as this firmware is very small.
-CFLAGS += -O2
+
+ifeq ($(DEBUG), 1)
+  CFLAGS += -ggdb -O0
+
+else
+  # Optimize for speed instead of size, as this firmware is very small.
+  CFLAGS += -O2
+  # Enable link-time optimization
+  CFLAGS += -flto -flto-partition=none
+endif
 
 LDFLAGS += -mcpu=cortex-m0plus -mthumb
 # Perform dead code elimination 
@@ -52,9 +58,9 @@ INCLUDES += \
   -I./third_party/samd21/include \
   -I./third_party/cmsis/include \
 
+SRCS += $(wildcard src/*.c)
+
 SRCS += \
-  ./src/main.c \
-  ./third_party/samd21/gcc/system_samd21.c \
   ./third_party/samd21/gcc/gcc/startup_samd21.c
 
 DEFINES += \
@@ -63,13 +69,14 @@ DEFINES += \
   -D__SAMD21_FAMILY \
   -D__SAM_D21_SUBFAMILY \
   -D__$(MCU)__ \
+  -DDONT_USE_CMSIS_INIT \
   -DF_CPU=$(F_CPU)
 
 CFLAGS += $(INCLUDES) $(DEFINES)
 
 OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
-all: directory $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).hex $(BUILD)/$(BIN).bin size
+all: directory firmware size
 
 $(BUILD)/$(BIN).elf: $(OBJS)
 	@echo LD $@
@@ -87,12 +94,19 @@ $(BUILD)/$(BIN).bin: $(BUILD)/$(BIN).elf
 	@echo CC $@
 	@$(CC) $(CFLAGS) $(filter %/$(subst .o,.c,$(notdir $@)), $(SRCS)) -c -o $@
 
+firmware: $(BUILD)/$(BIN).elf
+	@echo firmware is at $(BUILD)/$(BIN).elf
+
 directory:
 	@$(MKDIR) -p $(BUILD)
 
 size: $(BUILD)/$(BIN).elf
 	@echo size:
 	@$(SIZE) -t $^
+
+program: firmware
+	@echo program
+	openocd -f openocd-program.cfg
 
 clean:
 	@echo clean
