@@ -1,0 +1,12 @@
+#pragma once
+#include "sam.h"
+
+#define PIN_STATUS_LED PIN_PA18
+#define PIN_STATUS_LED_PORT 0
+#define PIN_STATUS_LED_2 PIN_PA07
+#define PIN_STATUS_LED_2_PORT 0
+
+#define PIN_BUTTON PIN_PA15
+#define PIN_BUTTON_PORT 0
+
+#define GEM_ADC_GCLK GCLK_CLKCTRL_GEN_GCLK0
