@@ -3,8 +3,23 @@
 #include "sam.h"
 
 
-static volatile uint32_t result;
+/* Inputs to scan. */
+static const struct gem_adc_input* _inputs;
+static size_t _num_inputs;
 
+/* Results from input scanning */
+static volatile uint32_t* _results;
+
+/* Scanning state */
+static volatile size_t _current_input = 0;
+static volatile bool _results_ready = false;
+
+
+/* Private forward declarations. */
+void _gem_adc_scan();
+
+
+/* Public methods. */
 
 void gem_adc_init() {
     /* Enable the APB clock for the ADC. */
@@ -88,6 +103,9 @@ void gem_adc_init_input(const struct gem_adc_input* input) {
 
 
 uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
+    /* Disable result ready interrupt, just in case. */
+    ADC->INTENSET.bit.RESRDY = false;
+
     /* Set the positive mux to the input pin */
     ADC->INPUTCTRL.bit.MUXPOS = input->ain;
     while (ADC->STATUS.bit.SYNCBUSY) {};
@@ -104,3 +122,64 @@ uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
     /* Read the value. */
     return ADC->RESULT.reg;
 }
+
+
+void gem_adc_start_scanning(const struct gem_adc_input* inputs, size_t num_inputs, uint32_t* results) {
+    _inputs = inputs;
+    _num_inputs = num_inputs;
+    _current_input = 0;
+    _results_ready = false;
+    _results = results;
+
+    NVIC_SetPriority(ADC_IRQn, 1);
+    NVIC_EnableIRQ(ADC_IRQn);
+
+    _gem_adc_scan();
+}
+
+/* Private methods & interrupt handlers. */
+
+void _gem_adc_scan() {
+    struct gem_adc_input input = _inputs[_current_input];
+
+    /* Swap out the input pin. */
+    ADC->INPUTCTRL.bit.MUXPOS = input.ain;
+
+    /* Enable the interrupt for result ready. */
+    ADC->INTENSET.bit.RESRDY = true;
+
+    /* Wait for synchronization. */
+    while (ADC->STATUS.bit.SYNCBUSY) {};
+
+    /* Start the ADC using a software trigger. */
+    ADC->SWTRIG.bit.START = true;
+}
+
+
+void ADC_Handler(void) {
+    /* Should always be the result ready flag. */
+    if (!ADC->INTFLAG.bit.RESRDY) {
+        #ifdef DEBUG
+            while(1) {}
+        #endif
+        ADC->INTFLAG.reg = ADC_INTFLAG_RESETVALUE;
+        return;
+    }
+
+    /* Clear the interrupt flag. */
+    ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
+
+    /* Store the result */
+    _results[_current_input] = ADC->RESULT.reg;
+
+    /* Scan the next input */
+    _current_input = _current_input + 1;
+    if(_current_input == _num_inputs) {
+        _current_input = 0;
+        _results_ready = true;
+    }
+
+    _gem_adc_scan();
+}
+
+
