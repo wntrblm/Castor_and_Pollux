@@ -59,36 +59,37 @@ void gem_adc_init() {
         #error External ref code not written yet
     #endif
 
-
     /* Wait for bus synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
 
     /* Enable the ADC. */
     ADC->CTRLA.bit.ENABLE = true;
 
-    /*
-    - MUXPOS_PIN3 means that the ADC should read from AIN3, or PB09.
-        This is A2 on the Feather M0 board.
+    /* NOTE: The datasheet says to throw away the first reading, however,
+        since Gemini does a *lot* of reads and uses averaging, this
+        isn't really necessary.
     */
-    ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_MUXPOS_PIN3;
+}
 
-    /* Set PB09 as an input pin. */
-    PORT->Group[1].DIRCLR.reg = PORT_PB09;
+void gem_adc_init_input(const struct gem_adc_input* input) {
+    /* Set it as an input pin. */
+    PORT->Group[input->port].DIRCLR.reg = (1 << input->pin);
 
-    /* Enable the peripheral multiplexer for PB09. */
-    PORT->Group[1].PINCFG[9].reg |= PORT_PINCFG_PMUXEN;
+    /* Enable the peripheral multiplexer.*/
+    PORT->Group[input->port].PINCFG[(1 << input->pin)].reg |= PORT_PINCFG_PMUXEN;
 
-    /* Set PB09 to function B which is analog input. */
-    PORT->Group[1].PMUX[4].reg = PORT_PMUX_PMUXO_B;
-
-
-    /* Make one read and throw it away, as per the datasheet */
-    gem_adc_read_sync();
+    /* Set the mux to function B which is analog input. */
+    if(input->pin & 1) {
+        PORT->Group[input->port].PMUX[input->pin >> 1].reg |= PORT_PMUX_PMUXO_B;
+    } else {
+        PORT->Group[input->port].PMUX[input->pin >> 1].reg |= PORT_PMUX_PMUXE_B;
+    }
 }
 
 
-uint16_t gem_adc_read_sync() {
-    /* Wait for bus synchronization. */
+uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
+    /* Set the positive mux to the input pin */
+    ADC->INPUTCTRL.bit.MUXPOS = input->ain;
     while (ADC->STATUS.bit.SYNCBUSY) {};
 
     /* Start the ADC using a software trigger. */
