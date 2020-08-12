@@ -44,8 +44,8 @@ ifeq ($(DEBUG), 1)
 else
   # Optimize for speed instead of size, as this firmware is very small.
   CFLAGS += -O2
-  # Enable link-time optimization
-  CFLAGS += -flto -flto-partition=none
+  # Consider link-time optimization, but it doesn't seem to
+  # work right now.
 endif
 
 LDFLAGS += -mcpu=cortex-m0plus -mthumb
