@@ -27,16 +27,18 @@ int main(void) {
     gem_adc_start_scanning(gem_adc_inputs, 2, adc_results);
 
     while(1) {
-        if(adc_results[0] > 1024) {
-            gem_gpio_set(PIN_STATUS_LED_PORT, PIN_STATUS_LED, true);
-        } else {
-            gem_gpio_set(PIN_STATUS_LED_PORT, PIN_STATUS_LED, false);
-        }
+        if(gem_adc_results_ready()) {
+            if(adc_results[0] > 1024) {
+                gem_gpio_set(PIN_STATUS_LED_PORT, PIN_STATUS_LED, true);
+            } else {
+                gem_gpio_set(PIN_STATUS_LED_PORT, PIN_STATUS_LED, false);
+            }
 
-        if(adc_results[1] > 1024) {
-            gem_gpio_set(PIN_STATUS_LED_2_PORT, PIN_STATUS_LED_2, true);
-        } else {
-            gem_gpio_set(PIN_STATUS_LED_2_PORT, PIN_STATUS_LED_2, false);
+            if(adc_results[1] > 1024) {
+                gem_gpio_set(PIN_STATUS_LED_2_PORT, PIN_STATUS_LED_2, true);
+            } else {
+                gem_gpio_set(PIN_STATUS_LED_2_PORT, PIN_STATUS_LED_2, false);
+            }
         }
     }
 
