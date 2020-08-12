@@ -80,7 +80,7 @@ void gem_pulseout_set_duty(uint8_t channel, float duty) {
             break;
         
         case 1:
-            TCC1->CC[GEM_TCC1_WO].reg = (uint32_t)(TCC0->PER.reg * duty);
+            TCC1->CC[GEM_TCC1_WO].reg = (uint32_t)(TCC1->PER.reg * duty);
             break;
 
         default:

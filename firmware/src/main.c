@@ -27,9 +27,9 @@ int main(void) {
 
 
     gem_pulseout_init();
-    gem_pulseout_set_frequency(0, 512);
+    gem_pulseout_set_frequency(0, 2^24);
     gem_pulseout_set_duty(0, 0);
-    gem_pulseout_set_frequency(1, 512);
+    gem_pulseout_set_frequency(1, 2^24);
     gem_pulseout_set_duty(1, 0);
 
     while(1) {
