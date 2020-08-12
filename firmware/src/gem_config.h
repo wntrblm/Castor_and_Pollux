@@ -1,5 +1,6 @@
 #pragma once
 #include "sam.h"
+#include "gem_adc.h"
 
 #define PIN_STATUS_LED PIN_PA18
 #define PIN_STATUS_LED_PORT 0
@@ -24,3 +25,5 @@
 #define GEM_ADC_SAMPLE_ADJRES ADC_AVGCTRL_ADJRES(4)
 
 // #define GEM_ADC_USE_EXTERNAL_REF
+
+extern const struct gem_adc_input gem_adc_inputs[];

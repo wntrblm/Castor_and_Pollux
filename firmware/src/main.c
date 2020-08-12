@@ -19,14 +19,17 @@ int main(void) {
 
     gem_adc_init();
 
+    gem_adc_init_input(&gem_adc_inputs[0]);
+    gem_adc_init_input(&gem_adc_inputs[1]);
+
     while(1) {
-        if(gem_gpio_get(PIN_BUTTON_PORT, PIN_BUTTON)) {
+        if(gem_adc_read_sync(&gem_adc_inputs[1]) > 1024) {
             gem_gpio_set(PIN_STATUS_LED_PORT, PIN_STATUS_LED, true);
         } else {
             gem_gpio_set(PIN_STATUS_LED_PORT, PIN_STATUS_LED, false);
         }
 
-        if(gem_adc_read_sync() < 1024) {
+        if(gem_adc_read_sync(&gem_adc_inputs[0]) > 1024) {
             gem_gpio_set(PIN_STATUS_LED_2_PORT, PIN_STATUS_LED_2, true);
         } else {
             gem_gpio_set(PIN_STATUS_LED_2_PORT, PIN_STATUS_LED_2, false);
