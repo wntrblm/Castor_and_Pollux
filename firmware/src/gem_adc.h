@@ -1,4 +1,5 @@
 #pragma once
+#include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -16,10 +17,8 @@ void gem_adc_init();
 
 void gem_adc_init_input(const struct gem_adc_input* const input);
 
-void gem_adc_start();
+uint16_t gem_adc_read_sync(const struct gem_adc_input* input);
 
-uint16_t gem_adc_read_sync();
+void gem_adc_start_scanning(const struct gem_adc_input* inputs, size_t num_inputs, uint32_t* results);
 
-bool gem_adc_measurements_ready();
-
-uint16_t* gem_adc_get_measurement_buffer();
+bool gem_adc_results_ready();
