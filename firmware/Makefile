@@ -21,7 +21,7 @@ else
   MKDIR = mkdir
 endif
 
-CFLAGS += -W -Wall --std=gnu11
+CFLAGS += -W -Wall -Wextra --std=gnu11
 CFLAGS += -mcpu=cortex-m0plus -mthumb -msoft-float -mfloat-abi=soft
 # Specify dialect options that make things easier for embedded development.
 CFLAGS += -funsigned-char -funsigned-bitfields -fshort-enums
