@@ -27,3 +27,18 @@
 // #define GEM_ADC_USE_EXTERNAL_REF
 
 extern const struct gem_adc_input gem_adc_inputs[];
+
+
+/* Pulse out/TCC configuration. */
+
+#define GEM_PULSEOUT_GCLK GCLK_CLKCTRL_GEN_GCLK0
+
+#define GEM_TCC0_PIN_PORT 0
+#define GEM_TCC0_PIN PIN_PA18
+#define GEM_TCC0_PIN_FUNC PORT_PMUX_PMUXE_F
+#define GEM_TCC0_WO 2
+
+#define GEM_TCC1_PIN_PORT 0
+#define GEM_TCC1_PIN PIN_PA07
+#define GEM_TCC1_PIN_FUNC PORT_PMUX_PMUXO_E
+#define GEM_TCC1_WO 1
