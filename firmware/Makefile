@@ -56,7 +56,7 @@ LDFLAGS += -Wl,--script=./third_party/samd21/gcc/gcc/$(LINKER_SCRIPT).ld
 INCLUDES += \
   -I./src \
   -I./third_party/samd21/include \
-  -I./third_party/cmsis/include \
+  -I./third_party/cmsis/include
 
 SRCS += $(wildcard src/*.c)
 
