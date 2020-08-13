@@ -10,6 +10,8 @@ void gem_clocks_init() {
     /* Configure the DFLL to generate a 48MHz clock. */
 
     /* Configure the DFLL in open loop mode. */
+
+    /* This is needed as per the errata - accessing the DPLL before doing this can lock the processor. */
     while(!SYSCTRL->PCLKSR.bit.DFLLRDY);
     SYSCTRL->DFLLCTRL.reg = (uint16_t)(SYSCTRL_DFLLCTRL_ENABLE);
     while(!SYSCTRL->PCLKSR.bit.DFLLRDY);
