@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "sam.h"
+#include "gem_clocks.h"
 #include "gem_gpio.h"
 #include "gem_adc.h"
 #include "gem_pulseout.h"
@@ -15,9 +16,8 @@ static void init_pins() {
 static uint32_t adc_results[2];
 
 int main(void) {
-    // Switch to 8MHz clock (disable prescaler)
-    SYSCTRL->OSC8M.bit.PRESC = 0;
-    SYSCTRL->OSC8M.reg |= SYSCTRL_OSC8M_ENABLE;
+    /* Configure clocks. */
+    gem_clocks_init();
 
     // Initialize any configuration data and functionality,
     // such as printf() in debug mode.

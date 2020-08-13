@@ -14,7 +14,7 @@
 /* Analog to Digital Converter Configuration */
 
 // 8MHz Clock / 4 = 2 kHz ADC clock
-#define GEM_ADC_GCLK GCLK_CLKCTRL_GEN_GCLK0
+#define GEM_ADC_GCLK GCLK_CLKCTRL_GEN_GCLK1
 #define GEM_ADC_PRESCALER ADC_CTRLB_PRESCALER_DIV4
 #define GEM_ADC_REF internal
 
@@ -31,7 +31,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 
 /* Pulse out/TCC configuration. */
 
-#define GEM_PULSEOUT_GCLK GCLK_CLKCTRL_GEN_GCLK0
+#define GEM_PULSEOUT_GCLK GCLK_CLKCTRL_GEN_GCLK1
 
 #define GEM_TCC0_PIN_PORT 0
 #define GEM_TCC0_PIN PIN_PA18
