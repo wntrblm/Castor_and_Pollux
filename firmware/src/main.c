@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "sam.h"
 #include "gem_gpio.h"
 #include "gem_adc.h"
@@ -18,6 +19,10 @@ int main(void) {
     SYSCTRL->OSC8M.bit.PRESC = 0;
     SYSCTRL->OSC8M.reg |= SYSCTRL_OSC8M_ENABLE;
 
+    // Initialize any configuration data and functionality,
+    // such as printf() in debug mode.
+    gem_config_init();
+
     init_pins();
 
     gem_adc_init();
@@ -34,6 +39,7 @@ int main(void) {
 
     while(1) {
         if(gem_adc_results_ready()) {
+            printf("Ch1: %lu\r\n", adc_results[0]);
             gem_pulseout_set_duty(0, adc_results[0] / 4096.0f);
             gem_pulseout_set_duty(1, adc_results[1] / 4096.0f);
         }

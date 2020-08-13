@@ -48,11 +48,6 @@ else
   # work right now.
 endif
 
-LDFLAGS += -mcpu=cortex-m0plus -mthumb
-# Perform dead code elimination 
-LDFLAGS += -Wl,--gc-sections
-LDFLAGS += -Wl,--script=./third_party/samd21/gcc/gcc/$(LINKER_SCRIPT).ld
-
 INCLUDES += \
   -I./src \
   -I./third_party/samd21/include \
@@ -63,6 +58,18 @@ SRCS += $(wildcard src/*.c)
 SRCS += \
   ./third_party/samd21/gcc/gcc/startup_samd21.c
 
+
+# Segger RTT
+ifeq ($(DEBUG), 1)
+  INCLUDES += \
+    -I./third_party/rtt
+  SRCS += \
+    ./third_party/rtt/SEGGER_RTT.c \
+    ./third_party/rtt/SEGGER_RTT_printf.c
+endif
+LDFLAGS += -Wl,--wrap=printf
+
+# Defines
 DEFINES += \
   -DARM_MATH_CM0PLUS \
   -DSAMD21 \
@@ -72,9 +79,21 @@ DEFINES += \
   -DDONT_USE_CMSIS_INIT \
   -DF_CPU=$(F_CPU)
 
+ifeq ($(DEBUG), 1)
+  DEFINES += -DDEBUG=1
+endif
+
 CFLAGS += $(INCLUDES) $(DEFINES)
 
 OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
+
+# Linker configuration
+
+LDFLAGS += -mcpu=cortex-m0plus -mthumb
+# Perform dead code elimination 
+LDFLAGS += -Wl,--gc-sections
+LDFLAGS += -Wl,--script=./third_party/samd21/gcc/gcc/$(LINKER_SCRIPT).ld
+
 
 all: directory firmware size
 
