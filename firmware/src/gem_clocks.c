@@ -54,4 +54,16 @@ void gem_clocks_init() {
     GCLK->GENCTRL.bit.SRC = GCLK_GENCTRL_SRC_OSC8M_Val;
     GCLK->GENCTRL.bit.GENEN = 1;
     while(GCLK->STATUS.reg & GCLK_STATUS_SYNCBUSY);
+
+    /* Configure GCLK2 to follow the 32kHz oscillator. */
+    SYSCTRL->OSC32K.reg = SYSCTRL_OSC32K_ENABLE | SYSCTRL_OSC32K_EN32K;
+    while(!SYSCTRL_PCLKSR_OSC32KRDY);
+
+    GCLK->GENDIV.bit.ID = 2;
+    GCLK->GENDIV.bit.DIV = 0;
+
+    GCLK->GENCTRL.bit.ID = 2;
+    GCLK->GENCTRL.bit.SRC = GCLK_GENCTRL_SRC_OSC32K_Val;
+    GCLK->GENCTRL.bit.GENEN = 1;
+    while(GCLK->STATUS.reg & GCLK_STATUS_SYNCBUSY);
 }
