@@ -1,6 +1,7 @@
+#include "sam.h"
 #include "gem_adc.h"
 #include "gem_config.h"
-#include "sam.h"
+#include "gem_gpio.h"
 
 
 /* Inputs to scan. */
@@ -89,18 +90,8 @@ void gem_adc_init() {
 }
 
 void gem_adc_init_input(const struct gem_adc_input* input) {
-    /* Set it as an input pin. */
-    PORT->Group[input->port].DIRCLR.reg = (1 << input->pin);
-
-    /* Enable the peripheral multiplexer.*/
-    PORT->Group[input->port].PINCFG[(1 << input->pin)].reg |= PORT_PINCFG_PMUXEN;
-
-    /* Set the mux to function B which is analog input. */
-    if(input->pin & 1) {
-        PORT->Group[input->port].PMUX[input->pin >> 1].reg |= PORT_PMUX_PMUXO_B;
-    } else {
-        PORT->Group[input->port].PMUX[input->pin >> 1].reg |= PORT_PMUX_PMUXE_B;
-    }
+    gem_gpio_set_as_input(input->port, input->pin, false);
+    gem_gpio_set_mux(input->port, input->pin, GEM_PMUX_B);
 }
 
 
