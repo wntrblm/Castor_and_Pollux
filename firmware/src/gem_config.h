@@ -21,7 +21,7 @@
 #define GEM_ADC_PRESCALER ADC_CTRLB_PRESCALER_DIV32
 #define GEM_ADC_REF internal
 
-/* Max impedance is 28kOhms
+/* Max impedance is 28kOhms */
 #define GEM_ADC_SAMPLE_TIME 2
 
 #define GEM_ADC_SAMPLE_NUM ADC_AVGCTRL_SAMPLENUM_256
