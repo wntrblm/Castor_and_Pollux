@@ -13,12 +13,15 @@
 
 /* Analog to Digital Converter Configuration */
 
-// 8MHz Clock / 4 = 2 kHz ADC clock
-#define GEM_ADC_GCLK GCLK_CLKCTRL_GEN_GCLK1
-#define GEM_ADC_PRESCALER ADC_CTRLB_PRESCALER_DIV4
+/*
+    GCLK1: 8MHz Clock / DIV8 = 1 kHz ADC clock
+    GCLK0: 48Mhz Clokc / DIV32 = 1.5 kHz ADC clock
+*/
+#define GEM_ADC_GCLK GCLK_CLKCTRL_GEN_GCLK0
+#define GEM_ADC_PRESCALER ADC_CTRLB_PRESCALER_DIV32
 #define GEM_ADC_REF internal
 
-// Max impedance is 20kOhms
+/* Max impedance is 28kOhms
 #define GEM_ADC_SAMPLE_TIME 2
 
 #define GEM_ADC_SAMPLE_NUM ADC_AVGCTRL_SAMPLENUM_256
