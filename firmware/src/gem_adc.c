@@ -59,7 +59,6 @@ void gem_adc_init() {
 
     /* Configure the measurement parameters. */
 
-
     #ifndef GEM_ADC_USE_EXTERNAL_REF
         /*
         - Use the internal VCC reference. This is 1/2 of what's on VCCA.
@@ -73,6 +72,9 @@ void gem_adc_init() {
     #else
         #error External ref code not written yet
     #endif
+
+    /* Enable the reference buffer to increase accuracy (at the cost of speed). */
+    ADC->REFCTRL.bit.REFCOMP = 1;
 
     /* Wait for bus synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
