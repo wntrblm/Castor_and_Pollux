@@ -53,7 +53,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 /* Hz */
 #define GEM_I2C_GCLK_FREQ 8000000
 /* Hz */
-#define GEM_I2C_BAUDRATE 100000 
+#define GEM_I2C_BAUDRATE 400000 
 /* Nanoseconds */
 #define GEM_I2C_RISE_TIME 300
 #define GEM_I2C_SERCOM SERCOM3
