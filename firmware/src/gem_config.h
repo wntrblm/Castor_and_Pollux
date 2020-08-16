@@ -47,7 +47,28 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_TCC1_WO 1
 
 
-/* Functions. */
+/* I2C configuration. */
+
+#define GEM_I2C_GCLK GCLK_CLKCTRL_GEN_GCLK1
+/* Hz */
+#define GEM_I2C_GCLK_FREQ 8000000
+/* Hz */
+#define GEM_I2C_BAUDRATE 100000 
+/* Nanoseconds */
+#define GEM_I2C_RISE_TIME 300
+#define GEM_I2C_SERCOM SERCOM3
+#define GEM_I2C_SERCOM_APBCMASK PM_APBCMASK_SERCOM3
+#define GEM_I2C_GCLK_CLKCTRL_ID GCLK_CLKCTRL_ID_SERCOM3_CORE
+#define GEM_I2C_PAD_0_PORT 0
+#define GEM_I2C_PAD_0_PIN PIN_PA22
+#define GEM_I2C_PAD_0_PIN_FUNC GEM_PMUX_C
+#define GEM_I2C_PAD_1_PORT 0
+#define GEM_I2C_PAD_1_PIN PIN_PA23
+#define GEM_I2C_PAD_1_PIN_FUNC GEM_PMUX_C
+
+
+
+/* Functions */
 
 void gem_config_init();
 
