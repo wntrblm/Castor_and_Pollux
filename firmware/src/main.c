@@ -41,18 +41,6 @@ int main(void) {
     gem_i2c_init();
 
     uint8_t i2c_address = 0x60;
-    uint8_t i2c_data[] = {
-        0b01011010,
-        0b00001111,
-        0b00000000,
-    };
-
-    bool result = gem_i2c_write(i2c_address, i2c_data, 3);
-
-    if(!result) {
-        while(1) {}
-    }
-
     while(1) {
         if(gem_adc_results_ready()) {
             printf("Ch1: %lu, Ch2: %lu\r\n", adc_results[0], adc_results[1]);
@@ -67,7 +55,7 @@ int main(void) {
                 (adc_results[1] & 0xFF),
             };
 
-            bool result = gem_i2c_write(i2c_address, i2c_data, 3);
+            gem_i2c_write(i2c_address, i2c_data, 3);
         }
     }
 
