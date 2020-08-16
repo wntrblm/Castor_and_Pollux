@@ -4,6 +4,7 @@
 #include "gem_gpio.h"
 #include "gem_adc.h"
 #include "gem_pulseout.h"
+#include "gem_i2c.h"
 #include "gem_config.h"
 
 
@@ -37,11 +38,36 @@ int main(void) {
     gem_pulseout_set_frequency(1, 2^24);
     gem_pulseout_set_duty(1, 0);
 
+    gem_i2c_init();
+
+    uint8_t i2c_address = 0x60;
+    uint8_t i2c_data[] = {
+        0b01011010,
+        0b00001111,
+        0b00000000,
+    };
+
+    bool result = gem_i2c_write(i2c_address, i2c_data, 3);
+
+    if(!result) {
+        while(1) {}
+    }
+
     while(1) {
         if(gem_adc_results_ready()) {
-            printf("Ch1: %lu\r\n", adc_results[0]);
+            printf("Ch1: %lu, Ch2: %lu\r\n", adc_results[0], adc_results[1]);
+
             gem_pulseout_set_duty(0, adc_results[0] / 4096.0f);
             gem_pulseout_set_duty(1, adc_results[1] / 4096.0f);
+
+
+            uint8_t i2c_data[] = {
+                0b01011010,
+                (adc_results[1] >> 8),
+                (adc_results[1] & 0xFF),
+            };
+
+            bool result = gem_i2c_write(i2c_address, i2c_data, 3);
         }
     }
 
