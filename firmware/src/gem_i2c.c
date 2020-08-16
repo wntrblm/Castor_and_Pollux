@@ -2,6 +2,11 @@
 #include "gem_gpio.h"
 #include "gem_config.h"
 
+#define BUSSTATE_UNKNOWN 0
+#define BUSSTATE_IDLE 1
+#define BUSSTATE_OWNER 2
+#define BUSSTATE_BUSY 3
+
 
 void gem_i2c_init() {
     /* Enable the APB clock for SERCOM. */
@@ -47,43 +52,48 @@ void gem_i2c_init() {
     while(GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.ENABLE);
 
     /* Put the bus into the idle state. */
-    GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE = 1;
+    GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE = BUSSTATE_IDLE;
     while(GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP);
 }
 
 
-bool gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
-    // while(GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE != 1);
-    // while(GEM_I2C_SERCOM->I2CM.STATUS.bit.ARBLOST != 0);
-
-    /* Address + write flag. */
-    GEM_I2C_SERCOM->I2CM.ADDR.bit.ADDR = (address << 0x1ul) | 0;
-    while(!GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB); // <- Hangs here.
-
-    /* Check for loss of bus. */
-    if(GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE != 2) {
+enum gem_i2c_result gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
+    /* Before trying to write, check to see if the bus is busy, if it is,
+       bail.
+    */
+    if (GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE == BUSSTATE_BUSY) {
         return false;
     }
 
-    /* Check for nack. */
+    /* Address + write flag. */
+    GEM_I2C_SERCOM->I2CM.ADDR.bit.ADDR = (address << 0x1ul) | 0;
+    /* TODO: Consider a timeout here. */
+    while(!GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB);
+
+    /* Check for loss of bus or NACK - in either case we can't continue. */
+    if(GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE != BUSSTATE_OWNER) {
+        return GEM_I2C_RESULT_ERR_BUSSTATE;
+    }
     if(GEM_I2C_SERCOM->I2CM.STATUS.bit.RXNACK) {
-        return false;
+        return GEM_I2C_RESULT_ERR_ADDR_NACK;
     }
 
     /* Send data bytes. */
     for(size_t i = 0; i < len; i++) {
         /* Send data and wait for TX complete. */
         GEM_I2C_SERCOM->I2CM.DATA.bit.DATA = data[i];
+    
         while(!GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB) {
-            // Check for bus errors and exit if the bus fails.
-            if (GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSERR) {
-                return false;
+            /* Check for loss of arbitration or a bus error. We can't continue if those happen. */
+            /* BUSERR is set in addition to ARBLOST if arbitration is lost, so just check that one. */
+            if(GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSERR) {
+                return GEM_I2C_RESULT_ERR_BUSERR;
             }
         }
 
-        /* Check for nack. */
+        /* If a nack is received we can not continue sending data. */
         if(GEM_I2C_SERCOM->I2CM.STATUS.bit.RXNACK) {
-            return false;
+            return GEM_I2C_RESULT_ERR_DATA_NACK;
         }
     }
 
@@ -91,5 +101,5 @@ bool gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
     GEM_I2C_SERCOM->I2CM.CTRLB.bit.CMD = 3;
     while(GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP);
 
-    return true;
+    return GEM_I2C_RESULT_SUCCESS;
 }
