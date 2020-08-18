@@ -12,7 +12,7 @@ SIZE = arm-none-eabi-size
 
 
 ##############################################################################
-.PHONY: all directory clean size firmware format
+.PHONY: all directory clean size firmware format tidy
 
 
 ifeq ($(OS), Windows_NT)
@@ -133,6 +133,9 @@ clean:
 
 format:
 	clang-format -i src/*.h src/*.c
+
+tidy:
+	clang-tidy src/main.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
 
 -include $(wildcard $(BUILD)/*.d)
 
