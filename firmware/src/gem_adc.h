@@ -1,7 +1,7 @@
 #pragma once
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <stdbool.h>
 
 /*
     Gemini Analog to Digital Converter interface.

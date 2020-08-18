@@ -1,13 +1,12 @@
-#include <stdio.h>
-#include "sam.h"
-#include "gem_clocks.h"
-#include "gem_gpio.h"
 #include "gem_adc.h"
-#include "gem_pulseout.h"
+#include "gem_clocks.h"
+#include "gem_config.h"
+#include "gem_gpio.h"
 #include "gem_i2c.h"
 #include "gem_mcp4728.h"
-#include "gem_config.h"
-
+#include "gem_pulseout.h"
+#include "sam.h"
+#include <stdio.h>
 
 static void init_pins() {
     gem_gpio_set_as_input(PIN_BUTTON_PORT, PIN_BUTTON, true);
@@ -35,16 +34,16 @@ int main(void) {
 
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
-    gem_pulseout_set_frequency(0, 2^24);
+    gem_pulseout_set_frequency(0, 2 ^ 24);
     gem_pulseout_set_duty(0, 0);
-    gem_pulseout_set_frequency(1, 2^24);
+    gem_pulseout_set_frequency(1, 2 ^ 24);
     gem_pulseout_set_duty(1, 0);
 
     /* Enable i2c bus for communicating with the DAC. */
     gem_i2c_init();
 
-    while(1) {
-        if(gem_adc_results_ready()) {
+    while (1) {
+        if (gem_adc_results_ready()) {
             printf("Ch1: %lu, Ch2: %lu\r\n", adc_results[0], adc_results[1]);
 
             gem_pulseout_set_duty(0, adc_results[0] / 4096.0f);

@@ -1,6 +1,6 @@
 #pragma once
-#include "sam.h"
 #include "gem_adc.h"
+#include "sam.h"
 
 #define PIN_STATUS_LED PIN_PA18
 #define PIN_STATUS_LED_PORT 0
@@ -9,7 +9,6 @@
 
 #define PIN_BUTTON PIN_PA15
 #define PIN_BUTTON_PORT 0
-
 
 /* Analog to Digital Converter Configuration */
 
@@ -31,7 +30,6 @@
 
 extern const struct gem_adc_input gem_adc_inputs[];
 
-
 /* Pulse out/TCC configuration. */
 
 #define GEM_PULSEOUT_GCLK GCLK_CLKCTRL_GEN_GCLK1
@@ -46,14 +44,13 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_TCC1_PIN_FUNC PORT_PMUX_PMUXO_E
 #define GEM_TCC1_WO 1
 
-
 /* I2C configuration. */
 
 #define GEM_I2C_GCLK GCLK_CLKCTRL_GEN_GCLK1
 /* Hz */
 #define GEM_I2C_GCLK_FREQ 8000000
 /* Hz */
-#define GEM_I2C_BAUDRATE 400000 
+#define GEM_I2C_BAUDRATE 400000
 /* Nanoseconds */
 #define GEM_I2C_RISE_TIME 300
 #define GEM_I2C_SERCOM SERCOM3
@@ -66,10 +63,8 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_I2C_PAD_1_PIN PIN_PA23
 #define GEM_I2C_PAD_1_PIN_FUNC GEM_PMUX_C
 
-
-
 /* Functions */
 
 void gem_config_init();
 
-int __wrap_printf(const char * format, ...);
+int __wrap_printf(const char* format, ...);
