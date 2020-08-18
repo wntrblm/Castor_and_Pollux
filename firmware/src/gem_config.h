@@ -15,7 +15,7 @@
 
 /*
     GCLK1: 8MHz Clock / DIV8 = 1 kHz ADC clock
-    GCLK0: 48Mhz Clokc / DIV32 = 1.5 kHz ADC clock
+    GCLK0: 48Mhz Clock / DIV32 = 1.5 kHz ADC clock
 */
 #define GEM_ADC_GCLK GCLK_CLKCTRL_GEN_GCLK0
 #define GEM_ADC_PRESCALER ADC_CTRLB_PRESCALER_DIV32
