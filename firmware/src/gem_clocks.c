@@ -64,7 +64,7 @@ void gem_clocks_init() {
 
     /* Configure GCLK2 to follow the 32kHz oscillator. */
     SYSCTRL->OSC32K.reg = SYSCTRL_OSC32K_ENABLE | SYSCTRL_OSC32K_EN32K;
-    while (!SYSCTRL_PCLKSR_OSC32KRDY)
+    while (!SYSCTRL->PCLKSR.bit.OSC32KRDY)
         ;
 
     GCLK->GENDIV.bit.ID = 2;

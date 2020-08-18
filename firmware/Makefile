@@ -135,7 +135,7 @@ format:
 	clang-format -i src/*.h src/*.c
 
 tidy:
-	clang-tidy src/main.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
+	clang-tidy src/*.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
 
 -include $(wildcard $(BUILD)/*.d)
 
