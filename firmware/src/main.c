@@ -34,9 +34,9 @@ int main(void) {
 
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
-    gem_pulseout_set_frequency(0, 2 ^ 24);
+    gem_pulseout_set_frequency(0, 0xFF);
     gem_pulseout_set_duty(0, 0);
-    gem_pulseout_set_frequency(1, 2 ^ 24);
+    gem_pulseout_set_frequency(1, 0xFF);
     gem_pulseout_set_duty(1, 0);
 
     /* Enable i2c bus for communicating with the DAC. */
