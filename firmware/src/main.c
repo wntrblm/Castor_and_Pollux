@@ -48,7 +48,7 @@ int main(void) {
             printf("Ch1: %lu, Ch2: %lu\r\n", adc_results[0], adc_results[1]);
 
             gem_pulseout_set_duty(0, adc_results[0] / 4096.0f);
-            gem_pulseout_set_duty(1, adc_results[1] / 4096.0f);s
+            gem_pulseout_set_duty(1, adc_results[1] / 4096.0f);
 
             gem_mcp_4728_write_channels(adc_results[0], adc_results[1], adc_results[0], adc_results[1]);
         }

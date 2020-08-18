@@ -3,7 +3,7 @@
 # 
 MCU = SAMD21G18A
 LINKER_SCRIPT = samd21g18a_flash
-F_CPU = 8000000
+F_CPU = 48000000
 BUILD = build
 BIN = gemini-firmware
 CC = arm-none-eabi-gcc
