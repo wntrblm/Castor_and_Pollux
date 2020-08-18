@@ -1,8 +1,7 @@
-#include "sam.h"
 #include "gem_adc.h"
 #include "gem_config.h"
 #include "gem_gpio.h"
-
+#include "sam.h"
 
 /* Inputs to scan. */
 static const struct gem_adc_input* _inputs;
@@ -15,10 +14,8 @@ static volatile uint32_t* _results;
 static volatile size_t _current_input = 0;
 static volatile bool _results_ready = false;
 
-
 /* Private forward declarations. */
 void _gem_adc_scan();
-
 
 /* Public methods. */
 
@@ -27,16 +24,16 @@ void gem_adc_init() {
     PM->APBCMASK.reg |= PM_APBCMASK_ADC;
 
     /* Enable GCLK1 for the ADC */
-    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN |
-                        GEM_ADC_GCLK |
-                        GCLK_CLKCTRL_ID_ADC;
+    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | GEM_ADC_GCLK | GCLK_CLKCTRL_ID_ADC;
 
     /* Wait for bus synchronization. */
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
-    uint32_t bias = (*((uint32_t *) ADC_FUSES_BIASCAL_ADDR) & ADC_FUSES_BIASCAL_Msk) >> ADC_FUSES_BIASCAL_Pos;
-    uint32_t linearity = (*((uint32_t *) ADC_FUSES_LINEARITY_0_ADDR) & ADC_FUSES_LINEARITY_0_Msk) >> ADC_FUSES_LINEARITY_0_Pos;
-    linearity |= ((*((uint32_t *) ADC_FUSES_LINEARITY_1_ADDR) & ADC_FUSES_LINEARITY_1_Msk) >> ADC_FUSES_LINEARITY_1_Pos) << 5;
+    uint32_t bias = (*((uint32_t*)ADC_FUSES_BIASCAL_ADDR) & ADC_FUSES_BIASCAL_Msk) >> ADC_FUSES_BIASCAL_Pos;
+    uint32_t linearity =
+        (*((uint32_t*)ADC_FUSES_LINEARITY_0_ADDR) & ADC_FUSES_LINEARITY_0_Msk) >> ADC_FUSES_LINEARITY_0_Pos;
+    linearity |= ((*((uint32_t*)ADC_FUSES_LINEARITY_1_ADDR) & ADC_FUSES_LINEARITY_1_Msk) >> ADC_FUSES_LINEARITY_1_Pos)
+                 << 5;
 
     /* Wait for bus synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
@@ -51,28 +48,28 @@ void gem_adc_init() {
 
     ADC->AVGCTRL.reg |= GEM_ADC_SAMPLE_NUM | GEM_ADC_SAMPLE_ADJRES;
 
-    #if GEM_ADC_SAMPLE_NUM == ADC_AVGCTRL_SAMPLENUM_1
-        ADC->CTRLB.reg |= ADC_CTRLB_RESSEL_12BIT;
-    #else
-        // 16-bit result needed for multisampling
-        ADC->CTRLB.reg |= ADC_CTRLB_RESSEL_16BIT;
-    #endif
+#if GEM_ADC_SAMPLE_NUM == ADC_AVGCTRL_SAMPLENUM_1
+    ADC->CTRLB.reg |= ADC_CTRLB_RESSEL_12BIT;
+#else
+    // 16-bit result needed for multisampling
+    ADC->CTRLB.reg |= ADC_CTRLB_RESSEL_16BIT;
+#endif
 
     /* Configure the measurement parameters. */
 
-    #ifndef GEM_ADC_USE_EXTERNAL_REF
-        /*
-        - Use the internal VCC reference. This is 1/2 of what's on VCCA.
-            since VCCA is typically 3.3v, this is 1.65v.
-        - GAIN_DIV2 means that the input voltage is halved. This is important
-            because the voltage reference is 1/2 of VCCA. So if you want to
-            measure 0-3.3v, you need to halve the input as well.
-        */
-        ADC->REFCTRL.reg |= ADC_REFCTRL_REFSEL_INTVCC1;
-        ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_GAIN_DIV2 | ADC_INPUTCTRL_MUXNEG_GND;
-    #else
-        #error External ref code not written yet
-    #endif
+#ifndef GEM_ADC_USE_EXTERNAL_REF
+    /*
+    - Use the internal VCC reference. This is 1/2 of what's on VCCA.
+        since VCCA is typically 3.3v, this is 1.65v.
+    - GAIN_DIV2 means that the input voltage is halved. This is important
+        because the voltage reference is 1/2 of VCCA. So if you want to
+        measure 0-3.3v, you need to halve the input as well.
+    */
+    ADC->REFCTRL.reg |= ADC_REFCTRL_REFSEL_INTVCC1;
+    ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_GAIN_DIV2 | ADC_INPUTCTRL_MUXNEG_GND;
+#else
+#error External ref code not written yet
+#endif
 
     /* Enable the reference buffer to increase accuracy (at the cost of speed). */
     ADC->REFCTRL.bit.REFCOMP = 1;
@@ -94,7 +91,6 @@ void gem_adc_init_input(const struct gem_adc_input* input) {
     gem_gpio_set_mux(input->port, input->pin, GEM_PMUX_B);
 }
 
-
 uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
     /* Disable result ready interrupt, just in case. */
     ADC->INTENSET.bit.RESRDY = false;
@@ -107,7 +103,8 @@ uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
     ADC->SWTRIG.bit.START = true;
 
     /* Wait for the result ready flag to be set. */
-    while (ADC->INTFLAG.bit.RESRDY == 0);
+    while (ADC->INTFLAG.bit.RESRDY == 0)
+        ;
 
     /* Clear the flag. */
     ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
@@ -115,7 +112,6 @@ uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
     /* Read the value. */
     return ADC->RESULT.reg;
 }
-
 
 void gem_adc_start_scanning(const struct gem_adc_input* inputs, size_t num_inputs, uint32_t* results) {
     _inputs = inputs;
@@ -131,13 +127,13 @@ void gem_adc_start_scanning(const struct gem_adc_input* inputs, size_t num_input
 }
 
 bool gem_adc_results_ready() {
-    //NVIC_DisableIRQ(ADC_IRQn);
+    // NVIC_DisableIRQ(ADC_IRQn);
     if (_results_ready) {
         _results_ready = false;
-        //NVIC_EnableIRQ(ADC_IRQn);
+        // NVIC_EnableIRQ(ADC_IRQn);
         return true;
     } else {
-        //NVIC_EnableIRQ(ADC_IRQn);
+        // NVIC_EnableIRQ(ADC_IRQn);
         return false;
     }
 }
@@ -160,13 +156,12 @@ void _gem_adc_scan() {
     ADC->SWTRIG.bit.START = true;
 }
 
-
 void ADC_Handler(void) {
     /* Should always be the result ready flag. */
     if (!ADC->INTFLAG.bit.RESRDY) {
-        #ifdef DEBUG
-            while(1) {}
-        #endif
+#ifdef DEBUG
+        while (1) {}
+#endif
         ADC->INTFLAG.reg = ADC_INTFLAG_RESETVALUE;
         return;
     }
@@ -179,12 +174,10 @@ void ADC_Handler(void) {
 
     /* Scan the next input */
     _current_input = _current_input + 1;
-    if(_current_input == _num_inputs) {
+    if (_current_input == _num_inputs) {
         _current_input = 0;
         _results_ready = true;
     }
 
     _gem_adc_scan();
 }
-
-

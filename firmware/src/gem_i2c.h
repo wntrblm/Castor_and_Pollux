@@ -1,7 +1,7 @@
 #pragma once
+#include "sam.h"
 #include <stdbool.h>
 #include <stddef.h>
-#include "sam.h"
 
 enum gem_i2c_result {
     GEM_I2C_RESULT_SUCCESS = 0,

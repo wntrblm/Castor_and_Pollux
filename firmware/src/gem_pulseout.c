@@ -1,6 +1,5 @@
-#include "gem_config.h"
 #include "gem_pulseout.h"
-
+#include "gem_config.h"
 
 /* Public functions */
 
@@ -9,10 +8,8 @@ void gem_pulseout_init() {
     PM->APBCMASK.reg |= PM_APBCMASK_TCC0 | PM_APBCMASK_TCC1;
 
     /* Enable GCLK1 and wire it up to TCC0 and TCC1. */
-    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN |
-                        GEM_PULSEOUT_GCLK |
-                        GCLK_CLKCTRL_ID_TCC0_TCC1;
-    
+    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | GEM_PULSEOUT_GCLK | GCLK_CLKCTRL_ID_TCC0_TCC1;
+
     /* Wait until the clock bus is synchronized. */
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
@@ -63,7 +60,7 @@ void gem_pulseout_set_frequency(uint8_t channel, uint32_t frequency) {
         case 0:
             TCC0->PER.reg = frequency;
             break;
-        
+
         case 1:
             TCC1->PER.reg = frequency;
             break;
@@ -78,7 +75,7 @@ void gem_pulseout_set_duty(uint8_t channel, float duty) {
         case 0:
             TCC0->CC[GEM_TCC0_WO].reg = (uint32_t)(TCC0->PER.reg * duty);
             break;
-        
+
         case 1:
             TCC1->CC[GEM_TCC1_WO].reg = (uint32_t)(TCC1->PER.reg * duty);
             break;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 /* Pulse (PWM) output using TCC peripheral. */
 
 void gem_pulseout_init();
