@@ -94,6 +94,8 @@ LDFLAGS += -mcpu=cortex-m0plus -mthumb
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--script=./third_party/samd21/gcc/gcc/$(LINKER_SCRIPT).ld
 
+LIBS += -lm
+
 
 all: directory firmware size
 
