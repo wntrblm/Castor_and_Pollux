@@ -5,6 +5,8 @@
 #include "gem_i2c.h"
 #include "gem_mcp4728.h"
 #include "gem_pulseout.h"
+#include "gem_voice_param_table.h"
+#include "gem_voice_params.h"
 #include "sam.h"
 #include <stdio.h>
 
@@ -42,6 +44,9 @@ int main(void) {
     /* Enable i2c bus for communicating with the DAC. */
     gem_i2c_init();
 
+    /* Local variables */
+    struct gem_voice_params castor_params;
+
     while (1) {
         if (gem_adc_results_ready()) {
             printf("Ch1: %lu, Ch2: %lu\r\n", adc_results[0], adc_results[1]);
@@ -49,7 +54,10 @@ int main(void) {
             gem_pulseout_set_duty(0, adc_results[0] / 4096.0f);
             gem_pulseout_set_duty(1, adc_results[1] / 4096.0f);
 
-            gem_mcp_4728_write_channels(adc_results[0], adc_results[1], adc_results[0], adc_results[1]);
+            gem_voice_params_from_adc_code(
+                gem_voice_param_table, gem_voice_param_table_len, adc_results[1], &castor_params);
+
+            gem_mcp_4728_write_channels(adc_results[0], castor_params.dac_code, adc_results[0], adc_results[1]);
         }
     }
 
