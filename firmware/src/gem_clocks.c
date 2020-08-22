@@ -13,7 +13,7 @@ void gem_clocks_init() {
     /* This is needed as per the errata - accessing the DPLL before doing this can lock the processor. */
     while (!SYSCTRL->PCLKSR.bit.DFLLRDY)
         ;
-    SYSCTRL->DFLLCTRL.reg = (uint16_t)(SYSCTRL_DFLLCTRL_ENABLE);
+    SYSCTRL->DFLLCTRL.reg = SYSCTRL_DFLLCTRL_ENABLE;
     while (!SYSCTRL->PCLKSR.bit.DFLLRDY)
         ;
 
@@ -25,6 +25,19 @@ void gem_clocks_init() {
     SYSCTRL->DFLLVAL.reg = SYSCTRL_DFLLVAL_COARSE(coarse_cal) | SYSCTRL_DFLLVAL_FINE(fine_cal);
     while (!SYSCTRL->PCLKSR.bit.DFLLRDY)
         ;
+
+    /* Enable USB clock recovery mode. */
+    SYSCTRL->DFLLCTRL.bit.USBCRM = 1;
+    SYSCTRL->DFLLCTRL.bit.CCDIS = 1;
+    SYSCTRL->DFLLMUL.bit.MUL = 48000;
+    SYSCTRL->DFLLMUL.bit.FSTEP = 1;
+    SYSCTRL->DFLLMUL.bit.CSTEP = 1;
+
+    /* Setting to closed loop mode with USBCRM means that
+       the DFLL will operate in closed loop when USB is
+       connected, but will otherwise operate in open
+       loop mode. */
+    SYSCTRL->DFLLCTRL.bit.MODE = 1;
 
     /* Enable the DFLL. */
     SYSCTRL->DFLLCTRL.bit.ENABLE = 1;
