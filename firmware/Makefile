@@ -2,6 +2,8 @@
 #	Global configuration
 # 
 MCU = SAMD21G18A
+FLASH_SIZE = 0x40000
+RAM_SIZE = 0x8000
 LINKER_SCRIPT = samd21g18a_flash
 F_CPU = 48000000
 BUILD = build
@@ -69,6 +71,18 @@ ifeq ($(DEBUG), 1)
 endif
 LDFLAGS += -Wl,--wrap=printf
 
+
+# TinyUSB
+INCLUDES += -I./third_party/tinyusb/src
+SRCS += \
+  ./third_party/tinyusb/src/tusb.c \
+  ./third_party/tinyusb/src/class/midi/midi_device.c \
+  ./third_party/tinyusb/src/common/tusb_fifo.c \
+  ./third_party/tinyusb/src/device/usbd.c \
+  ./third_party/tinyusb/src/device/usbd_control.c \
+  ./third_party/tinyusb/src/portable/microchip/samd/dcd_samd.c
+DEFINES += -DCFG_TUSB_MCU=OPT_MCU_SAMD21
+
 # Defines
 DEFINES += \
   -DARM_MATH_CM0PLUS \
@@ -123,11 +137,7 @@ directory:
 
 size: $(BUILD)/$(BIN).elf
 	@echo size:
-	@$(SIZE) -t $^
-
-program: firmware
-	@echo program
-	openocd -f openocd-program.cfg
+	@./get-fw-size.sh $^ $(FLASH_SIZE) $(RAM_SIZE)
 
 clean:
 	@echo clean
