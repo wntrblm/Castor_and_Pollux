@@ -8,6 +8,7 @@
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "gem_voice_params.h"
+#include "gem_nvm.h"
 #include "sam.h"
 #include <stdio.h>
 
@@ -22,6 +23,9 @@ static uint32_t adc_results[2];
 int main(void) {
     /* Configure clocks. */
     gem_clocks_init();
+
+    /* Initialize NVM */
+    gem_nvm_init();
 
     // Initialize any configuration data and functionality,
     // such as printf() in debug mode.
