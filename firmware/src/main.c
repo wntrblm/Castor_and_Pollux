@@ -4,11 +4,12 @@
 #include "gem_gpio.h"
 #include "gem_i2c.h"
 #include "gem_mcp4728.h"
+#include "gem_midi.h"
+#include "gem_nvm.h"
 #include "gem_pulseout.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "gem_voice_params.h"
-#include "gem_nvm.h"
 #include "sam.h"
 #include <stdio.h>
 
@@ -55,18 +56,10 @@ int main(void) {
 
     /* Local variables */
     struct gem_voice_params castor_params;
-    uint8_t midi_in_packet[4];
 
     while (1) {
         gem_usb_task();
-
-        if (gem_usb_midi_receive(midi_in_packet) == true) {
-            printf("MIDI IN: %x %x %x %x \r\n",
-                   midi_in_packet[0],
-                   midi_in_packet[1],
-                   midi_in_packet[2],
-                   midi_in_packet[3]);
-        }
+        gem_midi_task();
 
         if (gem_adc_results_ready()) {
             // printf("Ch1: %lu, Ch2: %lu\r\n", adc_results[0], adc_results[1]);
