@@ -4,7 +4,7 @@
 MCU = SAMD21G18A
 FLASH_SIZE = 0x40000
 RAM_SIZE = 0x8000
-LINKER_SCRIPT = samd21g18a_flash
+LINKER_SCRIPT = samd21g18a.ld
 F_CPU = 48000000
 BUILD = build
 BIN = gemini-firmware
@@ -106,7 +106,7 @@ OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 LDFLAGS += -mcpu=cortex-m0plus -mthumb
 # Perform dead code elimination 
 LDFLAGS += -Wl,--gc-sections
-LDFLAGS += -Wl,--script=./third_party/samd21/gcc/gcc/$(LINKER_SCRIPT).ld
+LDFLAGS += -Wl,--script=$(LINKER_SCRIPT)
 
 LIBS += -lm
 
