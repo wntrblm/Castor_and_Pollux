@@ -92,8 +92,8 @@ void gem_adc_init_input(const struct gem_adc_input* input) {
 }
 
 uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
-    /* Disable result ready interrupt, just in case. */
-    ADC->INTENSET.bit.RESRDY = false;
+    /* Disable interrupts - this stops any scanning. */
+    NVIC_DisableIRQ(ADC_IRQn);
 
     /* Set the positive mux to the input pin */
     ADC->INPUTCTRL.bit.MUXPOS = input->ain;
@@ -127,13 +127,10 @@ void gem_adc_start_scanning(const struct gem_adc_input* inputs, size_t num_input
 }
 
 bool gem_adc_results_ready() {
-    // NVIC_DisableIRQ(ADC_IRQn);
     if (_results_ready) {
         _results_ready = false;
-        // NVIC_EnableIRQ(ADC_IRQn);
         return true;
     } else {
-        // NVIC_EnableIRQ(ADC_IRQn);
         return false;
     }
 }
