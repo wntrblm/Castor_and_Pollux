@@ -57,11 +57,14 @@ int main(void) {
     /* TEST: settings. */
     struct gem_nvm_settings settings;
 
-    if(!gem_config_get_nvm_settings(&settings)) {
+    if (!gem_config_get_nvm_settings(&settings)) {
         __wrap_printf("Failed to load settings.\r\n");
     } else {
         __wrap_printf("Loaded settings.\r\n");
-        printf("Settings: 0x%x, 0x%x, 0x%x\r\n", settings.adc_gain_corr, settings.adc_offset_corr, settings.led_brightness);
+        printf("Settings: 0x%x, 0x%x, 0x%x\r\n",
+               settings.adc_gain_corr,
+               settings.adc_offset_corr,
+               settings.led_brightness);
     }
 
     /* Local variables */
@@ -80,7 +83,7 @@ int main(void) {
             gem_voice_params_from_adc_code(
                 gem_voice_param_table, gem_voice_param_table_len, adc_results[1], &castor_params);
 
-            //gem_mcp_4728_write_channels(adc_results[0], castor_params.dac_code, adc_results[0], adc_results[1]);
+            // gem_mcp_4728_write_channels(adc_results[0], castor_params.dac_code, adc_results[0], adc_results[1]);
         }
     }
 

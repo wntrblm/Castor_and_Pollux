@@ -16,14 +16,13 @@ const struct gem_adc_input gem_adc_inputs[] = {
 
 void gem_config_init() {}
 
-
 bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
     uint8_t data[7];
 
     /* Check for the magic flag. */
     gem_nvm_read(GEM_NVM_SETTINGS_BASE_ADDR, data, 7);
 
-    if(data[0] != NVM_SETTINGS_MARKER) {
+    if (data[0] != NVM_SETTINGS_MARKER) {
         return false;
     }
 
@@ -33,7 +32,6 @@ bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
 
     return true;
 }
-
 
 void gem_config_save_nvm_settings(struct gem_nvm_settings* settings) {
     uint8_t data[7] = {
@@ -49,12 +47,10 @@ void gem_config_save_nvm_settings(struct gem_nvm_settings* settings) {
     gem_nvm_write(GEM_NVM_SETTINGS_BASE_ADDR, data, 7);
 }
 
-
 void gem_config_erase_nvm_settings() {
     uint8_t data[1] = {0xFF};
     gem_nvm_write(GEM_NVM_SETTINGS_BASE_ADDR, data, 1);
 }
-
 
 int __wrap_printf(const char* format, ...) {
 #ifdef DEBUG
