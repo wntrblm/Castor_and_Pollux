@@ -54,6 +54,16 @@ int main(void) {
     /* Enable i2c bus for communicating with the DAC. */
     gem_i2c_init();
 
+    /* TEST: settings. */
+    struct gem_nvm_settings settings;
+
+    if(!gem_config_get_nvm_settings(&settings)) {
+        __wrap_printf("Failed to load settings.\r\n");
+    } else {
+        __wrap_printf("Loaded settings.\r\n");
+        printf("Settings: 0x%x, 0x%x, 0x%x\r\n", settings.adc_gain_corr, settings.adc_offset_corr, settings.led_brightness);
+    }
+
     /* Local variables */
     struct gem_voice_params castor_params;
 
