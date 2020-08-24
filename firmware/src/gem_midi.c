@@ -2,9 +2,11 @@
 #include "gem_config.h"
 #include "gem_usb.h"
 #include "gem_mcp4728.h"
+#include "gem_adc.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
+#include "class/midi/midi_device.h"
 
 #define SYSEX_BUF_SIZE 16
 #define SYSEX_CMD_MARKER 0x77
@@ -12,12 +14,15 @@
 #define SYSEX_END_THREE_BYTE 0x07
 #define SYSEX_END_TWO_BYTE 0x06
 #define SYSEX_END_ONE_BYTE 0x05
+#define SYSEX_START_BYTE 0xF0
+#define SYSEX_END_BYTE 0xF7
 
 enum sysex_commands {
     SE_CMD_HELLO = 0x01,
     SE_CMD_WRITE_ADC_GAIN = 0x02,
     SE_CMD_WRITE_ADC_OFFSET = 0x03,
     SE_CMD_WRITE_LED_BRIGHTNESS = 0x04,
+    SE_CMD_READ_ADC = 0x05,
 };
 
 static uint8_t _in_data[4];
@@ -116,6 +121,18 @@ void _process_sysex_command() {
             gem_config_get_nvm_settings(&settings);
             settings.led_brightness = _sysex_data[2] << 12 | _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5];
             gem_config_save_nvm_settings(&settings);
+            break;
+
+        case SE_CMD_READ_ADC:
+            {
+                uint16_t result = gem_adc_read_sync(&gem_adc_inputs[0]);
+                gem_usb_midi_send((uint8_t[4]){
+                    SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_READ_ADC});
+                gem_usb_midi_send((uint8_t[4]){
+                    SYSEX_START_OR_CONTINUE, (result >> 12) & 0xF, (result >> 8) & 0xF, (result >> 4) & 0xF});
+                gem_usb_midi_send((uint8_t[4]){
+                    SYSEX_END_TWO_BYTE, result & 0xF, SYSEX_END_BYTE, 0x00});
+            }
             break;
 
         default:
