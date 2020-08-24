@@ -66,8 +66,19 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_I2C_PAD_1_PIN PIN_PA23
 #define GEM_I2C_PAD_1_PIN_FUNC GEM_PMUX_C
 
+/* Structs */
+
+struct gem_nvm_settings {
+    uint16_t adc_gain_corr;
+    uint16_t adc_offset_corr;
+    uint16_t led_brightness;
+};
+
 /* Functions */
 
 void gem_config_init();
+bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings);
+void gem_config_save_nvm_settings(struct gem_nvm_settings* settings);
+void gem_config_erase_nvm_settings();
 
 int __wrap_printf(const char* format, ...);
