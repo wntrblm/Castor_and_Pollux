@@ -44,7 +44,7 @@ void gem_pulseout_init() {
     while (TCC1->SYNCBUSY.bit.ENABLE) {};
 }
 
-void gem_pulseout_set_frequency(uint8_t channel, uint32_t frequency) {
+void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
     /* Configure the frequency for the PWM by setting the PER register.
         The value of the PER register determines the frequency in the following
         way:
@@ -54,15 +54,13 @@ void gem_pulseout_set_frequency(uint8_t channel, uint32_t frequency) {
         For example if PER is 512 then frequency = 8Mhz / (16 * (1 + 512))
         so the frequency is 947Hz.
     */
-
-    /* TODO: Figure out PER from frequency */
     switch (channel) {
         case 0:
-            TCC0->PER.reg = frequency;
+            TCC0->PER.reg = period;
             break;
 
         case 1:
-            TCC1->PER.reg = frequency;
+            TCC1->PER.reg = period;
             break;
 
         default:

@@ -46,9 +46,9 @@ int main(void) {
 
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
-    gem_pulseout_set_frequency(0, 0xFF);
+    gem_pulseout_set_period(0, 0xFF);
     gem_pulseout_set_duty(0, 0);
-    gem_pulseout_set_frequency(1, 0xFF);
+    gem_pulseout_set_period(1, 0xFF);
     gem_pulseout_set_duty(1, 0);
 
     /* Enable i2c bus for communicating with the DAC. */
@@ -70,7 +70,7 @@ int main(void) {
             gem_voice_params_from_adc_code(
                 gem_voice_param_table, gem_voice_param_table_len, adc_results[1], &castor_params);
 
-            gem_mcp_4728_write_channels(adc_results[0], castor_params.dac_code, adc_results[0], adc_results[1]);
+            //gem_mcp_4728_write_channels(adc_results[0], castor_params.dac_code, adc_results[0], adc_results[1]);
         }
     }
 
