@@ -1,12 +1,12 @@
 #include "gem_midi.h"
-#include "gem_config.h"
-#include "gem_usb.h"
-#include "gem_mcp4728.h"
+#include "class/midi/midi_device.h"
 #include "gem_adc.h"
+#include "gem_config.h"
+#include "gem_mcp4728.h"
+#include "gem_usb.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-#include "class/midi/midi_device.h"
 
 #define SYSEX_BUF_SIZE 16
 #define SYSEX_CMD_MARKER 0x77
@@ -93,13 +93,13 @@ void _process_sysex_command() {
     for (size_t i = 0; i < 16; i++) { printf("%02x ", _sysex_data[i]); }
     __wrap_printf("\r\n");
 
-    if(_sysex_data[0] != SYSEX_CMD_MARKER) {
+    if (_sysex_data[0] != SYSEX_CMD_MARKER) {
         return;
     }
 
     struct gem_nvm_settings settings;
 
-    switch(_sysex_data[1]) {
+    switch (_sysex_data[1]) {
         case SE_CMD_HELLO:
             /* Set DAC test. */
             gem_mcp_4728_write_channel(_sysex_data[2], _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5]);
@@ -113,7 +113,8 @@ void _process_sysex_command() {
 
         case SE_CMD_WRITE_ADC_OFFSET:
             gem_config_get_nvm_settings(&settings);
-            settings.adc_offset_corr = _sysex_data[2] << 12 | _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5];
+            settings.adc_offset_corr =
+                _sysex_data[2] << 12 | _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5];
             gem_config_save_nvm_settings(&settings);
             break;
 
@@ -123,17 +124,14 @@ void _process_sysex_command() {
             gem_config_save_nvm_settings(&settings);
             break;
 
-        case SE_CMD_READ_ADC:
-            {
-                uint16_t result = gem_adc_read_sync(&gem_adc_inputs[0]);
-                gem_usb_midi_send((uint8_t[4]){
-                    SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_READ_ADC});
-                gem_usb_midi_send((uint8_t[4]){
-                    SYSEX_START_OR_CONTINUE, (result >> 12) & 0xF, (result >> 8) & 0xF, (result >> 4) & 0xF});
-                gem_usb_midi_send((uint8_t[4]){
-                    SYSEX_END_TWO_BYTE, result & 0xF, SYSEX_END_BYTE, 0x00});
-            }
-            break;
+        case SE_CMD_READ_ADC: {
+            uint16_t result = gem_adc_read_sync(&gem_adc_inputs[0]);
+            gem_usb_midi_send(
+                (uint8_t[4]){SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_READ_ADC});
+            gem_usb_midi_send(
+                (uint8_t[4]){SYSEX_START_OR_CONTINUE, (result >> 12) & 0xF, (result >> 8) & 0xF, (result >> 4) & 0xF});
+            gem_usb_midi_send((uint8_t[4]){SYSEX_END_TWO_BYTE, result & 0xF, SYSEX_END_BYTE, 0x00});
+        } break;
 
         default:
             break;

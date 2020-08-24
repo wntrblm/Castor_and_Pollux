@@ -32,6 +32,6 @@ void gem_usb_task() { tud_task(); }
 
 bool gem_usb_midi_receive(uint8_t packet[4]) { return tud_midi_receive(packet); }
 bool gem_usb_midi_send(uint8_t packet[4]) { return tud_midi_send(packet); }
-size_t gem_usb_midi_send_bytes(uint8_t *data, size_t len) { return tud_midi_write(0, data, len); }
+size_t gem_usb_midi_send_bytes(uint8_t* data, size_t len) { return tud_midi_write(0, data, len); }
 
 void USB_Handler(void) { tud_int_handler(0); }
