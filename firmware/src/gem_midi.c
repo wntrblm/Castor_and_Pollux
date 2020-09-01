@@ -4,6 +4,7 @@
 #include "gem_config.h"
 #include "gem_mcp4728.h"
 #include "gem_usb.h"
+#include "gem_pulseout.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -23,6 +24,8 @@ enum sysex_commands {
     SE_CMD_WRITE_ADC_OFFSET = 0x03,
     SE_CMD_WRITE_LED_BRIGHTNESS = 0x04,
     SE_CMD_READ_ADC = 0x05,
+    SE_CMD_SET_DAC = 0x06,
+    SE_CMD_SET_FREQ = 0x07,
 };
 
 static uint8_t _in_data[4];
@@ -132,6 +135,15 @@ void _process_sysex_command() {
                 (uint8_t[4]){SYSEX_START_OR_CONTINUE, (result >> 12) & 0xF, (result >> 8) & 0xF, (result >> 4) & 0xF});
             gem_usb_midi_send((uint8_t[4]){SYSEX_END_TWO_BYTE, result & 0xF, SYSEX_END_BYTE, 0x00});
         } break;
+
+        case SE_CMD_SET_DAC:
+            gem_mcp_4728_write_channel(_sysex_data[2], _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6]);
+            break;
+
+        case SE_CMD_SET_FREQ:
+            gem_pulseout_set_period(_sysex_data[2], _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6]);
+            gem_pulseout_set_duty(_sysex_data[2], 0.5f);
+            break;
 
         default:
             break;
