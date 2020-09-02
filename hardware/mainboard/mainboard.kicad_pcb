@@ -1,4 +1,4 @@
-(kicad_pcb (version 20171130) (host pcbnew "(5.1.6-0-10_14)")
+(kicad_pcb (version 20171130) (host pcbnew "(5.1.5)-3")
 
   (general
     (thickness 1.6)
@@ -59,7 +59,6 @@
     (pad_size 1.524 1.524)
     (pad_drill 0.762)
     (pad_to_mask_clearance 0.0508)
-    (solder_mask_min_width 0.101)
     (aux_axis_origin 0 0)
     (grid_origin 118 42)
     (visible_elements 7FFFFFFF)
