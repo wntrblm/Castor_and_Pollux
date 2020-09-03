@@ -104,8 +104,6 @@ void _process_sysex_command() {
 
     switch (_sysex_data[1]) {
         case SE_CMD_HELLO:
-            /* Set DAC test. */
-            gem_mcp_4728_write_channel(_sysex_data[2], _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5]);
             break;
 
         case SE_CMD_WRITE_ADC_GAIN:
@@ -137,7 +135,11 @@ void _process_sysex_command() {
         } break;
 
         case SE_CMD_SET_DAC:
-            gem_mcp_4728_write_channel(_sysex_data[2], _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6]);
+            {
+                struct gem_mcp4728_channel dac_settings;
+                dac_settings.value = _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6];
+                gem_mcp_4728_write_channel(_sysex_data[2], dac_settings);
+            }
             break;
 
         case SE_CMD_SET_FREQ:
