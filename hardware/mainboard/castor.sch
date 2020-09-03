@@ -480,7 +480,7 @@ $EndComp
 Wire Wire Line
 	8550 5200 8700 5200
 Wire Wire Line
-	9000 5200 9650 5200
+	9000 5200 9250 5200
 $Comp
 L Device:R_US R7
 U 1 1 5EF135D0
@@ -673,29 +673,19 @@ F 5 "TL074CPWR" H 8850 1650 50  0001 C CNN "mpn"
 	1    0    0    1   
 $EndComp
 Wire Wire Line
-	9550 1650 9650 1650
-Wire Wire Line
 	8550 1550 8550 1250
 Wire Wire Line
 	8550 1000 8700 1000
 Connection ~ 8550 1550
 Wire Wire Line
-	9000 1000 9650 1000
-Wire Wire Line
-	9650 1000 9650 1250
-Connection ~ 9650 1650
-Wire Wire Line
-	9650 1650 9800 1650
+	9000 1000 9250 1000
 Wire Wire Line
 	8550 1250 8700 1250
 Connection ~ 8550 1250
 Wire Wire Line
 	8550 1250 8550 1000
 Wire Wire Line
-	9000 1250 9650 1250
-Connection ~ 9650 1250
-Wire Wire Line
-	9650 1250 9650 1650
+	9000 1250 9250 1250
 $Comp
 L Device:C C12
 U 1 1 5EFB53CF
@@ -853,29 +843,19 @@ F 5 "TL074CPWR" H 8850 2800 50  0001 C CNN "mpn"
 	1    0    0    1   
 $EndComp
 Wire Wire Line
-	9550 2800 9650 2800
-Wire Wire Line
 	8550 2700 8550 2400
 Wire Wire Line
 	8550 2150 8700 2150
 Connection ~ 8550 2700
 Wire Wire Line
-	9000 2150 9650 2150
-Wire Wire Line
-	9650 2150 9650 2400
-Connection ~ 9650 2800
-Wire Wire Line
-	9650 2800 9800 2800
+	9000 2150 9250 2150
 Wire Wire Line
 	8550 2400 8700 2400
 Connection ~ 8550 2400
 Wire Wire Line
 	8550 2400 8550 2150
 Wire Wire Line
-	9000 2400 9650 2400
-Connection ~ 9650 2400
-Wire Wire Line
-	9650 2400 9650 2800
+	9000 2400 9250 2400
 Wire Notes Line
 	9750 500  7750 500 
 Wire Notes Line
@@ -1188,19 +1168,9 @@ Wire Wire Line
 	8550 4900 8700 4900
 Connection ~ 8550 5200
 Wire Wire Line
-	9000 4900 9650 4900
-Wire Wire Line
-	9650 4900 9650 5200
+	9000 4900 9250 4900
 Wire Wire Line
 	8550 5500 8550 5200
-Wire Wire Line
-	9550 5600 9650 5600
-Wire Wire Line
-	9650 5200 9650 5600
-Connection ~ 9650 5200
-Connection ~ 9650 5600
-Wire Wire Line
-	9650 5600 9800 5600
 $Comp
 L power:GND #PWR016
 U 1 1 5F0DC624
@@ -1386,29 +1356,19 @@ Wire Notes Line
 Wire Notes Line
 	7750 500  7750 4400
 Wire Wire Line
-	9650 3550 9650 3950
-Connection ~ 9650 3550
-Wire Wire Line
-	9000 3550 9650 3550
+	9000 3550 9250 3550
 Wire Wire Line
 	8550 3550 8550 3300
 Connection ~ 8550 3550
 Wire Wire Line
 	8550 3550 8700 3550
 Wire Wire Line
-	9650 3950 9800 3950
-Connection ~ 9650 3950
-Wire Wire Line
-	9650 3300 9650 3550
-Wire Wire Line
-	9000 3300 9650 3300
+	9000 3300 9250 3300
 Connection ~ 8550 3850
 Wire Wire Line
 	8550 3300 8700 3300
 Wire Wire Line
 	8550 3850 8550 3550
-Wire Wire Line
-	9550 3950 9650 3950
 $Comp
 L Amplifier_Operational:TL074 U6
 U 2 1 5EFC1DA4
@@ -1588,4 +1548,36 @@ Text Notes 2000 5850 0    50   ~ 0
 1mA (max, est)
 Text Notes 2050 4700 0    50   ~ 0
 1mA (max, est)
+Wire Wire Line
+	9250 1650 9250 1250
+Connection ~ 9250 1650
+Connection ~ 9250 1250
+Wire Wire Line
+	9250 1250 9250 1000
+Wire Wire Line
+	9550 1650 9800 1650
+Wire Wire Line
+	9250 2800 9250 2400
+Connection ~ 9250 2800
+Connection ~ 9250 2400
+Wire Wire Line
+	9250 2400 9250 2150
+Wire Wire Line
+	9550 2800 9800 2800
+Wire Wire Line
+	9250 3950 9250 3550
+Connection ~ 9250 3950
+Connection ~ 9250 3550
+Wire Wire Line
+	9250 3550 9250 3300
+Wire Wire Line
+	9550 3950 9800 3950
+Wire Wire Line
+	9250 5600 9250 5200
+Connection ~ 9250 5600
+Connection ~ 9250 5200
+Wire Wire Line
+	9250 5200 9250 4900
+Wire Wire Line
+	9550 5600 9800 5600
 $EndSCHEMATC
