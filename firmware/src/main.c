@@ -57,15 +57,6 @@ int main(void) {
 
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
-    gem_pulseout_set_period(0, 1135);
-    gem_pulseout_set_duty(0, 0.5f);
-    gem_pulseout_set_period(1, 1135);
-    gem_pulseout_set_duty(1, 0.5f);
-    gem_mcp_4728_write_channels(
-        (struct gem_mcp4728_channel){.value = 480},
-        (struct gem_mcp4728_channel){.value = 2048},
-        (struct gem_mcp4728_channel){.value = 450},
-        (struct gem_mcp4728_channel){.value = 2048});
 
     /* TEST: settings. */
     struct gem_nvm_settings settings;
@@ -86,13 +77,15 @@ int main(void) {
 
     /* Test */
 
-    // gem_voice_params_from_adc_code(
-    //     gem_voice_param_table, gem_voice_param_table_len, 1536, &castor_params);
-    
-    // gem_pulseout_set_period(0, castor_params.period_reg);
-    // gem_pulseout_set_duty(0, 0.5f);
-
-    // gem_mcp_4728_write_channels(castor_params.dac_code, 2048, 0, 0);
+    gem_pulseout_set_period(0, 1135);
+    gem_pulseout_set_duty(0, 0.5f);
+    gem_pulseout_set_period(1, 1135);
+    gem_pulseout_set_duty(1, 0.5f);
+    gem_mcp_4728_write_channels(
+        (struct gem_mcp4728_channel){.value = 480},
+        (struct gem_mcp4728_channel){.value = 2048},
+        (struct gem_mcp4728_channel){.value = 450},
+        (struct gem_mcp4728_channel){.value = 2048});
 
     while (1) {
         gem_usb_task();
