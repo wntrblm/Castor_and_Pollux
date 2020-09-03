@@ -38,6 +38,9 @@ int main(void) {
     /* Initialize USB. */
     gem_usb_init();
 
+    /* Enable i2c bus for communicating with the DAC. */
+    gem_i2c_init();
+
     /* Configure the ADC and channel scanning. */
     gem_adc_init();
     gem_adc_init_input(&gem_adc_inputs[0]);
@@ -56,11 +59,13 @@ int main(void) {
     gem_pulseout_init();
     gem_pulseout_set_period(0, 1135);
     gem_pulseout_set_duty(0, 0.5f);
-    gem_pulseout_set_period(1, 567);
+    gem_pulseout_set_period(1, 1135);
     gem_pulseout_set_duty(1, 0.5f);
-
-    /* Enable i2c bus for communicating with the DAC. */
-    gem_i2c_init();
+    gem_mcp_4728_write_channels(
+        (struct gem_mcp4728_channel){.value = 480},
+        (struct gem_mcp4728_channel){.value = 2048},
+        (struct gem_mcp4728_channel){.value = 450},
+        (struct gem_mcp4728_channel){.value = 2048});
 
     /* TEST: settings. */
     struct gem_nvm_settings settings;
