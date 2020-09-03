@@ -27,7 +27,7 @@ F 4 "C0G 1%" H 2350 1250 50  0001 C CNN "Reqs"
 F 5 "yes" H 2350 1250 50  0001 C CNN "finalized"
 F 6 "C0603C472F5GACTU" H 2350 1250 50  0001 C CNN "mpn"
 F 7 "1%, 50v" H 2350 1250 50  0001 C CNN "mpn specs"
-F 8 "" H 2350 1250 50  0001 C CNN "mpn alt"
+F 8 "C0603C472F3GECTU" H 2350 1250 50  0001 C CNN "mpn alt"
 	1    2350 1250
 	0    1    1    0   
 $EndComp
@@ -42,7 +42,7 @@ F 1 "2.2k" H 3232 1445 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3340 1390 50  0001 C CNN
 F 3 "~" H 3300 1400 50  0001 C CNN
 F 4 "yes" H 3300 1400 50  0001 C CNN "finalized"
-F 5 "ERA-3AED512V" H 3300 1400 50  0001 C CNN "mpn"
+F 5 "ERA-3AED222V" H 3300 1400 50  0001 C CNN "mpn"
 F 6 "100mW" H 3300 1400 50  0001 C CNN "mpn specs"
 	1    3300 1400
 	-1   0    0    1   
@@ -93,7 +93,7 @@ F 4 "C0G 1%" H 3300 2500 50  0001 C CNN "Reqs"
 F 5 "yes" H 3300 2500 50  0001 C CNN "finalized"
 F 6 "C0603C472F5GACTU" H 3300 2500 50  0001 C CNN "mpn"
 F 7 "1%, 50v" H 3300 2500 50  0001 C CNN "mpn specs"
-F 8 "" H 3300 2500 50  0001 C CNN "mpn alt"
+F 8 "C0603C472F3GECTU" H 3300 2500 50  0001 C CNN "mpn alt"
 	1    3300 2500
 	0    1    1    0   
 $EndComp
