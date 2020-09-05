@@ -3,8 +3,8 @@
 #include "gem_adc.h"
 #include "gem_config.h"
 #include "gem_mcp4728.h"
-#include "gem_usb.h"
 #include "gem_pulseout.h"
+#include "gem_usb.h"
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -134,16 +134,15 @@ void _process_sysex_command() {
             gem_usb_midi_send((uint8_t[4]){SYSEX_END_TWO_BYTE, result & 0xF, SYSEX_END_BYTE, 0x00});
         } break;
 
-        case SE_CMD_SET_DAC:
-            {
-                struct gem_mcp4728_channel dac_settings;
-                dac_settings.value = _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6];
-                gem_mcp_4728_write_channel(_sysex_data[2], dac_settings);
-            }
-            break;
+        case SE_CMD_SET_DAC: {
+            struct gem_mcp4728_channel dac_settings;
+            dac_settings.value = _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6];
+            gem_mcp_4728_write_channel(_sysex_data[2], dac_settings);
+        } break;
 
         case SE_CMD_SET_FREQ:
-            gem_pulseout_set_period(_sysex_data[2], _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6]);
+            gem_pulseout_set_period(_sysex_data[2],
+                                    _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6]);
             gem_pulseout_set_duty(_sysex_data[2], 0.5f);
             break;
 
