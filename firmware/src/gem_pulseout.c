@@ -59,7 +59,7 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
             TCC0->PER.reg = period;
             TCC0->CTRLBSET.reg = TCC_CTRLBSET_CMD_READSYNC;
             while (TCC0->SYNCBUSY.bit.COUNT) {};
-            if(TCC0->COUNT.reg > TCC0->PER.reg) {
+            if(TCC0->COUNT.reg >= TCC0->PER.reg) {
                 TCC0->COUNT.reg = TCC0->COUNT.reg % TCC0->PER.reg;
             }
             break;
@@ -68,7 +68,7 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
             TCC2->PER.reg = period;
             TCC2->CTRLBSET.reg = TCC_CTRLBSET_CMD_READSYNC;
             while (TCC2->SYNCBUSY.bit.COUNT) {};
-            if(TCC2->COUNT.reg > TCC2->PER.reg) {
+            if(TCC2->COUNT.reg >= TCC2->PER.reg) {
                 TCC2->COUNT.reg = TCC2->COUNT.reg % TCC2->PER.reg;
             }
             break;
