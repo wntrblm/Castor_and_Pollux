@@ -611,8 +611,6 @@ F 3 "" H 8300 5750 50  0001 C CNN
 	1    8300 5750
 	1    0    0    -1  
 $EndComp
-Text Label 5550 1150 2    50   ~ 0
-TCC2WO0
 Wire Wire Line
 	5550 1000 5900 1000
 Wire Wire Line
@@ -702,8 +700,6 @@ F 3 "~" H 8050 1200 50  0001 C CNN
 	1    7850 1200
 	0    1    1    0   
 $EndComp
-Text Label 7850 1200 2    50   ~ 0
-TCC2WO0
 Text Label 3850 2850 0    50   ~ 0
 SERCOM5[2]
 Text Label 3850 2950 0    50   ~ 0
@@ -852,4 +848,8 @@ F 3 "~" H 5450 7850 50  0001 C CNN
 	1    5250 7850
 	0    1    1    0   
 $EndComp
+Text Label 5550 1150 2    50   ~ 0
+TCC1WO1
+Text Label 7850 1200 2    50   ~ 0
+TCC1WO1
 $EndSCHEMATC
