@@ -39,7 +39,8 @@ extern const struct gem_adc_input gem_adc_inputs[];
 
 /*
     TCC0 WO7 / PA17 for Castor
-    TCC2 WO0 / PA16 for Pollux
+    TCC2 WO0 / PA16 for Pollux (rev 0)
+    TCC1 WO1 / PA11 for Pollux (rev 1)
 */
 
 #define GEM_TCC0_PIN_PORT 0
