@@ -1405,10 +1405,8 @@ Wire Wire Line
 	9450 4900 10750 4900
 NoConn ~ 9750 5100
 NoConn ~ 9750 5200
-Text Label 6900 900  2    50   ~ 0
+Text Label 6150 900  2    50   ~ 0
 cv_a_jack
-Wire Wire Line
-	6900 900  7100 900 
 $Comp
 L power:GND #PWR0105
 U 1 1 5F2A0F34
@@ -1467,4 +1465,17 @@ F 3 "" H 2100 2300 50  0001 C CNN
 	1    2100 2300
 	1    0    0    -1  
 $EndComp
+$Comp
+L Jumper:SolderJumper_2_Bridged JP1
+U 1 1 5F5EC12A
+P 6300 900
+F 0 "JP1" H 6300 1105 50  0000 C CNN
+F 1 "CV tie" H 6300 1014 50  0000 C CNN
+F 2 "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm" H 6300 900 50  0001 C CNN
+F 3 "~" H 6300 900 50  0001 C CNN
+	1    6300 900 
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 900  7100 900 
 $EndSCHEMATC
