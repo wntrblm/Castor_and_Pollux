@@ -4,12 +4,12 @@ EELAYER END
 $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 5 7
-Title ""
-Date ""
-Rev ""
-Comp ""
-Comment1 ""
-Comment2 ""
+Title "Castor & Pollux"
+Date "2020-09-07"
+Rev "v1"
+Comp "Winterbloom"
+Comment1 "CC BY-SA 4.0"
+Comment2 "Alethea Flowers"
 Comment3 ""
 Comment4 ""
 $EndDescr
