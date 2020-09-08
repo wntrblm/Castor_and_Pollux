@@ -82,34 +82,34 @@ int main(void) {
         gem_midi_task();
 
         if (gem_adc_results_ready()) {
-            printf(
-                "CV A: %lu, CV A Pot: %lu, CV B: %lu, CV B Pot: %lu, Duty A: %lu, Duty A Pot: %lu, Duty B: %lu, Duty B "
-                "Pot: %lu, Phase: %lu, Phase Pot: %lu \r\n",
-                adc_results[0],
-                adc_results[1],
-                adc_results[2],
-                adc_results[3],
-                adc_results[4],
-                adc_results[5],
-                adc_results[6],
-                adc_results[7],
-                adc_results[8],
-                adc_results[9]);
+            // printf(
+            //     "CV A: %lu, CV A Pot: %lu, CV B: %lu, CV B Pot: %lu, Duty A: %lu, Duty A Pot: %lu, Duty B: %lu, Duty
+            //     B " "Pot: %lu, Phase: %lu, Phase Pot: %lu \r\n", adc_results[0], adc_results[1], adc_results[2],
+            //     adc_results[3],
+            //     adc_results[4],
+            //     adc_results[5],
+            //     adc_results[6],
+            //     adc_results[7],
+            //     adc_results[8],
+            //     adc_results[9]);
 
             gem_voice_params_from_adc_code(
-                gem_voice_param_table, gem_voice_param_table_len, adc_results[1], &castor_params);
+                gem_voice_param_table, gem_voice_param_table_len, adc_results[0], &castor_params);
             gem_voice_params_from_adc_code(
-                gem_voice_param_table, gem_voice_param_table_len, adc_results[3], &pollux_params);
+                gem_voice_param_table, gem_voice_param_table_len, adc_results[2] + 10, &pollux_params);
 
             gem_pulseout_set_period(0, castor_params.period_reg);
             gem_pulseout_set_duty(0, 0.5f);
             gem_pulseout_set_period(1, pollux_params.period_reg);
             gem_pulseout_set_duty(1, 0.5f);
 
-            gem_mcp_4728_write_channels((struct gem_mcp4728_channel){.value = castor_params.dac_code},
+            gem_mcp_4728_write_channels((struct gem_mcp4728_channel){.value = castor_params.castor_dac_code, .vref = 1},
                                         (struct gem_mcp4728_channel){.value = 4096 - adc_results[5]},
-                                        (struct gem_mcp4728_channel){.value = pollux_params.dac_code},
+                                        (struct gem_mcp4728_channel){.value = pollux_params.pollux_dac_code, .vref = 1},
                                         (struct gem_mcp4728_channel){.value = 4096 - adc_results[7]});
+
+            // printf("Castor params: period: %lu, dac code: %lu", castor_params.period_reg, castor_params.dac_code);
+            // printf("Pollux params: period: %lu, dac code: %lu", pollux_params.period_reg, pollux_params.dac_code);
         }
     }
 

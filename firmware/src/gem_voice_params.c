@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "gem_lerp.h"
+#include "gem_quant.h"
 #include "gem_voice_params.h"
 
 /* Private function forward declarations. */
@@ -22,6 +23,7 @@ void gem_voice_params_from_adc_code(struct gem_voice_params* table,
 
     /* TODO: Make this range changeable. */
     float voltage = (6.0f / 4096.0f) * adc_code;
+    voltage = gem_quant_pitch_cv(voltage);
 
     _find_nearest_table_entries(table, table_len, voltage, &low, &high);
 
