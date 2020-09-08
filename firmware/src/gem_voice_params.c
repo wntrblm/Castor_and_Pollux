@@ -7,7 +7,7 @@
 /* Private function forward declarations. */
 static void _find_nearest_table_entries(struct gem_voice_params* param_table,
                                         size_t table_len,
-                                        uint16_t adc_code,
+                                        float voltage,
                                         struct gem_voice_params** low,
                                         struct gem_voice_params** high);
 
@@ -20,12 +20,16 @@ void gem_voice_params_from_adc_code(struct gem_voice_params* table,
     struct gem_voice_params* low;
     struct gem_voice_params* high;
 
-    _find_nearest_table_entries(table, table_len, adc_code, &low, &high);
+    /* TODO: Make this range changeable. */
+    float voltage = (6.0f / 4096.0f) * adc_code;
 
-    float t = (float)(adc_code - low->adc_code) / (float)(high->adc_code - low->adc_code);
+    _find_nearest_table_entries(table, table_len, voltage, &low, &high);
+
+    float t = (float)(voltage - low->voltage) / (float)(high->voltage - low->voltage);
     out->period_reg = (uint16_t)roundf(lerpf(low->period_reg, high->period_reg, t));
-    out->dac_code = (uint16_t)roundf(lerpf(low->dac_code, high->dac_code, t));
-    out->adc_code = adc_code;
+    out->castor_dac_code = (uint16_t)roundf(lerpf(low->castor_dac_code, high->castor_dac_code, t));
+    out->pollux_dac_code = (uint16_t)roundf(lerpf(low->pollux_dac_code, high->pollux_dac_code, t));
+    out->voltage = voltage;
 };
 
 /* Private functions. */
@@ -35,7 +39,7 @@ void gem_voice_params_from_adc_code(struct gem_voice_params* table,
 */
 static void _find_nearest_table_entries(struct gem_voice_params* param_table,
                                         size_t table_len,
-                                        uint16_t adc_code,
+                                        float voltage,
                                         struct gem_voice_params** low,
                                         struct gem_voice_params** high) {
     (*low) = &param_table[0];
@@ -43,10 +47,10 @@ static void _find_nearest_table_entries(struct gem_voice_params* param_table,
     bool found = false;
     for (size_t i = 0; i < table_len; i++) {
         struct gem_voice_params* current = &param_table[i];
-        if (current->adc_code <= adc_code && current->adc_code >= (*low)->adc_code) {
+        if (current->voltage <= voltage && current->voltage >= (*low)->voltage) {
             (*low) = current;
         }
-        if (current->adc_code > adc_code) {
+        if (current->voltage > voltage) {
             (*high) = current;
             found = true;
             break;
