@@ -13,11 +13,6 @@
 #include "sam.h"
 #include <stdio.h>
 
-static void init_pins() {
-    gem_gpio_set_as_input(PIN_BUTTON_PORT, PIN_BUTTON, true);
-    // gem_gpio_set_as_output(PIN_STATUS_LED_PORT, PIN_STATUS_LED);
-    // gem_gpio_set_as_output(PIN_STATUS_LED_2_PORT, PIN_STATUS_LED_2);
-}
 
 static uint32_t adc_results[10];
 
@@ -31,9 +26,6 @@ int main(void) {
     // Initialize any configuration data and functionality,
     // such as printf() in debug mode.
     gem_config_init();
-
-    /* Initialize I/O pins. */
-    init_pins();
 
     /* Initialize USB. */
     gem_usb_init();
