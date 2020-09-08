@@ -16,7 +16,7 @@ struct gem_voice_params {
     uint16_t pollux_dac_code;
 };
 
-void gem_voice_params_from_adc_code(struct gem_voice_params* table,
-                                    size_t table_len,
-                                    uint16_t adc_code,
-                                    struct gem_voice_params* out);
+void gem_voice_params_from_cv(struct gem_voice_params* table,
+                              size_t table_len,
+                              float voltage,
+                              struct gem_voice_params* out);
