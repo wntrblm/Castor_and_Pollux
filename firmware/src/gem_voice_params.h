@@ -10,9 +10,10 @@
 */
 
 struct gem_voice_params {
-    uint16_t adc_code;
+    float voltage;
     uint16_t period_reg;
-    uint16_t dac_code;
+    uint16_t castor_dac_code;
+    uint16_t pollux_dac_code;
 };
 
 void gem_voice_params_from_adc_code(struct gem_voice_params* table,

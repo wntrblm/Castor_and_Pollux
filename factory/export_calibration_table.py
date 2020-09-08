@@ -12,4 +12,4 @@ with open("calibration-table.csv", "r") as fh:
 entries.reverse()
 
 for row in entries:
-    print(f"{{.adc_code = {row['adc code']}, .period_reg = {row['period reg']}, .dac_code = {row['calibrated dac code']} }},")
+    print(f"{{.voltage = {row['Input CV']}, .period_reg = {row['period reg']}, .castor_dac_code = {row['calibrated dac code']}, .pollux_dac_code = {row['calibrated dac code']} }},")
