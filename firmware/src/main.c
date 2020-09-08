@@ -7,12 +7,12 @@
 #include "gem_midi.h"
 #include "gem_nvm.h"
 #include "gem_pulseout.h"
+#include "gem_quant.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "gem_voice_params.h"
 #include "sam.h"
 #include <stdio.h>
-
 
 static uint32_t adc_results[10];
 
@@ -85,10 +85,11 @@ int main(void) {
             //     adc_results[8],
             //     adc_results[9]);
 
-            gem_voice_params_from_adc_code(
-                gem_voice_param_table, gem_voice_param_table_len, adc_results[0], &castor_params);
-            gem_voice_params_from_adc_code(
-                gem_voice_param_table, gem_voice_param_table_len, adc_results[2] + 10, &pollux_params);
+            float castor_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[0]);
+            float pollux_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[2]);
+
+            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
+            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
 
             gem_pulseout_set_period(0, castor_params.period_reg);
             gem_pulseout_set_duty(0, 0.5f);
