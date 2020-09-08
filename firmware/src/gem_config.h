@@ -36,6 +36,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 /* Pulse out/TCC configuration. */
 
 #define GEM_PULSEOUT_GCLK GCLK_CLKCTRL_GEN_GCLK1
+#define GEM_PULSEOUT_GCLK_DIV TCC_CTRLA_PRESCALER_DIV8_Val
 
 /*
     TCC0 WO7 / PA17 for Castor
