@@ -63,10 +63,6 @@ int main(void) {
                settings.led_brightness);
     }
 
-    /* Local variables */
-    struct gem_voice_params castor_params;
-    struct gem_voice_params pollux_params;
-
     /* Test */
 
     while (1) {
@@ -85,8 +81,12 @@ int main(void) {
             //     adc_results[8],
             //     adc_results[9]);
 
-            float castor_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[0]);
-            float pollux_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[2]);
+            struct gem_voice_params castor_params;
+            struct gem_voice_params pollux_params;
+            float castor_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[GEM_IN_CV_A]);
+            float pollux_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[GEM_IN_CV_B]);
+            uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
+            uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
 
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
@@ -97,9 +97,9 @@ int main(void) {
             gem_pulseout_set_duty(1, 0.5f);
 
             gem_mcp_4728_write_channels((struct gem_mcp4728_channel){.value = castor_params.castor_dac_code, .vref = 1},
-                                        (struct gem_mcp4728_channel){.value = 4096 - adc_results[5]},
+                                        (struct gem_mcp4728_channel){.value = castor_duty},
                                         (struct gem_mcp4728_channel){.value = pollux_params.pollux_dac_code, .vref = 1},
-                                        (struct gem_mcp4728_channel){.value = 4096 - adc_results[7]});
+                                        (struct gem_mcp4728_channel){.value = pollux_duty});
 
             // printf("Castor params: period: %lu, dac code: %lu", castor_params.period_reg, castor_params.dac_code);
             // printf("Pollux params: period: %lu, dac code: %lu", pollux_params.period_reg, pollux_params.dac_code);
