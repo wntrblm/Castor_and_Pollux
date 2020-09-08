@@ -69,6 +69,19 @@ extern const struct gem_adc_input gem_adc_inputs[];
 
 /* Behavioral configuration. */
 
+enum gem_adc_channels {
+    GEM_IN_CV_A,
+    GEM_IN_CV_A_POT,
+    GEM_IN_CV_B,
+    GEM_IN_CV_B_POT,
+    GEM_IN_DUTY_A,
+    GEM_IN_DUTY_A_POT,
+    GEM_IN_DUTY_B,
+    GEM_IN_DUTY_B_POT,
+    GEM_IN_PHASE,
+    GEM_IN_PHASE_POT
+};
+
 /* 83.33 milivolts per semitone / 20 steps */
 #define GEM_QUANT_CV_STEP (0.0833f / 20.0f)
 

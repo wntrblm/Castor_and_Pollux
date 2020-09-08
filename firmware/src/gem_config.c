@@ -15,10 +15,10 @@ const struct gem_adc_input gem_adc_inputs[] = {
     {0, 7, ADC_INPUTCTRL_MUXPOS_PIN7},   // CV B
     {1, 2, ADC_INPUTCTRL_MUXPOS_PIN10},  // CV B Pot
     {0, 5, ADC_INPUTCTRL_MUXPOS_PIN5},   // Duty A
-    {0, 8, ADC_INPUTCTRL_MUXPOS_PIN16},  // Duty A Port
+    {0, 8, ADC_INPUTCTRL_MUXPOS_PIN16},  // Duty A Pot
     {1, 9, ADC_INPUTCTRL_MUXPOS_PIN3},   // Duty B
     {0, 9, ADC_INPUTCTRL_MUXPOS_PIN17},  // Duty B Pot
-    {1, 8, ADC_INPUTCTRL_MUXPOS_PIN2},   // Phase, not working
+    {1, 8, ADC_INPUTCTRL_MUXPOS_PIN2},   // Phase
     {0, 2, ADC_INPUTCTRL_MUXPOS_PIN0},   // Phase pot
 };
 
