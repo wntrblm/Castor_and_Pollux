@@ -2,16 +2,10 @@
 #include "gem_adc.h"
 #include "sam.h"
 
+/* NVM/Flash configuration. */
+
 /* This must be the same as the nvm region in the linker script. */
 #define GEM_NVM_SETTINGS_BASE_ADDR (0x00040000 - 1024)
-
-#define PIN_STATUS_LED PIN_PA18
-#define PIN_STATUS_LED_PORT 0
-#define PIN_STATUS_LED_2 PIN_PA07
-#define PIN_STATUS_LED_2_PORT 0
-
-#define PIN_BUTTON PIN_PA15
-#define PIN_BUTTON_PORT 0
 
 /* Analog to Digital Converter Configuration */
 
