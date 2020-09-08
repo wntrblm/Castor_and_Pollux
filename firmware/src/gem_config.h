@@ -67,12 +67,10 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_I2C_PAD_1_PIN PIN_PA01
 #define GEM_I2C_PAD_1_PIN_FUNC GEM_PMUX_D
 
-
 /* Behavioral configuration. */
 
 /* 83.33 milivolts per semitone / 20 steps */
 #define GEM_QUANT_CV_STEP (0.0833f / 20.0f)
-
 
 /* Structs */
 
