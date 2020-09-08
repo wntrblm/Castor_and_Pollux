@@ -18,8 +18,8 @@ void gem_pulseout_init() {
         than the clock. In this case, I'm dividing the 8MHz clock by 16 making the
         TCC operate at 500kHz. This means each count (or "tick") is 2us.
     */
-    TCC0->CTRLA.reg |= TCC_CTRLA_PRESCALER(TCC_CTRLA_PRESCALER_DIV16_Val);
-    TCC2->CTRLA.reg |= TCC_CTRLA_PRESCALER(TCC_CTRLA_PRESCALER_DIV16_Val);
+    TCC0->CTRLA.reg |= TCC_CTRLA_PRESCALER(GEM_PULSEOUT_GCLK_DIV);
+    TCC2->CTRLA.reg |= TCC_CTRLA_PRESCALER(GEM_PULSEOUT_GCLK_DIV);
 
     /* Use "Normal PWM" */
     TCC0->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM;
