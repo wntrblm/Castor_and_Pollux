@@ -23,7 +23,7 @@ void gem_nvm_read(uint32_t src, uint8_t* buf, size_t len) {
     uint16_t data;
 
     /* Wait until the NVM is free. */
-    while (!NVMCTRL->INTFLAG.bit.READY) {}
+    while (!NVMCTRL->INTFLAG.bit.READY) {};
 
     /* Clear flags */
     NVMCTRL->STATUS.reg = NVMCTRL_STATUS_MASK;
@@ -91,7 +91,7 @@ void gem_nvm_write(uint32_t dst, const uint8_t* buf, size_t len) {
 
 void _gem_nvm_erase_row(uint32_t addr) {
     /* Wait until the NVM is free. */
-    while (!NVMCTRL->INTFLAG.bit.READY) {}
+    while (!NVMCTRL->INTFLAG.bit.READY) {};
 
     /* Clear flags */
     NVMCTRL->STATUS.reg = NVMCTRL_STATUS_MASK;
@@ -106,11 +106,11 @@ void _gem_nvm_write_page(uint32_t dst, uint8_t* buf, size_t len) {
     uint16_t i, data;
 
     /* Wait until the NVM is free. */
-    while (!NVMCTRL->INTFLAG.bit.READY) {}
+    while (!NVMCTRL->INTFLAG.bit.READY) {};
 
     /* Clear the page buffer. */
     NVMCTRL->CTRLA.reg = NVMCTRL_CTRLA_CMD_PBC | NVMCTRL_CTRLA_CMDEX_KEY;
-    while (!NVMCTRL->INTFLAG.bit.READY) {}
+    while (!NVMCTRL->INTFLAG.bit.READY) {};
 
     /* Clear flags */
     NVMCTRL->STATUS.reg = NVMCTRL_STATUS_MASK;
@@ -124,7 +124,7 @@ void _gem_nvm_write_page(uint32_t dst, uint8_t* buf, size_t len) {
     }
 
     /* Send the write page command to finish the write. */
-    while (!NVMCTRL->INTFLAG.bit.READY) {}
+    while (!NVMCTRL->INTFLAG.bit.READY) {};
     NVMCTRL->ADDR.reg = dst / 2;
     NVMCTRL->CTRLA.reg = NVMCTRL_CTRLA_CMD_WP | NVMCTRL_CTRLA_CMDEX_KEY;
 }

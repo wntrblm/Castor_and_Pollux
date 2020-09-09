@@ -23,8 +23,7 @@ void gem_i2c_init() {
 
     /* Configure SERCOM for i2c master. */
     GEM_I2C_SERCOM->I2CM.CTRLA.bit.SWRST = 1;
-    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SWRST || GEM_I2C_SERCOM->I2CM.CTRLA.bit.SWRST)
-        ;
+    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SWRST || GEM_I2C_SERCOM->I2CM.CTRLA.bit.SWRST) {};
 
     GEM_I2C_SERCOM->I2CM.CTRLA.reg = SERCOM_I2CM_CTRLA_SPEED(0) |        // 0 is standard/fast mode 100 & 400kHz
                                      SERCOM_I2CM_CTRLA_SDAHOLD(0) |      // Hold SDA low for 300-600ns
@@ -32,8 +31,7 @@ void gem_i2c_init() {
 
     /* Enable smart mode */
     GEM_I2C_SERCOM->I2CM.CTRLB.reg = SERCOM_I2CM_CTRLB_SMEN | SERCOM_I2CM_CTRLB_QCEN;
-    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP)
-        ;
+    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP) {};
 
     /* Set baudrate.
         this is from Arduino:
@@ -44,18 +42,15 @@ void gem_i2c_init() {
     uint32_t rise_time = GEM_I2C_RISE_TIME;    // ns
     GEM_I2C_SERCOM->I2CM.BAUD.bit.BAUD =
         clock_speed / (2 * baudrate) - 5 - (((clock_speed / 1000000) * rise_time) / (2 * 1000));
-    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP)
-        ;
+    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP) {};
 
     /* Enable the SERCOM. */
     GEM_I2C_SERCOM->I2CM.CTRLA.bit.ENABLE = 1;
-    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.ENABLE)
-        ;
+    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.ENABLE) {};
 
     /* Put the bus into the idle state. */
     GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE = BUSSTATE_IDLE;
-    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP)
-        ;
+    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP) {};
 }
 
 enum gem_i2c_result gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
@@ -69,8 +64,7 @@ enum gem_i2c_result gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
     /* Address + write flag. */
     GEM_I2C_SERCOM->I2CM.ADDR.bit.ADDR = (address << 0x1ul) | 0;
     /* TODO: Consider a timeout here. */
-    while (!GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB)
-        ;
+    while (!GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB) {};
 
     /* Check for loss of bus or NACK - in either case we can't continue. */
     if (GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE != BUSSTATE_OWNER) {
@@ -101,8 +95,7 @@ enum gem_i2c_result gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
 
     /* Send STOP command. */
     GEM_I2C_SERCOM->I2CM.CTRLB.bit.CMD = 3;
-    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP)
-        ;
+    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP) {};
 
     return GEM_I2C_RESULT_SUCCESS;
 }
