@@ -21,4 +21,6 @@ uint16_t gem_adc_read_sync(const struct gem_adc_input* input);
 
 void gem_adc_start_scanning(const struct gem_adc_input* inputs, size_t num_inputs, uint32_t* results);
 
+void gem_adc_stop_scanning();
+
 bool gem_adc_results_ready();

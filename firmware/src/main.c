@@ -16,6 +16,8 @@
 
 static uint32_t adc_results[10];
 
+void midi_event_callback(enum gem_midi_event event);
+
 int main(void) {
     /* Configure clocks. */
     gem_clocks_init();
@@ -110,4 +112,17 @@ int main(void) {
     }
 
     return 0;
+}
+
+void midi_event_callback(enum gem_midi_event event) {
+    switch (event) {
+        case GEM_MIDI_EVENT_CALIBRATION_MODE:
+            /* For calibration mode, stop scanning ADC channels. This will also stop
+                the main loop above from continuing to change the outputs. */
+            gem_adc_stop_scanning();
+            break;
+
+        default:
+            break;
+    }
 }

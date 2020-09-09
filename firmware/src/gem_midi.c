@@ -30,6 +30,7 @@ enum sysex_commands {
 
 static uint8_t _in_data[4];
 static uint8_t _sysex_data[SYSEX_BUF_SIZE];
+static gem_midi_event_callback _callback;
 
 /* Private forward declarations. */
 
@@ -37,6 +38,8 @@ void _parse_sysex();
 void _process_sysex_command();
 
 /* Public functions. */
+
+void gem_midi_set_event_callback(gem_midi_event_callback callback) { _callback = callback; }
 
 void gem_midi_task() {
     if (gem_usb_midi_receive(_in_data) == false) {
@@ -104,6 +107,9 @@ void _process_sysex_command() {
 
     switch (_sysex_data[1]) {
         case SE_CMD_HELLO:
+            if (_callback != NULL) {
+                _callback(GEM_MIDI_EVENT_CALIBRATION_MODE);
+            }
             break;
 
         case SE_CMD_WRITE_ADC_GAIN:
@@ -135,6 +141,7 @@ void _process_sysex_command() {
         } break;
 
         case SE_CMD_SET_DAC: {
+            /* TODO: Set vref. */
             struct gem_mcp4728_channel dac_settings;
             dac_settings.value = _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6];
             gem_mcp_4728_write_channel(_sysex_data[2], dac_settings);
