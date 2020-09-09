@@ -1,15 +1,5 @@
 #include "tusb.h"
 
-/* A combination of interfaces must have a unique product id, since PC will save device driver after the first plug.
- * Same VID/PID with different interface e.g MSC (first), then CDC (later) will possibly cause system error on PC.
- *
- * Auto ProductID layout's Bitmap:
- *   [MSB]       MIDI | HID | MSC | CDC          [LSB]
- */
-#define _PID_MAP(itf, n) ((CFG_TUD_##itf) << (n))
-#define USB_PID                                                                                                        \
-    (0x5000 | _PID_MAP(CDC, 0) | _PID_MAP(MSC, 1) | _PID_MAP(HID, 2) | _PID_MAP(MIDI, 3) | _PID_MAP(VENDOR, 4))
-
 tusb_desc_device_t const desc_device = {.bLength = sizeof(tusb_desc_device_t),
                                         .bDescriptorType = TUSB_DESC_DEVICE,
                                         .bcdUSB = 0x0200,
@@ -18,12 +8,12 @@ tusb_desc_device_t const desc_device = {.bLength = sizeof(tusb_desc_device_t),
                                         .bDeviceProtocol = 0x00,
                                         .bMaxPacketSize0 = CFG_TUD_ENDPOINT0_SIZE,
 
-                                        // TODO
-                                        .idVendor = 0xCafe,
-                                        .idProduct = USB_PID,
+                                        // Allocated by Adafruit for Winterbloom
+                                        // https://github.com/adafruit/uf2-samdx1/issues/136
+                                        .idVendor = 0x239A,
+                                        .idProduct = 0x80C3,
                                         .bcdDevice = 0x0100,
 
-                                        // TODO
                                         .iManufacturer = 0x01,
                                         .iProduct = 0x02,
                                         .iSerialNumber = 0x03,
@@ -44,9 +34,9 @@ uint8_t const desc_configuration[] = {
 
 char const* string_desc_arr[] = {
     (const char[]){0x09, 0x04},  // 0: is supported language is English (0x0409)
-    "TinyUSB",                   // 1: Manufacturer
-    "TinyUSB Device",            // 2: Product
-    "123456",                    // 3: Serials, should use chip ID
+    "Winterbloom",               // 1: Manufacturer
+    "Gemini",                    // 2: Product
+    "123456",                    // 3: Serial number. TODO: should use chip ID
 };
 
 static uint16_t _desc_str[32];
