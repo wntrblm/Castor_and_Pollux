@@ -27,6 +27,19 @@ int main(void) {
     // such as printf() in debug mode.
     gem_config_init();
 
+    /* Load settings */
+    struct gem_nvm_settings settings;
+
+    if (!gem_config_get_nvm_settings(&settings)) {
+        __wrap_printf("Failed to load settings.\r\n");
+    } else {
+        __wrap_printf("Loaded settings.\r\n");
+        printf("Settings: 0x%x, 0x%x, 0x%x\r\n",
+               settings.adc_gain_corr,
+               settings.adc_offset_corr,
+               settings.led_brightness);
+    }
+
     /* Initialize USB. */
     gem_usb_init();
 
@@ -49,19 +62,6 @@ int main(void) {
 
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
-
-    /* TEST: settings. */
-    struct gem_nvm_settings settings;
-
-    if (!gem_config_get_nvm_settings(&settings)) {
-        __wrap_printf("Failed to load settings.\r\n");
-    } else {
-        __wrap_printf("Loaded settings.\r\n");
-        printf("Settings: 0x%x, 0x%x, 0x%x\r\n",
-               settings.adc_gain_corr,
-               settings.adc_offset_corr,
-               settings.led_brightness);
-    }
 
     /* Test */
 
@@ -87,6 +87,9 @@ int main(void) {
             float pollux_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[GEM_IN_CV_B]);
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
+
+            castor_pitch_cv = 5.0;
+            pollux_pitch_cv = 1.0;
 
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
