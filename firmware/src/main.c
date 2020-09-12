@@ -119,10 +119,14 @@ int main(void) {
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
 
+            /* Disable interrupts while changing timers, as any interrupt here could totally
+                bork the calculations. */
+            __disable_irq();
             gem_pulseout_set_period(0, castor_params.period_reg);
             gem_pulseout_set_duty(0, 0.5f);
             gem_pulseout_set_period(1, pollux_params.period_reg);
             gem_pulseout_set_duty(1, 0.5f);
+            __enable_irq();
 
             gem_mcp_4728_write_channels((struct gem_mcp4728_channel){.value = castor_params.castor_dac_code, .vref = 1},
                                         (struct gem_mcp4728_channel){.value = castor_duty},
