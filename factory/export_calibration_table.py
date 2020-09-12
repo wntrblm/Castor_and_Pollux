@@ -9,7 +9,5 @@ with open("calibration-table.csv", "r") as fh:
         entries.append(row)
 
 
-entries.reverse()
-
 for row in entries:
-    print(f"{{.voltage = {row['Input CV']}, .period_reg = {row['period reg']}, .castor_dac_code = {row['calibrated dac code']}, .pollux_dac_code = {row['calibrated dac code']} }},")
+    print(f"{{.voltage = {row['Input CV']}, .period_reg = {row['period reg']}, .castor_dac_code = {row['castor calibrated dac code']}, .pollux_dac_code = {row['pollux calibrated dac code']} }},")
