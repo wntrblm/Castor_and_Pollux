@@ -82,8 +82,12 @@ enum gem_adc_channels {
     GEM_IN_PHASE_POT
 };
 
-/* 83.33 milivolts per semitone / 20 steps */
-#define GEM_QUANT_CV_STEP (0.0833f / 20.0f)
+/* 83.33 milivolts per semitone / 10 steps.
+    At the 6 volt input range this means that
+    6 adc codes map to the same frequency,
+    improving the chance for proper tuning.
+*/
+#define GEM_QUANT_CV_STEP (0.083333333f / 10.0f)
 
 /* Structs */
 
