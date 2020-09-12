@@ -143,7 +143,8 @@ void _process_sysex_command() {
         case SE_CMD_SET_DAC: {
             /* TODO: Set vref. */
             struct gem_mcp4728_channel dac_settings;
-            dac_settings.value = _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6];
+            dac_settings.vref = _sysex_data[3];
+            dac_settings.value = _sysex_data[4] << 12 | _sysex_data[5] << 8 | _sysex_data[6] << 4 | _sysex_data[7];
             gem_mcp_4728_write_channel(_sysex_data[2], dac_settings);
         } break;
 
