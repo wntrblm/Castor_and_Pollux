@@ -88,15 +88,33 @@ int main(void) {
 
             struct gem_voice_params castor_params;
             struct gem_voice_params pollux_params;
-            float castor_pitch_cv =
-                1.0f + gem_quant_pitch_cv((6.0f / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A]));
-            float pollux_pitch_cv =
-                1.0f + gem_quant_pitch_cv((6.0f / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B]));
+
+            /* Castor's pitch determination is
+                1.0v + quant(CV in) + qaunt(CV knob * 6.0f)
+                This means that Castor gets a full range out of
+                its pitch input and pitch knob.
+            */
+            float castor_pitch_cv = GEM_CV_BASE_OFFSET + gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) *
+                                                                            (float)(4095 - adc_results[GEM_IN_CV_A]));
+            float castor_pitch_knob =
+                (GEM_CASTOR_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A_POT]);
+            castor_pitch_cv += gem_quant_pitch_cv(castor_pitch_knob);
+
+            /* Pollux is the "follower", so its pitch determination is
+                1.0f + quant(CV in) + -1.0 + (2.0 * CV knob)
+                This means that if there's no pitch input, then Pollux is the same pitch as
+                Castor but fine-tuned up or down using the CV knob. If there is a pitch CV
+                applied, the the knob just acts as a normal fine-tune.
+            */
+            float pollux_pitch_cv = GEM_CV_BASE_OFFSET + gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) *
+                                                                            (float)(4095 - adc_results[GEM_IN_CV_B]));
+            float pollux_pitch_knob =
+                (-GEM_POLLUX_CV_KNOB_RANGE / 2.0f) +
+                (GEM_POLLUX_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B_POT]);
+            pollux_pitch_cv += pollux_pitch_knob;
+
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
-
-            // castor_pitch_cv = 5.0;
-            // pollux_pitch_cv = 2.0;
 
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
@@ -110,9 +128,6 @@ int main(void) {
                                         (struct gem_mcp4728_channel){.value = castor_duty},
                                         (struct gem_mcp4728_channel){.value = pollux_params.pollux_dac_code, .vref = 1},
                                         (struct gem_mcp4728_channel){.value = pollux_duty});
-
-            // printf("Castor params: period: %lu, dac code: %lu", castor_params.period_reg, castor_params.dac_code);
-            // printf("Pollux params: period: %lu, dac code: %lu", pollux_params.period_reg, pollux_params.dac_code);
         }
     }
 

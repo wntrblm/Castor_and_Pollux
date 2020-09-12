@@ -89,6 +89,12 @@ enum gem_adc_channels {
 */
 #define GEM_QUANT_CV_STEP (0.083333333f / 10.0f)
 
+#define GEM_CV_INPUT_RANGE 6.0f
+/* TODO: Turn these into NVM settings? */
+#define GEM_CV_BASE_OFFSET 1.0f
+#define GEM_CASTOR_CV_KNOB_RANGE 6.0f
+#define GEM_POLLUX_CV_KNOB_RANGE 2.0f
+
 /* Structs */
 
 struct gem_nvm_settings {
