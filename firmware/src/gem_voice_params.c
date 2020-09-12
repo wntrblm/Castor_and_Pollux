@@ -5,18 +5,17 @@
 #include "gem_voice_params.h"
 
 /* Private function forward declarations. */
-static void _find_nearest_table_entries(struct gem_voice_params* param_table,
-                                        size_t table_len,
-                                        float voltage,
-                                        struct gem_voice_params** low,
-                                        struct gem_voice_params** high);
+static void _find_nearest_table_entries(
+    struct gem_voice_params* param_table,
+    size_t table_len,
+    float voltage,
+    struct gem_voice_params** low,
+    struct gem_voice_params** high);
 
 /* Public functions. */
 
-void gem_voice_params_from_cv(struct gem_voice_params* table,
-                              size_t table_len,
-                              float voltage,
-                              struct gem_voice_params* out) {
+void gem_voice_params_from_cv(
+    struct gem_voice_params* table, size_t table_len, float voltage, struct gem_voice_params* out) {
     struct gem_voice_params* low;
     struct gem_voice_params* high;
 
@@ -34,11 +33,12 @@ void gem_voice_params_from_cv(struct gem_voice_params* table,
 /* Used to find the two nearest table entries for doing linear interpolation.
    the table entries are defined in gem_voice_params_table.h.
 */
-static void _find_nearest_table_entries(struct gem_voice_params* param_table,
-                                        size_t table_len,
-                                        float voltage,
-                                        struct gem_voice_params** low,
-                                        struct gem_voice_params** high) {
+static void _find_nearest_table_entries(
+    struct gem_voice_params* param_table,
+    size_t table_len,
+    float voltage,
+    struct gem_voice_params** low,
+    struct gem_voice_params** high) {
     (*low) = &param_table[0];
     (*high) = &param_table[0];
     bool found = false;
