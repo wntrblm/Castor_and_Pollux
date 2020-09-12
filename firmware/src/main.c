@@ -45,6 +45,9 @@ int main(void) {
     /* Initialize USB. */
     gem_usb_init();
 
+    /* Initialize MIDI interface. */
+    gem_midi_set_event_callback(midi_event_callback);
+
     /* Enable i2c bus for communicating with the DAC. */
     gem_i2c_init();
 
@@ -85,13 +88,15 @@ int main(void) {
 
             struct gem_voice_params castor_params;
             struct gem_voice_params pollux_params;
-            float castor_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[GEM_IN_CV_A]);
-            float pollux_pitch_cv = gem_quant_pitch_cv((6.0f / 4096.0f) * adc_results[GEM_IN_CV_B]);
+            float castor_pitch_cv =
+                1.0f + gem_quant_pitch_cv((6.0f / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A]));
+            float pollux_pitch_cv =
+                1.0f + gem_quant_pitch_cv((6.0f / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B]));
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
 
-            castor_pitch_cv = 5.0;
-            pollux_pitch_cv = 1.0;
+            // castor_pitch_cv = 5.0;
+            // pollux_pitch_cv = 2.0;
 
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
