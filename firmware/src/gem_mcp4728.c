@@ -15,10 +15,11 @@ enum gem_i2c_result gem_mcp_4728_write_channel(uint8_t channel_no, struct gem_mc
     return gem_i2c_write(I2C_ADDRESS, data, 3);
 }
 
-enum gem_i2c_result gem_mcp_4728_write_channels(struct gem_mcp4728_channel ch_a_settings,
-                                                struct gem_mcp4728_channel ch_b_settings,
-                                                struct gem_mcp4728_channel ch_c_settings,
-                                                struct gem_mcp4728_channel ch_d_settings) {
+enum gem_i2c_result gem_mcp_4728_write_channels(
+    struct gem_mcp4728_channel ch_a_settings,
+    struct gem_mcp4728_channel ch_b_settings,
+    struct gem_mcp4728_channel ch_c_settings,
+    struct gem_mcp4728_channel ch_d_settings) {
     uint8_t data[9] = {
         SEQUENTIAL_WRITE_CMD,
         (ch_a_settings.vref << 7) | (ch_a_settings.pd << 6) | (ch_a_settings.gain << 4) |

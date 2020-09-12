@@ -36,10 +36,11 @@ int main(void) {
         __wrap_printf("Failed to load settings.\r\n");
     } else {
         __wrap_printf("Loaded settings.\r\n");
-        printf("Settings: 0x%x, 0x%x, 0x%x\r\n",
-               settings.adc_gain_corr,
-               settings.adc_offset_corr,
-               settings.led_brightness);
+        printf(
+            "Settings: 0x%x, 0x%x, 0x%x\r\n",
+            settings.adc_gain_corr,
+            settings.adc_offset_corr,
+            settings.led_brightness);
     }
 
     /* Initialize USB. */
@@ -94,8 +95,9 @@ int main(void) {
                 This means that Castor gets a full range out of
                 its pitch input and pitch knob.
             */
-            float castor_pitch_cv = GEM_CV_BASE_OFFSET + gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) *
-                                                                            (float)(4095 - adc_results[GEM_IN_CV_A]));
+            float castor_pitch_cv =
+                GEM_CV_BASE_OFFSET +
+                gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A]));
             float castor_pitch_knob =
                 (GEM_CASTOR_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A_POT]);
             castor_pitch_cv += gem_quant_pitch_cv(castor_pitch_knob);
@@ -106,8 +108,9 @@ int main(void) {
                 Castor but fine-tuned up or down using the CV knob. If there is a pitch CV
                 applied, the the knob just acts as a normal fine-tune.
             */
-            float pollux_pitch_cv = GEM_CV_BASE_OFFSET + gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) *
-                                                                            (float)(4095 - adc_results[GEM_IN_CV_B]));
+            float pollux_pitch_cv =
+                GEM_CV_BASE_OFFSET +
+                gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B]));
             float pollux_pitch_knob =
                 (-GEM_POLLUX_CV_KNOB_RANGE / 2.0f) +
                 (GEM_POLLUX_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B_POT]);
@@ -128,10 +131,11 @@ int main(void) {
             gem_pulseout_set_duty(1, 0.5f);
             __enable_irq();
 
-            gem_mcp_4728_write_channels((struct gem_mcp4728_channel){.value = castor_params.castor_dac_code, .vref = 1},
-                                        (struct gem_mcp4728_channel){.value = castor_duty},
-                                        (struct gem_mcp4728_channel){.value = pollux_params.pollux_dac_code, .vref = 1},
-                                        (struct gem_mcp4728_channel){.value = pollux_duty});
+            gem_mcp_4728_write_channels(
+                (struct gem_mcp4728_channel){.value = castor_params.castor_dac_code, .vref = 1},
+                (struct gem_mcp4728_channel){.value = castor_duty},
+                (struct gem_mcp4728_channel){.value = pollux_params.pollux_dac_code, .vref = 1},
+                (struct gem_mcp4728_channel){.value = pollux_duty});
         }
     }
 

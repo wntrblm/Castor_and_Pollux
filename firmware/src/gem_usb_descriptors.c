@@ -1,24 +1,25 @@
 #include "tusb.h"
 
-tusb_desc_device_t const desc_device = {.bLength = sizeof(tusb_desc_device_t),
-                                        .bDescriptorType = TUSB_DESC_DEVICE,
-                                        .bcdUSB = 0x0200,
-                                        .bDeviceClass = 0x00,
-                                        .bDeviceSubClass = 0x00,
-                                        .bDeviceProtocol = 0x00,
-                                        .bMaxPacketSize0 = CFG_TUD_ENDPOINT0_SIZE,
+tusb_desc_device_t const desc_device = {
+    .bLength = sizeof(tusb_desc_device_t),
+    .bDescriptorType = TUSB_DESC_DEVICE,
+    .bcdUSB = 0x0200,
+    .bDeviceClass = 0x00,
+    .bDeviceSubClass = 0x00,
+    .bDeviceProtocol = 0x00,
+    .bMaxPacketSize0 = CFG_TUD_ENDPOINT0_SIZE,
 
-                                        // Allocated by Adafruit for Winterbloom
-                                        // https://github.com/adafruit/uf2-samdx1/issues/136
-                                        .idVendor = 0x239A,
-                                        .idProduct = 0x80C3,
-                                        .bcdDevice = 0x0100,
+    // Allocated by Adafruit for Winterbloom
+    // https://github.com/adafruit/uf2-samdx1/issues/136
+    .idVendor = 0x239A,
+    .idProduct = 0x80C3,
+    .bcdDevice = 0x0100,
 
-                                        .iManufacturer = 0x01,
-                                        .iProduct = 0x02,
-                                        .iSerialNumber = 0x03,
+    .iManufacturer = 0x01,
+    .iProduct = 0x02,
+    .iSerialNumber = 0x03,
 
-                                        .bNumConfigurations = 0x01};
+    .bNumConfigurations = 0x01};
 
 enum { ITF_NUM_MIDI = 0, ITF_NUM_MIDI_STREAMING, ITF_NUM_TOTAL };
 
