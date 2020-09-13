@@ -93,7 +93,9 @@ int main(void) {
             struct gem_voice_params pollux_params;
 
             /* Castor's pitch determination is
-                1.0v + quant(CV in) + qaunt(CV knob * 6.0f)
+
+                1.0v + quant(CV in) + qaunt(CV knob * 6.0v)
+
                 This means that Castor gets a full range out of
                 its pitch input and pitch knob.
             */
@@ -104,20 +106,38 @@ int main(void) {
                 (GEM_CASTOR_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A_POT]);
             castor_pitch_cv += gem_quant_pitch_cv(castor_pitch_knob);
 
-            /* Pollux is the "follower", so its pitch determination is
-                1.0f + quant(CV in) + -1.0 + (2.0 * CV knob)
+            /* Pollux is the "follower", so its pitch determination is based on whether or not
+                it has input CV.
+
+                If CV in == 0, then it follows Castor:
+
+                    CV = Castor CV + -1.0v + (2.0v * CV knob)
+
+                Else it uses the input CV:
+
+                    CV = 1.0v + quant(CV in) + -1.0v + (2.0v * CV knob)
+
                 This means that if there's no pitch input, then Pollux is the same pitch as
                 Castor but fine-tuned up or down using the CV knob. If there is a pitch CV
                 applied, the the knob just acts as a normal fine-tune.
             */
-            float pollux_pitch_cv =
-                GEM_CV_BASE_OFFSET +
-                gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B]));
+            float pollux_pitch_cv;
+
+            // TODO: Maybe adjust this threshold.
+            if (adc_results[GEM_IN_CV_B] > 4090) {
+                pollux_pitch_cv = castor_pitch_cv;
+            } else {
+                pollux_pitch_cv =
+                    GEM_CV_BASE_OFFSET +
+                    gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B]));
+            }
+
             float pollux_pitch_knob =
                 (-GEM_POLLUX_CV_KNOB_RANGE / 2.0f) +
                 (GEM_POLLUX_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B_POT]);
             pollux_pitch_cv += pollux_pitch_knob;
 
+            /* TODO: maybe adjust these ranges once tested with new pots. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
 
