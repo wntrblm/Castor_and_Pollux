@@ -79,7 +79,8 @@ enum gem_adc_channels {
     GEM_IN_DUTY_B,
     GEM_IN_DUTY_B_POT,
     GEM_IN_PHASE,
-    GEM_IN_PHASE_POT
+    GEM_IN_PHASE_POT,
+    GEM_IN_COUNT,
 };
 
 /* 83.33 milivolts per semitone / 10 steps.
