@@ -69,7 +69,9 @@ int main(void) {
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
 
-    /* Test */
+    /* For performance measurement */
+    gem_gpio_set_as_output(1, 22);
+    gem_gpio_set(1, 22, false);
 
     while (1) {
         gem_usb_task();
