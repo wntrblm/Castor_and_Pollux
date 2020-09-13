@@ -135,7 +135,7 @@ int main(void) {
             float pollux_pitch_knob =
                 (-GEM_POLLUX_CV_KNOB_RANGE / 2.0f) +
                 (GEM_POLLUX_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B_POT]);
-            pollux_pitch_cv += pollux_pitch_knob;
+            pollux_pitch_cv += gem_quant_pitch_knob(pollux_pitch_knob);
 
             /* TODO: maybe adjust these ranges once tested with new pots. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
