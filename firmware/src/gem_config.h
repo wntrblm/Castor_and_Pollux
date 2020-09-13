@@ -39,12 +39,12 @@ extern const struct gem_adc_input gem_adc_inputs[];
 */
 
 #define GEM_TCC0_PIN_PORT 0
-#define GEM_TCC0_PIN PIN_PA17
+#define GEM_TCC0_PIN 17
 #define GEM_TCC0_PIN_FUNC PORT_PMUX_PMUXO_F
 #define GEM_TCC0_WO 3
 
 #define GEM_TCC2_PIN_PORT 0
-#define GEM_TCC2_PIN PIN_PA16
+#define GEM_TCC2_PIN 16
 #define GEM_TCC2_PIN_FUNC PORT_PMUX_PMUXE_E
 #define GEM_TCC2_WO 0
 
@@ -61,10 +61,10 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_I2C_SERCOM_APBCMASK PM_APBCMASK_SERCOM1
 #define GEM_I2C_GCLK_CLKCTRL_ID GCLK_CLKCTRL_ID_SERCOM1_CORE
 #define GEM_I2C_PAD_0_PORT 0
-#define GEM_I2C_PAD_0_PIN PIN_PA00
+#define GEM_I2C_PAD_0_PIN 0
 #define GEM_I2C_PAD_0_PIN_FUNC GEM_PMUX_D
 #define GEM_I2C_PAD_1_PORT 0
-#define GEM_I2C_PAD_1_PIN PIN_PA01
+#define GEM_I2C_PAD_1_PIN 1
 #define GEM_I2C_PAD_1_PIN_FUNC GEM_PMUX_D
 
 /* Behavioral configuration. */
