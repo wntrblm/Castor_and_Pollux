@@ -92,3 +92,10 @@ void gem_pulseout_set_duty(uint8_t channel, float duty) {
             break;
     }
 }
+
+void gem_pulseout_phase_offset(float offset) {
+    TCC0->CTRLBSET.reg = TCC_CTRLBSET_CMD_READSYNC;
+    while (TCC0->SYNCBUSY.bit.COUNT) {};
+
+    TCC1->COUNT.reg = (TCC0->COUNT.reg + (uint32_t)(TCC2->PER.reg * offset)) % TCC2->PER.reg;
+}
