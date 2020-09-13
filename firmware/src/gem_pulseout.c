@@ -27,6 +27,11 @@ void gem_pulseout_init() {
     TCC2->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM;
     while (TCC2->SYNCBUSY.bit.WAVE) {};
 
+    /* We have to set some sort of period to begin with, otherwise the
+        double-buffered writes won't work. */
+    TCC0->PER.reg = 1;
+    TCC2->PER.reg = 1;
+
     /* Configure pins. */
     PORT->Group[GEM_TCC0_PIN_PORT].DIRSET.reg = (1 << GEM_TCC0_PIN);
     PORT->Group[GEM_TCC0_PIN_PORT].OUTCLR.reg = (1 << GEM_TCC0_PIN);
@@ -56,36 +61,13 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
     */
     switch (channel) {
         case 0:
-            TCC0->CTRLBSET.reg = TCC_CTRLBSET_CMD_READSYNC;
-            while (TCC0->SYNCBUSY.bit.COUNT) {};
-            if (TCC0->COUNT.reg >= period) {
-                TCC0->COUNT.reg = TCC0->COUNT.reg % period;
-            }
-            TCC0->PER.reg = period;
+            TCC0->PERB.bit.PERB = period;
+            TCC0->CCB[GEM_TCC0_WO].reg = (uint32_t)(period / 2);
             break;
 
         case 1:
-            TCC2->CTRLBSET.reg = TCC_CTRLBSET_CMD_READSYNC;
-            while (TCC2->SYNCBUSY.bit.COUNT) {};
-            if (TCC2->COUNT.reg >= period) {
-                TCC2->COUNT.reg = TCC2->COUNT.reg % period;
-            }
-            TCC2->PER.reg = period;
-            break;
-
-        default:
-            break;
-    }
-}
-
-void gem_pulseout_set_duty(uint8_t channel, float duty) {
-    switch (channel) {
-        case 0:
-            TCC0->CC[GEM_TCC0_WO].reg = (uint32_t)(TCC0->PER.reg * duty);
-            break;
-
-        case 1:
-            TCC2->CC[GEM_TCC2_WO].reg = (uint32_t)(TCC2->PER.reg * duty);
+            TCC2->PERB.bit.PERB = period;
+            TCC2->CCB[GEM_TCC2_WO].reg = (uint32_t)(period / 2);
             break;
 
         default:
@@ -97,5 +79,5 @@ void gem_pulseout_phase_offset(float offset) {
     TCC0->CTRLBSET.reg = TCC_CTRLBSET_CMD_READSYNC;
     while (TCC0->SYNCBUSY.bit.COUNT) {};
 
-    TCC1->COUNT.reg = (TCC0->COUNT.reg + (uint32_t)(TCC2->PER.reg * offset)) % TCC2->PER.reg;
+    TCC2->COUNT.reg = (TCC0->COUNT.reg + (uint32_t)(TCC2->PER.reg * offset)) % TCC2->PER.reg;
 }
