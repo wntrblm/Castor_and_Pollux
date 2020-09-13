@@ -88,8 +88,8 @@ enum gem_adc_channels {
     6 adc codes map to the same frequency,
     improving the chance for proper tuning.
 */
-#define GEM_QUANT_CV_IN_STEP (0.083333333f / 10.0f)
-#define GEM_QUANT_PITCH_KNOB_STEP (0.083333333f / 50.0f)
+#define GEM_QUANT_CV_IN_STEP (0.083333333f / 5.0f)
+#define GEM_QUANT_PITCH_KNOB_STEP (0.083333333f / 2.0f)
 
 #define GEM_CV_INPUT_RANGE 6.0f
 /* TODO: Turn these into NVM settings? */

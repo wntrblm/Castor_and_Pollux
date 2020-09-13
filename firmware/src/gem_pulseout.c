@@ -1,6 +1,10 @@
 #include "gem_pulseout.h"
 #include "gem_config.h"
 
+static uint32_t _timer_2_period = 0;
+static float _phase_offset = 0.25f;
+static bool _change_phase = false;
+
 /* Public functions */
 
 void gem_pulseout_init() {
@@ -29,8 +33,8 @@ void gem_pulseout_init() {
 
     /* We have to set some sort of period to begin with, otherwise the
         double-buffered writes won't work. */
-    TCC0->PER.reg = 1;
-    TCC2->PER.reg = 1;
+    TCC0->PER.reg = 100;
+    TCC2->PER.reg = 100;
 
     /* Configure pins. */
     PORT->Group[GEM_TCC0_PIN_PORT].DIRSET.reg = (1 << GEM_TCC0_PIN);
@@ -47,6 +51,11 @@ void gem_pulseout_init() {
     while (TCC0->SYNCBUSY.bit.ENABLE) {};
     TCC2->CTRLA.reg |= (TCC_CTRLA_ENABLE);
     while (TCC2->SYNCBUSY.bit.ENABLE) {};
+
+    /* Enable interrupt. */
+    TCC0->INTENSET.bit.OVF = 1;
+    NVIC_SetPriority(TCC0_IRQn, 1);
+    NVIC_EnableIRQ(TCC0_IRQn);
 }
 
 void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
@@ -68,6 +77,7 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
         case 1:
             TCC2->PERB.bit.PERB = period;
             TCC2->CCB[GEM_TCC2_WO].reg = (uint32_t)(period / 2);
+            _timer_2_period = period;
             break;
 
         default:
@@ -76,8 +86,15 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
 }
 
 void gem_pulseout_phase_offset(float offset) {
-    TCC0->CTRLBSET.reg = TCC_CTRLBSET_CMD_READSYNC;
-    while (TCC0->SYNCBUSY.bit.COUNT) {};
+    _phase_offset = offset;
+    _change_phase = true;
+}
 
-    TCC2->COUNT.reg = (TCC0->COUNT.reg + (uint32_t)(TCC2->PER.reg * offset)) % TCC2->PER.reg;
+void TCC0_Handler(void) {
+    TCC0->INTFLAG.reg = TCC_INTFLAG_OVF;
+
+    if(_change_phase) {
+        TCC2->COUNT.bit.COUNT = (uint32_t)(_timer_2_period * _phase_offset);
+        _change_phase = false;
+    }
 }
