@@ -137,7 +137,7 @@ int main(void) {
             pollux_pitch_cv += gem_quant_pitch_knob(pollux_pitch_knob);
 
             // TEST
-            pollux_pitch_cv = castor_pitch_cv;
+            //pollux_pitch_cv = castor_pitch_cv;
 
             /* TODO: maybe adjust these ranges once tested with new pots. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
@@ -155,7 +155,6 @@ int main(void) {
             }
             if (last_pollux_period != pollux_params.period_reg) {
                 gem_pulseout_set_period(1, pollux_params.period_reg);
-                //gem_pulseout_phase_offset((float)(phase_offset) / 127.0f);
             }
             if(phase_offset != last_phase_offset) {
                 gem_pulseout_phase_offset((float)(phase_offset) / 127.0f);
