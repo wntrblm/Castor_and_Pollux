@@ -73,6 +73,12 @@ int main(void) {
     gem_gpio_set_as_output(1, 22);
     gem_gpio_set(1, 22, false);
 
+    /* Loop variables. */
+    uint32_t last_castor_period = 0;
+    uint32_t last_pollux_period = 0;
+    struct gem_voice_params castor_params = {};
+    struct gem_voice_params pollux_params = {};
+
     while (1) {
         gem_usb_task();
         gem_midi_task();
@@ -88,9 +94,6 @@ int main(void) {
             //     adc_results[7],
             //     adc_results[8],
             //     adc_results[9]);
-
-            struct gem_voice_params castor_params;
-            struct gem_voice_params pollux_params;
 
             /* Castor's pitch determination is
 
@@ -147,10 +150,15 @@ int main(void) {
             /* Disable interrupts while changing timers, as any interrupt here could totally
                 bork the calculations. */
             __disable_irq();
-            gem_pulseout_set_period(0, castor_params.period_reg);
-            gem_pulseout_set_duty(0, 0.5f);
-            gem_pulseout_set_period(1, pollux_params.period_reg);
-            gem_pulseout_set_duty(1, 0.5f);
+            if (last_castor_period != castor_params.period_reg) {
+                gem_pulseout_set_period(0, castor_params.period_reg);
+                gem_pulseout_set_duty(0, 0.5f);
+                last_castor_period = castor_params.period_reg;
+            }
+            if (last_pollux_period != pollux_params.period_reg) {
+                gem_pulseout_set_period(1, pollux_params.period_reg);
+                gem_pulseout_set_duty(1, 0.5f);
+            }
             __enable_irq();
 
             gem_mcp_4728_write_channels(
