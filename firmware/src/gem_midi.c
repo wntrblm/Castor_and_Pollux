@@ -151,7 +151,6 @@ void _process_sysex_command() {
         case SE_CMD_SET_FREQ:
             gem_pulseout_set_period(
                 _sysex_data[2], _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6]);
-            gem_pulseout_set_duty(_sysex_data[2], 0.5f);
             break;
 
         default:

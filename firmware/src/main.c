@@ -68,6 +68,7 @@ int main(void) {
     /* Loop variables. */
     uint32_t last_castor_period = 0;
     uint32_t last_pollux_period = 0;
+    uint8_t last_phase_offset = 0;
     struct gem_voice_params castor_params = {};
     struct gem_voice_params pollux_params = {};
 
@@ -86,6 +87,9 @@ int main(void) {
             //     adc_results[7],
             //     adc_results[8],
             //     adc_results[9]);
+
+            /* Calcuate phase offset. It's a 7-bit value. */
+            uint8_t phase_offset = adc_results[GEM_IN_PHASE_POT] >> 5;
 
             /* Castor's pitch determination is
 
@@ -132,6 +136,9 @@ int main(void) {
                 (GEM_POLLUX_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B_POT]);
             pollux_pitch_cv += gem_quant_pitch_knob(pollux_pitch_knob);
 
+            // TEST
+            pollux_pitch_cv = castor_pitch_cv;
+
             /* TODO: maybe adjust these ranges once tested with new pots. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
@@ -144,12 +151,15 @@ int main(void) {
             __disable_irq();
             if (last_castor_period != castor_params.period_reg) {
                 gem_pulseout_set_period(0, castor_params.period_reg);
-                gem_pulseout_set_duty(0, 0.5f);
                 last_castor_period = castor_params.period_reg;
             }
             if (last_pollux_period != pollux_params.period_reg) {
                 gem_pulseout_set_period(1, pollux_params.period_reg);
-                gem_pulseout_set_duty(1, 0.5f);
+                //gem_pulseout_phase_offset((float)(phase_offset) / 127.0f);
+            }
+            if(phase_offset != last_phase_offset) {
+                gem_pulseout_phase_offset((float)(phase_offset) / 127.0f);
+                last_phase_offset = phase_offset;
             }
             __enable_irq();
 
