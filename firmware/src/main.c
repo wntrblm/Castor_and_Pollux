@@ -54,17 +54,9 @@ int main(void) {
 
     /* Configure the ADC and channel scanning. */
     gem_adc_init();
-    gem_adc_init_input(&gem_adc_inputs[0]);
-    gem_adc_init_input(&gem_adc_inputs[1]);
-    gem_adc_init_input(&gem_adc_inputs[2]);
-    gem_adc_init_input(&gem_adc_inputs[3]);
-    gem_adc_init_input(&gem_adc_inputs[4]);
-    gem_adc_init_input(&gem_adc_inputs[5]);
-    gem_adc_init_input(&gem_adc_inputs[6]);
-    gem_adc_init_input(&gem_adc_inputs[7]);
-    gem_adc_init_input(&gem_adc_inputs[8]);
-    gem_adc_init_input(&gem_adc_inputs[9]);
-    gem_adc_start_scanning(gem_adc_inputs, 10, adc_results);
+
+    for (size_t i = 0; i < GEM_IN_COUNT; i++) { gem_adc_init_input(&gem_adc_inputs[i]); }
+    gem_adc_start_scanning(gem_adc_inputs, GEM_IN_COUNT, adc_results);
 
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
