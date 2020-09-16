@@ -1204,14 +1204,6 @@ Wire Wire Line
 Wire Wire Line
 	10500 2500 10600 2500
 Wire Wire Line
-	8250 3350 8250 3800
-Wire Wire Line
-	8250 3800 8350 3800
-Wire Wire Line
-	10500 2600 10650 2600
-Wire Wire Line
-	8200 3900 8350 3900
-Wire Wire Line
 	8950 3800 9100 3800
 Wire Wire Line
 	8950 3900 9100 3900
@@ -1309,15 +1301,9 @@ F 3 "" H 10200 2900 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	8250 3350 10650 3350
-Wire Wire Line
-	10650 2600 10650 3350
-Wire Wire Line
 	10600 3300 8200 3300
 Wire Wire Line
 	10600 2500 10600 3300
-Wire Wire Line
-	8200 3300 8200 3900
 Wire Wire Line
 	9000 4300 9000 5100
 Wire Wire Line
@@ -1405,7 +1391,7 @@ Wire Wire Line
 	9450 4900 10750 4900
 NoConn ~ 9750 5100
 NoConn ~ 9750 5200
-Text Label 6150 900  2    50   ~ 0
+Text Label 6100 750  0    50   ~ 0
 cv_a_jack
 $Comp
 L power:GND #PWR0105
@@ -1465,17 +1451,42 @@ F 3 "" H 2100 2300 50  0001 C CNN
 	1    2100 2300
 	1    0    0    -1  
 $EndComp
+Wire Wire Line
+	8350 3800 8200 3800
+Wire Wire Line
+	8200 3800 8200 3300
+Wire Wire Line
+	10500 2600 10550 2600
+Wire Wire Line
+	10550 2600 10550 3250
+Wire Wire Line
+	10550 3250 8150 3250
+Wire Wire Line
+	8150 3250 8150 3900
+Wire Wire Line
+	8150 3900 8350 3900
 $Comp
-L Jumper:SolderJumper_2_Bridged JP1
-U 1 1 5F5EC12A
-P 6300 900
-F 0 "JP1" H 6300 1105 50  0000 C CNN
-F 1 "CV tie" H 6300 1014 50  0000 C CNN
-F 2 "Jumper:SolderJumper-2_P1.3mm_Bridged_RoundedPad1.0x1.5mm" H 6300 900 50  0001 C CNN
-F 3 "~" H 6300 900 50  0001 C CNN
-	1    6300 900 
+L Jumper:SolderJumper_3_Bridged12 JP1
+U 1 1 5F65C20F
+P 5900 750
+F 0 "JP1" H 5900 955 50  0000 C CNN
+F 1 "CV Tie" H 5900 864 50  0000 C CNN
+F 2 "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm" H 5900 750 50  0001 C CNN
+F 3 "~" H 5900 750 50  0001 C CNN
+	1    5900 750 
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	6450 900  7100 900 
+	5900 900  7100 900 
+$Comp
+L power:GND #PWR0162
+U 1 1 5F662DAE
+P 5700 750
+F 0 "#PWR0162" H 5700 500 50  0001 C CNN
+F 1 "GND" V 5705 622 50  0000 R CNN
+F 2 "" H 5700 750 50  0001 C CNN
+F 3 "" H 5700 750 50  0001 C CNN
+	1    5700 750 
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC
