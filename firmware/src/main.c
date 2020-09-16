@@ -8,9 +8,11 @@
 #include "gem_nvm.h"
 #include "gem_pulseout.h"
 #include "gem_quant.h"
+#include "gem_systick.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "gem_voice_params.h"
+#include "gem_waveforms.h"
 #include "sam.h"
 #include <stdio.h>
 
@@ -21,6 +23,9 @@ void midi_event_callback(enum gem_midi_event event);
 int main(void) {
     /* Configure clocks. */
     gem_clocks_init();
+
+    /* Configure systick */
+    gem_systick_init();
 
     /* Initialize NVM */
     gem_nvm_init();
@@ -66,17 +71,20 @@ int main(void) {
     gem_gpio_set(1, 22, false);
 
     /* Loop variables. */
+    uint32_t last_update = 0;
     uint32_t last_castor_period = 0;
     uint32_t last_pollux_period = 0;
-    uint8_t last_phase_offset = 0;
     struct gem_voice_params castor_params = {};
     struct gem_voice_params pollux_params = {};
+    float chorus_lfo_phase = 0.0f;
 
     while (1) {
         gem_usb_task();
         gem_midi_task();
 
         if (gem_adc_results_ready()) {
+            uint32_t now = gem_get_ticks();
+            uint32_t delta = now - last_update;
             // printf(
             //     "CV A: %lu, CV A Pot: %lu, CV B: %lu, CV B Pot: %lu, Duty A: %lu, Duty A Pot: %lu, Duty B: %lu, Duty
             //     B " "Pot: %lu, Phase: %lu, Phase Pot: %lu \r\n", adc_results[0], adc_results[1], adc_results[2],
@@ -87,9 +95,6 @@ int main(void) {
             //     adc_results[7],
             //     adc_results[8],
             //     adc_results[9]);
-
-            /* Calcuate phase offset. It's a 7-bit value. */
-            uint8_t phase_offset = adc_results[GEM_IN_PHASE_POT] >> 5;
 
             /* Castor's pitch determination is
 
@@ -136,8 +141,14 @@ int main(void) {
                 (GEM_POLLUX_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B_POT]);
             pollux_pitch_cv += gem_quant_pitch_knob(pollux_pitch_knob);
 
-            // TEST
-            //pollux_pitch_cv = castor_pitch_cv;
+            /* Calculate the chorus LFO and account for LFO in Pollux's pitch. */
+            float chorus_lfo_amount = adc_results[GEM_IN_CHORUS_POT] / 4096.0f;
+            chorus_lfo_phase += GEM_CHORUS_LFO_FREQUENCY / 1000.0f * delta;
+            if (chorus_lfo_phase > 1.0f)
+                chorus_lfo_phase -= 1.0f;
+            float chorus_lfo_mod = 0.01f * chorus_lfo_amount * gem_triangle(chorus_lfo_phase);
+            pollux_pitch_cv = castor_pitch_cv;  // temporary
+            pollux_pitch_cv += chorus_lfo_mod;
 
             /* TODO: maybe adjust these ranges once tested with new pots. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
@@ -156,17 +167,22 @@ int main(void) {
             if (last_pollux_period != pollux_params.period_reg) {
                 gem_pulseout_set_period(1, pollux_params.period_reg);
             }
-            if(phase_offset != last_phase_offset) {
-                gem_pulseout_phase_offset((float)(phase_offset) / 127.0f);
-                last_phase_offset = phase_offset;
-            }
             __enable_irq();
+
+            // TODO: Enable this once a button is wired up.
+            // if(!gem_gpio_get(GEM_IN_SYNC_PORT, GEM_IN_SYNC_PIN)) {
+            //     gem_pulseout_hard_sync(true);
+            // } else {
+            //     gem_pulseout_hard_sync(false);
+            // }
 
             gem_mcp_4728_write_channels(
                 (struct gem_mcp4728_channel){.value = castor_params.castor_dac_code, .vref = 1},
                 (struct gem_mcp4728_channel){.value = castor_duty},
                 (struct gem_mcp4728_channel){.value = pollux_params.pollux_dac_code, .vref = 1},
                 (struct gem_mcp4728_channel){.value = pollux_duty});
+
+            last_update = gem_get_ticks();
         }
     }
 

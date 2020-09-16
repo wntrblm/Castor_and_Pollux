@@ -20,7 +20,7 @@
 /* Max impedance is 28kOhms */
 #define GEM_ADC_SAMPLE_TIME 2
 
-#define GEM_ADC_SAMPLE_NUM ADC_AVGCTRL_SAMPLENUM_64
+#define GEM_ADC_SAMPLE_NUM ADC_AVGCTRL_SAMPLENUM_128
 #define GEM_ADC_SAMPLE_ADJRES ADC_AVGCTRL_ADJRES(4)
 
 // #define GEM_ADC_USE_EXTERNAL_REF
@@ -78,8 +78,7 @@ enum gem_adc_channels {
     GEM_IN_DUTY_A_POT,
     GEM_IN_DUTY_B,
     GEM_IN_DUTY_B_POT,
-    GEM_IN_PHASE,
-    GEM_IN_PHASE_POT,
+    GEM_IN_CHORUS_POT,
     GEM_IN_COUNT,
 };
 
@@ -88,7 +87,7 @@ enum gem_adc_channels {
     6 adc codes map to the same frequency,
     improving the chance for proper tuning.
 */
-#define GEM_QUANT_CV_IN_STEP (0.083333333f / 5.0f)
+#define GEM_QUANT_CV_IN_STEP (0.083333333f / 10.0f)
 #define GEM_QUANT_PITCH_KNOB_STEP (0.083333333f / 2.0f)
 
 #define GEM_CV_INPUT_RANGE 6.0f
@@ -96,6 +95,7 @@ enum gem_adc_channels {
 #define GEM_CV_BASE_OFFSET 1.0f
 #define GEM_CASTOR_CV_KNOB_RANGE 6.0f
 #define GEM_POLLUX_CV_KNOB_RANGE 2.0f
+#define GEM_CHORUS_LFO_FREQUENCY 0.2f
 
 /* Structs */
 

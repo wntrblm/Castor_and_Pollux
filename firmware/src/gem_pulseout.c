@@ -2,8 +2,7 @@
 #include "gem_config.h"
 
 static uint32_t _timer_2_period = 0;
-static float _phase_offset = 0.25f;
-static bool _change_phase = false;
+static bool _hard_sync = false;
 
 /* Public functions */
 
@@ -85,16 +84,12 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
     }
 }
 
-void gem_pulseout_phase_offset(float offset) {
-    _phase_offset = offset;
-    _change_phase = true;
-}
+void gem_pulseout_hard_sync(bool state) { _hard_sync = state; }
 
 void TCC0_Handler(void) {
     TCC0->INTFLAG.reg = TCC_INTFLAG_OVF;
 
-    if(_change_phase) {
-        TCC2->COUNT.bit.COUNT = (uint32_t)(_timer_2_period * _phase_offset);
-        _change_phase = false;
+    if (_hard_sync) {
+        TCC2->CTRLBSET.reg = TCC_CTRLBSET_CMD_RETRIGGER;
     }
 }
