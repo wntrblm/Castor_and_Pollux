@@ -48,7 +48,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_TCC2_PIN_FUNC PORT_PMUX_PMUXE_E
 #define GEM_TCC2_WO 0
 
-/* I2C configuration. */
+/* I2C configuration for the DAC. */
 
 #define GEM_I2C_GCLK GCLK_CLKCTRL_GEN_GCLK1
 /* Hz */
@@ -66,6 +66,24 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_I2C_PAD_1_PORT 0
 #define GEM_I2C_PAD_1_PIN 1
 #define GEM_I2C_PAD_1_PIN_FUNC GEM_PMUX_D
+
+/* SPI configuration for the Dotstars. */
+
+#define GEM_SPI_GCLK GCLK_CLKCTRL_GEN_GCLK1
+#define GEM_SPI_GCLK_FREQ 8000000
+#define GEM_SPI_SERCOM SERCOM5
+#define GEM_SPI_SERCOM_APBCMASK PM_APBCMASK_SERCOM5
+#define GEM_SPI_GCLK_CLKCTRL_ID GCLK_CLKCTRL_ID_SERCOM5_CORE
+#define GEM_SPI_POLARITY 0
+#define GEM_SPI_PHASE 0
+/* Pad 2 is clock, pad 3 is data */
+#define GEM_SPI_DOPO 0x1
+#define GEM_SPI_SCK_PORT 1
+#define GEM_SPI_SCK_PIN 23
+#define GEM_SPI_SCK_PIN_FUNC GEM_PMUX_D
+#define GEM_SPI_SDO_PORT 1
+#define GEM_SPI_SDO_PIN 22
+#define GEM_SPI_SDO_PIN_FUNC GEM_PMUX_D
 
 /* Behavioral configuration. */
 
