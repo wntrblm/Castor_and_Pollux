@@ -508,9 +508,9 @@ Text HLabel 5900 1000 2    50   Output ~ 0
 square_out_a
 Text HLabel 5900 1150 2    50   Output ~ 0
 square_out_b
-Text HLabel 5900 1300 2    50   Input ~ 0
-dotstar_data
 Text HLabel 5900 1450 2    50   Input ~ 0
+dotstar_data
+Text HLabel 5900 1300 2    50   Input ~ 0
 dotstar_clk
 Text HLabel 5900 1600 2    50   Input ~ 0
 cv_a_in

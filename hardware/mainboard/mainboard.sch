@@ -421,9 +421,9 @@ Wire Wire Line
 	2800 850  3050 850 
 Wire Wire Line
 	2800 950  3050 950 
-Text Label 3550 6250 0    50   ~ 0
-dotstar_data
 Text Label 3550 6150 0    50   ~ 0
+dotstar_data
+Text Label 3550 6250 0    50   ~ 0
 dotstar_clk
 $Comp
 L power:+3.3V #PWR0146
