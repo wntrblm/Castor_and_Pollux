@@ -907,9 +907,9 @@ Text Label 1250 5900 2    50   ~ 0
 castor_pwm_out
 Text Label 1250 6300 2    50   ~ 0
 castor_sub_mix_in
-Text Label 2950 5200 0    50   ~ 0
-dotstar_data
 Text Label 2950 5100 0    50   ~ 0
+dotstar_data
+Text Label 2950 5200 0    50   ~ 0
 dotstar_clk
 Text Label 1250 4900 2    50   ~ 0
 +12v-raw
