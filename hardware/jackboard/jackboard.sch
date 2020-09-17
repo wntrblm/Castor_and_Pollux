@@ -407,17 +407,6 @@ F 3 "~" H 9550 1000 50  0001 C CNN
 	1    9550 1000
 	-1   0    0    1   
 $EndComp
-$Comp
-L Connector:AudioJack2_SwitchT J18
-U 1 1 5F09D850
-P 9550 1600
-F 0 "J18" H 9370 1533 50  0000 R CNN
-F 1 "Phase" H 9370 1624 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 9550 1600 50  0001 C CNN
-F 3 "~" H 9550 1600 50  0001 C CNN
-	1    9550 1600
-	-1   0    0    1   
-$EndComp
 Text Label 9350 1000 2    50   ~ 0
 mix_out
 $Comp
@@ -432,30 +421,6 @@ F 3 "" H 9350 1100 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 NoConn ~ 9350 900 
-Text Label 9350 1600 2    50   ~ 0
-phase_jack
-$Comp
-L power:GND #PWR0128
-U 1 1 5F09F063
-P 9350 1700
-F 0 "#PWR0128" H 9350 1450 50  0001 C CNN
-F 1 "GND" V 9355 1572 50  0000 R CNN
-F 2 "" H 9350 1700 50  0001 C CNN
-F 3 "" H 9350 1700 50  0001 C CNN
-	1    9350 1700
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR0129
-U 1 1 5F09F52B
-P 9350 1500
-F 0 "#PWR0129" H 9350 1250 50  0001 C CNN
-F 1 "GND" V 9355 1372 50  0000 R CNN
-F 2 "" H 9350 1500 50  0001 C CNN
-F 3 "" H 9350 1500 50  0001 C CNN
-	1    9350 1500
-	0    1    1    0   
-$EndComp
 $Comp
 L Device:R_POT_US RV1
 U 1 1 5F0A000C
@@ -921,7 +886,7 @@ duty_b_jack
 Text Label 2950 6200 0    50   ~ 0
 duty_a_jack
 Text Label 2950 6100 0    50   ~ 0
-phase_jack
+hard_sync
 Text Label 2950 5700 0    50   ~ 0
 duty_b_pot
 Text Label 2950 5500 0    50   ~ 0
@@ -1488,5 +1453,29 @@ F 2 "" H 5700 750 50  0001 C CNN
 F 3 "" H 5700 750 50  0001 C CNN
 	1    5700 750 
 	0    1    1    0   
+$EndComp
+Text Label 9350 1600 2    50   ~ 0
+hard_sync
+$Comp
+L Switch:SW_Push SW1
+U 1 1 5F697077
+P 9550 1600
+F 0 "SW1" H 9550 1885 50  0000 C CNN
+F 1 "SW_Push" H 9550 1794 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_PUSH_6mm" H 9550 1800 50  0001 C CNN
+F 3 "~" H 9550 1800 50  0001 C CNN
+	1    9550 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0128
+U 1 1 5F6979A4
+P 9750 1600
+F 0 "#PWR0128" H 9750 1350 50  0001 C CNN
+F 1 "GND" V 9755 1472 50  0000 R CNN
+F 2 "" H 9750 1600 50  0001 C CNN
+F 3 "" H 9750 1600 50  0001 C CNN
+	1    9750 1600
+	0    -1   -1   0   
 $EndComp
 $EndSCHEMATC
