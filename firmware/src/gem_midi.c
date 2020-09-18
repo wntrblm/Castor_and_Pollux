@@ -132,6 +132,7 @@ void _process_sysex_command() {
             break;
 
         case SE_CMD_READ_ADC: {
+            /* TODO: get ADC input channel from SysEx. */
             uint16_t result = gem_adc_read_sync(&gem_adc_inputs[0]);
             gem_usb_midi_send(
                 (uint8_t[4]){SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_READ_ADC});
