@@ -74,6 +74,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_SPI_SERCOM SERCOM5
 #define GEM_SPI_SERCOM_APBCMASK PM_APBCMASK_SERCOM5
 #define GEM_SPI_GCLK_CLKCTRL_ID GCLK_CLKCTRL_ID_SERCOM5_CORE
+#define GEM_SPI_BAUD 1000000
 #define GEM_SPI_POLARITY 0
 #define GEM_SPI_PHASE 0
 /* Pad 2 is clock, pad 3 is data */
