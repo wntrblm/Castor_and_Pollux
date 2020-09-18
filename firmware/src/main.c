@@ -8,6 +8,7 @@
 #include "gem_nvm.h"
 #include "gem_pulseout.h"
 #include "gem_quant.h"
+#include "gem_spi.h"
 #include "gem_systick.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
@@ -57,6 +58,9 @@ int main(void) {
     /* Enable i2c bus for communicating with the DAC. */
     gem_i2c_init();
 
+    /* Enable spi bus for communicating with Dotstars. */
+    gem_spi_init();
+
     /* Configure the ADC and channel scanning. */
     gem_adc_init();
 
@@ -66,10 +70,6 @@ int main(void) {
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
 
-    /* For performance measurement */
-    gem_gpio_set_as_output(1, 22);
-    gem_gpio_set(1, 22, false);
-
     /* Loop variables. */
     uint32_t last_update = 0;
     uint32_t last_castor_period = 0;
@@ -77,6 +77,21 @@ int main(void) {
     struct gem_voice_params castor_params = {};
     struct gem_voice_params pollux_params = {};
     float chorus_lfo_phase = 0.0f;
+
+    /* Dotstar test pattern. */
+    uint8_t dotstar_data[] = {
+        0x00,  // Start of frame
+        0x00,
+        0xFF,  // Pixel start
+        0x7F,
+        0x7F,
+        0x7F,
+        0xFF,  // End of frame
+        0xFF,
+        0xFF,
+        0xFF,
+    };
+    gem_spi_write(dotstar_data, 10);
 
     while (1) {
         gem_usb_task();
@@ -108,7 +123,7 @@ int main(void) {
                 gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A]));
             float castor_pitch_knob =
                 (GEM_CASTOR_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A_POT]);
-            //castor_pitch_cv += gem_quant_pitch_cv(castor_pitch_knob);
+            // castor_pitch_cv += gem_quant_pitch_cv(castor_pitch_knob);
 
             /* Pollux is the "follower", so its pitch determination is based on whether or not
                 it has input CV.
