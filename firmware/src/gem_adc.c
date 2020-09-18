@@ -74,6 +74,15 @@ void gem_adc_init() {
     /* Enable the reference buffer to increase accuracy (at the cost of speed). */
     ADC->REFCTRL.bit.REFCOMP = 1;
 
+    // Offset error is a 12-bit integer in two's complement format.
+    int16_t offset_error = -30;
+    // Gain error is a 12-bit integer that's expressed at 2048 / measured gain error.
+    uint16_t gain_error = 2024;
+
+    ADC->OFFSETCORR.reg = ADC_OFFSETCORR_OFFSETCORR(offset_error);
+    ADC->GAINCORR.reg = ADC_GAINCORR_GAINCORR(gain_error);
+    ADC->CTRLB.bit.CORREN = true;
+
     /* Wait for bus synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
 
