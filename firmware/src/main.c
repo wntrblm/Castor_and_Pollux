@@ -1,6 +1,7 @@
 #include "gem_adc.h"
 #include "gem_clocks.h"
 #include "gem_config.h"
+#include "gem_dotstar.h"
 #include "gem_gpio.h"
 #include "gem_i2c.h"
 #include "gem_mcp4728.h"
@@ -78,20 +79,16 @@ int main(void) {
     struct gem_voice_params pollux_params = {};
     float chorus_lfo_phase = 0.0f;
 
-    /* Dotstar test pattern. */
-    uint8_t dotstar_data[] = {
-        0x00,  // Start of frame
-        0x00,
-        0xFF,  // Pixel start
-        0x7F,
-        0x7F,
-        0x7F,
-        0xFF,  // End of frame
-        0xFF,
-        0xFF,
-        0xFF,
-    };
-    gem_spi_write(dotstar_data, 10);
+    /* Dotstar test. */
+    gem_dotstar_init();
+    gem_dotstar_set(0, 255, 255, 255);
+    gem_dotstar_set(1, 0, 255, 255);
+    gem_dotstar_set(2, 255, 0, 255);
+    gem_dotstar_set(3, 255, 255, 0);
+    gem_dotstar_set(4, 255, 0, 0);
+    gem_dotstar_set(5, 0, 255, 0);
+    gem_dotstar_set(6, 0, 0, 255);
+    gem_dotstar_update();
 
     while (1) {
         gem_usb_task();

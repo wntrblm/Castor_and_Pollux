@@ -5,4 +5,4 @@
 
 void gem_spi_init();
 
-void gem_spi_write(uint8_t* data, size_t len);
+void gem_spi_write(const uint8_t* data, size_t len);

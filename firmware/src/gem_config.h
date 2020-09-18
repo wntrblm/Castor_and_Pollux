@@ -86,6 +86,10 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_SPI_SDO_PIN 22
 #define GEM_SPI_SDO_PIN_FUNC GEM_PMUX_D
 
+/* Dotstar configuration */
+
+#define GEM_DOTSTAR_COUNT 7
+
 /* Behavioral configuration. */
 
 enum gem_adc_channels {
