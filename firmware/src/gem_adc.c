@@ -19,7 +19,7 @@ void _gem_adc_scan();
 
 /* Public methods. */
 
-void gem_adc_init() {
+void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     /* Enable the APB clock for the ADC. */
     PM->APBCMASK.reg |= PM_APBCMASK_ADC;
 
@@ -74,11 +74,7 @@ void gem_adc_init() {
     /* Enable the reference buffer to increase accuracy (at the cost of speed). */
     ADC->REFCTRL.bit.REFCOMP = 1;
 
-    // Offset error is a 12-bit integer in two's complement format.
-    int16_t offset_error = -30;
-    // Gain error is a 12-bit integer that's expressed at 2048 / measured gain error.
-    uint16_t gain_error = 2024;
-
+    /* Enable offset and error correction. */
     ADC->OFFSETCORR.reg = ADC_OFFSETCORR_OFFSETCORR(offset_error);
     ADC->GAINCORR.reg = ADC_GAINCORR_GAINCORR(gain_error);
     ADC->CTRLB.bit.CORREN = true;

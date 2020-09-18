@@ -13,7 +13,7 @@ struct gem_adc_input {
     uint32_t ain;
 };
 
-void gem_adc_init();
+void gem_adc_init(int16_t offset_error, uint16_t gain_error);
 
 void gem_adc_init_input(const struct gem_adc_input* const input);
 

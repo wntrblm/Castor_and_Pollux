@@ -9,6 +9,12 @@
 
 #define NVM_SETTINGS_MARKER 0x63
 
+const struct gem_nvm_settings gem_default_nvm_settings = {
+    .adc_gain_corr = 2048,
+    .adc_offset_corr = 0,
+    .led_brightness = 127,
+};
+
 const struct gem_adc_input gem_adc_inputs[] = {
     {0, 6, ADC_INPUTCTRL_MUXPOS_PIN6},   // CV A
     {1, 3, ADC_INPUTCTRL_MUXPOS_PIN11},  // CV A Pot
@@ -30,6 +36,7 @@ bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
     gem_nvm_read(GEM_NVM_SETTINGS_BASE_ADDR, data, 7);
 
     if (data[0] != NVM_SETTINGS_MARKER) {
+        (*settings) = gem_default_nvm_settings;
         return false;
     }
 
