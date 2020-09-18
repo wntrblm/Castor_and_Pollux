@@ -38,8 +38,9 @@ int main(void) {
 
     /* Load settings */
     struct gem_nvm_settings settings;
+    bool valid_settings = gem_config_get_nvm_settings(&settings);
 
-    if (!gem_config_get_nvm_settings(&settings)) {
+    if (!valid_settings) {
         __wrap_printf("Failed to load settings.\r\n");
     } else {
         __wrap_printf("Loaded settings.\r\n");
@@ -63,7 +64,7 @@ int main(void) {
     gem_spi_init();
 
     /* Configure the ADC and channel scanning. */
-    gem_adc_init();
+    gem_adc_init(settings.adc_offset_corr, settings.adc_gain_corr);
 
     for (size_t i = 0; i < GEM_IN_COUNT; i++) { gem_adc_init_input(&gem_adc_inputs[i]); }
     gem_adc_start_scanning(gem_adc_inputs, GEM_IN_COUNT, adc_results);
@@ -80,7 +81,7 @@ int main(void) {
     float chorus_lfo_phase = 0.0f;
 
     /* Dotstar test. */
-    gem_dotstar_init();
+    gem_dotstar_init(settings.led_brightness);
     gem_dotstar_set(0, 255, 255, 255);
     gem_dotstar_set(1, 0, 255, 255);
     gem_dotstar_set(2, 255, 0, 255);

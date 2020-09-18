@@ -2,13 +2,11 @@
 #include "gem_config.h"
 #include "gem_spi.h"
 
-static uint16_t _brightness = 127;
+static uint16_t _brightness = 0;
 static uint8_t _pixels[GEM_DOTSTAR_COUNT * 3];
 static const uint8_t _start_frame[4] = {0x00, 0x00, 0x00, 0x00};
 
-void gem_dotstar_init() {
-    // TODO: Set global brightness
-}
+void gem_dotstar_init(uint8_t brightness) { _brightness = brightness; }
 
 void gem_dotstar_set(size_t n, uint8_t r, uint8_t g, uint8_t b) {
     _pixels[n * 3] = (r * _brightness) >> 8;
