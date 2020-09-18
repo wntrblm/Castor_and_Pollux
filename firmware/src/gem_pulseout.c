@@ -8,12 +8,10 @@ static bool _hard_sync = false;
 
 void gem_pulseout_init() {
     /* Enable the APB clock for TCC0 & TCC1. */
-    PM->APBCMASK.reg |= PM_APBCMASK_TCC0 | PM_APBCMASK_TCC1 | PM_APBCMASK_TCC2;
+    PM->APBCMASK.reg |= PM_APBCMASK_TCC0 | PM_APBCMASK_TCC1;
 
-    /* Enable GCLK1 and wire it up to TCC0, TCC2, and TCC2. */
+    /* Enable GCLK1 and wire it up to TCC0 & TCC1 */
     GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | GEM_PULSEOUT_GCLK | GCLK_CLKCTRL_ID_TCC0_TCC1;
-    while (GCLK->STATUS.bit.SYNCBUSY) {};
-    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | GEM_PULSEOUT_GCLK | GCLK_CLKCTRL_ID_TCC2_TC3;
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
     /* Configure the clock prescaler for each TCC.
@@ -22,34 +20,34 @@ void gem_pulseout_init() {
         TCC operate at 500kHz. This means each count (or "tick") is 2us.
     */
     TCC0->CTRLA.reg |= TCC_CTRLA_PRESCALER(GEM_PULSEOUT_GCLK_DIV);
-    TCC2->CTRLA.reg |= TCC_CTRLA_PRESCALER(GEM_PULSEOUT_GCLK_DIV);
+    TCC1->CTRLA.reg |= TCC_CTRLA_PRESCALER(GEM_PULSEOUT_GCLK_DIV);
 
     /* Use "Normal PWM" */
     TCC0->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM;
     while (TCC0->SYNCBUSY.bit.WAVE) {};
-    TCC2->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM;
-    while (TCC2->SYNCBUSY.bit.WAVE) {};
+    TCC1->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM;
+    while (TCC1->SYNCBUSY.bit.WAVE) {};
 
     /* We have to set some sort of period to begin with, otherwise the
         double-buffered writes won't work. */
     TCC0->PER.reg = 100;
-    TCC2->PER.reg = 100;
+    TCC1->PER.reg = 100;
 
     /* Configure pins. */
     PORT->Group[GEM_TCC0_PIN_PORT].DIRSET.reg = (1 << GEM_TCC0_PIN);
     PORT->Group[GEM_TCC0_PIN_PORT].OUTCLR.reg = (1 << GEM_TCC0_PIN);
     PORT->Group[GEM_TCC0_PIN_PORT].PINCFG[GEM_TCC0_PIN].reg |= PORT_PINCFG_PMUXEN;
     PORT->Group[GEM_TCC0_PIN_PORT].PMUX[GEM_TCC0_PIN >> 1].reg |= GEM_TCC0_PIN_FUNC;
-    PORT->Group[GEM_TCC2_PIN_PORT].DIRSET.reg = (1 << GEM_TCC2_PIN);
-    PORT->Group[GEM_TCC2_PIN_PORT].OUTCLR.reg = (1 << GEM_TCC2_PIN);
-    PORT->Group[GEM_TCC2_PIN_PORT].PINCFG[GEM_TCC2_PIN].reg |= PORT_PINCFG_PMUXEN;
-    PORT->Group[GEM_TCC2_PIN_PORT].PMUX[GEM_TCC2_PIN >> 1].reg |= GEM_TCC2_PIN_FUNC;
+    PORT->Group[GEM_TCC1_PIN_PORT].DIRSET.reg = (1 << GEM_TCC1_PIN);
+    PORT->Group[GEM_TCC1_PIN_PORT].OUTCLR.reg = (1 << GEM_TCC1_PIN);
+    PORT->Group[GEM_TCC1_PIN_PORT].PINCFG[GEM_TCC1_PIN].reg |= PORT_PINCFG_PMUXEN;
+    PORT->Group[GEM_TCC1_PIN_PORT].PMUX[GEM_TCC1_PIN >> 1].reg |= GEM_TCC1_PIN_FUNC;
 
     /* Enable output */
     TCC0->CTRLA.reg |= (TCC_CTRLA_ENABLE);
     while (TCC0->SYNCBUSY.bit.ENABLE) {};
-    TCC2->CTRLA.reg |= (TCC_CTRLA_ENABLE);
-    while (TCC2->SYNCBUSY.bit.ENABLE) {};
+    TCC1->CTRLA.reg |= (TCC_CTRLA_ENABLE);
+    while (TCC1->SYNCBUSY.bit.ENABLE) {};
 
     /* Enable interrupt. */
     TCC0->INTENSET.bit.OVF = 1;
@@ -74,8 +72,8 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
             break;
 
         case 1:
-            TCC2->PERB.bit.PERB = period;
-            TCC2->CCB[GEM_TCC2_WO].reg = (uint32_t)(period / 2);
+            TCC1->PERB.bit.PERB = period;
+            TCC1->CCB[GEM_TCC1_WO].reg = (uint32_t)(period / 2);
             _timer_2_period = period;
             break;
 
@@ -90,6 +88,6 @@ void TCC0_Handler(void) {
     TCC0->INTFLAG.reg = TCC_INTFLAG_OVF;
 
     if (_hard_sync) {
-        TCC2->CTRLBSET.reg = TCC_CTRLBSET_CMD_RETRIGGER;
+        TCC1->CTRLBSET.reg = TCC_CTRLBSET_CMD_RETRIGGER;
     }
 }

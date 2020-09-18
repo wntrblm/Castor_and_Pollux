@@ -43,10 +43,10 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_TCC0_PIN_FUNC PORT_PMUX_PMUXO_F
 #define GEM_TCC0_WO 3
 
-#define GEM_TCC2_PIN_PORT 0
-#define GEM_TCC2_PIN 16
-#define GEM_TCC2_PIN_FUNC PORT_PMUX_PMUXE_E
-#define GEM_TCC2_WO 0
+#define GEM_TCC1_PIN_PORT 0
+#define GEM_TCC1_PIN 11
+#define GEM_TCC1_PIN_FUNC PORT_PMUX_PMUXE_E
+#define GEM_TCC1_WO 1
 
 /* I2C configuration for the DAC. */
 
