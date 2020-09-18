@@ -33,7 +33,7 @@ void gem_spi_init() { /* Enable the APB clock for SERCOM. */
     while (GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.ENABLE) {};
 }
 
-void gem_spi_write(uint8_t* data, size_t len) {
+void gem_spi_write(const uint8_t* data, size_t len) {
     for (size_t i = 0; i < len; i++) {
         while (!GEM_SPI_SERCOM->SPI.INTFLAG.bit.DRE) {}
         GEM_SPI_SERCOM->SPI.DATA.reg = data[i];
