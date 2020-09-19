@@ -83,6 +83,11 @@ SRCS += \
   ./third_party/tinyusb/src/portable/microchip/samd/dcd_samd.c
 DEFINES += -DCFG_TUSB_MCU=OPT_MCU_SAMD21
 
+# Libfixmath
+INCLUDES += -I./third_party/libfixmath
+SRCS += $(wildcard third_party/libfixmath/*.c)
+DEFINES += -DFIXMATH_FAST_SIN
+
 # Defines
 DEFINES += \
   -DARM_MATH_CM0PLUS \
