@@ -29,6 +29,12 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     /* Wait for bus synchronization. */
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
+    /* Reset the ADC. */
+    ADC->CTRLA.bit.ENABLE = 0;
+    while(ADC->STATUS.bit.SYNCBUSY) {};
+    ADC->CTRLA.bit.SWRST = 1;
+    while(ADC->CTRLA.bit.SWRST || ADC->STATUS.bit.SYNCBUSY) {};
+
     uint32_t bias = (*((uint32_t*)ADC_FUSES_BIASCAL_ADDR) & ADC_FUSES_BIASCAL_Msk) >> ADC_FUSES_BIASCAL_Pos;
     uint32_t linearity =
         (*((uint32_t*)ADC_FUSES_LINEARITY_0_ADDR) & ADC_FUSES_LINEARITY_0_Msk) >> ADC_FUSES_LINEARITY_0_Pos;
@@ -77,13 +83,13 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     /* Enable offset and error correction. */
     ADC->OFFSETCORR.reg = ADC_OFFSETCORR_OFFSETCORR(offset_error);
     ADC->GAINCORR.reg = ADC_GAINCORR_GAINCORR(gain_error);
-    ADC->CTRLB.bit.CORREN = true;
+    ADC->CTRLB.bit.CORREN = 1;
 
     /* Wait for bus synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
 
     /* Enable the ADC. */
-    ADC->CTRLA.bit.ENABLE = true;
+    ADC->CTRLA.bit.ENABLE = 1;
 
     /* NOTE: The datasheet says to throw away the first reading, however,
         since Gemini does a *lot* of reads and uses averaging, this
@@ -105,7 +111,7 @@ uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
     while (ADC->STATUS.bit.SYNCBUSY) {};
 
     /* Start the ADC using a software trigger. */
-    ADC->SWTRIG.bit.START = true;
+    ADC->SWTRIG.bit.START = 1;
 
     /* Wait for the result ready flag to be set. */
     while (ADC->INTFLAG.bit.RESRDY == 0)
@@ -151,13 +157,13 @@ void _gem_adc_scan() {
     ADC->INPUTCTRL.bit.MUXPOS = input.ain;
 
     /* Enable the interrupt for result ready. */
-    ADC->INTENSET.bit.RESRDY = true;
+    ADC->INTENSET.bit.RESRDY = 1;
 
     /* Wait for synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
 
     /* Start the ADC using a software trigger. */
-    ADC->SWTRIG.bit.START = true;
+    ADC->SWTRIG.bit.START = 1;
 }
 
 void ADC_Handler(void) {
