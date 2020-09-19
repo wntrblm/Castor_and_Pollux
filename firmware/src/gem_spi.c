@@ -12,6 +12,12 @@ void gem_spi_init() { /* Enable the APB clock for SERCOM. */
     /* Wait for bus synchronization. */
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
+    /* Reset the SERCOM. */
+	GEM_SPI_SERCOM->SPI.CTRLA.bit.ENABLE = 0;
+	while(GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.ENABLE) {};
+	GEM_SPI_SERCOM->SPI.CTRLA.bit.SWRST = 1;
+	while(GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.SWRST || GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.ENABLE) {};
+
     /* Configure pins for the correct function. */
     gem_gpio_set_mux(GEM_SPI_SCK_PORT, GEM_SPI_SCK_PIN, GEM_SPI_SCK_PIN_FUNC);
     gem_gpio_set_mux(GEM_SPI_SDO_PORT, GEM_SPI_SDO_PIN, GEM_SPI_SDO_PIN_FUNC);
