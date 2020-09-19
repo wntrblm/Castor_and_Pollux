@@ -14,6 +14,16 @@ void gem_pulseout_init() {
     GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | GEM_PULSEOUT_GCLK | GCLK_CLKCTRL_ID_TCC0_TCC1;
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
+    /* Reset TCCs. */
+    TCC0->CTRLA.bit.ENABLE = 0;
+    while (TCC0->SYNCBUSY.bit.ENABLE) {};
+    TCC0->CTRLA.bit.SWRST = 1;
+    while (TCC0->SYNCBUSY.bit.SWRST || TCC0->CTRLA.bit.SWRST) {};
+    TCC1->CTRLA.bit.ENABLE = 0;
+    while (TCC1->SYNCBUSY.bit.ENABLE) {};
+    TCC1->CTRLA.bit.SWRST = 1;
+    while (TCC1->SYNCBUSY.bit.SWRST || TCC1->CTRLA.bit.SWRST) {};
+
     /* Configure the clock prescaler for each TCC.
         This lets you divide up the clocks frequency to make the TCC count slower
         than the clock. In this case, I'm dividing the 8MHz clock by 16 making the
