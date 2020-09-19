@@ -1,5 +1,6 @@
 #include "gem_adc.h"
 #include "gem_clocks.h"
+#include "gem_colorspace.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
 #include "gem_gpio.h"
@@ -62,6 +63,7 @@ int main(void) {
 
     /* Enable spi bus for communicating with Dotstars. */
     gem_spi_init();
+    gem_dotstar_init(settings.led_brightness);
 
     /* Configure the ADC and channel scanning. */
     gem_adc_init(settings.adc_offset_corr, settings.adc_gain_corr);
@@ -79,21 +81,19 @@ int main(void) {
     struct gem_voice_params castor_params = {};
     struct gem_voice_params pollux_params = {};
     float chorus_lfo_phase = 0.0f;
-
-    /* Dotstar test. */
-    gem_dotstar_init(settings.led_brightness);
-    gem_dotstar_set(0, 255, 255, 255);
-    gem_dotstar_set(1, 0, 255, 255);
-    gem_dotstar_set(2, 255, 0, 255);
-    gem_dotstar_set(3, 255, 255, 0);
-    gem_dotstar_set(4, 255, 0, 0);
-    gem_dotstar_set(5, 0, 255, 0);
-    gem_dotstar_set(6, 0, 0, 255);
-    gem_dotstar_update();
+    uint16_t hue = 0;
 
     while (1) {
         gem_usb_task();
         gem_midi_task();
+
+        hue = gem_get_ticks() * 20;
+        for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
+            uint32_t color = gem_colorspace_hsv_to_rgb(hue, 255, 255);
+            gem_dotstar_set32(i, color);
+            hue += 65355 / GEM_DOTSTAR_COUNT;
+        }
+        gem_dotstar_update();
 
         if (gem_adc_results_ready()) {
             uint32_t now = gem_get_ticks();
