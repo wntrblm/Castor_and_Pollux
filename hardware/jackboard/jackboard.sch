@@ -13,9 +13,9 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text Label 2950 4900 0    50   ~ 0
+Text Label 1250 4800 2    50   ~ 0
 -12v-raw
-Text Label 2950 4800 0    50   ~ 0
+Text Label 1250 4900 2    50   ~ 0
 -12v-raw
 Text Label 2950 6300 0    50   ~ 0
 mix_pot_out
@@ -911,9 +911,9 @@ Text Label 2950 5100 0    50   ~ 0
 dotstar_data
 Text Label 2950 5200 0    50   ~ 0
 dotstar_clk
-Text Label 1250 4900 2    50   ~ 0
+Text Label 2950 4900 0    50   ~ 0
 +12v-raw
-Text Label 1250 4800 2    50   ~ 0
+Text Label 2950 4800 0    50   ~ 0
 +12v-raw
 $Comp
 L power:GND #PWR0102
