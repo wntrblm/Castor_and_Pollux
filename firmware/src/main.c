@@ -1,3 +1,4 @@
+#include "fix16.h"
 #include "gem_adc.h"
 #include "gem_clocks.h"
 #include "gem_colorspace.h"
@@ -18,6 +19,9 @@
 #include "gem_waveforms.h"
 #include "sam.h"
 #include <stdio.h>
+
+#define I2F(val) fix16_from_int(val)
+#define F2I(val) fix16_to_int(val)
 
 static uint32_t adc_results[10];
 
@@ -81,17 +85,21 @@ int main(void) {
     struct gem_voice_params castor_params = {};
     struct gem_voice_params pollux_params = {};
     float chorus_lfo_phase = 0.0f;
-    uint16_t hue = 0;
 
     while (1) {
         gem_usb_task();
         gem_midi_task();
 
-        hue = gem_get_ticks() * 20;
+        uint32_t ticks = gem_get_ticks();
         for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
-            uint32_t color = gem_colorspace_hsv_to_rgb(hue, 255, 255);
+            // sinadj = (sin(2 * pi * bright_time) + 1.0) / 2.0
+            fix16_t bright_time = fix16_div(I2F(ticks * i), I2F(5000));
+            fix16_t sinv = fix16_sin(fix16_mul(fix16_pi * 2, bright_time));
+            fix16_t sinadj = fix16_add(sinv, I2F(1)) / 2;
+            // value = 255 * sinadj
+            uint8_t value = fix16_to_int(fix16_mul(I2F(255), sinadj));
+            uint32_t color = gem_colorspace_hsv_to_rgb((ticks * 5) + (65535 / GEM_DOTSTAR_COUNT * i), 255, value);
             gem_dotstar_set32(i, color);
-            hue += 65355 / GEM_DOTSTAR_COUNT;
         }
         gem_dotstar_update();
 
@@ -164,8 +172,10 @@ int main(void) {
             pollux_pitch_cv += chorus_lfo_mod;
 
             /* Limit pitch CVs to fit within the parameter table's max value. */
-            if(castor_pitch_cv > 7.0f) castor_pitch_cv = 7.0f;
-            if(pollux_pitch_cv > 7.0f) pollux_pitch_cv = 7.0f;
+            if (castor_pitch_cv > 7.0f)
+                castor_pitch_cv = 7.0f;
+            if (pollux_pitch_cv > 7.0f)
+                pollux_pitch_cv = 7.0f;
 
             /* TODO: maybe adjust these ranges once tested with new pots. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
