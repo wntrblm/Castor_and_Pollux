@@ -18,10 +18,10 @@ void gem_i2c_init() {
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
     /* Reset the SERCOM. */
-	GEM_I2C_SERCOM->I2CM.CTRLA.bit.ENABLE = 0;
-	while(GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.ENABLE) {};
-	GEM_I2C_SERCOM->I2CM.CTRLA.bit.SWRST = 1;
-	while(GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SWRST || GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.ENABLE) {};
+    GEM_I2C_SERCOM->I2CM.CTRLA.bit.ENABLE = 0;
+    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.ENABLE) {};
+    GEM_I2C_SERCOM->I2CM.CTRLA.bit.SWRST = 1;
+    while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SWRST || GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.ENABLE) {};
 
     /* Configure pins for the correct function. */
     gem_gpio_set_mux(GEM_I2C_PAD_0_PORT, GEM_I2C_PAD_0_PIN, GEM_I2C_PAD_0_PIN_FUNC);

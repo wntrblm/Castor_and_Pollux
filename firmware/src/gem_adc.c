@@ -31,9 +31,9 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
 
     /* Reset the ADC. */
     ADC->CTRLA.bit.ENABLE = 0;
-    while(ADC->STATUS.bit.SYNCBUSY) {};
+    while (ADC->STATUS.bit.SYNCBUSY) {};
     ADC->CTRLA.bit.SWRST = 1;
-    while(ADC->CTRLA.bit.SWRST || ADC->STATUS.bit.SYNCBUSY) {};
+    while (ADC->CTRLA.bit.SWRST || ADC->STATUS.bit.SYNCBUSY) {};
 
     uint32_t bias = (*((uint32_t*)ADC_FUSES_BIASCAL_ADDR) & ADC_FUSES_BIASCAL_Msk) >> ADC_FUSES_BIASCAL_Pos;
     uint32_t linearity =

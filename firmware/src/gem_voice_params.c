@@ -22,10 +22,10 @@ void gem_voice_params_from_cv(
     _find_nearest_table_entries(table, table_len, voltage, &low, &high);
 
     float t;
-    if(low == high) {
+    if (low == high) {
         t = 1.0f;
     } else {
-        float t = (float)(voltage - low->voltage) / (float)(high->voltage - low->voltage);
+        t = (float)(voltage - low->voltage) / (float)(high->voltage - low->voltage);
     }
     out->period_reg = (uint16_t)roundf(lerpf(low->period_reg, high->period_reg, t));
     out->castor_dac_code = (uint16_t)roundf(lerpf(low->castor_dac_code, high->castor_dac_code, t));

@@ -86,7 +86,7 @@ DEFINES += -DCFG_TUSB_MCU=OPT_MCU_SAMD21
 # Libfixmath
 INCLUDES += -I./third_party/libfixmath
 SRCS += $(wildcard third_party/libfixmath/*.c)
-DEFINES += -DFIXMATH_FAST_SIN
+DEFINES += -DFIXMATH_FAST_SIN -DFIXMATH_NO_CACHE
 
 # Defines
 DEFINES += \
