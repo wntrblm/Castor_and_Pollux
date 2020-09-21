@@ -121,7 +121,7 @@ int main(void) {
                 gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A]));
             float castor_pitch_knob =
                 (GEM_CASTOR_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A_POT]);
-            // castor_pitch_cv += gem_quant_pitch_cv(castor_pitch_knob);
+            castor_pitch_cv += gem_quant_pitch_cv(castor_pitch_knob);
 
             /* Pollux is the "follower", so its pitch determination is based on whether or not
                 it has input CV.
