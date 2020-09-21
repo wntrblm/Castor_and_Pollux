@@ -11,7 +11,7 @@
 
 struct gem_voice_params {
     float voltage;
-    uint16_t period_reg;
+    uint32_t period_reg;
     uint16_t castor_dac_code;
     uint16_t pollux_dac_code;
 };

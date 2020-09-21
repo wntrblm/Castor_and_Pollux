@@ -163,6 +163,10 @@ int main(void) {
             pollux_pitch_cv = castor_pitch_cv;  // temporary
             pollux_pitch_cv += chorus_lfo_mod;
 
+            /* Limit pitch CVs to fit within the parameter table's max value. */
+            if(castor_pitch_cv > 7.0f) castor_pitch_cv = 7.0f;
+            if(pollux_pitch_cv > 7.0f) pollux_pitch_cv = 7.0f;
+
             /* TODO: maybe adjust these ranges once tested with new pots. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
