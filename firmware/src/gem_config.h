@@ -30,7 +30,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 /* Pulse out/TCC configuration. */
 
 #define GEM_PULSEOUT_GCLK GCLK_CLKCTRL_GEN_GCLK1
-#define GEM_PULSEOUT_GCLK_DIV TCC_CTRLA_PRESCALER_DIV8_Val
+#define GEM_PULSEOUT_GCLK_DIV TCC_CTRLA_PRESCALER_DIV4_Val
 
 /*
     TCC0 WO7 / PA17 for Castor
@@ -110,8 +110,8 @@ enum gem_adc_channels {
     6 adc codes map to the same frequency,
     improving the chance for proper tuning.
 */
-#define GEM_QUANT_CV_IN_STEP (0.083333333f / 10.0f)
-#define GEM_QUANT_PITCH_KNOB_STEP (0.083333333f / 2.0f)
+#define GEM_QUANT_CV_IN_STEP (0.083333333f / 50.0f)
+#define GEM_QUANT_PITCH_KNOB_STEP (0.083333333f / 50.0f)
 
 #define GEM_CV_INPUT_RANGE 6.0f
 /* TODO: Turn these into NVM settings? */
