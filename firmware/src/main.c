@@ -84,7 +84,7 @@ int main(void) {
     uint32_t last_pollux_period = 0;
     struct gem_voice_params castor_params = {};
     struct gem_voice_params pollux_params = {};
-    float chorus_lfo_phase = 0.0f;
+    fix16_t chorus_lfo_phase = 0;
 
     while (1) {
         gem_usb_task();
@@ -93,7 +93,7 @@ int main(void) {
         uint32_t ticks = gem_get_ticks();
         for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
             // sinadj = (sin(2 * pi * bright_time) + 1.0) / 2.0
-            fix16_t bright_time = fix16_div(I2F(ticks * i), I2F(5000));
+            fix16_t bright_time = fix16_div(I2F(ticks * i / 2), I2F(5000));
             fix16_t sinv = fix16_sin(fix16_mul(fix16_pi * 2, bright_time));
             fix16_t sinadj = fix16_add(sinv, I2F(1)) / 2;
             // value = 255 * sinadj
@@ -119,17 +119,21 @@ int main(void) {
 
             /* Castor's pitch determination is
 
-                1.0v + quant(CV in) + qaunt(CV knob * 6.0v)
+                1.0v + quant(CV in) + qaunt(CV knob * 6.0)
 
                 This means that Castor gets a full range out of
                 its pitch input and pitch knob.
             */
-            float castor_pitch_cv =
-                GEM_CV_BASE_OFFSET +
-                gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A]));
-            float castor_pitch_knob =
-                (GEM_CASTOR_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_A_POT]);
-            castor_pitch_cv += gem_quant_pitch_cv(castor_pitch_knob);
+            // TODO: Add back quantizations.
+            uint16_t input_castor_pitch_cv = (4095 - adc_results[GEM_IN_CV_A]);
+            fix16_t castor_pitch_cv_range_mul = fix16_div(F16(GEM_CV_INPUT_RANGE), F16(4096.0f));
+            fix16_t castor_pitch_cv = fix16_add(
+                F16(GEM_CV_BASE_OFFSET), fix16_mul(castor_pitch_cv_range_mul, fix16_from_int(input_castor_pitch_cv)));
+
+            uint16_t input_castor_pitch_pot = (4095 - adc_results[GEM_IN_CV_A_POT]);
+            fix16_t castor_pitch_pot_range_mul = fix16_div(F16(GEM_CASTOR_CV_KNOB_RANGE), F16(4096.0f));
+            fix16_t castor_pitch_knob = fix16_mul(castor_pitch_pot_range_mul, fix16_from_int(input_castor_pitch_pot));
+            castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
 
             /* Pollux is the "follower", so its pitch determination is based on whether or not
                 it has input CV.
@@ -146,43 +150,48 @@ int main(void) {
                 Castor but fine-tuned up or down using the CV knob. If there is a pitch CV
                 applied, the the knob just acts as a normal fine-tune.
             */
-            float pollux_pitch_cv;
+
+            uint16_t input_pollux_pitch_cv = (4095 - adc_results[GEM_IN_CV_B]);
+            fix16_t pollux_pitch_cv = castor_pitch_cv;
 
             // TODO: Maybe adjust this threshold.
-            if (adc_results[GEM_IN_CV_B] > 4090) {
-                pollux_pitch_cv = castor_pitch_cv;
-            } else {
-                pollux_pitch_cv =
-                    GEM_CV_BASE_OFFSET +
-                    gem_quant_pitch_cv((GEM_CV_INPUT_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B]));
+            if (input_pollux_pitch_cv > 6) {
+                fix16_t pollux_pitch_cv_range_mul = fix16_div(F16(GEM_CV_INPUT_RANGE), F16(4096.0f));
+                pollux_pitch_cv = fix16_add(
+                    F16(GEM_CV_BASE_OFFSET),
+                    fix16_mul(pollux_pitch_cv_range_mul, fix16_from_int(input_pollux_pitch_cv)));
             }
 
-            float pollux_pitch_knob =
-                (-GEM_POLLUX_CV_KNOB_RANGE / 2.0f) +
-                (GEM_POLLUX_CV_KNOB_RANGE / 4096.0f) * (float)(4095 - adc_results[GEM_IN_CV_B_POT]);
-            pollux_pitch_cv += gem_quant_pitch_knob(pollux_pitch_knob);
+            uint16_t input_pollux_pitch_pot = (4095 - adc_results[GEM_IN_CV_B_POT]);
+            fix16_t pollux_pitch_pot_range_mul = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(4096.0f));
+            fix16_t pollux_pitch_knob_offset = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(-2.0f));
+            fix16_t pollux_pitch_knob = fix16_mul(pollux_pitch_pot_range_mul, fix16_from_int(input_pollux_pitch_pot));
+            pollux_pitch_knob = fix16_add(pollux_pitch_knob_offset, pollux_pitch_knob);
+            pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
 
             /* Calculate the chorus LFO and account for LFO in Pollux's pitch. */
-            float chorus_lfo_amount = adc_results[GEM_IN_CHORUS_POT] / 4096.0f;
-            chorus_lfo_phase += GEM_CHORUS_LFO_FREQUENCY / 1000.0f * delta;
-            if (chorus_lfo_phase > 1.0f)
-                chorus_lfo_phase -= 1.0f;
-            float chorus_lfo_mod = 0.01f * chorus_lfo_amount * gem_triangle(chorus_lfo_phase);
-            pollux_pitch_cv = castor_pitch_cv;  // temporary
-            pollux_pitch_cv += chorus_lfo_mod;
+            uint16_t chorus_lfo_amount_pot = (4095 - adc_results[GEM_IN_CHORUS_POT]);
+            fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_pot), F16(4096.0f));
+            chorus_lfo_phase +=
+                fix16_mul(fix16_div(F16(GEM_CHORUS_LFO_FREQUENCY), F16(1000.0f)), fix16_from_int(delta));
+            if (chorus_lfo_phase > F16(1.0f))
+                chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0f));
 
-            /* Limit pitch CVs to fit within the parameter table's max value. */
-            if (castor_pitch_cv > 7.0f)
-                castor_pitch_cv = 7.0f;
-            if (pollux_pitch_cv > 7.0f)
-                pollux_pitch_cv = 7.0f;
+            fix16_t chorus_lfo_mod = fix16_mul(F16(0.1f), fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
+            pollux_pitch_cv = fix16_add(pollux_pitch_cv, chorus_lfo_mod);
+
+            // /* Limit pitch CVs to fit within the parameter table's max value. */
+            if (castor_pitch_cv > F16(7.0f))
+                castor_pitch_cv = F16(7.0f);
+            if (pollux_pitch_cv > F16(7.0f))
+                pollux_pitch_cv = F16(7.0f);
 
             /* TODO: maybe adjust these ranges once tested with new pots. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
 
-            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, fix16_from_float(castor_pitch_cv), &castor_params);
-            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, fix16_from_float(pollux_pitch_cv), &pollux_params);
+            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
+            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
 
             /* Disable interrupts while changing timers, as any interrupt here could totally
                 bork the calculations. */
@@ -210,6 +219,8 @@ int main(void) {
                 (struct gem_mcp4728_channel){.value = pollux_duty});
 
             last_update = gem_get_ticks();
+            uint32_t loop_time = last_update - now;
+            printf("loop time: %lu\r\n", loop_time);
         }
     }
 
