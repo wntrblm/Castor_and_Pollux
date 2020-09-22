@@ -20,7 +20,12 @@
 #include "sam.h"
 #include <stdio.h>
 
-static uint32_t adc_results[10];
+static struct gem_nvm_settings settings;
+static uint32_t adc_results[GEM_IN_COUNT];
+static uint32_t last_update = 0;
+static struct gem_voice_params castor_params = {};
+static struct gem_voice_params pollux_params = {};
+static fix16_t chorus_lfo_phase = 0;
 
 void midi_event_callback(enum gem_midi_event event);
 
@@ -39,7 +44,6 @@ int main(void) {
     gem_config_init();
 
     /* Load settings */
-    struct gem_nvm_settings settings;
     bool valid_settings = gem_config_get_nvm_settings(&settings);
 
     if (!valid_settings) {
@@ -75,14 +79,6 @@ int main(void) {
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
 
-    /* Loop variables. */
-    uint32_t last_update = 0;
-    uint32_t last_castor_period = 0;
-    uint32_t last_pollux_period = 0;
-    struct gem_voice_params castor_params = {};
-    struct gem_voice_params pollux_params = {};
-    fix16_t chorus_lfo_phase = 0;
-
     while (1) {
         gem_usb_task();
         gem_midi_task();
@@ -104,16 +100,6 @@ int main(void) {
         if (gem_adc_results_ready()) {
             uint32_t now = gem_get_ticks();
             uint32_t delta = now - last_update;
-            // printf(
-            //     "CV A: %lu, CV A Pot: %lu, CV B: %lu, CV B Pot: %lu, Duty A: %lu, Duty A Pot: %lu, Duty B: %lu, Duty
-            //     B " "Pot: %lu, Phase: %lu, Phase Pot: %lu \r\n", adc_results[0], adc_results[1], adc_results[2],
-            //     adc_results[3],
-            //     adc_results[4],
-            //     adc_results[5],
-            //     adc_results[6],
-            //     adc_results[7],
-            //     adc_results[8],
-            //     adc_results[9]);
 
             /* Castor's pitch determination is
 
@@ -191,16 +177,10 @@ int main(void) {
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
             gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
 
-            /* Disable interrupts while changing timers, as any interrupt here could totally
-                bork the calculations. */
+            /* Disable interrupts while changing timers, as any interrupt here could mess them up. */
             __disable_irq();
-            if (last_castor_period != castor_params.period_reg) {
-                gem_pulseout_set_period(0, castor_params.period_reg);
-                last_castor_period = castor_params.period_reg;
-            }
-            if (last_pollux_period != pollux_params.period_reg) {
-                gem_pulseout_set_period(1, pollux_params.period_reg);
-            }
+            gem_pulseout_set_period(0, castor_params.period_reg);
+            gem_pulseout_set_period(1, pollux_params.period_reg);
             __enable_irq();
 
             // TODO: Enable this once a button is wired up.
