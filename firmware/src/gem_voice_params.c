@@ -5,35 +5,59 @@
 #include "gem_voice_params.h"
 
 /* Private function forward declarations. */
+
+static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint32_t frac);
+
 static void _find_nearest_table_entries(
     struct gem_voice_params* param_table,
     size_t table_len,
-    float voltage,
+    fix16_t voltage,
     struct gem_voice_params** low,
     struct gem_voice_params** high);
 
 /* Public functions. */
 
 void gem_voice_params_from_cv(
-    struct gem_voice_params* table, size_t table_len, float voltage, struct gem_voice_params* out) {
+    struct gem_voice_params* table, size_t table_len, fix16_t voltage, struct gem_voice_params* out) {
     struct gem_voice_params* low;
     struct gem_voice_params* high;
 
     _find_nearest_table_entries(table, table_len, voltage, &low, &high);
 
-    float t;
-    if (low == high) {
-        t = 1.0f;
-    } else {
-        t = (float)(voltage - low->voltage) / (float)(high->voltage - low->voltage);
+    /* Special case; low table entry and voltage are the same, just use the low entry. */
+    if(low->voltage == voltage) {
+        (*out) = (*low);
+        return;
     }
-    out->period_reg = (uint16_t)roundf(lerpf(low->period_reg, high->period_reg, t));
-    out->castor_dac_code = (uint16_t)roundf(lerpf(low->castor_dac_code, high->castor_dac_code, t));
-    out->pollux_dac_code = (uint16_t)roundf(lerpf(low->pollux_dac_code, high->pollux_dac_code, t));
+
+    fix16_t t;
+    if (low == high) {
+        t = fix16_from_int(1);
+    } else {
+        t = fix16_sdiv(
+            fix16_ssub(voltage, low->voltage),
+            fix16_ssub(high->voltage, low->voltage)
+        );
+    }
+    uint32_t t_int = (uint32_t)(t);
+
+    out->period_reg = _fix16_lerp_int(low->period_reg, high->period_reg, t_int << 16);
+    out->castor_dac_code = fix16_lerp16(low->castor_dac_code, high->castor_dac_code, t_int);
+    out->pollux_dac_code = fix16_lerp16(low->pollux_dac_code, high->pollux_dac_code, t_int);
     out->voltage = voltage;
 };
 
 /* Private functions. */
+
+
+/* Similar to libfixmath's fix16_lerp64, but intentionally operates on integers instead of fix16s */
+static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint32_t frac) {
+	int64_t result;
+	result  = (a * (0 - frac));
+	result	+= (b * frac);
+	result >>= 32;
+	return (int32_t)result;
+}
 
 /* Used to find the two nearest table entries for doing linear interpolation.
    the table entries are defined in gem_voice_params_table.h.
@@ -41,7 +65,7 @@ void gem_voice_params_from_cv(
 static void _find_nearest_table_entries(
     struct gem_voice_params* param_table,
     size_t table_len,
-    float voltage,
+    fix16_t voltage,
     struct gem_voice_params** low,
     struct gem_voice_params** high) {
     (*low) = &param_table[0];

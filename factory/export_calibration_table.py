@@ -10,4 +10,4 @@ with open("calibration-table.csv", "r") as fh:
 
 
 for row in entries:
-    print(f"{{.voltage = {row['Input CV']}, .period_reg = {row['period reg']}, .castor_dac_code = {row['castor calibrated dac code']}, .pollux_dac_code = {row['pollux calibrated dac code']} }},")
+    print(f"{{.voltage = F16({row['Input CV']}), .period_reg = {row['period reg']}, .castor_dac_code = {row['castor calibrated dac code']}, .pollux_dac_code = {row['pollux calibrated dac code']} }},")

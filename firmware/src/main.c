@@ -181,8 +181,8 @@ int main(void) {
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
 
-            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
-            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
+            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, fix16_from_float(castor_pitch_cv), &castor_params);
+            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, fix16_from_float(pollux_pitch_cv), &pollux_params);
 
             /* Disable interrupts while changing timers, as any interrupt here could totally
                 bork the calculations. */
