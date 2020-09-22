@@ -1,8 +1,8 @@
 #pragma once
 
+#include <fix16.h>
 #include <stddef.h>
 #include <stdint.h>
-#include <fix16.h>
 
 /* This defines the structure and functions used
    to map input CV to the required frequency and charge voltage.

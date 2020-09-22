@@ -1,5 +1,5 @@
-#include "fix16.h"
 #include "gem_voice_param_table.h"
+#include "fix16.h"
 
 struct gem_voice_params gem_voice_param_table[] = {
     {.voltage = F16(0.0000f), .period_reg = 122311, .castor_dac_code = 40, .pollux_dac_code = 40},
