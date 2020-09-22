@@ -98,7 +98,7 @@ int main(void) {
             fix16_t sinadj = fix16_add(sinv, I2F(1)) / 2;
             // value = 255 * sinadj
             uint8_t value = fix16_to_int(fix16_mul(I2F(255), sinadj));
-            uint32_t color = gem_colorspace_hsv_to_rgb((ticks * 5) + (65535 / GEM_DOTSTAR_COUNT * i), 255, value);
+            uint32_t color = gem_colorspace_hsv_to_rgb((ticks * 5) + (65535 / GEM_DOTSTAR_COUNT * i), 255 - value / 2, value);
             gem_dotstar_set32(i, color);
         }
         gem_dotstar_update();
