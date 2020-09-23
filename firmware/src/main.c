@@ -101,13 +101,19 @@ int main(void) {
             */
             // TODO: Add back quantizations.
             uint16_t input_castor_pitch_cv = (4095 - adc_results[GEM_IN_CV_A]);
-            fix16_t castor_pitch_cv_range_mul = fix16_div(F16(GEM_CV_INPUT_RANGE), F16(4096.0f));
+            fix16_t castor_pitch_cv_range_mul = fix16_div(F16(GEM_CV_INPUT_RANGE), F16(4095.0f));
             fix16_t castor_pitch_cv = fix16_add(
                 F16(GEM_CV_BASE_OFFSET), fix16_mul(castor_pitch_cv_range_mul, fix16_from_int(input_castor_pitch_cv)));
 
             uint16_t input_castor_pitch_pot = (4095 - adc_results[GEM_IN_CV_A_POT]);
-            fix16_t castor_pitch_pot_range_mul = fix16_div(F16(GEM_CASTOR_CV_KNOB_RANGE), F16(4096.0f));
+            // fix16_t castor_pitch_pot_range_mul = fix16_div(F16(GEM_CASTOR_CV_KNOB_RANGE), F16(4095.0f));
+            // fix16_t castor_pitch_knob = fix16_mul(castor_pitch_pot_range_mul, fix16_from_int(input_castor_pitch_pot));
+
+            fix16_t castor_pitch_pot_range_mul = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(4095.0f));
+            fix16_t castor_pitch_knob_offset = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(-2.0f));
             fix16_t castor_pitch_knob = fix16_mul(castor_pitch_pot_range_mul, fix16_from_int(input_castor_pitch_pot));
+            castor_pitch_knob = fix16_add(castor_pitch_knob_offset, castor_pitch_knob);
+    
             castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
 
             /* Pollux is the "follower", so its pitch determination is based on whether or not
@@ -131,14 +137,14 @@ int main(void) {
 
             // TODO: Maybe adjust this threshold.
             if (input_pollux_pitch_cv > 6) {
-                fix16_t pollux_pitch_cv_range_mul = fix16_div(F16(GEM_CV_INPUT_RANGE), F16(4096.0f));
+                fix16_t pollux_pitch_cv_range_mul = fix16_div(F16(GEM_CV_INPUT_RANGE), F16(4095.0f));
                 pollux_pitch_cv = fix16_add(
                     F16(GEM_CV_BASE_OFFSET),
                     fix16_mul(pollux_pitch_cv_range_mul, fix16_from_int(input_pollux_pitch_cv)));
             }
 
             uint16_t input_pollux_pitch_pot = (4095 - adc_results[GEM_IN_CV_B_POT]);
-            fix16_t pollux_pitch_pot_range_mul = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(4096.0f));
+            fix16_t pollux_pitch_pot_range_mul = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(4095.0f));
             fix16_t pollux_pitch_knob_offset = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(-2.0f));
             fix16_t pollux_pitch_knob = fix16_mul(pollux_pitch_pot_range_mul, fix16_from_int(input_pollux_pitch_pot));
             pollux_pitch_knob = fix16_add(pollux_pitch_knob_offset, pollux_pitch_knob);
@@ -146,7 +152,7 @@ int main(void) {
 
             /* Calculate the chorus LFO and account for LFO in Pollux's pitch. */
             uint16_t chorus_lfo_amount_pot = (4095 - adc_results[GEM_IN_CHORUS_POT]);
-            fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_pot), F16(4096.0f));
+            fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_pot), F16(4095.0f));
             chorus_lfo_phase +=
                 fix16_mul(fix16_div(F16(GEM_CHORUS_LFO_FREQUENCY), F16(1000.0f)), fix16_from_int(delta));
             if (chorus_lfo_phase > F16(1.0f))
