@@ -1,4 +1,5 @@
 #include "gem_adc.h"
+#include "fix16.h"
 #include "gem_config.h"
 #include "gem_gpio.h"
 #include "sam.h"
@@ -74,7 +75,8 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     ADC->REFCTRL.reg |= ADC_REFCTRL_REFSEL_INTVCC1;
     ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_GAIN_DIV2 | ADC_INPUTCTRL_MUXNEG_GND;
 #else
-#error External ref code not written yet
+    ADC->REFCTRL.reg |= ADC_REFCTRL_REFSEL_AREFA;
+    ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_GAIN_1X | ADC_INPUTCTRL_MUXNEG_GND;
 #endif
 
     /* Enable the reference buffer to increase accuracy (at the cost of speed). */
@@ -114,10 +116,14 @@ uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
     ADC->SWTRIG.bit.START = 1;
 
     /* Wait for the result ready flag to be set. */
-    while (ADC->INTFLAG.bit.RESRDY == 0)
-        ;
+    while (ADC->INTFLAG.bit.RESRDY == 0) {};
 
     /* Clear the flag. */
+    ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
+
+    /* Do it twice to ensure no weirdness with the measurement. */
+    ADC->SWTRIG.bit.START = 1;
+    while (ADC->INTFLAG.bit.RESRDY == 0) {};
     ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
 
     /* Read the value. */
@@ -146,6 +152,24 @@ bool gem_adc_results_ready() {
     } else {
         return false;
     }
+}
+
+struct gem_adc_errors
+gem_calculate_adc_errors(uint32_t low_measured, uint32_t low_expected, uint32_t high_measured, uint32_t high_expected) {
+    struct gem_adc_errors result;
+    result.gain = fix16_div(fix16_from_int(high_expected - low_expected), fix16_from_int(high_measured - low_measured));
+    result.offset =
+        fix16_to_int(fix16_sub(fix16_mul(result.gain, fix16_from_int(low_measured)), fix16_from_int(low_expected)));
+    return result;
+};
+
+uint16_t gem_correct_adc_errors(const uint16_t value, const struct gem_adc_errors errors) {
+    int32_t result = fix16_to_int(fix16_mul(fix16_sub(fix16_from_int(value), fix16_from_int(errors.offset)), errors.gain));
+    if (result < 0)
+        result = 0;
+    if (result > UINT16_MAX)
+        result = UINT16_MAX;
+    return (uint16_t)(result);
 }
 
 /* Private methods & interrupt handlers. */
