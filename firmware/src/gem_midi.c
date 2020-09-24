@@ -132,8 +132,7 @@ void _process_sysex_command() {
             break;
 
         case SE_CMD_READ_ADC: {
-            /* TODO: get ADC input channel from SysEx. */
-            uint16_t result = gem_adc_read_sync(&gem_adc_inputs[0]);
+            uint16_t result = gem_adc_read_sync(&gem_adc_inputs[_sysex_data[2]]);
             gem_usb_midi_send(
                 (uint8_t[4]){SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_READ_ADC});
             gem_usb_midi_send(
@@ -142,7 +141,6 @@ void _process_sysex_command() {
         } break;
 
         case SE_CMD_SET_DAC: {
-            /* TODO: Set vref. */
             struct gem_mcp4728_channel dac_settings;
             dac_settings.vref = _sysex_data[3];
             dac_settings.value = _sysex_data[4] << 12 | _sysex_data[5] << 8 | _sysex_data[6] << 4 | _sysex_data[7];
