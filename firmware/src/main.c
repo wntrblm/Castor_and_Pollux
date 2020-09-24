@@ -107,13 +107,14 @@ int main(void) {
 
             uint16_t input_castor_pitch_pot = (4095 - adc_results[GEM_IN_CV_A_POT]);
             // fix16_t castor_pitch_pot_range_mul = fix16_div(F16(GEM_CASTOR_CV_KNOB_RANGE), F16(4095.0f));
-            // fix16_t castor_pitch_knob = fix16_mul(castor_pitch_pot_range_mul, fix16_from_int(input_castor_pitch_pot));
+            // fix16_t castor_pitch_knob = fix16_mul(castor_pitch_pot_range_mul,
+            // fix16_from_int(input_castor_pitch_pot));
 
             fix16_t castor_pitch_pot_range_mul = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(4095.0f));
             fix16_t castor_pitch_knob_offset = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(-2.0f));
             fix16_t castor_pitch_knob = fix16_mul(castor_pitch_pot_range_mul, fix16_from_int(input_castor_pitch_pot));
             castor_pitch_knob = fix16_add(castor_pitch_knob_offset, castor_pitch_knob);
-    
+
             castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
 
             /* Pollux is the "follower", so its pitch determination is based on whether or not
