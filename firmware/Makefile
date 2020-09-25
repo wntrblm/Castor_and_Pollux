@@ -151,10 +151,10 @@ clean:
 	@-rm -rf $(BUILD)
 
 format:
-	clang-format -i src/*.h src/*.c
+	clang-format -i src/**.h src/**.c
 
 tidy:
-	clang-tidy src/*.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
+	clang-tidy src/**.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
 
 -include $(wildcard $(BUILD)/*.d)
 
