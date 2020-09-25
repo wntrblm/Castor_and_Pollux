@@ -7,7 +7,7 @@
 #include "SEGGER_RTT.h"
 #endif
 
-#define NVM_SETTINGS_MARKER 0x65
+#define NVM_SETTINGS_MARKER 0x66
 #define NVM_SETTINGS_LEN 23
 
 const struct gem_nvm_settings gem_default_nvm_settings = {
