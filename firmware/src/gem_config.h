@@ -2,6 +2,11 @@
 #include "gem_adc.h"
 #include "sam.h"
 
+/* 7 bits.
+    0x01: Initial version, starting from October 2020.
+*/
+#define GEM_FIRMWARE_VERSION 0x01
+
 /* NVM/Flash configuration. */
 
 /* This must be the same as the nvm region in the linker script. */
