@@ -7,12 +7,17 @@
 #include "SEGGER_RTT.h"
 #endif
 
-#define NVM_SETTINGS_MARKER 0x63
+#define NVM_SETTINGS_MARKER 0x65
+#define NVM_SETTINGS_LEN 23
 
 const struct gem_nvm_settings gem_default_nvm_settings = {
     .adc_gain_corr = 2048,
     .adc_offset_corr = 0,
     .led_brightness = 127,
+    .castor_knob_min = F16(-1.0),
+    .castor_knob_max = F16(1.0),
+    .pollux_knob_min = F16(-1.0),
+    .pollux_knob_max = F16(1.0),
 };
 
 const struct gem_adc_input gem_adc_inputs[] = {
@@ -30,10 +35,10 @@ const struct gem_adc_input gem_adc_inputs[] = {
 void gem_config_init() {}
 
 bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
-    uint8_t data[7];
+    uint8_t data[NVM_SETTINGS_LEN];
 
     /* Check for the magic flag. */
-    gem_nvm_read(GEM_NVM_SETTINGS_BASE_ADDR, data, 7);
+    gem_nvm_read(GEM_NVM_SETTINGS_BASE_ADDR, data, NVM_SETTINGS_LEN);
 
     if (data[0] != NVM_SETTINGS_MARKER) {
         (*settings) = gem_default_nvm_settings;
@@ -43,12 +48,16 @@ bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
     settings->adc_gain_corr = data[1] << 8 | data[2];
     settings->adc_offset_corr = data[3] << 8 | data[4];
     settings->led_brightness = data[5] << 8 | data[6];
+    settings->castor_knob_min = data[7] << 24 | data[8] << 16 | data[9] << 8 | data[10];
+    settings->castor_knob_max = data[11] << 24 | data[12] << 16 | data[13] << 8 | data[14];
+    settings->castor_knob_min = data[15] << 24 | data[16] << 16 | data[17] << 8 | data[18];
+    settings->castor_knob_max = data[19] << 24 | data[20] << 16 | data[21] << 8 | data[22];
 
     return true;
 }
 
 void gem_config_save_nvm_settings(struct gem_nvm_settings* settings) {
-    uint8_t data[7] = {
+    uint8_t data[NVM_SETTINGS_LEN] = {
         NVM_SETTINGS_MARKER,
         settings->adc_gain_corr >> 8,
         settings->adc_gain_corr & 0xFF,
@@ -56,9 +65,25 @@ void gem_config_save_nvm_settings(struct gem_nvm_settings* settings) {
         settings->adc_offset_corr & 0xFF,
         settings->led_brightness >> 8,
         settings->led_brightness & 0xFF,
+        settings->castor_knob_min >> 24,
+        settings->castor_knob_min >> 16,
+        settings->castor_knob_min >> 8,
+        settings->castor_knob_min & 0xFF,
+        settings->castor_knob_max >> 24,
+        settings->castor_knob_max >> 16,
+        settings->castor_knob_max >> 8,
+        settings->castor_knob_max & 0xFF,
+        settings->pollux_knob_min >> 24,
+        settings->pollux_knob_min >> 16,
+        settings->pollux_knob_min >> 8,
+        settings->pollux_knob_min & 0xFF,
+        settings->pollux_knob_max >> 24,
+        settings->pollux_knob_max >> 16,
+        settings->pollux_knob_max >> 8,
+        settings->pollux_knob_max & 0xFF,
     };
 
-    gem_nvm_write(GEM_NVM_SETTINGS_BASE_ADDR, data, 7);
+    gem_nvm_write(GEM_NVM_SETTINGS_BASE_ADDR, data, NVM_SETTINGS_LEN);
 }
 
 void gem_config_erase_nvm_settings() {
