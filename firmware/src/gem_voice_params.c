@@ -1,7 +1,6 @@
 #include <math.h>
 #include <stdbool.h>
 
-#include "gem_lerp.h"
 #include "gem_voice_params.h"
 
 /* Private function forward declarations. */
