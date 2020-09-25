@@ -64,7 +64,7 @@ enum gem_i2c_result gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
        bail.
     */
     if (GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE == BUSSTATE_BUSY) {
-        return false;
+        return GEM_I2C_RESULT_ERR_BUSSTATE;
     }
 
     /* Address + write flag. */
