@@ -106,13 +106,15 @@ int main(void) {
             */
             // TODO: Add back quantizations.
             uint16_t castor_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_A]);
-            fix16_t castor_pitch_cv_value = fix16_div(fix16_from_int(castor_pitch_cv_code), F16(4095.0));;
-            fix16_t castor_pitch_cv = fix16_add(
-                GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
+            fix16_t castor_pitch_cv_value = fix16_div(fix16_from_int(castor_pitch_cv_code), F16(4095.0));
+            ;
+            fix16_t castor_pitch_cv =
+                fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
 
             uint16_t castor_pitch_knob_code = (4095 - adc_results[GEM_IN_CV_A_POT]);
             fix16_t castor_pitch_knob_value = fix16_div(fix16_from_int(castor_pitch_knob_code), F16(4095.0));
-            fix16_t castor_pitch_knob = fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
+            fix16_t castor_pitch_knob =
+                fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
 
             castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
 
@@ -137,14 +139,15 @@ int main(void) {
 
             // TODO: Maybe adjust this threshold.
             if (pollux_pitch_cv_code > 6) {
-                fix16_t pollux_pitch_cv_value = fix16_div(fix16_from_int(pollux_pitch_cv_code), F16(4095.0));;
-                pollux_pitch_cv = fix16_add(
-                    GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
+                fix16_t pollux_pitch_cv_value = fix16_div(fix16_from_int(pollux_pitch_cv_code), F16(4095.0));
+                ;
+                pollux_pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
             }
 
             uint16_t pollux_pitch_knob_code = (4095 - adc_results[GEM_IN_CV_B_POT]);
             fix16_t pollux_pitch_knob_value = fix16_div(fix16_from_int(pollux_pitch_knob_code), F16(4095.0));
-            fix16_t pollux_pitch_knob = fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
+            fix16_t pollux_pitch_knob =
+                fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
 
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
 
@@ -206,6 +209,7 @@ void midi_event_callback(enum gem_midi_event event) {
             /* For calibration mode, stop scanning ADC channels. This will also stop
                 the main loop above from continuing to change the outputs. */
             gem_adc_stop_scanning();
+            gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
             break;
 
         default:
