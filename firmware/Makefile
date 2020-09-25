@@ -52,10 +52,12 @@ endif
 
 INCLUDES += \
   -I./src \
+  -I./src/hw \
+  -I./src/drivers \
   -I./third_party/samd21/include \
   -I./third_party/cmsis/include
 
-SRCS += $(wildcard src/*.c)
+SRCS += $(wildcard src/*.c) $(wildcard src/**/*.c)
 
 SRCS += \
   ./third_party/samd21/gcc/gcc/startup_samd21.c
