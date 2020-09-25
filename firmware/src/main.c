@@ -27,6 +27,8 @@ static uint32_t last_update = 0;
 static struct gem_voice_params castor_params = {};
 static struct gem_voice_params pollux_params = {};
 static fix16_t chorus_lfo_phase = 0;
+static fix16_t castor_knob_range;
+static fix16_t pollux_knob_range;
 
 void midi_event_callback(enum gem_midi_event event);
 
@@ -57,6 +59,9 @@ int main(void) {
             settings.adc_offset_corr,
             settings.led_brightness);
     }
+
+    castor_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
+    pollux_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
 
     /* Initialize USB. */
     gem_usb_init();
@@ -100,20 +105,14 @@ int main(void) {
                 its pitch input and pitch knob.
             */
             // TODO: Add back quantizations.
-            uint16_t input_castor_pitch_cv = (4095 - adc_results[GEM_IN_CV_A]);
-            fix16_t castor_pitch_cv_range_mul = fix16_div(F16(GEM_CV_INPUT_RANGE), F16(4095.0f));
+            uint16_t castor_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_A]);
+            fix16_t castor_pitch_cv_value = fix16_div(castor_pitch_cv_code, F16(4095.0));;
             fix16_t castor_pitch_cv = fix16_add(
-                F16(GEM_CV_BASE_OFFSET), fix16_mul(castor_pitch_cv_range_mul, fix16_from_int(input_castor_pitch_cv)));
+                GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
 
-            uint16_t input_castor_pitch_pot = (4095 - adc_results[GEM_IN_CV_A_POT]);
-            // fix16_t castor_pitch_pot_range_mul = fix16_div(F16(GEM_CASTOR_CV_KNOB_RANGE), F16(4095.0f));
-            // fix16_t castor_pitch_knob = fix16_mul(castor_pitch_pot_range_mul,
-            // fix16_from_int(input_castor_pitch_pot));
-
-            fix16_t castor_pitch_pot_range_mul = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(4095.0f));
-            fix16_t castor_pitch_knob_offset = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(-2.0f));
-            fix16_t castor_pitch_knob = fix16_mul(castor_pitch_pot_range_mul, fix16_from_int(input_castor_pitch_pot));
-            castor_pitch_knob = fix16_add(castor_pitch_knob_offset, castor_pitch_knob);
+            uint16_t castor_pitch_knob_code = (4095 - adc_results[GEM_IN_CV_A_POT]);
+            fix16_t castor_pitch_knob_value = fix16_div(castor_pitch_knob_code, F16(4095.0));
+            fix16_t castor_pitch_knob = fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
 
             castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
 
@@ -132,23 +131,21 @@ int main(void) {
                 Castor but fine-tuned up or down using the CV knob. If there is a pitch CV
                 applied, the the knob just acts as a normal fine-tune.
             */
-
-            uint16_t input_pollux_pitch_cv = (4095 - adc_results[GEM_IN_CV_B]);
             fix16_t pollux_pitch_cv = castor_pitch_cv;
 
+            uint16_t pollux_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_B]);
+
             // TODO: Maybe adjust this threshold.
-            if (input_pollux_pitch_cv > 6) {
-                fix16_t pollux_pitch_cv_range_mul = fix16_div(F16(GEM_CV_INPUT_RANGE), F16(4095.0f));
+            if (pollux_pitch_cv_code > 6) {
+                fix16_t pollux_pitch_cv_value = fix16_div(pollux_pitch_cv_code, F16(4095.0));;
                 pollux_pitch_cv = fix16_add(
-                    F16(GEM_CV_BASE_OFFSET),
-                    fix16_mul(pollux_pitch_cv_range_mul, fix16_from_int(input_pollux_pitch_cv)));
+                    GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
             }
 
-            uint16_t input_pollux_pitch_pot = (4095 - adc_results[GEM_IN_CV_B_POT]);
-            fix16_t pollux_pitch_pot_range_mul = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(4095.0f));
-            fix16_t pollux_pitch_knob_offset = fix16_div(F16(GEM_POLLUX_CV_KNOB_RANGE), F16(-2.0f));
-            fix16_t pollux_pitch_knob = fix16_mul(pollux_pitch_pot_range_mul, fix16_from_int(input_pollux_pitch_pot));
-            pollux_pitch_knob = fix16_add(pollux_pitch_knob_offset, pollux_pitch_knob);
+            uint16_t pollux_pitch_knob_code = (4095 - adc_results[GEM_IN_CV_B_POT]);
+            fix16_t pollux_pitch_knob_value = fix16_div(pollux_pitch_knob_code, F16(4095.0));
+            fix16_t pollux_pitch_knob = fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
+
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
 
             /* Calculate the chorus LFO and account for LFO in Pollux's pitch. */

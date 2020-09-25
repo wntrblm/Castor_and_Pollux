@@ -117,12 +117,10 @@ enum gem_adc_channels {
 #define GEM_QUANT_CV_IN_STEP (0.083333333f / 50.0f)
 #define GEM_QUANT_PITCH_KNOB_STEP (0.083333333f / 50.0f)
 
-#define GEM_CV_INPUT_RANGE 6.0f
+#define GEM_CV_INPUT_RANGE F16(6.0)
+#define GEM_CV_BASE_OFFSET F16(1.0)
 /* TODO: Turn these into NVM settings? */
-#define GEM_CV_BASE_OFFSET 1.0f
-#define GEM_CASTOR_CV_KNOB_RANGE 6.0f
-#define GEM_POLLUX_CV_KNOB_RANGE 2.0f
-#define GEM_CHORUS_LFO_FREQUENCY 0.2f
+#define GEM_CHORUS_LFO_FREQUENCY F16(0.2)
 
 /* Structs */
 
@@ -130,6 +128,10 @@ struct gem_nvm_settings {
     uint16_t adc_gain_corr;
     uint16_t adc_offset_corr;
     uint16_t led_brightness;
+    fix16_t castor_knob_min;
+    fix16_t castor_knob_max;
+    fix16_t pollux_knob_min;
+    fix16_t pollux_knob_max;
 };
 
 /* Functions */
