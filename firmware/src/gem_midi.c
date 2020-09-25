@@ -100,8 +100,11 @@ void _process_sysex_command() {
     __wrap_printf("\r\n");
 
     if (_sysex_data[0] != SYSEX_CMD_MARKER) {
+        printf("Sysex message contains invalid marker: %02x\r\n", _sysex_data[0]);
         return;
     }
+
+    printf("Recieved systex message: %02x\r\n", _sysex_data[1]);
 
     struct gem_nvm_settings settings;
 
@@ -110,6 +113,10 @@ void _process_sysex_command() {
             if (_callback != NULL) {
                 _callback(GEM_MIDI_EVENT_CALIBRATION_MODE);
             }
+            gem_usb_midi_send(
+                (uint8_t[4]){SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_HELLO});
+            gem_usb_midi_send(
+                (uint8_t[4]){SYSEX_END_TWO_BYTE, GEM_FIRMWARE_VERSION, SYSEX_END_BYTE, 0x00});
             break;
 
         case SE_CMD_WRITE_ADC_GAIN:
