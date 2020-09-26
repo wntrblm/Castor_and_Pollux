@@ -26,6 +26,7 @@ enum sysex_commands {
     SE_CMD_READ_ADC = 0x05,
     SE_CMD_SET_DAC = 0x06,
     SE_CMD_SET_FREQ = 0x07,
+    SE_CMD_RESET_SETTINGS = 0x08,
 };
 
 static uint8_t _in_data[4];
@@ -155,6 +156,10 @@ void _process_sysex_command() {
         case SE_CMD_SET_FREQ:
             gem_pulseout_set_period(
                 _sysex_data[2], _sysex_data[3] << 12 | _sysex_data[4] << 8 | _sysex_data[5] << 4 | _sysex_data[6]);
+            break;
+
+        case SE_CMD_RESET_SETTINGS:
+            gem_config_erase_nvm_settings();
             break;
 
         default:

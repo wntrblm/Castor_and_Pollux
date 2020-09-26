@@ -47,3 +47,7 @@ class Gemini:
 
     def set_adc_offset_error(self, val):
         self.port_out.send_message([SYSEX_START, SYSEX_MARKER, 0x03, (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF, SYSEX_END])
+
+    def reset_settings(self):
+        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, 0x08, SYSEX_END])
+
