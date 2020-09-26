@@ -22,12 +22,12 @@ enum sysex_commands {
     SE_CMD_HELLO = 0x01,
     SE_CMD_WRITE_ADC_GAIN = 0x02,
     SE_CMD_WRITE_ADC_OFFSET = 0x03,
-    SE_CMD_WRITE_LED_BRIGHTNESS = 0x04,
-    SE_CMD_READ_ADC = 0x05,
-    SE_CMD_SET_DAC = 0x06,
-    SE_CMD_SET_FREQ = 0x07,
-    SE_CMD_RESET_SETTINGS = 0x08,
-    SE_CMD_SET_KNOB_RANGE = 0x09,
+    SE_CMD_READ_SETTINGS = 0x04,
+    SE_CMD_WRITE_SETTINGS = 0x05,
+    SE_CMD_RESET_SETTINGS = 0x06,
+    SE_CMD_READ_ADC = 0xA5,
+    SE_CMD_SET_DAC = 0xA6,
+    SE_CMD_SET_FREQ = 0xA7,
 };
 
 static uint8_t _in_data[4];
@@ -38,6 +38,9 @@ static gem_midi_event_callback _callback;
 
 void _parse_sysex();
 void _process_sysex_command();
+void _send_sysex(uint8_t* data, size_t len);
+void _midi_decode(uint8_t* src, uint8_t* dst, size_t src_len);
+void _midi_encode(uint8_t* src, uint8_t* dst, size_t src_len);
 
 /* Public functions. */
 
@@ -106,7 +109,7 @@ void _process_sysex_command() {
         return;
     }
 
-    printf("Recieved systex message: %02x\r\n", _sysex_data[1]);
+    printf("Recieved sysex message: %02x\r\n", _sysex_data[1]);
 
     struct gem_nvm_settings settings;
     gem_config_get_nvm_settings(&settings);
@@ -128,11 +131,6 @@ void _process_sysex_command() {
         case SE_CMD_WRITE_ADC_OFFSET:
             settings.adc_offset_corr =
                 _sysex_data[2] << 12 | _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5];
-            gem_config_save_nvm_settings(&settings);
-            break;
-
-        case SE_CMD_WRITE_LED_BRIGHTNESS:
-            settings.led_brightness = _sysex_data[2] << 12 | _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5];
             gem_config_save_nvm_settings(&settings);
             break;
 
@@ -161,23 +159,54 @@ void _process_sysex_command() {
             gem_config_erase_nvm_settings();
             break;
 
-        case SE_CMD_SET_KNOB_RANGE:
-            settings.castor_knob_min =
-                (_sysex_data[3] << 28 | _sysex_data[4] << 24 | _sysex_data[5] << 20 | _sysex_data[6] << 16 |
-                 _sysex_data[7] << 12 | _sysex_data[8] << 8 | _sysex_data[9] << 4 | _sysex_data[10]);
-            settings.castor_knob_max =
-                (_sysex_data[11] << 28 | _sysex_data[12] << 24 | _sysex_data[13] << 20 | _sysex_data[14] << 16 |
-                 _sysex_data[15] << 12 | _sysex_data[16] << 8 | _sysex_data[17] << 4 | _sysex_data[18]);
-            settings.pollux_knob_min =
-                (_sysex_data[19] << 28 | _sysex_data[20] << 24 | _sysex_data[21] << 20 | _sysex_data[22] << 16 |
-                 _sysex_data[23] << 12 | _sysex_data[24] << 8 | _sysex_data[25] << 4 | _sysex_data[26]);
-            settings.pollux_knob_max =
-                (_sysex_data[27] << 28 | _sysex_data[28] << 24 | _sysex_data[29] << 20 | _sysex_data[30] << 16 |
-                 _sysex_data[31] << 12 | _sysex_data[32] << 8 | _sysex_data[33] << 4 | _sysex_data[34]);
-            gem_config_save_nvm_settings(&settings);
-            break;
+        case SE_CMD_READ_SETTINGS: {
+            uint8_t settings_buf[64];
+            uint8_t encoded_buf[128];
+            gem_config_serialize_nvm_settings(&settings, settings_buf);
+            _midi_encode(settings_buf, encoded_buf, 64);
+            gem_usb_midi_send(
+                (uint8_t[4]){SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_READ_SETTINGS});
+            _send_sysex(encoded_buf, 128);
+        } break;
+
+        case SE_CMD_WRITE_SETTINGS: {
+            uint8_t settings_buf[64];
+            _midi_encode(settings_buf, _sysex_data + 2, 64);
+            if (gem_config_deserialize_nvm_settings(&settings, settings_buf)) {
+                gem_config_save_nvm_settings(&settings);
+            }
+        } break;
 
         default:
             break;
     }
+}
+
+void _send_sysex(uint8_t* data, size_t len) {
+    size_t i = 0;
+    for (; len - i >= 3; i += 3) {
+        gem_usb_midi_send((uint8_t[4]){SYSEX_START_OR_CONTINUE, data[i], data[i + 1], data[i + 2]});
+    }
+    if (len - i == 0) {
+        gem_usb_midi_send((uint8_t[4]){SYSEX_END_ONE_BYTE, SYSEX_END_BYTE, 0x00, 0x00});
+    }
+    if (len - i == 1) {
+        gem_usb_midi_send((uint8_t[4]){SYSEX_END_TWO_BYTE, data[i], SYSEX_END_BYTE, 0x00});
+    }
+    if (len - i == 2) {
+        gem_usb_midi_send((uint8_t[4]){SYSEX_END_THREE_BYTE, data[i], data[i + 1], SYSEX_END_BYTE});
+    }
+}
+
+void _midi_encode(uint8_t* src, uint8_t* dst, size_t src_len) {
+    /* We encode middle data as one nibble per byte, dst must be twice the length of src. */
+    for (size_t i = 0; i < src_len; i++) {
+        dst[i * 2] = src[i] >> 4 & 0xF;
+        dst[i * 2 + 1] = src[i] & 0xF;
+    }
+}
+
+void _midi_decode(uint8_t* src, uint8_t* dst, size_t dst_len) {
+    /* We encode middle data as one nibble per byte, so dst should be half the length of src. */
+    for (size_t i = 0; i < dst_len; i += 1) { dst[i] = src[i * 2] << 4 | src[i * 2 + 1]; }
 }

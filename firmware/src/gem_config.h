@@ -137,7 +137,9 @@ struct gem_nvm_settings {
 /* Functions */
 
 void gem_config_init();
+bool gem_config_deserialize_nvm_settings(struct gem_nvm_settings* settings, uint8_t* data);
 bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings);
+void gem_config_serialize_nvm_settings(struct gem_nvm_settings* settings, uint8_t* data);
 void gem_config_save_nvm_settings(struct gem_nvm_settings* settings);
 void gem_config_erase_nvm_settings();
 
