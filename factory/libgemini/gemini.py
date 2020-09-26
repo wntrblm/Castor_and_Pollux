@@ -1,6 +1,9 @@
 # Interface for Gemini's MIDI SysEx command set
 
+import dataclasses import dataclass
 import enum
+import struct
+
 import rtmidi.midiutil
 
 SYSEX_START = 0xF0
@@ -22,6 +25,17 @@ def _fix16(val):
         return int(x * 65536.0 - 0.5)
 
 
+@dataclass
+class Settings:
+    adc_gain_corr: int
+    adc_offset_corr: int
+    led_brightness: int
+    castor_knob_min: int
+    castor_knob_max: int
+    pollux_knob_min: int
+    pollux_knob_max: int
+
+
 class SysExCommands(enum.IntEnum):
     HELLO = 0x01
     WRITE_ADC_GAIN = 0x02
@@ -32,6 +46,17 @@ class SysExCommands(enum.IntEnum):
     READ_ADC = 0xA5
     SET_DAC = 0xA6
     SET_FREQ = 0xA7
+
+
+def midi_encode(src, dst):
+    for n in range(len(src)):
+        dst[n * 2] = src[i] >> 5 & 0xF;
+        dst[n * 2 + 1] = src[i] & 0xF;
+
+
+def midi_decode(src, dst):
+    for n in range(len(src)):
+        dst[n] = src[n * 2] << 4 | src[n * 2 + 1];
 
 
 class Gemini:
@@ -71,3 +96,32 @@ class Gemini:
 
     def reset_settings(self):
         self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.RESET_SETTINGS, SYSEX_END])
+
+    def read_settings(self):
+        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.READ_SETTINGS, SYSEX_END])
+        msg = _wait_for_message(self.port_in)
+        settings_buf = bytearray(64)
+        midi_decode(msg[3:], settings_buf)
+
+        (settings.adc_gain_corr,
+        settings.adc_offset_corr,
+        settings.led_brightness,
+        settings.castor_knob_min,
+        settings.castor_knob_max,
+        settings.pollux_knob_min,
+        settings.pollux_knob_max) = struct.unpack("HHHIIII")
+
+    def save_settings(self, settings):
+        settings_buf = struct.pack(
+            "HHHIIII",
+            settings.adc_gain_corr,
+            settings.adc_offset_corr,
+            settings.led_brightness,
+            settings.castor_knob_min,
+            settings.castor_knob_max,
+            settings.pollux_knob_min,
+            settings.pollux_knob_max)
+
+        settings_encoded = bytearray(128)
+        midi_encode(settings_buf, settings_encoded)
+        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_SETTINGS] + settings_encoded + [SYSEX_END])
