@@ -13,6 +13,14 @@ def _wait_for_message(port_in):
             msg, _ = msg
             return msg
 
+
+def _fix16(val):
+    if val >= 0:
+        return int(x * 65536.0 + 0.5)
+    else:
+        return int(x * 65536.0 - 0.5)
+
+
 class Gemini:
     MIDI_PORT_NAME = "Gemini"
 
@@ -51,3 +59,19 @@ class Gemini:
     def reset_settings(self):
         self.port_out.send_message([SYSEX_START, SYSEX_MARKER, 0x08, SYSEX_END])
 
+    def set_led_brightness(self, val):
+        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, 0x04, (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF, SYSEX_END])
+    
+    def set_knob_ranges(self, castor_min, castor_max, pollux_mix, pollux_max):
+        castor_min = _fix16(castor_min)
+        castor_max = _fix16(castor_max)
+        pollux_min = _fix16(pollux_min)
+        pollux_max = _fix16(pollux_max)
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, 0x09,
+            (castor_min >> 28) & 0xF, (castor_min >> 24) & 0xF, (castor_min >> 20) & 0xF, (castor_min >> 16) & 0xF, (castor_min >> 12) & 0xF, (castor_min >> 8) & 0xF, (castor_min >> 4) & 0xF, castor_min & 0xF,
+            (castor_max >> 28) & 0xF, (castor_max >> 24) & 0xF, (castor_max >> 20) & 0xF, (castor_max >> 16) & 0xF, (castor_max >> 12) & 0xF, (castor_max >> 8) & 0xF, (castor_max >> 4) & 0xF, castor_max & 0xF,
+            (pollux_min >> 28) & 0xF, (pollux_min >> 24) & 0xF, (pollux_min >> 20) & 0xF, (pollux_min >> 16) & 0xF, (pollux_min >> 12) & 0xF, (pollux_min >> 8) & 0xF, (pollux_min >> 4) & 0xF, pollux_min & 0xF,
+            (pollux_max >> 28) & 0xF, (pollux_max >> 24) & 0xF, (pollux_max >> 20) & 0xF, (pollux_max >> 16) & 0xF, (pollux_max >> 12) & 0xF, (pollux_max >> 8) & 0xF, (pollux_max >> 4) & 0xF, pollux_max & 0xF,
+            SYSEX_END
+        ])

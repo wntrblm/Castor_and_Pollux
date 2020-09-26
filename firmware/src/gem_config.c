@@ -14,10 +14,10 @@ const struct gem_nvm_settings gem_default_nvm_settings = {
     .adc_gain_corr = 2048,
     .adc_offset_corr = 0,
     .led_brightness = 127,
-    .castor_knob_min = F16(-1.0),
-    .castor_knob_max = F16(1.0),
-    .pollux_knob_min = F16(-1.0),
-    .pollux_knob_max = F16(1.0),
+    .castor_knob_min = F16(-1.01),
+    .castor_knob_max = F16(1.01),
+    .pollux_knob_min = F16(-1.01),
+    .pollux_knob_max = F16(1.01),
 };
 
 const struct gem_adc_input gem_adc_inputs[] = {
