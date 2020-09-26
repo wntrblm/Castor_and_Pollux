@@ -34,12 +34,8 @@ const struct gem_adc_input gem_adc_inputs[] = {
 
 void gem_config_init() {}
 
-bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
-    uint8_t data[NVM_SETTINGS_LEN];
-
+bool gem_config_deserialize_nvm_settings(struct gem_nvm_settings* settings, uint8_t* data) {
     /* Check for the magic flag. */
-    gem_nvm_read(GEM_NVM_SETTINGS_BASE_ADDR, data, NVM_SETTINGS_LEN);
-
     if (data[0] != NVM_SETTINGS_MARKER) {
         (*settings) = gem_default_nvm_settings;
         return false;
@@ -56,33 +52,41 @@ bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
     return true;
 }
 
-void gem_config_save_nvm_settings(struct gem_nvm_settings* settings) {
-    uint8_t data[NVM_SETTINGS_LEN] = {
-        NVM_SETTINGS_MARKER,
-        settings->adc_gain_corr >> 8,
-        settings->adc_gain_corr & 0xFF,
-        settings->adc_offset_corr >> 8,
-        settings->adc_offset_corr & 0xFF,
-        settings->led_brightness >> 8,
-        settings->led_brightness & 0xFF,
-        settings->castor_knob_min >> 24,
-        settings->castor_knob_min >> 16,
-        settings->castor_knob_min >> 8,
-        settings->castor_knob_min & 0xFF,
-        settings->castor_knob_max >> 24,
-        settings->castor_knob_max >> 16,
-        settings->castor_knob_max >> 8,
-        settings->castor_knob_max & 0xFF,
-        settings->pollux_knob_min >> 24,
-        settings->pollux_knob_min >> 16,
-        settings->pollux_knob_min >> 8,
-        settings->pollux_knob_min & 0xFF,
-        settings->pollux_knob_max >> 24,
-        settings->pollux_knob_max >> 16,
-        settings->pollux_knob_max >> 8,
-        settings->pollux_knob_max & 0xFF,
-    };
+bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
+    uint8_t data[NVM_SETTINGS_LEN];
+    gem_nvm_read(GEM_NVM_SETTINGS_BASE_ADDR, data, NVM_SETTINGS_LEN);
+    return gem_config_deserialize_nvm_settings(settings, data);
+}
 
+void gem_config_serialize_nvm_settings(struct gem_nvm_settings* settings, uint8_t* data) {
+    data[0] = NVM_SETTINGS_MARKER;
+    data[1] = settings->adc_gain_corr >> 8;
+    data[2] = settings->adc_gain_corr & 0xFF;
+    data[3] = settings->adc_offset_corr >> 8;
+    data[4] = settings->adc_offset_corr & 0xFF;
+    data[5] = settings->led_brightness >> 8;
+    data[6] = settings->led_brightness & 0xFF;
+    data[7] = settings->castor_knob_min >> 24;
+    data[8] = settings->castor_knob_min >> 16;
+    data[9] = settings->castor_knob_min >> 8;
+    data[10] = settings->castor_knob_min & 0xFF;
+    data[11] = settings->castor_knob_max >> 24;
+    data[12] = settings->castor_knob_max >> 16;
+    data[13] = settings->castor_knob_max >> 8;
+    data[14] = settings->castor_knob_max & 0xFF;
+    data[15] = settings->pollux_knob_min >> 24;
+    data[16] = settings->pollux_knob_min >> 16;
+    data[17] = settings->pollux_knob_min >> 8;
+    data[18] = settings->pollux_knob_min & 0xFF;
+    data[19] = settings->pollux_knob_max >> 24;
+    data[20] = settings->pollux_knob_max >> 16;
+    data[21] = settings->pollux_knob_max >> 8;
+    data[22] = settings->pollux_knob_max & 0xFF;
+};
+
+void gem_config_save_nvm_settings(struct gem_nvm_settings* settings) {
+    uint8_t data[NVM_SETTINGS_LEN];
+    gem_config_serialize_nvm_settings(settings, data);
     gem_nvm_write(GEM_NVM_SETTINGS_BASE_ADDR, data, NVM_SETTINGS_LEN);
 }
 
