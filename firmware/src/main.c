@@ -160,7 +160,8 @@ int main(void) {
             uint16_t chorus_lfo_amount_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
             fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_code), F16(4095.0f));
 
-            fix16_t chorus_lfo_mod = fix16_mul(F16(0.05f), fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
+            fix16_t chorus_lfo_mod =
+                fix16_mul(F16(0.05f), fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, chorus_lfo_mod);
 
             // /* Limit pitch CVs to fit within the parameter table's max value. */

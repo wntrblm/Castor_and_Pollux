@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define SYSEX_BUF_SIZE 16
+#define SYSEX_BUF_SIZE 64
 #define SYSEX_CMD_MARKER 0x77
 #define SYSEX_START_OR_CONTINUE 0x04
 #define SYSEX_END_THREE_BYTE 0x07
@@ -27,6 +27,7 @@ enum sysex_commands {
     SE_CMD_SET_DAC = 0x06,
     SE_CMD_SET_FREQ = 0x07,
     SE_CMD_RESET_SETTINGS = 0x08,
+    SE_CMD_SET_KNOB_RANGE = 0x09,
 };
 
 static uint8_t _in_data[4];
@@ -108,6 +109,7 @@ void _process_sysex_command() {
     printf("Recieved systex message: %02x\r\n", _sysex_data[1]);
 
     struct gem_nvm_settings settings;
+    gem_config_get_nvm_settings(&settings);
 
     switch (_sysex_data[1]) {
         case SE_CMD_HELLO:
@@ -119,20 +121,17 @@ void _process_sysex_command() {
             break;
 
         case SE_CMD_WRITE_ADC_GAIN:
-            gem_config_get_nvm_settings(&settings);
             settings.adc_gain_corr = _sysex_data[2] << 12 | _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5];
             gem_config_save_nvm_settings(&settings);
             break;
 
         case SE_CMD_WRITE_ADC_OFFSET:
-            gem_config_get_nvm_settings(&settings);
             settings.adc_offset_corr =
                 _sysex_data[2] << 12 | _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5];
             gem_config_save_nvm_settings(&settings);
             break;
 
         case SE_CMD_WRITE_LED_BRIGHTNESS:
-            gem_config_get_nvm_settings(&settings);
             settings.led_brightness = _sysex_data[2] << 12 | _sysex_data[3] << 8 | _sysex_data[4] << 4 | _sysex_data[5];
             gem_config_save_nvm_settings(&settings);
             break;
@@ -160,6 +159,22 @@ void _process_sysex_command() {
 
         case SE_CMD_RESET_SETTINGS:
             gem_config_erase_nvm_settings();
+            break;
+
+        case SE_CMD_SET_KNOB_RANGE:
+            settings.castor_knob_min =
+                (_sysex_data[3] << 28 | _sysex_data[4] << 24 | _sysex_data[5] << 20 | _sysex_data[6] << 16 |
+                 _sysex_data[7] << 12 | _sysex_data[8] << 8 | _sysex_data[9] << 4 | _sysex_data[10]);
+            settings.castor_knob_max =
+                (_sysex_data[11] << 28 | _sysex_data[12] << 24 | _sysex_data[13] << 20 | _sysex_data[14] << 16 |
+                 _sysex_data[15] << 12 | _sysex_data[16] << 8 | _sysex_data[17] << 4 | _sysex_data[18]);
+            settings.pollux_knob_min =
+                (_sysex_data[19] << 28 | _sysex_data[20] << 24 | _sysex_data[21] << 20 | _sysex_data[22] << 16 |
+                 _sysex_data[23] << 12 | _sysex_data[24] << 8 | _sysex_data[25] << 4 | _sysex_data[26]);
+            settings.pollux_knob_max =
+                (_sysex_data[27] << 28 | _sysex_data[28] << 24 | _sysex_data[29] << 20 | _sysex_data[30] << 16 |
+                 _sysex_data[31] << 12 | _sysex_data[32] << 8 | _sysex_data[33] << 4 | _sysex_data[34]);
+            gem_config_save_nvm_settings(&settings);
             break;
 
         default:
