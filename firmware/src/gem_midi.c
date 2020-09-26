@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define SYSEX_BUF_SIZE 64
+#define SYSEX_BUF_SIZE 200
 #define SYSEX_CMD_MARKER 0x77
 #define SYSEX_START_OR_CONTINUE 0x04
 #define SYSEX_END_THREE_BYTE 0x07
