@@ -202,7 +202,6 @@ void _send_sysex(uint8_t* data, size_t len) {
     size_t i = 0;
     for (; i <= len - 3; i += 3) {
         gem_usb_midi_send((uint8_t[4]){SYSEX_START_OR_CONTINUE, data[i] & 0xF, data[i + 1] & 0xF, data[i + 2] & 0xF});
-        while (gem_usb_midi_tx_full()) {}
     }
     if (len - i == 0) {
         gem_usb_midi_send((uint8_t[4]){SYSEX_END_ONE_BYTE, SYSEX_END_BYTE, 0x00, 0x00});

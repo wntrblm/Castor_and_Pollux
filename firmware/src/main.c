@@ -153,7 +153,7 @@ int main(void) {
 
             /* Calculate the chorus LFO and account for LFO in Pollux's pitch. */
             chorus_lfo_phase +=
-                fix16_mul(fix16_div(F16(GEM_CHORUS_LFO_FREQUENCY), F16(1000.0f)), fix16_from_int(delta));
+                fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0f)), fix16_from_int(delta));
             if (chorus_lfo_phase > F16(1.0f))
                 chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0f));
 
@@ -161,7 +161,7 @@ int main(void) {
             fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_code), F16(4095.0f));
 
             fix16_t chorus_lfo_mod =
-                fix16_mul(F16(0.05f), fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
+                fix16_mul(settings.chorus_max_intensity, fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, chorus_lfo_mod);
 
             // /* Limit pitch CVs to fit within the parameter table's max value. */

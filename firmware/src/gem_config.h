@@ -132,6 +132,13 @@ struct gem_nvm_settings {
     fix16_t castor_knob_max;
     fix16_t pollux_knob_min;
     fix16_t pollux_knob_max;
+    fix16_t chorus_max_intensity;
+    fix16_t chorus_frequency;
+    /* When adding/modifying fields be sure to update:
+        gem_default_nvm_settings
+        gem_config_*_settings()
+        libgemini/gemini.py
+    */
 };
 
 /* Functions */
