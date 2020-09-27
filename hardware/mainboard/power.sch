@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 2 7
 Title "Castor & Pollux"
-Date "2020-09-07"
-Rev "v1"
+Date "2020-09-26"
+Rev "v2"
 Comp "Winterbloom"
 Comment1 "CC BY-SA 4.0"
 Comment2 "Alethea Flowers"

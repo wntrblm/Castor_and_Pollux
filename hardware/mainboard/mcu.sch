@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 6 7
 Title "Castor & Pollux"
-Date "2020-09-07"
-Rev "v1"
+Date "2020-09-26"
+Rev "v2"
 Comp "Winterbloom"
 Comment1 "CC BY-SA 4.0"
 Comment2 "Alethea Flowers"
@@ -529,9 +529,9 @@ duty_a_in
 Text HLabel 5900 2500 2    50   Input ~ 0
 duty_b_in
 Text HLabel 5900 2800 2    50   Input ~ 0
-phase_in
+hard_sync
 Text HLabel 5900 2950 2    50   Input ~ 0
-phase_pot
+chorus_pot
 Text HLabel 5900 3100 2    50   Output ~ 0
 jack_detection_probe
 Text Label 1850 2450 2    50   ~ 0

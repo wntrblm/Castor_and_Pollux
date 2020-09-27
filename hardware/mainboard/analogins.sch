@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 5 7
 Title "Castor & Pollux"
-Date "2020-09-07"
-Rev "v1"
+Date "2020-09-26"
+Rev "v2"
 Comp "Winterbloom"
 Comment1 "CC BY-SA 4.0"
 Comment2 "Alethea Flowers"
@@ -504,151 +504,6 @@ Text Notes 900  5550 0    50   ~ 0
 Text HLabel 1350 5650 0    50   Input ~ 0
 duty_b_jack
 $Comp
-L Amplifier_Operational:MCP6001-OT U14
-U 1 1 5F381AB9
-P 5750 1200
-F 0 "U14" H 6094 1246 50  0000 L CNN
-F 1 "MCP6001-OT" H 5750 1350 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-5" H 5650 1000 50  0001 L CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/21733j.pdf" H 5750 1400 50  0001 C CNN
-F 4 "yes" H 5750 1200 50  0001 C CNN "finalized"
-F 5 "MCP6001T-I/OT" H 5750 1200 50  0001 C CNN "mpn"
-	1    5750 1200
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_US R60
-U 1 1 5F3849CF
-P 4850 1300
-F 0 "R60" V 4645 1300 50  0000 C CNN
-F 1 "100k" V 4736 1300 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4890 1290 50  0001 C CNN
-F 3 "~" H 4850 1300 50  0001 C CNN
-F 4 "yes" H 4850 1300 50  0001 C CNN "finalized"
-F 5 "ERA-3AED104V" H 4850 1300 50  0001 C CNN "mpn"
-F 6 "0.5%" H 4850 1300 50  0001 C CNN "Reqs"
-F 7 "100mW" H 4850 1300 50  0001 C CNN "mpn specs"
-	1    4850 1300
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R_US R61
-U 1 1 5F3849D5
-P 4850 1600
-F 0 "R61" V 4645 1600 50  0000 C CNN
-F 1 "200k" V 4736 1600 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4890 1590 50  0001 C CNN
-F 3 "~" H 4850 1600 50  0001 C CNN
-F 4 "yes" H 4850 1600 50  0001 C CNN "finalized"
-F 5 "ERA-3AEB204V" H 4850 1600 50  0001 C CNN "mpn"
-F 6 "100mW" H 4850 1600 50  0001 C CNN "mpn specs"
-	1    4850 1600
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R_US R62
-U 1 1 5F3849DB
-P 5750 2000
-F 0 "R62" V 5545 2000 50  0000 C CNN
-F 1 "64.9k" V 5636 2000 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5790 1990 50  0001 C CNN
-F 3 "~" H 5750 2000 50  0001 C CNN
-F 4 "yes" H 5750 2000 50  0001 C CNN "finalized"
-F 5 "ERA-3AEB6492V" H 5750 2000 50  0001 C CNN "mpn"
-F 6 "100mW" H 5750 2000 50  0001 C CNN "mpn specs"
-	1    5750 2000
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:C_Small C41
-U 1 1 5F3849E1
-P 5750 2350
-F 0 "C41" V 5979 2350 50  0000 C CNN
-F 1 "4.7nF" V 5888 2350 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 5750 2350 50  0001 C CNN
-F 3 "~" H 5750 2350 50  0001 C CNN
-F 4 "yes" H 5750 2350 50  0001 C CNN "finalized"
-F 5 "MF-CAP-0603-4.7nF" H 5750 2350 50  0001 C CNN "mpn"
-F 6 "10% 50v" H 5750 2350 50  0001 C CNN "mpn specs"
-F 7 "GCD188R71H472MA01D" H 5750 2350 50  0001 C CNN "mpn alt"
-	1    5750 2350
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:GND #PWR0119
-U 1 1 5F3849E7
-P 5450 1100
-F 0 "#PWR0119" H 5450 850 50  0001 C CNN
-F 1 "GND" V 5455 972 50  0000 R CNN
-F 2 "" H 5450 1100 50  0001 C CNN
-F 3 "" H 5450 1100 50  0001 C CNN
-	1    5450 1100
-	0    1    1    0   
-$EndComp
-Text HLabel 4700 1300 0    50   Input ~ 0
-phase_jack
-Text GLabel 4700 1600 0    50   Input ~ 0
-VREF-10
-Wire Wire Line
-	5450 2000 5600 2000
-Wire Wire Line
-	5900 2000 6050 2000
-Wire Wire Line
-	5650 2350 5450 2350
-Wire Wire Line
-	5450 2350 5450 2000
-Connection ~ 5450 2000
-Wire Wire Line
-	5850 2350 6050 2350
-Wire Wire Line
-	6050 2350 6050 2000
-Connection ~ 6050 2000
-Wire Wire Line
-	5000 1300 5200 1300
-Wire Wire Line
-	5000 1600 5200 1600
-Wire Wire Line
-	5200 1600 5200 1300
-Connection ~ 5200 1300
-Wire Wire Line
-	5200 1300 5450 1300
-Wire Wire Line
-	6050 1200 6250 1200
-Text HLabel 6250 1200 2    50   Input ~ 0
-phase_scaled
-Text Notes 6150 1350 0    50   ~ 0
-0v to +3.25v
-Text Notes 4250 1200 0    50   ~ 0
-0v to +5v
-$Comp
-L power:GND #PWR0120
-U 1 1 5F3905AF
-P 5650 1500
-F 0 "#PWR0120" H 5650 1250 50  0001 C CNN
-F 1 "GND" H 5655 1327 50  0000 C CNN
-F 2 "" H 5650 1500 50  0001 C CNN
-F 3 "" H 5650 1500 50  0001 C CNN
-	1    5650 1500
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5450 1300 5450 2000
-Connection ~ 5450 1300
-Wire Wire Line
-	6050 1200 6050 2000
-Connection ~ 6050 1200
-$Comp
-L power:+3.3VA #PWR0121
-U 1 1 5F3951CD
-P 5650 900
-F 0 "#PWR0121" H 5650 750 50  0001 C CNN
-F 1 "+3.3VA" H 5665 1073 50  0000 C CNN
-F 2 "" H 5650 900 50  0001 C CNN
-F 3 "" H 5650 900 50  0001 C CNN
-	1    5650 900 
-	1    0    0    -1  
-$EndComp
-$Comp
 L Amplifier_Operational:MCP6004 U13
 U 5 1 5F395FB8
 P 7550 5950
@@ -764,8 +619,6 @@ low-pass cutoff @ 1.3kHz
 Text Notes 2750 4900 0    50   ~ 0
 low-pass cutoff @ 0.5kHz
 Text Notes 2750 6300 0    50   ~ 0
-low-pass cutoff @ 0.5kHz
-Text Notes 6100 2250 0    50   ~ 0
 low-pass cutoff @ 0.5kHz
 Text Notes 6700 6000 0    50   ~ 0
 4mA (max, est)
