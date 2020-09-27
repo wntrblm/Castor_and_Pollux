@@ -3,26 +3,43 @@ from libgemini import gemini
 gem = gemini.Gemini()
 gem.enter_calibration_mode()
 
-while True:
-    cmd, vals = input().strip().split(1)
-    vals = [int(val) for val in vals.split()]
-    val = vals[0]
+settings = None
 
-    if cmd == "adc":
+while True:
+    cmd, *vals = input("> ").strip().split()
+    vals = [int(val) for val in vals]
+    val = vals[0] if vals else None
+
+    if cmd == "read_adc":
         print(gem.read_adc(val))
 
-    if cmd == "dac":
+    elif cmd == "set_dac":
         if len(vals) < 2:
             print("requires channel, value, and gain")
         gem.set_dac(vals[0], vals[1], gain=vals[2])
 
-    if cmd == "freq":
+    elif cmd == "set_freq":
         if len(vals) < 2:
             print("requires channel and period")
         gem.set_period(vals[0], vals[1])
 
-    if cmd == "adcgain":
+    elif cmd == "set_adc_gain":
         gem.set_adc_gain_error(val)
 
-    if cmd == "adcerror":
+    elif cmd == "set_adc_error":
         gem.set_adc_offset_error(val)
+
+    elif cmd == "lead_settings":
+        settings = gem.read_settings()
+        gem_settings = settings
+        print(settings)
+
+    elif cmd == "reset_settings":
+        gem.reset_settings()
+        print(settings)
+
+    elif cmd == "save_settings":
+        gem.save_settings(settings)
+    
+    else:
+        print("unknown command")

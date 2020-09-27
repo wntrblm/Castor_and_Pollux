@@ -1,6 +1,6 @@
 # Interface for Gemini's MIDI SysEx command set
 
-import dataclasses import dataclass
+from dataclasses import dataclass
 import enum
 import struct
 
@@ -27,13 +27,14 @@ def _fix16(val):
 
 @dataclass
 class Settings:
-    adc_gain_corr: int
-    adc_offset_corr: int
-    led_brightness: int
-    castor_knob_min: int
-    castor_knob_max: int
-    pollux_knob_min: int
-    pollux_knob_max: int
+    magic: int = 0
+    adc_gain_corr: int = 0
+    adc_offset_corr: int = 0
+    led_brightness: int = 0
+    castor_knob_min: int = 0
+    castor_knob_max: int = 0
+    pollux_knob_min: int = 0
+    pollux_knob_max: int = 0
 
 
 class SysExCommands(enum.IntEnum):
@@ -50,12 +51,12 @@ class SysExCommands(enum.IntEnum):
 
 def midi_encode(src, dst):
     for n in range(len(src)):
-        dst[n * 2] = src[i] >> 5 & 0xF;
-        dst[n * 2 + 1] = src[i] & 0xF;
+        dst[n * 2] = src[n] >> 4 & 0xF;
+        dst[n * 2 + 1] = src[n] & 0xF;
 
 
 def midi_decode(src, dst):
-    for n in range(len(src)):
+    for n in range(len(dst)):
         dst[n] = src[n * 2] << 4 | src[n * 2 + 1];
 
 
@@ -98,30 +99,47 @@ class Gemini:
         self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.RESET_SETTINGS, SYSEX_END])
 
     def read_settings(self):
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.READ_SETTINGS, SYSEX_END])
-        msg = _wait_for_message(self.port_in)
-        settings_buf = bytearray(64)
-        midi_decode(msg[3:], settings_buf)
+        settings_encoded = bytearray(128)
+        for n in range(8):
+            self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.READ_SETTINGS, n, SYSEX_END])
+            msg = _wait_for_message(self.port_in)
+            settings_encoded[16 * n: 16 * n + 16] = msg[3:-1]
 
-        (settings.adc_gain_corr,
+        settings_buf = bytearray(64)
+        midi_decode(settings_encoded, settings_buf)
+        settings = Settings()
+
+        (settings.magic,
+        settings.adc_gain_corr,
         settings.adc_offset_corr,
         settings.led_brightness,
         settings.castor_knob_min,
         settings.castor_knob_max,
         settings.pollux_knob_min,
-        settings.pollux_knob_max) = struct.unpack("HHHIIII")
+        settings.pollux_knob_max) = struct.unpack(">BHhHiiii", settings_buf[:23])
+
+        return settings
 
     def save_settings(self, settings):
-        settings_buf = struct.pack(
-            "HHHIIII",
+        settings_buf = bytearray(struct.pack(
+            ">BHhHiiii",
+            settings.magic,
             settings.adc_gain_corr,
             settings.adc_offset_corr,
             settings.led_brightness,
             settings.castor_knob_min,
             settings.castor_knob_max,
             settings.pollux_knob_min,
-            settings.pollux_knob_max)
+            settings.pollux_knob_max))
 
         settings_encoded = bytearray(128)
         midi_encode(settings_buf, settings_encoded)
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_SETTINGS] + settings_encoded + [SYSEX_END])
+
+        for n in range(8):
+            print(' '.join(f"{x:02x}" for x in settings_encoded[16 * n: 16 * n + 16]))
+            self.port_out.send_message(
+                bytearray([SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_SETTINGS, n]) +
+                settings_encoded[16 * n: 16 * n + 16] +
+                bytearray([SYSEX_END]))
+            # Wait for ack
+            _wait_for_message(self.port_in)

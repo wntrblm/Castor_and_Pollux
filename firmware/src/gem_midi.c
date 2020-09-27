@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define SYSEX_BUF_SIZE 200
+#define SYSEX_BUF_SIZE 64
 #define SYSEX_CMD_MARKER 0x77
 #define SYSEX_START_OR_CONTINUE 0x04
 #define SYSEX_END_THREE_BYTE 0x07
@@ -32,6 +32,8 @@ enum sysex_commands {
 
 static uint8_t _in_data[4];
 static uint8_t _sysex_data[SYSEX_BUF_SIZE];
+static uint8_t _settings_buf[64];
+static uint8_t _encoding_buf[128];
 static gem_midi_event_callback _callback;
 
 /* Private forward declarations. */
@@ -160,20 +162,34 @@ void _process_sysex_command() {
             break;
 
         case SE_CMD_READ_SETTINGS: {
-            uint8_t settings_buf[64];
-            uint8_t encoded_buf[128];
-            gem_config_serialize_nvm_settings(&settings, settings_buf);
-            _midi_encode(settings_buf, encoded_buf, 64);
+            gem_config_serialize_nvm_settings(&settings, _settings_buf);
+            _midi_encode(_settings_buf, _encoding_buf, 64);
             gem_usb_midi_send(
                 (uint8_t[4]){SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_READ_SETTINGS});
-            _send_sysex(encoded_buf, 128);
+            /* Settings are sent in 16 byte chunks to avoid overflowing midi buffers. */
+            if (_sysex_data[2] < 8) {
+                _send_sysex(_encoding_buf + (16 * _sysex_data[2]), 16);
+            }
         } break;
 
         case SE_CMD_WRITE_SETTINGS: {
-            uint8_t settings_buf[64];
-            _midi_encode(settings_buf, _sysex_data + 2, 64);
-            if (gem_config_deserialize_nvm_settings(&settings, settings_buf)) {
-                gem_config_save_nvm_settings(&settings);
+            /* Settings are sent in 16 byte chunks to avoid overflowing midi buffers. */
+            if (_sysex_data[2] == 0) {
+                memset(_encoding_buf, 0xFF, 128);
+            }
+            if (_sysex_data[2] < 8) {
+                memcpy(_encoding_buf + (16 * _sysex_data[2]), _sysex_data + 3, 16);
+                /* Ack the data. */
+                gem_usb_midi_send(
+                    (uint8_t[4]){SYSEX_START_OR_CONTINUE, SYSEX_START_BYTE, SYSEX_CMD_MARKER, SE_CMD_WRITE_SETTINGS});
+                gem_usb_midi_send((uint8_t[4]){SYSEX_END_ONE_BYTE, SYSEX_END_BYTE, 0x00, 0x00});
+            }
+            if (_sysex_data[2] == 7) {
+                /* All data recieved, save the settings. */
+                _midi_decode(_encoding_buf, _settings_buf, 64);
+                if (gem_config_deserialize_nvm_settings(&settings, _settings_buf)) {
+                    gem_config_save_nvm_settings(&settings);
+                }
             }
         } break;
 
@@ -184,17 +200,18 @@ void _process_sysex_command() {
 
 void _send_sysex(uint8_t* data, size_t len) {
     size_t i = 0;
-    for (; len - i >= 3; i += 3) {
-        gem_usb_midi_send((uint8_t[4]){SYSEX_START_OR_CONTINUE, data[i], data[i + 1], data[i + 2]});
+    for (; i <= len - 3; i += 3) {
+        gem_usb_midi_send((uint8_t[4]){SYSEX_START_OR_CONTINUE, data[i] & 0xF, data[i + 1] & 0xF, data[i + 2] & 0xF});
+        while (gem_usb_midi_tx_full()) {}
     }
     if (len - i == 0) {
         gem_usb_midi_send((uint8_t[4]){SYSEX_END_ONE_BYTE, SYSEX_END_BYTE, 0x00, 0x00});
     }
     if (len - i == 1) {
-        gem_usb_midi_send((uint8_t[4]){SYSEX_END_TWO_BYTE, data[i], SYSEX_END_BYTE, 0x00});
+        gem_usb_midi_send((uint8_t[4]){SYSEX_END_TWO_BYTE, data[i] & 0xF, SYSEX_END_BYTE, 0x00});
     }
     if (len - i == 2) {
-        gem_usb_midi_send((uint8_t[4]){SYSEX_END_THREE_BYTE, data[i], data[i + 1], SYSEX_END_BYTE});
+        gem_usb_midi_send((uint8_t[4]){SYSEX_END_THREE_BYTE, data[i] & 0xF, data[i + 1] & 0xF, SYSEX_END_BYTE});
     }
 }
 
