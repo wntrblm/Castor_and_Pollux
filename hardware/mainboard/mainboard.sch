@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 1 7
 Title "Castor & Pollux"
-Date "2020-09-07"
-Rev "v1"
+Date "2020-09-26"
+Rev "v2"
 Comp "Winterbloom"
 Comment1 "CC BY-SA 4.0"
 Comment2 "Alethea Flowers"
@@ -89,8 +89,6 @@ F6 "duty_a_jack" I L 1300 4100 50
 F7 "cv_b_jack" I L 1300 3900 50 
 F8 "duty_b_scaled" I R 2950 4200 50 
 F9 "duty_b_jack" I L 1300 4200 50 
-F10 "phase_jack" I L 1300 4300 50 
-F11 "phase_scaled" I R 2950 4300 50 
 $EndSheet
 Wire Wire Line
 	6200 1700 6550 1700
@@ -123,10 +121,6 @@ Wire Wire Line
 Wire Wire Line
 	3350 2650 2800 2650
 Wire Wire Line
-	2950 4300 3450 4300
-Wire Wire Line
-	3450 4300 3450 2750
-Wire Wire Line
 	3450 2750 2800 2750
 $Sheet
 S 1250 750  1550 2500
@@ -149,9 +143,9 @@ F14 "duty_a_pot" I R 2800 2350 50
 F15 "duty_b_pot" I R 2800 2450 50 
 F16 "duty_a_in" I R 2800 2550 50 
 F17 "duty_b_in" I R 2800 2650 50 
-F18 "phase_in" I R 2800 2750 50 
-F19 "phase_pot" I R 2800 2850 50 
 F20 "jack_detection_probe" I R 2800 3150 50 
+F21 "hard_sync" I R 2800 2850 50 
+F22 "chorus_pot" I R 2800 2750 50 
 $EndSheet
 $Sheet
 S 4850 1150 1350 1100
@@ -177,8 +171,6 @@ Text Label 1100 4100 2    50   ~ 0
 duty_a_jack
 Text Label 1100 4200 2    50   ~ 0
 duty_b_jack
-Text Label 1100 4300 2    50   ~ 0
-phase_jack
 Wire Wire Line
 	1100 3900 1300 3900
 Wire Wire Line
@@ -187,8 +179,6 @@ Wire Wire Line
 	1300 4100 1100 4100
 Wire Wire Line
 	1100 4200 1300 4200
-Wire Wire Line
-	1100 4300 1300 4300
 Text Label 3250 2150 0    50   ~ 0
 cv_a_pot
 Text Label 3250 2250 0    50   ~ 0
@@ -197,8 +187,6 @@ Text Label 3250 2350 0    50   ~ 0
 duty_a_pot
 Text Label 3250 2450 0    50   ~ 0
 duty_b_pot
-Text Label 3500 2900 0    50   ~ 0
-phase_pot
 Wire Wire Line
 	3250 2150 2800 2150
 Wire Wire Line
@@ -209,8 +197,6 @@ Wire Wire Line
 	2800 2450 3250 2450
 Wire Wire Line
 	2800 2850 3500 2850
-Wire Wire Line
-	3500 2850 3500 2900
 Text Label 4650 1850 2    50   ~ 0
 castor_ramp_mix_in
 Text Label 4650 2000 2    50   ~ 0
@@ -490,13 +476,13 @@ Wire Wire Line
 Wire Wire Line
 	3600 7150 3300 7150
 Text Label 3600 7150 0    50   ~ 0
-phase_jack
+hard_sync
 Text Label 3600 6850 0    50   ~ 0
 duty_b_jack
 Text Label 3600 7250 0    50   ~ 0
 duty_a_jack
 Text Label 3600 6550 0    50   ~ 0
-phase_pot
+chorus_pot
 Text Label 3600 6750 0    50   ~ 0
 duty_b_pot
 Text Label 3600 6650 0    50   ~ 0
@@ -560,4 +546,8 @@ F 3 "" H 2200 7550 50  0001 C CNN
 	1    2200 7550
 	0    1    -1   0   
 $EndComp
+Text Label 3450 2750 0    50   ~ 0
+chorus_pot
+Text Label 3500 2850 0    50   ~ 0
+hard_sync
 $EndSCHEMATC
