@@ -8,7 +8,7 @@
 #endif
 
 #define NVM_SETTINGS_MARKER 0x66
-#define NVM_SETTINGS_LEN 23
+#define NVM_SETTINGS_LEN 31
 
 const struct gem_nvm_settings gem_default_nvm_settings = {
     .adc_gain_corr = 2048,
@@ -18,6 +18,8 @@ const struct gem_nvm_settings gem_default_nvm_settings = {
     .castor_knob_max = F16(1.01),
     .pollux_knob_min = F16(-1.01),
     .pollux_knob_max = F16(1.01),
+    .chorus_max_intensity = F16(0.05),
+    .chorus_frequency = F16(0.2),
 };
 
 const struct gem_adc_input gem_adc_inputs[] = {
@@ -48,6 +50,8 @@ bool gem_config_deserialize_nvm_settings(struct gem_nvm_settings* settings, uint
     settings->castor_knob_max = data[11] << 24 | data[12] << 16 | data[13] << 8 | data[14];
     settings->castor_knob_min = data[15] << 24 | data[16] << 16 | data[17] << 8 | data[18];
     settings->castor_knob_max = data[19] << 24 | data[20] << 16 | data[21] << 8 | data[22];
+    settings->chorus_max_intensity = data[23] << 24 | data[24] << 16 | data[25] << 8 | data[26];
+    settings->chorus_frequency = data[27] << 24 | data[28] << 16 | data[29] << 8 | data[30];
 
     return true;
 }
@@ -82,6 +86,14 @@ void gem_config_serialize_nvm_settings(struct gem_nvm_settings* settings, uint8_
     data[20] = settings->pollux_knob_max >> 16;
     data[21] = settings->pollux_knob_max >> 8;
     data[22] = settings->pollux_knob_max & 0xFF;
+    data[23] = settings->chorus_max_intensity >> 24;
+    data[24] = settings->chorus_max_intensity >> 16;
+    data[25] = settings->chorus_max_intensity >> 8;
+    data[26] = settings->chorus_max_intensity & 0xFF;
+    data[27] = settings->chorus_frequency >> 24;
+    data[28] = settings->chorus_frequency >> 16;
+    data[29] = settings->chorus_frequency >> 8;
+    data[30] = settings->chorus_frequency & 0xFF;
 };
 
 void gem_config_save_nvm_settings(struct gem_nvm_settings* settings) {

@@ -35,6 +35,8 @@ class Settings:
     castor_knob_max: int = 0
     pollux_knob_min: int = 0
     pollux_knob_max: int = 0
+    chorus_max_intensity: int = 0
+    chorus_frequency: int = 0
 
 
 class SysExCommands(enum.IntEnum):
@@ -116,13 +118,15 @@ class Gemini:
         settings.castor_knob_min,
         settings.castor_knob_max,
         settings.pollux_knob_min,
-        settings.pollux_knob_max) = struct.unpack(">BHhHiiii", settings_buf[:23])
+        settings.pollux_knob_max,
+        settings.chorus_max_intensity,
+        settings.chorus_frequency) = struct.unpack(">BHhHiiiiii", settings_buf[:31])
 
         return settings
 
     def save_settings(self, settings):
         settings_buf = bytearray(struct.pack(
-            ">BHhHiiii",
+            ">BHhHiiiiii",
             settings.magic,
             settings.adc_gain_corr,
             settings.adc_offset_corr,
@@ -130,7 +134,9 @@ class Gemini:
             settings.castor_knob_min,
             settings.castor_knob_max,
             settings.pollux_knob_min,
-            settings.pollux_knob_max))
+            settings.pollux_knob_max,
+            settings.chorus_max_intensity,
+            settings.chorus_frequency))
 
         settings_encoded = bytearray(128)
         midi_encode(settings_buf, settings_encoded)
