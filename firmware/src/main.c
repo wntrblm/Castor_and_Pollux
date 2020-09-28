@@ -107,7 +107,7 @@ int main(void) {
             // TODO: Add back quantizations.
             uint16_t castor_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_A]);
             fix16_t castor_pitch_cv_value = fix16_div(fix16_from_int(castor_pitch_cv_code), F16(4095.0));
-            ;
+            
             fix16_t castor_pitch_cv =
                 fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
 
@@ -117,6 +117,16 @@ int main(void) {
                 fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
 
             castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
+
+            /* Test - dump pitch cv to midi. */
+            gem_usb_midi_send(
+                (uint8_t[4]){0x04, 0xF0, 0x77, 0xA});
+            gem_usb_midi_send(
+                (uint8_t[4]){0x04, (castor_pitch_cv >> 28) & 0xF, (castor_pitch_cv >> 24) & 0xF, (castor_pitch_cv >> 20) & 0xF});
+            gem_usb_midi_send(
+                (uint8_t[4]){0x04, (castor_pitch_cv >> 16) & 0xF, (castor_pitch_cv >> 12) & 0xF, (castor_pitch_cv >> 8) & 0xF});
+            gem_usb_midi_send(
+                (uint8_t[4]){0x07, (castor_pitch_cv >> 4) & 0xF, (castor_pitch_cv) & 0xF, 0xF7});
 
             /* Pollux is the "follower", so its pitch determination is based on whether or not
                 it has input CV.
@@ -165,6 +175,10 @@ int main(void) {
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, chorus_lfo_mod);
 
             // /* Limit pitch CVs to fit within the parameter table's max value. */
+            if (castor_pitch_cv < F16(0.0f))
+                castor_pitch_cv = F16(0.0f);
+            if (pollux_pitch_cv > F16(0.0f))
+                pollux_pitch_cv = F16(0.0f);
             if (castor_pitch_cv > F16(7.0f))
                 castor_pitch_cv = F16(7.0f);
             if (pollux_pitch_cv > F16(7.0f))

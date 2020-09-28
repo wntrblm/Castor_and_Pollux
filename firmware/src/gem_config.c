@@ -59,6 +59,7 @@ bool gem_config_deserialize_nvm_settings(struct gem_nvm_settings* settings, uint
 bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings) {
     uint8_t data[NVM_SETTINGS_LEN];
     gem_nvm_read(GEM_NVM_SETTINGS_BASE_ADDR, data, NVM_SETTINGS_LEN);
+    /* TODO: Validate settings and put hard limits on certain paramters, as they can cause crashes/hangs. */
     return gem_config_deserialize_nvm_settings(settings, data);
 }
 
