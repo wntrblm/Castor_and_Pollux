@@ -13,6 +13,7 @@
 #include "gem_nvm.h"
 #include "gem_pulseout.h"
 #include "gem_quant.h"
+#include "gem_smoothie.h"
 #include "gem_spi.h"
 #include "gem_systick.h"
 #include "gem_usb.h"
@@ -30,6 +31,18 @@ static struct gem_voice_params pollux_params = {};
 static fix16_t chorus_lfo_phase = 0;
 static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
+static struct gem_smoothie_state castor_smooth = {
+    .initial_gain = F16(0.2),
+    .sensitivity = F16(10.0),
+    ._lowpass1 = F16(0),
+    ._lowpass2 = F16(0),
+};
+static struct gem_smoothie_state pollux_smooth = {
+    .initial_gain = F16(0.2),
+    .sensitivity = F16(10.0),
+    ._lowpass1 = F16(0),
+    ._lowpass2 = F16(0),
+};
 
 void process_sysex_event(enum gem_sysex_event event);
 
@@ -120,14 +133,6 @@ int main(void) {
 
             castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
 
-            /* Test - dump pitch cv to midi. */
-            gem_usb_midi_send((uint8_t[4]){0x04, 0xF0, 0x77, 0xA});
-            gem_usb_midi_send((uint8_t[4]){
-                0x04, (castor_pitch_cv >> 28) & 0xF, (castor_pitch_cv >> 24) & 0xF, (castor_pitch_cv >> 20) & 0xF});
-            gem_usb_midi_send((uint8_t[4]){
-                0x04, (castor_pitch_cv >> 16) & 0xF, (castor_pitch_cv >> 12) & 0xF, (castor_pitch_cv >> 8) & 0xF});
-            gem_usb_midi_send((uint8_t[4]){0x07, (castor_pitch_cv >> 4) & 0xF, (castor_pitch_cv)&0xF, 0xF7});
-
             /* Pollux is the "follower", so its pitch determination is based on whether or not
                 it has input CV.
 
@@ -160,6 +165,18 @@ int main(void) {
                 fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
 
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
+
+            /* Apply smoothing to input CVs. */
+            castor_pitch_cv = gem_smoothie_step(&castor_smooth, castor_pitch_cv);
+            pollux_pitch_cv = gem_smoothie_step(&pollux_smooth, pollux_pitch_cv);
+
+            /* Test - dump pitch cv to midi. */
+            // gem_usb_midi_send((uint8_t[4]){0x04, 0xF0, 0x77, 0xA});
+            // gem_usb_midi_send((uint8_t[4]){
+            //     0x04, (castor_pitch_cv >> 28) & 0xF, (castor_pitch_cv >> 24) & 0xF, (castor_pitch_cv >> 20) & 0xF});
+            // gem_usb_midi_send((uint8_t[4]){
+            //     0x04, (castor_pitch_cv >> 16) & 0xF, (castor_pitch_cv >> 12) & 0xF, (castor_pitch_cv >> 8) & 0xF});
+            // gem_usb_midi_send((uint8_t[4]){0x07, (castor_pitch_cv >> 4) & 0xF, (castor_pitch_cv)&0xF, 0xF7});
 
             /* Calculate the chorus LFO and account for LFO in Pollux's pitch. */
             chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0f)), fix16_from_int(delta));
