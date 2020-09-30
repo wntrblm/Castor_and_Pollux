@@ -12,6 +12,9 @@
 /* This must be the same as the nvm region in the linker script. */
 #define GEM_NVM_SETTINGS_BASE_ADDR (0x00040000 - 1024)
 
+/* MIDI configuration. */
+#define GEM_SYSEX_BUF_SIZE 64
+
 /* Analog to Digital Converter Configuration */
 
 /*

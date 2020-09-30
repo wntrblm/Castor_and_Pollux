@@ -8,7 +8,8 @@
 #include "gem_i2c.h"
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
-#include "gem_midi.h"
+#include "gem_midi_core.h"
+#include "gem_midi_sysex.h"
 #include "gem_nvm.h"
 #include "gem_pulseout.h"
 #include "gem_quant.h"
@@ -30,7 +31,7 @@ static fix16_t chorus_lfo_phase = 0;
 static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
 
-void midi_event_callback(enum gem_midi_event event);
+void process_sysex_event(enum gem_sysex_event event);
 
 int main(void) {
     /* Configure clocks. */
@@ -67,7 +68,8 @@ int main(void) {
     gem_usb_init();
 
     /* Initialize MIDI interface. */
-    gem_midi_set_event_callback(midi_event_callback);
+    gem_midi_set_sysex_callback(gem_process_sysex);
+    gem_set_sysex_event_callback(process_sysex_event);
 
     /* Enable i2c bus for communicating with the DAC. */
     gem_i2c_init();
@@ -107,7 +109,7 @@ int main(void) {
             // TODO: Add back quantizations.
             uint16_t castor_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_A]);
             fix16_t castor_pitch_cv_value = fix16_div(fix16_from_int(castor_pitch_cv_code), F16(4095.0));
-            
+
             fix16_t castor_pitch_cv =
                 fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
 
@@ -119,14 +121,12 @@ int main(void) {
             castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
 
             /* Test - dump pitch cv to midi. */
-            gem_usb_midi_send(
-                (uint8_t[4]){0x04, 0xF0, 0x77, 0xA});
-            gem_usb_midi_send(
-                (uint8_t[4]){0x04, (castor_pitch_cv >> 28) & 0xF, (castor_pitch_cv >> 24) & 0xF, (castor_pitch_cv >> 20) & 0xF});
-            gem_usb_midi_send(
-                (uint8_t[4]){0x04, (castor_pitch_cv >> 16) & 0xF, (castor_pitch_cv >> 12) & 0xF, (castor_pitch_cv >> 8) & 0xF});
-            gem_usb_midi_send(
-                (uint8_t[4]){0x07, (castor_pitch_cv >> 4) & 0xF, (castor_pitch_cv) & 0xF, 0xF7});
+            gem_usb_midi_send((uint8_t[4]){0x04, 0xF0, 0x77, 0xA});
+            gem_usb_midi_send((uint8_t[4]){
+                0x04, (castor_pitch_cv >> 28) & 0xF, (castor_pitch_cv >> 24) & 0xF, (castor_pitch_cv >> 20) & 0xF});
+            gem_usb_midi_send((uint8_t[4]){
+                0x04, (castor_pitch_cv >> 16) & 0xF, (castor_pitch_cv >> 12) & 0xF, (castor_pitch_cv >> 8) & 0xF});
+            gem_usb_midi_send((uint8_t[4]){0x07, (castor_pitch_cv >> 4) & 0xF, (castor_pitch_cv)&0xF, 0xF7});
 
             /* Pollux is the "follower", so its pitch determination is based on whether or not
                 it has input CV.
@@ -162,8 +162,7 @@ int main(void) {
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
 
             /* Calculate the chorus LFO and account for LFO in Pollux's pitch. */
-            chorus_lfo_phase +=
-                fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0f)), fix16_from_int(delta));
+            chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0f)), fix16_from_int(delta));
             if (chorus_lfo_phase > F16(1.0f))
                 chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0f));
 
@@ -219,9 +218,9 @@ int main(void) {
     return 0;
 }
 
-void midi_event_callback(enum gem_midi_event event) {
+void process_sysex_event(enum gem_sysex_event event) {
     switch (event) {
-        case GEM_MIDI_EVENT_CALIBRATION_MODE:
+        case GEM_SYSEX_EVENT_CALIBRATION_MODE:
             /* For calibration mode, stop scanning ADC channels. This will also stop
                 the main loop above from continuing to change the outputs. */
             gem_adc_stop_scanning();
