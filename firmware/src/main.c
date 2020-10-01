@@ -103,8 +103,6 @@ int main(void) {
     while (1) {
         gem_usb_task();
         gem_midi_task();
-
-        /* TODO: Only run this every couple of ms, maybe once every 16? */
         gem_led_animation_step();
 
         if (gem_adc_results_ready()) {
@@ -190,7 +188,7 @@ int main(void) {
                 fix16_mul(settings.chorus_max_intensity, fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, chorus_lfo_mod);
 
-            /* 
+            /*
                 Limit pitch CVs to fit within the parameter table's max value.
             */
             if (castor_pitch_cv < F16(0.0f))
@@ -229,7 +227,7 @@ int main(void) {
             /*
                 Update timers.
             */
-        
+
             /* Disable interrupts while changing timers, as any interrupt here could mess them up. */
             __disable_irq();
             gem_pulseout_set_period(0, castor_params.period_reg);
