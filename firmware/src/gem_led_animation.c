@@ -8,11 +8,11 @@
 #include <stdint.h>
 
 enum gem_led_animation_mode _mode = GEM_LED_MODE_NORMAL;
+uint32_t _last_update;
 
-void gem_led_animation_init() {}
+void gem_led_animation_init() { _last_update = gem_get_ticks(); }
 
-void _gem_led_animation_step_normal() {
-    uint32_t ticks = gem_get_ticks();
+void _gem_led_animation_step_normal(uint32_t ticks) {
     for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
         // sinadj = (sine(bright_time) + 1.0) / 2.0
         fix16_t bright_time = fix16_div(fix16_from_int(ticks * i / 2), F16(5000.0f));
@@ -26,8 +26,7 @@ void _gem_led_animation_step_normal() {
     }
 }
 
-void _gem_led_animation_step_calibration() {
-    uint32_t ticks = gem_get_ticks();
+void _gem_led_animation_step_calibration(uint32_t ticks) {
     for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
         fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(5000.0f));
         fix16_t sinv = gem_sine(bright_time);
@@ -39,12 +38,19 @@ void _gem_led_animation_step_calibration() {
 }
 
 void gem_led_animation_step() {
+    uint32_t ticks = gem_get_ticks();
+    if (ticks - _last_update < GEM_ANIMATION_INTERVAL) {
+        return;
+    }
+
+    _last_update = ticks;
+
     switch (_mode) {
         case GEM_LED_MODE_NORMAL:
-            _gem_led_animation_step_normal();
+            _gem_led_animation_step_normal(ticks);
             break;
         case GEM_LED_MODE_CALIBRATION:
-            _gem_led_animation_step_calibration();
+            _gem_led_animation_step_calibration(ticks);
             break;
         default:
             break;

@@ -96,6 +96,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 /* Dotstar configuration */
 
 #define GEM_DOTSTAR_COUNT 7
+#define GEM_ANIMATION_INTERVAL 16
 
 /* Behavioral configuration. */
 
