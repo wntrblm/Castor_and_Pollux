@@ -56,8 +56,7 @@ int main(void) {
     /* Initialize NVM */
     gem_nvm_init();
 
-    // Initialize any configuration data and functionality,
-    // such as printf() in debug mode.
+    /* Initialize any configuration data and functionality, such as printf() in debug mode. */
     gem_config_init();
 
     /* Load settings */
@@ -114,12 +113,10 @@ int main(void) {
 
             /* Castor's pitch determination is
 
-                1.0v + quant(CV in) + qaunt(CV knob * 6.0)
+                1.0v + (CV in * 6.0v) + ((CV knob * 2.0) - 1.0)
 
-                This means that Castor gets a full range out of
-                its pitch input and pitch knob.
             */
-            // TODO: Add back quantizations.
+            // TODO: Add back quantizations?
             uint16_t castor_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_A]);
             fix16_t castor_pitch_cv_value = fix16_div(fix16_from_int(castor_pitch_cv_code), F16(4095.0));
 
@@ -138,11 +135,11 @@ int main(void) {
 
                 If CV in == 0, then it follows Castor:
 
-                    CV = Castor CV + -1.0v + (2.0v * CV knob)
+                    1.0v + (Castor CV * 6.0v) + ((CV knob * 2.0) - 1.0)
 
                 Else it uses the input CV:
 
-                    CV = 1.0v + quant(CV in) + -1.0v + (2.0v * CV knob)
+                    1.0v + (CV in * 6.0v) + ((CV knob * 2.0) - 1.0)
 
                 This means that if there's no pitch input, then Pollux is the same pitch as
                 Castor but fine-tuned up or down using the CV knob. If there is a pitch CV
@@ -178,7 +175,10 @@ int main(void) {
             //     0x04, (castor_pitch_cv >> 16) & 0xF, (castor_pitch_cv >> 12) & 0xF, (castor_pitch_cv >> 8) & 0xF});
             // gem_usb_midi_send((uint8_t[4]){0x07, (castor_pitch_cv >> 4) & 0xF, (castor_pitch_cv)&0xF, 0xF7});
 
-            /* Calculate the chorus LFO and account for LFO in Pollux's pitch. */
+            /*
+                Calculate the chorus LFO and account for LFO in Pollux's pitch.
+            */
+
             chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0f)), fix16_from_int(delta));
             if (chorus_lfo_phase > F16(1.0f))
                 chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0f));
@@ -190,7 +190,9 @@ int main(void) {
                 fix16_mul(settings.chorus_max_intensity, fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
             pollux_pitch_cv = fix16_add(pollux_pitch_cv, chorus_lfo_mod);
 
-            // /* Limit pitch CVs to fit within the parameter table's max value. */
+            /* 
+                Limit pitch CVs to fit within the parameter table's max value.
+            */
             if (castor_pitch_cv < F16(0.0f))
                 castor_pitch_cv = F16(0.0f);
             if (pollux_pitch_cv > F16(0.0f))
@@ -200,19 +202,17 @@ int main(void) {
             if (pollux_pitch_cv > F16(7.0f))
                 pollux_pitch_cv = F16(7.0f);
 
-            /* TODO: maybe adjust these ranges once tested with new pots. */
+            /*
+                PWM inputs.
+            */
+
+            /* TODO: sum these with PWM cv input. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
 
-            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
-            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
-
-            /* Disable interrupts while changing timers, as any interrupt here could mess them up. */
-            __disable_irq();
-            gem_pulseout_set_period(0, castor_params.period_reg);
-            gem_pulseout_set_period(1, pollux_params.period_reg);
-            __enable_irq();
-
+            /*
+                Check for hard sync.
+            */
             // TODO: Enable this once a button is wired up.
             // if(!gem_gpio_get(GEM_IN_SYNC_PORT, GEM_IN_SYNC_PIN)) {
             //     gem_pulseout_hard_sync(true);
@@ -220,6 +220,25 @@ int main(void) {
             //     gem_pulseout_hard_sync(false);
             // }
 
+            /*
+                Calculate the final voice parameters given the input CVs.
+            */
+            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
+            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
+
+            /*
+                Update timers.
+            */
+        
+            /* Disable interrupts while changing timers, as any interrupt here could mess them up. */
+            __disable_irq();
+            gem_pulseout_set_period(0, castor_params.period_reg);
+            gem_pulseout_set_period(1, pollux_params.period_reg);
+            __enable_irq();
+
+            /*
+                Update DACs.
+            */
             gem_mcp_4728_write_channels(
                 (struct gem_mcp4728_channel){.value = castor_params.castor_dac_code, .vref = 1},
                 (struct gem_mcp4728_channel){.value = castor_duty},
