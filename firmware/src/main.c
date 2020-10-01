@@ -150,7 +150,6 @@ int main(void) {
             // TODO: Maybe adjust this threshold.
             if (pollux_pitch_cv_code > 6) {
                 fix16_t pollux_pitch_cv_value = fix16_div(fix16_from_int(pollux_pitch_cv_code), F16(4095.0));
-                ;
                 pollux_pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
             }
 
@@ -193,7 +192,7 @@ int main(void) {
             */
             if (castor_pitch_cv < F16(0.0f))
                 castor_pitch_cv = F16(0.0f);
-            if (pollux_pitch_cv > F16(0.0f))
+            if (pollux_pitch_cv < F16(0.0f))
                 pollux_pitch_cv = F16(0.0f);
             if (castor_pitch_cv > F16(7.0f))
                 castor_pitch_cv = F16(7.0f);
