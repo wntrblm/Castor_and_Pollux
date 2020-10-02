@@ -32,14 +32,14 @@ static fix16_t chorus_lfo_phase = 0;
 static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
 static struct gem_smoothie_state castor_smooth = {
-    .initial_gain = F16(0.2),
-    .sensitivity = F16(10.0),
+    .initial_gain = F16(0.3),
+    .sensitivity = F16(13.0),
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
 static struct gem_smoothie_state pollux_smooth = {
-    .initial_gain = F16(0.2),
-    .sensitivity = F16(10.0),
+    .initial_gain = F16(0.3),
+    .sensitivity = F16(13.0),
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
