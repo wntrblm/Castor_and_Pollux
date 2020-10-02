@@ -106,9 +106,6 @@ int main(void) {
         gem_led_animation_step();
 
         if (gem_adc_results_ready()) {
-            uint32_t now = gem_get_ticks();
-            uint32_t delta = now - last_update;
-
             /* Castor's pitch determination is
 
                 1.0v + (CV in * 6.0v) + ((CV knob * 2.0) - 1.0)
@@ -175,6 +172,8 @@ int main(void) {
             /*
                 Calculate the chorus LFO and account for LFO in Pollux's pitch.
             */
+            uint32_t now = gem_get_ticks();
+            uint32_t delta = now - last_update;
 
             chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0f)), fix16_from_int(delta));
             if (chorus_lfo_phase > F16(1.0f))
