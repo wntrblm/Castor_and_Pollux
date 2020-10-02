@@ -203,9 +203,14 @@ int main(void) {
                 PWM inputs.
             */
 
-            /* TODO: sum these with PWM cv input. */
             uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
+            castor_duty += 4095 - adc_results[GEM_IN_DUTY_A];
+            if (castor_duty > 4095)
+                castor_duty = 4095;
             uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
+            pollux_duty += 4095 - adc_results[GEM_IN_DUTY_B];
+            if (pollux_duty > 4095)
+                pollux_duty = 4095;
 
             /*
                 Check for hard sync.
