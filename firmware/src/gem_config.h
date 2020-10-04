@@ -98,6 +98,12 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_DOTSTAR_COUNT 7
 #define GEM_ANIMATION_INTERVAL 16
 
+/* Hard sync button configuration. */
+
+#define GEM_HARD_SYNC_BUTTON_PORT 1
+#define GEM_HARD_SYNC_BUTTON_PIN 8
+#define GEM_HARD_SYNC_BUTTON_DEBOUNCE 2
+
 /* Behavioral configuration. */
 
 enum gem_adc_channels {
