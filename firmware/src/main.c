@@ -27,6 +27,9 @@ static struct gem_nvm_settings settings;
 static uint32_t adc_results[GEM_IN_COUNT];
 static uint32_t last_update = 0;
 static uint32_t last_sync_button_change = 0;
+static bool hard_sync_reading = false;
+static bool previous_hard_sync_reading = false;
+static bool hard_sync = false;
 static struct gem_voice_params castor_params = {};
 static struct gem_voice_params pollux_params = {};
 static fix16_t chorus_lfo_phase = 0;
@@ -218,14 +221,20 @@ int main(void) {
             /*
                 Check for hard sync.
             */
-            if (now - last_sync_button_change > GEM_HARD_SYNC_BUTTON_DEBOUNCE) {
+            hard_sync_reading = gem_gpio_get(GEM_HARD_SYNC_BUTTON_PORT, GEM_HARD_SYNC_BUTTON_PIN);
+            if (now - last_sync_button_change > GEM_HARD_SYNC_BUTTON_DEBOUNCE && hard_sync_reading == false &&
+                previous_hard_sync_reading == true) {
                 last_sync_button_change = now;
-                if (!gem_gpio_get(GEM_HARD_SYNC_BUTTON_PORT, GEM_HARD_SYNC_BUTTON_PIN)) {
+                hard_sync = !hard_sync;
+                if (hard_sync) {
                     gem_pulseout_hard_sync(true);
+                    gem_led_animation_set_mode(GEM_LED_MODE_HARD_SYNC);
                 } else {
                     gem_pulseout_hard_sync(false);
+                    gem_led_animation_set_mode(GEM_LED_MODE_NORMAL);
                 }
             }
+            previous_hard_sync_reading = hard_sync_reading;
 
             /*
                 Calculate the final voice parameters given the input CVs.
