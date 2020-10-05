@@ -48,8 +48,8 @@ bool gem_config_deserialize_nvm_settings(struct gem_nvm_settings* settings, uint
     settings->led_brightness = data[5] << 8 | data[6];
     settings->castor_knob_min = data[7] << 24 | data[8] << 16 | data[9] << 8 | data[10];
     settings->castor_knob_max = data[11] << 24 | data[12] << 16 | data[13] << 8 | data[14];
-    settings->castor_knob_min = data[15] << 24 | data[16] << 16 | data[17] << 8 | data[18];
-    settings->castor_knob_max = data[19] << 24 | data[20] << 16 | data[21] << 8 | data[22];
+    settings->pollux_knob_min = data[15] << 24 | data[16] << 16 | data[17] << 8 | data[18];
+    settings->pollux_knob_max = data[19] << 24 | data[20] << 16 | data[21] << 8 | data[22];
     settings->chorus_max_intensity = data[23] << 24 | data[24] << 16 | data[25] << 8 | data[26];
     settings->chorus_frequency = data[27] << 24 | data[28] << 16 | data[29] << 8 | data[30];
 
