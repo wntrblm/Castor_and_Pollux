@@ -182,12 +182,12 @@ int main(void) {
             uint32_t now = gem_get_ticks();
             uint32_t delta = now - last_update;
 
-            chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0f)), fix16_from_int(delta));
-            if (chorus_lfo_phase > F16(1.0f))
-                chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0f));
+            chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0)), fix16_from_int(delta));
+            if (chorus_lfo_phase > F16(1.0))
+                chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0));
 
             uint16_t chorus_lfo_amount_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
-            fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_code), F16(4095.0f));
+            fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_code), F16(4095.0));
 
             fix16_t chorus_lfo_mod =
                 fix16_mul(settings.chorus_max_intensity, fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
@@ -196,14 +196,14 @@ int main(void) {
             /*
                 Limit pitch CVs to fit within the parameter table's max value.
             */
-            if (castor_pitch_cv < F16(0.0f))
-                castor_pitch_cv = F16(0.0f);
-            if (pollux_pitch_cv < F16(0.0f))
-                pollux_pitch_cv = F16(0.0f);
-            if (castor_pitch_cv > F16(7.0f))
-                castor_pitch_cv = F16(7.0f);
-            if (pollux_pitch_cv > F16(7.0f))
-                pollux_pitch_cv = F16(7.0f);
+            if (castor_pitch_cv < F16(0.0))
+                castor_pitch_cv = F16(0.0);
+            if (pollux_pitch_cv < F16(0.0))
+                pollux_pitch_cv = F16(0.0);
+            if (castor_pitch_cv > F16(7.0))
+                castor_pitch_cv = F16(7.0);
+            if (pollux_pitch_cv > F16(7.0))
+                pollux_pitch_cv = F16(7.0);
 
             /*
                 PWM inputs.

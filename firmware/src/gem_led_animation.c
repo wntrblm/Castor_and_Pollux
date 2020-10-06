@@ -89,10 +89,10 @@ void _gem_led_animation_step_hard_sync(uint32_t delta) {
 
 void _gem_led_animation_step_calibration(uint32_t ticks) {
     for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
-        fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(5000.0f));
+        fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(5000.0));
         fix16_t sinv = gem_sine(bright_time);
-        fix16_t sinadj = fix16_div(fix16_add(sinv, F16(1.0f)), F16(2.0f));
-        uint8_t value = fix16_to_int(fix16_mul(F16(255.0f), sinadj));
+        fix16_t sinadj = fix16_div(fix16_add(sinv, F16(1.0)), F16(2.0));
+        uint8_t value = fix16_to_int(fix16_mul(F16(255.0), sinadj));
         uint32_t color = gem_colorspace_hsv_to_rgb(0, 255 - value / 2, value);
         gem_dotstar_set32(i, color);
     }
