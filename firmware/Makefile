@@ -2,7 +2,8 @@
 #	Global configuration
 # 
 MCU = SAMD21G18A
-FLASH_SIZE = 0x40000
+# Usually 0x40000 because the bootloader eats 0x2000.
+FLASH_SIZE = 0x3E000
 RAM_SIZE = 0x8000
 LINKER_SCRIPT = samd21g18a.ld
 F_CPU = 48000000
@@ -132,12 +133,16 @@ $(BUILD)/$(BIN).bin: $(BUILD)/$(BIN).elf
 	@echo OBJCOPY $@
 	@$(OBJCOPY) -O binary $^ $@
 
+$(BUILD)/$(BIN).uf2: $(BUILD)/$(BIN).bin
+	@echo uf2conv $@
+	@python3 third_party/uf2/uf2conv.py -b 0x2000 -o $@ --convert $(BUILD)/$(BIN).bin
+
 %.o:
 	@echo CC $@
 	@$(CC) $(CFLAGS) $(filter %/$(subst .o,.c,$(notdir $@)), $(SRCS)) -c -o $@
 
-firmware: $(BUILD)/$(BIN).elf
-	@echo firmware is at $(BUILD)/$(BIN).elf
+firmware: $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).bin $(BUILD)/$(BIN).uf2
+	@echo firmware is at $(BUILD)/$(BIN).elf, $(BUILD)/$(BIN).bin, and $(BUILD)/$(BIN).uf2
 
 directory:
 	@$(MKDIR) -p $(BUILD)
