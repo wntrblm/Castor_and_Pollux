@@ -26,3 +26,4 @@ fp-info-cache
 *.csv
 
 .svg2shenzhen-cache
+gerbers/
