@@ -11,6 +11,13 @@ file=$1
 max_flash=$2
 max_ram=$3
 
+function printf_new() {
+ str=$1
+ num=$2
+ v=$(printf "%-${num}s" "$str")
+ echo "${v// /*}"
+}
+
 function print_region() {
     size=$1
     max_size=$2
@@ -23,7 +30,11 @@ function print_region() {
     fi
 
     pct=$(( 100 * $size / $max_size ))
+    bar_used=$(printf '%0.s█' $(seq 1 $((($pct - 1)/4))))
+    bar_unused=$(printf '%0.s▒' $(seq 1 $(((100-pct)/4))))
+
     echo "$name used: $size / $max_size ($pct%)"
+    echo "$bar_used$bar_unused"
 }
 
 raw=$(arm-none-eabi-size $file)
