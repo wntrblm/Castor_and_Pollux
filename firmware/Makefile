@@ -70,11 +70,13 @@ ifeq ($(DEBUG), 1)
   INCLUDES += \
     -I./third_party/rtt
   SRCS += \
-    ./third_party/rtt/SEGGER_RTT.c \
-    ./third_party/rtt/SEGGER_RTT_printf.c
+    ./third_party/rtt/SEGGER_RTT.c
 endif
-LDFLAGS += -Wl,--wrap=printf
 
+# Printf
+DEFINES += -DPRINTF_DISABLE_SUPPORT_FLOAT -DPRINTF_DISABLE_SUPPORT_EXPONENTIAL
+INCLUDES += -I./third_party/printf
+SRCS += ./third_party/printf/printf.c
 
 # TinyUSB
 INCLUDES += -I./third_party/tinyusb/src

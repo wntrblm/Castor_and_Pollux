@@ -1,6 +1,7 @@
 #pragma once
 #include "gem_adc.h"
 #include "sam.h"
+#include <stdint.h>
 
 /* 7 bits.
     0x01: Initial version, starting from October 2020.
@@ -159,5 +160,3 @@ bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings);
 void gem_config_serialize_nvm_settings(struct gem_nvm_settings* settings, uint8_t* data);
 void gem_config_save_nvm_settings(struct gem_nvm_settings* settings);
 void gem_config_erase_nvm_settings();
-
-int __wrap_printf(const char* format, ...);

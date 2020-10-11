@@ -5,7 +5,7 @@
 #include "gem_midi_core.h"
 #include "gem_pulseout.h"
 #include "gem_usb.h"
-#include <stdio.h>
+#include "printf.h"
 #include <string.h>
 
 /* Defines & enums */
@@ -34,9 +34,9 @@ void gem_set_sysex_event_callback(gem_sysex_event_callback callback) { _event_ca
 
 void gem_process_sysex(uint8_t* data) {
     /* Print out the bytes. */
-    __wrap_printf("Sysex Message: ");
+    printf("Sysex Message: ");
     for (size_t i = 0; i < 16; i++) { printf("%02x ", data[i]); }
-    __wrap_printf("\r\n");
+    printf("\r\n");
 
     if (data[0] != SYSEX_CMD_MARKER) {
         printf("Sysex message contains invalid marker: %02x\r\n", data[0]);

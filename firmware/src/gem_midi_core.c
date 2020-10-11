@@ -5,9 +5,9 @@
 #include "gem_mcp4728.h"
 #include "gem_pulseout.h"
 #include "gem_usb.h"
+#include "printf.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 
 static gem_midi_sysex_callback _sysex_callback;
 static uint8_t _in_data[4];
