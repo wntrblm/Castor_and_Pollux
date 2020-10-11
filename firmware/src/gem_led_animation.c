@@ -3,10 +3,10 @@
 #include "gem_colorspace.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
+#include "gem_random.h"
 #include "gem_systick.h"
 #include "gem_waveforms.h"
 #include <stdint.h>
-#include <stdlib.h>
 
 enum gem_led_animation_mode _mode = GEM_LED_MODE_NORMAL;
 uint32_t _last_update;
@@ -39,7 +39,7 @@ void _gem_led_animation_step_normal(uint32_t delta) {
         uint16_t hue = (_hue_accum + _hue_offsets[i]) % UINT16_MAX;
         uint32_t color;
 
-        if (rand() % 500 == 0)
+        if (gem_random32() % 500 == 0)
             _sparkles[i] = 255;
 
         if (_sparkles[i] == 0) {
@@ -70,7 +70,7 @@ void _gem_led_animation_step_hard_sync(uint32_t delta) {
         uint16_t hue = _hue_accum % UINT16_MAX;
         uint32_t color;
 
-        if (rand() % 500 == 0)
+        if (gem_random32() % 500 == 0)
             _sparkles[i] = 255;
 
         if (_sparkles[i] == 0) {
