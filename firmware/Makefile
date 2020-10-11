@@ -145,7 +145,7 @@ $(BUILD)/$(BIN).uf2: $(BUILD)/$(BIN).bin
 	@$(CC) $(CFLAGS) $(filter %/$(subst .o,.c,$(notdir $@)), $(SRCS)) -c -o $@
 
 firmware: $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).bin $(BUILD)/$(BIN).uf2
-	@echo firmware is at $(BUILD)/$(BIN).elf, $(BUILD)/$(BIN).bin, and $(BUILD)/$(BIN).uf2
+	@echo "Created: \n  $(BUILD)/$(BIN).elf\n  $(BUILD)/$(BIN).bin\n  $(BUILD)/$(BIN).uf2"
 
 directory:
 	@$(MKDIR) -p $(BUILD)
