@@ -39,7 +39,7 @@ void _gem_led_animation_step_normal(uint32_t delta) {
         uint16_t hue = (_hue_accum + _hue_offsets[i]) % UINT16_MAX;
         uint32_t color;
 
-        if (gem_random32() % 500 == 0)
+        if (gem_random32() % 400 == 0)
             _sparkles[i] = 255;
 
         if (_sparkles[i] == 0) {
@@ -70,7 +70,7 @@ void _gem_led_animation_step_hard_sync(uint32_t delta) {
         uint16_t hue = _hue_accum % UINT16_MAX;
         uint32_t color;
 
-        if (gem_random32() % 500 == 0)
+        if (gem_random32() % 400 == 0)
             _sparkles[i] = 255;
 
         if (_sparkles[i] == 0) {
