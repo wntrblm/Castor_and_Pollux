@@ -152,7 +152,7 @@ directory:
 
 size: $(BUILD)/$(BIN).elf
 	@echo size:
-	@./get-fw-size.sh $^ $(FLASH_SIZE) $(RAM_SIZE)
+	@./get-fw-size.py $^ $(FLASH_SIZE) $(RAM_SIZE)
 
 clean:
 	@echo clean
