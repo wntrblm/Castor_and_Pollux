@@ -1,3 +1,5 @@
+#include "gem_serial_number.h"
+#include "printf.h"
 #include "tusb.h"
 
 tusb_desc_device_t const desc_device = {
@@ -33,11 +35,11 @@ uint8_t const desc_configuration[] = {
     // Interface number, string index, EP Out & EP In address, EP size
     TUD_MIDI_DESCRIPTOR(ITF_NUM_MIDI, 0, 0x02, 0x81, 64)};
 
-char const* string_desc_arr[] = {
-    (const char[]){0x09, 0x04},  // 0: is supported language is English (0x0409)
-    "Winterbloom",               // 1: Manufacturer
-    "Gemini",                    // 2: Product
-    "123456",                    // 3: Serial number. TODO: should use chip ID
+char* string_desc_arr[] = {
+    (char[]){0x09, 0x04},  // 0: is supported language is English (0x0409)
+    "Winterbloom",         // 1: Manufacturer
+    "Gemini",              // 2: Product
+    "00000000FFFFFFFF",    // 3: Serial number
 };
 
 static uint16_t _desc_str[32];
@@ -65,7 +67,12 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
         if (!(index < sizeof(string_desc_arr) / sizeof(string_desc_arr[0])))
             return NULL;
 
-        const char* str = string_desc_arr[index];
+        char* str = string_desc_arr[index];
+
+        /* Fill serial number from hardware ID */
+        if (index == 3) {
+            snprintf(str, 16 + 1, "%08lx%08lx", gem_serial_number_high(), gem_serial_number_low());
+        }
 
         // Cap at max char
         chr_count = strlen(str);

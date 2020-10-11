@@ -13,6 +13,8 @@
 #include "gem_nvm.h"
 #include "gem_pulseout.h"
 #include "gem_quant.h"
+#include "gem_random.h"
+#include "gem_serial_number.h"
 #include "gem_smoothie.h"
 #include "gem_spi.h"
 #include "gem_systick.h"
@@ -20,8 +22,8 @@
 #include "gem_voice_param_table.h"
 #include "gem_voice_params.h"
 #include "gem_waveforms.h"
+#include "printf.h"
 #include "sam.h"
-#include <stdio.h>
 
 static struct gem_nvm_settings settings;
 static uint32_t adc_results[GEM_IN_COUNT];
@@ -60,6 +62,9 @@ int main(void) {
     /* Initialize NVM */
     gem_nvm_init();
 
+    /* Initialize Random Number Generators */
+    gem_random_init(gem_serial_number_low());
+
     /* Initialize any configuration data and functionality, such as printf() in debug mode. */
     gem_config_init();
 
@@ -67,9 +72,9 @@ int main(void) {
     bool valid_settings = gem_config_get_nvm_settings(&settings);
 
     if (!valid_settings) {
-        __wrap_printf("Failed to load settings.\r\n");
+        printf("Failed to load settings.\r\n");
     } else {
-        __wrap_printf("Loaded settings.\r\n");
+        printf("Loaded settings.\r\n");
         printf(
             "Settings: 0x%x, 0x%x, 0x%x\r\n",
             settings.adc_gain_corr,

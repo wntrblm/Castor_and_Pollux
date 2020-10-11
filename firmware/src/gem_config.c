@@ -1,11 +1,6 @@
 #include "gem_config.h"
 #include "gem_nvm.h"
 #include <stdarg.h>
-#include <stdio.h>
-
-#ifdef DEBUG
-#include "SEGGER_RTT.h"
-#endif
 
 #define NVM_SETTINGS_MARKER 0x66
 #define NVM_SETTINGS_LEN 31
@@ -106,17 +101,4 @@ void gem_config_save_nvm_settings(struct gem_nvm_settings* settings) {
 void gem_config_erase_nvm_settings() {
     uint8_t data[1] = {0xFF};
     gem_nvm_write(GEM_NVM_SETTINGS_BASE_ADDR, data, 1);
-}
-
-int __wrap_printf(const char* format, ...) {
-#ifdef DEBUG
-    va_list args;
-    va_start(args, format);
-    int result = SEGGER_RTT_vprintf(0, format, &args);
-    va_end(args);
-    return result;
-#else
-    (void)format;
-    return 0;
-#endif
 }
