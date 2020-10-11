@@ -151,7 +151,6 @@ directory:
 	@$(MKDIR) -p $(BUILD)
 
 size: $(BUILD)/$(BIN).elf
-	@echo size:
 	@./get-fw-size.py $^ $(FLASH_SIZE) $(RAM_SIZE)
 
 clean:
