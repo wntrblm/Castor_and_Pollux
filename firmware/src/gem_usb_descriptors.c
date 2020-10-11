@@ -35,13 +35,13 @@ uint8_t const desc_configuration[] = {
     // Interface number, string index, EP Out & EP In address, EP size
     TUD_MIDI_DESCRIPTOR(ITF_NUM_MIDI, 0, 0x02, 0x81, 64)};
 
-char* string_desc_arr[] = {
-    (char[]){0x09, 0x04},  // 0: is supported language is English (0x0409)
-    "Winterbloom",         // 1: Manufacturer
-    "Gemini",              // 2: Product
-    "00000000FFFFFFFF",    // 3: Serial number
+const char* string_desc_arr[] = {
+    (const char[]){0x09, 0x04},  // 0: is supported language is English (0x0409)
+    "Winterbloom",               // 1: Manufacturer
+    "Gemini",                    // 2: Product
 };
 
+static char _serial_number_str[] = "00000000FFFFFFFF";  // 3: Serial number
 static uint16_t _desc_str[32];
 
 /* Callback functions. */
@@ -60,6 +60,13 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
     if (index == 0) {
         memcpy(&_desc_str[1], string_desc_arr[0], 2);
         chr_count = 1;
+    } else if (index == 3) {
+        // Serial number.
+        uint32_t serial_high = gem_serial_number_high();
+        uint32_t serial_low = gem_serial_number_low();
+        snprintf(_serial_number_str, 16 + 1, "%lx%lx", serial_high, serial_low);
+        for (uint8_t i = 0; i < 31; i++) { _desc_str[1 + i] = _serial_number_str[i]; }
+        chr_count = 31;
     } else {
         // Note: the 0xEE index string is a Microsoft OS 1.0 Descriptors.
         // https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/microsoft-defined-usb-descriptors
@@ -67,12 +74,7 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
         if (!(index < sizeof(string_desc_arr) / sizeof(string_desc_arr[0])))
             return NULL;
 
-        char* str = string_desc_arr[index];
-
-        /* Fill serial number from hardware ID */
-        if (index == 3) {
-            snprintf(str, 16 + 1, "%08lx%08lx", gem_serial_number_high(), gem_serial_number_low());
-        }
+        const char* str = string_desc_arr[index];
 
         // Cap at max char
         chr_count = strlen(str);
