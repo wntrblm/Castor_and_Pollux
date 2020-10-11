@@ -27,10 +27,10 @@ ram_used_percent = math.ceil(ram_used / ram_size * 100)
 colors = [57, 92, 127, 162, 197]
 reset = "\u001b[0m"
 
-print(f"Flash used: {flash_used} / {flash_size} ({flash_used_percent}%)")
+print(f"Flash used: {flash_used:,} / {flash_size:,} ({flash_used_percent}%)")
 color = "\u001b[38;5;{}m".format(colors[math.floor(flash_used_percent / 100 * (len(colors) -1))])
 print(color,"█" * math.floor(flash_used_percent / 4), "▒" * math.ceil((100 - flash_used_percent) / 4), reset, sep="")
 
-print(f"Flash used: {ram_used} / {ram_size} ({ram_used_percent}%)")
+print(f"Flash used: {ram_used:,} / {ram_size:,} ({ram_used_percent}%)")
 color = "\u001b[38;5;{}m".format(colors[math.floor(ram_used_percent / 100 * (len(colors) - 1))])
 print(color, "█" * math.floor(ram_used_percent / 4), "▒" * math.ceil((100 - ram_used_percent) / 4), reset, sep="")
