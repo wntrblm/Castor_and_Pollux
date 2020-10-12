@@ -73,8 +73,8 @@ static void _find_nearest_table_entries(
     struct gem_voice_params* low_params,
     struct gem_voice_params* high_params) {
 
-    size_t low_idx;
-    size_t high_idx;
+    size_t low_idx = 0;
+    size_t high_idx = 0;
     const struct gem_voice_voltage_and_period* low = &volt_table[0];
     const struct gem_voice_voltage_and_period* high = &volt_table[0];
     const struct gem_voice_voltage_and_period* current;
