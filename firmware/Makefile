@@ -5,6 +5,7 @@ MCU = SAMD21G18A
 # Usually 0x40000 because the bootloader eats 0x2000.
 FLASH_SIZE = 0x3E000
 RAM_SIZE = 0x8000
+STACK_SIZE = 0x2000
 LINKER_SCRIPT = samd21g18a.ld
 F_CPU = 48000000
 BUILD = build
@@ -26,6 +27,8 @@ endif
 
 CFLAGS += --std=gnu11
 CFLAGS += -W -Wall -Wextra -Werror -Wshadow -Wdouble-promotion -Wformat=2
+# Stack usage warning, must be the same as in the linker script.
+CFLAGS += -Wstack-usage=$(shell printf "%d" $(STACK_SIZE))
 CFLAGS += -mcpu=cortex-m0plus -mthumb -msoft-float -mfloat-abi=soft
 # Specify dialect options that make things easier for embedded development.
 CFLAGS += -funsigned-char -funsigned-bitfields -fshort-enums
