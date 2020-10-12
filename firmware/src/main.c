@@ -12,7 +12,6 @@
 #include "gem_midi_sysex.h"
 #include "gem_nvm.h"
 #include "gem_pulseout.h"
-#include "gem_quant.h"
 #include "gem_random.h"
 #include "gem_serial_number.h"
 #include "gem_smoothie.h"
@@ -136,7 +135,6 @@ int main(void) {
                 1.0v + (CV in * 6.0v) + ((CV knob * 2.0) - 1.0)
 
             */
-            // TODO: Add back quantizations?
             uint16_t castor_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_A]);
             fix16_t castor_pitch_cv_value = fix16_div(fix16_from_int(castor_pitch_cv_code), F16(4095.0));
 
