@@ -29,7 +29,8 @@ CFLAGS += --std=gnu11
 CFLAGS += -W -Wall -Wextra -Werror -Wshadow -Wdouble-promotion -Wformat=2
 # Stack usage warning, must be the same as in the linker script.
 CFLAGS += -Wstack-usage=$(shell printf "%d" $(STACK_SIZE))
-CFLAGS += -mcpu=cortex-m0plus -mthumb -msoft-float -mfloat-abi=soft
+# Set the mcu parameters.
+CFLAGS += -mcpu=cortex-m0plus -mthumb -msoft-float --specs=nano.specs
 # Specify dialect options that make things easier for embedded development.
 CFLAGS += -funsigned-char -funsigned-bitfields -fshort-enums
 # Specify EABI dialects - variable size enums, since that's what the GCC
@@ -51,8 +52,6 @@ ifeq ($(DEBUG), 1)
 else
   # Optimize for speed instead of size, as this firmware is very small.
   CFLAGS += -O2
-  # Consider link-time optimization, but it doesn't seem to
-  # work right now.
 endif
 
 INCLUDES += \
@@ -117,7 +116,7 @@ OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
 # Linker configuration
 
-LDFLAGS += -mcpu=cortex-m0plus -mthumb
+LDFLAGS += -mcpu=cortex-m0plus -mthumb --specs=nano.specs
 # Perform dead code elimination 
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--script=$(LINKER_SCRIPT)
