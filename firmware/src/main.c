@@ -255,8 +255,18 @@ int main(void) {
             /*
                 Calculate the final voice parameters given the input CVs.
             */
-            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, castor_pitch_cv, &castor_params);
-            gem_voice_params_from_cv(gem_voice_param_table, gem_voice_param_table_len, pollux_pitch_cv, &pollux_params);
+            gem_voice_params_from_cv(
+                gem_voice_voltage_and_period_table,
+                gem_voice_dac_codes_table,
+                gem_voice_param_table_len,
+                castor_pitch_cv,
+                &castor_params);
+            gem_voice_params_from_cv(
+                gem_voice_voltage_and_period_table,
+                gem_voice_dac_codes_table,
+                gem_voice_param_table_len,
+                pollux_pitch_cv,
+                &pollux_params);
 
             /*
                 Update timers.
@@ -264,17 +274,17 @@ int main(void) {
 
             /* Disable interrupts while changing timers, as any interrupt here could mess them up. */
             __disable_irq();
-            gem_pulseout_set_period(0, castor_params.period_reg);
-            gem_pulseout_set_period(1, pollux_params.period_reg);
+            gem_pulseout_set_period(0, castor_params.voltage_and_period.period);
+            gem_pulseout_set_period(1, pollux_params.voltage_and_period.period);
             __enable_irq();
 
             /*
                 Update DACs.
             */
             gem_mcp_4728_write_channels(
-                (struct gem_mcp4728_channel){.value = castor_params.castor_dac_code, .vref = 1},
+                (struct gem_mcp4728_channel){.value = castor_params.dac_codes.castor, .vref = 1},
                 (struct gem_mcp4728_channel){.value = castor_duty},
-                (struct gem_mcp4728_channel){.value = pollux_params.pollux_dac_code, .vref = 1},
+                (struct gem_mcp4728_channel){.value = pollux_params.dac_codes.pollux, .vref = 1},
                 (struct gem_mcp4728_channel){.value = pollux_duty});
 
             last_update = gem_get_ticks();
