@@ -65,8 +65,8 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
         uint32_t serial_high = gem_serial_number_high();
         uint32_t serial_low = gem_serial_number_low();
         snprintf(_serial_number_str, 16 + 1, "%lx%lx", serial_high, serial_low);
-        for (uint8_t i = 0; i < 31; i++) { _desc_str[1 + i] = _serial_number_str[i]; }
-        chr_count = 31;
+        for (uint8_t i = 0; i < 16; i++) { _desc_str[1 + i] = _serial_number_str[i]; }
+        chr_count = 16;
     } else {
         // Note: the 0xEE index string is a Microsoft OS 1.0 Descriptors.
         // https://docs.microsoft.com/en-us/windows-hardware/drivers/usbcon/microsoft-defined-usb-descriptors
