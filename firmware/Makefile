@@ -16,8 +16,6 @@ SIZE = arm-none-eabi-size
 
 
 ##############################################################################
-.PHONY: all directory clean size firmware format tidy
-
 
 ifeq ($(OS), Windows_NT)
   MKDIR = gmkdir
@@ -46,13 +44,9 @@ CFLAGS += -MD -MP -MT $(BUILD)/$(*F).o -MF $(BUILD)/$(@F).d
 # Enable dead code elimination
 CFLAGS += -fdata-sections -ffunction-sections
 
-ifeq ($(DEBUG), 1)
-  CFLAGS += -ggdb -O0
-
-else
-  # Optimize for speed instead of size, as this firmware is very small.
-  CFLAGS += -O2
-endif
+DEBUGCFLAGS += -ggdb -O0
+# Optimize for speed instead of size, as this firmware is very small.
+RELEASECFLAGS += -O2
 
 INCLUDES += \
   -I./src \
@@ -68,12 +62,10 @@ SRCS += \
 
 
 # Segger RTT
-ifeq ($(DEBUG), 1)
-  INCLUDES += \
+INCLUDES += \
     -I./third_party/rtt
-  SRCS += \
+SRCS += \
     ./third_party/rtt/SEGGER_RTT.c
-endif
 
 # Printf
 DEFINES += -DPRINTF_DISABLE_SUPPORT_FLOAT -DPRINTF_DISABLE_SUPPORT_EXPONENTIAL
@@ -106,10 +98,6 @@ DEFINES += \
   -DDONT_USE_CMSIS_INIT \
   -DF_CPU=$(F_CPU)
 
-ifeq ($(DEBUG), 1)
-  DEFINES += -DDEBUG=1
-endif
-
 CFLAGS += $(INCLUDES) $(DEFINES)
 
 OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
@@ -123,8 +111,21 @@ LDFLAGS += -Wl,--script=$(LINKER_SCRIPT)
 
 LIBS += -lm
 
+##############################################################################
 
-all: directory firmware size
+# Rules
+
+.PHONY: all directory clean size firmware release debug format tidy
+
+all: debug
+
+debug: DEFINES += -DDEBUG
+debug: CFLAGS += $(DEBUGCFLAGS)
+debug: directory firmware size
+
+release: DEFINES += -DNDEBUG
+release: CFLAGS += $(RELEASECFLAGS)
+release: clean directory firmware size
 
 $(BUILD)/$(BIN).elf: $(OBJS)
 	@echo LD $@
@@ -146,7 +147,7 @@ $(BUILD)/$(BIN).uf2: $(BUILD)/$(BIN).bin
 	@echo CC $@
 	@$(CC) $(CFLAGS) $(filter %/$(subst .o,.c,$(notdir $@)), $(SRCS)) -c -o $@
 
-firmware: $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).bin $(BUILD)/$(BIN).uf2
+firmware: directory $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).bin $(BUILD)/$(BIN).uf2
 	@echo "Created: \n  $(BUILD)/$(BIN).elf\n  $(BUILD)/$(BIN).bin\n  $(BUILD)/$(BIN).uf2"
 
 directory:
