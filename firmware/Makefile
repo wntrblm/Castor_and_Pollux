@@ -152,8 +152,12 @@ firmware: $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).bin $(BUILD)/$(BIN).uf2
 directory:
 	@$(MKDIR) -p $(BUILD)
 
+./src/gem_voice_param_table.c: ./data/pitch-calibration-table.csv
+	@echo "Generating gem_voice_param_table.c"
+	@./scripts/generate_voice_param_table.py data/pitch-calibration-table.csv src/gem_voice_param_table.c
+
 size: $(BUILD)/$(BIN).elf
-	@./get-fw-size.py $^ $(FLASH_SIZE) $(RAM_SIZE)
+	@./scripts/get_fw_size.py $^ $(FLASH_SIZE) $(RAM_SIZE)
 
 clean:
 	@echo clean
