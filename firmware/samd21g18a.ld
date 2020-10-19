@@ -1,33 +1,3 @@
-/**
- * \file
- *
- * \brief Linker script for running in internal FLASH on the SAMD21G18A
- *
- * Copyright (c) 2018 Microchip Technology Inc.
- *
- * \asf_license_start
- *
- * \page License
- *
- * SPDX-License-Identifier: Apache-2.0
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License.
- * You may obtain a copy of the Licence at
- * 
- * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an AS IS BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * \asf_license_stop
- *
- */
-
-
 OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 OUTPUT_ARCH(arm)
 SEARCH_DIR(.)
@@ -49,7 +19,9 @@ _bootloader_dbl_tap = ORIGIN(ram) + LENGTH(ram) - 4;
 
 /* For nvm. */
 _nvm_settings_base_address = ORIGIN(nvm);
-_nvm_settings_length = LENGTH(nvm);
+_nvm_settings_length = LENGTH(nvm) / 2;
+_nvm_lut_base_address = ORIGIN(nvm) + LENGTH(nvm) / 2;
+_nvm_lut_length = LENGTH(nvm) / 2;
 
 /* Section Definitions */
 SECTIONS
