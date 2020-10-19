@@ -27,7 +27,7 @@ void gem_adc_stop_scanning();
 bool gem_adc_results_ready();
 
 struct gem_adc_errors {
-    int16_t offset;
+    fix16_t offset;
     fix16_t gain;
 };
 
@@ -37,8 +37,9 @@ struct gem_adc_errors {
 */
 
 struct gem_adc_errors
-gem_calculate_adc_errors(uint32_t low_measured, uint32_t low_expected, uint32_t high_measured, uint32_t high_expected);
-uint16_t gem_correct_adc_errors(const uint16_t value, const struct gem_adc_errors errors);
+gem_adc_calculate_errors(uint32_t low_measured, uint32_t low_expected, uint32_t high_measured, uint32_t high_expected);
+fix16_t gem_adc_correct_errors(const fix16_t value, const struct gem_adc_errors errors);
+uint16_t gem_adc_correct_errors_u_int16(const uint16_t value, const struct gem_adc_errors errors);
 
 #define GEM_CALCULATE_EXPECTED_ADC_CODE(value, range, resolution) \
     ((uint32_t)((value / range) * (resolution - 1)))

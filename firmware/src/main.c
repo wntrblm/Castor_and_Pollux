@@ -37,6 +37,7 @@ static struct gem_voice_params pollux_params = {};
 static fix16_t chorus_lfo_phase = 0;
 static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
+static struct gem_adc_errors knob_errors;
 static struct gem_smoothie_state castor_smooth = {
     .initial_gain = F16(0.3),
     .sensitivity = F16(13.0),
@@ -90,10 +91,15 @@ int main(void) {
         printf(" Chorus frequency: %s Hz\r\n", fix16buf);
         fix16_to_str(settings.chorus_max_intensity, fix16buf, 2);
         printf(" Chorus intensity: %s v/oct\r\n", fix16buf);
+        fix16_to_str(settings.knob_offset_corr, fix16buf, 2);
+        printf(" Knob offset: %s code points\r\n", fix16buf);
+        fix16_to_str(settings.knob_gain_corr, fix16buf, 2);
+        printf(" Knob gain: %s code points\r\n", fix16buf);
     }
 
     castor_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
     pollux_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
+    knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
 
     /* Initialize USB. */
     gem_usb_init();
@@ -139,8 +145,8 @@ int main(void) {
             fix16_t castor_pitch_cv =
                 fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
 
-            uint16_t castor_pitch_knob_code = (4095 - adc_results[GEM_IN_CV_A_POT]);
-            fix16_t castor_pitch_knob_value = fix16_div(fix16_from_int(castor_pitch_knob_code), F16(4095.0));
+            fix16_t castor_pitch_knob_code = gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]), knob_errors);
+            fix16_t castor_pitch_knob_value = fix16_div(castor_pitch_knob_code, F16(4095.0));
             fix16_t castor_pitch_knob =
                 fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
 
@@ -171,7 +177,7 @@ int main(void) {
                 pollux_pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
             }
 
-            uint16_t pollux_pitch_knob_code = (4095 - adc_results[GEM_IN_CV_B_POT]);
+            uint16_t pollux_pitch_knob_code = gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
             fix16_t pollux_pitch_knob_value = fix16_div(fix16_from_int(pollux_pitch_knob_code), F16(4095.0));
             fix16_t pollux_pitch_knob =
                 fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
