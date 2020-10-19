@@ -1,10 +1,11 @@
 #include "gem_settings.h"
-#include "gem_config.h"
 #include "gem_nvm.h"
 #include <stdarg.h>
 
 #define SETTINGS_MARKER 0x66
 #define SETTINGS_LEN 31
+
+extern uint8_t _nvm_settings_base_address;
 
 static const struct gem_settings _default_settings = {
     .adc_gain_corr = 2048,
@@ -40,7 +41,7 @@ bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
 
 bool gem_settings_load(struct gem_settings* settings) {
     uint8_t data[SETTINGS_LEN];
-    gem_nvm_read(GEM_NVM_SETTINGS_BASE_ADDR, data, SETTINGS_LEN);
+    gem_nvm_read((uint32_t)(&_nvm_settings_base_address), data, SETTINGS_LEN);
     /* TODO: Validate settings and put hard limits on certain paramters, as they can cause crashes/hangs. */
     return gem_settings_deserialize(settings, data);
 }
@@ -82,10 +83,10 @@ void gem_settings_serialize(struct gem_settings* settings, uint8_t* data) {
 void gem_settings_save(struct gem_settings* settings) {
     uint8_t data[SETTINGS_LEN];
     gem_settings_serialize(settings, data);
-    gem_nvm_write(GEM_NVM_SETTINGS_BASE_ADDR, data, SETTINGS_LEN);
+    gem_nvm_write((uint32_t)(&_nvm_settings_base_address), data, SETTINGS_LEN);
 }
 
 void gem_settings_erase() {
     uint8_t data[1] = {0xFF};
-    gem_nvm_write(GEM_NVM_SETTINGS_BASE_ADDR, data, 1);
+    gem_nvm_write((uint32_t)(&_nvm_settings_base_address), data, 1);
 }

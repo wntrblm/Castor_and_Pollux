@@ -47,6 +47,10 @@ STACK_SIZE = DEFINED(STACK_SIZE) ? STACK_SIZE : DEFINED(__stack_size__) ? __stac
 /* For bootloader. */
 _bootloader_dbl_tap = ORIGIN(ram) + LENGTH(ram) - 4;
 
+/* For nvm. */
+_nvm_settings_base_address = ORIGIN(nvm);
+_nvm_settings_length = LENGTH(nvm);
+
 /* Section Definitions */
 SECTIONS
 {
