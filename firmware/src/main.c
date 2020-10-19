@@ -99,6 +99,9 @@ int main(void) {
     pollux_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
     knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
 
+    /* Load the LUT table for DAC codes. */
+    gem_load_dac_codes_table();
+
     /* Initialize USB. */
     gem_usb_init();
 
