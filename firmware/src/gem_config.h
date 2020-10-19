@@ -120,43 +120,7 @@ enum gem_adc_channels {
     GEM_IN_COUNT,
 };
 
-/* 83.33 milivolts per semitone / 10 steps.
-    At the 6 volt input range this means that
-    6 adc codes map to the same frequency,
-    improving the chance for proper tuning.
-*/
-#define GEM_QUANT_CV_IN_STEP (0.083333333f / 50.0f)
-#define GEM_QUANT_PITCH_KNOB_STEP (0.083333333f / 50.0f)
-
 #define GEM_CV_INPUT_RANGE F16(6.0)
 #define GEM_CV_BASE_OFFSET F16(1.0)
 /* TODO: Turn these into NVM settings? */
 #define GEM_CHORUS_LFO_FREQUENCY F16(0.2)
-
-/* Structs */
-
-struct gem_nvm_settings {
-    uint16_t adc_gain_corr;
-    uint16_t adc_offset_corr;
-    uint16_t led_brightness;
-    fix16_t castor_knob_min;
-    fix16_t castor_knob_max;
-    fix16_t pollux_knob_min;
-    fix16_t pollux_knob_max;
-    fix16_t chorus_max_intensity;
-    fix16_t chorus_frequency;
-    /* When adding/modifying fields be sure to update:
-        gem_default_nvm_settings
-        gem_config_*_settings()
-        libgemini/gemini.py
-    */
-};
-
-/* Functions */
-
-void gem_config_init();
-bool gem_config_deserialize_nvm_settings(struct gem_nvm_settings* settings, uint8_t* data);
-bool gem_config_get_nvm_settings(struct gem_nvm_settings* settings);
-void gem_config_serialize_nvm_settings(struct gem_nvm_settings* settings, uint8_t* data);
-void gem_config_save_nvm_settings(struct gem_nvm_settings* settings);
-void gem_config_erase_nvm_settings();

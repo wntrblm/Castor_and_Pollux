@@ -14,6 +14,7 @@
 #include "gem_pulseout.h"
 #include "gem_random.h"
 #include "gem_serial_number.h"
+#include "gem_settings.h"
 #include "gem_smoothie.h"
 #include "gem_spi.h"
 #include "gem_systick.h"
@@ -24,7 +25,7 @@
 #include "printf.h"
 #include "sam.h"
 
-static struct gem_nvm_settings settings;
+static struct gem_settings settings;
 static uint32_t adc_results[GEM_IN_COUNT];
 static uint32_t last_update = 0;
 static uint32_t last_sync_button_change = 0;
@@ -64,11 +65,8 @@ int main(void) {
     /* Initialize Random Number Generators */
     gem_random_init(gem_serial_number_low());
 
-    /* Initialize any configuration data and functionality, such as printf() in debug mode. */
-    gem_config_init();
-
     /* Load settings */
-    bool valid_settings = gem_config_get_nvm_settings(&settings);
+    bool valid_settings = gem_settings_load(&settings);
 
     if (!valid_settings) {
         printf("Failed to load settings.\r\n");
