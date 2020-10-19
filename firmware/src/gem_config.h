@@ -100,6 +100,10 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_HARD_SYNC_BUTTON_PIN 8
 #define GEM_HARD_SYNC_BUTTON_DEBOUNCE 2
 
+/* USB / MIDI configuration. */
+
+#define GEM_MIDI_SYSEX_MARKER 0x77
+
 /* Behavioral configuration. */
 
 enum gem_adc_channels {
