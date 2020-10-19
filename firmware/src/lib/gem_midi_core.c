@@ -31,17 +31,17 @@ void gem_midi_task() {
     if ((_in_data[0] & 0x0F) == MIDI_SYSEX_START_OR_CONTINUE) {
         _parse_sysex();
         if (_sysex_data_len < 2) {
-            printf("Invalid SysEx (too short): %02x, length: ", _sysex_data[0], _sysex_data_len);
+            printf("Invalid SysEx (too short): %02x, length: %lu\r\n", _sysex_data[0], _sysex_data_len);
             return;
         }
         if (_sysex_data[1] != GEM_MIDI_SYSEX_MARKER) {
-            printf("Invalid SysEx (wrong marker byte): %02x, length: ", _sysex_data[1], _sysex_data_len);
+            printf("Invalid SysEx (wrong marker byte): %02x, length: %lu\r\n", _sysex_data[1], _sysex_data_len);
             return;
         }
 
         uint8_t command = _sysex_data[1];
         if (command >= MAX_SYSEX_CALLBACKS || _sysex_callbacks[command] != NULL) {
-            printf("Invalid SysEx (invalid command): %02x, length: ", command, _sysex_data_len);
+            printf("Invalid SysEx (invalid command): %02x, length: %lu\r\n", command, _sysex_data_len);
             return;
         }
         _sysex_callbacks[command](_sysex_data, _sysex_data_len);
