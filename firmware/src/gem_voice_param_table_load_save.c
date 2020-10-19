@@ -4,6 +4,7 @@
 #include <stdbool.h>
 
 #define VALID_TABLE_MARKER 0x41
+#define BUFFER_LEN 512
 
 #define UNPACK_16(data, idx) data[idx] << 8 | data[idx + 1]
 #define PACK_16(val, data, idx)                                                                                        \
@@ -13,54 +14,41 @@
 extern uint8_t _nvm_lut_base_address;
 extern uint8_t _nvm_lut_length;
 
+/* This is inefficient in terms of RAM usage, but we've got plenty of space to spare.
+   if in the future this becomes problematic, this can be refactored to read/write
+   in pages instead of all at once.
+*/
+static uint8_t _buf[BUFFER_LEN];
+
+/* Public functions. */
+
 void gem_load_dac_codes_table() {
-    uint8_t data[32];
+    /* Make sure these are equivalent - otherwise bail. */
+    if ((uint32_t)(&_nvm_lut_length) != sizeof(_buf) / sizeof(_buf[0])) {
+        printf("NVM LUT length is not equal to the NVM LUT buffer!\r\n");
+        return;
+    }
 
-    gem_nvm_read((uint32_t)(&_nvm_lut_base_address) + (uint32_t)(&_nvm_lut_length) - 1, data, 1);
+    gem_nvm_read((uint32_t)(&_nvm_lut_base_address), _buf, BUFFER_LEN);
 
-    if (data[0] != VALID_TABLE_MARKER) {
+    if (_buf[BUFFER_LEN - 1] != VALID_TABLE_MARKER) {
         printf("No valid LUT table.\r\n");
         return;
     }
 
-    size_t nvm_idx = 0;
-    size_t table_idx = 0;
-    bool done = false;
-
-    while (nvm_idx < (uint32_t)(&_nvm_lut_length) && !done) {
-        gem_nvm_read((uint32_t)(&_nvm_lut_base_address) + nvm_idx, data, 32);
-        nvm_idx += 32;
-
-        for (size_t i = 0; i < 32; i += 4) {
-            if (table_idx > gem_voice_param_table_len) {
-                done = true;
-                break;
-            }
-
-            gem_voice_dac_codes_table[table_idx].castor = UNPACK_16(data, i);
-            gem_voice_dac_codes_table[table_idx].pollux = UNPACK_16(data, i + 2);
-        }
+    for (size_t table_idx = 0; table_idx < gem_voice_param_table_len; table_idx++) {
+        gem_voice_dac_codes_table[table_idx].castor = UNPACK_16(_buf, table_idx * 4);
+        gem_voice_dac_codes_table[table_idx].pollux = UNPACK_16(_buf, table_idx * 4 + 2);
     }
 }
 
 void gem_save_dac_codes_table() {
-    uint8_t data[32];
-
-    size_t table_idx = 0;
-    size_t nvm_idx = 0;
-    bool done = false;
-
-    while (nvm_idx < (uint32_t)(&_nvm_lut_length) && !done) {
-        for (size_t i = 0; i < (32 / 4); i++) {
-            if (table_idx + 1 > gem_voice_param_table_len) {
-                done = true;
-                break;
-            }
-            PACK_16(gem_voice_dac_codes_table[table_idx + i].castor, data, i * 4);
-            PACK_16(gem_voice_dac_codes_table[table_idx + i].pollux, data, i * 4 + 2);
-        }
-        gem_nvm_write((uint32_t)(&_nvm_lut_base_address) + nvm_idx, data, 32);
-        table_idx += (32 / 4);
-        nvm_idx += 32;
+    for (size_t table_idx = 0; table_idx < gem_voice_param_table_len; table_idx++) {
+        PACK_16(gem_voice_dac_codes_table[table_idx].castor, _buf, table_idx * 4);
+        PACK_16(gem_voice_dac_codes_table[table_idx].pollux, _buf, table_idx * 4 + 2);
     }
+
+    _buf[BUFFER_LEN - 1] = VALID_TABLE_MARKER;
+
+    gem_nvm_write((uint32_t)(&_nvm_lut_base_address), _buf, BUFFER_LEN);
 }
