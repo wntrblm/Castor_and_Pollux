@@ -19,6 +19,8 @@ struct gem_settings {
     fix16_t pollux_knob_max;
     fix16_t chorus_max_intensity;
     fix16_t chorus_frequency;
+    fix16_t knob_offset_corr;
+    fix16_t knob_gain_corr;
 };
 
 bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data);

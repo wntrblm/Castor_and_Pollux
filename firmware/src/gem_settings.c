@@ -3,7 +3,18 @@
 #include <stdarg.h>
 
 #define SETTINGS_MARKER 0x66
-#define SETTINGS_LEN 31
+#define SETTINGS_LEN 39
+
+#define UNPACK_16(data, idx) data[idx] << 8 | data[idx + 1]
+#define UNPACK_32(data, idx) data[idx] << 24 | data[idx + 1] << 16 | data[idx + 2] << 8 | data[idx + 3]
+#define PACK_16(val, data, idx)                                                                                        \
+    data[idx] = val >> 8;                                                                                              \
+    data[idx + 1] = val & 0xFF;
+#define PACK_32(val, data, idx)                                                                                        \
+    data[idx] = val >> 24;                                                                                             \
+    data[idx + 1] = val >> 16;                                                                                         \
+    data[idx + 2] = val >> 8;                                                                                          \
+    data[idx + 3] = val & 0xFF;
 
 extern uint8_t _nvm_settings_base_address;
 
@@ -17,6 +28,8 @@ static const struct gem_settings _default_settings = {
     .pollux_knob_max = F16(1.01),
     .chorus_max_intensity = F16(0.05),
     .chorus_frequency = F16(0.2),
+    .knob_offset_corr = F16(0.0),
+    .knob_gain_corr = F16(1.0),
 };
 
 bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
@@ -26,15 +39,17 @@ bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
         return false;
     }
 
-    settings->adc_gain_corr = data[1] << 8 | data[2];
-    settings->adc_offset_corr = data[3] << 8 | data[4];
-    settings->led_brightness = data[5] << 8 | data[6];
-    settings->castor_knob_min = data[7] << 24 | data[8] << 16 | data[9] << 8 | data[10];
-    settings->castor_knob_max = data[11] << 24 | data[12] << 16 | data[13] << 8 | data[14];
-    settings->pollux_knob_min = data[15] << 24 | data[16] << 16 | data[17] << 8 | data[18];
-    settings->pollux_knob_max = data[19] << 24 | data[20] << 16 | data[21] << 8 | data[22];
-    settings->chorus_max_intensity = data[23] << 24 | data[24] << 16 | data[25] << 8 | data[26];
-    settings->chorus_frequency = data[27] << 24 | data[28] << 16 | data[29] << 8 | data[30];
+    settings->adc_gain_corr = UNPACK_16(data, 1);
+    settings->adc_offset_corr = UNPACK_16(data, 3);
+    settings->led_brightness = UNPACK_16(data, 5);
+    settings->castor_knob_min = UNPACK_32(data, 7);
+    settings->castor_knob_max = UNPACK_32(data, 11);
+    settings->pollux_knob_min = UNPACK_32(data, 15);
+    settings->pollux_knob_max = UNPACK_32(data, 19);
+    settings->chorus_max_intensity = UNPACK_32(data, 23);
+    settings->chorus_frequency = UNPACK_32(data, 27);
+    settings->knob_offset_corr = UNPACK_32(data, 31);
+    settings->knob_gain_corr = UNPACK_32(data, 35);
 
     return true;
 }
@@ -48,36 +63,17 @@ bool gem_settings_load(struct gem_settings* settings) {
 
 void gem_settings_serialize(struct gem_settings* settings, uint8_t* data) {
     data[0] = SETTINGS_MARKER;
-    data[1] = settings->adc_gain_corr >> 8;
-    data[2] = settings->adc_gain_corr & 0xFF;
-    data[3] = settings->adc_offset_corr >> 8;
-    data[4] = settings->adc_offset_corr & 0xFF;
-    data[5] = settings->led_brightness >> 8;
-    data[6] = settings->led_brightness & 0xFF;
-    data[7] = settings->castor_knob_min >> 24;
-    data[8] = settings->castor_knob_min >> 16;
-    data[9] = settings->castor_knob_min >> 8;
-    data[10] = settings->castor_knob_min & 0xFF;
-    data[11] = settings->castor_knob_max >> 24;
-    data[12] = settings->castor_knob_max >> 16;
-    data[13] = settings->castor_knob_max >> 8;
-    data[14] = settings->castor_knob_max & 0xFF;
-    data[15] = settings->pollux_knob_min >> 24;
-    data[16] = settings->pollux_knob_min >> 16;
-    data[17] = settings->pollux_knob_min >> 8;
-    data[18] = settings->pollux_knob_min & 0xFF;
-    data[19] = settings->pollux_knob_max >> 24;
-    data[20] = settings->pollux_knob_max >> 16;
-    data[21] = settings->pollux_knob_max >> 8;
-    data[22] = settings->pollux_knob_max & 0xFF;
-    data[23] = settings->chorus_max_intensity >> 24;
-    data[24] = settings->chorus_max_intensity >> 16;
-    data[25] = settings->chorus_max_intensity >> 8;
-    data[26] = settings->chorus_max_intensity & 0xFF;
-    data[27] = settings->chorus_frequency >> 24;
-    data[28] = settings->chorus_frequency >> 16;
-    data[29] = settings->chorus_frequency >> 8;
-    data[30] = settings->chorus_frequency & 0xFF;
+    PACK_16(settings->adc_gain_corr, data, 1);
+    PACK_16(settings->adc_offset_corr, data, 3);
+    PACK_16(settings->led_brightness, data, 5);
+    PACK_32(settings->castor_knob_min, data, 7);
+    PACK_32(settings->castor_knob_max, data, 11);
+    PACK_32(settings->pollux_knob_min, data, 15);
+    PACK_32(settings->pollux_knob_max, data, 19);
+    PACK_32(settings->chorus_max_intensity, data, 23);
+    PACK_32(settings->chorus_frequency, data, 27);
+    PACK_32(settings->knob_offset_corr, data, 31);
+    PACK_32(settings->knob_gain_corr, data, 35);
 };
 
 void gem_settings_save(struct gem_settings* settings) {
