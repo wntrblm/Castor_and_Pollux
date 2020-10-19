@@ -4,6 +4,7 @@
 #include "gem_mcp4728.h"
 #include "gem_midi_core.h"
 #include "gem_pulseout.h"
+#include "gem_settings.h"
 #include "gem_usb.h"
 #include "printf.h"
 #include <string.h>
@@ -45,8 +46,8 @@ void gem_process_sysex(uint8_t* data) {
 
     printf("Recieved sysex message: %02x\r\n", data[1]);
 
-    struct gem_nvm_settings settings;
-    gem_config_get_nvm_settings(&settings);
+    struct gem_settings settings;
+    gem_settings_load(&settings);
 
     switch (data[1]) {
         case CMD_HELLO:
@@ -60,12 +61,12 @@ void gem_process_sysex(uint8_t* data) {
 
         case CMD_WRITE_ADC_GAIN:
             settings.adc_gain_corr = data[2] << 12 | data[3] << 8 | data[4] << 4 | data[5];
-            gem_config_save_nvm_settings(&settings);
+            gem_settings_save(&settings);
             break;
 
         case CMD_WRITE_ADC_OFFSET:
             settings.adc_offset_corr = data[2] << 12 | data[3] << 8 | data[4] << 4 | data[5];
-            gem_config_save_nvm_settings(&settings);
+            gem_settings_save(&settings);
             break;
 
         case CMD_READ_ADC: {
@@ -89,11 +90,11 @@ void gem_process_sysex(uint8_t* data) {
             break;
 
         case CMD_RESET_SETTINGS:
-            gem_config_erase_nvm_settings();
+            gem_settings_erase();
             break;
 
         case CMD_READ_SETTINGS: {
-            gem_config_serialize_nvm_settings(&settings, _settings_buf);
+            gem_settings_serialize(&settings, _settings_buf);
             gem_midi_encode(_settings_buf, _encoding_buf, 64);
             gem_usb_midi_send(
                 (uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, SYSEX_CMD_MARKER, CMD_READ_SETTINGS});
@@ -118,8 +119,8 @@ void gem_process_sysex(uint8_t* data) {
             if (data[2] == 7) {
                 /* All data recieved, save the settings. */
                 gem_midi_decode(_encoding_buf, _settings_buf, 64);
-                if (gem_config_deserialize_nvm_settings(&settings, _settings_buf)) {
-                    gem_config_save_nvm_settings(&settings);
+                if (gem_settings_deserialize(&settings, _settings_buf)) {
+                    gem_settings_save(&settings);
                 }
             }
         } break;
