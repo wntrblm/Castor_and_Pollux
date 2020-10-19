@@ -9,7 +9,6 @@
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
 #include "gem_midi_core.h"
-#include "gem_midi_sysex.h"
 #include "gem_nvm.h"
 #include "gem_pulseout.h"
 #include "gem_random.h"
@@ -17,6 +16,7 @@
 #include "gem_settings.h"
 #include "gem_smoothie.h"
 #include "gem_spi.h"
+#include "gem_sysex_commands.h"
 #include "gem_systick.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
@@ -50,8 +50,6 @@ static struct gem_smoothie_state pollux_smooth = {
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
-
-void process_sysex_event(enum gem_sysex_event event);
 
 int main(void) {
     /* Configure clocks. */
@@ -105,8 +103,7 @@ int main(void) {
     gem_usb_init();
 
     /* Initialize MIDI interface. */
-    gem_midi_set_sysex_callback(gem_process_sysex);
-    gem_set_sysex_event_callback(process_sysex_event);
+    gem_register_sysex_commands();
 
     /* Enable i2c bus for communicating with the DAC. */
     gem_i2c_init();
@@ -145,7 +142,8 @@ int main(void) {
             fix16_t castor_pitch_cv =
                 fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
 
-            fix16_t castor_pitch_knob_code = gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]), knob_errors);
+            fix16_t castor_pitch_knob_code =
+                gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]), knob_errors);
             fix16_t castor_pitch_knob_value = fix16_div(castor_pitch_knob_code, F16(4095.0));
             fix16_t castor_pitch_knob =
                 fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
@@ -177,7 +175,8 @@ int main(void) {
                 pollux_pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
             }
 
-            uint16_t pollux_pitch_knob_code = gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
+            uint16_t pollux_pitch_knob_code =
+                gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
             fix16_t pollux_pitch_knob_value = fix16_div(fix16_from_int(pollux_pitch_knob_code), F16(4095.0));
             fix16_t pollux_pitch_knob =
                 fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
@@ -296,18 +295,4 @@ int main(void) {
     }
 
     return 0;
-}
-
-void process_sysex_event(enum gem_sysex_event event) {
-    switch (event) {
-        case GEM_SYSEX_EVENT_CALIBRATION_MODE:
-            /* For calibration mode, stop scanning ADC channels. This will also stop
-                the main loop above from continuing to change the outputs. */
-            gem_adc_stop_scanning();
-            gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
-            break;
-
-        default:
-            break;
-    }
 }
