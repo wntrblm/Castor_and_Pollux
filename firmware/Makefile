@@ -52,6 +52,7 @@ INCLUDES += \
   -I./src \
   -I./src/hw \
   -I./src/drivers \
+  -I./src/lib \
   -I./third_party/samd21/include \
   -I./third_party/cmsis/include
 
