@@ -194,14 +194,6 @@ int main(void) {
             castor_pitch_cv = gem_smoothie_step(&castor_smooth, castor_pitch_cv);
             pollux_pitch_cv = gem_smoothie_step(&pollux_smooth, pollux_pitch_cv);
 
-            /* Test - dump pitch cv to midi. */
-            // gem_usb_midi_send((uint8_t[4]){0x04, 0xF0, 0x77, 0xA});
-            // gem_usb_midi_send((uint8_t[4]){
-            //     0x04, (castor_pitch_cv >> 28) & 0xF, (castor_pitch_cv >> 24) & 0xF, (castor_pitch_cv >> 20) & 0xF});
-            // gem_usb_midi_send((uint8_t[4]){
-            //     0x04, (castor_pitch_cv >> 16) & 0xF, (castor_pitch_cv >> 12) & 0xF, (castor_pitch_cv >> 8) & 0xF});
-            // gem_usb_midi_send((uint8_t[4]){0x07, (castor_pitch_cv >> 4) & 0xF, (castor_pitch_cv)&0xF, 0xF7});
-
             /*
                 Calculate the chorus LFO and account for LFO in Pollux's pitch.
             */
@@ -277,8 +269,6 @@ int main(void) {
                 gem_voice_param_table_len,
                 pollux_pitch_cv,
                 &pollux_params);
-
-            printf("Castor period: %lu \r\n", castor_params.voltage_and_period.period);
 
             /*
                 Update timers.
