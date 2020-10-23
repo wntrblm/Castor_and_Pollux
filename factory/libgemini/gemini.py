@@ -122,7 +122,7 @@ class Gemini:
         settings.pollux_knob_min,
         settings.pollux_knob_max,
         settings.chorus_max_intensity,
-        settings.chorus_frequency
+        settings.chorus_frequency,
         settings.knob_offset_corr,
         settings.knob_gain_corr) = struct.unpack(">BHhHiiiiiiii", settings_buf[:39])
 

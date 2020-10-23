@@ -34,13 +34,13 @@ void gem_midi_task() {
             printf("Invalid SysEx (too short): %02x, length: %lu\r\n", _sysex_data[0], _sysex_data_len);
             return;
         }
-        if (_sysex_data[1] != GEM_MIDI_SYSEX_MARKER) {
+        if (_sysex_data[0] != GEM_MIDI_SYSEX_MARKER) {
             printf("Invalid SysEx (wrong marker byte): %02x, length: %lu\r\n", _sysex_data[1], _sysex_data_len);
             return;
         }
 
         uint8_t command = _sysex_data[1];
-        if (command >= MAX_SYSEX_CALLBACKS || _sysex_callbacks[command] != NULL) {
+        if (command >= MAX_SYSEX_CALLBACKS || _sysex_callbacks[command] == NULL) {
             printf("Invalid SysEx (invalid command): %02x, length: %lu\r\n", command, _sysex_data_len);
             return;
         }
