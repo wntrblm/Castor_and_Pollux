@@ -5,7 +5,7 @@
 
 /* Private function forward declarations. */
 
-static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint32_t frac);
+static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint16_t frac);
 
 static void _find_nearest_table_entries(
     const struct gem_voice_voltage_and_period* volt_table,
@@ -40,13 +40,13 @@ void gem_voice_params_from_cv(
     } else {
         t = fix16_sdiv(
             fix16_ssub(voltage, low.voltage_and_period.voltage),
-            fix16_ssub(low.voltage_and_period.voltage, low.voltage_and_period.voltage));
+            fix16_ssub(high.voltage_and_period.voltage, low.voltage_and_period.voltage));
     }
-    uint32_t t_int = (uint32_t)(t);
+    uint16_t t_int = (uint16_t)(t);
 
     out->voltage_and_period.voltage = voltage;
     out->voltage_and_period.period =
-        _fix16_lerp_int(low.voltage_and_period.period, high.voltage_and_period.period, t_int << 16);
+        _fix16_lerp_int(low.voltage_and_period.period, high.voltage_and_period.period, t_int);
     out->dac_codes.castor = fix16_lerp16(low.dac_codes.castor, high.dac_codes.castor, t_int);
     out->dac_codes.pollux = fix16_lerp16(low.dac_codes.pollux, high.dac_codes.pollux, t_int);
 };
@@ -54,11 +54,11 @@ void gem_voice_params_from_cv(
 /* Private functions. */
 
 /* Similar to libfixmath's fix16_lerp64, but intentionally operates on integers instead of fix16s */
-static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint32_t frac) {
+static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint16_t frac) {
     int64_t result;
-    result = (a * (0 - frac));
-    result += (b * frac);
-    result >>= 32;
+    result = a * (((int32_t)1 << 16) - frac);
+    result += b * frac;
+    result >>= 16;
     return (int32_t)result;
 }
 
