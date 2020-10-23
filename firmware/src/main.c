@@ -39,13 +39,13 @@ static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
 static struct gem_adc_errors knob_errors;
 static struct gem_smoothie_state castor_smooth = {
-    .initial_gain = F16(0.3),
+    .initial_gain = F16(0.01),
     .sensitivity = F16(13.0),
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
 static struct gem_smoothie_state pollux_smooth = {
-    .initial_gain = F16(0.3),
+    .initial_gain = F16(0.01),
     .sensitivity = F16(13.0),
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
@@ -138,7 +138,7 @@ int main(void) {
         gem_led_animation_step();
 
         if (gem_adc_results_ready()) {
-            /* Castor's pitch determination is
+            /* Castor's basic pitch determination algorithm is
 
                 1.0v + (CV in * 6.0v) + ((CV knob * 2.0) - 1.0)
 
@@ -149,9 +149,8 @@ int main(void) {
             fix16_t castor_pitch_cv =
                 fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
 
-            // fix16_t castor_pitch_knob_code =
-            //     gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]), knob_errors);
-            fix16_t castor_pitch_knob_code = fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]);
+            fix16_t castor_pitch_knob_code =
+                gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]), knob_errors);
             fix16_t castor_pitch_knob_value = fix16_div(castor_pitch_knob_code, F16(4095.0));
             fix16_t castor_pitch_knob =
                 fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
@@ -161,7 +160,7 @@ int main(void) {
             /* Pollux is the "follower", so its pitch determination is based on whether or not
                 it has input CV.
 
-                If CV in == 0, then it follows Castor:
+                If CV in == ~0, then it follows Castor:
 
                     1.0v + (Castor CV * 6.0v) + ((CV knob * 2.0) - 1.0)
 
@@ -177,19 +176,19 @@ int main(void) {
 
             uint16_t pollux_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_B]);
 
-            // TODO: Maybe adjust this threshold.
+            // TODO: Maybe adjust this threshold / calibrate it?
             if (pollux_pitch_cv_code > 6) {
                 fix16_t pollux_pitch_cv_value = fix16_div(fix16_from_int(pollux_pitch_cv_code), F16(4095.0));
                 pollux_pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
             }
 
-            // uint16_t pollux_pitch_knob_code =
-            //     gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
-            // fix16_t pollux_pitch_knob_value = fix16_div(fix16_from_int(pollux_pitch_knob_code), F16(4095.0));
-            // fix16_t pollux_pitch_knob =
-            //     fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
+            uint16_t pollux_pitch_knob_code =
+                gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
+            fix16_t pollux_pitch_knob_value = fix16_div(fix16_from_int(pollux_pitch_knob_code), F16(4095.0));
+            fix16_t pollux_pitch_knob =
+                fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
 
-            // pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
+            pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
 
             /* Apply smoothing to input CVs. */
             castor_pitch_cv = gem_smoothie_step(&castor_smooth, castor_pitch_cv);
@@ -278,6 +277,8 @@ int main(void) {
                 gem_voice_param_table_len,
                 pollux_pitch_cv,
                 &pollux_params);
+
+            printf("Castor period: %lu \r\n", castor_params.voltage_and_period.period);
 
             /*
                 Update timers.
