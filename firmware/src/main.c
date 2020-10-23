@@ -67,6 +67,10 @@ int main(void) {
     /* Load settings */
     bool valid_settings = gem_settings_load(&settings);
 
+    /* Temporary */
+    settings.knob_gain_corr = F16(1.0);
+    settings.knob_offset_corr = F16(0.0);
+
     if (!valid_settings) {
         printf("Failed to load settings.\r\n");
     } else {
@@ -90,7 +94,7 @@ int main(void) {
         fix16_to_str(settings.chorus_max_intensity, fix16buf, 2);
         printf(" Chorus intensity: %s v/oct\r\n", fix16buf);
         fix16_to_str(settings.knob_offset_corr, fix16buf, 2);
-        printf(" Knob offset: %s code points\r\n", fix16buf);
+        printf(" Knob offset: %s\r\n", fix16buf);
         fix16_to_str(settings.knob_gain_corr, fix16buf, 2);
         printf(" Knob gain: %s code points\r\n", fix16buf);
     }
@@ -145,8 +149,9 @@ int main(void) {
             fix16_t castor_pitch_cv =
                 fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, castor_pitch_cv_value));
 
-            fix16_t castor_pitch_knob_code =
-                gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]), knob_errors);
+            // fix16_t castor_pitch_knob_code =
+            //     gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]), knob_errors);
+            fix16_t castor_pitch_knob_code = fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]);
             fix16_t castor_pitch_knob_value = fix16_div(castor_pitch_knob_code, F16(4095.0));
             fix16_t castor_pitch_knob =
                 fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
@@ -178,13 +183,13 @@ int main(void) {
                 pollux_pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
             }
 
-            uint16_t pollux_pitch_knob_code =
-                gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
-            fix16_t pollux_pitch_knob_value = fix16_div(fix16_from_int(pollux_pitch_knob_code), F16(4095.0));
-            fix16_t pollux_pitch_knob =
-                fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
+            // uint16_t pollux_pitch_knob_code =
+            //     gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
+            // fix16_t pollux_pitch_knob_value = fix16_div(fix16_from_int(pollux_pitch_knob_code), F16(4095.0));
+            // fix16_t pollux_pitch_knob =
+            //     fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
 
-            pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
+            // pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
 
             /* Apply smoothing to input CVs. */
             castor_pitch_cv = gem_smoothie_step(&castor_smooth, castor_pitch_cv);
