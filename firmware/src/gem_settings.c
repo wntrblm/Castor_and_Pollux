@@ -1,5 +1,6 @@
 #include "gem_settings.h"
 #include "gem_nvm.h"
+#include "printf.h"
 #include <stdarg.h>
 
 #define SETTINGS_MARKER 0x66
@@ -85,4 +86,28 @@ void gem_settings_save(struct gem_settings* settings) {
 void gem_settings_erase() {
     uint8_t data[1] = {0xFF};
     gem_nvm_write((uint32_t)(&_nvm_settings_base_address), data, 1);
+}
+
+void gem_settings_print(struct gem_settings* settings) {
+    printf("Settings:\r\n");
+    printf(" ADC offset: %i code points\r\n", (int16_t)(settings->adc_offset_corr));
+    printf(" ADC gain: %u\r\n", settings->adc_gain_corr);
+    printf(" LED brightness: %u / 255\r\n", settings->led_brightness);
+    char fix16buf[13];
+    fix16_to_str(settings->castor_knob_min, fix16buf, 2);
+    printf(" Castor knob min: %s v/oct\r\n", fix16buf);
+    fix16_to_str(settings->castor_knob_max, fix16buf, 2);
+    printf(" Castor knob max: %s v/oct\r\n", fix16buf);
+    fix16_to_str(settings->pollux_knob_min, fix16buf, 2);
+    printf(" Pollux knob max: %s v/oct\r\n", fix16buf);
+    fix16_to_str(settings->pollux_knob_max, fix16buf, 2);
+    printf(" Pollux knob max: %s v/oct\r\n", fix16buf);
+    fix16_to_str(settings->chorus_frequency, fix16buf, 2);
+    printf(" Chorus frequency: %s Hz\r\n", fix16buf);
+    fix16_to_str(settings->chorus_max_intensity, fix16buf, 2);
+    printf(" Chorus intensity: %s v/oct\r\n", fix16buf);
+    fix16_to_str(settings->knob_offset_corr, fix16buf, 2);
+    printf(" Knob offset: %s\r\n", fix16buf);
+    fix16_to_str(settings->knob_gain_corr, fix16buf, 2);
+    printf(" Knob gain: %s code points\r\n", fix16buf);
 }

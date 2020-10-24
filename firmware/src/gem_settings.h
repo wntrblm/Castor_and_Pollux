@@ -28,3 +28,4 @@ void gem_settings_serialize(struct gem_settings* settings, uint8_t* data);
 bool gem_settings_load(struct gem_settings* settings);
 void gem_settings_save(struct gem_settings* settings);
 void gem_settings_erase();
+void gem_settings_print(struct gem_settings* settings);

@@ -75,28 +75,7 @@ int main(void) {
         printf("Failed to load settings.\r\n");
     } else {
         printf("Loaded settings.\r\n");
-        printf(
-            "Settings:\r\n ADC gain: %u\r\n ADC offset: %i code points\r\n LED brightness: %u / 255\r\n",
-            settings.adc_gain_corr,
-            (int16_t)(settings.adc_offset_corr),
-            settings.led_brightness);
-        char fix16buf[13];
-        fix16_to_str(settings.castor_knob_min, fix16buf, 2);
-        printf(" Castor knob min: %s v/oct\r\n", fix16buf);
-        fix16_to_str(settings.castor_knob_max, fix16buf, 2);
-        printf(" Castor knob max: %s v/oct\r\n", fix16buf);
-        fix16_to_str(settings.pollux_knob_min, fix16buf, 2);
-        printf(" Pollux knob max: %s v/oct\r\n", fix16buf);
-        fix16_to_str(settings.pollux_knob_max, fix16buf, 2);
-        printf(" Pollux knob max: %s v/oct\r\n", fix16buf);
-        fix16_to_str(settings.chorus_frequency, fix16buf, 2);
-        printf(" Chorus frequency: %s Hz\r\n", fix16buf);
-        fix16_to_str(settings.chorus_max_intensity, fix16buf, 2);
-        printf(" Chorus intensity: %s v/oct\r\n", fix16buf);
-        fix16_to_str(settings.knob_offset_corr, fix16buf, 2);
-        printf(" Knob offset: %s\r\n", fix16buf);
-        fix16_to_str(settings.knob_gain_corr, fix16buf, 2);
-        printf(" Knob gain: %s code points\r\n", fix16buf);
+        gem_settings_print(&settings);
     }
 
     castor_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
