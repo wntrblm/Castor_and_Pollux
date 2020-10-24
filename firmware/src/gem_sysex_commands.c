@@ -7,6 +7,7 @@
 #include "gem_pulseout.h"
 #include "gem_settings.h"
 #include "gem_usb.h"
+#include "gem_voice_param_table.h"
 #include "printf.h"
 #include <string.h>
 
@@ -26,6 +27,9 @@ void _cmd_0x06_set_period(uint8_t* data, size_t len);
 void _cmd_0x07_erase_settings(uint8_t* data, size_t len);
 void _cmd_0x08_read_settings(uint8_t* data, size_t len);
 void _cmd_0x09_write_settings(uint8_t* data, size_t len);
+void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len);
+void _cmd_0x0B_write_lut(uint8_t* data, size_t len);
+void _cmd_0x0C_erase_lut(uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -39,6 +43,9 @@ void gem_register_sysex_commands() {
     gem_midi_register_sysex_command(0x07, _cmd_0x07_erase_settings);
     gem_midi_register_sysex_command(0x08, _cmd_0x08_read_settings);
     gem_midi_register_sysex_command(0x09, _cmd_0x09_write_settings);
+    gem_midi_register_sysex_command(0x0A, _cmd_0x0A_write_lut_entry);
+    gem_midi_register_sysex_command(0x0B, _cmd_0x0B_write_lut);
+    gem_midi_register_sysex_command(0x0C, _cmd_0x0C_erase_lut);
 };
 
 void _cmd_0x01_hello(uint8_t* data, size_t len) {
@@ -137,4 +144,36 @@ void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
             gem_settings_save(&settings);
         }
     }
+}
+
+void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
+    (void)(len);
+
+    size_t entry = data[2];
+    uint8_t osc = data[3];
+    uint16_t code = data[4] << 12 | data[5] << 8 | data[6] << 4 | data[7];
+
+    if (entry >= gem_voice_param_table_len) {
+        return;
+    }
+
+    if (osc == 0) {
+        gem_voice_dac_codes_table[entry].castor = code;
+    } else {
+        gem_voice_dac_codes_table[entry].pollux = code;
+    }
+}
+
+void _cmd_0x0B_write_lut(uint8_t* data, size_t len) {
+    (void)(data);
+    (void)(len);
+
+    gem_save_dac_codes_table();
+}
+
+void _cmd_0x0C_erase_lut(uint8_t* data, size_t len) {
+    (void)(data);
+    (void)(len);
+
+    gem_save_dac_codes_table();
 }

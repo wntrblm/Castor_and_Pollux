@@ -51,6 +51,9 @@ class SysExCommands(enum.IntEnum):
     RESET_SETTINGS = 0x07
     READ_SETTINGS = 0x08
     WRITE_SETTINGS = 0x09
+    WRITE_LUT_ENTRY = 0x0A
+    WRITE_LUT = 0x0B
+    ERASE_LUT = 0x0C
 
 
 def midi_encode(src, dst):
@@ -73,39 +76,58 @@ class Gemini:
         self.port_out, _ = rtmidi.midiutil.open_midiport(self.MIDI_PORT_NAME, type_="output")
 
     def enter_calibration_mode(self):
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.HELLO, SYSEX_END])
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.HELLO, SYSEX_END])
         msg = _wait_for_message(self.port_in)
         print(f"Gemini version: {msg[3]}")
 
     def read_adc(self, ch):
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.READ_ADC, ch, SYSEX_END])
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.READ_ADC, ch, SYSEX_END])
         msg = _wait_for_message(self.port_in)
         val = (msg[3] << 16 | msg[4] << 8 | msg[5] << 4 | msg[6])
         return val
 
     def set_dac(self, ch, val, gain):
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.SET_DAC, ch, gain, (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF, SYSEX_END])
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.SET_DAC,
+            ch,
+            gain,
+            (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF,
+            SYSEX_END])
 
     def set_period(self, ch, val):
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.SET_FREQ, ch, (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF, SYSEX_END])
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.SET_FREQ,
+            ch,
+            (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF,
+            SYSEX_END])
 
     def set_adc_gain_error_int(self, val):
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_ADC_GAIN, (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF, SYSEX_END])
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_ADC_GAIN,
+            (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF,
+            SYSEX_END])
     
     def set_adc_gain_error(self, val):
         val = int(val * 2048)
         self.set_adc_gain_error_int(val)
 
     def set_adc_offset_error(self, val):
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_ADC_OFFSET, (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF, SYSEX_END])
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_ADC_OFFSET,
+            (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF,
+            SYSEX_END])
 
     def reset_settings(self):
-        self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.RESET_SETTINGS, SYSEX_END])
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.RESET_SETTINGS, SYSEX_END])
 
     def read_settings(self):
         settings_encoded = bytearray(128)
         for n in range(8):
-            self.port_out.send_message([SYSEX_START, SYSEX_MARKER, SysExCommands.READ_SETTINGS, n, SYSEX_END])
+            self.port_out.send_message([
+                SYSEX_START, SYSEX_MARKER, SysExCommands.READ_SETTINGS, n, SYSEX_END])
             msg = _wait_for_message(self.port_in)
             settings_encoded[16 * n: 16 * n + 16] = msg[3:-1]
 
@@ -155,3 +177,17 @@ class Gemini:
                 bytearray([SYSEX_END]))
             # Wait for ack
             _wait_for_message(self.port_in)
+
+    def write_lut_entry(self, entry, castor_pollux, val):
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_LUT_ENTRY,
+            entry, castor_pollux,
+            (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF, SYSEX_END])
+
+    def write_lut(self):
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_LUT, SYSEX_END])
+
+    def erase_lut(self):
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.ERASE_LUT, SYSEX_END])
