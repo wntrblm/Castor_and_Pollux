@@ -39,14 +39,14 @@ static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
 static struct gem_adc_errors knob_errors;
 static struct gem_smoothie_state castor_smooth = {
-    .initial_gain = F16(0.01),
-    .sensitivity = F16(13.0),
+    .initial_gain = F16(0.1),
+    .sensitivity = F16(20.0),
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
 static struct gem_smoothie_state pollux_smooth = {
-    .initial_gain = F16(0.01),
-    .sensitivity = F16(13.0),
+    .initial_gain = F16(0.1),
+    .sensitivity = F16(20.0),
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
@@ -182,9 +182,9 @@ int main(void) {
                 pollux_pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
             }
 
-            uint16_t pollux_pitch_knob_code =
+            fix16_t pollux_pitch_knob_code =
                 gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
-            fix16_t pollux_pitch_knob_value = fix16_div(fix16_from_int(pollux_pitch_knob_code), F16(4095.0));
+            fix16_t pollux_pitch_knob_value = fix16_div(pollux_pitch_knob_code, F16(4095.0));
             fix16_t pollux_pitch_knob =
                 fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
 
