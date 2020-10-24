@@ -45,12 +45,12 @@ class SysExCommands(enum.IntEnum):
     HELLO = 0x01
     WRITE_ADC_GAIN = 0x02
     WRITE_ADC_OFFSET = 0x03
-    READ_SETTINGS = 0x04
-    WRITE_SETTINGS = 0x05
-    RESET_SETTINGS = 0x06
-    READ_ADC = 0xA5
-    SET_DAC = 0xA6
-    SET_FREQ = 0xA7
+    READ_ADC = 0x04
+    SET_DAC = 0x05
+    SET_FREQ = 0x06
+    RESET_SETTINGS = 0x07
+    READ_SETTINGS = 0x08
+    WRITE_SETTINGS = 0x09
 
 
 def midi_encode(src, dst):
