@@ -39,14 +39,14 @@ static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
 static struct gem_adc_errors knob_errors;
 static struct gem_smoothie_state castor_smooth = {
-    .initial_gain = F16(0.1),
-    .sensitivity = F16(20.0),
+    .initial_gain = GEM_SMOOTH_INITIAL_GAIN,
+    .sensitivity = GEM_SMOOTH_SENSITIVITY,
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
 static struct gem_smoothie_state pollux_smooth = {
-    .initial_gain = F16(0.1),
-    .sensitivity = F16(20.0),
+    .initial_gain = GEM_SMOOTH_INITIAL_GAIN,
+    .sensitivity = GEM_SMOOTH_SENSITIVITY,
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
