@@ -18,8 +18,7 @@ static size_t _sysex_data_len;
 
 /* Private forward declarations. */
 
-void _parse_sysex();
-void _process_sysex_command();
+static void _parse_sysex();
 
 /* Public functions. */
 
@@ -61,7 +60,7 @@ void gem_midi_decode(uint8_t* src, uint8_t* dst, size_t dst_len) {
     for (size_t i = 0; i < dst_len; i += 1) { dst[i] = src[i * 2] << 4 | src[i * 2 + 1]; }
 }
 
-void _parse_sysex() {
+static void _parse_sysex() {
     /* Take the last two bytes of the start message. */
     _sysex_data[0] = _in_data[2];
     _sysex_data[1] = _in_data[3];
