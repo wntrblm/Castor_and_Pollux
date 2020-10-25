@@ -11,6 +11,10 @@
 #include "printf.h"
 #include <string.h>
 
+/* Macros. */
+
+#define MIDI_UNPACK_U16(buf, idx) buf[idx] << 12 | data[idx + 1] << 8 | data[idx + 2] << 4 | data[idx + 3]
+
 /* Static variables. */
 
 static uint8_t _settings_buf[64];
@@ -64,7 +68,7 @@ void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
 
     struct gem_settings settings;
     gem_settings_load(&settings);
-    settings.adc_gain_corr = data[2] << 12 | data[3] << 8 | data[4] << 4 | data[5];
+    settings.adc_gain_corr = MIDI_UNPACK_U16(data, 2);
     gem_settings_save(&settings);
 }
 
@@ -73,7 +77,7 @@ void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len) {
 
     struct gem_settings settings;
     gem_settings_load(&settings);
-    settings.adc_offset_corr = data[2] << 12 | data[3] << 8 | data[4] << 4 | data[5];
+    settings.adc_offset_corr = MIDI_UNPACK_U16(data, 2);
     gem_settings_save(&settings);
 }
 
@@ -92,13 +96,13 @@ void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
 
     struct gem_mcp4728_channel dac_settings = {};
     dac_settings.vref = data[3];
-    dac_settings.value = data[4] << 12 | data[5] << 8 | data[6] << 4 | data[7];
+    dac_settings.value = MIDI_UNPACK_U16(data, 4);
     gem_mcp_4728_write_channel(data[2], dac_settings);
 }
 
 void _cmd_0x06_set_period(uint8_t* data, size_t len) {
     (void)(len);
-    gem_pulseout_set_period(data[2], data[3] << 12 | data[4] << 8 | data[5] << 4 | data[6]);
+    gem_pulseout_set_period(data[2], MIDI_UNPACK_U16(data, 3));
 }
 
 void _cmd_0x07_erase_settings(uint8_t* data, size_t len) {
@@ -151,7 +155,7 @@ void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
 
     size_t entry = data[2];
     uint8_t osc = data[3];
-    uint16_t code = data[4] << 12 | data[5] << 8 | data[6] << 4 | data[7];
+    uint16_t code = MIDI_UNPACK_U16(data, 4);
 
     if (entry >= gem_voice_param_table_len) {
         return;
