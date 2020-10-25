@@ -29,7 +29,7 @@ static struct gem_smoothie_state pollux_smooth = {
     ._lowpass2 = F16(0),
 };
 
-void init() {
+static void init() {
     /* Configure clocks. */
     gem_clocks_init();
 
@@ -90,7 +90,7 @@ void init() {
     gem_gpio_set_as_input(GEM_HARD_SYNC_BUTTON_PORT, GEM_HARD_SYNC_BUTTON_PIN, true);
 }
 
-void loop() {
+static void loop() {
     /* Castor's basic pitch determination algorithm is
 
         1.0v + (CV in * 6.0v) + ((CV knob * 2.0) - 1.0)
@@ -245,6 +245,8 @@ void loop() {
 }
 
 int main(void) {
+    init();
+
     while (1) {
         gem_usb_task();
         gem_midi_task();
