@@ -1,9 +1,14 @@
 #pragma once
 
+/*
+   Core MIDI system with handlers and callbacks for incoming MIDI messages.
+
+   Presently this only really reacts to SysEx commands, since that's the
+   only thing Gemini uses MIDI for.   
+*/
+
 #include <stddef.h>
 #include <stdint.h>
-
-/* Core MIDI system with handlers and callbacks for incoming MIDI messages. */
 
 enum gem_midi_message_types {
     MIDI_SYSEX_START_OR_CONTINUE = 0x04,

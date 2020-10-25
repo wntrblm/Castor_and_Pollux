@@ -1,4 +1,7 @@
 #pragma once
+
+/* Routines for interacting with I2C devices. */
+
 #include "sam.h"
 #include <stdbool.h>
 #include <stddef.h>

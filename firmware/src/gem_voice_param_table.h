@@ -1,5 +1,10 @@
 #pragma once
 
+/*
+    Routines for managing the global look-up table for mapping CV inputs to
+    appropriate timer periods and DAC codes to generate the correct note.
+*/
+
 #include "gem_voice_params.h"
 
 extern const struct gem_voice_voltage_and_period gem_voice_voltage_and_period_table[];

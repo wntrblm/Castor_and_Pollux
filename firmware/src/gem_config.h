@@ -1,4 +1,7 @@
 #pragma once
+
+/* Global configuration for all of Gemini's hardware and behavior. */
+
 #include "gem_adc.h"
 #include "sam.h"
 #include <stdint.h>

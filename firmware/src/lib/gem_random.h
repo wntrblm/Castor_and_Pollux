@@ -1,5 +1,7 @@
 #pragma once
 
+/* Routines for pseudo-random number generation. */
+
 #include <stdint.h>
 
 void gem_random_init(uint32_t seed);

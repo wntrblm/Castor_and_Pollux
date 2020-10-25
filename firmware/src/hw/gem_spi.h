@@ -1,5 +1,7 @@
 #pragma once
 
+/* Routines for interacting with SPI devices. */
+
 #include <stddef.h>
 #include <stdint.h>
 

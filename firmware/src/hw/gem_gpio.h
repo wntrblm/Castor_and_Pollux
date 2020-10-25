@@ -1,5 +1,10 @@
 #pragma once
 
+/*
+    Routines for interacting with the SAM D21's IO multiplexer and for
+    reading and writing IO pins.
+*/
+
 #include "sam.h"
 #include <stdbool.h>
 #include <stdint.h>
