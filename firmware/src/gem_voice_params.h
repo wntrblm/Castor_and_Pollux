@@ -1,14 +1,14 @@
 #pragma once
 
-#include <fix16.h>
+/*
+    Structures and functions used to map input CV to the required frequency
+    and charge voltage. Frequency is configured by the PWM period register
+    and the charge voltage is configured by the DAC code.
+*/
+
+#include "fix16.h"
 #include <stddef.h>
 #include <stdint.h>
-
-/* This defines the structure and functions used
-   to map input CV to the required frequency and charge voltage.
-   Frequency is configured by the PWM period register and the charge
-   voltage is configured by the DAC code.
-*/
 
 /* The configuration values for this struct are generated ahead of time and are static,
    so they're a separate struct. */

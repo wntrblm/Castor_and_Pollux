@@ -1,5 +1,7 @@
 #pragma once
 
+/* Routines for managing NVM-backed user-changeable settings. */
+
 #include "fix16.h"
 #include <stdbool.h>
 #include <stdint.h>

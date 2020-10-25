@@ -1,5 +1,7 @@
 #pragma once
 
+/* Routines for reading and writing flash memory (NVM) on the SAM D21. */
+
 #include <stddef.h>
 #include <stdint.h>
 

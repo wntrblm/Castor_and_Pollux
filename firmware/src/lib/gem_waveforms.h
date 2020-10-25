@@ -1,5 +1,7 @@
 #pragma once
 
+/* Routines for generating normalized waveforms. */
+
 #include "fix16.h"
 #include "math.h"
 

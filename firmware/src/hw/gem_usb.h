@@ -1,5 +1,11 @@
 #pragma once
 
+/*
+    Routines for managing USB.
+
+    These are thin wrappers over tinyUSB.
+*/
+
 void gem_usb_init();
 
 void gem_usb_task();
