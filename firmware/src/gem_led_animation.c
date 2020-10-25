@@ -8,11 +8,7 @@
 #include "gem_waveforms.h"
 #include <stdint.h>
 
-enum gem_led_animation_mode _mode = GEM_LED_MODE_NORMAL;
-uint32_t _last_update;
-fix16_t _phase_a = F16(0);
-uint32_t _hue_accum;
-uint32_t _hue_offsets[GEM_DOTSTAR_COUNT] = {
+static const uint32_t _hue_offsets[GEM_DOTSTAR_COUNT] = {
     65355 / GEM_DOTSTAR_COUNT * 2,
     65355 / GEM_DOTSTAR_COUNT * 2,
     65355 / GEM_DOTSTAR_COUNT * 6,
@@ -21,11 +17,52 @@ uint32_t _hue_offsets[GEM_DOTSTAR_COUNT] = {
     65355 / GEM_DOTSTAR_COUNT * 4,
     65355 / GEM_DOTSTAR_COUNT * 3,
 };
-uint8_t _sparkles[GEM_DOTSTAR_COUNT];
+static enum gem_led_animation_mode _mode = GEM_LED_MODE_NORMAL;
+static uint32_t _last_update;
+static fix16_t _phase_a = F16(0);
+static uint32_t _hue_accum;
+static uint8_t _sparkles[GEM_DOTSTAR_COUNT];
+
+/* Forward declarations. */
+
+static void _gem_led_animation_step_normal(uint32_t delta);
+static void _gem_led_animation_step_hard_sync(uint32_t delta);
+static void _gem_led_animation_step_calibration(uint32_t ticks);
+
+/* Public functions. */
 
 void gem_led_animation_init() { _last_update = gem_get_ticks(); }
 
-void _gem_led_animation_step_normal(uint32_t delta) {
+void gem_led_animation_set_mode(enum gem_led_animation_mode mode) { _mode = mode; }
+
+void gem_led_animation_step() {
+    uint32_t ticks = gem_get_ticks();
+    uint32_t delta = ticks - _last_update;
+    if (delta < GEM_ANIMATION_INTERVAL) {
+        return;
+    }
+
+    _last_update = ticks;
+
+    switch (_mode) {
+        case GEM_LED_MODE_NORMAL:
+            _gem_led_animation_step_normal(delta);
+            break;
+        case GEM_LED_MODE_HARD_SYNC:
+            _gem_led_animation_step_hard_sync(delta);
+            break;
+        case GEM_LED_MODE_CALIBRATION:
+            _gem_led_animation_step_calibration(ticks);
+            break;
+        default:
+            break;
+    }
+    gem_dotstar_update();
+}
+
+/* Private functions. */
+
+static void _gem_led_animation_step_normal(uint32_t delta) {
     _phase_a += fix16_div(fix16_from_int(delta), F16(2200.0));
     if (_phase_a > F16(1.0))
         _phase_a = fix16_sub(_phase_a, F16(1.0));
@@ -56,7 +93,7 @@ void _gem_led_animation_step_normal(uint32_t delta) {
     }
 }
 
-void _gem_led_animation_step_hard_sync(uint32_t delta) {
+static void _gem_led_animation_step_hard_sync(uint32_t delta) {
     _phase_a += fix16_div(fix16_from_int(delta), F16(2200.0));
     if (_phase_a > F16(1.0))
         _phase_a = fix16_sub(_phase_a, F16(1.0));
@@ -87,7 +124,7 @@ void _gem_led_animation_step_hard_sync(uint32_t delta) {
     }
 }
 
-void _gem_led_animation_step_calibration(uint32_t ticks) {
+static void _gem_led_animation_step_calibration(uint32_t ticks) {
     for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
         fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(5000.0));
         fix16_t sinv = gem_sine(bright_time);
@@ -97,30 +134,3 @@ void _gem_led_animation_step_calibration(uint32_t ticks) {
         gem_dotstar_set32(i, color);
     }
 }
-
-void gem_led_animation_step() {
-    uint32_t ticks = gem_get_ticks();
-    uint32_t delta = ticks - _last_update;
-    if (delta < GEM_ANIMATION_INTERVAL) {
-        return;
-    }
-
-    _last_update = ticks;
-
-    switch (_mode) {
-        case GEM_LED_MODE_NORMAL:
-            _gem_led_animation_step_normal(delta);
-            break;
-        case GEM_LED_MODE_HARD_SYNC:
-            _gem_led_animation_step_hard_sync(delta);
-            break;
-        case GEM_LED_MODE_CALIBRATION:
-            _gem_led_animation_step_calibration(ticks);
-            break;
-        default:
-            break;
-    }
-    gem_dotstar_update();
-}
-
-void gem_led_animation_set_mode(enum gem_led_animation_mode mode) { _mode = mode; }
