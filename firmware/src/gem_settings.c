@@ -1,21 +1,11 @@
 #include "gem_settings.h"
 #include "gem_nvm.h"
+#include "gem_pack.h"
 #include "printf.h"
 #include <stdarg.h>
 
 #define SETTINGS_MARKER 0x66
 #define SETTINGS_LEN 39
-
-#define UNPACK_16(data, idx) data[idx] << 8 | data[idx + 1]
-#define UNPACK_32(data, idx) data[idx] << 24 | data[idx + 1] << 16 | data[idx + 2] << 8 | data[idx + 3]
-#define PACK_16(val, data, idx)                                                                                        \
-    data[idx] = val >> 8;                                                                                              \
-    data[idx + 1] = val & 0xFF;
-#define PACK_32(val, data, idx)                                                                                        \
-    data[idx] = val >> 24;                                                                                             \
-    data[idx + 1] = val >> 16;                                                                                         \
-    data[idx + 2] = val >> 8;                                                                                          \
-    data[idx + 3] = val & 0xFF;
 
 extern uint8_t _nvm_settings_base_address;
 

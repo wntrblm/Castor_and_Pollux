@@ -1,15 +1,11 @@
 #include "gem_nvm.h"
+#include "gem_pack.h"
 #include "gem_voice_param_table.h"
 #include "printf.h"
 #include <stdbool.h>
 
 #define VALID_TABLE_MARKER 0x41
 #define BUFFER_LEN 512
-
-#define UNPACK_16(data, idx) data[idx] << 8 | data[idx + 1]
-#define PACK_16(val, data, idx)                                                                                        \
-    data[idx] = val >> 8;                                                                                              \
-    data[idx + 1] = val & 0xFF;
 
 extern uint8_t _nvm_lut_base_address;
 extern uint8_t _nvm_lut_length;
