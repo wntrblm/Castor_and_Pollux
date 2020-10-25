@@ -22,18 +22,18 @@ static uint8_t _encoding_buf[128];
 
 /* Forward declarations. */
 
-void _cmd_0x01_hello(uint8_t* data, size_t len);
-void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len);
-void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len);
-void _cmd_0x04_read_adc(uint8_t* data, size_t len);
-void _cmd_0x05_set_dac(uint8_t* data, size_t len);
-void _cmd_0x06_set_period(uint8_t* data, size_t len);
-void _cmd_0x07_erase_settings(uint8_t* data, size_t len);
-void _cmd_0x08_read_settings(uint8_t* data, size_t len);
-void _cmd_0x09_write_settings(uint8_t* data, size_t len);
-void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len);
-void _cmd_0x0B_write_lut(uint8_t* data, size_t len);
-void _cmd_0x0C_erase_lut(uint8_t* data, size_t len);
+static void _cmd_0x01_hello(uint8_t* data, size_t len);
+static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len);
+static void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len);
+static void _cmd_0x04_read_adc(uint8_t* data, size_t len);
+static void _cmd_0x05_set_dac(uint8_t* data, size_t len);
+static void _cmd_0x06_set_period(uint8_t* data, size_t len);
+static void _cmd_0x07_erase_settings(uint8_t* data, size_t len);
+static void _cmd_0x08_read_settings(uint8_t* data, size_t len);
+static void _cmd_0x09_write_settings(uint8_t* data, size_t len);
+static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len);
+static void _cmd_0x0B_write_lut(uint8_t* data, size_t len);
+static void _cmd_0x0C_erase_lut(uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -52,7 +52,7 @@ void gem_register_sysex_commands() {
     gem_midi_register_sysex_command(0x0C, _cmd_0x0C_erase_lut);
 };
 
-void _cmd_0x01_hello(uint8_t* data, size_t len) {
+static void _cmd_0x01_hello(uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
@@ -63,7 +63,7 @@ void _cmd_0x01_hello(uint8_t* data, size_t len) {
     gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_TWO_BYTE, GEM_FIRMWARE_VERSION, MIDI_SYSEX_END_BYTE, 0x00});
 }
 
-void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
+static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
     (void)(len);
 
     struct gem_settings settings;
@@ -72,7 +72,7 @@ void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
     gem_settings_save(&settings);
 }
 
-void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len) {
+static void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len) {
     (void)(len);
 
     struct gem_settings settings;
@@ -81,7 +81,7 @@ void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len) {
     gem_settings_save(&settings);
 }
 
-void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
+static void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
     (void)(len);
 
     uint16_t result = gem_adc_read_sync(&gem_adc_inputs[data[2]]);
@@ -91,7 +91,7 @@ void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
     gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_TWO_BYTE, result & 0xF, MIDI_SYSEX_END_BYTE, 0x00});
 }
 
-void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
+static void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
     (void)(len);
 
     struct gem_mcp4728_channel dac_settings = {};
@@ -100,19 +100,19 @@ void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
     gem_mcp_4728_write_channel(data[2], dac_settings);
 }
 
-void _cmd_0x06_set_period(uint8_t* data, size_t len) {
+static void _cmd_0x06_set_period(uint8_t* data, size_t len) {
     (void)(len);
     gem_pulseout_set_period(data[2], MIDI_UNPACK_U16(data, 3));
 }
 
-void _cmd_0x07_erase_settings(uint8_t* data, size_t len) {
+static void _cmd_0x07_erase_settings(uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_settings_erase();
 }
 
-void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
+static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
@@ -126,7 +126,7 @@ void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     }
 }
 
-void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
+static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
     (void)(len);
 
     /* Settings are sent in 16 byte chunks to avoid overflowing midi buffers. */
@@ -150,7 +150,7 @@ void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
     }
 }
 
-void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
+static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
     (void)(len);
 
     size_t entry = data[2];
@@ -168,14 +168,14 @@ void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
     }
 }
 
-void _cmd_0x0B_write_lut(uint8_t* data, size_t len) {
+static void _cmd_0x0B_write_lut(uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_save_dac_codes_table();
 }
 
-void _cmd_0x0C_erase_lut(uint8_t* data, size_t len) {
+static void _cmd_0x0C_erase_lut(uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
