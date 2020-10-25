@@ -1,8 +1,8 @@
 #include "gem_random.h"
 
-uint16_t wyhash_state;
-uint32_t xorshift32_state;
-uint64_t xorshift64_state;
+static uint16_t wyhash_state;
+static uint32_t xorshift32_state;
+static uint64_t xorshift64_state;
 
 void gem_random_init(uint32_t seed) {
     wyhash_state = seed & 0xFFFF;
@@ -11,7 +11,7 @@ void gem_random_init(uint32_t seed) {
 }
 
 /* Modified wyhash algorithm, https://lemire.me/blog/2019/07/03/a-fast-16-bit-random-number-generator/ */
-uint32_t _hash16(uint32_t input, uint32_t key) {
+static uint32_t _hash16(uint32_t input, uint32_t key) {
     uint32_t hash = input * key;
     return ((hash >> 16) ^ hash) & 0xFFFF;
 }

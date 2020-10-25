@@ -16,7 +16,7 @@ static volatile size_t _current_input = 0;
 static volatile bool _results_ready = false;
 
 /* Private forward declarations. */
-void _gem_adc_scan();
+static void _gem_adc_scan();
 
 /* Public methods. */
 
@@ -177,7 +177,7 @@ uint16_t gem_adc_correct_errors_u_int16(const uint16_t value, const struct gem_a
 
 /* Private methods & interrupt handlers. */
 
-void _gem_adc_scan() {
+static void _gem_adc_scan() {
     struct gem_adc_input input = _inputs[_current_input];
 
     /* Swap out the input pin. */
