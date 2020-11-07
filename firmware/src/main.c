@@ -5,13 +5,13 @@
 
 static struct gem_settings settings;
 static uint32_t adc_results[GEM_IN_COUNT];
-static uint32_t last_update = 0;
 static uint32_t last_sync_button_change = 0;
 static bool hard_sync_reading = false;
 static bool previous_hard_sync_reading = false;
 static bool hard_sync = false;
 static struct gem_voice_params castor_params = {};
 static struct gem_voice_params pollux_params = {};
+static uint32_t last_lfo_update = 0;
 static fix16_t chorus_lfo_phase = 0;
 static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
@@ -150,12 +150,15 @@ static void loop() {
         Calculate the chorus LFO and account for LFO in Pollux's pitch.
     */
     uint32_t now = gem_get_ticks();
-    uint32_t delta = now - last_update;
+    uint32_t delta = now - last_lfo_update;
 
     if (delta > 0) {
         chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0)), fix16_from_int(delta));
+
         if (chorus_lfo_phase > F16(1.0))
             chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0));
+
+        last_lfo_update = now;
     }
 
     uint16_t chorus_lfo_amount_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
@@ -242,8 +245,6 @@ static void loop() {
         (struct gem_mcp4728_channel){.value = castor_duty},
         (struct gem_mcp4728_channel){.value = pollux_params.dac_codes.pollux, .vref = 1},
         (struct gem_mcp4728_channel){.value = pollux_duty});
-
-    last_update = gem_get_ticks();
 }
 
 int main(void) {
