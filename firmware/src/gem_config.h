@@ -13,6 +13,7 @@
 
 /* MIDI configuration. */
 #define GEM_SYSEX_BUF_SIZE 64
+#define GEM_SYSEX_TIMEOUT 100000
 
 /* Analog to Digital Converter Configuration */
 
