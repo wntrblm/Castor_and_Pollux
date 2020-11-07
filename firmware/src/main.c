@@ -152,9 +152,11 @@ static void loop() {
     uint32_t now = gem_get_ticks();
     uint32_t delta = now - last_update;
 
-    chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0)), fix16_from_int(delta));
-    if (chorus_lfo_phase > F16(1.0))
-        chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0));
+    if (delta > 0) {
+        chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0)), fix16_from_int(delta));
+        if (chorus_lfo_phase > F16(1.0))
+            chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0));
+    }
 
     uint16_t chorus_lfo_amount_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
     fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_code), F16(4095.0));
