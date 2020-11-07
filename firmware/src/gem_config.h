@@ -72,6 +72,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 #define GEM_I2C_PAD_1_PORT 0
 #define GEM_I2C_PAD_1_PIN 1
 #define GEM_I2C_PAD_1_PIN_FUNC GEM_PMUX_D
+#define GEM_I2C_WAIT_TIMEOUT 100000
 
 /* SPI configuration for the Dotstars. */
 
