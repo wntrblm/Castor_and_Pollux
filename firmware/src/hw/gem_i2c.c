@@ -1,6 +1,7 @@
 #include "gem_i2c.h"
 #include "gem_config.h"
 #include "gem_gpio.h"
+#include "printf.h"
 
 #define BUSSTATE_UNKNOWN 0
 #define BUSSTATE_IDLE 1
@@ -69,8 +70,20 @@ enum gem_i2c_result gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
 
     /* Address + write flag. */
     GEM_I2C_SERCOM->I2CM.ADDR.bit.ADDR = (address << 0x1ul) | 0;
-    /* TODO: Consider a timeout here. */
-    while (!GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB) {};
+
+    /* This can hang forever, so put a timeout on it. */
+    size_t w = 0;
+    for(; w < GEM_I2C_WAIT_TIMEOUT; w++) {
+        if(GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB) {
+            break;
+        }
+    }
+
+    #ifdef DEBUG
+    if(w == GEM_I2C_WAIT_TIMEOUT) {
+        printf("I2C timeout hit!");
+    }
+    #endif
 
     /* Check for loss of bus or NACK - in either case we can't continue. */
     if (GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE != BUSSTATE_OWNER) {
