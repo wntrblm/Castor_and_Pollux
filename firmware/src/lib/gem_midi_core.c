@@ -66,10 +66,19 @@ static void _parse_sysex() {
     _sysex_data[1] = _in_data[3];
     size_t data_index = 2;
 
-    /* TODO: Consider a timeout here. */
     while (1) {
-        /* Wait until we get a message. */
-        while (!gem_usb_midi_receive(_in_data)) {};
+    
+        /* Wait until we get a message, but fail out if it doesn't arrive in time. */
+        size_t m = 0;
+        for(; m < GEM_SYSEX_TIMEOUT; m++){
+            if(gem_usb_midi_receive(_in_data)) {
+                break;
+            }
+        }
+
+        if (m == GEM_SYSEX_TIMEOUT) {
+            goto timeout_fail;
+        }
 
         if ((_in_data[0] & 0x0F) == MIDI_SYSEX_START_OR_CONTINUE) {
             if (data_index + 3 > GEM_SYSEX_BUF_SIZE - 1)
@@ -99,6 +108,13 @@ static void _parse_sysex() {
     }
 
     _sysex_data_len = data_index;
+
+    return;
+
+timeout_fail:
+    _sysex_data_len = 0;
+    printf("Timed out while waiting for SysEx.");
+    return;
 }
 
 void gem_midi_send_sysex(uint8_t* data, size_t len) {
