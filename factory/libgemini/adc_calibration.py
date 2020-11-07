@@ -7,7 +7,7 @@ from libgemini import sol
 from libgemini import adc_errors
 
 
-def main(calibration_points, sample_count, adc_range, adc_resolution, invert, adc_channel, save):
+def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc_channel, save):
     voltages = [
         n / calibration_points * adc_range
         for n in range(calibration_points + 1)
@@ -28,7 +28,6 @@ def main(calibration_points, sample_count, adc_range, adc_resolution, invert, ad
 
     gem.enter_calibration_mode()
 
-    # TODO: Change to "send_voltage"
     sol_.send_voltage(0)
 
     for n in range(calibration_points + 1):
@@ -73,4 +72,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    main(args.calibration_points, args.sample_count, args.adc_range, args.adc_resolution, args.invert, args.adc_channel, not args.dry_run)
+    run(args.calibration_points, args.sample_count, args.adc_range, args.adc_resolution, args.invert, args.adc_channel, not args.dry_run)

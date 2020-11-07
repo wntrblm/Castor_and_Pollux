@@ -1,15 +1,20 @@
+import os.path
+import csv
+
 from libgemini import gemini
+
+here = os.path.abspath(os.path.dirname(__file__))
 
 period_to_dac_code = {}
 
-with open("calibration-table.csv", "r") as fh:
+with open(os.path.join(here, "../../firmware/data/pitch-calibration-table.csv"), "r") as fh:
     reader = csv.DictReader(fh)
 
     for row in reader:
         period_to_dac_code[row["period reg"]] = row["castor calibrated dac code"]
 
 
-def main(save):
+def run(save):
     gem = gemini.Gemini()
 
     gem.enter_calibration_mode()
@@ -46,4 +51,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    main(not args.dry_run)
+    run(not args.dry_run)
