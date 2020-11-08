@@ -85,7 +85,7 @@ static void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
     (void)(len);
 
     uint16_t result = gem_adc_read_sync(&gem_adc_inputs[data[2]]);
-    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x02});
+    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x04});
     gem_usb_midi_send(
         (uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, (result >> 12) & 0xF, (result >> 8) & 0xF, (result >> 4) & 0xF});
     gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_TWO_BYTE, result & 0xF, MIDI_SYSEX_END_BYTE, 0x00});
@@ -119,7 +119,7 @@ static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     struct gem_settings settings;
     gem_settings_serialize(&settings, _settings_buf);
     gem_midi_encode(_settings_buf, _encoding_buf, 64);
-    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x06});
+    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x08});
     /* Settings are sent in 16 byte chunks to avoid overflowing midi buffers. */
     if (data[2] < 8) {
         gem_midi_send_sysex(_encoding_buf + (16 * data[2]), 16);
@@ -137,7 +137,7 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
         memcpy(_encoding_buf + (16 * data[2]), data + 3, 16);
         /* Ack the data. */
         gem_usb_midi_send(
-            (uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x07});
+            (uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x09});
         gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_ONE_BYTE, MIDI_SYSEX_END_BYTE, 0x00, 0x00});
     }
     if (data[2] == 7) {
@@ -161,11 +161,18 @@ static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
         return;
     }
 
+    printf("Set LUT entry %u to %u\r\n", entry, code);
+
     if (osc == 0) {
         gem_voice_dac_codes_table[entry].castor = code;
     } else {
         gem_voice_dac_codes_table[entry].pollux = code;
     }
+
+    /* Acknowledge the message. */
+    gem_usb_midi_send(
+        (uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x0A});
+    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_ONE_BYTE, MIDI_SYSEX_END_BYTE, 0x00, 0x00});
 }
 
 static void _cmd_0x0B_write_lut(uint8_t* data, size_t len) {
