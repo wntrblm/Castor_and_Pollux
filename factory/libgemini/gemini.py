@@ -183,6 +183,8 @@ class Gemini:
             SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_LUT_ENTRY,
             entry, castor_pollux,
             (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF, SYSEX_END])
+        # wait for ack
+        _wait_for_message(self.port_in)
 
     def write_lut(self):
         self.port_out.send_message([
