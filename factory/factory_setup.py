@@ -20,12 +20,12 @@ def program_firmware():
 
 def run_adc_calibration():
     print("========== CALIBRATING ADC ==========")
-    adc_calibration.main()
+    adc_calibration.run()
 
 
 def run_ramp_calibration():
     print("========== CALIBRATING RAMP ==========")
-    ramp_calibration.main()
+    ramp_calibration.run(save=True)
 
 
 def run_knob_calibration():

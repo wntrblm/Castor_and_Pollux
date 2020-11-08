@@ -1,7 +1,12 @@
+import argparse
 import os.path
 import csv
+import time
+import sys
+import pyvisa as visa
 
 from libgemini import gemini
+from libgemini import oscilloscope
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -11,43 +16,137 @@ with open(os.path.join(here, "../../firmware/data/pitch-calibration-table.csv"),
     reader = csv.DictReader(fh)
 
     for row in reader:
-        period_to_dac_code[row["period reg"]] = row["castor calibrated dac code"]
+        period_to_dac_code[int(row["period reg"])] = int(row["castor calibrated dac code"])
 
 
-def run(save):
-    gem = gemini.Gemini()
+def _code_to_volts(code):
+    return code / 4096 * 2.5
 
-    gem.enter_calibration_mode()
+
+def _period_reg_to_freq(period):
+    return 8_000_000 / (4 * (period + 1))
+
+
+def _calibrate_oscillator(gem, scope, oscillator):
+    last_dac_code = 0
 
     for period, dac_code in period_to_dac_code.items():
-        print(f"Period: {period}")
-        gem.set_period(1, period)
+        # The real code tends to be somewhere between the reference and the last dac code.
+        dac_code = (dac_code + last_dac_code) // 2
+        frequency = _period_reg_to_freq(period)
+    
+        print(f"Frequency: {frequency:.2f}Hz, Period reg: {period}, start code: {dac_code}, start voltage: {_code_to_volts(dac_code):.2f}v")
+
+        if period > 2**16:
+            print(f"    Warning: skipping {period} because you haven't fixed this for 24-bit period registers")
+            continue
+
+        # Adjust the oscilloscope's time division as needed.
+
+        if frequency > 500:
+            scope.set_time_division("250us")
+        elif frequency > 300:
+            scope.set_time_division("500us")
+        elif frequency > 150:
+            scope.set_time_division("1ms")
+        elif frequency > 50:
+            scope.set_time_division("5ms")
+        else:
+            scope.set_time_division("10ms")
+
+        gem.set_period(oscillator, period)
+
+        sys.stdout.write("> ")
 
         while True:
-            gem.set_dac(2, dac_code, gain=1)
-            reply = input("(u)p, (d)own, (u)p a (l)ittle, (d)own a (l), or (o)kay)? ")
-            if reply == "u":
-                dac_code += 10
-            if reply == "d":
-                dac_code -= 10
-            if reply == "ul":
-                dac_code += 1
-            if reply == "dl":
-                dac_code -= 1
-            if reply == "o":
+            gem.set_dac(0 if oscillator == 0 else 2, dac_code, gain=1)
+
+            # Let things settle.
+            time.sleep(0.02)
+
+            # Read the oscilloscope's peak-to-peak stats and adjust as needed.
+            peak_to_peak = scope.get_peak_to_peak("c1")
+
+            if peak_to_peak < 0.3:
+                # Probe probably isn't connected, sleep and try again.
+                time.sleep(0.2)
+                sys.stdout.write("💤")
+                sys.stdout.flush()
+            
+            elif peak_to_peak <= 3.25:
+                # Too low, increase DAC code.
+                dac_code += 5
+                sys.stdout.write("+")
+                sys.stdout.flush()
+
+                if(dac_code > 4096):
+                    print("DAC overflow!")
+                    return
+
+            elif peak_to_peak > 3.35:
+                # Too high, decrease the DAC code.
+                dac_code -= 5
+                sys.stdout.write("-")
+                sys.stdout.flush()
+
+                if(dac_code < 0):
+                    print("DAC underflow!")
+                    return
+            
+            else:
+                sys.stdout.write("✓\r\n")
+                measured_frequency = scope.get_frequency()
+                print(f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz")
                 break
         
         period_to_dac_code[period] = dac_code
+        last_dac_code = dac_code
+        print("")
 
-    # TODO: Save these in NVM.
+    return period_to_dac_code.copy()
+
+def run(save):
+    # Oscilloscope setup.
+    resource_manager = visa.ResourceManager("@ivi")
+    scope = oscilloscope.Oscilloscope(resource_manager)
+    scope.reset()
+
+    scope.set_vertical_division("c1", 2)
+    scope.set_vertical_cursor("c1", 0, 3.3)
+    scope.set_trigger_level("c1", 1)
+
+    # Gemini setup
+    gem = gemini.Gemini()
+    gem.enter_calibration_mode()
+
+    # Calibrate both oscillators
+    print("--------- Calibrating Castor ---------")
+    input("Connect to RAMP A and press enter to start.")
+    castor_calibration = _calibrate_oscillator(gem, scope, 0)
+
+    print("--------- Calibrating Pollux ---------")
+    input("Connect to RAMP B and press enter to start.")
+    pollux_calibration = _calibrate_oscillator(gem, scope, 1)
+
     if save:
-        for dac_code in dac_codes:
-            print(f"{dac_code}")
+        print("--------- Saving calibration table ---------")
+
+        for o, table in enumerate([castor_calibration, pollux_calibration]):
+            for n, dac_code in enumerate(table.values()):
+                print(f"> Set oscillator {o} entry {n} to {dac_code}.")
+                gem.write_lut_entry(n, o, dac_code)
+        
+        print("Writing LUT to NVM")
+        gem.write_lut()
+    else:
+        print("WARNING: Dry run enabled, calibration table not saved.")
+    
+    print("Done")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--dry_run", type=bool, action="store_true", default=False, help="Don't save the calibration values.")
+    parser.add_argument("--dry_run", action="store_true", default=False, help="Don't save the calibration values.")
 
     args = parser.parse_args()
 
