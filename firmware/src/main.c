@@ -128,8 +128,7 @@ static void loop() {
 
     uint16_t pollux_pitch_cv_code = (4095 - adc_results[GEM_IN_CV_B]);
 
-    // TODO: Maybe adjust this threshold / calibrate it?
-    if (pollux_pitch_cv_code > 6) {
+    if (pollux_pitch_cv_code > settings.pollux_follower_threshold) {
         fix16_t pollux_pitch_cv_value = fix16_div(fix16_from_int(pollux_pitch_cv_code), F16(4095.0));
         pollux_pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, pollux_pitch_cv_value));
     }

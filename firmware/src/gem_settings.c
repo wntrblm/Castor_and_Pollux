@@ -5,7 +5,7 @@
 #include <stdarg.h>
 
 #define SETTINGS_MARKER 0x63
-#define SETTINGS_LEN 47
+#define SETTINGS_LEN 49
 
 extern uint8_t _nvm_settings_base_address;
 
@@ -22,7 +22,9 @@ static const struct gem_settings _default_settings = {
     .knob_offset_corr = F16(0.0),
     .knob_gain_corr = F16(1.0),
     .smooth_initial_gain = F16(0.1),
-    .smooth_sensitivity = F16(20.0)};
+    .smooth_sensitivity = F16(20.0),
+    .pollux_follower_threshold = 6,
+};
 
 bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
     /* Check for the magic flag. */
@@ -43,6 +45,7 @@ bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
     settings->knob_gain_corr = UNPACK_32(data, 35);
     settings->smooth_initial_gain = UNPACK_32(data, 39);
     settings->smooth_sensitivity = UNPACK_32(data, 43);
+    settings->pollux_follower_threshold = UNPACK_16(data, 47);
 
     /* Check for invalid settings that could cause crashes. */
     if (settings->adc_gain_corr < 512 || settings->adc_offset_corr > 4096) {
@@ -79,7 +82,8 @@ void gem_settings_serialize(struct gem_settings* settings, uint8_t* data) {
     PACK_32(settings->knob_offset_corr, data, 31);
     PACK_32(settings->knob_gain_corr, data, 35);
     PACK_32(settings->smooth_initial_gain, data, 39);
-    PACK_32(settings->smooth_sensitivity, data, 41);
+    PACK_32(settings->smooth_sensitivity, data, 43);
+    PACK_16(settings->pollux_follower_threshold, data, 47);
 };
 
 void gem_settings_save(struct gem_settings* settings) {
@@ -119,4 +123,5 @@ void gem_settings_print(struct gem_settings* settings) {
     printf(" Smooth inital gain: %s\r\n", fix16buf);
     fix16_to_str(settings->smooth_initial_gain, fix16buf, 2);
     printf(" Smooth sensitivity: %s\r\n", fix16buf);
+    printf(" Pollux follower threshold: %u code points\r\n", settings->pollux_follower_threshold);
 }
