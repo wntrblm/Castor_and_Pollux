@@ -1,6 +1,6 @@
 r
 loadfile .cache/bootloader.bin
-loadfile ../firmware/build/gemini-firmware.bin
+loadfile ../firmware/build/gemini-firmware.bin 0x2000
 r
 go
 exit
