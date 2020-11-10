@@ -260,7 +260,7 @@ def run_jlink(device, script):
         [
             JLINK_PATH,
             "-device",
-            "ATSAMD51J20",
+            device,
             "-autoconnect",
             "1",
             "-if",
