@@ -39,6 +39,8 @@ class Settings:
     chorus_frequency: int = 0
     knob_offset_corr: int = 0
     knob_gain_corr: int = 0
+    smooth_initial_gain: int = 0
+    smooth_sensitivity: int = 0
 
 
 class SysExCommands(enum.IntEnum):
@@ -146,13 +148,15 @@ class Gemini:
         settings.chorus_max_intensity,
         settings.chorus_frequency,
         settings.knob_offset_corr,
-        settings.knob_gain_corr) = struct.unpack(">BHhHiiiiiiii", settings_buf[:39])
+        settings.knob_gain_corr,
+        settings.smooth_initial_gain,
+        settings.smooth_sensitivity) = struct.unpack(">BHhHiiiiiiiiii", settings_buf[:47])
 
         return settings
 
     def save_settings(self, settings):
         settings_buf = bytearray(struct.pack(
-            ">BHhHiiiiiiii",
+            ">BHhHiiiiiiiiii",
             settings.magic,
             settings.adc_gain_corr,
             settings.adc_offset_corr,
@@ -164,7 +168,9 @@ class Gemini:
             settings.chorus_max_intensity,
             settings.chorus_frequency,
             settings.knob_offset_corr,
-            settings.knob_gain_corr))
+            settings.knob_gain_corr,
+            settings.smooth_initial_gain,
+            settings.smooth_sensitivity))
 
         settings_encoded = bytearray(128)
         midi_encode(settings_buf, settings_encoded)
