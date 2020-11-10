@@ -127,6 +127,5 @@ enum gem_adc_channels {
 #define GEM_CV_INPUT_RANGE F16(6.0)
 #define GEM_CV_BASE_OFFSET F16(1.0)
 /* TODO: Turn these into NVM settings? */
-#define GEM_CHORUS_LFO_FREQUENCY F16(0.2)
 #define GEM_SMOOTH_INITIAL_GAIN F16(0.1)
 #define GEM_SMOOTH_SENSITIVITY F16(20.0)
