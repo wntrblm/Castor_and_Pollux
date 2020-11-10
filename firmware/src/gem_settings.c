@@ -58,6 +58,7 @@ bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
     return true;
 
 fail:
+    printf("Failed to deserialize settings, invalid data.\r\n");
     (*settings) = _default_settings;
     return false;
 }

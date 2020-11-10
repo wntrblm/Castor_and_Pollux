@@ -43,13 +43,7 @@ static void init() {
     gem_random_init(gem_serial_number_low());
 
     /* Load settings */
-    bool valid_settings = gem_settings_load(&settings);
-
-    if (!valid_settings) {
-        printf("Failed to load settings.\r\n");
-    } else {
-        printf("Loaded settings.\r\n");
-    }
+    gem_settings_load(&settings);
     gem_settings_print(&settings);
 
     castor_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
