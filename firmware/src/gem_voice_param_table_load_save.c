@@ -32,10 +32,15 @@ void gem_load_dac_codes_table() {
         return;
     }
 
+    uint16_t checksum = 0;
     for (size_t table_idx = 0; table_idx < gem_voice_param_table_len; table_idx++) {
         gem_voice_dac_codes_table[table_idx].castor = UNPACK_16(_buf, table_idx * 4);
         gem_voice_dac_codes_table[table_idx].pollux = UNPACK_16(_buf, table_idx * 4 + 2);
+
+        checksum ^= gem_voice_dac_codes_table[table_idx].castor;
     }
+
+    printf("LUT table loaded from NVM, checksum: %04x\r\n", checksum);
 }
 
 void gem_save_dac_codes_table() {

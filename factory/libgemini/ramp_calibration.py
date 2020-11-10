@@ -79,9 +79,9 @@ def _calibrate_oscillator(gem, scope, oscillator):
                 sys.stdout.write("+")
                 sys.stdout.flush()
 
-                if(dac_code > 4096):
-                    print("DAC overflow!")
-                    return
+                if(dac_code >= 4095):
+                    print("DAC overflow! Voltage can not be increased from here!")
+                    dac_code = 4095
 
             elif peak_to_peak > 3.35:
                 # Too high, decrease the DAC code.
@@ -138,6 +138,13 @@ def run(save):
         
         print("Writing LUT to NVM")
         gem.write_lut()
+
+        checksum = 0
+        for dac_code in castor_calibration.values():
+            checksum ^= dac_code
+
+        print(f"Calibration table written, checksum: {checksum:04x}")
+
     else:
         print("WARNING: Dry run enabled, calibration table not saved.")
     
