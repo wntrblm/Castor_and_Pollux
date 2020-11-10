@@ -27,8 +27,7 @@ static const struct gem_settings _default_settings = {
 bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
     /* Check for the magic flag. */
     if (data[0] != SETTINGS_MARKER) {
-        (*settings) = _default_settings;
-        return false;
+        goto fail;
     }
 
     settings->adc_gain_corr = UNPACK_16(data, 1);
@@ -45,13 +44,24 @@ bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
     settings->smooth_initial_gain = UNPACK_32(data, 39);
     settings->smooth_sensitivity = UNPACK_32(data, 43);
 
+    /* Check for invalid settings that could cause crashes. */
+    if (settings->adc_gain_corr < 512 || settings->adc_offset_corr > 4096) {
+        goto fail;
+    }
+    if (settings->led_brightness > 255) {
+        goto fail;
+    }
+
     return true;
+
+fail:
+    (*settings) = _default_settings;
+    return false;
 }
 
 bool gem_settings_load(struct gem_settings* settings) {
     uint8_t data[SETTINGS_LEN];
     gem_nvm_read((uint32_t)(&_nvm_settings_base_address), data, SETTINGS_LEN);
-    /* TODO: Validate settings and put hard limits on certain paramters, as they can cause crashes/hangs. */
     return gem_settings_deserialize(settings, data);
 }
 
