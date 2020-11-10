@@ -41,6 +41,9 @@ while True:
 
     elif cmd == "save_settings":
         gem.save_settings(settings)
-    
+
+    elif cmd.startswith("$"):
+        eval(cmd[1:])
+
     else:
         print("unknown command")

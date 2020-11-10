@@ -23,6 +23,8 @@ struct gem_settings {
     fix16_t chorus_frequency;
     fix16_t knob_offset_corr;
     fix16_t knob_gain_corr;
+    fix16_t smooth_initial_gain;
+    fix16_t smooth_sensitivity;
 };
 
 bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data);

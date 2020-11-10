@@ -17,14 +17,14 @@ static fix16_t castor_knob_range;
 static fix16_t pollux_knob_range;
 static struct gem_adc_errors knob_errors;
 static struct gem_smoothie_state castor_smooth = {
-    .initial_gain = GEM_SMOOTH_INITIAL_GAIN,
-    .sensitivity = GEM_SMOOTH_SENSITIVITY,
+    .initial_gain = F16(0),
+    .sensitivity = F16(0),
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
 static struct gem_smoothie_state pollux_smooth = {
-    .initial_gain = GEM_SMOOTH_INITIAL_GAIN,
-    .sensitivity = GEM_SMOOTH_SENSITIVITY,
+    .initial_gain = F16(0),
+    .sensitivity = F16(0),
     ._lowpass1 = F16(0),
     ._lowpass2 = F16(0),
 };
@@ -45,10 +45,6 @@ static void init() {
     /* Load settings */
     bool valid_settings = gem_settings_load(&settings);
 
-    /* Temporary */
-    settings.knob_gain_corr = F16(1.0);
-    settings.knob_offset_corr = F16(0.0);
-
     if (!valid_settings) {
         printf("Failed to load settings.\r\n");
     } else {
@@ -59,6 +55,10 @@ static void init() {
     castor_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
     pollux_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
     knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
+    castor_smooth.initial_gain = settings.smooth_initial_gain;
+    castor_smooth.sensitivity = settings.smooth_sensitivity;
+    pollux_smooth.initial_gain = settings.smooth_initial_gain;
+    pollux_smooth.sensitivity = settings.smooth_sensitivity;
 
     /* Load the LUT table for DAC codes. */
     gem_load_dac_codes_table();

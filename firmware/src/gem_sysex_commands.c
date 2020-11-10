@@ -170,8 +170,7 @@ static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
     }
 
     /* Acknowledge the message. */
-    gem_usb_midi_send(
-        (uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x0A});
+    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x0A});
     gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_ONE_BYTE, MIDI_SYSEX_END_BYTE, 0x00, 0x00});
 }
 
