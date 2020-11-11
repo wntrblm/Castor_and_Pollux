@@ -34,6 +34,8 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len);
 static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len);
 static void _cmd_0x0B_write_lut(uint8_t* data, size_t len);
 static void _cmd_0x0C_erase_lut(uint8_t* data, size_t len);
+static void _cmd_0x0D_disable_adc_corr(uint8_t* data, size_t len);
+static void _cmd_0x0E_enable_adc_corr(uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -50,6 +52,8 @@ void gem_register_sysex_commands() {
     gem_midi_register_sysex_command(0x0A, _cmd_0x0A_write_lut_entry);
     gem_midi_register_sysex_command(0x0B, _cmd_0x0B_write_lut);
     gem_midi_register_sysex_command(0x0C, _cmd_0x0C_erase_lut);
+    gem_midi_register_sysex_command(0x0D, _cmd_0x0D_disable_adc_corr);
+    gem_midi_register_sysex_command(0x0E, _cmd_0x0E_enable_adc_corr);
 };
 
 static void _cmd_0x01_hello(uint8_t* data, size_t len) {
@@ -146,6 +150,10 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
         gem_midi_decode(_encoding_buf, _settings_buf, 64);
         if (gem_settings_deserialize(&settings, _settings_buf)) {
             gem_settings_save(&settings);
+            printf("Saved settings: \r\n");
+            gem_settings_print(&settings);
+        } else {
+            printf("Failed to save settings, unable to deserialize.\r\n");
         }
     }
 }
@@ -186,4 +194,19 @@ static void _cmd_0x0C_erase_lut(uint8_t* data, size_t len) {
     (void)(len);
 
     gem_save_dac_codes_table();
+}
+
+static void _cmd_0x0D_disable_adc_corr(uint8_t* data, size_t len) {
+    (void)(data);
+    (void)(len);
+    gem_adc_set_error_correction(2048, 0);
+}
+
+static void _cmd_0x0E_enable_adc_corr(uint8_t* data, size_t len) {
+    (void)(data);
+    (void)(len);
+
+    struct gem_settings settings;
+    gem_settings_load(&settings);
+    gem_adc_set_error_correction(settings.adc_gain_corr, settings.adc_offset_corr);
 }

@@ -27,6 +27,7 @@ def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc
     sol_ = sol.Sol()
 
     gem.enter_calibration_mode()
+    gem.disable_adc_error_correction()
 
     sol_.send_voltage(0)
 
@@ -58,6 +59,8 @@ def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc
         gem.set_adc_gain_error(gain_error)
         gem.set_adc_offset_error(int(offset_error))
         print("Saved to NVM.")
+    
+    gem.enable_adc_error_correction()
 
 
 if __name__ == "__main__":

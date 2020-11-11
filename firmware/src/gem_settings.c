@@ -48,7 +48,7 @@ bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
     settings->pollux_follower_threshold = UNPACK_16(data, 47);
 
     /* Check for invalid settings that could cause crashes. */
-    if (settings->adc_gain_corr < 512 || settings->adc_offset_corr > 4096) {
+    if (settings->adc_gain_corr < 512 || settings->adc_gain_corr > 4096) {
         goto fail;
     }
     if (settings->led_brightness > 255) {

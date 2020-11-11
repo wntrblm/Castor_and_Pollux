@@ -23,6 +23,9 @@ struct gem_adc_input {
 
 void gem_adc_init(int16_t offset_error, uint16_t gain_error);
 
+/* Configure hardware error correction. */
+void gem_adc_set_error_correction(uint16_t gain, uint16_t offset);
+
 /* Configure a given input channel for ADC reading. */
 void gem_adc_init_input(const struct gem_adc_input* const input);
 

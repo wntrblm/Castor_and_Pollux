@@ -99,6 +99,17 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     */
 }
 
+void gem_adc_set_error_correction(uint16_t gain, uint16_t offset) {
+    ADC->CTRLA.bit.ENABLE = 0;
+    while (ADC->STATUS.bit.SYNCBUSY) {};
+
+    ADC->OFFSETCORR.reg = ADC_OFFSETCORR_OFFSETCORR(offset);
+    ADC->GAINCORR.reg = ADC_GAINCORR_GAINCORR(gain);
+
+    ADC->CTRLA.bit.ENABLE = 1;
+    while (ADC->STATUS.bit.SYNCBUSY) {};
+}
+
 void gem_adc_init_input(const struct gem_adc_input* input) {
     gem_gpio_set_as_input(input->port, input->pin, false);
     gem_gpio_set_mux(input->port, input->pin, GEM_PMUX_B);
