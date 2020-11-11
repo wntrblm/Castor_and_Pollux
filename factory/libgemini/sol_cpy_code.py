@@ -22,6 +22,9 @@ while True:
     
     msg, _ = midi_in.receive_sysex(64)
 
+    if not msg:
+        continue
+
     if msg[0] != SYSEX_MARKER:
         print("Invalid marker")
         continue

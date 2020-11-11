@@ -27,6 +27,8 @@ def _fix16(val):
 
 @dataclass
 class Settings:
+    LENGTH: int = 49
+
     magic: int = 0
     adc_gain_corr: int = 0
     adc_offset_corr: int = 0
@@ -57,6 +59,8 @@ class SysExCommands(enum.IntEnum):
     WRITE_LUT_ENTRY = 0x0A
     WRITE_LUT = 0x0B
     ERASE_LUT = 0x0C
+    DISABLE_ADC_CORR = 0x0D
+    ENABLE_ADC_CORR = 0x0E
 
 
 def midi_encode(src, dst):
@@ -122,6 +126,14 @@ class Gemini:
             (val >> 12) & 0xF, (val >> 8) & 0xF, (val >> 4) & 0xF, val & 0xF,
             SYSEX_END])
 
+    def disable_adc_error_correction(self):
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.DISABLE_ADC_CORR, SYSEX_END])
+
+    def enable_adc_error_correction(self):
+        self.port_out.send_message([
+            SYSEX_START, SYSEX_MARKER, SysExCommands.ENABLE_ADC_CORR, SYSEX_END])
+
     def reset_settings(self):
         self.port_out.send_message([
             SYSEX_START, SYSEX_MARKER, SysExCommands.RESET_SETTINGS, SYSEX_END])
@@ -152,7 +164,7 @@ class Gemini:
         settings.knob_gain_corr,
         settings.smooth_initial_gain,
         settings.smooth_sensitivity,
-        settings.pollux_follower_threshold,) = struct.unpack(">BHhHiiiiiiiiiiH", settings_buf[:49])
+        settings.pollux_follower_threshold,) = struct.unpack(">BHhHiiiiiiiiiiH", settings_buf[:LENGTH])
 
         return settings
 
