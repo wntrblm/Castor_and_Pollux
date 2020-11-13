@@ -121,6 +121,7 @@ static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     (void)(len);
 
     struct gem_settings settings;
+    gem_settings_load(&settings);
     gem_settings_serialize(&settings, _settings_buf);
     gem_midi_encode(_settings_buf, _encoding_buf, 64);
     gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x08});
