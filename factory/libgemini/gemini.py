@@ -164,7 +164,7 @@ class Gemini:
         settings.knob_gain_corr,
         settings.smooth_initial_gain,
         settings.smooth_sensitivity,
-        settings.pollux_follower_threshold,) = struct.unpack(">BHhHiiiiiiiiiiH", settings_buf[:LENGTH])
+        settings.pollux_follower_threshold,) = struct.unpack(">BHhHiiiiiiiiiiH", settings_buf[:Settings.LENGTH])
 
         return settings
 
