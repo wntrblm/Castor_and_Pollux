@@ -59,6 +59,8 @@ def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc
         gem.set_adc_gain_error(gain_error)
         gem.set_adc_offset_error(int(offset_error))
         print("Saved to NVM.")
+    else:
+        print("Dry run, not saved to NVM.")
     
     gem.enable_adc_error_correction()
 
