@@ -191,7 +191,7 @@ class Gemini:
         midi_encode(settings_buf, settings_encoded)
 
         for n in range(8):
-            print(' '.join(f"{x:02x}" for x in settings_encoded[16 * n: 16 * n + 16]))
+            #print(' '.join(f"{x:02x}" for x in settings_encoded[16 * n: 16 * n + 16]))
             self.port_out.send_message(
                 bytearray([SYSEX_START, SYSEX_MARKER, SysExCommands.WRITE_SETTINGS, n]) +
                 settings_encoded[16 * n: 16 * n + 16] +
