@@ -1,7 +1,7 @@
 import argparse
 
 from libwinter import utils
-from libgemini import adc_calibration, ramp_calibration
+from libgemini import adc_calibration, ramp_calibration, knob_calibration
 
 DEVICE_NAME = "winterbloom_gemini"
 JLINK_DEVICE = "ATSAMD21G18"
@@ -42,7 +42,13 @@ def run_ramp_calibration():
 
 def run_knob_calibration():
     print("========== CALIBRATING KNOB ==========")
-    print("TODO: Gotta write knob calibration code.")
+
+    knob_calibration.run(
+        adc_resolution=2**12,
+        adc_channel=1,
+        invert=True,
+        save=True,
+    )
 
 
 def main():
