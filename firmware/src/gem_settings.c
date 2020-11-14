@@ -117,9 +117,9 @@ void gem_settings_print(struct gem_settings* settings) {
     fix16_to_str(settings->chorus_max_intensity, fix16buf, 2);
     printf(" Chorus intensity: %s v/oct\r\n", fix16buf);
     fix16_to_str(settings->knob_offset_corr, fix16buf, 2);
-    printf(" Knob offset: %s\r\n", fix16buf);
+    printf(" Knob offset: %s code points\r\n", fix16buf);
     fix16_to_str(settings->knob_gain_corr, fix16buf, 2);
-    printf(" Knob gain: %s code points\r\n", fix16buf);
+    printf(" Knob gain: %s\r\n", fix16buf);
     fix16_to_str(settings->smooth_sensitivity, fix16buf, 2);
     printf(" Smooth inital gain: %s\r\n", fix16buf);
     fix16_to_str(settings->smooth_initial_gain, fix16buf, 2);
