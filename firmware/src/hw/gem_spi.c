@@ -32,7 +32,11 @@ void gem_spi_init() { /* Enable the APB clock for SERCOM. */
 
     /* Set baud */
     uint32_t baudrate = GEM_SPI_BAUD;
-    GEM_SPI_SERCOM->SPI.BAUD.reg = GEM_SPI_GCLK_FREQ / (2 * baudrate) - 1;
+    if(baudrate == GEM_SPI_GCLK_FREQ) {
+        GEM_SPI_SERCOM->SPI.BAUD.reg = 0x1;
+    } else {
+        GEM_SPI_SERCOM->SPI.BAUD.reg = GEM_SPI_GCLK_FREQ / (2 * baudrate) - 1;
+    }
 
     /* Enable the SERCOM. */
     GEM_SPI_SERCOM->SPI.CTRLA.bit.ENABLE = 1;
