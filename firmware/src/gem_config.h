@@ -77,8 +77,8 @@ extern const struct gem_adc_input gem_adc_inputs[];
 
 /* SPI configuration for the Dotstars. */
 
-#define GEM_SPI_GCLK GCLK_CLKCTRL_GEN_GCLK1
-#define GEM_SPI_GCLK_FREQ 8000000
+#define GEM_SPI_GCLK GCLK_CLKCTRL_GEN_GCLK0
+#define GEM_SPI_GCLK_FREQ 48000000
 #define GEM_SPI_SERCOM SERCOM5
 #define GEM_SPI_SERCOM_APBCMASK PM_APBCMASK_SERCOM5
 #define GEM_SPI_GCLK_CLKCTRL_ID GCLK_CLKCTRL_ID_SERCOM5_CORE
