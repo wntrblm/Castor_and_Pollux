@@ -1,0 +1,209 @@
+/*
+ * Globals
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap');
+
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #e25e6a;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #41b990;
+}
+
+.hidden {
+  display: none;
+}
+
+.container {
+  max-width: 80ch;
+  font-size: 130%;
+}
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+  height: 100%;
+  background: #fff;
+  font-family: 'Overpass', sans-serif;
+}
+body {
+  color: #333;
+  text-align: left;
+}
+
+/* Nav page */
+
+nav {
+  margin-top: 2em;
+}
+
+.navbar-light .navbar-nav a.nav-link {
+  color: #41b990;
+}
+.navbar-light .navbar-nav a.nav-link:hover {
+  color: #F998A3;
+}
+
+@media (max-width: 992px) {
+  .navbar-light .navbar-nav {
+    padding-top: 1em;
+  }
+}
+
+
+/* Page */
+
+a.headerlink {
+  font-size: 50%;
+  color: #A28AD6;
+}
+
+h1 a.headerlink {
+  display: none;
+}
+
+h1 { font-size: 180%; }
+h2 { font-size: 160%; }
+h3 { font-size: 120%; }
+h4 { font-size: 100%; }
+h5 { font-size: 100%; }
+h6 { font-size: 100%; }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #5F419F;
+  margin-top: 1.2em;
+  margin-bottom: 1em;
+  font-weight: 700;
+}
+
+code {
+  font-size: 100%;
+  color: #41b990;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+pre {
+  font-family: 'IBM Plex Mono', monospace;
+  padding: 20px;
+  margin: 2em 0 !important;
+}
+
+pre.lang-c::before, pre.lang-python::before, pre.lang-python3::before, pre.lang-bash::before, pre.lang-json::before, pre.lang-text::before {
+  display: block;
+  float: right;
+  color: #1bc5e0;
+  font-size: 75%;
+  user-select: none;
+}
+
+pre.lang-c::before {
+  content: "C";
+}
+pre.lang-python::before, pre.lang-python3::before {
+  content: "Python";
+}
+pre.lang-bash::before {
+  content: "sh";
+}
+pre.lang-json::before {
+  content: "json";
+}
+pre.lang-text::before {
+  content: "plaintext";
+}
+
+article {
+  margin-top: 2em;
+}
+
+article blockquote {
+  border-left: .1em solid #8768bb;
+  padding-left: 1em;
+  color: #545b62;
+  margin: 2em 0;
+}
+
+
+
+article .admonition .admonition-title {
+  font-weight: 700;
+}
+article .admonition {
+  padding-left: 1em;
+  border-left: .1em solid #999;
+  color: #666;
+  margin: 2em 0;
+}
+
+article .admonition.note {
+  border-left: .1em solid #408D94;
+  color: #27787F;
+}
+article .admonition.note .admonition-title::before {
+  content: "💡 ";
+}
+
+
+article .admonition.warning {
+  border-left: .1em solid #D94A5B;
+  color: #BE2436;
+}
+article .admonition.warning .admonition-title::before {
+  content: "⚠️ ";
+}
+
+article img {
+  width: 90%;
+  margin: 0 auto;
+  display: block;
+  padding: 2em 0;
+}
+
+article img.float-right, article img.float-left {
+  width: 50%;
+  padding: 2em 0.5em;
+}
+
+article img.oshw {
+  display: inline;
+  width: 100px;
+  padding: 0;
+}
+
+footer {
+  margin-top: 5em;
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2em;
+  border-top: 1px solid #41b990;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 70%;
+  text-align: center;
+  width: 60%;
+}
+
+
+@media (max-width: 992px) {
+  footer {
+    width: 95%;
+  }
+}
+
+
+.image-caption {
+  display: block;
+  text-align: center;
+  margin-top: -2em;
+  margin-bottom: 3em;
+}

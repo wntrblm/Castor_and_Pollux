@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+		
+		<link rel="shortcut icon" href="/favicon.ico">
+
+    <title>User Guide - Winterbloom Castor & Pollux User Guide</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="style.css" rel="stylesheet">
+
+    <!-- Syntax highlighting css -->
+		<link href="pygments.css" rel="stylesheet">
+
+  </head>
+  <body>
+    <div class="container">
+			<nav class="navbar navbar-expand-lg navbar-light">
+				<a class="navbar-brand" href=".">
+					<img src="winterbloom-logo.png" height="30" class="d-inline-block align-middle" alt="" loading="lazy">
+				</a>
+				
+			</nav>
+
+			<article>
+				<h1 id="castor-pollux-user-guide">Castor &amp; Pollux User Guide<a class="headerlink" href="#castor-pollux-user-guide" title="Permanent link">#</a></h1>
+<p>Castor &amp; Pollux is a Roland Juno-inspired oscillator. It contains two digitally-controlled analog oscillators implemented using a faithfully modernized version of the original Juno 106 design. Like its inspiration, it can give you that wonderful 80s sound with independent and mixed ramp, pulse, and sub outputs. But the twins do not stop there- the second oscillator can be used to layer in thick detuned sounds, harmonically complex hard synced waveshapes, or as a fully independent second oscillator.</p>
+<h2 id="getting-support-and-help">Getting support and help<a class="headerlink" href="#getting-support-and-help" title="Permanent link">#</a></h2>
+<p>We want you to have a wonderful experience with your module. If you need help or run into problems, please reach out to us. Email is the best way for product issues, whereas Discord and GitHub are great for getting advice and help on how to customize your module.</p>
+<ul>
+<li>Send us <a href="mailto:support@winterbloom.com">an email</a></li>
+<li>File a bug <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/issues">on GitHub</a></li>
+<li>Reach out on the <a href="https://discord.gg/UpfqghQ">Discord</a></li>
+</ul>
+<h2 id="installing-the-module">Installing the module<a class="headerlink" href="#installing-the-module" title="Permanent link">#</a></h2>
+<p>To install this into your Eurorack setup:</p>
+<ol>
+<li>Connect a Eurorack power cable to your power supply and the back of the module. <strong>Note that even though the power connector on the module is keyed, double check that the red stripe is on the side labeled <code>red stripe</code>!</strong></li>
+<li>Screw the module to your rack's rails.</li>
+</ol>
+<h2 id="inputs-and-outputs">Inputs and outputs<a class="headerlink" href="#inputs-and-outputs" title="Permanent link">#</a></h2>
+<p><img alt="Module with labels for inputs and outputs" src="images/gemini-labeled.png" /></p>
+<p>Castor &amp; Pollux contains <em>two</em> separate oscillators. Each has two inputs with associated knobs:</p>
+<p><img alt="Inputs for one oscillator highlighted" src="images/inputs.png" /></p>
+<ul>
+<li>A pitch CV input. The range is 0v to +6v.</li>
+<li>A pitch knob. The range is -1 octave to +1 octave and is added to any incoming pitch CV.</li>
+<li>A pulse width CV input. This changes the pulse width of the pulse wave. The range is 0v to +5v.</li>
+<li>A pulse width knob. When combined with the pulse width CV it sets the <em>minimum</em> pulse width.</li>
+</ul>
+<p>Each oscillator also has three dedicated waveshape outputs:</p>
+<p><img alt="Outputs for one oscillator highlighted" src="images/outputs.png" /></p>
+<ul>
+<li>A ramp wave output</li>
+<li>A pulse wave output</li>
+<li>A sub square wave output</li>
+</ul>
+<p>Each waveshape is nominally 10v peak-to-peak. You can read more about the sound of each waveshape in the <a href="#waveshape">waveshape</a> section.</p>
+<p>Each oscillator also has a waveshape mixer that contains level knobs for each waveshape and a mix output:</p>
+<p><img alt="Mixer knobs and mixer output highlighted" src="images/mixer.png" /></p>
+<p>The <a href="#waveshape">waveshape</a> section also shows how mixing the waveshapes affects the waveshape and sound.</p>
+<p>There is also a combined output that mixes the output from both oscillators mixer together. It has a crossfader knob to determine which oscillator is more prominent in the mix:</p>
+<p><img alt="Crossfader and combined output" src="images/crossfader.png" /></p>
+<p>The <a href="#oscillator-stacking">oscillator stacking</a> section has more details and sound samples of combining the oscillators together.</p>
+<p>Finally, there is a knob to enable chorusing and a button to enable hard sync:</p>
+<p><img alt="Chorusing knob and hard sync button" src="images/chorusing_hard_sync.png" /></p>
+<p>The <a href="#chorusing">chorusing</a> section goes into more detail and has some sound samples, and the [hard sync][#hard-sync] section shows how hard sync affects the second oscillator.</p>
+<h2 id="waveshapes">Waveshapes<a class="headerlink" href="#waveshapes" title="Permanent link">#</a></h2>
+<p>Just like the Juno, Castor &amp; Pollux has three waveshape outputs: ramp, pulse, and sub.</p>
+<p>The ramp wave looks like this (click the image to start and stop the animation):</p>
+<canvas id="ramp" width="640" height="480" class="waveform teal"></canvas>
+
+<div class="admonition note">
+<p class="admonition-title">Simulation vs reality</p>
+<p>These are <em>simulations</em> of perfect waveshapes. Castor &amp; Pollux's waveshapes are generated by analog circuitry and they
+don't quite look <em>exactly</em> like these examples. That's a good thing - the analog weirdness is what adds character to
+the module.</p>
+</div>
+<p>The ramp sounds like this:</p>
+<div class="admonition warning">
+<p class="admonition-title">TODO</p>
+<p>Add sound samples</p>
+</div>
+<p>The pulse wave depends on the pulse width CV and knob. You can vary the pulse width in this animation to see how it affects the waveshape:</p>
+<canvas id="pulse" width="640" height="480" class="waveform purple"></canvas>
+
+<div class="slider">
+    <input type="range" id="pulse_width" name="pulse_width"
+            min="0" max="1.0" step="0.01" value="0.5">
+    <label for="pulse_width">pulse width</label>
+</div>
+
+<p>And here's some of the sounds you can get out of it:</p>
+<div class="admonition warning">
+<p class="admonition-title">TODO</p>
+<p>Add sound samples</p>
+</div>
+<p>Finally, there's the sub waveshape. It's a square wave that's one octave lower. Here's what it looks like:</p>
+<canvas id="sub" width="640" height="480" class="waveform red"></canvas>
+
+<p>And here's some sound samples of the sub waveshape:</p>
+<div class="admonition warning">
+<p class="admonition-title">TODO</p>
+<p>Add sound samples</p>
+</div>
+<p>These these waveshapes can be mixed together to produce much more complex and interesting waveshapes - try playing with the sliders under this animation and seeing how it affects the waveshape:</p>
+<canvas id="mix" width="640" height="480" class="waveform teal2"></canvas>
+
+<div class="slider">
+    <input type="range" id="ramp_mix" name="ramp_mix"
+            min="0" max="0.5" step="0.01" value="0.5">
+    <label for="ramp_mix">ramp volume</label>
+</div>
+
+<div class="slider">
+    <input type="range" id="pulse_mix" name="pulse_mix"
+            min="0" max="0.5" step="0.01" value="0.25">
+    <label for="pulse_mix">pulse volume</label>
+</div>
+
+<div class="slider">
+    <input type="range" id="pulse_width_mix" name="pulse_width_mix"
+            min="0" max="1.0" step="0.01" value="0.5">
+    <label for="pulse_width_mix">pulse width</label>
+</div>
+
+<div class="slider">
+    <input type="range" id="sub_mix" name="sub_mix"
+            min="0" max="0.5" step="0.01" value="0.25">
+    <label for="sub_mix">sub volume</label>
+</div>
+
+<p>Here's some sound samples of various mixes:</p>
+<div class="admonition warning">
+<p class="admonition-title">TODO</p>
+<p>Add sound samples</p>
+</div>
+<h2 id="oscillator-stacking">Oscillator stacking<a class="headerlink" href="#oscillator-stacking" title="Permanent link">#</a></h2>
+<p>Because Castor &amp; Pollux has two oscillators, you can combine them together to build much more complex sounds. When there is no input into the second oscillator's pitch CV jack, it will follow the pitch of the the first oscillator. You can use the pitch knob of the second oscillator to <em>detune</em> the second oscillator and cause interesting interactions with the first oscillator. You'll take your output from the <strong>combined output</strong> (marked by the symbol ♊︎) and you can control the relative volume of the two oscillators using the crossfader (marked by the symbol Σ).</p>
+<p>You can play around with this interactive animation to see how detuning and mixing changes the final waveshape:</p>
+<canvas id="stacked" width="640" height="480" class="waveform purple2"></canvas>
+
+<div class="slider">
+    <input type="range" id="stacked_detune" name="stacked_detune"
+            min="-1" max="1" step="0.01" value="0.25">
+    <label for="stacked_detune">detuning</label>
+</div>
+
+<div class="slider">
+    <input type="range" id="stacked_mix" name="stacked_mix"
+            min="0" max="1.0" step="0.01" value="0.5">
+    <label for="stacked_mix">crossfader (Σ)</label>
+</div>
+
+<p>This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here's some sound samples of oscillator stacking:</p>
+<div class="admonition warning">
+<p class="admonition-title">TODO</p>
+<p>Add sound samples</p>
+</div>
+<h2 id="chorusing">Chorusing<a class="headerlink" href="#chorusing" title="Permanent link">#</a></h2>
+<p>Inspired by the original Juno's analog chorus circuit, Castor &amp; Pollux contains an adaptation of chorusing that works well for a monophonic voice. Instead of applying the chorus affect <em>after</em> sound generation, Castor &amp; Pollux's chorusing works by varying the frequency of the second oscillator using an internal low-frequency oscillator. This means that you have to <a href="#oscillator-stacking">use both oscillators</a> in order to hear this effect. The chorusing knob (marked by the symbol φ) determines the amount of chorusing from none when fully counter-clockwise to its maximum at fully clockwise. The crossfader (marked by the symbol Σ) also has an impact on the intensity of the chorus.</p>
+<p>You can play around with this interactive animation to see how the chorusing amount changes the final waveshape. You'll need to click on the animation to start it otherwise you won't really be able to see the chorusing effect.</p>
+<canvas id="chorusing_" width="640" height="480" class="waveform red2"></canvas>
+
+<div class="slider">
+    <input type="range" id="chorusing_amount" name="chorusing_amount"
+            min="0" max="1" step="0.01" value="0.25">
+    <label for="chorusing_amount">chorusing amount (φ)</label>
+</div>
+
+<p>Here's some sound samples of chorusing:</p>
+<div class="admonition warning">
+<p class="admonition-title">TODO</p>
+<p>Add sound samples</p>
+</div>
+<h2 id="hard-sync">Hard sync<a class="headerlink" href="#hard-sync" title="Permanent link">#</a></h2>
+<p><a href="https://en.wikipedia.org/wiki/Oscillator_sync"><em>Hard sync</em></a> is a feature seen in several synthesizer voices that have two or more oscillators, however, it's not a feature seen on the original Juno because each voice only had one oscillator. Since Castor &amp; Pollux has two oscillators to work with it has an adaption of hard sync. Hard sync allows you to sync the second oscillator to the first - the output will retain the same <em>base frequency</em> as the first oscillator but the waveshape will be impacted by the frequency of the second oscillator. In other words, it'll sound like the same note but have a much different timbre.</p>
+<p>To use hard sync press the hard sync button - the LEDs should all change to the same color. You'll use the first oscillator's pitch CV to set the note and you'll use the second oscillator's pitch knob or pitch CV input to control the timbre. You'll take the output from the second oscillator (or the combined output) - since hard sync does not impact the waveshape of the first oscillator.</p>
+<p>Here's some sound samples of hard sync:</p>
+<div class="admonition warning">
+<p class="admonition-title">TODO</p>
+<p>Add sound samples</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Heads up</p>
+<p>Due to the wave hard sync works, you shouldn't set the second oscillator to a <em>lower</em> frequency than the first. It'll just result in the sound growing softer since the second oscillator doesn't have enough time to output a complete wave cycle.</p>
+</div>
+<h2 id="updating-the-firmware">Updating the firmware<a class="headerlink" href="#updating-the-firmware" title="Permanent link">#</a></h2>
+<ol>
+<li>Download the latest firmware <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/releases">from GitHub</a>. It will be a <code>.uf2</code> file.</li>
+<li>Connect Castor &amp; Pollux to your computer via USB. The USB port is located underneath the panel. Note that you still have to power the module from a Eurorack power supply.</li>
+<li>Place Castor &amp; Pollux in bootloader mode by pressing the reset button twice quickly. The reset button is located just below the USB port. Once in bootloader mode, you should see a drive on your computer named <code>GEMINIBOOT</code>.</li>
+<li>Copy the <code>uf2</code> file from step 1 to the <code>GEMINIBOOT</code> drive. The module should restart by itself.</li>
+</ol>
+<h2 id="open-source-hardware-software">Open source hardware &amp; software<a class="headerlink" href="#open-source-hardware-software" title="Permanent link">#</a></h2>
+<p>Castor &amp; Pollux is completely open source and hacking is encouraged.</p>
+<ul>
+<li>The <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware">firmware</a> is available under the <a href="https://github.com/theacodes/Winterbloom-Big-Honking-Button/blob/master/firmware/LICENSE">MIT License</a>.</li>
+<li>The <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/hardware">hardware design</a> is available under the <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/blob/master/hardware/LICENSE">CC BY-SA 4.0 License</a> and is designed using <a href="https://kicad.org/">KiCAD</a> which is free and open-source. You can open the hardware files using KiCAD or you can check out a PDF of the schematics for the <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/master/hardware/mainboard/mainboard.pdf">mainboard</a> and the <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/master/hardware/jackboard/jackboard.pdf">jackboard</a>.</li>
+</ul>
+<!-- ![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/us000678.html). -->
+
+<h2 id="acknowledgments-and-thanks">Acknowledgments and thanks<a class="headerlink" href="#acknowledgments-and-thanks" title="Permanent link">#</a></h2>
+<p>Castor &amp; Pollux would not be possible without the help of the Adafruit, support from Microchip, and the volumes of literature documenting and analyzing the Juno's DCO design.</p>
+<p><link rel="stylesheet" href="styles/waveforms.css">
+<script type="text/javascript" src="scripts/waveforms.js"></script></p>
+			</article>
+
+			<footer>
+				<p class="copyright">
+					© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0
+				</p>
+				<p class="edit-me">
+					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/master/user_guide/docs/index.md">Edit this page on GitHub</a>.
+				</p>
+				<p class="updated">
+					Last updated on December 15, 2020
+				</p>
+			</footer>
+		</div>
+	</body>
+	
+	<script type="text/javascript" src="script.js"></script>
+</html>
