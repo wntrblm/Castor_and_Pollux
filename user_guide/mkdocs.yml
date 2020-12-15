@@ -1,0 +1,20 @@
+site_name: Winterbloom Castor & Pollux User Guide
+copyright: "© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0"
+repo_url: "https://github.com/theacodes/Winterbloom_Castor_and_Pollux"
+edit_uri: edit/master/user_guide/docs
+theme:
+  name: winterbloom
+markdown_extensions:
+  - admonition
+  - def_list
+  - attr_list
+  - toc:
+      permalink: "#"
+      toc_depth: 2
+  - pymdownx.highlight:
+      use_pygments: True
+  - pymdownx.superfences
+  - pymdownx.magiclink
+  - md_in_html
+nav:
+  - "User Guide": index.md
