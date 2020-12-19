@@ -146,7 +146,7 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
         gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_ONE_BYTE, MIDI_SYSEX_END_BYTE, 0x00, 0x00});
     }
     if (data[2] == 7) {
-        /* All data recieved, save the settings. */
+        /* All data received, save the settings. */
         struct gem_settings settings;
         gem_midi_decode(_encoding_buf, _settings_buf, 64);
         if (gem_settings_deserialize(&settings, _settings_buf)) {
