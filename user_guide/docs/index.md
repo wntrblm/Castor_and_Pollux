@@ -1,6 +1,22 @@
 # Castor & Pollux User Guide
 
-Castor & Pollux is a Roland Juno-inspired oscillator. It contains two digitally-controlled analog oscillators implemented using a faithfully modernized version of the original Juno 106 design. Like its inspiration, it can give you that wonderful 80s sound with independent and mixed ramp, pulse, and sub outputs. But the twins do not stop there- the second oscillator can be used to layer in thick detuned sounds, harmonically complex hard synced waveshapes, or as a fully independent second oscillator.
+[Castor & Pollux](https://winterbloom.com/store/winterbloom-castor-and-pollux) is a Roland Juno-inspired oscillator. It contains two digitally-controlled analog oscillators implemented using a faithfully modernized version of the original Juno 106 design. Like its inspiration, it can give you that wonderful 80s sound with independent and mixed ramp, pulse, and sub outputs. But the twins do not stop there- the second oscillator can be used to layer in thick detuned sounds, harmonically complex hard synced waveshapes, or as a fully independent second oscillator.
+
+
+## Specifications
+
+* [$249 MSRP](https://winterbloom.com/store/winterbloom-castor-and-pollux)
+* 14 HP
+* +12v @ 100mA, -12v @ 35mA
+* 25mm deep
+* 2 separate oscillators
+* 7 octave range
+* 9 total outputs with waveform outputs and onboard mixers
+* Pitch CV ins (0 to 6v) and pitch knobs (-1 to +1 octave, configurable)
+* Pulse-width CV ins and knobs
+* Hard sync
+* Hardware chorusing
+* [ModularGrid page](https://www.modulargrid.net/e/winterbloom-castor-pollux)
 
 
 ## Getting support and help
