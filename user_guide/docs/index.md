@@ -1,8 +1,5 @@
 # Castor & Pollux User Guide
 
-!!! warning "WIP"
-    This user guide isn't complete yet! We're still working on wrapping up all the details here, so expect some stuff to be missing. If you find any obvious errors or have suggestions, please [file a bug on GitHub](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/issues)
-
 Castor & Pollux is a Roland Juno-inspired oscillator. It contains two digitally-controlled analog oscillators implemented using a faithfully modernized version of the original Juno 106 design. Like its inspiration, it can give you that wonderful 80s sound with independent and mixed ramp, pulse, and sub outputs. But the twins do not stop there- the second oscillator can be used to layer in thick detuned sounds, harmonically complex hard synced waveshapes, or as a fully independent second oscillator.
 
 
@@ -79,8 +76,13 @@ The ramp wave looks like this (click the image to start and stop the animation):
 
 The ramp sounds like this:
 
-!!! warning "TODO"
-    Add sound samples
+<div class="winter-oscilloscope">
+    <audio title="ramp wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_octaves.mp3"></audio>
+</div>
+
+<div class="winter-oscilloscope">
+    <audio title="ramp with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_filtered.mp3"></audio>
+</div>
 
 The pulse wave depends on the pulse width CV and knob. You can vary the pulse width in this animation to see how it affects the waveshape:
 
@@ -94,8 +96,17 @@ The pulse wave depends on the pulse width CV and knob. You can vary the pulse wi
 
 And here's some of the sounds you can get out of it:
 
-!!! warning "TODO"
-    Add sound samples
+<div class="winter-oscilloscope">
+    <audio title="pulse wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_octaves.mp3"></audio>
+</div>
+
+<div class="winter-oscilloscope">
+    <audio title="pulse with pulse-width modulation" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_pwm.mp3"></audio>
+</div>
+
+<div class="winter-oscilloscope">
+    <audio title="pulse with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_filtered.mp3"></audio>
+</div>
 
 Finally, there's the sub waveshape. It's a square wave that's one octave lower. Here's what it looks like:
 
@@ -103,8 +114,13 @@ Finally, there's the sub waveshape. It's a square wave that's one octave lower. 
 
 And here's some sound samples of the sub waveshape:
 
-!!! warning "TODO"
-    Add sound samples
+<div class="winter-oscilloscope">
+    <audio title="sub wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_octaves.mp3"></audio>
+</div>
+
+<div class="winter-oscilloscope">
+    <audio title="sub with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_filtered.mp3"></audio>
+</div>
 
 These these waveshapes can be mixed together to produce much more complex and interesting waveshapes - try playing with the sliders under this animation and seeing how it affects the waveshape:
 
@@ -132,9 +148,17 @@ These these waveshapes can be mixed together to produce much more complex and in
 
 Here's some sound samples of various mixes:
 
+<div class="winter-oscilloscope">
+    <audio title="ramp & sub" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_sub.mp3"></audio>
+</div>
 
-!!! warning "TODO"
-    Add sound samples
+<div class="winter-oscilloscope">
+    <audio title="sub & pulse" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_square_with_pwm.mp3"></audio>
+</div>
+
+<div class="winter-oscilloscope">
+    <audio title="various mixes" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/waveform_mixing.mp3"></audio>
+</div>
 
 
 ## Oscillator stacking
@@ -157,8 +181,17 @@ You can play around with this interactive animation to see how detuning and mixi
 
 This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here's some sound samples of oscillator stacking:
 
-!!! warning "TODO"
-    Add sound samples
+<div class="winter-oscilloscope">
+    <audio title="stacked complex waveforms" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/stacked_complex.mp3"></audio>
+</div>
+
+<div class="winter-oscilloscope">
+    <audio title="stacked sub & ramp" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/twilight.mp3"></audio>
+</div>
+
+<div class="winter-oscilloscope">
+    <audio title="stacked sub & pulse" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/steps.mp3"></audio>
+</div>
 
 
 ## Chorusing
@@ -176,8 +209,9 @@ You can play around with this interactive animation to see how the chorusing amo
 
 Here's some sound samples of chorusing:
 
-!!! warning "TODO"
-    Add sound samples
+<div class="winter-oscilloscope">
+    <audio title="chorusing" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/chorusing.mp3"></audio>
+</div>
 
 
 ## Hard sync
@@ -188,12 +222,17 @@ To use hard sync press the hard sync button - the LEDs should all change to the 
 
 Here's some sound samples of hard sync:
 
-!!! warning "TODO"
-    Add sound samples
+<div class="winter-oscilloscope">
+    <audio title="hard sync" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/hard_sync.mp3"></audio>
+</div>
 
 !!! note "Heads up"
     Due to the wave hard sync works, you shouldn't set the second oscillator to a *lower* frequency than the first. It'll just result in the sound growing softer since the second oscillator doesn't have enough time to output a complete wave cycle.
 
+
+## Editing module settings
+
+Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, there is a little microcontroller brain inside that's orchestrating everything. There's a few settings you can tweak over USB, such as the LED brightness and the range of the pitch knobs. Head over to the [web-based settings editor](../settings) to tweak to your heart's content.
 
 ## Updating the firmware
 
@@ -221,5 +260,8 @@ Castor & Pollux would not be possible without the help of the Adafruit, support 
 [discord]: https://discord.gg/UpfqghQ
 
 
-<link rel="stylesheet" href="styles/waveforms.css">
-<script type="text/javascript" src="scripts/waveforms.js"></script>
+<link rel="stylesheet" href="../styles/waveforms.css">
+<script type="text/javascript" src="../scripts/waveforms.js"></script>
+
+<link rel="stylesheet" href="../styles/winter_oscilloscope.css">
+<script type="text/javascript" src="../scripts/winter_oscilloscope.js"></script>
