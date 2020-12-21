@@ -1,3 +1,6 @@
+!!! warning "Nothing to see here, move along"
+    Whoa there, no one has a Castor & Pollux yet, so you shouldn't be here! Don't worry - it'll be ready to use before we start shipping units!
+
 This page uses [WebMIDI](https://www.midi.org/17-the-mma/99-web-midi) to communicate with Castor & Pollux and modify internal settings. This works in [Google Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/en-us/edge), and [Opera](https://www.opera.com/) ([full list of supported browsers](https://caniuse.com/midi)).
 
 To use this editor:
