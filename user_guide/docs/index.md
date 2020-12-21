@@ -260,8 +260,8 @@ Castor & Pollux would not be possible without the help of the Adafruit, support 
 [discord]: https://discord.gg/UpfqghQ
 
 
-<link rel="stylesheet" href="../styles/waveforms.css">
-<script type="text/javascript" src="../scripts/waveforms.js"></script>
+<link rel="stylesheet" href="styles/waveforms.css">
+<script type="text/javascript" src="scripts/waveforms.js"></script>
 
-<link rel="stylesheet" href="../styles/winter_oscilloscope.css">
-<script type="text/javascript" src="../scripts/winter_oscilloscope.js"></script>
+<link rel="stylesheet" href="styles/winter_oscilloscope.css">
+<script type="text/javascript" src="scripts/winter_oscilloscope.js"></script>
