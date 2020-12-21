@@ -18,3 +18,4 @@ markdown_extensions:
   - md_in_html
 nav:
   - "User Guide": index.md
+  - "Settings Editor": settings.md
