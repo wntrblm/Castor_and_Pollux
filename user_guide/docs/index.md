@@ -75,7 +75,7 @@ Finally, there is a knob to enable chorusing and a button to enable hard sync:
 
 ![Chorusing knob and hard sync button](images/chorusing_hard_sync.png)
 
-The [chorusing](#chorusing) section goes into more detail and has some sound samples, and the [hard sync][#hard-sync] section shows how hard sync affects the second oscillator.
+The [chorusing](#chorusing) section goes into more detail and has some sound samples, and the [hard sync](#hard-sync) section shows how hard sync affects the second oscillator.
 
 ## Waveshapes
 
