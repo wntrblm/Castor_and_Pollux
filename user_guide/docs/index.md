@@ -243,7 +243,7 @@ Here's some sound samples of hard sync:
 </div>
 
 !!! note "Heads up"
-    Due to the wave hard sync works, you shouldn't set the second oscillator to a *lower* frequency than the first. It'll just result in the sound growing softer since the second oscillator doesn't have enough time to output a complete wave cycle.
+    Due to the way hard sync works, you shouldn't set the second oscillator to a *lower* frequency than the first. It'll just result in the sound growing softer since the second oscillator doesn't have enough time to output a complete wave cycle.
 
 
 ## Editing module settings
