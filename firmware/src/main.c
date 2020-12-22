@@ -5,28 +5,37 @@
 
 static struct gem_settings settings;
 static uint32_t adc_results[GEM_IN_COUNT];
-static uint32_t last_sync_button_change = 0;
-static bool hard_sync_reading = false;
-static bool previous_hard_sync_reading = false;
-static bool hard_sync = false;
-static struct gem_voice_params castor_params = {};
-static struct gem_voice_params pollux_params = {};
-static uint32_t last_lfo_update = 0;
-static fix16_t chorus_lfo_phase = 0;
-static fix16_t castor_knob_range;
-static fix16_t pollux_knob_range;
 static struct gem_adc_errors knob_errors;
-static struct gem_smoothie_state castor_smooth = {
-    .initial_gain = F16(0),
-    .sensitivity = F16(0),
-    ._lowpass1 = F16(0),
-    ._lowpass2 = F16(0),
+static struct gem_button hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
+static bool hard_sync = false;
+
+static struct lfo_state {
+    fix16_t phase;
+    uint32_t last_update;
+} lfo = {.phase = F16(0)};
+
+struct oscillator_state {
+    struct gem_voice_params params;
+    struct gem_smoothie_state smooth;
+    fix16_t knob_range;
 };
-static struct gem_smoothie_state pollux_smooth = {
-    .initial_gain = F16(0),
-    .sensitivity = F16(0),
-    ._lowpass1 = F16(0),
-    ._lowpass2 = F16(0),
+
+static struct oscillator_state castor = {
+    .params = {},
+    .smooth =
+        {
+            ._lowpass1 = F16(0),
+            ._lowpass2 = F16(0),
+        },
+};
+
+static struct oscillator_state pollux = {
+    .params = {},
+    .smooth =
+        {
+            ._lowpass1 = F16(0),
+            ._lowpass2 = F16(0),
+        },
 };
 
 static void init() {
@@ -46,13 +55,15 @@ static void init() {
     gem_settings_load(&settings);
     gem_settings_print(&settings);
 
-    castor_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
-    pollux_knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
     knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
-    castor_smooth.initial_gain = settings.smooth_initial_gain;
-    castor_smooth.sensitivity = settings.smooth_sensitivity;
-    pollux_smooth.initial_gain = settings.smooth_initial_gain;
-    pollux_smooth.sensitivity = settings.smooth_sensitivity;
+
+    castor.knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
+    castor.smooth.initial_gain = settings.smooth_initial_gain;
+    castor.smooth.sensitivity = settings.smooth_sensitivity;
+
+    pollux.knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
+    pollux.smooth.initial_gain = settings.smooth_initial_gain;
+    pollux.smooth.sensitivity = settings.smooth_sensitivity;
 
     /* Load the LUT table for DAC codes. */
     gem_load_dac_codes_table();
@@ -81,7 +92,7 @@ static void init() {
     gem_pulseout_init();
 
     /* Configure input for the hard sync button. */
-    gem_gpio_set_as_input(GEM_HARD_SYNC_BUTTON_PORT, GEM_HARD_SYNC_BUTTON_PIN, true);
+    gem_button_init(&hard_sync_button);
 }
 
 static void loop() {
@@ -99,7 +110,7 @@ static void loop() {
         gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_A_POT]), knob_errors);
     fix16_t castor_pitch_knob_value = fix16_div(castor_pitch_knob_code, F16(4095.0));
     fix16_t castor_pitch_knob =
-        fix16_add(settings.castor_knob_min, fix16_mul(castor_knob_range, castor_pitch_knob_value));
+        fix16_add(settings.castor_knob_min, fix16_mul(castor.knob_range, castor_pitch_knob_value));
 
     castor_pitch_cv = fix16_add(castor_pitch_cv, castor_pitch_knob);
 
@@ -131,34 +142,33 @@ static void loop() {
         gem_adc_correct_errors(fix16_from_int(4095 - adc_results[GEM_IN_CV_B_POT]), knob_errors);
     fix16_t pollux_pitch_knob_value = fix16_div(pollux_pitch_knob_code, F16(4095.0));
     fix16_t pollux_pitch_knob =
-        fix16_add(settings.pollux_knob_min, fix16_mul(pollux_knob_range, pollux_pitch_knob_value));
+        fix16_add(settings.pollux_knob_min, fix16_mul(pollux.knob_range, pollux_pitch_knob_value));
 
     pollux_pitch_cv = fix16_add(pollux_pitch_cv, pollux_pitch_knob);
 
     /* Apply smoothing to input CVs. */
-    castor_pitch_cv = gem_smoothie_step(&castor_smooth, castor_pitch_cv);
-    pollux_pitch_cv = gem_smoothie_step(&pollux_smooth, pollux_pitch_cv);
+    castor_pitch_cv = gem_smoothie_step(&castor.smooth, castor_pitch_cv);
+    pollux_pitch_cv = gem_smoothie_step(&pollux.smooth, pollux_pitch_cv);
 
     /*
         Calculate the chorus LFO and account for LFO in Pollux's pitch.
     */
     uint32_t now = gem_get_ticks();
-    uint32_t delta = now - last_lfo_update;
+    uint32_t lfo_delta = now - lfo.last_update;
 
-    if (delta > 0) {
-        chorus_lfo_phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0)), fix16_from_int(delta));
+    if (lfo_delta > 0) {
+        lfo.phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0)), fix16_from_int(lfo_delta));
 
-        if (chorus_lfo_phase > F16(1.0))
-            chorus_lfo_phase = fix16_sub(chorus_lfo_phase, F16(1.0));
+        if (lfo.phase > F16(1.0))
+            lfo.phase = fix16_sub(lfo.phase, F16(1.0));
 
-        last_lfo_update = now;
+        lfo.last_update = now;
     }
 
-    uint16_t chorus_lfo_amount_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
-    fix16_t chorus_lfo_amount = fix16_div(fix16_from_int(chorus_lfo_amount_code), F16(4095.0));
+    uint16_t lfo_amount_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
+    fix16_t lfo_amount = fix16_div(fix16_from_int(lfo_amount_code), F16(4095.0));
 
-    fix16_t chorus_lfo_mod =
-        fix16_mul(settings.chorus_max_intensity, fix16_mul(chorus_lfo_amount, gem_triangle(chorus_lfo_phase)));
+    fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(lfo_amount, gem_triangle(lfo.phase)));
     pollux_pitch_cv = fix16_add(pollux_pitch_cv, chorus_lfo_mod);
 
     /*
@@ -189,10 +199,9 @@ static void loop() {
     /*
         Check for hard sync.
     */
-    hard_sync_reading = gem_gpio_get(GEM_HARD_SYNC_BUTTON_PORT, GEM_HARD_SYNC_BUTTON_PIN);
-    if (now - last_sync_button_change > GEM_HARD_SYNC_BUTTON_DEBOUNCE && hard_sync_reading == false &&
-        previous_hard_sync_reading == true) {
-        last_sync_button_change = now;
+    gem_button_update(&hard_sync_button);
+
+    if (gem_button_tapped(&hard_sync_button)) {
         hard_sync = !hard_sync;
         if (hard_sync) {
             gem_pulseout_hard_sync(true);
@@ -202,7 +211,6 @@ static void loop() {
             gem_led_animation_set_mode(GEM_LED_MODE_NORMAL);
         }
     }
-    previous_hard_sync_reading = hard_sync_reading;
 
     /*
         Calculate the final voice parameters given the input CVs.
@@ -212,13 +220,13 @@ static void loop() {
         gem_voice_dac_codes_table,
         gem_voice_param_table_len,
         castor_pitch_cv,
-        &castor_params);
+        &castor.params);
     gem_voice_params_from_cv(
         gem_voice_voltage_and_period_table,
         gem_voice_dac_codes_table,
         gem_voice_param_table_len,
         pollux_pitch_cv,
-        &pollux_params);
+        &pollux.params);
 
     /*
         Update timers.
@@ -226,17 +234,17 @@ static void loop() {
 
     /* Disable interrupts while changing timers, as any interrupt here could mess them up. */
     __disable_irq();
-    gem_pulseout_set_period(0, castor_params.voltage_and_period.period);
-    gem_pulseout_set_period(1, pollux_params.voltage_and_period.period);
+    gem_pulseout_set_period(0, castor.params.voltage_and_period.period);
+    gem_pulseout_set_period(1, pollux.params.voltage_and_period.period);
     __enable_irq();
 
     /*
         Update DACs.
     */
     gem_mcp_4728_write_channels(
-        (struct gem_mcp4728_channel){.value = castor_params.dac_codes.castor, .vref = 1},
+        (struct gem_mcp4728_channel){.value = castor.params.dac_codes.castor, .vref = 1},
         (struct gem_mcp4728_channel){.value = castor_duty},
-        (struct gem_mcp4728_channel){.value = pollux_params.dac_codes.pollux, .vref = 1},
+        (struct gem_mcp4728_channel){.value = pollux.params.dac_codes.pollux, .vref = 1},
         (struct gem_mcp4728_channel){.value = pollux_duty});
 }
 
