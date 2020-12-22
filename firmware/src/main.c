@@ -153,9 +153,10 @@ static void loop() {
     /*
         Calculate the chorus LFO and account for LFO in Pollux's pitch.
     */
+    gem_periodic_waveform_step(&lfo);
+
     fix16_t lfo_intensity = ADC_TO_F16(FLIP_ADC(adc_results[GEM_IN_CHORUS_POT]));
-    fix16_t lfo_value = gem_periodic_waveform_step(&lfo);
-    fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(lfo_intensity, lfo_value));
+    fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(lfo_intensity, lfo.value));
 
     pollux.pitch_cv = fix16_add(pollux.pitch_cv, chorus_lfo_mod);
 
@@ -231,6 +232,7 @@ static void loop() {
    interface - when the hard sync button is held down the
    interface knobs allow tweaking various settings. */
 static bool tweaking = false;
+
 void tweak_loop() {
     if (gem_button_held(&hard_sync_button)) {
         /* If we just entered tweak mode, copy the adc results to
@@ -241,6 +243,7 @@ void tweak_loop() {
             tweaking = true;
             memcpy(adc_results_snapshot, adc_results_live, GEM_IN_COUNT * sizeof(uint32_t));
             adc_results = adc_results_snapshot;
+            gem_led_animation_set_mode(GEM_LED_MODE_TWEAK);
         }
 
         /* Chorus intensity knob controls lfo frequency in tweak mode. */
@@ -248,14 +251,18 @@ void tweak_loop() {
         int32_t chorus_pot_delta = chorus_pot_code - adc_results_snapshot[GEM_IN_CHORUS_POT];
         if (labs(chorus_pot_delta) > 50) {
             fix16_t frequency_value = ADC_TO_F16(FLIP_ADC(chorus_pot_code));
-            lfo.frequency = fix16_mul(frequency_value, F16(10));
+            lfo.frequency = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
         }
+
+        /* Update LEDs */
+        gem_led_tweak_data.lfo_value = lfo.value;
 
     } else {
         /* If we just left tweak mode, undo the adc result trickery. */
         if (tweaking) {
             tweaking = false;
             adc_results = adc_results_live;
+            gem_led_animation_set_mode(hard_sync ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
         }
     }
 }

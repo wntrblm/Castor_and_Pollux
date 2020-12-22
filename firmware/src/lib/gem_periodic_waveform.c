@@ -13,11 +13,12 @@ void gem_periodic_waveform_init(struct gem_periodic_waveform* waveform, gem_peri
     waveform->function = function;
     waveform->frequency = frequency;
     waveform->phase = F16(0);
+    waveform->value = F16(0);
     waveform->_last_update = gem_get_ticks();
 }
 
 
-fix16_t gem_periodic_waveform_step(struct gem_periodic_waveform* waveform) {
+void gem_periodic_waveform_step(struct gem_periodic_waveform* waveform) {
     uint32_t now = gem_get_ticks();
     uint32_t delta = now - waveform->_last_update;
 
@@ -30,5 +31,5 @@ fix16_t gem_periodic_waveform_step(struct gem_periodic_waveform* waveform) {
         waveform->_last_update = now;
     }
 
-    return waveform->function(waveform->phase);
+    waveform->value = waveform->function(waveform->phase);
 }
