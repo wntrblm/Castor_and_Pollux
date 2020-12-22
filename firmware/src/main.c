@@ -8,11 +8,7 @@ static uint32_t adc_results[GEM_IN_COUNT];
 static struct gem_adc_errors knob_errors;
 static struct gem_button hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
 static bool hard_sync = false;
-
-static struct lfo_state {
-    fix16_t phase;
-    uint32_t last_update;
-} lfo = {.phase = F16(0)};
+static struct gem_periodic_waveform lfo;
 
 struct oscillator_state {
     enum gem_adc_channels pitch_cv_channel;
@@ -59,22 +55,6 @@ static void init() {
     gem_settings_load(&settings);
     gem_settings_print(&settings);
 
-    knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
-
-    castor.pitch_cv_channel = GEM_IN_CV_A;
-    castor.pitch_knob_channel = GEM_IN_CV_A_POT;
-    castor.knob_min = settings.castor_knob_min;
-    castor.knob_range = fix16_sub(settings.castor_knob_max, settings.castor_knob_min);
-    castor.smooth.initial_gain = settings.smooth_initial_gain;
-    castor.smooth.sensitivity = settings.smooth_sensitivity;
-
-    pollux.pitch_cv_channel = GEM_IN_CV_B;
-    pollux.pitch_knob_channel = GEM_IN_CV_B_POT;
-    pollux.knob_min = settings.pollux_knob_min;
-    pollux.knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
-    pollux.smooth.initial_gain = settings.smooth_initial_gain;
-    pollux.smooth.sensitivity = settings.smooth_sensitivity;
-
     /* Load the LUT table for DAC codes. */
     gem_load_dac_codes_table();
 
@@ -103,6 +83,26 @@ static void init() {
 
     /* Configure input for the hard sync button. */
     gem_button_init(&hard_sync_button);
+
+    /* Setup LFO. */
+    gem_periodic_waveform_init(&lfo, gem_triangle, settings.chorus_frequency);
+
+    /* Setup oscillators. */
+    knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
+
+    castor.pitch_cv_channel = GEM_IN_CV_A;
+    castor.pitch_knob_channel = GEM_IN_CV_A_POT;
+    castor.knob_min = settings.castor_knob_min;
+    castor.knob_range = fix16_sub(settings.castor_knob_max, settings.castor_knob_min);
+    castor.smooth.initial_gain = settings.smooth_initial_gain;
+    castor.smooth.sensitivity = settings.smooth_sensitivity;
+
+    pollux.pitch_cv_channel = GEM_IN_CV_B;
+    pollux.pitch_knob_channel = GEM_IN_CV_B_POT;
+    pollux.knob_min = settings.pollux_knob_min;
+    pollux.knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
+    pollux.smooth.initial_gain = settings.smooth_initial_gain;
+    pollux.smooth.sensitivity = settings.smooth_sensitivity;
 }
 
 static void calculate_pitch_cv(struct oscillator_state* osc, uint16_t follower_threshold) {
@@ -146,22 +146,10 @@ static void loop() {
     /*
         Calculate the chorus LFO and account for LFO in Pollux's pitch.
     */
-    uint32_t now = gem_get_ticks();
-    uint32_t lfo_delta = now - lfo.last_update;
-
-    if (lfo_delta > 0) {
-        lfo.phase += fix16_mul(fix16_div(settings.chorus_frequency, F16(1000.0)), fix16_from_int(lfo_delta));
-
-        if (lfo.phase > F16(1.0))
-            lfo.phase = fix16_sub(lfo.phase, F16(1.0));
-
-        lfo.last_update = now;
-    }
-
-    uint16_t lfo_amount_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
-    fix16_t lfo_amount = fix16_div(fix16_from_int(lfo_amount_code), F16(4095.0));
-
-    fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(lfo_amount, gem_triangle(lfo.phase)));
+    uint16_t lfo_intensity_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
+    fix16_t lfo_intensity = fix16_div(fix16_from_int(lfo_intensity_code), F16(4095.0));
+    fix16_t lfo_value = gem_periodic_waveform_step(&lfo);
+    fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(lfo_intensity, lfo_value));
 
     pollux.pitch_cv = fix16_add(pollux.pitch_cv, chorus_lfo_mod);
 
