@@ -2,9 +2,16 @@
 #include "gem.h"
 #include "printf.h"
 #include "sam.h"
+#include <stdlib.h>
+#include <string.h>
+
+#define FLIP_ADC(value) (4095 - value)
+#define ADC_TO_F16(value) (fix16_div(fix16_from_int(value), F16(4095.0)))
 
 static struct gem_settings settings;
-static uint32_t adc_results[GEM_IN_COUNT];
+static uint32_t adc_results_live[GEM_IN_COUNT];
+static uint32_t adc_results_snapshot[GEM_IN_COUNT];
+static uint32_t* adc_results = adc_results_live;
 static struct gem_adc_errors knob_errors;
 static struct gem_button hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
 static bool hard_sync = false;
@@ -76,7 +83,7 @@ static void init() {
     gem_adc_init(settings.adc_offset_corr, settings.adc_gain_corr);
 
     for (size_t i = 0; i < GEM_IN_COUNT; i++) { gem_adc_init_input(&gem_adc_inputs[i]); }
-    gem_adc_start_scanning(gem_adc_inputs, GEM_IN_COUNT, adc_results);
+    gem_adc_start_scanning(gem_adc_inputs, GEM_IN_COUNT, adc_results_live);
 
     /* Configure the timers/PWM generators. */
     gem_pulseout_init();
@@ -111,7 +118,7 @@ static void calculate_pitch_cv(struct oscillator_state* osc, uint16_t follower_t
         1.0v + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
     */
 
-    uint16_t cv_adc_code = (4095 - adc_results[osc->pitch_cv_channel]);
+    uint16_t cv_adc_code = FLIP_ADC(adc_results[osc->pitch_cv_channel]);
     fix16_t pitch_cv;
 
     /*
@@ -121,13 +128,12 @@ static void calculate_pitch_cv(struct oscillator_state* osc, uint16_t follower_t
         enough of an input to calculate the pitch cv from the input.
     */
     if (follower_threshold == 0 || cv_adc_code > follower_threshold) {
-        fix16_t cv_value = fix16_div(fix16_from_int(cv_adc_code), F16(4095.0));
-        pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, cv_value));
+        pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, ADC_TO_F16(cv_adc_code)));
     } else {
         pitch_cv = osc->pitch_cv;
     }
 
-    uint16_t knob_adc_code = 4095 - adc_results[osc->pitch_knob_channel];
+    uint16_t knob_adc_code = FLIP_ADC(adc_results[osc->pitch_knob_channel]);
     fix16_t knob_value = fix16_div(gem_adc_correct_errors(fix16_from_int(knob_adc_code), knob_errors), F16(4095.0));
     fix16_t pitch_knob = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
 
@@ -146,8 +152,7 @@ static void loop() {
     /*
         Calculate the chorus LFO and account for LFO in Pollux's pitch.
     */
-    uint16_t lfo_intensity_code = (4095 - adc_results[GEM_IN_CHORUS_POT]);
-    fix16_t lfo_intensity = fix16_div(fix16_from_int(lfo_intensity_code), F16(4095.0));
+    fix16_t lfo_intensity = ADC_TO_F16(FLIP_ADC(adc_results[GEM_IN_CHORUS_POT]));
     fix16_t lfo_value = gem_periodic_waveform_step(&lfo);
     fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(lfo_intensity, lfo_value));
 
@@ -169,19 +174,18 @@ static void loop() {
         PWM inputs.
     */
 
-    uint16_t castor_duty = 4095 - adc_results[GEM_IN_DUTY_A_POT];
-    castor_duty += 4095 - adc_results[GEM_IN_DUTY_A];
+    uint16_t castor_duty = FLIP_ADC(adc_results[GEM_IN_DUTY_A_POT]);
+    castor_duty += FLIP_ADC(adc_results[GEM_IN_DUTY_A]);
     if (castor_duty > 4095)
         castor_duty = 4095;
-    uint16_t pollux_duty = 4095 - adc_results[GEM_IN_DUTY_B_POT];
-    pollux_duty += 4095 - adc_results[GEM_IN_DUTY_B];
+    uint16_t pollux_duty = FLIP_ADC(adc_results[GEM_IN_DUTY_B_POT]);
+    pollux_duty += FLIP_ADC(adc_results[GEM_IN_DUTY_B]);
     if (pollux_duty > 4095)
         pollux_duty = 4095;
 
     /*
         Check for hard sync.
     */
-    gem_button_update(&hard_sync_button);
 
     if (gem_button_tapped(&hard_sync_button)) {
         hard_sync = !hard_sync;
@@ -230,6 +234,39 @@ static void loop() {
         (struct gem_mcp4728_channel){.value = pollux_duty});
 }
 
+/* This loop is responsible for dealing with the "tweak"
+   interface - when the hard sync button is held down the
+   interface knobs allow tweaking various settings. */
+static bool tweaking = false;
+void tweak_loop() {
+    if (gem_button_held(&hard_sync_button)) {
+        /* If we just entered tweak mode, copy the adc results to
+           the snapshot buffer and point the loop's adc results to
+           the snapshot. This prevents the tweak interface for messing
+           with the running oscillators. */
+        if (!tweaking) {
+            tweaking = true;
+            memcpy(adc_results_snapshot, adc_results_live, GEM_IN_COUNT * sizeof(uint32_t));
+            adc_results = adc_results_snapshot;
+        }
+
+        /* Chorus intensity knob controls lfo frequency in tweak mode. */
+        uint16_t chorus_pot_code = adc_results_live[GEM_IN_CHORUS_POT];
+        int32_t chorus_pot_delta = chorus_pot_code - adc_results_snapshot[GEM_IN_CHORUS_POT];
+        if (labs(chorus_pot_delta) > 50) {
+            fix16_t frequency_value = ADC_TO_F16(FLIP_ADC(chorus_pot_code));
+            lfo.frequency = fix16_mul(frequency_value, F16(10));
+        }
+
+    } else {
+        /* If we just left tweak mode, undo the adc result trickery. */
+        if (tweaking) {
+            tweaking = false;
+            adc_results = adc_results_live;
+        }
+    }
+}
+
 int main(void) {
     init();
 
@@ -239,7 +276,9 @@ int main(void) {
         gem_led_animation_step();
 
         if (gem_adc_results_ready()) {
+            gem_button_update(&hard_sync_button);
             loop();
+            tweak_loop();
         }
     }
 
