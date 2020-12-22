@@ -22,8 +22,9 @@ static const struct gem_settings _default_settings = {
     .knob_offset_corr = F16(0.0),
     .knob_gain_corr = F16(1.0),
     .smooth_initial_gain = F16(0.1),
-    .smooth_sensitivity = F16(20.0),
-    .pollux_follower_threshold = 6,
+    .smooth_sensitivity = F16(30.0),
+    .pollux_follower_threshold =
+        56, /* This value is just under the *second* lowest note that can be played, equal to 83.33 mV */
 };
 
 bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
