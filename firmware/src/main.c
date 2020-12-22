@@ -161,14 +161,8 @@ static void loop() {
     /*
         Limit pitch CVs to fit within the parameter table's max value.
     */
-    if (castor.pitch_cv < F16(0.0))
-        castor.pitch_cv = F16(0.0);
-    if (pollux.pitch_cv < F16(0.0))
-        pollux.pitch_cv = F16(0.0);
-    if (castor.pitch_cv > F16(7.0))
-        castor.pitch_cv = F16(7.0);
-    if (pollux.pitch_cv > F16(7.0))
-        pollux.pitch_cv = F16(7.0);
+    castor.pitch_cv = fix16_clamp(castor.pitch_cv, F16(0), F16(7));
+    pollux.pitch_cv = fix16_clamp(pollux.pitch_cv, F16(0), F16(7));
 
     /*
         PWM inputs.
