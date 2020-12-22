@@ -146,9 +146,19 @@ static void _gem_led_animation_step_tweak(uint32_t delta) {
 
     for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) { gem_dotstar_set32(i, 0); }
 
-    gem_dotstar_set(2, 255, 255, 255);
+    if (gem_led_tweak_data.castor_pwm) {
+        gem_dotstar_set(0, 0, 255, 255);
+        gem_dotstar_set(1, 0, 255, 255);
+    }
+
+    if (gem_led_tweak_data.pollux_pwm) {
+        gem_dotstar_set(2, 255, 0, 255);
+        gem_dotstar_set(3, 255, 0, 255);
+    }
+
     fix16_t lfoadj = fix16_div(fix16_add(gem_led_tweak_data.lfo_value, F16(1.0)), F16(2.0));
     uint8_t lfo_value = fix16_to_int(fix16_mul(F16(255.0), lfoadj));
-    gem_dotstar_set32(4, gem_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 5, 255, lfo_value));
-    gem_dotstar_set32(5, gem_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 5, 255, lfo_value));
+    gem_dotstar_set32(4, gem_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
+    gem_dotstar_set32(5, gem_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
+    gem_dotstar_set32(6, gem_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
 }
