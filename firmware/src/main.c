@@ -8,6 +8,11 @@
 #define FLIP_ADC(value) (4095 - value)
 #define ADC_TO_F16(value) (fix16_div(fix16_from_int(value), F16(4095.0)))
 #define UINT12_CLAMP(value) value = value > 4095 ? 4095 : value
+#define IF_WAGGLED(variable, channel)                                                                                  \
+    uint16_t variable = adc_results_live[channel];                                                                     \
+    int32_t variable##_delta = variable - adc_results_snapshot[channel];                                               \
+    if (labs(variable##_delta) > 50) {                                                                                 \
+        variable = FLIP_ADC(variable);
 
 static struct gem_settings settings;
 static uint32_t adc_results_live[GEM_IN_COUNT];
@@ -21,14 +26,22 @@ static struct gem_periodic_waveform lfo;
 struct oscillator_state {
     enum gem_adc_channels pitch_cv_channel;
     enum gem_adc_channels pitch_knob_channel;
+    enum gem_adc_channels pulse_width_cv_channel;
+    enum gem_adc_channels pulse_width_knob_channel;
     struct gem_voice_params params;
     struct gem_smoothie_state smooth;
     fix16_t knob_min;
     fix16_t knob_range;
     fix16_t pitch_cv;
+    uint16_t pulse_width;
+    bool lfo_pwm;
 };
 
 static struct oscillator_state castor = {
+    .pitch_cv_channel = GEM_IN_CV_A,
+    .pitch_knob_channel = GEM_IN_CV_A_POT,
+    .pulse_width_cv_channel = GEM_IN_DUTY_A,
+    .pulse_width_knob_channel = GEM_IN_DUTY_A_POT,
     .params = {},
     .smooth =
         {
@@ -38,6 +51,10 @@ static struct oscillator_state castor = {
 };
 
 static struct oscillator_state pollux = {
+    .pitch_cv_channel = GEM_IN_CV_B,
+    .pitch_knob_channel = GEM_IN_CV_B_POT,
+    .pulse_width_cv_channel = GEM_IN_DUTY_B,
+    .pulse_width_knob_channel = GEM_IN_DUTY_B_POT,
     .params = {},
     .smooth =
         {
@@ -98,15 +115,11 @@ static void init() {
     /* Setup oscillators. */
     knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
 
-    castor.pitch_cv_channel = GEM_IN_CV_A;
-    castor.pitch_knob_channel = GEM_IN_CV_A_POT;
     castor.knob_min = settings.castor_knob_min;
     castor.knob_range = fix16_sub(settings.castor_knob_max, settings.castor_knob_min);
     castor.smooth.initial_gain = settings.smooth_initial_gain;
     castor.smooth.sensitivity = settings.smooth_sensitivity;
 
-    pollux.pitch_cv_channel = GEM_IN_CV_B;
-    pollux.pitch_knob_channel = GEM_IN_CV_B_POT;
     pollux.knob_min = settings.pollux_knob_min;
     pollux.knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
     pollux.smooth.initial_gain = settings.smooth_initial_gain;
@@ -141,6 +154,20 @@ static void calculate_pitch_cv(struct oscillator_state* osc, uint16_t follower_t
     osc->pitch_cv = fix16_add(pitch_cv, pitch_knob);
 }
 
+void calculate_pulse_width(struct oscillator_state* osc) {
+    uint16_t duty_knob = FLIP_ADC(adc_results[osc->pulse_width_knob_channel]);
+    uint16_t duty_cv = FLIP_ADC(adc_results[osc->pulse_width_cv_channel]);
+
+    if (osc->lfo_pwm) {
+        fix16_t lfo_multiplier = ADC_TO_F16(duty_cv + duty_knob);
+        uint16_t duty_lfo = 2048 + fix16_to_int(fix16_mul(F16(2048), fix16_mul(lfo_multiplier, lfo.value)));
+        osc->pulse_width = duty_cv + duty_lfo;
+    } else {
+        osc->pulse_width = duty_cv + duty_knob;
+    }
+    UINT12_CLAMP(osc->pulse_width);
+}
+
 static void loop() {
     calculate_pitch_cv(&castor, 0);
     pollux.pitch_cv = castor.pitch_cv;
@@ -151,12 +178,15 @@ static void loop() {
     pollux.pitch_cv = gem_smoothie_step(&pollux.smooth, pollux.pitch_cv);
 
     /*
-        Calculate the chorus LFO and account for LFO in Pollux's pitch.
+        Calculate the LFO
     */
     gem_periodic_waveform_step(&lfo);
 
-    fix16_t lfo_intensity = ADC_TO_F16(FLIP_ADC(adc_results[GEM_IN_CHORUS_POT]));
-    fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(lfo_intensity, lfo.value));
+    /*
+        Calculate chorusing and account for LFO in Pollux's pitch.
+    */
+    fix16_t chorus_lfo_intensity = ADC_TO_F16(FLIP_ADC(adc_results[GEM_IN_CHORUS_POT]));
+    fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(chorus_lfo_intensity, lfo.value));
 
     pollux.pitch_cv = fix16_add(pollux.pitch_cv, chorus_lfo_mod);
 
@@ -167,18 +197,13 @@ static void loop() {
     pollux.pitch_cv = fix16_clamp(pollux.pitch_cv, F16(0), F16(7));
 
     /*
-        PWM inputs.
+        Read pulse width inputs and apply LFO if routed.
     */
-
-    uint16_t castor_duty = FLIP_ADC(adc_results[GEM_IN_DUTY_A_POT]);
-    castor_duty += FLIP_ADC(adc_results[GEM_IN_DUTY_A]);
-    UINT12_CLAMP(castor_duty);
-    uint16_t pollux_duty = FLIP_ADC(adc_results[GEM_IN_DUTY_B_POT]);
-    pollux_duty += FLIP_ADC(adc_results[GEM_IN_DUTY_B]);
-    UINT12_CLAMP(pollux_duty);
+    calculate_pulse_width(&castor);
+    calculate_pulse_width(&pollux);
 
     /*
-        Check for hard sync.
+        Handle toggling hard sync.
     */
 
     if (gem_button_tapped(&hard_sync_button)) {
@@ -223,9 +248,9 @@ static void loop() {
     */
     gem_mcp_4728_write_channels(
         (struct gem_mcp4728_channel){.value = castor.params.dac_codes.castor, .vref = 1},
-        (struct gem_mcp4728_channel){.value = castor_duty},
+        (struct gem_mcp4728_channel){.value = castor.pulse_width},
         (struct gem_mcp4728_channel){.value = pollux.params.dac_codes.pollux, .vref = 1},
-        (struct gem_mcp4728_channel){.value = pollux_duty});
+        (struct gem_mcp4728_channel){.value = pollux.pulse_width});
 }
 
 /* This loop is responsible for dealing with the "tweak"
@@ -247,24 +272,41 @@ void tweak_loop() {
         }
 
         /* Chorus intensity knob controls lfo frequency in tweak mode. */
-        uint16_t chorus_pot_code = adc_results_live[GEM_IN_CHORUS_POT];
-        int32_t chorus_pot_delta = chorus_pot_code - adc_results_snapshot[GEM_IN_CHORUS_POT];
-        if (labs(chorus_pot_delta) > 50) {
-            fix16_t frequency_value = ADC_TO_F16(FLIP_ADC(chorus_pot_code));
-            lfo.frequency = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
-        }
-
-        /* Update LEDs */
-        gem_led_tweak_data.lfo_value = lfo.value;
-
-    } else {
-        /* If we just left tweak mode, undo the adc result trickery. */
-        if (tweaking) {
-            tweaking = false;
-            adc_results = adc_results_live;
-            gem_led_animation_set_mode(hard_sync ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
-        }
+        IF_WAGGLED(chorus_pot_code, GEM_IN_CHORUS_POT)
+        fix16_t frequency_value = ADC_TO_F16(chorus_pot_code);
+        lfo.frequency = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
     }
+
+    /* PWM Knobs control whether or not the LFO gets routed to them. */
+    IF_WAGGLED(castor_duty_code, GEM_IN_DUTY_A_POT)
+    if (castor_duty_code < 2048) {
+        castor.lfo_pwm = false;
+    } else {
+        castor.lfo_pwm = true;
+    }
+}
+
+IF_WAGGLED(pollux_duty_code, GEM_IN_DUTY_B_POT)
+if (pollux_duty_code < 2048) {
+    pollux.lfo_pwm = false;
+} else {
+    pollux.lfo_pwm = true;
+}
+}
+
+/* Update LEDs */
+gem_led_tweak_data.lfo_value = lfo.value;
+gem_led_tweak_data.castor_pwm = castor.lfo_pwm;
+gem_led_tweak_data.pollux_pwm = pollux.lfo_pwm;
+}
+else {
+    /* If we just left tweak mode, undo the adc result trickery. */
+    if (tweaking) {
+        tweaking = false;
+        adc_results = adc_results_live;
+        gem_led_animation_set_mode(hard_sync ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
+    }
+}
 }
 
 int main(void) {
