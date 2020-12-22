@@ -7,6 +7,7 @@
 
 #define FLIP_ADC(value) (4095 - value)
 #define ADC_TO_F16(value) (fix16_div(fix16_from_int(value), F16(4095.0)))
+#define UINT12_CLAMP(value) value = value > 4095 ? 4095 : value
 
 static struct gem_settings settings;
 static uint32_t adc_results_live[GEM_IN_COUNT];
@@ -170,12 +171,10 @@ static void loop() {
 
     uint16_t castor_duty = FLIP_ADC(adc_results[GEM_IN_DUTY_A_POT]);
     castor_duty += FLIP_ADC(adc_results[GEM_IN_DUTY_A]);
-    if (castor_duty > 4095)
-        castor_duty = 4095;
+    UINT12_CLAMP(castor_duty);
     uint16_t pollux_duty = FLIP_ADC(adc_results[GEM_IN_DUTY_B_POT]);
     pollux_duty += FLIP_ADC(adc_results[GEM_IN_DUTY_B]);
-    if (pollux_duty > 4095)
-        pollux_duty = 4095;
+    UINT12_CLAMP(pollux_duty);
 
     /*
         Check for hard sync.
