@@ -10,6 +10,7 @@ struct gem_periodic_waveform {
     gem_periodic_waveform_function function;
     fix16_t phase;
     fix16_t frequency;
+    fix16_t value;
     uint32_t _last_update;
 };
 
@@ -18,4 +19,4 @@ void gem_periodic_waveform_init(
     gem_periodic_waveform_function function,
     fix16_t frequency);
 
-fix16_t gem_periodic_waveform_step(struct gem_periodic_waveform* waveform);
+void gem_periodic_waveform_step(struct gem_periodic_waveform* waveform);

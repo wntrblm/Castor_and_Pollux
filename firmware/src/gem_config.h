@@ -125,3 +125,4 @@ enum gem_adc_channels {
 
 #define GEM_CV_INPUT_RANGE F16(6.0)
 #define GEM_CV_BASE_OFFSET F16(1.0)
+#define GEM_TWEAK_MAX_LFO_FREQUENCY F16(10)
