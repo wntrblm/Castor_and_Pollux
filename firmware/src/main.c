@@ -13,6 +13,7 @@
     int32_t variable##_delta = variable - adc_results_snapshot[channel];                                               \
     if (labs(variable##_delta) > 50) {                                                                                 \
         variable = FLIP_ADC(variable);
+#define IF_WAGGLED_END }
 
 static struct gem_settings settings;
 static uint32_t adc_results_live[GEM_IN_COUNT];
@@ -273,40 +274,40 @@ void tweak_loop() {
 
         /* Chorus intensity knob controls lfo frequency in tweak mode. */
         IF_WAGGLED(chorus_pot_code, GEM_IN_CHORUS_POT)
-        fix16_t frequency_value = ADC_TO_F16(chorus_pot_code);
-        lfo.frequency = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
-    }
+            fix16_t frequency_value = ADC_TO_F16(chorus_pot_code);
+            lfo.frequency = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
+        IF_WAGGLED_END
 
-    /* PWM Knobs control whether or not the LFO gets routed to them. */
-    IF_WAGGLED(castor_duty_code, GEM_IN_DUTY_A_POT)
-    if (castor_duty_code < 2048) {
-        castor.lfo_pwm = false;
+        /* PWM Knobs control whether or not the LFO gets routed to them. */
+        IF_WAGGLED(castor_duty_code, GEM_IN_DUTY_A_POT)
+            if (castor_duty_code < 2048) {
+                castor.lfo_pwm = false;
+            } else {
+                castor.lfo_pwm = true;
+            }
+        IF_WAGGLED_END
+
+        IF_WAGGLED(pollux_duty_code, GEM_IN_DUTY_B_POT)
+            if (pollux_duty_code < 2048) {
+                pollux.lfo_pwm = false;
+            } else {
+                pollux.lfo_pwm = true;
+            }
+        IF_WAGGLED_END
+
+        /* Update LEDs */
+        gem_led_tweak_data.lfo_value = lfo.value;
+        gem_led_tweak_data.castor_pwm = castor.lfo_pwm;
+        gem_led_tweak_data.pollux_pwm = pollux.lfo_pwm;
+
     } else {
-        castor.lfo_pwm = true;
+        /* If we just left tweak mode, undo the adc result trickery. */
+        if (tweaking) {
+            tweaking = false;
+            adc_results = adc_results_live;
+            gem_led_animation_set_mode(hard_sync ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
+        }
     }
-}
-
-IF_WAGGLED(pollux_duty_code, GEM_IN_DUTY_B_POT)
-if (pollux_duty_code < 2048) {
-    pollux.lfo_pwm = false;
-} else {
-    pollux.lfo_pwm = true;
-}
-}
-
-/* Update LEDs */
-gem_led_tweak_data.lfo_value = lfo.value;
-gem_led_tweak_data.castor_pwm = castor.lfo_pwm;
-gem_led_tweak_data.pollux_pwm = pollux.lfo_pwm;
-}
-else {
-    /* If we just left tweak mode, undo the adc result trickery. */
-    if (tweaking) {
-        tweaking = false;
-        adc_results = adc_results_live;
-        gem_led_animation_set_mode(hard_sync ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
-    }
-}
 }
 
 int main(void) {
