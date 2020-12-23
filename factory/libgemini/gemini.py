@@ -27,7 +27,7 @@ def _fix16(val):
 
 @dataclass
 class Settings:
-    LENGTH: int = 49
+    LENGTH: int = 51
 
     magic: int = 0
     adc_gain_corr: int = 0
@@ -44,6 +44,8 @@ class Settings:
     smooth_initial_gain: int = 0
     smooth_sensitivity: int = 0
     pollux_follower_threshold: int = 0
+    castor_lfo_pwm: bool = False
+    pollux_lfo_pwm: bool = False
 
 
 class SysExCommands(enum.IntEnum):
@@ -164,13 +166,15 @@ class Gemini:
         settings.knob_gain_corr,
         settings.smooth_initial_gain,
         settings.smooth_sensitivity,
-        settings.pollux_follower_threshold,) = struct.unpack(">BHhHiiiiiiiiiiH", settings_buf[:Settings.LENGTH])
+        settings.pollux_follower_threshold,
+        settings.castor_lfo_pwm,
+        settings.pollux_lfo_pwm) = struct.unpack(">BHhHiiiiiiiiiiH??", settings_buf[:Settings.LENGTH])
 
         return settings
 
     def save_settings(self, settings):
         settings_buf = bytearray(struct.pack(
-            ">BHhHiiiiiiiiiiH",
+            ">BHhHiiiiiiiiiiH??",
             settings.magic,
             settings.adc_gain_corr,
             settings.adc_offset_corr,
@@ -185,7 +189,9 @@ class Gemini:
             settings.knob_gain_corr,
             settings.smooth_initial_gain,
             settings.smooth_sensitivity,
-            settings.pollux_follower_threshold))
+            settings.pollux_follower_threshold,
+            settings.castor_lfo_pwm,
+            settings.pollux_lfo_pwm))
 
         settings_encoded = bytearray(128)
         midi_encode(settings_buf, settings_encoded)
