@@ -257,7 +257,6 @@ static void loop() {
 /* This loop is responsible for dealing with the "tweak"
    interface - when the hard sync button is held down the
    interface knobs allow tweaking various settings. */
-static bool tweaking = false;
 
 void tweak_loop() {
     if (gem_button_held(&hard_sync_button)) {
@@ -265,8 +264,7 @@ void tweak_loop() {
            the snapshot buffer and point the loop's adc results to
            the snapshot. This prevents the tweak interface for messing
            with the running oscillators. */
-        if (!tweaking) {
-            tweaking = true;
+        if (gem_button_start_hold(&hard_sync_button)) {
             memcpy(adc_results_snapshot, adc_results_live, GEM_IN_COUNT * sizeof(uint32_t));
             adc_results = adc_results_snapshot;
             gem_led_animation_set_mode(GEM_LED_MODE_TWEAK);
@@ -302,8 +300,7 @@ void tweak_loop() {
 
     } else {
         /* If we just left tweak mode, undo the adc result trickery. */
-        if (tweaking) {
-            tweaking = false;
+        if (gem_button_end_hold(&hard_sync_button)) {
             adc_results = adc_results_live;
             gem_led_animation_set_mode(hard_sync ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
         }

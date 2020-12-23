@@ -51,3 +51,21 @@ bool gem_button_held(struct gem_button* button) {
     }
     return false;
 }
+
+
+bool gem_button_start_hold(struct gem_button* button) {
+    if(gem_button_held(button) && !button->_hold_barrier) {
+        button->_hold_barrier = true;
+        return true;
+    }
+    return false;
+}
+
+
+bool gem_button_end_hold(struct gem_button* button) {
+    if(!gem_button_held(button) && button->_hold_barrier) {
+        button->_hold_barrier = false;
+        return true;
+    }
+    return false;
+}
