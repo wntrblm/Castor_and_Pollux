@@ -10,7 +10,7 @@ markdown_extensions:
   - attr_list
   - toc:
       permalink: "#"
-      toc_depth: 2
+      toc_depth: 2-3
   - pymdownx.highlight:
       use_pygments: True
   - pymdownx.superfences
