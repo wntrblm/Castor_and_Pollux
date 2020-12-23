@@ -120,11 +120,13 @@ static void init() {
     castor.knob_range = fix16_sub(settings.castor_knob_max, settings.castor_knob_min);
     castor.smooth.initial_gain = settings.smooth_initial_gain;
     castor.smooth.sensitivity = settings.smooth_sensitivity;
+    castor.lfo_pwm = settings.castor_lfo_pwm;
 
     pollux.knob_min = settings.pollux_knob_min;
     pollux.knob_range = fix16_sub(settings.pollux_knob_max, settings.pollux_knob_min);
     pollux.smooth.initial_gain = settings.smooth_initial_gain;
     pollux.smooth.sensitivity = settings.smooth_sensitivity;
+    pollux.lfo_pwm = settings.castor_lfo_pwm;
 }
 
 static void calculate_pitch_cv(struct oscillator_state* osc, uint16_t follower_threshold) {

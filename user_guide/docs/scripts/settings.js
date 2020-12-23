@@ -25,8 +25,8 @@ function from_fix16(val) {
     Serialization and deserialization of the settings.
 */
 
-const settings_struct = struct(">BHhHiiiiiiiiiiH");
-const settings_magic = 0x63;
+const settings_struct = struct(">BHhHiiiiiiiiiiH??");
+const settings_magic = 0x64;
 
 function serialize_settings_form() {
     const form_data = new FormData(settings_form);
@@ -47,7 +47,11 @@ function serialize_settings_form() {
         parseFloat(to_fix16(form_data.get("smooth_initial_gain"))),
         parseFloat(to_fix16(form_data.get("smooth_sensitivity"))),
         parseFloat(form_data.get("pollux_follower_threshold")),
+        form_data.get("castor_lfo_pwm") === "on" ? true : false,
+        form_data.get("pollux_lfo_pwm") === "on" ? true : false,
     ];
+
+    console.log(settings);
 
     const settings_data = new Uint8Array(settings_struct.pack(...settings));
 
@@ -78,6 +82,8 @@ function deserialize_settings_form(settings_data) {
     settings_form.smooth_initial_gain.value = from_fix16(settings[12]).toFixed(2);
     settings_form.smooth_sensitivity.value = from_fix16(settings[13]).toFixed(1);
     settings_form.pollux_follower_threshold.value = settings[14];
+    settings_form.castor_lfo_pwm = settings[15];
+    settings_form.pollux_lfo_pwm = settings[16];
 
     /* Trigger change event for inputs on the form. */
     for (const elem of settings_form.getElementsByTagName("input")) {
@@ -258,9 +264,9 @@ allow_danger_input.addEventListener("change", function() {
 /*
     Display interaction logic - updating display values for range inputs.
 */
-function range_input_with_formatter(elem_name, formatter) {
+function range_input_with_formatter(elem_name, formatter, postfix = "_display_value") {
     const input = settings_form[elem_name];
-    const display_value = document.getElementById(elem_name + "_display_value");
+    const display_value = document.getElementById(`${elem_name}${postfix}`);
 
     function update() {
         display_value.innerText = formatter(input);
@@ -285,6 +291,7 @@ range_input_with_formatter("chorus_frequency", (input) => input.valueAsNumber.to
 range_input_with_percentage("smooth_initial_gain");
 range_input_with_passthrough("smooth_sensitivity");
 range_input_with_passthrough("pollux_follower_threshold");
+range_input_with_formatter("pollux_follower_threshold", (input) => (input.valueAsNumber / 4096 * 6.0).toFixed(2), "_display_value_volts");
 range_input_with_passthrough("knob_gain_corr");
 range_input_with_passthrough("knob_offset_corr");
 range_input_with_passthrough("adc_gain_corr");

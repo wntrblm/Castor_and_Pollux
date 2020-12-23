@@ -36,6 +36,9 @@ struct gem_settings {
        Castor's pitch CV. By default this is 6 code points to allow some
        variance in time and temperature. */
     uint16_t pollux_follower_threshold; /* code points */
+    /* Route LFO to PWM for oscillators */
+    bool castor_lfo_pwm;
+    bool pollux_lfo_pwm;
 };
 
 bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data);

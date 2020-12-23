@@ -43,16 +43,26 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             <input type="number" name="pollux_knob_max" class="form-control" value="1.01" step="0.1" min="0" max="3.0" />
             <span class="form-unit">octaves (volts)</span>
         </div>
-        <span class="form-message">The following settings control the intensity and frequency of the chorusing feature. The intensity of the chorus is determined by the chorus knob and its range is set by the <strong>maximum intensity</strong> setting. The chorus operates at a fixed frequency determined by the <strong>frequency</strong> setting.</span>
+        <span class="form-message">The following setting controls the <strong>maximum</strong> intensity of the chorusing feature. The intensity is the amount that the internal LFO effects the pitch of the second oscillator (Pollux).</span>
         <div class="form-group">
             <label for="chorus_max_intensity">Chorus maximum intensity</label>
             <input type="range" name="chorus_max_intensity" class="form-control" value="0.05" step="0.01" min="0" max="1.0" />
             <span class="form-unit"><span id="chorus_max_intensity_display_value"></span> percent</span>
         </div>
+        <span class="form-message">The following setting controls the <strong>default</strong> frequency of the internal low-frequency oscillator (LFO). This LFO is used by the chorusing feature and the pulse-width modulation (PWM) feature. The frequency can be changed anytime by holding the <em>hard sync</em> button and moving the <em>chorusing amount (φ)</em> knob, this just sets the frequency at start-up.</span>
         <div class="form-group">
-            <label for="chorus_frequency">Chorus frequency</label>
+            <label for="chorus_frequency">LFO frequency</label>
             <input type="range" name="chorus_frequency" class="form-control" value="0.2" step="0.1" min="0.1" max="5.0" />
             <span class="form-unit"><span id="chorus_frequency_display_value"></span> hertz</span>
+        </div>
+        <span class="form-message">These settings control whether the internal LFO is used to modulate the pulse width of each oscillator by default. The routing can be enabled or disabled at any time by holding <em>hard sync</em> button and moving the oscillator's <em>pulse width</em> knob, this just enables or disables it at start-up.</span>
+        <div class="form-group">
+            <label for="castor_lfo_pwm">
+            <input type="checkbox" id="castor_lfo_pwm" name="castor_lfo_pwm" value="on" /> Route LFO to Castor's pulse width</label>
+        </div>
+        <div class="form-group">
+            <label for="pollux_lfo_pwm">
+            <input type="checkbox" id="pollux_lfo_pwm" name="pollux_lfo_pwm" value="on" /> Route LFO to Pollux's pulse width</label>
         </div>
         <span class="form-message">The following settings control how the module filters the pitch CV inputs. Due to inherent limitations with converting analog pitch CV to a digital pitch value, such as noise and transient errors, it's necessary to basically <em>low-pass filter</em> (or <em>slew limit</em>) the readings. The module's filter is a little more sophisticated than that- it is a self-modulated low-pass filter. The <strong>initial gain setting</strong> settings the minimum affect of a new reading on the ongoing average - so if it is 0.1% then it will effect the ongoing average by 10%, if it is 1.0 then previous readings are essentially ignored because it effects the ongoing average by 100%. The <strong>sensitivity</strong> setting determines how much the low-pass filter can self-modulate. Higher settings means that the module will be more reactive to large changes in the CV input, whereas lower settings will cause the module to react very slowly to any change in the CV input.</span>
         <div class="form-group">
@@ -75,8 +85,8 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         <span class="form-message">The following setting controls how Pollux determines when to follow Castor. The intended behavior is that when no cable is attached to Pollux's pitch CV jack, it will follow Castor's pitch. The module detects this condition by seeing if the input jack is reading 0 volts. Sometimes due to ADC errors this threshold needs to be adjusted. Lower thresholds may lead to glitchy behavior as the ADC noise measures above and below the threshold, and higher settings may lead to Pollux ignoring the pitch CV input on lower notes.</span>
         <div class="form-group">
             <label for="pollux_follower_threshold">Pollux follower threshold</label>
-            <input type="range" name="pollux_follower_threshold" class="form-control" value="6" step="1" min="0" max="20" disabled />
-            <span class="form-unit"><span id="pollux_follower_threshold_display_value"></span> code points</span>
+            <input type="number" name="pollux_follower_threshold" class="form-control" min="0" max="500" value="56" readonly />
+            <span class="form-unit"><span id="pollux_follower_threshold_display_value"></span> code points, <span id="pollux_follower_threshold_display_value_volts"></span> volts</span>
         </div>
         <span class="form-message">The following settings determine how the module corrects for gain and offset errors in its ADC.</span>
         <div class="form-group">

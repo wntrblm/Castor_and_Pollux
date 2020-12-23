@@ -4,8 +4,8 @@
 #include "printf.h"
 #include <stdarg.h>
 
-#define SETTINGS_MARKER 0x63
-#define SETTINGS_LEN 49
+#define SETTINGS_MARKER 0x64
+#define SETTINGS_LEN 51
 
 extern uint8_t _nvm_settings_base_address;
 
@@ -25,6 +25,8 @@ static const struct gem_settings _default_settings = {
     .smooth_sensitivity = F16(30.0),
     .pollux_follower_threshold =
         56, /* This value is just under the *second* lowest note that can be played, equal to 83.33 mV */
+    .castor_lfo_pwm = false,
+    .pollux_lfo_pwm = false,
 };
 
 bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
@@ -47,6 +49,8 @@ bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
     settings->smooth_initial_gain = UNPACK_32(data, 39);
     settings->smooth_sensitivity = UNPACK_32(data, 43);
     settings->pollux_follower_threshold = UNPACK_16(data, 47);
+    settings->castor_lfo_pwm = data[49];
+    settings->pollux_lfo_pwm = data[50];
 
     /* Check for invalid settings that could cause crashes. */
     if (settings->adc_gain_corr < 512 || settings->adc_gain_corr > 4096) {
@@ -86,6 +90,8 @@ void gem_settings_serialize(struct gem_settings* settings, uint8_t* data) {
     PACK_32(settings->smooth_initial_gain, data, 39);
     PACK_32(settings->smooth_sensitivity, data, 43);
     PACK_16(settings->pollux_follower_threshold, data, 47);
+    data[49] = settings->castor_lfo_pwm;
+    data[50] = settings->pollux_lfo_pwm;
 };
 
 void gem_settings_save(struct gem_settings* settings) {
@@ -126,4 +132,6 @@ void gem_settings_print(struct gem_settings* settings) {
     fix16_to_str(settings->smooth_initial_gain, fix16buf, 2);
     printf(" Smooth sensitivity: %s\r\n", fix16buf);
     printf(" Pollux follower threshold: %u code points\r\n", settings->pollux_follower_threshold);
+    printf(" Castor LFO PWM: %u\r\n", settings->castor_lfo_pwm);
+    printf(" Pollux LFO PWM: %u\r\n", settings->pollux_lfo_pwm);
 }
