@@ -70,4 +70,6 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 TabWidth:        4
 UseTab:          Never
+MacroBlockBegin: "^IF_WAGGLED$"
+MacroBlockEnd: "^IF_WAGGLED_END$"
 ...
