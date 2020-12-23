@@ -16,6 +16,7 @@
 * Pulse-width CV ins and knobs
 * Hard sync
 * Hardware chorusing
+* Internal low-frequency oscillator
 * [ModularGrid page](https://www.modulargrid.net/e/winterbloom-castor-pollux)
 
 
@@ -110,7 +111,9 @@ The pulse wave depends on the pulse width CV and knob. You can vary the pulse wi
     <label for="pulse_width">pulse width</label>
 </div>
 
-And here's some of the sounds you can get out of it:
+You can also configure the [internal low-frequency oscillator](#internal-low-frequency-oscillator) to modulate the pulse width.
+
+Here's some examples of the pulse wave's sound:
 
 <div class="winter-oscilloscope">
     <audio title="pulse wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_octaves.mp3"></audio>
@@ -179,7 +182,7 @@ Here's some sound samples of various mixes:
 
 ## Oscillator stacking
 
-Because Castor & Pollux has two oscillators, you can combine them together to build much more complex sounds. When there is no input into the second oscillator's pitch CV jack, it will follow the pitch of the the first oscillator. You can use the pitch knob of the second oscillator to *detune* the second oscillator and cause interesting interactions with the first oscillator. You'll take your output from the **combined output** (marked by the symbol ♊︎) and you can control the relative volume of the two oscillators using the crossfader (marked by the symbol Σ).
+Because Castor & Pollux has two oscillators, you can combine them together to build much more complex sounds. When there is no input into the second oscillator's pitch CV jack, it will follow the pitch of the the first oscillator. You can use the pitch knob of the second oscillator to *detune* the second oscillator and cause interesting interactions with the first oscillator. You'll take your output from the **combined output** (marked by the symbol ♊︎) and you can control the relative volume of the two oscillators using the **crossfader** (marked by the symbol Σ).
 
 You can play around with this interactive animation to see how detuning and mixing changes the final waveshape:
 
@@ -212,7 +215,7 @@ This animation just uses the ramp waveshape, but the crossfader takes the mix fr
 
 ## Chorusing
 
-Inspired by the original Juno's analog chorus circuit, Castor & Pollux contains an adaptation of chorusing that works well for a monophonic voice. Instead of applying the chorus affect *after* sound generation, Castor & Pollux's chorusing works by varying the frequency of the second oscillator using an internal low-frequency oscillator. This means that you have to [use both oscillators](#oscillator-stacking) in order to hear this effect. The chorusing knob (marked by the symbol φ) determines the amount of chorusing from none when fully counter-clockwise to its maximum at fully clockwise. The crossfader (marked by the symbol Σ) also has an impact on the intensity of the chorus.
+Inspired by the original Juno's analog chorus circuit, Castor & Pollux contains an adaptation of chorusing that works well for a monophonic voice. Instead of applying the chorus affect *after* sound generation, Castor & Pollux's chorusing works by varying the frequency of the second oscillator using an [internal low-frequency oscillator](#internal-low-frequency-oscillator). This means that you have to [use both oscillators](#oscillator-stacking) in order to hear this effect. The **chorus knob** (marked by the symbol φ) determines the intensity of chorusing from none when fully counter-clockwise to its maximum at fully clockwise. The **crossfader** (marked by the symbol Σ) also has an impact on the intensity of the chorus. Finally, you can modify the speed of the chorus by changing the [internal low-frequency oscillator's frequency](#internal-low-frequency-oscillator).
 
 You can play around with this interactive animation to see how the chorusing amount changes the final waveshape. You'll need to click on the animation to start it otherwise you won't really be able to see the chorusing effect.
 
@@ -234,7 +237,7 @@ Here's some sound samples of chorusing:
 
 [*Hard sync*](https://en.wikipedia.org/wiki/Oscillator_sync) is a feature seen in several synthesizer voices that have two or more oscillators, however, it's not a feature seen on the original Juno because each voice only had one oscillator. Since Castor & Pollux has two oscillators to work with it has an adaption of hard sync. Hard sync allows you to sync the second oscillator to the first - the output will retain the same *base frequency* as the first oscillator but the waveshape will be impacted by the frequency of the second oscillator. In other words, it'll sound like the same note but have a much different timbre.
 
-To use hard sync press the hard sync button - the LEDs should all change to the same color. You'll use the first oscillator's pitch CV to set the note and you'll use the second oscillator's pitch knob or pitch CV input to control the timbre. You'll take the output from the second oscillator (or the combined output) - since hard sync does not impact the waveshape of the first oscillator.
+To use hard sync **tap** the hard sync button - the LEDs should all change to the same color. You'll use the first oscillator's pitch CV to set the note and you'll use the second oscillator's pitch knob or pitch CV input to control the timbre. You'll take the output from the second oscillator (or the combined output) - since hard sync does not impact the waveshape of the first oscillator.
 
 Here's some sound samples of hard sync:
 
@@ -246,9 +249,24 @@ Here's some sound samples of hard sync:
     Due to the way hard sync works, you shouldn't set the second oscillator to a *lower* frequency than the first. It'll just result in the sound growing softer since the second oscillator doesn't have enough time to output a complete wave cycle.
 
 
+## Internal low-frequency oscillator
+
+Castor & Pollux has an built-in low-frequency oscillator (*LFO*) that's used for modulation. This LFO drives the [chorus](#chorusing) feature, but can also be assigned to some other parameters.
+
+To configure the internal LFO, **hold** down the hard sync button. The module's lights should change. While holding the hard sync button you can modify the following settings:
+
+![LFO configuration knobs highlighted](images/tweak.png)
+
+1. Moving the **chorus knob** (φ) will change the frequency of the LFO. The LEDs at the bottom of the module will pulse to show the LFO's frequency.
+2. Moving the **pulse width** knob of each of the oscillators will enable or disable LFO routing to the oscillator's pulse width. Turning the knob counter-clockwise will disable the LFO, turning it clockwise will enable it. The LEDs near the oscillator will illuminate if the LFO is enabled. When the LFO is enabled, the pulse width knob will control the *intensity* of the pulse width modulation instead of directly setting the pulse width.
+
+You can also configure the values for these settings at boot-up using the [settings editor](#editing-module-settings).
+
+
 ## Editing module settings
 
-Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, there is a little microcontroller brain inside that's orchestrating everything. There's a few settings you can tweak over USB, such as the LED brightness and the range of the pitch knobs. Head over to the [web-based settings editor](../settings) to tweak to your heart's content.
+Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, there is a little microcontroller brain inside that's orchestrating everything. There's a few settings you can tweak over USB, such as the LED brightness and the range of the pitch knobs. Head over to the [web-based settings editor](settings) to tweak to your heart's content.
+
 
 ## Updating the firmware
 
