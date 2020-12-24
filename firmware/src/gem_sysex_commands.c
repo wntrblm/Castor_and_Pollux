@@ -105,6 +105,7 @@ static void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
 }
 
 static void _cmd_0x06_set_period(uint8_t* data, size_t len) {
+    // TODO: Make this work for 24-bit period values
     (void)(len);
     gem_pulseout_set_period(data[2], MIDI_UNPACK_U16(data, 3));
 }
