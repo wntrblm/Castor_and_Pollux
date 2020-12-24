@@ -64,6 +64,9 @@ def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc
     
     gem.enable_adc_error_correction()
 
+    print("Done")
+    gem.close()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)

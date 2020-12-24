@@ -59,6 +59,9 @@ def run(adc_resolution, invert, adc_channel, save):
     else:
         print("Dry run, not saved to NVM.")
 
+    print("Done")
+    gem.close()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)

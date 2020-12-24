@@ -278,3 +278,19 @@ def removeprefix(self: str, prefix: str) -> str:
         return self[len(prefix) :]
     else:
         return self[:]
+
+
+def bell():
+    if MACOS:
+        subprocess.call(["say", "Ding!"])
+    else:
+        print("\a")
+
+
+_original_input = __builtins__["input"]
+    
+def input_with_bell(*args, **kwargs):
+    bell()
+    return _original_input(*args, **kwargs)
+
+__builtins__["input"] = input_with_bell

@@ -31,8 +31,9 @@ def _calibrate_oscillator(gem, scope, oscillator):
     last_dac_code = 0
 
     for period, dac_code in period_to_dac_code.items():
-        # The real code tends to be somewhere between the reference and the last dac code.
-        dac_code = (dac_code + last_dac_code) // 2
+        if last_dac_code > dac_code:
+            dac_code = last_dac_code
+
         frequency = _period_reg_to_freq(period)
     
         print(f"Frequency: {frequency:.2f}Hz, Period reg: {period}, start code: {dac_code}, start voltage: {_code_to_volts(dac_code):.2f}v")
@@ -124,9 +125,17 @@ def run(save):
     input("Connect to RAMP A and press enter to start.")
     castor_calibration = _calibrate_oscillator(gem, scope, 0)
 
+    lowest_voltage = _code_to_volts(min(castor_calibration.values()))
+    highest_voltage = _code_to_volts(max(castor_calibration.values()))
+    print(f"Lowest voltage: {lowest_voltage:.2f}, Highest: {highest_voltage:.2f}")
+
     print("--------- Calibrating Pollux ---------")
     input("Connect to RAMP B and press enter to start.")
     pollux_calibration = _calibrate_oscillator(gem, scope, 1)
+
+    lowest_voltage = _code_to_volts(min(castor_calibration.values()))
+    highest_voltage = _code_to_volts(max(castor_calibration.values()))
+    print(f"Lowest voltage: {lowest_voltage:.2f}, Highest: {highest_voltage:.2f}")
 
     if save:
         print("--------- Saving calibration table ---------")
@@ -148,6 +157,7 @@ def run(save):
     else:
         print("WARNING: Dry run enabled, calibration table not saved.")
     
+    gem.close()
     print("Done")
 
 
