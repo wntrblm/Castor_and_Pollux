@@ -84,6 +84,10 @@ class Gemini:
         self.port_in.ignore_types(sysex=False)
         self.port_out, _ = rtmidi.midiutil.open_midiport(self.MIDI_PORT_NAME, type_="output")
 
+    def close(self):
+        self.port_in.close_port()
+        self.port_out.close_port()
+
     def enter_calibration_mode(self):
         self.port_out.send_message([
             SYSEX_START, SYSEX_MARKER, SysExCommands.HELLO, SYSEX_END])
