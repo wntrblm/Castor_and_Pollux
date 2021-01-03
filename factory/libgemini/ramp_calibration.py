@@ -38,10 +38,6 @@ def _calibrate_oscillator(gem, scope, oscillator):
     
         print(f"Frequency: {frequency:.2f}Hz, Period reg: {period}, start code: {dac_code}, start voltage: {_code_to_volts(dac_code):.2f}v")
 
-        if period > 2**16:
-            print(f"    Warning: skipping {period} because you haven't fixed this for 24-bit period registers")
-            continue
-
         # Adjust the oscilloscope's time division as needed.
 
         if frequency > 500:
