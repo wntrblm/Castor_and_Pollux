@@ -1,4 +1,3 @@
-#include <assert.h>
 #include "teeth.h"
 
 
@@ -51,7 +50,7 @@ void teeth_encode(uint8_t* src, size_t src_len, uint8_t* dst) {
 
 
 size_t teeth_decode(uint8_t* src, size_t src_len, uint8_t* dst) {
-    assert(src_len % 5 == 0);
+    //assert(src_len % 5 == 0);
     size_t src_idx = 0;
     size_t dst_idx = 0;
 
@@ -75,6 +74,7 @@ size_t teeth_decode(uint8_t* src, size_t src_len, uint8_t* dst) {
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 int main(int argc, char *argv[]) {
     printf("Teeth encode/decode tests\n");

@@ -47,19 +47,6 @@ void gem_midi_task() {
     }
 }
 
-void gem_midi_encode(uint8_t* src, uint8_t* dst, size_t src_len) {
-    /* We encode middle data as one nibble per byte, dst must be twice the length of src. */
-    for (size_t i = 0; i < src_len; i++) {
-        dst[i * 2] = src[i] >> 4 & 0xF;
-        dst[i * 2 + 1] = src[i] & 0xF;
-    }
-}
-
-void gem_midi_decode(uint8_t* src, uint8_t* dst, size_t dst_len) {
-    /* We encode middle data as one nibble per byte, so dst should be half the length of src. */
-    for (size_t i = 0; i < dst_len; i += 1) { dst[i] = src[i * 2] << 4 | src[i * 2 + 1]; }
-}
-
 static void _parse_sysex() {
     /* Take the last two bytes of the start message. */
     _sysex_data[0] = _in_data[2];
