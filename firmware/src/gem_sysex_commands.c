@@ -68,8 +68,7 @@ static void _cmd_0x01_hello(uint8_t* data, size_t len) {
     gem_adc_stop_scanning();
     gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
 
-    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x01});
-    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_TWO_BYTE, GEM_FIRMWARE_VERSION, MIDI_SYSEX_END_BYTE, 0x00});
+    gem_midi_send_sysex((uint8_t[3]){GEM_MIDI_SYSEX_MARKER, 0x01, GEM_FIRMWARE_VERSION}, 3);
 }
 
 static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
