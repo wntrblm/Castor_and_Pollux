@@ -4,20 +4,26 @@
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
 #include "gem_midi_core.h"
+#include "gem_pack.h"
 #include "gem_pulseout.h"
 #include "gem_settings.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "printf.h"
 #include "teeth.h"
-#include "gem_pack.h"
 #include <string.h>
 
-/* Macros. */
+/* Macros & defs */
+
+#define MAX_SETTINGS_SIZE 64
+#define TOTAL_BYTES TEETH_ENCODED_LENGTH(MAX_SETTINGS_SIZE)
+#define CHUNK_SIZE 20
+#define TOTAL_CHUNKS (TOTAL_BYTES / CHUNK_SIZE)
 
 /* Static variables. */
 
 static uint8_t _working_buf[128];
+static uint8_t _chunk_buf[TOTAL_BYTES];
 
 /* Forward declarations. */
 
@@ -101,7 +107,7 @@ static void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
 
     uint16_t result = gem_adc_read_sync(&gem_adc_inputs[data[2]]);
     uint8_t response[2];
-    
+
     PACK_16(result, response, 0);
 
     _working_buf[0] = GEM_MIDI_SYSEX_MARKER;
@@ -139,13 +145,6 @@ static void _cmd_0x07_erase_settings(uint8_t* data, size_t len) {
     gem_settings_erase();
 }
 
-#define MAX_SETTINGS_SIZE 64
-#define TOTAL_BYTES TEETH_ENCODED_LENGTH(MAX_SETTINGS_SIZE)
-#define CHUNK_SIZE 20
-#define TOTAL_CHUNKS (TOTAL_BYTES / CHUNK_SIZE)
-static uint8_t _chunk_buf[TOTAL_BYTES];
-
-
 static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) */
@@ -154,7 +153,7 @@ static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     (void)(len);
 
     const uint8_t chunk_num = data[2];
-    if(chunk_num >= TOTAL_CHUNKS) {
+    if (chunk_num >= TOTAL_CHUNKS) {
         printf("Invalid chunk %u.\r\n", chunk_num);
         return;
     }
@@ -178,7 +177,7 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
     teeth_decode(data + 2, CHUNK_SIZE + 1, _working_buf);
 
     const uint8_t chunk_num = _working_buf[0];
-    if(chunk_num >= TOTAL_CHUNKS) {
+    if (chunk_num >= TOTAL_CHUNKS) {
         printf("Invalid chunk %u.\r\n", chunk_num);
         return;
     }
