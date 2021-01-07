@@ -2,6 +2,8 @@
 #include "gem_nvm.h"
 #include "gem_pack.h"
 #include "printf.h"
+#include "pystruct.h"
+#include "sam.h"
 #include <stdarg.h>
 
 #define SETTINGS_MARKER 0x64
@@ -35,24 +37,32 @@ bool gem_settings_deserialize(struct gem_settings* settings, uint8_t* data) {
         goto fail;
     }
 
-    settings->adc_gain_corr = UNPACK_16(data, 1);
-    settings->adc_offset_corr = UNPACK_16(data, 3);
-    settings->led_brightness = UNPACK_16(data, 5);
-    settings->castor_knob_min = UNPACK_32(data, 7);
-    settings->castor_knob_max = UNPACK_32(data, 11);
-    settings->pollux_knob_min = UNPACK_32(data, 15);
-    settings->pollux_knob_max = UNPACK_32(data, 19);
-    settings->chorus_max_intensity = UNPACK_32(data, 23);
-    settings->chorus_frequency = UNPACK_32(data, 27);
-    settings->knob_offset_corr = UNPACK_32(data, 31);
-    settings->knob_gain_corr = UNPACK_32(data, 35);
-    settings->smooth_initial_gain = UNPACK_32(data, 39);
-    settings->smooth_sensitivity = UNPACK_32(data, 43);
-    settings->pollux_follower_threshold = UNPACK_16(data, 47);
-    settings->castor_lfo_pwm = data[49];
-    settings->pollux_lfo_pwm = data[50];
+    enum pystruct_result result = pystruct_unpack(
+        "xHhHiiiiiiiiiiH??",
+        data,
+        SETTINGS_LEN,
+        &settings->adc_gain_corr,
+        &settings->adc_gain_corr,
+        &settings->adc_offset_corr,
+        &settings->led_brightness,
+        &settings->castor_knob_min,
+        &settings->castor_knob_max,
+        &settings->pollux_knob_min,
+        &settings->pollux_knob_max,
+        &settings->chorus_max_intensity,
+        &settings->chorus_frequency,
+        &settings->knob_offset_corr,
+        &settings->knob_gain_corr,
+        &settings->smooth_initial_gain,
+        &settings->smooth_sensitivity,
+        &settings->pollux_follower_threshold,
+        &settings->castor_lfo_pwm,
+        &settings->pollux_lfo_pwm);
 
     /* Check for invalid settings that could cause crashes. */
+    if (result != PYSTRUCT_RESULT_OKAY) {
+        goto fail;
+    }
     if (settings->adc_gain_corr < 512 || settings->adc_gain_corr > 4096) {
         goto fail;
     }
@@ -75,23 +85,33 @@ bool gem_settings_load(struct gem_settings* settings) {
 }
 
 void gem_settings_serialize(struct gem_settings* settings, uint8_t* data) {
-    data[0] = SETTINGS_MARKER;
-    PACK_16(settings->adc_gain_corr, data, 1);
-    PACK_16(settings->adc_offset_corr, data, 3);
-    PACK_16(settings->led_brightness, data, 5);
-    PACK_32(settings->castor_knob_min, data, 7);
-    PACK_32(settings->castor_knob_max, data, 11);
-    PACK_32(settings->pollux_knob_min, data, 15);
-    PACK_32(settings->pollux_knob_max, data, 19);
-    PACK_32(settings->chorus_max_intensity, data, 23);
-    PACK_32(settings->chorus_frequency, data, 27);
-    PACK_32(settings->knob_offset_corr, data, 31);
-    PACK_32(settings->knob_gain_corr, data, 35);
-    PACK_32(settings->smooth_initial_gain, data, 39);
-    PACK_32(settings->smooth_sensitivity, data, 43);
-    PACK_16(settings->pollux_follower_threshold, data, 47);
-    data[49] = settings->castor_lfo_pwm;
-    data[50] = settings->pollux_lfo_pwm;
+    enum pystruct_result result = pystruct_pack(
+        "BHhHiiiiiiiiiiH??",
+        data,
+        SETTINGS_LEN,
+        SETTINGS_MARKER,
+        settings->adc_gain_corr,
+        settings->adc_offset_corr,
+        settings->led_brightness,
+        settings->castor_knob_min,
+        settings->castor_knob_max,
+        settings->pollux_knob_min,
+        settings->pollux_knob_max,
+        settings->chorus_max_intensity,
+        settings->chorus_frequency,
+        settings->knob_offset_corr,
+        settings->knob_gain_corr,
+        settings->smooth_initial_gain,
+        settings->smooth_sensitivity,
+        settings->pollux_follower_threshold,
+        settings->castor_lfo_pwm,
+        settings->pollux_lfo_pwm);
+
+    if (result != PYSTRUCT_RESULT_OKAY) {
+#ifdef DEBUG
+        __BKPT(0);
+#endif
+    }
 };
 
 void gem_settings_save(struct gem_settings* settings) {
