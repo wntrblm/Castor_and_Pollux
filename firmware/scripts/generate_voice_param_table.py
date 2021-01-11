@@ -27,7 +27,7 @@ with open(output_filename, "w") as fh:
     #include "gem_voice_param_table.h"
     #include "fix16.h"
 
-    const struct gem_voice_voltage_and_period gem_voice_voltage_and_period_table[] = {
+    const struct GemVoltageAndPeriod gem_voice_voltage_and_period_table[] = {
     """))
 
     for row in entries:
@@ -36,7 +36,7 @@ with open(output_filename, "w") as fh:
     fh.write(textwrap.dedent("""\
     };
 
-    struct gem_voice_dac_codes gem_voice_dac_codes_table[] = {
+    struct GemDACCodePair gem_voice_dac_codes_table[] = {
     """))
 
     for row in entries:
@@ -46,7 +46,7 @@ with open(output_filename, "w") as fh:
     fh.write(textwrap.dedent("""\
     };
 
-    size_t gem_voice_param_table_len = sizeof(gem_voice_voltage_and_period_table) / sizeof(struct gem_voice_voltage_and_period);
+    size_t gem_voice_param_table_len = sizeof(gem_voice_voltage_and_period_table) / sizeof(struct GemVoltageAndPeriod);
     
     /* clang-format on */
     """))
