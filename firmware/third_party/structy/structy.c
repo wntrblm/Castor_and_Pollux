@@ -136,6 +136,12 @@ end:
     return result;
 }
 
+union float_pun {
+    uint32_t i;
+    float f;
+};
+
+
 struct StructyResult structy_pack(const char* format, uint8_t* buf, const size_t buf_len, ...) {
     STRUCTY_ASSERT(buf != NULL);
     STRUCTY_ASSERT(buf_len >= structy_size(format));
@@ -211,11 +217,12 @@ struct StructyResult structy_pack(const char* format, uint8_t* buf, const size_t
             } break;
             case 'f': {
                 float var = va_arg(args, double);
-                uint32_t temp = *((uint32_t*)(&var));
-                buf[buf_idx] = temp >> 24u & 0xFF;
-                buf[buf_idx + 1] = temp >> 16u & 0xFF;
-                buf[buf_idx + 2] = temp >> 8u & 0xFF;
-                buf[buf_idx + 3] = temp & 0xFF;
+                union float_pun temp;
+                temp.f = var;
+                buf[buf_idx] = temp.i >> 24u & 0xFF;
+                buf[buf_idx + 1] = temp.i >> 16u & 0xFF;
+                buf[buf_idx + 2] = temp.i >> 8u & 0xFF;
+                buf[buf_idx + 3] = temp.i & 0xFF;
                 buf_idx += 4;
                 result.count++;
             } break;
