@@ -12,6 +12,7 @@
 #include "gem_voice_param_table.h"
 #include "printf.h"
 #include "teeth.h"
+#include <assert.h>
 #include <string.h>
 
 /* Macros & defs */
@@ -21,7 +22,7 @@
 #define CHUNK_SIZE 20
 #define TOTAL_CHUNKS (TOTAL_BYTES / CHUNK_SIZE)
 
-static_assert(MAX_SETTINGS_SIZE > GEMSETTINGS_PACKED_SIZE);
+static_assert(MAX_SETTINGS_SIZE > GEMSETTINGS_PACKED_SIZE, "Should be able to fit GemSettings into the buffer.");
 
 /* Static variables. */
 

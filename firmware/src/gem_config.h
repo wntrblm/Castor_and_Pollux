@@ -18,7 +18,7 @@
         __BKPT(0);                                                                                                     \
     }
 #else
-#define DEBUG_TRAP(expr)
+#define DEBUG_TRAP(expr) (void)(expr);
 #endif
 
 /* MIDI configuration. */
