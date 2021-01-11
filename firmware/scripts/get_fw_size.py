@@ -1,36 +1,193 @@
 #!/usr/bin/env python3
 
+import colorsys
+import collections
 import math
 import sys
 import subprocess
 
-if(len(sys.argv) != 4):
-    print("Usage: get-fw-size.py ELF_FILE FLASH_SIZE RAM_SIZE")
-    sys.exit(-1)
+COLUMNS = ["<15", ">8", "^5", ">8", ">7"]
+FIXED_SEG_COLOR = (255, 158, 221)
+BAR_FILL_CHAR = "░"
+BAR_FILL_COLOR = (0.4, 0.4, 0.4)
+GRADIENT_START = colorsys.hsv_to_rgb(188 / 360, 0.8, 1.0)
+GRADIENT_END = colorsys.hsv_to_rgb(0.8, 0.8, 1.0)
 
-_, infile, max_flash, max_ram = sys.argv
-flash_size = int(max_flash, 0)
-ram_size = int(max_ram, 0)
 
-fw_size_output = subprocess.check_output(["arm-none-eabi-size", infile])
-fw_size_output = fw_size_output.decode("utf-8").split("\n")[1]
-text, data, bss, *_ = [x.strip() for x in fw_size_output.split(" ") if x.strip()]
-text = int(text, 10)
-data = int(data, 10)
-bss = int(bss, 10)
+class TermColor:
+    reset = "\u001b[0m"
 
-flash_used = text + data
-flash_used_percent = math.ceil(flash_used / flash_size * 100)
-ram_used = data + bss
-ram_used_percent = math.ceil(ram_used / ram_size * 100)
+    @staticmethod
+    def gradient(a, b, v):
+        r = a[0] + v * (b[0] - a[0])
+        g = a[1] + v * (b[1] - a[1])
+        b = a[2] + v * (b[2] - a[2])
+        return r, g, b
 
-colors = [57, 92, 127, 162, 197]
-reset = "\u001b[0m"
+    @staticmethod
+    def esc(r, g=None, b=None):
+        if isinstance(r, tuple):
+            r, g, b = r
 
-print(f"Flash used: {flash_used:,} / {flash_size:,} ({flash_used_percent}%)")
-color = "\u001b[38;5;{}m".format(colors[math.floor(flash_used_percent / 100 * (len(colors) -1))])
-print(color,"█" * math.floor(flash_used_percent / 4), "▒" * math.ceil((100 - flash_used_percent) / 4), reset, sep="")
+        if r > 1 or g > 1 or b > 1:
+            r, g, b = r / 255, g / 255, b / 255
 
-print(f"RAM used: {ram_used:,} / {ram_size:,} ({ram_used_percent}%)")
-color = "\u001b[38;5;{}m".format(colors[math.floor(ram_used_percent / 100 * (len(colors) - 1))])
-print(color, "█" * math.floor(ram_used_percent / 4), "▒" * math.ceil((100 - ram_used_percent) / 4), reset, sep="")
+        r, g, b = [int(x * 255) for x in (r, g, b)]
+        return f"\u001b[38;2;{r};{g};{b}m"
+
+
+class TermUI:
+    @staticmethod
+    def segmented_bar(length, *segments, fill=False):
+        segments = list(segments)
+
+        # Add end segment if needed.
+        if fill:
+            left_to_fill = 1.0 - sum(s["l"] for s in segments)
+            segments.append(dict(l=left_to_fill, c=BAR_FILL_COLOR, p=BAR_FILL_CHAR))
+
+        # Largest remainder method allocation
+        seg_lengths = [math.floor(s["l"] * length) for s in segments]
+        seg_fract = [(n, (s["l"] * length) % 1.0) for n, s in enumerate(segments)]
+        seg_fract.sort(key=lambda x: x[1], reverse=True)
+        remainder = length - sum(seg_lengths)
+
+        for n in range(remainder):
+            seg_lengths[seg_fract[n][0]] += 1
+
+        # Now draw
+        for n, seg in enumerate(segments):
+            print(
+                TermColor.esc(*seg["c"]),
+                seg.get("p", "▓") * seg_lengths[n],
+                sep="",
+                end="",
+            )
+
+        print(end="\n")
+
+    @staticmethod
+    def columnize(columns, *values):
+        n = 0
+        for v in values:
+            if isinstance(v, str) and v.startswith("\u001b"):
+                print(v, end="")
+                continue
+            if isinstance(v, tuple) and len(v) == 3:
+                print(TermColor.esc(v), end="")
+                continue
+
+            c = columns[n]
+            formatter = f"{{: {c}}}"
+            print(formatter.format(v), end="")
+
+            n += 1
+
+        print(TermColor.reset, end="\n")
+
+    @staticmethod
+    def columns_length(columns):
+        return sum(int(s[1:]) for s in columns)
+
+
+BAR_LEN = TermUI.columns_length(COLUMNS)
+
+
+def analyze_elf(elf):
+    fw_size_output = subprocess.check_output(["arm-none-eabi-size", "-A", "-d", elf])
+    fw_size_output = fw_size_output.decode("utf-8").split("\n")[2:]
+    sections = {}
+    bootloader_size = 0
+
+    for line in fw_size_output:
+        if not line:
+            continue
+        parts = line.split(None)
+        sections[parts[0]] = int(parts[1], 10)
+        if parts[0] == ".text":
+            bootloader_size = int(parts[2], 10)
+
+    program_size = sections[".text"] + sections[".relocate"]
+    stack_size = sections[".stack"]
+    variables_size = sections[".relocate"] + sections[".bss"]
+
+    return bootloader_size, program_size, stack_size, variables_size
+
+
+def color_for_percent(percentage):
+    return TermColor.gradient(GRADIENT_START, GRADIENT_END, percentage)
+
+
+MemorySection = collections.namedtuple("MemorySection", ["name", "size", "fixed"])
+
+
+def print_memory_sections(name, size, *sections):
+    used = sum(s.size for s in sections)
+    used_fixed = sum(s.size for s in sections if s.fixed)
+    used_percent = used / size
+    color = color_for_percent(used_percent)
+
+    TermUI.columnize(
+        COLUMNS,
+        f"{name} used:",
+        color,
+        f"{used:,}",
+        TermColor.reset,
+        "/",
+        f"{size:,}",
+        color,
+        f"({round(used_percent * 100)}%)",
+    )
+
+    TermUI.segmented_bar(
+        BAR_LEN,
+        dict(l=used_fixed / size, c=FIXED_SEG_COLOR),
+        dict(l=(used - used_fixed) / size, c=color_for_percent(used_percent)),
+        fill=True,
+    )
+
+    for sec in sections:
+        if sec.fixed:
+            color = FIXED_SEG_COLOR
+        else:
+            color = color_for_percent(sec.size / size)
+
+        TermUI.columnize(
+            COLUMNS,
+            color,
+            f"{sec.name}: ",
+            f"{sec.size:,}",
+            "",
+            "",
+            f"({round(sec.size / size * 100)}%)",
+        )
+
+
+def main():
+    if len(sys.argv) != 4:
+        print("Usage: get-fw-size.py ELF_FILE FLASH_SIZE RAM_SIZE")
+        sys.exit(-1)
+
+    _, infile, max_flash, max_ram = sys.argv
+    flash_size = int(max_flash, 0)
+    ram_size = int(max_ram, 0)
+
+    bootloader_size, program_size, stack_size, variables_size = analyze_elf(infile)
+
+    print_memory_sections(
+        "Flash",
+        flash_size,
+        MemorySection(name="Bootloader", size=bootloader_size, fixed=True),
+        MemorySection(name="Program", size=program_size, fixed=False),
+    )
+    print()
+    print_memory_sections(
+        "RAM",
+        ram_size,
+        MemorySection(name="Stack", size=stack_size, fixed=True),
+        MemorySection(name="Variables", size=variables_size, fixed=False),
+    )
+
+
+if __name__ == "__main__":
+    main()
