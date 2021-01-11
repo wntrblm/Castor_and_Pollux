@@ -114,6 +114,8 @@ LDFLAGS += -mcpu=cortex-m0plus -mthumb --specs=nano.specs
 # Perform dead code elimination 
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--script=$(LINKER_SCRIPT)
+# Generate a map file
+LDFLAGS += -Wl,-Map=build/link.map
 
 LIBS += -lm
 
