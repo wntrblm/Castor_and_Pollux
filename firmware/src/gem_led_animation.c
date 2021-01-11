@@ -8,7 +8,7 @@
 #include "gem_waveforms.h"
 #include <stdint.h>
 
-struct gem_led_tweak_data_struct gem_led_tweak_data = {.lfo_value = F16(0)};
+struct GemLEDTweakData gem_led_tweak_data = {.lfo_value = F16(0)};
 
 static const uint32_t _hue_offsets[GEM_DOTSTAR_COUNT] = {
     65355 / GEM_DOTSTAR_COUNT * 2,
@@ -19,7 +19,7 @@ static const uint32_t _hue_offsets[GEM_DOTSTAR_COUNT] = {
     65355 / GEM_DOTSTAR_COUNT * 4,
     65355 / GEM_DOTSTAR_COUNT * 3,
 };
-static enum gem_led_animation_mode _mode = GEM_LED_MODE_NORMAL;
+static enum GemLEDAnimationMode _mode = GEM_LED_MODE_NORMAL;
 static uint32_t _last_update;
 static fix16_t _phase_a = F16(0);
 static uint32_t _hue_accum;
@@ -36,7 +36,7 @@ static void _gem_led_animation_step_tweak(uint32_t ticks);
 
 void gem_led_animation_init() { _last_update = gem_get_ticks(); }
 
-void gem_led_animation_set_mode(enum gem_led_animation_mode mode) { _mode = mode; }
+void gem_led_animation_set_mode(enum GemLEDAnimationMode mode) { _mode = mode; }
 
 void gem_led_animation_step() {
     uint32_t ticks = gem_get_ticks();

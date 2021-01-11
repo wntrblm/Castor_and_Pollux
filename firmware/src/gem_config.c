@@ -1,6 +1,6 @@
 #include "gem_config.h"
 
-const struct gem_adc_input gem_adc_inputs[] = {
+const struct GemADCInput gem_adc_inputs[] = {
     {0, 6, ADC_INPUTCTRL_MUXPOS_PIN6},   // CV A
     {1, 3, ADC_INPUTCTRL_MUXPOS_PIN11},  // CV A Pot
     {0, 7, ADC_INPUTCTRL_MUXPOS_PIN7},   // CV B

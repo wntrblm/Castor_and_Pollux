@@ -4,7 +4,7 @@
 #include "gem_voice_param_table.h"
 #include "fix16.h"
 
-const struct gem_voice_voltage_and_period gem_voice_voltage_and_period_table[] = {
+const struct GemVoltageAndPeriod gem_voice_voltage_and_period_table[] = {
   {.voltage = F16(0.000000), .period = 489248},
   {.voltage = F16(0.083333), .period = 461788},
   {.voltage = F16(0.166667), .period = 435870},
@@ -92,7 +92,7 @@ const struct gem_voice_voltage_and_period gem_voice_voltage_and_period_table[] =
   {.voltage = F16(6.999997), .period = 3821},
 };
 
-struct gem_voice_dac_codes gem_voice_dac_codes_table[] = {
+struct GemDACCodePair gem_voice_dac_codes_table[] = {
   {.castor = 40, .pollux = 40 },
   {.castor = 40, .pollux = 40 },
   {.castor = 40, .pollux = 40 },
@@ -180,6 +180,6 @@ struct gem_voice_dac_codes gem_voice_dac_codes_table[] = {
   {.castor = 4010, .pollux = 4010 },
 };
 
-size_t gem_voice_param_table_len = sizeof(gem_voice_voltage_and_period_table) / sizeof(struct gem_voice_voltage_and_period);
+size_t gem_voice_param_table_len = sizeof(gem_voice_voltage_and_period_table) / sizeof(struct GemVoltageAndPeriod);
 
 /* clang-format on */

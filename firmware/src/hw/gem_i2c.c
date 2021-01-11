@@ -60,7 +60,7 @@ void gem_i2c_init() {
     while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SYSOP) {};
 }
 
-enum gem_i2c_result gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
+enum GemI2CResult gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
     /* Before trying to write, check to see if the bus is busy, if it is,
        bail.
     */

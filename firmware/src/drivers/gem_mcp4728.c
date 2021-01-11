@@ -5,7 +5,7 @@
 #define SINGLE_WRITE_CMD 0b01011000
 #define SEQUENTIAL_WRITE_CMD 0b01010000
 
-enum gem_i2c_result gem_mcp_4728_write_channel(uint8_t channel_no, struct gem_mcp4728_channel settings) {
+enum GemI2CResult gem_mcp_4728_write_channel(uint8_t channel_no, struct GemMCP4278Channel settings) {
     uint8_t data[3] = {
         SINGLE_WRITE_CMD | ((channel_no & 0x3) << 1),
         (settings.vref << 7) | (settings.pd << 6) | (settings.gain << 4) | ((settings.value >> 8) & 0xF),
@@ -15,11 +15,11 @@ enum gem_i2c_result gem_mcp_4728_write_channel(uint8_t channel_no, struct gem_mc
     return gem_i2c_write(I2C_ADDRESS, data, 3);
 }
 
-enum gem_i2c_result gem_mcp_4728_write_channels(
-    struct gem_mcp4728_channel ch_a_settings,
-    struct gem_mcp4728_channel ch_b_settings,
-    struct gem_mcp4728_channel ch_c_settings,
-    struct gem_mcp4728_channel ch_d_settings) {
+enum GemI2CResult gem_mcp_4728_write_channels(
+    struct GemMCP4278Channel ch_a_settings,
+    struct GemMCP4278Channel ch_b_settings,
+    struct GemMCP4278Channel ch_c_settings,
+    struct GemMCP4278Channel ch_d_settings) {
     uint8_t data[9] = {
         SEQUENTIAL_WRITE_CMD,
         (ch_a_settings.vref << 7) | (ch_a_settings.pd << 6) | (ch_a_settings.gain << 4) |

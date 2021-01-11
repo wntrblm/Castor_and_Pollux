@@ -8,23 +8,23 @@
 static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint16_t frac);
 
 static void _find_nearest_table_entries(
-    const struct gem_voice_voltage_and_period* volt_table,
-    struct gem_voice_dac_codes* dac_table,
+    const struct GemVoltageAndPeriod* volt_table,
+    struct GemDACCodePair* dac_table,
     size_t table_len,
     fix16_t voltage,
-    struct gem_voice_params* low_params,
-    struct gem_voice_params* high_params);
+    struct GemVoiceParams* low_params,
+    struct GemVoiceParams* high_params);
 
 /* Public functions. */
 
-void gem_voice_params_from_cv(
-    const struct gem_voice_voltage_and_period* volt_table,
-    struct gem_voice_dac_codes* dac_table,
+void GemVoiceParams_from_cv(
+    const struct GemVoltageAndPeriod* volt_table,
+    struct GemDACCodePair* dac_table,
     size_t table_len,
     fix16_t voltage,
-    struct gem_voice_params* out) {
-    struct gem_voice_params low = {};
-    struct gem_voice_params high = {};
+    struct GemVoiceParams* out) {
+    struct GemVoiceParams low = {};
+    struct GemVoiceParams high = {};
 
     _find_nearest_table_entries(volt_table, dac_table, table_len, voltage, &low, &high);
 
@@ -66,18 +66,18 @@ static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint16_t frac) {
    the table entries are defined in gem_voice_params_table.h.
 */
 static void _find_nearest_table_entries(
-    const struct gem_voice_voltage_and_period* volt_table,
-    struct gem_voice_dac_codes* dac_table,
+    const struct GemVoltageAndPeriod* volt_table,
+    struct GemDACCodePair* dac_table,
     size_t table_len,
     fix16_t voltage,
-    struct gem_voice_params* low_params,
-    struct gem_voice_params* high_params) {
+    struct GemVoiceParams* low_params,
+    struct GemVoiceParams* high_params) {
 
     size_t low_idx = 0;
     size_t high_idx = 0;
-    const struct gem_voice_voltage_and_period* low = &volt_table[0];
-    const struct gem_voice_voltage_and_period* high = &volt_table[0];
-    const struct gem_voice_voltage_and_period* current;
+    const struct GemVoltageAndPeriod* low = &volt_table[0];
+    const struct GemVoltageAndPeriod* high = &volt_table[0];
+    const struct GemVoltageAndPeriod* current;
     bool found = false;
 
     for (size_t i = 0; i < table_len; i++) {

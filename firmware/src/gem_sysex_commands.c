@@ -127,7 +127,7 @@ static void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
 
     teeth_decode(data + 2, TEETH_ENCODED_LENGTH(4), _working_buf);
 
-    struct gem_mcp4728_channel dac_settings = {};
+    struct GemMCP4278Channel dac_settings = {};
     dac_settings.vref = _working_buf[0];
     dac_settings.value = UNPACK_16(_working_buf, 2);
     gem_mcp_4728_write_channel(_working_buf[1], dac_settings);
