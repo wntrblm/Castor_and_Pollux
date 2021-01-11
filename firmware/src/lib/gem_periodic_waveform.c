@@ -9,7 +9,7 @@
 /* Public functions */
 
 
-void gem_periodic_waveform_init(struct gem_periodic_waveform* waveform, gem_periodic_waveform_function function, fix16_t frequency) {
+void GemPeriodicWaveform_init(struct GemPeriodicWaveform* waveform, gem_periodic_waveform_function function, fix16_t frequency) {
     waveform->function = function;
     waveform->frequency = frequency;
     waveform->phase = F16(0);
@@ -18,7 +18,7 @@ void gem_periodic_waveform_init(struct gem_periodic_waveform* waveform, gem_peri
 }
 
 
-void gem_periodic_waveform_step(struct gem_periodic_waveform* waveform) {
+void GemPeriodicWaveform_step(struct GemPeriodicWaveform* waveform) {
     uint32_t now = gem_get_ticks();
     uint32_t delta = now - waveform->_last_update;
 

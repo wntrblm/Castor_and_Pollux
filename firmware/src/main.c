@@ -19,18 +19,18 @@ static struct GemSettings settings;
 static uint32_t adc_results_live[GEM_IN_COUNT];
 static uint32_t adc_results_snapshot[GEM_IN_COUNT];
 static uint32_t* adc_results = adc_results_live;
-static struct gem_adc_errors knob_errors;
-static struct gem_button hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
+static struct GemADCErrors knob_errors;
+static struct GemButton hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
 static bool hard_sync = false;
-static struct gem_periodic_waveform lfo;
+static struct GemPeriodicWaveform lfo;
 
-struct oscillator_state {
-    enum gem_adc_channels pitch_cv_channel;
-    enum gem_adc_channels pitch_knob_channel;
-    enum gem_adc_channels pulse_width_cv_channel;
-    enum gem_adc_channels pulse_width_knob_channel;
-    struct gem_voice_params params;
-    struct gem_smoothie_state smooth;
+struct OscillatorState {
+    enum GemADCChannels pitch_cv_channel;
+    enum GemADCChannels pitch_knob_channel;
+    enum GemADCChannels pulse_width_cv_channel;
+    enum GemADCChannels pulse_width_knob_channel;
+    struct GemVoiceParams params;
+    struct GemSmoothie smooth;
     fix16_t knob_min;
     fix16_t knob_range;
     fix16_t pitch_cv;
@@ -38,7 +38,7 @@ struct oscillator_state {
     bool lfo_pwm;
 };
 
-static struct oscillator_state castor = {
+static struct OscillatorState castor = {
     .pitch_cv_channel = GEM_IN_CV_A,
     .pitch_knob_channel = GEM_IN_CV_A_POT,
     .pulse_width_cv_channel = GEM_IN_DUTY_A,
@@ -51,7 +51,7 @@ static struct oscillator_state castor = {
         },
 };
 
-static struct oscillator_state pollux = {
+static struct OscillatorState pollux = {
     .pitch_cv_channel = GEM_IN_CV_B,
     .pitch_knob_channel = GEM_IN_CV_B_POT,
     .pulse_width_cv_channel = GEM_IN_DUTY_B,
@@ -108,13 +108,13 @@ static void init() {
     gem_pulseout_init();
 
     /* Configure input for the hard sync button. */
-    gem_button_init(&hard_sync_button);
+    GemButton_init(&hard_sync_button);
 
     /* Setup LFO. */
-    gem_periodic_waveform_init(&lfo, gem_triangle, settings.chorus_max_frequency);
+    GemPeriodicWaveform_init(&lfo, gem_triangle, settings.chorus_max_frequency);
 
     /* Setup oscillators. */
-    knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
+    knob_errors = (struct GemADCErrors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
 
     castor.knob_min = settings.castor_knob_min;
     castor.knob_range = fix16_sub(settings.castor_knob_max, settings.castor_knob_min);
@@ -129,7 +129,7 @@ static void init() {
     pollux.lfo_pwm = settings.castor_lfo_pwm;
 }
 
-static void calculate_pitch_cv(struct oscillator_state* osc, uint16_t follower_threshold) {
+static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_threshold) {
     /*
         The basic pitch CV determination formula is:
         1.0v + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
@@ -157,7 +157,7 @@ static void calculate_pitch_cv(struct oscillator_state* osc, uint16_t follower_t
     osc->pitch_cv = fix16_add(pitch_cv, pitch_knob);
 }
 
-void calculate_pulse_width(struct oscillator_state* osc) {
+void calculate_pulse_width(struct OscillatorState* osc) {
     uint16_t duty_knob = FLIP_ADC(adc_results[osc->pulse_width_knob_channel]);
     uint16_t duty_cv = FLIP_ADC(adc_results[osc->pulse_width_cv_channel]);
 
@@ -177,13 +177,13 @@ static void loop() {
     calculate_pitch_cv(&pollux, settings.pollux_follower_threshold);
 
     /* Apply smoothing to pitch CVs. */
-    castor.pitch_cv = gem_smoothie_step(&castor.smooth, castor.pitch_cv);
-    pollux.pitch_cv = gem_smoothie_step(&pollux.smooth, pollux.pitch_cv);
+    castor.pitch_cv = GemSmoothie_step(&castor.smooth, castor.pitch_cv);
+    pollux.pitch_cv = GemSmoothie_step(&pollux.smooth, pollux.pitch_cv);
 
     /*
         Calculate the LFO
     */
-    gem_periodic_waveform_step(&lfo);
+    GemPeriodicWaveform_step(&lfo);
 
     /*
         Calculate chorusing and account for LFO in Pollux's pitch.
@@ -209,7 +209,7 @@ static void loop() {
         Handle toggling hard sync.
     */
 
-    if (gem_button_tapped(&hard_sync_button)) {
+    if (GemButton_tapped(&hard_sync_button)) {
         hard_sync = !hard_sync;
         if (hard_sync) {
             gem_pulseout_hard_sync(true);
@@ -223,13 +223,13 @@ static void loop() {
     /*
         Calculate the final voice parameters given the input CVs.
     */
-    gem_voice_params_from_cv(
+    GemVoiceParams_from_cv(
         gem_voice_voltage_and_period_table,
         gem_voice_dac_codes_table,
         gem_voice_param_table_len,
         castor.pitch_cv,
         &castor.params);
-    gem_voice_params_from_cv(
+    GemVoiceParams_from_cv(
         gem_voice_voltage_and_period_table,
         gem_voice_dac_codes_table,
         gem_voice_param_table_len,
@@ -250,10 +250,10 @@ static void loop() {
         Update DACs.
     */
     gem_mcp_4728_write_channels(
-        (struct gem_mcp4728_channel){.value = castor.params.dac_codes.castor, .vref = 1},
-        (struct gem_mcp4728_channel){.value = castor.pulse_width},
-        (struct gem_mcp4728_channel){.value = pollux.params.dac_codes.pollux, .vref = 1},
-        (struct gem_mcp4728_channel){.value = pollux.pulse_width});
+        (struct GemMCP4278Channel){.value = castor.params.dac_codes.castor, .vref = 1},
+        (struct GemMCP4278Channel){.value = castor.pulse_width},
+        (struct GemMCP4278Channel){.value = pollux.params.dac_codes.pollux, .vref = 1},
+        (struct GemMCP4278Channel){.value = pollux.pulse_width});
 }
 
 /* This loop is responsible for dealing with the "tweak"
@@ -261,12 +261,12 @@ static void loop() {
    interface knobs allow tweaking various settings. */
 
 void tweak_loop() {
-    if (gem_button_held(&hard_sync_button)) {
+    if (GemButton_held(&hard_sync_button)) {
         /* If we just entered tweak mode, copy the adc results to
            the snapshot buffer and point the loop's adc results to
            the snapshot. This prevents the tweak interface for messing
            with the running oscillators. */
-        if (gem_button_start_hold(&hard_sync_button)) {
+        if (GemButton_hold_started(&hard_sync_button)) {
             memcpy(adc_results_snapshot, adc_results_live, GEM_IN_COUNT * sizeof(uint32_t));
             adc_results = adc_results_snapshot;
             gem_led_animation_set_mode(GEM_LED_MODE_TWEAK);
@@ -302,7 +302,7 @@ void tweak_loop() {
 
     } else {
         /* If we just left tweak mode, undo the adc result trickery. */
-        if (gem_button_end_hold(&hard_sync_button)) {
+        if (GemButton_hold_ended(&hard_sync_button)) {
             adc_results = adc_results_live;
             gem_led_animation_set_mode(hard_sync ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
         }
@@ -318,7 +318,7 @@ int main(void) {
         gem_led_animation_step();
 
         if (gem_adc_results_ready()) {
-            gem_button_update(&hard_sync_button);
+            GemButton_update(&hard_sync_button);
             loop();
             tweak_loop();
         }

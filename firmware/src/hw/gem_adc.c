@@ -5,7 +5,7 @@
 #include "sam.h"
 
 /* Inputs to scan. */
-static const struct gem_adc_input* _inputs;
+static const struct GemADCInput* _inputs;
 static size_t _num_inputs;
 
 /* Results from input scanning */
@@ -110,12 +110,12 @@ void gem_adc_set_error_correction(uint16_t gain, uint16_t offset) {
     while (ADC->STATUS.bit.SYNCBUSY) {};
 }
 
-void gem_adc_init_input(const struct gem_adc_input* input) {
+void gem_adc_init_input(const struct GemADCInput* input) {
     gem_gpio_set_as_input(input->port, input->pin, false);
     gem_gpio_set_mux(input->port, input->pin, GEM_PMUX_B);
 }
 
-uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
+uint16_t gem_adc_read_sync(const struct GemADCInput* input) {
     /* Disable interrupts - this stops any scanning. */
     NVIC_DisableIRQ(ADC_IRQn);
 
@@ -141,7 +141,7 @@ uint16_t gem_adc_read_sync(const struct gem_adc_input* input) {
     return ADC->RESULT.reg;
 }
 
-void gem_adc_start_scanning(const struct gem_adc_input* inputs, size_t num_inputs, uint32_t* results) {
+void gem_adc_start_scanning(const struct GemADCInput* inputs, size_t num_inputs, uint32_t* results) {
     _inputs = inputs;
     _num_inputs = num_inputs;
     _current_input = 0;
@@ -165,19 +165,19 @@ bool gem_adc_results_ready() {
     }
 }
 
-struct gem_adc_errors
+struct GemADCErrors
 gem_adc_calculate_errors(uint32_t low_measured, uint32_t low_expected, uint32_t high_measured, uint32_t high_expected) {
-    struct gem_adc_errors result;
+    struct GemADCErrors result;
     result.gain = fix16_div(fix16_from_int(high_expected - low_expected), fix16_from_int(high_measured - low_measured));
     result.offset = fix16_sub(fix16_mul(result.gain, fix16_from_int(low_measured)), fix16_from_int(low_expected));
     return result;
 };
 
-fix16_t gem_adc_correct_errors(const fix16_t value, const struct gem_adc_errors errors) {
+fix16_t gem_adc_correct_errors(const fix16_t value, const struct GemADCErrors errors) {
     return fix16_mul(fix16_sub(value, errors.offset), errors.gain);
 }
 
-uint16_t gem_adc_correct_errors_u_int16(const uint16_t value, const struct gem_adc_errors errors) {
+uint16_t gem_adc_correct_errors_u_int16(const uint16_t value, const struct GemADCErrors errors) {
     int32_t result = fix16_to_int(gem_adc_correct_errors(fix16_from_int(value), errors));
     if (result < 0)
         result = 0;
@@ -189,7 +189,7 @@ uint16_t gem_adc_correct_errors_u_int16(const uint16_t value, const struct gem_a
 /* Private methods & interrupt handlers. */
 
 static void _gem_adc_scan() {
-    struct gem_adc_input input = _inputs[_current_input];
+    struct GemADCInput input = _inputs[_current_input];
 
     /* Swap out the input pin. */
     ADC->INPUTCTRL.bit.MUXPOS = input.ain;

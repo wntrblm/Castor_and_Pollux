@@ -9,12 +9,12 @@
 
 /* Public functions */
 
-void gem_button_init(struct gem_button* button){
+void GemButton_init(struct GemButton* button){
     gem_gpio_set_as_input(button->port, button->pin, true);
 }
 
 
-void gem_button_update(struct gem_button* button) {
+void GemButton_update(struct GemButton* button) {
     button->_previous_state = button->state;
     /* Invert gpio reading since pressed means pulled to ground. */
     button->state = !gem_gpio_get(button->port, button->pin);
@@ -27,7 +27,7 @@ void gem_button_update(struct gem_button* button) {
 }
 
 
-bool gem_button_tapped(struct gem_button* button) {
+bool GemButton_tapped(struct GemButton* button) {
     /* The button is considered "tapped" if the last
        state is true, the current state is false, and
        the rising edge time is less than the hold
@@ -42,7 +42,7 @@ bool gem_button_tapped(struct gem_button* button) {
 }
 
 
-bool gem_button_held(struct gem_button* button) {
+bool GemButton_held(struct GemButton* button) {
     /* The button is considered "held" if the
        state is true and the rising edge time is
        greater than the hold threshold. */
@@ -53,8 +53,8 @@ bool gem_button_held(struct gem_button* button) {
 }
 
 
-bool gem_button_start_hold(struct gem_button* button) {
-    if(gem_button_held(button) && !button->_hold_barrier) {
+bool GemButton_hold_started(struct GemButton* button) {
+    if(GemButton_held(button) && !button->_hold_barrier) {
         button->_hold_barrier = true;
         return true;
     }
@@ -62,8 +62,8 @@ bool gem_button_start_hold(struct gem_button* button) {
 }
 
 
-bool gem_button_end_hold(struct gem_button* button) {
-    if(!gem_button_held(button) && button->_hold_barrier) {
+bool GemButton_hold_ended(struct GemButton* button) {
+    if(!GemButton_held(button) && button->_hold_barrier) {
         button->_hold_barrier = false;
         return true;
     }

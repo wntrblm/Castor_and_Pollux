@@ -42,7 +42,7 @@
 
 // #define GEM_ADC_USE_EXTERNAL_REF
 
-extern const struct gem_adc_input gem_adc_inputs[];
+extern const struct GemADCInput gem_adc_inputs[];
 
 /* Pulse out/TCC configuration. */
 
@@ -120,7 +120,7 @@ extern const struct gem_adc_input gem_adc_inputs[];
 
 /* Behavioral configuration. */
 
-enum gem_adc_channels {
+enum GemADCChannels {
     GEM_IN_CV_A,
     GEM_IN_CV_A_POT,
     GEM_IN_CV_B,

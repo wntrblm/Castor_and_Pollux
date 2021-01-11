@@ -4,7 +4,7 @@
 
 #include "gem_i2c.h"
 
-struct gem_mcp4728_channel {
+struct GemMCP4278Channel {
     /* Voltage reference selection
         0: External vref (3.3v)
         1: Internal vref (2.048v)
@@ -26,9 +26,9 @@ struct gem_mcp4728_channel {
     uint16_t value : 12;
 };
 
-enum gem_i2c_result gem_mcp_4728_write_channel(uint8_t channel_no, struct gem_mcp4728_channel settings);
-enum gem_i2c_result gem_mcp_4728_write_channels(
-    struct gem_mcp4728_channel ch_a_settings,
-    struct gem_mcp4728_channel ch_b_settings,
-    struct gem_mcp4728_channel ch_c_settings,
-    struct gem_mcp4728_channel ch_d_settings);
+enum GemI2CResult gem_mcp_4728_write_channel(uint8_t channel_no, struct GemMCP4278Channel settings);
+enum GemI2CResult gem_mcp_4728_write_channels(
+    struct GemMCP4278Channel ch_a_settings,
+    struct GemMCP4278Channel ch_b_settings,
+    struct GemMCP4278Channel ch_c_settings,
+    struct GemMCP4278Channel ch_d_settings);

@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-enum gem_midi_message_types {
+enum GemMIDIMessageTypes {
     MIDI_SYSEX_START_OR_CONTINUE = 0x04,
     MIDI_SYSEX_END_THREE_BYTE = 0x07,
     MIDI_SYSEX_END_TWO_BYTE = 0x06,
