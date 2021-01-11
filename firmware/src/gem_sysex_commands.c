@@ -7,6 +7,7 @@
 #include "gem_pack.h"
 #include "gem_pulseout.h"
 #include "gem_settings.h"
+#include "gem_settings_load_save.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "printf.h"
@@ -19,6 +20,8 @@
 #define TOTAL_BYTES TEETH_ENCODED_LENGTH(MAX_SETTINGS_SIZE)
 #define CHUNK_SIZE 20
 #define TOTAL_CHUNKS (TOTAL_BYTES / CHUNK_SIZE)
+
+static_assert(MAX_SETTINGS_SIZE > GEMSETTINGS_PACKED_SIZE);
 
 /* Static variables. */
 
@@ -75,28 +78,28 @@ static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
     /* Request (teeth): GAIN(2) */
     (void)(len);
 
-    struct gem_settings settings;
-    gem_settings_load(&settings);
+    struct GemSettings settings;
+    GemSettings_load(&settings);
 
     teeth_decode(data + 2, TEETH_ENCODED_LENGTH(2), _working_buf);
 
     settings.adc_gain_corr = UNPACK_16(_working_buf, 0);
 
-    gem_settings_save(&settings);
+    GemSettings_save(&settings);
 }
 
 static void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len) {
     /* Request (teeth): OFFSET(2) */
     (void)(len);
 
-    struct gem_settings settings;
-    gem_settings_load(&settings);
+    struct GemSettings settings;
+    GemSettings_load(&settings);
 
     teeth_decode(data + 2, TEETH_ENCODED_LENGTH(2), _working_buf);
 
     settings.adc_offset_corr = UNPACK_16(_working_buf, 0);
 
-    gem_settings_save(&settings);
+    GemSettings_save(&settings);
 }
 
 static void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
@@ -141,7 +144,7 @@ static void _cmd_0x07_erase_settings(uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    gem_settings_erase();
+    GemSettings_erase();
 }
 
 static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
@@ -157,10 +160,10 @@ static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
         return;
     }
 
-    struct gem_settings settings;
+    struct GemSettings settings;
     uint8_t _settings_buf[MAX_SETTINGS_SIZE];
-    gem_settings_load(&settings);
-    gem_settings_serialize(&settings, _settings_buf);
+    GemSettings_load(&settings);
+    GemSettings_pack(&settings, _settings_buf);
 
     teeth_encode(_settings_buf, MAX_SETTINGS_SIZE, _working_buf);
 
@@ -191,14 +194,12 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
     if (chunk_num == TOTAL_CHUNKS - 1) {
         teeth_decode(_chunk_buf, TOTAL_BYTES, _working_buf);
 
-        struct gem_settings settings;
+        struct GemSettings settings;
 
-        if (gem_settings_deserialize(&settings, _working_buf)) {
-            gem_settings_save(&settings);
-            printf("Saved settings: \r\n");
-            gem_settings_print(&settings);
+        if (GemSettings_unpack(&settings, _working_buf).status == STRUCTY_RESULT_OKAY) {
+            GemSettings_save(&settings);
         } else {
-            printf("Failed to save settings, unable to deserialize.\r\n");
+            printf("Failed to save settings, unable to deserialize.\n");
         }
     }
 
@@ -256,7 +257,7 @@ static void _cmd_0x0E_enable_adc_corr(uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    struct gem_settings settings;
-    gem_settings_load(&settings);
+    struct GemSettings settings;
+    GemSettings_load(&settings);
     gem_adc_set_error_correction(settings.adc_gain_corr, settings.adc_offset_corr);
 }

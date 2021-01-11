@@ -89,6 +89,11 @@ INCLUDES += -I./third_party/libfixmath
 SRCS += $(wildcard third_party/libfixmath/*.c)
 DEFINES += -DFIXMATH_FAST_SIN -DFIXMATH_NO_CACHE
 
+# Structy
+INCLUDES += -I./third_party/structy
+SRCS += $(wildcard third_party/structy/*.c)
+
+
 # Defines
 DEFINES += \
   -DARM_MATH_CM0PLUS \

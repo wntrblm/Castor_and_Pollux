@@ -11,6 +11,16 @@
 */
 #define GEM_FIRMWARE_VERSION 0x01
 
+/* Debug helpers. */
+#ifdef DEBUG
+#define DEBUG_TRAP(expr)                                                                                               \
+    if (expr) {                                                                                                        \
+        __BKPT(0);                                                                                                     \
+    }
+#else
+#define DEBUG_TRAP(expr)
+#endif
+
 /* MIDI configuration. */
 #define GEM_SYSEX_BUF_SIZE 64
 #define GEM_SYSEX_TIMEOUT 100000

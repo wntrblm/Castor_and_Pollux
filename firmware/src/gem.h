@@ -17,6 +17,7 @@
 #include "gem_random.h"
 #include "gem_serial_number.h"
 #include "gem_settings.h"
+#include "gem_settings_load_save.h"
 #include "gem_smoothie.h"
 #include "gem_spi.h"
 #include "gem_sysex_commands.h"
