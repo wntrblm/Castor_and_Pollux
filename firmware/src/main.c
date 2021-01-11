@@ -15,7 +15,7 @@
         variable = FLIP_ADC(variable);
 #define IF_WAGGLED_END }
 
-static struct gem_settings settings;
+static struct GemSettings settings;
 static uint32_t adc_results_live[GEM_IN_COUNT];
 static uint32_t adc_results_snapshot[GEM_IN_COUNT];
 static uint32_t* adc_results = adc_results_live;
@@ -78,8 +78,8 @@ static void init() {
     gem_random_init(gem_serial_number_low());
 
     /* Load settings */
-    gem_settings_load(&settings);
-    gem_settings_print(&settings);
+    GemSettings_load(&settings);
+    GemSettings_print(&settings);
 
     /* Load the LUT table for DAC codes. */
     gem_load_dac_codes_table();
@@ -111,7 +111,7 @@ static void init() {
     gem_button_init(&hard_sync_button);
 
     /* Setup LFO. */
-    gem_periodic_waveform_init(&lfo, gem_triangle, settings.chorus_frequency);
+    gem_periodic_waveform_init(&lfo, gem_triangle, settings.chorus_max_frequency);
 
     /* Setup oscillators. */
     knob_errors = (struct gem_adc_errors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
