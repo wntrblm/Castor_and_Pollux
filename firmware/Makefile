@@ -1,20 +1,15 @@
-#
-#	Global configuration
-# 
-MCU = SAMD21G18A
-FLASH_SIZE = 0x40000
-RAM_SIZE = 0x8000
-STACK_SIZE = 0x2000
-LINKER_SCRIPT = scripts/samd21g18a.ld
-F_CPU = 48000000
+# This file shouldn't usually be edited.
+# Change settings in boardconfig.mk.
+
+include mcuconfig.mk
+include boardconfig.mk
+
+# Toolchain configuration
 BUILD = build
 BIN = gemini-firmware
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 SIZE = arm-none-eabi-size
-
-
-##############################################################################
 
 ifeq ($(OS), Windows_NT)
   MKDIR = gmkdir
@@ -22,16 +17,24 @@ else
   MKDIR = mkdir
 endif
 
-CFLAGS += --std=gnu11
+# Common compiler & linker flags.
+
+# Set the mcu parameters. Cortex-M CPUs only support the Thumb instruction set.
+COMMON_FLAGS += -mthumb -mcpu=$(MCU_MCPU) -mfloat-abi=$(MCU_FLOAT_ABI) -mfpu=$(MCU_FPU)
+
+# Compiler configuration
+
+CFLAGS += $(COMMON_FLAGS)
+# Use C11 and nanolib/newlib-nano
+CFLAGS += --std=gnu11 --specs=nano.specs
 CFLAGS += -W -Wall -Wextra -Werror -Wshadow -Wdouble-promotion -Wformat=2
 # Stack usage warning, must be the same as in the linker script.
 CFLAGS += -Wstack-usage=$(shell printf "%d" $(STACK_SIZE))
-# Set the mcu parameters.
-CFLAGS += -mcpu=cortex-m0plus -mthumb -msoft-float --specs=nano.specs
 # Specify dialect options that make things easier for embedded development.
 CFLAGS += -funsigned-char -funsigned-bitfields -fshort-enums
-# Specify EABI dialects - variable size enums, since that's what the GCC
-# toolchain seems to be compiled with.
+# Specify EABI dialects - aapcs configures variable size enums, since that's what
+# the GCC toolchain seems to be compiled with. aapcs-linux defines enums as
+# 4 bytes.
 CFLAGS += -mabi=aapcs
 # -MD: output make *.d files
 # -MP: This option instructs CPP to add a phony target for each dependency other
@@ -43,7 +46,9 @@ CFLAGS += -MD -MP -MT $(BUILD)/$(*F).o -MF $(BUILD)/$(@F).d
 # Enable dead code elimination
 CFLAGS += -fdata-sections -ffunction-sections
 
-DEBUGCFLAGS += -ggdb -O0
+# Optimize for debuggability.
+DEBUGCFLAGS += -ggdb3 -Og
+
 # Optimize for speed instead of size, as this firmware is very small.
 RELEASECFLAGS += -O2
 
@@ -55,10 +60,23 @@ INCLUDES += \
   -I./third_party/samd21/include \
   -I./third_party/cmsis/include
 
+INCLUDES += -I$(MCU_CMSIS_INCLUDE)
+
 SRCS += $(wildcard src/*.c) $(wildcard src/**/*.c)
 
-SRCS += \
-  ./third_party/samd21/gcc/gcc/startup_samd21.c
+# Include the MCU startup script
+SRCS += $(MCU_STARTUP)
+
+# Configure defines for the hardware/CMSIS libraries
+DEFINES += \
+  -DDONT_USE_CMSIS_INIT \
+  -DF_CPU=$(F_CPU) \
+	-D__$(MCU)__ \
+	-D$(MCU_MATH)
+
+DEFINES += $(MCU_DEFINES)
+
+# Third-party libraries
 
 
 # Segger RTT
@@ -81,7 +99,7 @@ SRCS += \
   ./third_party/tinyusb/src/device/usbd.c \
   ./third_party/tinyusb/src/device/usbd_control.c \
   ./third_party/tinyusb/src/portable/microchip/samd/dcd_samd.c
-DEFINES += -DCFG_TUSB_MCU=OPT_MCU_SAMD21
+DEFINES += -DCFG_TUSB_MCU=$(TINYUSB_MCU)
 
 # Libfixmath
 INCLUDES += -I./third_party/libfixmath
@@ -93,23 +111,15 @@ INCLUDES += -I./third_party/structy
 SRCS += $(wildcard third_party/structy/*.c)
 
 
-# Defines
-DEFINES += \
-  -DARM_MATH_CM0PLUS \
-  -DSAMD21 \
-  -D__SAMD21_FAMILY \
-  -D__SAM_D21_SUBFAMILY \
-  -D__$(MCU)__ \
-  -DDONT_USE_CMSIS_INIT \
-  -DF_CPU=$(F_CPU)
+# Combine compiler configuration into CFLAGS
 
 CFLAGS += $(INCLUDES) $(DEFINES)
 
-OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
-
 # Linker configuration
 
-LDFLAGS += -mcpu=cortex-m0plus -mthumb --specs=nano.specs
+LDFLAGS += $(COMMON_FLAGS)
+# Set the stack size symbol for the linker script
+LDFLAGS += -Xlinker --defsym=__stack_size__=$(STACK_SIZE)
 # Perform dead code elimination 
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--script=$(LINKER_SCRIPT)
@@ -119,6 +129,8 @@ LDFLAGS += -Wl,-Map=build/link.map
 LIBS += -lm
 
 ##############################################################################
+
+OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
 # Rules
 
