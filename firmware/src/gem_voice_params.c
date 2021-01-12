@@ -80,6 +80,9 @@ static void _find_nearest_table_entries(
     const struct GemVoltageAndPeriod* current;
     bool found = false;
 
+    // TODO: This is O(n) as it searching the whole table to find
+    // the entries. It could be O(1) since we know the voltage
+    // range ahead of time.
     for (size_t i = 0; i < table_len; i++) {
         current = &volt_table[i];
         if (current->voltage <= voltage && current->voltage >= low->voltage) {
