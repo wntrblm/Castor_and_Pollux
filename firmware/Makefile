@@ -76,44 +76,6 @@ DEFINES += \
 
 DEFINES += $(MCU_DEFINES)
 
-# Third-party libraries
-
-
-# Segger RTT
-INCLUDES += \
-    -I./third_party/rtt
-SRCS += \
-    ./third_party/rtt/SEGGER_RTT.c
-
-# Printf
-DEFINES += -DPRINTF_DISABLE_SUPPORT_FLOAT -DPRINTF_DISABLE_SUPPORT_EXPONENTIAL
-INCLUDES += -I./third_party/printf
-SRCS += ./third_party/printf/printf.c
-
-# TinyUSB
-INCLUDES += -I./third_party/tinyusb/src
-SRCS += \
-  ./third_party/tinyusb/src/tusb.c \
-  ./third_party/tinyusb/src/class/midi/midi_device.c \
-  ./third_party/tinyusb/src/common/tusb_fifo.c \
-  ./third_party/tinyusb/src/device/usbd.c \
-  ./third_party/tinyusb/src/device/usbd_control.c \
-  ./third_party/tinyusb/src/portable/microchip/samd/dcd_samd.c
-DEFINES += -DCFG_TUSB_MCU=$(TINYUSB_MCU)
-
-# Libfixmath
-INCLUDES += -I./third_party/libfixmath
-SRCS += $(wildcard third_party/libfixmath/*.c)
-DEFINES += -DFIXMATH_FAST_SIN -DFIXMATH_NO_CACHE
-
-# Structy
-INCLUDES += -I./third_party/structy
-SRCS += $(wildcard third_party/structy/*.c)
-
-
-# Combine compiler configuration into CFLAGS
-
-CFLAGS += $(INCLUDES) $(DEFINES)
 
 # Linker configuration
 
@@ -128,11 +90,22 @@ LDFLAGS += -Wl,-Map=build/link.map
 
 LIBS += -lm
 
+# Include any makefiles for third-party libraries. These files
+# should add to INCLUDES, SOURCES, and DEFINES.
+
+include $(addprefix scripts/,$(addsuffix .mk,$(THIRD_PARTY_LIBS)))
+$(info Third party libraries: $(THIRD_PARTY_LIBS))
+
 ##############################################################################
 
+# Combine final flags and determine all object files.
+
+CFLAGS += $(INCLUDES) $(DEFINES)
 OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
-# Rules
+##############################################################################
+
+# Build rules
 
 .PHONY: all directory clean size firmware release debug format tidy
 

@@ -4,3 +4,4 @@ FLASH_SIZE = 0x40000
 RAM_SIZE = 0x8000
 STACK_SIZE = 0x2000
 LINKER_SCRIPT = scripts/samd21g18a.ld
+THIRD_PARTY_LIBS += printf rtt libfixmath structy tinyusb
