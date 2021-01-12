@@ -21,12 +21,12 @@ endif
 
 # Set the mcu parameters. Cortex-M CPUs only support the Thumb instruction set.
 COMMON_FLAGS += -mthumb -mcpu=$(MCU_MCPU) -mfloat-abi=$(MCU_FLOAT_ABI) -mfpu=$(MCU_FPU)
+# Use C11 and nanolib/newlib-nano
+COMMON_FLAGS += --std=gnu11 --specs=nano.specs
 
 # Compiler configuration
 
 CFLAGS += $(COMMON_FLAGS)
-# Use C11 and nanolib/newlib-nano
-CFLAGS += --std=gnu11 --specs=nano.specs
 CFLAGS += -W -Wall -Wextra -Werror -Wshadow -Wdouble-promotion -Wformat=2
 # Stack usage warning, must be the same as in the linker script.
 CFLAGS += -Wstack-usage=$(shell printf "%d" $(STACK_SIZE))
