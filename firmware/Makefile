@@ -148,6 +148,10 @@ directory:
 	@echo "Generating gem_voice_param_table.c"
 	@./scripts/generate_voice_param_table.py data/pitch-calibration-table.csv src/gem_voice_param_table.c
 
+./src/gem_settings.c: ./data/gem_settings.structy
+	@echo "Generating gem_settings.c using Structy"
+	@python3 -m structy_generator -l c ./data/gem_settings.structy src
+
 size: $(BUILD)/$(BIN).elf
 	@echo ""
 	@./scripts/get_fw_size.py --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $^ 
