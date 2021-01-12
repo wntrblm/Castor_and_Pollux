@@ -22,7 +22,7 @@ MEMORY
    This can be adjusted as needed, but 0x2000 (8k) is a good starting point.
    You can track stack usage using the -Wstack-usage gcc flag.
 */
-STACK_SIZE = 0x2000;
+STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x2000;
 
 /* Bootloader double tap variable location.
    This isn't used by Gemini, but it allows the firmware to reset into
