@@ -94,7 +94,6 @@ LIBS += -lm
 # should add to INCLUDES, SOURCES, and DEFINES.
 
 include $(addprefix scripts/,$(addsuffix .mk,$(THIRD_PARTY_LIBS)))
-$(info Third party libraries: $(THIRD_PARTY_LIBS))
 
 ##############################################################################
 
@@ -111,35 +110,35 @@ OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
 all: debug
 
+debug: BUILD_TYPE=Debug
 debug: DEFINES += -DDEBUG
 debug: CFLAGS += $(DEBUGCFLAGS)
 debug: directory firmware size
 
+release: BUILD_TYPE=Release
 release: DEFINES += -DNDEBUG
 release: CFLAGS += $(RELEASECFLAGS)
 release: clean directory firmware size
 
 $(BUILD)/$(BIN).elf: $(OBJS)
-	@echo LD $@
+	@echo Link $@
 	@$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
 
 $(BUILD)/$(BIN).hex: $(BUILD)/$(BIN).elf
-	@echo OBJCOPY $@
 	@$(OBJCOPY) -O ihex $^ $@
 
 $(BUILD)/$(BIN).bin: $(BUILD)/$(BIN).elf
-	@echo OBJCOPY $@
 	@$(OBJCOPY) -O binary $^ $@
 
 $(BUILD)/$(BIN).uf2: $(BUILD)/$(BIN).bin
-	@echo uf2conv $@
 	@python3 third_party/uf2/uf2conv.py -b 0x2000 -o $@ --convert $(BUILD)/$(BIN).bin
 
 %.o:
-	@echo CC $@
+	@echo Compile $(filter %/$(subst .o,.c,$(notdir $@)), $(SRCS))
 	@$(CC) $(CFLAGS) $(filter %/$(subst .o,.c,$(notdir $@)), $(SRCS)) -c -o $@
 
 firmware: directory $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).bin $(BUILD)/$(BIN).uf2
+	@echo $(BUILD_TYPE) build
 	@echo "Created: \n  $(BUILD)/$(BIN).elf\n  $(BUILD)/$(BIN).bin\n  $(BUILD)/$(BIN).uf2"
 
 directory:
