@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
 
+import argparse
 import colorsys
 import collections
+import dataclasses
+import json
 import math
+import pathlib
 import sys
 import subprocess
+import typing
 
 COLUMNS = ["<15", ">8", "^5", ">8", ">7"]
+COLUMNS_ALT = ["<15", ">8", "<13", ">7"]
 FIXED_SEG_COLOR = (255, 158, 221)
 BAR_FILL_CHAR = "░"
 BAR_FILL_COLOR = (0.4, 0.4, 0.4)
 GRADIENT_START = colorsys.hsv_to_rgb(188 / 360, 0.8, 1.0)
 GRADIENT_END = colorsys.hsv_to_rgb(0.8, 0.8, 1.0)
+PLUS_COLOR = (1.0, 1.0, 0.5)
+MINUS_COLOR = (127, 255, 191)
 
 
 class TermColor:
@@ -118,7 +126,12 @@ def color_for_percent(percentage):
     return TermColor.gradient(GRADIENT_START, GRADIENT_END, percentage)
 
 
-MemorySection = collections.namedtuple("MemorySection", ["name", "size", "fixed"])
+@dataclasses.dataclass
+class MemorySection:
+    name: str
+    size: int
+    last_size: typing.Optional[int] = None
+    fixed: bool = False
 
 
 def print_memory_sections(name, size, *sections):
@@ -152,41 +165,81 @@ def print_memory_sections(name, size, *sections):
         else:
             color = color_for_percent(sec.size / size)
 
+        if sec.last_size is not None:
+            diff = sec.size - sec.last_size
+            if diff != 0:
+                last_size_sec = (
+                    MINUS_COLOR if diff < 0 else PLUS_COLOR,
+                    f" {diff:+,}",
+                    TermColor.reset,
+                )
+            else:
+                last_size_sec = ("",)
+        else:
+            last_size_sec = ("",)
+
         TermUI.columnize(
-            COLUMNS,
+            COLUMNS_ALT,
             color,
             f"{sec.name}: ",
             f"{sec.size:,}",
-            "",
-            "",
+            *last_size_sec,
+            color,
             f"({round(sec.size / size * 100)}%)",
         )
 
 
 def main():
-    if len(sys.argv) != 4:
-        print("Usage: get-fw-size.py ELF_FILE FLASH_SIZE RAM_SIZE")
-        sys.exit(-1)
+    parser = argparse.ArgumentParser("get_fw_size.py")
+    parser.add_argument("elf_file", type=pathlib.Path)
+    parser.add_argument("--flash-size", type=lambda x: int(x, 0))
+    parser.add_argument("--ram-size", type=lambda x: int(x, 0))
+    parser.add_argument("--no-last", type=bool, default=False)
 
-    _, infile, max_flash, max_ram = sys.argv
-    flash_size = int(max_flash, 0)
-    ram_size = int(max_ram, 0)
+    args = parser.parse_args()
 
-    bootloader_size, program_size, stack_size, variables_size = analyze_elf(infile)
+    build_dir = args.elf_file.parent
+    last_file = build_dir / "fw-size.last"
+
+    if last_file.exists():
+        last_data = json.loads(last_file.read_text())
+        last_program_size = last_data["program_size"]
+        last_variables_size = last_data["variables_size"]
+    else:
+        last_program_size = None
+        last_variables_size = None
+
+    bootloader_size, program_size, stack_size, variables_size = analyze_elf(
+        args.elf_file
+    )
+    if last_file.exists():
+        last_data = json.loads(last_file.read_text())
 
     print_memory_sections(
         "Flash",
-        flash_size,
+        args.flash_size,
         MemorySection(name="Bootloader", size=bootloader_size, fixed=True),
-        MemorySection(name="Program", size=program_size, fixed=False),
+        MemorySection(name="Program", size=program_size, last_size=last_program_size),
     )
     print()
     print_memory_sections(
         "RAM",
-        ram_size,
+        args.ram_size,
         MemorySection(name="Stack", size=stack_size, fixed=True),
-        MemorySection(name="Variables", size=variables_size, fixed=False),
+        MemorySection(
+            name="Variables", size=variables_size, last_size=last_variables_size
+        ),
     )
+
+    if not args.no_last:
+        last_file.write_text(
+            json.dumps(
+                dict(
+                    program_size=program_size,
+                    variables_size=variables_size,
+                )
+            )
+        )
 
 
 if __name__ == "__main__":
