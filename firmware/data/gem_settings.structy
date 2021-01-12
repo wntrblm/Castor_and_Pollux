@@ -1,6 +1,7 @@
 class GemSettings:
 
     """The ADC's internal gain correction register."""
+
     adc_gain_corr: uint16 = 2048
 
     """The ADC's internal offset correction register."""
@@ -38,3 +39,13 @@ class GemSettings:
     """Route LFO to PWM for oscillators"""
     castor_lfo_pwm: bool = False
     pollux_lfo_pwm: bool = False
+
+    """The firmware adjusts the pitch CV knobs so that it's easier to tune
+       the oscillators. It does this by spreading the values near the center
+       of the knob out so that the range at the center is more fine. This
+       makes the knobs non-linear. This setting controls how "intense"
+       this non-linearity is. A value of 0.33 is equivalent to a linear
+       response. Higher values make it easier and easier to tune the
+       oscillator but sacrifice the range, values lower than 0.33 will
+       make it harder to tune and aren't recommended."""
+    pitch_knob_nonlinearity: fix16 = 0.33

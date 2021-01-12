@@ -10,12 +10,33 @@
 extern uint8_t _nvm_settings_base_address;
 
 bool GemSettings_check(struct GemSettings* settings) {
+    /* This can't be fixed. If the ADC stuff is out of whack we gotta fail. */
     if (settings->adc_gain_corr < 512 || settings->adc_gain_corr > 4096) {
         goto fail;
     }
+
+    struct GemSettings defaults;
+    GemSettings_init(&defaults);
+
+    /* These settings can be repaired/fixed. */
     if (settings->led_brightness > 255) {
-        goto fail;
+        settings->led_brightness = defaults.led_brightness;
     }
+
+#define LIMIT_F16_FIELD(field, min, max)                                                                               \
+    if (settings->field < F16(min) || settings->field > F16(max)) {                                                    \
+        settings->field = defaults.field;                                                                              \
+    }
+
+    LIMIT_F16_FIELD(castor_knob_max, 0.0, 10.0);
+    LIMIT_F16_FIELD(castor_knob_min, -10.0, 0.0);
+    LIMIT_F16_FIELD(pollux_knob_max, 0.0, 10.0);
+    LIMIT_F16_FIELD(pollux_knob_min, -10.0, 0.0);
+    LIMIT_F16_FIELD(chorus_max_intensity, 0.0, 1.0);
+    LIMIT_F16_FIELD(chorus_max_frequency, 0.0, 50.0);
+    LIMIT_F16_FIELD(smooth_initial_gain, 0.0, 1.0);
+    LIMIT_F16_FIELD(smooth_sensitivity, 0.0, 100.0);
+    LIMIT_F16_FIELD(pitch_knob_nonlinearity, 0.3, 1.0);
 
     return true;
 
