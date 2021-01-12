@@ -166,7 +166,7 @@ directory:
 
 size: $(BUILD)/$(BIN).elf
 	@echo ""
-	@./scripts/get_fw_size.py $^ $(FLASH_SIZE) $(RAM_SIZE)
+	@./scripts/get_fw_size.py --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $^ 
 
 clean:
 	@echo clean
