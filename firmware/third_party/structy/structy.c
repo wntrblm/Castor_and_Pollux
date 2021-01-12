@@ -116,6 +116,7 @@ struct StructyResult structy_unpack(const char* format, const uint8_t* buf, cons
                 buf_idx += 4;
                 result.count++;
             } break;
+#if STRUCTY_ENABLE_FLOAT == 1
             case 'f': {
                 float* var = va_arg(args, float*);
                 uint32_t temp = (uint32_t)(
@@ -124,6 +125,7 @@ struct StructyResult structy_unpack(const char* format, const uint8_t* buf, cons
                 buf_idx += 4;
                 result.count++;
             } break;
+#endif
             default:
                 result.status = STRUCTY_RESULT_UNKNOWN_FORMAT;
                 goto end;
@@ -136,11 +138,12 @@ end:
     return result;
 }
 
+#if STRUCTY_ENABLE_FLOAT == 1
 union float_pun {
     uint32_t i;
     float f;
 };
-
+#endif
 
 struct StructyResult structy_pack(const char* format, uint8_t* buf, const size_t buf_len, ...) {
     STRUCTY_ASSERT(buf != NULL);
@@ -215,6 +218,7 @@ struct StructyResult structy_pack(const char* format, uint8_t* buf, const size_t
                 buf_idx += 4;
                 result.count++;
             } break;
+#if STRUCTY_ENABLE_FLOAT == 1
             case 'f': {
                 float var = va_arg(args, double);
                 union float_pun temp;
@@ -226,6 +230,7 @@ struct StructyResult structy_pack(const char* format, uint8_t* buf, const size_t
                 buf_idx += 4;
                 result.count++;
             } break;
+#endif
             default:
                 result.status = STRUCTY_RESULT_UNKNOWN_FORMAT;
                 goto end;
