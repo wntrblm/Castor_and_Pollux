@@ -35,6 +35,19 @@
 #endif
 #endif
 
+/* STRUCTY_ENABLE_FLOAT is used to enable/disable floating-point support.
+   By default this is on for big-girl computers but on ARM it checks
+   for an FPU. */
+#ifndef STRUCTY_ENABLE_FLOAT
+#if defined(__ARM_PCS_VFP)
+#define STRUCTY_ENABLE_FLOAT 1
+#elif !defined(__arm__)
+#define STRUCTY_ENABLE_FLOAT 1
+#else
+#define STRUCTY_ENABLE_FLOAT 0
+#endif
+#endif
+
 /* STRUCTY_ASSERT is used to make assertions when debug is active. */
 #ifndef STRUCTY_ASSERT
 #if defined(DEBUG) && !defined(NDEBUG) && !defined(__arm__)
