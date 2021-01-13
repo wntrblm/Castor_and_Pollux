@@ -81,7 +81,7 @@ DEFINES += $(MCU_DEFINES)
 
 LDFLAGS += $(COMMON_FLAGS)
 # Set the stack size symbol for the linker script
-LDFLAGS += -Xlinker --defsym=__stack_size__=$(STACK_SIZE)
+LDFLAGS += -Wl,--defsym=__stack_size__=$(STACK_SIZE)
 # Perform dead code elimination 
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--script=$(LINKER_SCRIPT)
