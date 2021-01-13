@@ -401,12 +401,15 @@ SECTIONS
 
       This is zeroed out by the startup script / C runtime.
 
-      This includes `COMMON` which is where GCC places non-static
-      uninitialized variables.
+      This includes `COMMON` which is a bit of a legacy section. GCC
+      defaults to `-fno-common` these days so there shouldn't be
+      anything in there, but it's included for completeness.
 
       References:
       * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections
       * https://en.wikipedia.org/wiki/.bss
+      * https://gcc.gnu.org/onlinedocs/gcc/Code-Gen-Options.html
+        Section -fcommon
       * ../third_party/samd21/gcc/gcc/startup_samd21.c
    */
    .bss (NOLOAD) :
