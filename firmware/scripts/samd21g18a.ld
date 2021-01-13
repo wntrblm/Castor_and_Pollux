@@ -40,7 +40,7 @@ OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
 FLASH_SIZE = 0x40000;      /* 256kB */
 BOOTLOADER_SIZE = 0x2000;  /* 8kB */
 NVM_SIZE = 0x400;          /* 1kbB */
-SRAM_SIZE = 0x8000;        /* 32kB *//*
+SRAM_SIZE = 0x8000;        /* 32kB */
 
 /*
    ARM Cortex-M processors use a descending stack and generally
@@ -170,7 +170,6 @@ SECTIONS
          File Format specification.
       */
       . = ALIGN(4);
-      _sfixed = .;
 
       /*
          The vector table defines the initial stack pointer and
@@ -192,8 +191,10 @@ SECTIONS
          this actually gets placed at the beginning of the
          program's flash area (0x2000). The Cortex-M allows
          changing the vector table after initialization,
-         so the application sets the Vector Table Offset
-         Register (`SCB->VTOR`) during its intialization.
+         so the startup script sets the Vector Table Offset
+         Register (`SCB->VTOR`) to `_sfixed` during its
+         intialization. The `_efixed` symbol is unused but
+         included for completeness.
 
          References:
          * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf
@@ -203,6 +204,7 @@ SECTIONS
            Section B3.2.5, Vector Table Offset Register, VTOR
          * ../third_party/samd21/gcc/gcc/startup_samd21.c
       */
+      _sfixed = .;
       KEEP(*(.vectors .vectors.*))
 
       /*
@@ -356,19 +358,13 @@ SECTIONS
    } > rom
 
    /*
-      Align the end of the .text segment to a four-byte boundary.
-   */
-   . = ALIGN(4);
-   _etext = .;
-
-   /*
-      The "relocate" section includes mutable variables that have a
+      The `.relocate` section includes mutable variables that have a
       default value and specially marked functions that should execute
       from RAM.
 
-      This data is stored in ROM (after .text) but is referenced
-      from RAM. The program/runtime must copy the data from ROM
-      to RAM on reset, hence, "relocate".
+      This data is stored in ROM but is referenced from RAM. The
+      program/runtime must copy the data from ROM to RAM on reset,
+      hence, "relocate".
 
       Performance sensitive/critical functions can also be placed in
       RAM using this section:
@@ -377,15 +373,24 @@ SECTIONS
 
          void fast_functionvoid RAMFUNC;
 
-      In other linker scripts you might see this named as the ".data"
+      In other linker scripts you might see this named as the `.data`
       section. That's what the ELF specification calls for, but the
-      SAM D startup scripts expect "".relocate".
+      Microchip-provided SAM D startup scripts expect `.relocate`.
+
+      This also sets the symbol `_etext` to the start of the relocation
+      segment in flash. The startup script copies the data starting at
+      `_etext` to `_srelocate` and ends when it reaches `_erelocate`.
+      The `_etext` name is a bit unfortunate since it's not the end of
+      the text segment, but rather the start of the read-only copy of the
+      relocate section in flash. If I wrote the startup script I would have
+      named these symbols differently.
 
       References:
       * http://www.sco.com/developers/gabi/latest/ch4.sheader.html#special_sections
+      * https://www.sourceware.org/binutils/docs/ld/Output-Section-LMA.html#Output-Section-LMA
       * ../third_party/samd21/gcc/gcc/startup_samd21.c
    */
-   .relocate : AT (_etext)
+   .relocate :
    {
       . = ALIGN(4);
       _srelocate = .;
@@ -393,13 +398,17 @@ SECTIONS
       *(.data .data.*);
       . = ALIGN(4);
       _erelocate = .;
-   } > ram
+   } > ram AT> rom
+
+   _etext = LOADADDR(.relocate);
 
    /*
       The BSS section reserves RAM space for declared but uninitialized
       variables.
 
-      This is zeroed out by the startup script / C runtime.
+      This is zeroed out by the startup script. The start-up script
+      zeros out the area of RAM starting at `_szero` and ending at
+      `_ezero`.
 
       This includes `COMMON` which is a bit of a legacy section. GCC
       defaults to `-fno-common` these days so there shouldn't be
@@ -415,25 +424,26 @@ SECTIONS
    .bss (NOLOAD) :
    {
       . = ALIGN(4);
-      _sbss = .;
       _szero = .;
       *(.bss .bss.*)
       *(COMMON)
       . = ALIGN(4);
-      _ebss = .;
       _ezero = .;
    } > ram
 
    /*
       Reserve the stack space in RAM.
 
-      Cortex-M stacks grow down, so the stack starts at _estack and grows
-      towards _sstack.
+      Cortex-M stacks grow down, so the stack starts at `_estack` and
+      grows towards `_sstack`. The startup script sets the vector
+      table's stack pointer to `_estack` on startup. `_sstack` is
+      usused but included for completeness.
 
       The ARM procedure call standard (AAPCS) requires the stack to be
       aligned on an eight byte boundary.
 
       References:
+      * ../third_party/samd21/gcc/gcc/startup_samd21.c
       * https://developer.arm.com/documentation/ihi0042/e/
         Section 5.2.1.2, Stack constraints at a public interface
    */
@@ -450,7 +460,9 @@ SECTIONS
       Mark the end of the RAM and the start of unallocated space.
 
       If the program uses the malloc and the heap, then `_heap_start`
-      can be used as the start of the heap. The _sbrk syscall has
+      can be used as the start of the heap. If the program doesn't
+      use the heap then the `_heap_start` symbol is unused and could
+      be removed. With `-specs=nano.specs`, the `_sbrk` syscall has
       to be implemented for malloc to work:
 
          extern int _heap_start;
