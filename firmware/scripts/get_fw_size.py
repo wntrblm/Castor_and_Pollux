@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: Stargirl Flowers (@theacodes) 2020-2021
 
 import argparse
 import colorsys
@@ -101,8 +103,8 @@ class TermUI:
 BAR_LEN = TermUI.columns_length(COLUMNS)
 
 
-def analyze_elf(elf):
-    fw_size_output = subprocess.check_output(["arm-none-eabi-size", "-A", "-d", elf])
+def analyze_elf(elf, size_prog):
+    fw_size_output = subprocess.check_output([size_prog, "-A", "-d", elf])
     fw_size_output = fw_size_output.decode("utf-8").split("\n")[2:]
     sections = {}
     bootloader_size = 0
@@ -115,9 +117,9 @@ def analyze_elf(elf):
         if parts[0] == ".text":
             bootloader_size = int(parts[2], 10)
 
-    program_size = sections[".text"] + sections[".relocate"]
+    program_size = sections[".text"] + sections.get(".relocate", 0) + sections.get(".data", 0)
     stack_size = sections[".stack"]
-    variables_size = sections[".relocate"] + sections[".bss"]
+    variables_size = sections.get(".relocate", 0) + sections.get(".data", 0) + sections[".bss"]
 
     return bootloader_size, program_size, stack_size, variables_size
 
@@ -195,6 +197,7 @@ def main():
     parser.add_argument("--flash-size", type=lambda x: int(x, 0))
     parser.add_argument("--ram-size", type=lambda x: int(x, 0))
     parser.add_argument("--no-last", type=bool, default=False)
+    parser.add_argument("--size-prog", type=pathlib.Path, default="arm-none-eabi-size")
 
     args = parser.parse_args()
 
@@ -210,7 +213,7 @@ def main():
         last_variables_size = None
 
     bootloader_size, program_size, stack_size, variables_size = analyze_elf(
-        args.elf_file
+        args.elf_file, args.size_prog
     )
     if last_file.exists():
         last_data = json.loads(last_file.read_text())
