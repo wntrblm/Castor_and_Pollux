@@ -299,7 +299,7 @@ SECTIONS
 
 
       /*
-         C+++ runtime: static constructors
+         C++ runtime: static constructors
 
          References:
          * https://gcc.gnu.org/onlinedocs/gccint/Initialization.html
@@ -335,7 +335,7 @@ SECTIONS
       ARM defines several special sections for exception handling.
 
       These are require for C++ and for C programs that try to
-      example backtraces.
+      examine backtraces.
 
       - exidx is used to contain index entries for stack unwinding.
       - extab names sections containing exception unwinding information.
@@ -371,7 +371,7 @@ SECTIONS
 
          #define RAMFUNC __attribute__((section(".ramfunc")))
 
-         void fast_functionvoid RAMFUNC;
+         void fast_function(void) RAMFUNC;
 
       In other linker scripts you might see this named as the `.data`
       section. That's what the ELF specification calls for, but the
