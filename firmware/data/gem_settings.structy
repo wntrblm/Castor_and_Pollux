@@ -19,8 +19,8 @@ class GemSettings:
     """Maximum amount that the chorus can impact Pollux's frequency."""
     chorus_max_intensity: fix16 = 0.05
 
-    """Maximum frequency that the chorus can run at in hertz."""
-    chorus_max_frequency: fix16 = 0.2
+    """The default LFO frequency in hertz."""
+    lfo_frequency: fix16 = 0.2
 
     """Error correction for the ADC readings for the CV and PWM knobs."""
     knob_offset_corr: fix16 = 0.0
@@ -48,4 +48,4 @@ class GemSettings:
        response. Higher values make it easier and easier to tune the
        oscillator but sacrifice the range, values lower than 0.33 will
        make it harder to tune and aren't recommended."""
-    pitch_knob_nonlinearity: fix16 = 0.33
+    pitch_knob_nonlinearity: fix16 = 0.6

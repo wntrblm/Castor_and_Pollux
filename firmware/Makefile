@@ -82,7 +82,7 @@ DEFINES += $(MCU_DEFINES)
 LDFLAGS += $(COMMON_FLAGS)
 # Set the stack size symbol for the linker script
 LDFLAGS += -Wl,--defsym=__stack_size__=$(STACK_SIZE)
-# Perform dead code elimination 
+# Perform dead code elimination
 LDFLAGS += -Wl,--gc-sections
 LDFLAGS += -Wl,--script=$(LINKER_SCRIPT)
 # Generate a map file
@@ -149,12 +149,14 @@ directory:
 	@./scripts/generate_voice_param_table.py data/pitch-calibration-table.csv src/gem_voice_param_table.c
 
 ./src/gem_settings.c: ./data/gem_settings.structy
-	@echo "Generating gem_settings.c using Structy"
+	@echo "Generating gem_settings.{c,js,py} using Structy"
 	@python3 -m structy_generator -l c ./data/gem_settings.structy src
+	@python3 -m structy_generator -l py ./data/gem_settings.structy ../factory/libgemini
+	@python3 -m structy_generator -l c ./data/gem_settings.structy ../user_guide/docs/scripts
 
 size: $(BUILD)/$(BIN).elf
 	@echo ""
-	@./scripts/get_fw_size.py --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $^ 
+	@./scripts/get_fw_size.py --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $^
 
 clean:
 	@echo clean
