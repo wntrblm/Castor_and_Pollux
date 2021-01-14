@@ -205,6 +205,12 @@ SECTIONS
          named ".vectors" in the input object file so that
          the linker can find it.
 
+         Also notice the use of `KEEP` here. To save on size,
+         the firmware is compiled with options that let GCC
+         discard unused functions and data (`--gc-sections`).
+         Without `KEEP`, the linker would throw away the vector
+         table!
+
          Note that since this project uses the UF2 bootloader,
          this actually gets placed at the beginning of the
          program's flash area (0x2000). The Cortex-M allows
@@ -221,6 +227,7 @@ SECTIONS
            Section B1.5.3, The vector table
            Section B3.2.5, Vector Table Offset Register, VTOR
          * ../third_party/samd21/gcc/gcc/startup_samd21.c
+         * https://gcc.gnu.org/onlinedocs/gnat_ugn/Compilation-options.html
       */
       _sfixed = .;
       KEEP(*(.vectors .vectors.*))
