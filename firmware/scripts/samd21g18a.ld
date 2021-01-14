@@ -462,7 +462,7 @@ SECTIONS
       Cortex-M stacks grow down, so the stack starts at `_estack` and
       grows towards `_sstack`. The startup script sets the vector
       table's stack pointer to `_estack` on startup. `_sstack` is
-      usused but included for completeness.
+      unused but included for completeness.
 
       The ARM procedure call standard (AAPCS) requires the stack to be
       aligned on an eight byte boundary.
