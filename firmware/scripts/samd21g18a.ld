@@ -35,20 +35,25 @@ OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
    the various memory spaces.
 
    For the SAMD21G18A used by this project, the available Flash is
-   262kB and the available SRAM is 32kB.
+   266kB and the available SRAM is 32kB.
 
    This project also reserves 8kB for the bootloader and 1kB for
    "non-volatile memory" (NVM) - which is used by the application
    to store calibration and user settings.
 
+   Also it's useful to note that you can actually use unit suffixes
+   here: I could have written `FLASH_SIZE = 256KB` instead of
+   `FLASH_SIZE = 0x40000`. However, I generally prefer the hex
+   representation because there's less ambiguity.
+
    References:
    * https://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_DataSheet_DS40001882F.pdf
      Section 10.2, Physical Memory Map
 */
-FLASH_SIZE = 0x40000;      /* 256kB */
-BOOTLOADER_SIZE = 0x2000;  /* 8kB */
-NVM_SIZE = 0x400;          /* 1kbB */
-SRAM_SIZE = 0x8000;        /* 32kB */
+FLASH_SIZE = 0x40000;      /* 256kB, 262,144 bytes */
+BOOTLOADER_SIZE = 0x2000;  /* 8kB, 8,192 bytes */
+NVM_SIZE = 0x400;          /* 1kB, 1,024 bytes */
+SRAM_SIZE = 0x8000;        /* 32kB, 32,768 bytes */
 
 /*
    ARM Cortex-M processors use a descending stack and generally
@@ -110,11 +115,15 @@ MEMORY
       called "rom" here - even though it's flash, the name is just a name
       and doesn't carry special meaning.
 
+      If your application isn't using a bootloader then this section
+      would start at 0x00000000, but, since this project does use
+      a bootloader it instead starts right after the end of the bootloader.
+
       The total length of the rom block is the MCU's flash size minus the
       bootloader's size and any space reserved for "non-volatile memory"
       by the application.
    */
-   rom (rx) : ORIGIN = 0x00002000, LENGTH = FLASH_SIZE - BOOTLOADER_SIZE - NVM_SIZE
+   rom (rx) : ORIGIN = BOOTLOADER_SIZE, LENGTH = FLASH_SIZE - BOOTLOADER_SIZE - NVM_SIZE
 
    /*
       The "nvm" block is space set aside for the application to store
@@ -139,7 +148,8 @@ MEMORY
       the stack, heap, and all variables will go.
 
       For the SAMD21, SRAM starts at 0x20000000 and is contiguous
-      for the size of the SRAM.
+      for the size of the SRAM. This is noted in the Physical
+      Memory Map section of the datasheet.
    */
    ram (rwx) : ORIGIN = 0x20000000, LENGTH = SRAM_SIZE
 }
