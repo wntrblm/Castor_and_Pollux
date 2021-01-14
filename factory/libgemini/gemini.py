@@ -7,10 +7,12 @@ import struct
 import rtmidi.midiutil
 
 from libgemini import teeth
+from libgemini import gem_settings
 
 SYSEX_START = 0xF0
 SYSEX_END = 0xF7
 SYSEX_MARKER = 0x77
+
 
 def _wait_for_message(port_in):
     while True:
@@ -22,32 +24,9 @@ def _wait_for_message(port_in):
 
 def _fix16(val):
     if val >= 0:
-        return int(x * 65536.0 + 0.5)
+        return int(val * 65536.0 + 0.5)
     else:
-        return int(x * 65536.0 - 0.5)
-
-
-@dataclass
-class Settings:
-    LENGTH: int = 51
-
-    magic: int = 0
-    adc_gain_corr: int = 0
-    adc_offset_corr: int = 0
-    led_brightness: int = 0
-    castor_knob_min: int = 0
-    castor_knob_max: int = 0
-    pollux_knob_min: int = 0
-    pollux_knob_max: int = 0
-    chorus_max_intensity: int = 0
-    chorus_frequency: int = 0
-    knob_offset_corr: int = 0
-    knob_gain_corr: int = 0
-    smooth_initial_gain: int = 0
-    smooth_sensitivity: int = 0
-    pollux_follower_threshold: int = 0
-    castor_lfo_pwm: bool = False
-    pollux_lfo_pwm: bool = False
+        return int(val * 65536.0 - 0.5)
 
 
 class SysExCommands(enum.IntEnum):
@@ -71,9 +50,13 @@ class Gemini:
     MIDI_PORT_NAME = "Gemini"
 
     def __init__(self):
-        self.port_in, _ = rtmidi.midiutil.open_midiport(self.MIDI_PORT_NAME, type_="input")
+        self.port_in, _ = rtmidi.midiutil.open_midiport(
+            self.MIDI_PORT_NAME, type_="input"
+        )
         self.port_in.ignore_types(sysex=False)
-        self.port_out, _ = rtmidi.midiutil.open_midiport(self.MIDI_PORT_NAME, type_="output")
+        self.port_out, _ = rtmidi.midiutil.open_midiport(
+            self.MIDI_PORT_NAME, type_="output"
+        )
 
     def close(self):
         self.port_in.close_port()
@@ -85,16 +68,17 @@ class Gemini:
 
         if encode:
             data = teeth.teeth_encode(data)
-        
+
         self.port_out.send_message(
-            [SYSEX_START, SYSEX_MARKER, command] + data + [SYSEX_END])
-        
+            [SYSEX_START, SYSEX_MARKER, command] + data + [SYSEX_END]
+        )
+
         if response:
             result = _wait_for_message(self.port_in)
 
             if decode:
                 return teeth.decode(result[3:-1])
-            
+
             return result
 
     def enter_calibration_mode(self):
@@ -102,8 +86,10 @@ class Gemini:
         print(f"Gemini version: {resp[3]}")
 
     def read_adc(self, ch):
-        resp = self._sysex(SysExCommands.READ_ADC, data=[ch], response=True, decode=True)
-        val, = struct.unpack("H", resp)
+        resp = self._sysex(
+            SysExCommands.READ_ADC, data=[ch], response=True, decode=True
+        )
+        (val,) = struct.unpack("H", resp)
         return val
 
     def set_dac(self, ch, val, gain):
@@ -117,7 +103,7 @@ class Gemini:
     def set_adc_gain_error_int(self, val):
         data = struct.pack("H", val)
         self._sysex(SysExCommands.WRITE_ADC_GAIN, data=data, encode=True)
-    
+
     def set_adc_gain_error(self, val):
         val = int(val * 2048)
         self.set_adc_gain_error_int(val)
@@ -139,65 +125,40 @@ class Gemini:
     CHUNK_SIZE = 20
 
     def read_settings(self):
-        settings_encoded = bytearray(teeth.teeth_encoded_length(self.CHUNK_SIZE * self.SETTINGS_CHUNKS))
+        settings_encoded = bytearray(
+            teeth.teeth_encoded_length(self.CHUNK_SIZE * self.SETTINGS_CHUNKS)
+        )
 
         for n in range(self.SETTINGS_CHUNKS):
-            data = self._sysex(SysExCommands.READ_SETTINGS, data=[n], response=True, decode=True)
-            settings_encoded[self.CHUNK_SIZE * n: self.CHUNK_SIZE * n + self.CHUNK_SIZE] = data
+            data = self._sysex(
+                SysExCommands.READ_SETTINGS, data=[n], response=True, decode=True
+            )
+            settings_encoded[
+                self.CHUNK_SIZE * n : self.CHUNK_SIZE * n + self.CHUNK_SIZE
+            ] = data
 
         settings_buf = teeth.teeth_decode(settings_encoded)
-        settings = Settings()
-
-        (settings.magic,
-        settings.adc_gain_corr,
-        settings.adc_offset_corr,
-        settings.led_brightness,
-        settings.castor_knob_min,
-        settings.castor_knob_max,
-        settings.pollux_knob_min,
-        settings.pollux_knob_max,
-        settings.chorus_max_intensity,
-        settings.chorus_frequency,
-        settings.knob_offset_corr,
-        settings.knob_gain_corr,
-        settings.smooth_initial_gain,
-        settings.smooth_sensitivity,
-        settings.pollux_follower_threshold,
-        settings.castor_lfo_pwm,
-        settings.pollux_lfo_pwm) = struct.unpack(">BHhHiiiiiiiiiiH??", settings_buf[:Settings.LENGTH])
-
+        settings = gem_settings.unpack(settings_buf)
         return settings
 
     def save_settings(self, settings):
-        settings_buf = bytearray(struct.pack(
-            ">BHhHiiiiiiiiiiH??",
-            settings.magic,
-            settings.adc_gain_corr,
-            settings.adc_offset_corr,
-            settings.led_brightness,
-            settings.castor_knob_min,
-            settings.castor_knob_max,
-            settings.pollux_knob_min,
-            settings.pollux_knob_max,
-            settings.chorus_max_intensity,
-            settings.chorus_frequency,
-            settings.knob_offset_corr,
-            settings.knob_gain_corr,
-            settings.smooth_initial_gain,
-            settings.smooth_sensitivity,
-            settings.pollux_follower_threshold,
-            settings.castor_lfo_pwm,
-            settings.pollux_lfo_pwm))
+        settings_buf = settings.pack()
 
-        settings_encoded = teeth.teeth_encode(settings_buf).ljust(self.CHUNK_SIZE * self.SETTINGS_CHUNKS)
+        settings_encoded = teeth.teeth_encode(settings_buf).ljust(
+            self.CHUNK_SIZE * self.SETTINGS_CHUNKS
+        )
 
         for n in range(self.SETTINGS_CHUNKS):
-            chunk = settings_encoded[self.CHUNK_SIZE * n: self.CHUNK_SIZE * n + self.CHUNK_SIZE]
+            chunk = settings_encoded[
+                self.CHUNK_SIZE * n : self.CHUNK_SIZE * n + self.CHUNK_SIZE
+            ]
             self._sysex(SysExCommands.WRITE_SETTINGS, data=chunk, response=True)
 
     def write_lut_entry(self, entry, castor_pollux, val):
         data = struct.pack("BBH", entry, castor_pollux, val)
-        self._sysex(SysExCommands.WRITE_LUT_ENTRY, data=data, encode=True, response=True)
+        self._sysex(
+            SysExCommands.WRITE_LUT_ENTRY, data=data, encode=True, response=True
+        )
 
     def write_lut(self):
         self._sysex(SysExCommands.WRITE_LUT)
