@@ -35,7 +35,7 @@ OUTPUT_FORMAT("elf32-littlearm", "elf32-littlearm", "elf32-littlearm")
    the various memory spaces.
 
    For the SAMD21G18A used by this project, the available Flash is
-   266kB and the available SRAM is 32kB.
+   256kB and the available SRAM is 32kB.
 
    This project also reserves 8kB for the bootloader and 1kB for
    "non-volatile memory" (NVM) - which is used by the application
