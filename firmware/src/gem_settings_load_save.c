@@ -33,7 +33,7 @@ bool GemSettings_check(struct GemSettings* settings) {
     LIMIT_F16_FIELD(pollux_knob_max, 0.0, 10.0);
     LIMIT_F16_FIELD(pollux_knob_min, -10.0, 0.0);
     LIMIT_F16_FIELD(chorus_max_intensity, 0.0, 1.0);
-    LIMIT_F16_FIELD(chorus_max_frequency, 0.0, 50.0);
+    LIMIT_F16_FIELD(lfo_frequency, 0.0, 50.0);
     LIMIT_F16_FIELD(smooth_initial_gain, 0.0, 1.0);
     LIMIT_F16_FIELD(smooth_sensitivity, 0.0, 100.0);
     LIMIT_F16_FIELD(pitch_knob_nonlinearity, 0.3, 1.0);
