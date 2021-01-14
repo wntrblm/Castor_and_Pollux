@@ -352,9 +352,9 @@ SECTIONS
    } > rom
 
    .ARM.exidx : {
-      PROVIDE_HIDDEN (__exidx_start = .);
+      PROVIDE(__exidx_start = .);
       *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-      PROVIDE_HIDDEN (__exidx_end = .);
+      PROVIDE(__exidx_end = .);
    } > rom
 
    /*
@@ -494,7 +494,7 @@ SECTIONS
       * https://embeddedartistry.com/blog/2017/02/15/implementing-malloc-first-fit-free-list/
    */
    . = ALIGN(4);
-   PROVIDE (_heap_start = .);
+   PROVIDE(_heap_start = .);
    _end = . ;
 }
 
@@ -516,7 +516,7 @@ SECTIONS
    * ../src/gem_settings_load_save.c
 */
 _nvm_settings_base_address = ORIGIN(nvm);
-_nvm_settings_length = LENGTH(nvm) / 2;
+_nvm_settings_length = LENGTH(nvm) / 2);
 
 /*
    Symbols for the calibration/look-up table in the NVM memory block.
@@ -528,4 +528,4 @@ _nvm_settings_length = LENGTH(nvm) / 2;
    * ../src/gem_voice_param_table_load_save.c
 */
 _nvm_lut_base_address = ORIGIN(nvm) + LENGTH(nvm) / 2;
-_nvm_lut_length = LENGTH(nvm) / 2;
+_nvm_lut_length = LENGTH(nvm) / 2);
