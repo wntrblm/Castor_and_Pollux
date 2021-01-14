@@ -49,7 +49,7 @@ fail:
 }
 
 bool GemSettings_load(struct GemSettings* settings) {
-    uint8_t data[GEMSETTINGS_PACKED_SIZE];
+    uint8_t data[GEMSETTINGS_PACKED_SIZE + 1];
     gem_nvm_read((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
 
     if (data[0] != SETTINGS_MARKER) {
@@ -77,7 +77,7 @@ void GemSettings_save(struct GemSettings* settings) {
 
     GemSettings_check(settings);
 
-    struct StructyResult result = GemSettings_pack(settings, data);
+    struct StructyResult result = GemSettings_pack(settings, data + 1);
 
     /* This should basically never happen, so debug trap this. */
     DEBUG_TRAP(result.status != STRUCTY_RESULT_OKAY);
