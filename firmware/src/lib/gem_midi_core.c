@@ -54,11 +54,11 @@ static void _parse_sysex() {
     size_t data_index = 2;
 
     while (1) {
-    
+
         /* Wait until we get a message, but fail out if it doesn't arrive in time. */
         size_t m = 0;
-        for(; m < GEM_SYSEX_TIMEOUT; m++){
-            if(gem_usb_midi_receive(_in_data)) {
+        for (; m < GEM_SYSEX_TIMEOUT; m++) {
+            if (gem_usb_midi_receive(_in_data)) {
                 break;
             }
         }
@@ -107,18 +107,16 @@ timeout_fail:
 void gem_midi_send_sysex(uint8_t* data, size_t len) {
     size_t i = 0;
     for (; i <= len - 3; i += 3) {
-        gem_usb_midi_send(
-            (uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, data[i] & 0x7F, data[i + 1] & 0x7F, data[i + 2] & 0x7F});
+        gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, data[i], data[i + 1], data[i + 2]});
     }
     if (len - i == 0) {
         gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_ONE_BYTE, MIDI_SYSEX_END_BYTE, 0x00, 0x00});
     }
     if (len - i == 1) {
-        gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_TWO_BYTE, data[i] & 0x7F, MIDI_SYSEX_END_BYTE, 0x00});
+        gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_TWO_BYTE, data[i], MIDI_SYSEX_END_BYTE, 0x00});
     }
     if (len - i == 2) {
-        gem_usb_midi_send(
-            (uint8_t[4]){MIDI_SYSEX_END_THREE_BYTE, data[i] & 0x7F, data[i + 1] & 0x7F, MIDI_SYSEX_END_BYTE});
+        gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_END_THREE_BYTE, data[i], data[i + 1], MIDI_SYSEX_END_BYTE});
     }
 }
 
