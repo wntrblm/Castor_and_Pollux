@@ -40,10 +40,11 @@ one more byte than usual to encode so it's an *overbyte*...
 
 */
 
-#include <stdint.h>
 #include <stddef.h>
+#include <stdint.h>
 
 #define TEETH_ENCODED_LENGTH(src_len) (((src_len + 4 - 1) / 4) * 5)
+#define TEETH_DECODED_LENGTH(src_len) (src_len / 5 * 4)
 
 void teeth_encode(uint8_t* src, size_t src_len, uint8_t* dst);
 size_t teeth_decode(uint8_t* src, size_t src_len, uint8_t* dst);
