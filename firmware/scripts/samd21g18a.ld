@@ -1,5 +1,13 @@
 /*
-   Output format sets the ELF output format to use a specific BFD backend.
+   The Most Thoroughly Commented Linker Script in The World
+
+   This is a linker script for the Atmel/Microchip SAM D21
+   with an absolutely obscene amount of documentation.
+*/
+/*
+   OUTPUT_FORMAT configures the linker to use a platform-specific BFD
+   backend to generate ELF files. BFD backends instruct the linker on
+   how to properly create the ELF sections for a given platform.
 
    The first is the default BFD. The second and third arguments are used
    when big (-EB) or little (-EL) endian is requested.
