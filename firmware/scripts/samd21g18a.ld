@@ -524,7 +524,7 @@ SECTIONS
    * ../src/gem_settings_load_save.c
 */
 _nvm_settings_base_address = ORIGIN(nvm);
-_nvm_settings_length = LENGTH(nvm) / 2);
+_nvm_settings_length = LENGTH(nvm) / 2;
 
 /*
    Symbols for the calibration/look-up table in the NVM memory block.
@@ -536,4 +536,4 @@ _nvm_settings_length = LENGTH(nvm) / 2);
    * ../src/gem_voice_param_table_load_save.c
 */
 _nvm_lut_base_address = ORIGIN(nvm) + LENGTH(nvm) / 2;
-_nvm_lut_length = LENGTH(nvm) / 2);
+_nvm_lut_length = LENGTH(nvm) / 2;
