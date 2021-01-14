@@ -152,7 +152,7 @@ directory:
 	@echo "Generating gem_settings.{c,js,py} using Structy"
 	@python3 -m structy_generator -l c ./data/gem_settings.structy src
 	@python3 -m structy_generator -l py ./data/gem_settings.structy ../factory/libgemini
-	@python3 -m structy_generator -l c ./data/gem_settings.structy ../user_guide/docs/scripts
+	@python3 -m structy_generator -l js ./data/gem_settings.structy ../user_guide/docs/scripts
 
 size: $(BUILD)/$(BIN).elf
 	@echo ""

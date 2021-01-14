@@ -43,6 +43,22 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             <input type="number" name="pollux_knob_max" class="form-control" value="1.01" step="0.1" min="0" max="3.0" />
             <span class="form-unit">octaves (volts)</span>
         </div>
+        <span class="form-message">
+        The firmware adjusts the pitch CV knobs so that it's easier to tune
+        the oscillators. It does this by spreading the values near the center
+        of the knob out so that the range at the center is more fine. This
+        makes the knobs non-linear. This setting controls how "intense"
+        this non-linearity is. A value of <code>0.33</code> is equivalent to a linear
+        response. Higher values make it easier and easier to tune the
+        oscillator but sacrifice the range, values lower than <code>0.33</code> will
+        make it harder to tune and aren't recommended. This is <code>0.6</code> by
+        default.
+        </span>
+        <div class="form-group">
+            <label for="pitch_knob_nonlinearity">Pitch knob non-linearity</label>
+            <input type="number" name="pitch_knob_nonlinearity" class="form-control" value="0.6" step="0.01" min="0.33" max="1.0" />
+            <span class="form-unit"></span>
+        </div>
         <span class="form-message">The following setting controls the <strong>maximum</strong> intensity of the chorusing feature. The intensity is the amount that the internal LFO effects the pitch of the second oscillator (Pollux).</span>
         <div class="form-group">
             <label for="chorus_max_intensity">Chorus maximum intensity</label>
@@ -51,9 +67,9 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         </div>
         <span class="form-message">The following setting controls the <strong>default</strong> frequency of the internal low-frequency oscillator (LFO). This LFO is used by the chorusing feature and the pulse-width modulation (PWM) feature. The frequency can be changed anytime by holding the <em>hard sync</em> button and moving the <em>chorusing amount (φ)</em> knob, this just sets the frequency at start-up.</span>
         <div class="form-group">
-            <label for="chorus_frequency">LFO frequency</label>
-            <input type="range" name="chorus_frequency" class="form-control" value="0.2" step="0.1" min="0.1" max="5.0" />
-            <span class="form-unit"><span id="chorus_frequency_display_value"></span> hertz</span>
+            <label for="lfo_frequency">LFO frequency</label>
+            <input type="range" name="lfo_frequency" class="form-control" value="0.2" step="0.1" min="0.1" max="5.0" />
+            <span class="form-unit"><span id="lfo_frequency_display_value"></span> hertz</span>
         </div>
         <span class="form-message">These settings control whether the internal LFO is used to modulate the pulse width of each oscillator by default. The routing can be enabled or disabled at any time by holding <em>hard sync</em> button and moving the oscillator's <em>pulse width</em> knob, this just enables or disables it at start-up.</span>
         <div class="form-group">
