@@ -72,7 +72,7 @@ static void _cmd_0x01_hello(uint8_t* data, size_t len) {
     gem_adc_stop_scanning();
     gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
 
-    gem_midi_send_sysex((uint8_t[3]){GEM_MIDI_SYSEX_MARKER, 0x01, GEM_FIRMWARE_VERSION}, 3);
+    gem_midi_send_sysex((uint8_t[4]){MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x01, GEM_FIRMWARE_VERSION}, 4);
 }
 
 static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
@@ -113,12 +113,13 @@ static void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
 
     PACK_16(result, response, 0);
 
-    _working_buf[0] = GEM_MIDI_SYSEX_MARKER;
-    _working_buf[1] = 0x04;
+    _working_buf[0] = MIDI_SYSEX_START_BYTE;
+    _working_buf[1] = GEM_MIDI_SYSEX_MARKER;
+    _working_buf[2] = 0x04;
 
-    teeth_encode(response, 2, _working_buf + 2);
+    teeth_encode(response, 2, _working_buf + 3);
 
-    gem_midi_send_sysex(_working_buf, TEETH_ENCODED_LENGTH(2));
+    gem_midi_send_sysex(_working_buf, 2 + TEETH_ENCODED_LENGTH(2));
 }
 
 static void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
@@ -174,12 +175,10 @@ static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
 
 static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
-    /* Request (teeth): CHUNK_NUM(1) SETTINGS_CHUNK(CHUNK_SIZE) */
+    /* Request: CHUNK_NUM(1) (teeth) SETTINGS_CHUNK(CHUNK_SIZE) */
     (void)(len);
 
-    teeth_decode(data + 2, CHUNK_SIZE + 1, _working_buf);
-
-    const uint8_t chunk_num = _working_buf[0];
+    const uint8_t chunk_num = data[2];
     if (chunk_num >= TOTAL_CHUNKS) {
         printf("Invalid chunk %u.\r\n", chunk_num);
         return;
@@ -189,13 +188,13 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
         memset(_chunk_buf, 0xFF, TOTAL_BYTES);
     }
 
-    memcpy(_chunk_buf + (CHUNK_SIZE * chunk_num), _working_buf, CHUNK_SIZE);
+    memcpy(_chunk_buf + (CHUNK_SIZE * chunk_num), data + 3, CHUNK_SIZE);
 
-    /* All data received, save the settings. */
+    /* All data received, decode and save the settings. */
     if (chunk_num == TOTAL_CHUNKS - 1) {
-        teeth_decode(_chunk_buf, TOTAL_BYTES, _working_buf);
-
         struct GemSettings settings;
+
+        teeth_decode(_chunk_buf, TOTAL_BYTES, _working_buf);
 
         if (GemSettings_unpack(&settings, _working_buf).status == STRUCTY_RESULT_OKAY) {
             GemSettings_save(&settings);
@@ -205,7 +204,7 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
     }
 
     /* Ack the data. */
-    gem_midi_send_sysex((uint8_t[2]){GEM_MIDI_SYSEX_MARKER, 0x09}, 2);
+    gem_midi_send_sysex((uint8_t[3]){MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x09}, 3);
 }
 
 static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
@@ -231,7 +230,7 @@ static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
     }
 
     /* Acknowledge the message. */
-    gem_midi_send_sysex((uint8_t[2]){GEM_MIDI_SYSEX_MARKER, 0x0A}, 2);
+    gem_midi_send_sysex((uint8_t[3]){MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x0A}, 3);
 }
 
 static void _cmd_0x0B_write_lut(uint8_t* data, size_t len) {
