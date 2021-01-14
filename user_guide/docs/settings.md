@@ -20,7 +20,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         <legend>Settings editor</legend>
         <div class="form-group">
             <label for="led_brightness">LED brightness</label>
-            <input type="range" name="led_brightness" class="form-control" min="0" max="127" value="127" />
+            <input type="range" name="led_brightness" class="form-control" min="0" max="254" value="127" />
         </div>
         <span class="form-message">The following settings set the range of the pitch knobs for each oscillator. By default, they have a range of -1.01 to 1.01 octaves (volts). The value of the pitch knob is added to the pitch CV input</span>
         <div class="form-group">

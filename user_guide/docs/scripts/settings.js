@@ -32,15 +32,11 @@ function settings_from_form() {
         pitch_knob_nonlinearity: parseFloat(form_data.get("pitch_knob_nonlinearity")),
     });
 
-    console.log(settings);
-
     return settings;
 }
 
 
 function form_from_settings(settings) {
-    console.log(settings);
-
     settings_form.adc_gain_corr.value = settings.adc_gain_corr;
     settings_form.adc_offset_corr.value = settings.adc_offset_corr;
     settings_form.led_brightness.value = settings.led_brightness;
@@ -55,8 +51,8 @@ function form_from_settings(settings) {
     settings_form.smooth_initial_gain.value = settings.smooth_initial_gain.toFixed(2);
     settings_form.smooth_sensitivity.value = settings.smooth_sensitivity.toFixed(2);
     settings_form.pollux_follower_threshold.value = settings.pollux_follower_threshold;
-    settings_form.castor_lfo_pwm = settings.castor_lfo_pwm;
-    settings_form.pollux_lfo_pwm = settings.pollux_lfo_pwm;
+    settings_form.castor_lfo_pwm.checked = settings.castor_lfo_pwm;
+    settings_form.pollux_lfo_pwm.checked = settings.pollux_lfo_pwm;
     settings_form.pitch_knob_nonlinearity.value = settings.pitch_knob_nonlinearity;
 
     /* Trigger change event for inputs on the form. */
@@ -86,6 +82,7 @@ async function midi_send_and_receive(data) {
 async function load_settings_from_device() {
     /* First, get the firmware version. (command 0x01 - hello) */
     let response = await midi_send_and_receive(new Uint8Array([0xF0, 0x77, 0x01, 0xF7]));
+    console.log("Firmware version response:", response);
     gemini_firmware_version = response.data[3];
 
     /* Update the info box with the firmware version. */
@@ -94,34 +91,37 @@ async function load_settings_from_device() {
 
     /* Now load settings. (command 0x08) */
     let settings_data = new Uint8Array(128);
-    for (let n = 0; n < 8; n++) {
+    for (let n = 0; n < 4; n++) {
         let response = await midi_send_and_receive(new Uint8Array([0xF0, 0x77, 0x08, n, 0xF7]));
-        for (let x = 0; x < 16; x++) {
-            settings_data[16 * n + x] = response.data[3 + x];
+        for (let x = 0; x < 20; x++) {
+            settings_data[20 * n + x] = response.data[3 + x];
         }
     }
 
     /* Update the form. */
     const decoded = teeth_decode(settings_data);
     const settings = GemSettings.unpack(decoded);
+    console.log("Loaded settings", settings);
     form_from_settings(settings);
 }
 
 async function save_settings_to_device() {
     const settings = settings_from_form();
+    console.log("Saving settings", settings);
+
     const settings_data = settings.pack();
     /* Always send 128 bytes. */
     let encoded_data = new Uint8Array(128);
     encoded_data.set(teeth_encode(settings_data));
 
-    /* Send 16 bytes at a time. */
-    for (let n = 0; n < 8; n++) {
-        let midi_message = new Uint8Array(5 + 16);
+    /* Send 20 bytes at a time. */
+    for (let n = 0; n < 4; n++) {
+        let midi_message = new Uint8Array(5 + 20);
         midi_message.set([0xF0, 0x77, 0x09, n]);
-        for (let x = 0; x < 16; x++) {
-            midi_message[4 + x] = encoded_data[16 * n + x];
+        for (let x = 0; x < 20; x++) {
+            midi_message[4 + x] = encoded_data[20 * n + x];
         }
-        midi_message[5 + 16 - 1] = 0xF7;
+        midi_message[5 + 20 - 1] = 0xF7;
         await midi_send_and_receive(midi_message);
     }
 }
@@ -151,14 +151,14 @@ connect_button.addEventListener("click", async function () {
 
     console.log(midi_input, midi_output);
 
+    await load_settings_from_device();
+
     connect_button.disabled = true;
     connect_button.classList.remove("btn-primary");
     connect_button.classList.add("btn-success");
     connect_button.innerText = "Connected";
     connect_info.innerText = "";
     settings_form.classList.remove("hidden");
-
-    await load_settings_from_device();
 });
 
 
@@ -206,6 +206,7 @@ constrain_number_input("knob_gain_corr");
 constrain_number_input("knob_offset_corr");
 constrain_number_input("adc_gain_corr");
 constrain_number_input("adc_offset_corr");
+constrain_number_input("pitch_knob_nonlinearity");
 
 /*
     Enable/disable dangerous settings.
@@ -246,7 +247,7 @@ function range_input_with_passthrough(elem_id) {
 }
 
 range_input_with_percentage("chorus_max_intensity");
-range_input_with_formatter("chorus_frequency", (input) => input.valueAsNumber.toFixed(1));
+range_input_with_formatter("lfo_frequency", (input) => input.valueAsNumber.toFixed(1));
 range_input_with_percentage("smooth_initial_gain");
 range_input_with_passthrough("smooth_sensitivity");
 range_input_with_passthrough("pollux_follower_threshold");
