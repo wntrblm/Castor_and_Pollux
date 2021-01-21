@@ -1,6 +1,6 @@
-The MIT License (MIT)
+Gemini firmware is copyright (c) 2020 Alethea Katherine Flowers / Winterbloom
 
-Copyright (c) 2020 Alethea Flowers for Winterbloom
+This firmware is made available under the MIT license:
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,42 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-------------------------------------------------------------------------------
+
+This firmware contains copies of works located under the "third_party"
+directory. These works are available under the following terms:
+
+
+1. /third_party/cmsis is Copyright (c) 2009-2020 Arm Limited and is available
+   under the Apache License, Version 2.0. Full text is available at
+   www.apache.org/licenses/LICENSE-2.0. It was retrieved from
+   https://github.com/ARM-software/CMSIS_5
+
+2. /third_party/libfixmath is Copyright (c) 2011 Petteri Aimonen and is
+   available under the MIT license. It was retrieved from
+   https://github.com/PetteriAimonen/libfixmath
+
+3. /third_party/printf is Copyright (c) 2014-2019 Marco Paland and is available
+   under the MIT license. It was retrieved from
+   https://github.com/mpaland/printf
+
+4. /third_party/rtt is Copyright (c) 2014 - 2016  SEGGER Microcontroller GmbH
+   and is available under a non-standard, but permissive, license. See
+   /third_party/rtt/License.txt for full license text.
+
+5. /third_party/samd21 and /third_party/svd are Copyright (c) 2019 Atmel
+   Corporation, a wholly owned subsidiary of Microchip Technology Inc. and is
+   available under the Apache License, Version 2.0. They were retrieved from
+   https://developer.arm.com/tools-and-software/embedded/cmsis/cmsis-packs
+
+6. /third_party/structy is Copyright (c) 2021 Alethea Katherine Flowers and is
+   available under the MIT license. It was retrieved from
+   https://github.com/theacodes/structy
+
+7. /third_party/tinyusb is Copyright (c) 2018 hathach and is available under
+   the MIT license. It was retrieved from https://github.com/hathach/tinyusb
+
+8. /third_party/uf2 is Copyright (c) Microsoft Corporation and is available
+   under the MIT license. It was retrieved from
+   https://github.com/adafruit/uf2-samdx1

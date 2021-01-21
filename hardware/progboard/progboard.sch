@@ -4,12 +4,12 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
-Comp ""
-Comment1 ""
-Comment2 ""
+Title "Castor & Pollux: Progboard"
+Date "2021-01-21"
+Rev "v2"
+Comp "Winterbloom"
+Comment1 "gemini.wntr.dev"
+Comment2 "CERN-OHL-P v2"
 Comment3 ""
 Comment4 ""
 $EndDescr
