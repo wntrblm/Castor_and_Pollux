@@ -1,4 +1,5 @@
-import struct from "./struct.js";
+import GemSettings from "./gem_settings.js";
+import { teeth_decode, teeth_encode } from "./teeth.js";
 
 const midi_port_name = "Gemini";
 const settings_form = document.getElementById("settings_editor");
@@ -9,75 +10,50 @@ const connect_button = document.getElementById("connect");
 const connect_info = document.getElementById("connect_info");
 let gemini_firmware_version = null;
 
-/* 16-bit fixed point helpers. */
-
-const fix16_one = 0x00010000;
-
-function to_fix16(val) {
-    return Math.floor(val * fix16_one);
-}
-
-function from_fix16(val) {
-    return val / fix16_one;
-}
-
-/*
-    Serialization and deserialization of the settings.
-*/
-
-const settings_struct = struct(">BHhHiiiiiiiiiiH");
-const settings_magic = 0x63;
-
-function serialize_settings_form() {
+function settings_from_form() {
     const form_data = new FormData(settings_form);
 
-    let settings = [
-        settings_magic,
-        parseFloat(form_data.get("adc_gain_corr")),
-        parseFloat(form_data.get("adc_offset_corr")),
-        parseFloat(form_data.get("led_brightness")),
-        parseFloat(to_fix16(form_data.get("castor_knob_min"))),
-        parseFloat(to_fix16(form_data.get("castor_knob_max"))),
-        parseFloat(to_fix16(form_data.get("pollux_knob_min"))),
-        parseFloat(to_fix16(form_data.get("pollux_knob_max"))),
-        parseFloat(to_fix16(form_data.get("chorus_max_intensity"))),
-        parseFloat(to_fix16(form_data.get("chorus_frequency"))),
-        parseFloat(to_fix16(form_data.get("knob_offset_corr"))),
-        parseFloat(to_fix16(form_data.get("knob_gain_corr"))),
-        parseFloat(to_fix16(form_data.get("smooth_initial_gain"))),
-        parseFloat(to_fix16(form_data.get("smooth_sensitivity"))),
-        parseFloat(form_data.get("pollux_follower_threshold")),
-    ];
+    const settings = new GemSettings({
+        adc_gain_corr: parseInt(form_data.get("adc_gain_corr")),
+        adc_offset_corr: parseInt(form_data.get("adc_offset_corr")),
+        led_brightness: parseInt(form_data.get("led_brightness")),
+        castor_knob_min: parseFloat(form_data.get("castor_knob_min")),
+        castor_knob_max: parseFloat(form_data.get("castor_knob_max")),
+        pollux_knob_min: parseFloat(form_data.get("pollux_knob_min")),
+        pollux_knob_max: parseFloat(form_data.get("pollux_knob_max")),
+        chorus_max_intensity: parseFloat(form_data.get("chorus_max_intensity")),
+        lfo_frequency: parseFloat(form_data.get("lfo_frequency")),
+        knob_offset_corr: parseFloat(form_data.get("knob_offset_corr")),
+        knob_gain_corr: parseFloat(form_data.get("knob_gain_corr")),
+        smooth_initial_gain: parseFloat(form_data.get("smooth_initial_gain")),
+        smooth_sensitivity: parseFloat(form_data.get("smooth_sensitivity")),
+        castor_lfo_pwm: form_data.get("castor_lfo_pwm") === "on" ? true : false,
+        pollux_lfo_pwm: form_data.get("pollux_lfo_pwm") === "on" ? true : false,
+        pitch_knob_nonlinearity: parseFloat(form_data.get("pitch_knob_nonlinearity")),
+    });
 
-    const settings_data = new Uint8Array(settings_struct.pack(...settings));
-
-    return settings_data;
+    return settings;
 }
 
 
-function deserialize_settings_form(settings_data) {
-    let settings = settings_struct.unpack(settings_data.buffer);
-
-    console.log(settings);
-
-    if(settings[0] !== settings_magic) {
-        alert("Unable to load settings from device.");
-    }
-
-    settings_form.adc_gain_corr.value = settings[1];
-    settings_form.adc_offset_corr.value = settings[2];
-    settings_form.led_brightness.value = settings[3];
-    settings_form.castor_knob_min.value = from_fix16(settings[4]).toFixed(2);
-    settings_form.castor_knob_max.value = from_fix16(settings[5]).toFixed(2);
-    settings_form.pollux_knob_min.value = from_fix16(settings[6]).toFixed(2);
-    settings_form.pollux_knob_max.value = from_fix16(settings[7]).toFixed(2);
-    settings_form.chorus_max_intensity.value = from_fix16(settings[8]).toFixed(2);
-    settings_form.chorus_frequency.value = from_fix16(settings[9]).toFixed(1);
-    settings_form.knob_offset_corr.value = from_fix16(settings[10]).toFixed(2);
-    settings_form.knob_gain_corr.value = from_fix16(settings[11]).toFixed(2);
-    settings_form.smooth_initial_gain.value = from_fix16(settings[12]).toFixed(2);
-    settings_form.smooth_sensitivity.value = from_fix16(settings[13]).toFixed(1);
-    settings_form.pollux_follower_threshold.value = settings[14];
+function form_from_settings(settings) {
+    settings_form.adc_gain_corr.value = settings.adc_gain_corr;
+    settings_form.adc_offset_corr.value = settings.adc_offset_corr;
+    settings_form.led_brightness.value = settings.led_brightness;
+    settings_form.castor_knob_min.value = settings.castor_knob_min.toFixed(2);
+    settings_form.castor_knob_max.value = settings.castor_knob_max.toFixed(2);
+    settings_form.pollux_knob_min.value = settings.pollux_knob_min.toFixed(2);
+    settings_form.pollux_knob_max.value = settings.pollux_knob_max.toFixed(2);
+    settings_form.chorus_max_intensity.value = settings.chorus_max_intensity.toFixed(2);
+    settings_form.lfo_frequency.value = settings.lfo_frequency.toFixed(2);
+    settings_form.knob_offset_corr.value = settings.knob_offset_corr.toFixed(2);
+    settings_form.knob_gain_corr.value = settings.knob_gain_corr.toFixed(2);
+    settings_form.smooth_initial_gain.value = settings.smooth_initial_gain.toFixed(2);
+    settings_form.smooth_sensitivity.value = settings.smooth_sensitivity.toFixed(2);
+    settings_form.pollux_follower_threshold.value = settings.pollux_follower_threshold;
+    settings_form.castor_lfo_pwm.checked = settings.castor_lfo_pwm;
+    settings_form.pollux_lfo_pwm.checked = settings.pollux_lfo_pwm;
+    settings_form.pitch_knob_nonlinearity.value = settings.pitch_knob_nonlinearity;
 
     /* Trigger change event for inputs on the form. */
     for (const elem of settings_form.getElementsByTagName("input")) {
@@ -92,29 +68,11 @@ function deserialize_settings_form(settings_data) {
 let midi_input = null;
 let midi_output = null;
 
-function midi_encode(src) {
-    let result = new Uint8Array(src.length * 2);
-    for(let n = 0; n < src.length; n++) {
-        result[n * 2] = src[n] >> 4 & 0xF;
-        result[n * 2 + 1] = src[n] & 0xF;
-    }
-    return result;
-}
-
-function midi_decode(src) {
-    let result = new Uint8Array(src.length / 2);
-    for(let n = 0; n < result.length; n++) {
-        result[n] = src[n * 2] << 4 | src[n * 2 + 1];
-    }
-    return result;
-}
-
 async function midi_send_and_receive(data) {
     const done = new Promise(function (resolve, reject) {
-        midi_input.onmidimessage = function(msg) {
+        midi_input.onmidimessage = function (msg) {
             resolve(msg);
         }
-
         midi_output.send(data);
     });
 
@@ -124,6 +82,7 @@ async function midi_send_and_receive(data) {
 async function load_settings_from_device() {
     /* First, get the firmware version. (command 0x01 - hello) */
     let response = await midi_send_and_receive(new Uint8Array([0xF0, 0x77, 0x01, 0xF7]));
+    console.log("Firmware version response:", response);
     gemini_firmware_version = response.data[3];
 
     /* Update the info box with the firmware version. */
@@ -132,53 +91,59 @@ async function load_settings_from_device() {
 
     /* Now load settings. (command 0x08) */
     let settings_data = new Uint8Array(128);
-    for(let n = 0; n < 8; n++) {
+    for (let n = 0; n < 4; n++) {
         let response = await midi_send_and_receive(new Uint8Array([0xF0, 0x77, 0x08, n, 0xF7]));
-        for(let x = 0; x < 16; x++) {
-            settings_data[16 * n + x] = response.data[3 + x];
+        for (let x = 0; x < 20; x++) {
+            settings_data[20 * n + x] = response.data[3 + x];
         }
     }
 
     /* Update the form. */
-    deserialize_settings_form(midi_decode(settings_data));
+    const decoded = teeth_decode(settings_data);
+    const settings = GemSettings.unpack(decoded);
+    console.log("Loaded settings", settings);
+    form_from_settings(settings);
 }
 
 async function save_settings_to_device() {
-    const settings_data = serialize_settings_form();
+    const settings = settings_from_form();
+    console.log("Saving settings", settings);
+
+    const settings_data = settings.pack();
     /* Always send 128 bytes. */
     let encoded_data = new Uint8Array(128);
-    encoded_data.set(midi_encode(settings_data));
+    encoded_data.set(teeth_encode(settings_data));
 
-    /* Send 16 bytes at a time. */
-    for(let n = 0; n < 8; n++) {
-        let midi_message = new Uint8Array(5 + 16);
+    /* Send 20 bytes at a time. */
+    for (let n = 0; n < 4; n++) {
+        let midi_message = new Uint8Array(5 + 20);
         midi_message.set([0xF0, 0x77, 0x09, n]);
-        for(let x = 0; x < 16; x++) {
-            midi_message[4 + x] = encoded_data[16 * n + x];
+        for (let x = 0; x < 20; x++) {
+            midi_message[4 + x] = encoded_data[20 * n + x];
         }
-        midi_message[5 + 16 - 1] = 0xF7;
+        midi_message[5 + 20 - 1] = 0xF7;
         await midi_send_and_receive(midi_message);
     }
 }
 
-connect_button.addEventListener("click", async function() {
+connect_button.addEventListener("click", async function () {
     connect_info.classList.remove("text-danger", "text-success");
     connect_info.innerText = "Connecting";
 
-    let access = await navigator.requestMIDIAccess({sysex: true});
+    let access = await navigator.requestMIDIAccess({ sysex: true });
 
-    for(const port of access.inputs.values()) {
-        if(port.name === midi_port_name) {
+    for (const port of access.inputs.values()) {
+        if (port.name === midi_port_name) {
             midi_input = port;
         }
     }
-    for(const port of access.outputs.values()) {
-        if(port.name === midi_port_name) {
+    for (const port of access.outputs.values()) {
+        if (port.name === midi_port_name) {
             midi_output = port;
         }
     }
 
-    if(midi_input === null || midi_output === null) {
+    if (midi_input === null || midi_output === null) {
         connect_info.classList.add("text-danger");
         connect_info.innerText = "Couldn't connect, check connection and power and try again?";
         return;
@@ -186,18 +151,18 @@ connect_button.addEventListener("click", async function() {
 
     console.log(midi_input, midi_output);
 
+    await load_settings_from_device();
+
     connect_button.disabled = true;
     connect_button.classList.remove("btn-primary");
     connect_button.classList.add("btn-success");
     connect_button.innerText = "Connected";
     connect_info.innerText = "";
     settings_form.classList.remove("hidden");
-    
-    await load_settings_from_device();
 });
 
 
-save_button.addEventListener("click", async function() {
+save_button.addEventListener("click", async function () {
     save_button.disabled = true;
     save_button.innerText = "Saving...";
     await save_settings_to_device();
@@ -222,12 +187,12 @@ function constrain_number_input(elem_name) {
     const min = parseFloat(input.min);
     const max = parseFloat(input.max);
 
-    input.addEventListener('change', function() {
+    input.addEventListener('change', function () {
         const value = input.valueAsNumber;
-        if(value < min) {
+        if (value < min) {
             input.value = min;
         }
-        if(value > max) {
+        if (value > max) {
             input.value = max;
         }
     });
@@ -241,13 +206,14 @@ constrain_number_input("knob_gain_corr");
 constrain_number_input("knob_offset_corr");
 constrain_number_input("adc_gain_corr");
 constrain_number_input("adc_offset_corr");
+constrain_number_input("pitch_knob_nonlinearity");
 
 /*
     Enable/disable dangerous settings.
 */
-allow_danger_input.addEventListener("change", function() {
-    for(const elem of dangerous_fields) {
-        if(elem.type === "range") {
+allow_danger_input.addEventListener("change", function () {
+    for (const elem of dangerous_fields) {
+        if (elem.type === "range") {
             elem.disabled = !allow_danger_input.checked;
         } else {
             elem.readOnly = !allow_danger_input.checked;
@@ -258,9 +224,9 @@ allow_danger_input.addEventListener("change", function() {
 /*
     Display interaction logic - updating display values for range inputs.
 */
-function range_input_with_formatter(elem_name, formatter) {
+function range_input_with_formatter(elem_name, formatter, postfix = "_display_value") {
     const input = settings_form[elem_name];
-    const display_value = document.getElementById(elem_name + "_display_value");
+    const display_value = document.getElementById(`${elem_name}${postfix}`);
 
     function update() {
         display_value.innerText = formatter(input);
@@ -281,10 +247,11 @@ function range_input_with_passthrough(elem_id) {
 }
 
 range_input_with_percentage("chorus_max_intensity");
-range_input_with_formatter("chorus_frequency", (input) => input.valueAsNumber.toFixed(1));
+range_input_with_formatter("lfo_frequency", (input) => input.valueAsNumber.toFixed(1));
 range_input_with_percentage("smooth_initial_gain");
 range_input_with_passthrough("smooth_sensitivity");
 range_input_with_passthrough("pollux_follower_threshold");
+range_input_with_formatter("pollux_follower_threshold", (input) => (input.valueAsNumber / 4096 * 6.0).toFixed(2), "_display_value_volts");
 range_input_with_passthrough("knob_gain_corr");
 range_input_with_passthrough("knob_offset_corr");
 range_input_with_passthrough("adc_gain_corr");

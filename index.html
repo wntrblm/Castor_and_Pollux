@@ -176,25 +176,21 @@ the module.</p>
 
 <p>These these waveshapes can be mixed together to produce much more complex and interesting waveshapes - try playing with the sliders under this animation and seeing how it affects the waveshape:</p>
 <canvas id="mix" width="640" height="480" class="waveform teal2"></canvas>
-
 <div class="slider">
     <input type="range" id="ramp_mix" name="ramp_mix"
             min="0" max="0.5" step="0.01" value="0.5">
     <label for="ramp_mix">ramp volume</label>
 </div>
-
 <div class="slider">
     <input type="range" id="pulse_mix" name="pulse_mix"
             min="0" max="0.5" step="0.01" value="0.25">
     <label for="pulse_mix">pulse volume</label>
 </div>
-
 <div class="slider">
     <input type="range" id="pulse_width_mix" name="pulse_width_mix"
             min="0" max="1.0" step="0.01" value="0.5">
     <label for="pulse_width_mix">pulse width</label>
 </div>
-
 <div class="slider">
     <input type="range" id="sub_mix" name="sub_mix"
             min="0" max="0.5" step="0.01" value="0.25">
@@ -218,13 +214,11 @@ the module.</p>
 <p>Because Castor &amp; Pollux has two oscillators, you can combine them together to build much more complex sounds. When there is no input into the second oscillator's pitch CV jack, it will follow the pitch of the the first oscillator. You can use the pitch knob of the second oscillator to <em>detune</em> the second oscillator and cause interesting interactions with the first oscillator. You'll take your output from the <strong>combined output</strong> (marked by the symbol ♊︎) and you can control the relative volume of the two oscillators using the <strong>crossfader</strong> (marked by the symbol Σ).</p>
 <p>You can play around with this interactive animation to see how detuning and mixing changes the final waveshape:</p>
 <canvas id="stacked" width="640" height="480" class="waveform purple2"></canvas>
-
 <div class="slider">
     <input type="range" id="stacked_detune" name="stacked_detune"
             min="-1" max="1" step="0.01" value="0.25">
     <label for="stacked_detune">detuning</label>
 </div>
-
 <div class="slider">
     <input type="range" id="stacked_mix" name="stacked_mix"
             min="0" max="1.0" step="0.01" value="0.5">
@@ -248,7 +242,6 @@ the module.</p>
 <p>Inspired by the original Juno's analog chorus circuit, Castor &amp; Pollux contains an adaptation of chorusing that works well for a monophonic voice. Instead of applying the chorus affect <em>after</em> sound generation, Castor &amp; Pollux's chorusing works by varying the frequency of the second oscillator using an <a href="#internal-low-frequency-oscillator">internal low-frequency oscillator</a>. This means that you have to <a href="#oscillator-stacking">use both oscillators</a> in order to hear this effect. The <strong>chorus knob</strong> (marked by the symbol φ) determines the intensity of chorusing from none when fully counter-clockwise to its maximum at fully clockwise. The <strong>crossfader</strong> (marked by the symbol Σ) also has an impact on the intensity of the chorus. Finally, you can modify the speed of the chorus by changing the <a href="#internal-low-frequency-oscillator">internal low-frequency oscillator's frequency</a>.</p>
 <p>You can play around with this interactive animation to see how the chorusing amount changes the final waveshape. You'll need to click on the animation to start it otherwise you won't really be able to see the chorusing effect.</p>
 <canvas id="chorusing_" width="640" height="480" class="waveform red2"></canvas>
-
 <div class="slider">
     <input type="range" id="chorusing_amount" name="chorusing_amount"
             min="0" max="1" step="0.01" value="0.25">
@@ -293,17 +286,18 @@ the module.</p>
 <h2 id="open-source-hardware-software">Open source hardware &amp; software<a class="headerlink" href="#open-source-hardware-software" title="Permanent link">#</a></h2>
 <p>Castor &amp; Pollux is completely open source and hacking is encouraged.</p>
 <ul>
-<li>The <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware">firmware</a> is available under the <a href="https://github.com/theacodes/Winterbloom-Big-Honking-Button/blob/master/firmware/LICENSE">MIT License</a>.</li>
-<li>The <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/hardware">hardware design</a> is available under the <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/blob/master/hardware/LICENSE">CC BY-SA 4.0 License</a> and is designed using <a href="https://kicad.org/">KiCAD</a> which is free and open-source. You can open the hardware files using KiCAD or you can check out a PDF of the schematics for the <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/master/hardware/mainboard/mainboard.pdf">mainboard</a> and the <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/master/hardware/jackboard/jackboard.pdf">jackboard</a>.</li>
+<li>The <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/firmware">firmware</a> is available under the <a href="https://github.com/theacodes/Winterbloom-Big-Honking-Button/blob/master/firmware/LICENSE">MIT License</a>. Note that the firmware uses some third-party libraries that are under different, but compatible terms. Read the full text of the license for more details.</li>
+<li>The <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/master/hardware">hardware designs</a> is available under the permissive <a href="https://cern-ohl.web.cern.ch/">CERN-OHL-P v2</a> and is designed using <a href="https://kicad.org/">KiCAD</a> which is free and open-source. You can open the hardware files using KiCAD or you can check out a PDF of the schematics for the <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/master/hardware/mainboard/mainboard.pdf">mainboard</a> and the <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/master/hardware/jackboard/jackboard.pdf">jackboard</a>.</li>
 </ul>
 <!-- ![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/us000678.html). -->
 
 <h2 id="acknowledgments-and-thanks">Acknowledgments and thanks<a class="headerlink" href="#acknowledgments-and-thanks" title="Permanent link">#</a></h2>
 <p>Castor &amp; Pollux would not be possible without the help of the Adafruit, support from Microchip, and the volumes of literature documenting and analyzing the Juno's DCO design.</p>
-<p><link rel="stylesheet" href="styles/waveforms.css">
-<script type="text/javascript" src="scripts/waveforms.js"></script></p>
-<p><link rel="stylesheet" href="styles/winter_oscilloscope.css">
-<script type="text/javascript" src="scripts/winter_oscilloscope.js"></script></p>
+<p><link rel="stylesheet" href="styles/waveforms.css"></p>
+<script type="text/javascript" src="scripts/waveforms.js"></script>
+
+<p><link rel="stylesheet" href="styles/winter_oscilloscope.css"></p>
+<script type="text/javascript" src="scripts/winter_oscilloscope.js"></script>
 			</article>
 
 			<footer>
@@ -314,7 +308,7 @@ the module.</p>
 					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/master/user_guide/docs/index.md">Edit this page on GitHub</a>.
 				</p>
 				<p class="updated">
-					Last updated on December 23, 2020
+					Last updated on January 21, 2021
 				</p>
 			</footer>
 		</div>
