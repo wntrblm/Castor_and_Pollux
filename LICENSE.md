@@ -15,7 +15,7 @@ individual parts of the project are made available under different licenses.
    Please read `./firmware/LICENSE` for a complete listing of terms.
 3. The functional hardware designs located at `./hardware/mainboard`,
    `./hardware/jackboard`, and `./hardware/progboard` are available under the
-   CERN-OHL-P v2 license. Full text is available at https:/cern.ch/cern-ohl.
+   CERN-OHL-P v2 license. Full text is available at https://cern.ch/cern-ohl.
 4. The panel design located at `./hardware/panel` is available under Creative
    Commons Attribution-NonCommercial-NoDerivatives 4.0 International
    (CC BY-NC-ND 4.0). Full text available at
