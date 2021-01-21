@@ -6,12 +6,10 @@
 
 import argparse
 import colorsys
-import collections
 import dataclasses
 import json
 import math
 import pathlib
-import sys
 import subprocess
 import typing
 

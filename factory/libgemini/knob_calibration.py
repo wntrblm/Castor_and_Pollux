@@ -3,11 +3,9 @@
 # Full text available at: https://opensource.org/licenses/MIT
 
 import argparse
-import time
 import statistics
 
 from libgemini import gemini
-from libgemini import adc_errors
 
 
 def run(adc_resolution, invert, adc_channel, save):

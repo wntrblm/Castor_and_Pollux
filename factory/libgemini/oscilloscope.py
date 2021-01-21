@@ -8,7 +8,6 @@ Wrapper for talking to the Siglent SDS 1104X-E over VISA.
 SCPI & Programming reference: https://siglentna.com/wp-content/uploads/2020/04/ProgrammingGuide_PG01-E02C.pdf
 """
 
-import io
 import time
 
 
