@@ -1,3 +1,7 @@
+# Copyright (c) 2021 Alethea Katherine Flowers.
+# Published under the standard MIT License.
+# Full text available at: https://opensource.org/licenses/MIT
+
 import argparse
 import os.path
 import csv
@@ -12,11 +16,15 @@ here = os.path.abspath(os.path.dirname(__file__))
 
 period_to_dac_code = {}
 
-with open(os.path.join(here, "../../firmware/data/pitch-calibration-table.csv"), "r") as fh:
+with open(
+    os.path.join(here, "../../firmware/data/pitch-calibration-table.csv"), "r"
+) as fh:
     reader = csv.DictReader(fh)
 
     for row in reader:
-        period_to_dac_code[int(row["period reg"])] = int(row["castor calibrated dac code"])
+        period_to_dac_code[int(row["period reg"])] = int(
+            row["castor calibrated dac code"]
+        )
 
 
 def _code_to_volts(code):
@@ -35,8 +43,10 @@ def _calibrate_oscillator(gem, scope, oscillator):
             dac_code = last_dac_code
 
         frequency = _period_reg_to_freq(period)
-    
-        print(f"Frequency: {frequency:.2f}Hz, Period reg: {period}, start code: {dac_code}, start voltage: {_code_to_volts(dac_code):.2f}v")
+
+        print(
+            f"Frequency: {frequency:.2f}Hz, Period reg: {period}, start code: {dac_code}, start voltage: {_code_to_volts(dac_code):.2f}v"
+        )
 
         # Adjust the oscilloscope's time division as needed.
 
@@ -69,14 +79,14 @@ def _calibrate_oscillator(gem, scope, oscillator):
                 time.sleep(0.2)
                 sys.stdout.write("💤")
                 sys.stdout.flush()
-            
+
             elif peak_to_peak <= 3.25:
                 # Too low, increase DAC code.
                 dac_code += 5
                 sys.stdout.write("+")
                 sys.stdout.flush()
 
-                if(dac_code >= 4095):
+                if dac_code >= 4095:
                     print("DAC overflow! Voltage can not be increased from here!")
                     dac_code = 4095
 
@@ -86,21 +96,24 @@ def _calibrate_oscillator(gem, scope, oscillator):
                 sys.stdout.write("-")
                 sys.stdout.flush()
 
-                if(dac_code < 0):
+                if dac_code < 0:
                     print("DAC underflow!")
                     return
-            
+
             else:
                 sys.stdout.write("✓\r\n")
                 measured_frequency = scope.get_frequency()
-                print(f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz")
+                print(
+                    f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz"
+                )
                 break
-        
+
         period_to_dac_code[period] = dac_code
         last_dac_code = dac_code
         print("")
 
     return period_to_dac_code.copy()
+
 
 def run(save):
     # Oscilloscope setup.
@@ -140,7 +153,7 @@ def run(save):
             for n, dac_code in enumerate(table.values()):
                 print(f"> Set oscillator {o} entry {n} to {dac_code}.")
                 gem.write_lut_entry(n, o, dac_code)
-        
+
         print("Writing LUT to NVM")
         gem.write_lut()
 
@@ -152,14 +165,21 @@ def run(save):
 
     else:
         print("WARNING: Dry run enabled, calibration table not saved.")
-    
+
     gem.close()
     print("Done")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--dry_run", action="store_true", default=False, help="Don't save the calibration values.")
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument(
+        "--dry_run",
+        action="store_true",
+        default=False,
+        help="Don't save the calibration values.",
+    )
 
     args = parser.parse_args()
 

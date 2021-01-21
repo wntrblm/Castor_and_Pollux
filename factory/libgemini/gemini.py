@@ -1,3 +1,7 @@
+# Copyright (c) 2021 Alethea Katherine Flowers.
+# Published under the standard MIT License.
+# Full text available at: https://opensource.org/licenses/MIT
+
 # Interface for Gemini's MIDI SysEx command set
 
 from dataclasses import dataclass
