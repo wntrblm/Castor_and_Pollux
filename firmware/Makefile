@@ -164,11 +164,11 @@ clean:
 
 format:
 	@echo clang-format
-	@clang-format -i src/**.h src/**.c
+	@clang-format -i src/**.h src/**.c src/*/**.h src/*/**.c
 
 tidy:
 	@echo clang-tidy
-	@clang-tidy src/**.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
+	@clang-tidy src/**.c src/*/**.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
 
 defines:
 	$(CC) $(CFLAGS) -E -dM src/main.c
