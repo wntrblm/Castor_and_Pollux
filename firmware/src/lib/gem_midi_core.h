@@ -4,7 +4,7 @@
    Core MIDI system with handlers and callbacks for incoming MIDI messages.
 
    Presently this only really reacts to SysEx commands, since that's the
-   only thing Gemini uses MIDI for.   
+   only thing Gemini uses MIDI for.
 */
 
 #include <stddef.h>
@@ -25,7 +25,7 @@ void gem_midi_task();
 
 /* Sends a SysEx message, breaking the bytearray into the
    proper amount of MIDI messages. */
-void gem_midi_send_sysex(uint8_t* data, size_t len);
+void gem_midi_send_sysex(const uint8_t* data, size_t len);
 
 /* Registers a callback for a particular sysex command.
    The data array passed in *does not* contain the SysEx start byte,
