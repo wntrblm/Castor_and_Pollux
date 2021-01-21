@@ -7,6 +7,8 @@ import os.path
 import csv
 import time
 import sys
+import pathlib
+import json
 import pyvisa as visa
 
 from libgemini import gemini
@@ -146,9 +148,21 @@ def run(save):
     highest_voltage = _code_to_volts(max(castor_calibration.values()))
     print(f"Lowest voltage: {lowest_voltage:.2f}, Highest: {highest_voltage:.2f}")
 
-    if save:
-        print("--------- Saving calibration table ---------")
+    print("--------- Saving calibration table ---------")
 
+    local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.ramp.json"
+    local_copy.parent.mkdir(parents=True, exist_ok=True)
+
+    with local_copy.open("w") as fh:
+        data = {
+            "castor": castor_calibration,
+            "pollux": pollux_calibration,
+        }
+        json.dump(data, fh)
+
+    print(f"Saved local copy to {local_copy}")
+
+    if save:
         for o, table in enumerate([castor_calibration, pollux_calibration]):
             for n, dac_code in enumerate(table.values()):
                 print(f"> Set oscillator {o} entry {n} to {dac_code}.")
@@ -164,7 +178,7 @@ def run(save):
         print(f"Calibration table written, checksum: {checksum:04x}")
 
     else:
-        print("WARNING: Dry run enabled, calibration table not saved.")
+        print("WARNING: Dry run enabled, calibration table not saved to device.")
 
     gem.close()
     print("Done")

@@ -47,6 +47,7 @@ class SysExCommands(enum.IntEnum):
     ERASE_LUT = 0x0C
     DISABLE_ADC_CORR = 0x0D
     ENABLE_ADC_CORR = 0x0E
+    GET_SERIAL_NUMBER = 0x0F
 
 
 class Gemini:
@@ -60,6 +61,8 @@ class Gemini:
         self.port_out, _ = rtmidi.midiutil.open_midiport(
             self.MIDI_PORT_NAME, type_="output"
         )
+        self.version = None
+        self.serial_number = None
 
     def close(self):
         self.port_in.close_port()
@@ -86,7 +89,12 @@ class Gemini:
 
     def enter_calibration_mode(self):
         resp = self._sysex(SysExCommands.HELLO, response=True)
-        print(f"Gemini version: {resp[3]}")
+        self.version = b"".join(resp[4:-1])
+        print(f"Gemini version: {self.version}")
+
+        resp = self._sysex(SysExCommands.GET_SERIAL_NUMBER, response=True)
+        self.serial_number = teeth.teeth_decode(resp[3:-1]).hex()
+        print(f"Serial number: {self.serial_number}")
 
     def read_adc(self, ch):
         resp = self._sysex(

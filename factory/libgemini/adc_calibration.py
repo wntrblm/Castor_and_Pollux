@@ -4,6 +4,8 @@
 
 import argparse
 import time
+import pathlib
+import json
 import statistics
 
 from libgemini import gemini
@@ -73,6 +75,14 @@ def run(
     print(
         f"Corrected: Gain: {corrected_gain_error:.3f}, Offset: {corrected_offset_error:.1f}"
     )
+
+    local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.adc.json"
+    local_copy.parent.mkdir(parents=True, exist_ok=True)
+
+    with local_copy.open("w") as fh:
+        json.dump({"gain_error": gain_error, "offset_error": offset_error}, fh)
+
+    print(f"Saved local copy to {local_copy}")
 
     if save:
         gem.set_adc_gain_error(gain_error)

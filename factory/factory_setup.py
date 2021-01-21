@@ -20,7 +20,7 @@ def program_firmware():
 
 def run_adc_calibration():
     print("========== CALIBRATING ADC ==========")
-    #TODO: copy over Sol's code.
+    # TODO: copy over Sol's code.
 
     input("Connect Sol output A to Gemini CV A, press enter when ready.")
 
@@ -28,7 +28,7 @@ def run_adc_calibration():
         calibration_points=50,
         sample_count=128,
         adc_range=6.0,
-        adc_resolution=2**12,
+        adc_resolution=2 ** 12,
         adc_channel=0,
         invert=True,
         save=True,
@@ -44,7 +44,7 @@ def run_knob_calibration():
     print("========== CALIBRATING KNOB ==========")
 
     knob_calibration.run(
-        adc_resolution=2**12,
+        adc_resolution=2 ** 12,
         adc_channel=1,
         invert=True,
         save=True,
