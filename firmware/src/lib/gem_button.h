@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #pragma once
 
 /* Helper for detecting button interactions - tap, hold, etc. */
@@ -14,7 +20,6 @@ struct GemButton {
     uint32_t _update_time;
     bool _hold_barrier;
 };
-
 
 void GemButton_init(struct GemButton* button);
 

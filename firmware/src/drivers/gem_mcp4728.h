@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #pragma once
 
 /* Routines for controlling the MCP4728 quad 12-bit DAC over I2C. */

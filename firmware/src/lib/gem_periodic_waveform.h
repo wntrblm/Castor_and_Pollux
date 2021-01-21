@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #pragma once
 
 #include "fix16.h"
@@ -15,8 +21,6 @@ struct GemPeriodicWaveform {
 };
 
 void GemPeriodicWaveform_init(
-    struct GemPeriodicWaveform* waveform,
-    gem_periodic_waveform_function function,
-    fix16_t frequency);
+    struct GemPeriodicWaveform* waveform, gem_periodic_waveform_function function, fix16_t frequency);
 
 void GemPeriodicWaveform_step(struct GemPeriodicWaveform* waveform);

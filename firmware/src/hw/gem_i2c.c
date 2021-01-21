@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #include "gem_i2c.h"
 #include "gem_config.h"
 #include "gem_gpio.h"
@@ -73,17 +79,17 @@ enum GemI2CResult gem_i2c_write(uint8_t address, uint8_t* data, size_t len) {
 
     /* This can hang forever, so put a timeout on it. */
     size_t w = 0;
-    for(; w < GEM_I2C_WAIT_TIMEOUT; w++) {
-        if(GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB) {
+    for (; w < GEM_I2C_WAIT_TIMEOUT; w++) {
+        if (GEM_I2C_SERCOM->I2CM.INTFLAG.bit.MB) {
             break;
         }
     }
 
-    #ifdef DEBUG
-    if(w == GEM_I2C_WAIT_TIMEOUT) {
+#ifdef DEBUG
+    if (w == GEM_I2C_WAIT_TIMEOUT) {
         printf("I2C timeout hit!");
     }
-    #endif
+#endif
 
     /* Check for loss of bus or NACK - in either case we can't continue. */
     if (GEM_I2C_SERCOM->I2CM.STATUS.bit.BUSSTATE != BUSSTATE_OWNER) {

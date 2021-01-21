@@ -1,9 +1,12 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #include "gem_midi_core.h"
 #include "class/midi/midi_device.h"
-#include "gem_adc.h"
 #include "gem_config.h"
-#include "gem_mcp4728.h"
-#include "gem_pulseout.h"
 #include "gem_usb.h"
 #include "printf.h"
 #include <stdbool.h>
