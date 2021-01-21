@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import os.path
 import git
 
 repo = git.Repo()
@@ -14,8 +15,14 @@ def check_for_outdated_pdfs():
 
     for path in modified_schs:
         pdf_path = path.replace(".sch", ".pdf")
+        if not os.path.exists(pdf_path):
+            continue
+
         if pdf_path not in modified_paths:
-            print(f"Schematic {path} modified but PDF {pdf_path} hasn't been updated.", file=sys.stderr)
+            print(
+                f"Schematic {path} modified but PDF {pdf_path} hasn't been updated.",
+                file=sys.stderr,
+            )
             exit(-1)
 
 
