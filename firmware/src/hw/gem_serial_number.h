@@ -10,5 +10,8 @@
 
 #include <stdint.h>
 
+#define GEM_SERIAL_NUMBER_LEN 16
+
 uint32_t gem_serial_number_high();
 uint32_t gem_serial_number_low();
+void gem_get_serial_number(uint8_t buf[GEM_SERIAL_NUMBER_LEN]);

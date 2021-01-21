@@ -13,6 +13,7 @@
 #include "gem_midi_core.h"
 #include "gem_pack.h"
 #include "gem_pulseout.h"
+#include "gem_serial_number.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
 #include "gem_usb.h"
@@ -52,6 +53,7 @@ static void _cmd_0x0B_write_lut(uint8_t* data, size_t len);
 static void _cmd_0x0C_erase_lut(uint8_t* data, size_t len);
 static void _cmd_0x0D_disable_adc_corr(uint8_t* data, size_t len);
 static void _cmd_0x0E_enable_adc_corr(uint8_t* data, size_t len);
+static void _cmd_0x0F_get_serial_no(uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -70,6 +72,7 @@ void gem_register_sysex_commands() {
     gem_midi_register_sysex_command(0x0C, _cmd_0x0C_erase_lut);
     gem_midi_register_sysex_command(0x0D, _cmd_0x0D_disable_adc_corr);
     gem_midi_register_sysex_command(0x0E, _cmd_0x0E_enable_adc_corr);
+    gem_midi_register_sysex_command(0x0F, _cmd_0x0F_get_serial_no);
 };
 
 static void _cmd_0x01_hello(uint8_t* data, size_t len) {
@@ -275,4 +278,21 @@ static void _cmd_0x0E_enable_adc_corr(uint8_t* data, size_t len) {
     struct GemSettings settings;
     GemSettings_load(&settings);
     gem_adc_set_error_correction(settings.adc_gain_corr, settings.adc_offset_corr);
+}
+
+static void _cmd_0x0F_get_serial_no(uint8_t* data, size_t len) {
+    /* Response (teeth): SERIAL_NO(24) */
+    (void)(data);
+    (void)(len);
+
+    _working_buf[0] = MIDI_SYSEX_START_BYTE;
+    _working_buf[1] = GEM_MIDI_SYSEX_MARKER;
+    _working_buf[2] = 0x0F;
+
+    uint8_t serial_no[GEM_SERIAL_NUMBER_LEN];
+    gem_get_serial_number(serial_no);
+
+    teeth_encode(serial_no, GEM_SERIAL_NUMBER_LEN, _working_buf + 3);
+
+    gem_midi_send_sysex(_working_buf, 2 + TEETH_ENCODED_LENGTH(GEM_SERIAL_NUMBER_LEN));
 }

@@ -4,6 +4,8 @@
 
 import argparse
 import statistics
+import pathlib
+import json
 
 from libgemini import gemini
 
@@ -47,6 +49,14 @@ def run(adc_resolution, invert, adc_channel, save):
     offset_error = (low_measured * gain_error) - low_expected
 
     print(f"Knob gain error: {gain_error:.3f}, offset error: {offset_error:.1f}")
+
+    local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.knob.json"
+    local_copy.parent.mkdir(parents=True, exist_ok=True)
+
+    with local_copy.open("w") as fh:
+        json.dump({"gain_error": gain_error, "offset_error": offset_error}, fh)
+
+    print(f"Saved local copy to {local_copy}")
 
     if save:
         gain_f16 = int(gain_error * 0x10000)
