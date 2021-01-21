@@ -4,7 +4,6 @@
 
 # Interface for Gemini's MIDI SysEx command set
 
-from dataclasses import dataclass
 import enum
 import struct
 
