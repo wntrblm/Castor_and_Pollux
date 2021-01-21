@@ -66,6 +66,9 @@ static struct OscillatorState pollux = {
 };
 
 static void init() {
+    /* Tell the world who we are and how we got here. :) */
+    printf(gem_build_info_string());
+
     /* Configure clocks. */
     gem_clocks_init();
 
