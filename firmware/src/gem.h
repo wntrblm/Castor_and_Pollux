@@ -2,6 +2,7 @@
 
 #include "gem_adc.h"
 #include "gem_bezier.h"
+#include "gem_build_info.h"
 #include "gem_button.h"
 #include "gem_clocks.h"
 #include "gem_colorspace.h"
