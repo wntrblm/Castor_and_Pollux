@@ -12,7 +12,7 @@ individual parts of the project are made available under different licenses.
    license. Full text available at https://opensource.org/licenses/MIT
 2. The firmware located at `./firmware` is available under the MIT license,
    with the exception of third-party code located in `./firmware/third_party`.
-   Please read `./firmware/LICENSE` for a complete listing of terms.
+   Please read [`./firmware/LICENSE`](firmware/LICENSE) for a complete listing of terms.
 3. The functional hardware designs located at `./hardware/mainboard`,
    `./hardware/jackboard`, and `./hardware/progboard` are available under the
    CERN-OHL-P v2 license. Full text is available at https://cern.ch/cern-ohl.
