@@ -1,3 +1,7 @@
+# Copyright (c) 2021 Alethea Katherine Flowers.
+# Published under the standard MIT License.
+# Full text available at: https://opensource.org/licenses/MIT
+
 """
 Wrapper for talking to the Siglent SDS 1104X-E over VISA.
 
@@ -6,6 +10,7 @@ SCPI & Programming reference: https://siglentna.com/wp-content/uploads/2020/04/P
 
 import io
 import time
+
 
 class Oscilloscope:
     RESOURCE_NAME = "USB0::0xF4EC::0xEE38::SDSMMEBD3R6070::INSTR"
@@ -31,16 +36,16 @@ class Oscilloscope:
 
     def set_vertical_division(self, channel: str, volts: float):
         self.port.write(f"{channel}:vdiv {volts}")
-    
+
     def set_vertical_offset(self, channel: str, volts: float):
         self.port.write(f"{channel}:ofst {volts}")
-    
+
     def set_time_division(self, value: str):
         self.port.write(f"tdiv {value}")
-    
+
     def enable_cursors(self):
         self.port.write("cursor_measure manual")
-    
+
     def set_vertical_cursor(self, trace: str, ref: float, dif: float):
         self.port.write(f"{trace}:cursor_set VREF,{ref}V,VDIF,{dif}V")
 
@@ -52,6 +57,6 @@ class Oscilloscope:
     def get_peak_to_peak(self, trace: str):
         self.port.write(f"{trace}:parameter_value? PKPK")
         return float(self.port.read_raw().decode("utf-8").split(",")[-1])
-    
+
     def set_trigger_level(self, trig_source: str, trig_level: float):
         self.port.write(f"{trig_source}:trig_level {trig_level}V")

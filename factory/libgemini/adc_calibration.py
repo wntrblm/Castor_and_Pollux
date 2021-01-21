@@ -1,3 +1,7 @@
+# Copyright (c) 2021 Alethea Katherine Flowers.
+# Published under the standard MIT License.
+# Full text available at: https://opensource.org/licenses/MIT
+
 import argparse
 import time
 import statistics
@@ -7,10 +11,17 @@ from libgemini import sol
 from libgemini import adc_errors
 
 
-def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc_channel, save):
+def run(
+    calibration_points,
+    sample_count,
+    adc_range,
+    adc_resolution,
+    invert,
+    adc_channel,
+    save,
+):
     voltages = [
-        n / calibration_points * adc_range
-        for n in range(calibration_points + 1)
+        n / calibration_points * adc_range for n in range(calibration_points + 1)
     ]
 
     expected_codes = [
@@ -40,20 +51,28 @@ def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc
         samples = []
         for s in range(sample_count):
             samples.append(gem.read_adc(adc_channel))
-        
+
         result = statistics.mean(samples)
-        
+
         print(f"Got {result:.1f}, diff {result - expected_codes[n]:.1f}")
         measured_codes.append(result)
 
     gain_error = adc_errors.calculate_avg_gain_error(expected_codes, measured_codes)
-    offset_error = adc_errors.calculate_avg_offset_error(expected_codes, measured_codes, gain_error)
+    offset_error = adc_errors.calculate_avg_offset_error(
+        expected_codes, measured_codes, gain_error
+    )
     print(f"Measured: Gain: {gain_error:.3f}, Offset: {offset_error:.1f}")
 
     corrected = adc_errors.apply_correction(measured_codes, gain_error, offset_error)
-    corrected_gain_error = adc_errors.calculate_avg_gain_error(expected_codes, corrected)
-    corrected_offset_error = adc_errors.calculate_avg_offset_error(expected_codes, corrected, corrected_gain_error)
-    print(f"Corrected: Gain: {corrected_gain_error:.3f}, Offset: {corrected_offset_error:.1f}")
+    corrected_gain_error = adc_errors.calculate_avg_gain_error(
+        expected_codes, corrected
+    )
+    corrected_offset_error = adc_errors.calculate_avg_offset_error(
+        expected_codes, corrected, corrected_gain_error
+    )
+    print(
+        f"Corrected: Gain: {corrected_gain_error:.3f}, Offset: {corrected_offset_error:.1f}"
+    )
 
     if save:
         gem.set_adc_gain_error(gain_error)
@@ -61,7 +80,7 @@ def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc
         print("Saved to NVM.")
     else:
         print("Dry run, not saved to NVM.")
-    
+
     gem.enable_adc_error_correction()
 
     print("Done")
@@ -69,15 +88,54 @@ def run(calibration_points, sample_count, adc_range, adc_resolution, invert, adc
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("--calibration_points", type=int, default=100, help="Number of calibration points.")
-    parser.add_argument("--sample_count", type=int, default=128, help="Number of samples to take at each calibration point.")
-    parser.add_argument("--adc_range", type=float, default=3.3, help="ADC range (in volts).")
-    parser.add_argument("--adc_resolution", type=int, default=2**12, help="ADC resolution.")
-    parser.add_argument("--adc_channel", type=int, default=0, help="Which of Gemini's ADC channels to measure.")
-    parser.add_argument("--invert", action="store_true", default=False, help="Indicates that the bottom of the voltage range represents the top of the ADC code range")
-    parser.add_argument("--dry_run", action="store_true", default=False, help="Don't save the calibration values.")
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument(
+        "--calibration_points",
+        type=int,
+        default=100,
+        help="Number of calibration points.",
+    )
+    parser.add_argument(
+        "--sample_count",
+        type=int,
+        default=128,
+        help="Number of samples to take at each calibration point.",
+    )
+    parser.add_argument(
+        "--adc_range", type=float, default=3.3, help="ADC range (in volts)."
+    )
+    parser.add_argument(
+        "--adc_resolution", type=int, default=2 ** 12, help="ADC resolution."
+    )
+    parser.add_argument(
+        "--adc_channel",
+        type=int,
+        default=0,
+        help="Which of Gemini's ADC channels to measure.",
+    )
+    parser.add_argument(
+        "--invert",
+        action="store_true",
+        default=False,
+        help="Indicates that the bottom of the voltage range represents the top of the ADC code range",
+    )
+    parser.add_argument(
+        "--dry_run",
+        action="store_true",
+        default=False,
+        help="Don't save the calibration values.",
+    )
 
     args = parser.parse_args()
 
-    run(args.calibration_points, args.sample_count, args.adc_range, args.adc_resolution, args.invert, args.adc_channel, not args.dry_run)
+    run(
+        args.calibration_points,
+        args.sample_count,
+        args.adc_range,
+        args.adc_resolution,
+        args.invert,
+        args.adc_channel,
+        not args.dry_run,
+    )

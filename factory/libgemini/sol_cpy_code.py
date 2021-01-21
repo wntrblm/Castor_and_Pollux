@@ -1,3 +1,7 @@
+# Copyright (c) 2021 Alethea Katherine Flowers.
+# Published under the standard MIT License.
+# Full text available at: https://opensource.org/licenses/MIT
+
 """ Code that runs on Sol to allow the setup scripts to set voltage outputs for calibration. """
 
 import struct
@@ -16,10 +20,10 @@ while True:
 
     if not msg:
         continue
-    
+
     if msg.type != smolmidi.SYSEX:
         continue
-    
+
     msg, _ = midi_in.receive_sysex(64)
 
     if not msg:
@@ -32,17 +36,19 @@ while True:
     if msg[1] != 0x01:
         print("Invalid command")
         continue
-    
-    outputs.led.spin()
-    
-    decoded = bytearray([
-        msg[2] << 4 | msg[3],
-        msg[4] << 4 | msg[5],
-        msg[6] << 4 | msg[7],
-        msg[8] << 4 | msg[9],
-    ])
 
-    voltage, = struct.unpack("f", decoded)
+    outputs.led.spin()
+
+    decoded = bytearray(
+        [
+            msg[2] << 4 | msg[3],
+            msg[4] << 4 | msg[5],
+            msg[6] << 4 | msg[7],
+            msg[8] << 4 | msg[9],
+        ]
+    )
+
+    (voltage,) = struct.unpack("f", decoded)
 
     outputs.cv_a = voltage
 
