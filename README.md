@@ -15,4 +15,4 @@ This repository contains the hardware design files, firmware files, factory setu
 
 ## License and contributing
 
-Castor & Pollux is open-source hardware and software, however, licensing a project like this is a little complicated. Please take a chance to review the [LICENSE](LICENSE) file.
+Castor & Pollux is open-source hardware and software, however, licensing a project like this is a little complicated. Please take a chance to review the [LICENSE](LICENSE.md) file.
