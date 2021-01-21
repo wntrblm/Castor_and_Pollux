@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #include "gem_spi.h"
 #include "gem_config.h"
 #include "gem_gpio.h"
@@ -32,7 +38,7 @@ void gem_spi_init() { /* Enable the APB clock for SERCOM. */
 
     /* Set baud */
     uint32_t baudrate = GEM_SPI_BAUD;
-    if(baudrate == GEM_SPI_GCLK_FREQ) {
+    if (baudrate == GEM_SPI_GCLK_FREQ) {
         GEM_SPI_SERCOM->SPI.BAUD.reg = 0x1;
     } else {
         GEM_SPI_SERCOM->SPI.BAUD.reg = GEM_SPI_GCLK_FREQ / (2 * baudrate) - 1;

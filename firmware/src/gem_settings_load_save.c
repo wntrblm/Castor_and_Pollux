@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #include "gem_settings_load_save.h"
 #include "gem_config.h"
 #include "gem_nvm.h"

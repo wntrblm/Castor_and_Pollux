@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #pragma once
 
 /* Routines for interacting with the SAM D21 analog-to-digital converter. */
@@ -6,7 +12,6 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-
 
 /*
     Input channel descriptor. These settings should be derived from the
@@ -44,14 +49,12 @@ void gem_adc_stop_scanning();
 /* Check if the channel scanning has finished scanning all channels. */
 bool gem_adc_results_ready();
 
-
 /* The SAMD series has harware correction, which we do use, however, since there are multiple types of
     inputs in play (unbuffered, buffered, some using potentiometers), these functions can apply further
     refinement after hardware adjustment.
 */
 
-#define GEM_CALCULATE_EXPECTED_ADC_CODE(value, range, resolution) \
-    ((uint32_t)((value / range) * (resolution - 1)))
+#define GEM_CALCULATE_EXPECTED_ADC_CODE(value, range, resolution) ((uint32_t)((value / range) * (resolution - 1)))
 
 struct GemADCErrors {
     /* Offset correction in code points */

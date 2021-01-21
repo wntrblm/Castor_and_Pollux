@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #include "gem_clocks.h"
 #include "sam.h"
 
@@ -26,14 +32,9 @@ void gem_clocks_init() {
     while (!SYSCTRL->PCLKSR.bit.DFLLRDY) {};
 
     /* Enable USB clock recovery mode. */
-    SYSCTRL->DFLLCTRL.reg =
-        SYSCTRL_DFLLCTRL_USBCRM |
-        SYSCTRL_DFLLCTRL_CCDIS;
+    SYSCTRL->DFLLCTRL.reg = SYSCTRL_DFLLCTRL_USBCRM | SYSCTRL_DFLLCTRL_CCDIS;
 
-    SYSCTRL->DFLLMUL.reg =
-        SYSCTRL_DFLLMUL_MUL(48000) |
-        SYSCTRL_DFLLMUL_CSTEP(1) |
-        SYSCTRL_DFLLMUL_FSTEP(1);
+    SYSCTRL->DFLLMUL.reg = SYSCTRL_DFLLMUL_MUL(48000) | SYSCTRL_DFLLMUL_CSTEP(1) | SYSCTRL_DFLLMUL_FSTEP(1);
 
     /* Setting to closed loop mode with USBCRM means that
        the DFLL will operate in closed loop when USB is
@@ -50,11 +51,7 @@ void gem_clocks_init() {
     NVMCTRL->CTRLB.bit.RWS = 1;
 
     /* Switch GCLK0, and therefore the CPU, to the DFLL. */
-    GCLK->GENCTRL.reg =
-        GCLK_GENCTRL_ID(0) |
-        GCLK_GENCTRL_IDC |
-        GCLK_GENCTRL_GENEN |
-        GCLK_GENCTRL_SRC_DFLL48M;
+    GCLK->GENCTRL.reg = GCLK_GENCTRL_ID(0) | GCLK_GENCTRL_IDC | GCLK_GENCTRL_GENEN | GCLK_GENCTRL_SRC_DFLL48M;
 
     /* GENCTRL is Write-Synchronized...so wait for write to complete */
     while (GCLK->STATUS.bit.SYNCBUSY) {};
@@ -64,14 +61,9 @@ void gem_clocks_init() {
     */
 
     /* Disable division */
-    GCLK->GENDIV.reg =
-        GCLK_GENDIV_ID(1) |
-        GCLK_GENDIV_DIV(1);
+    GCLK->GENDIV.reg = GCLK_GENDIV_ID(1) | GCLK_GENDIV_DIV(1);
 
-    GCLK->GENCTRL.reg =
-        GCLK_GENCTRL_ID(1) |
-        GCLK_GENCTRL_SRC_OSC8M |
-        GCLK_GENCTRL_GENEN;
+    GCLK->GENCTRL.reg = GCLK_GENCTRL_ID(1) | GCLK_GENCTRL_SRC_OSC8M | GCLK_GENCTRL_GENEN;
 
     while (GCLK->STATUS.reg & GCLK_STATUS_SYNCBUSY) {};
 }

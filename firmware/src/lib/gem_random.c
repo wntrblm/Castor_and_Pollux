@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #include "gem_random.h"
 
 static uint16_t wyhash_state;

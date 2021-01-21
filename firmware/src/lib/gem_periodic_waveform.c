@@ -1,3 +1,9 @@
+/*
+    Copyright (c) 2021 Alethea Katherine Flowers.
+    Published under the standard MIT License.
+    Full text available at: https://opensource.org/licenses/MIT
+*/
+
 #include "gem_periodic_waveform.h"
 #include "gem_systick.h"
 
@@ -5,18 +11,16 @@
 
 #define TICKS_PER_SECOND F16(1000)
 
-
 /* Public functions */
 
-
-void GemPeriodicWaveform_init(struct GemPeriodicWaveform* waveform, gem_periodic_waveform_function function, fix16_t frequency) {
+void GemPeriodicWaveform_init(
+    struct GemPeriodicWaveform* waveform, gem_periodic_waveform_function function, fix16_t frequency) {
     waveform->function = function;
     waveform->frequency = frequency;
     waveform->phase = F16(0);
     waveform->value = F16(0);
     waveform->_last_update = gem_get_ticks();
 }
-
 
 void GemPeriodicWaveform_step(struct GemPeriodicWaveform* waveform) {
     uint32_t now = gem_get_ticks();
