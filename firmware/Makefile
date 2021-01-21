@@ -10,12 +10,34 @@ BIN = gemini-firmware
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 SIZE = arm-none-eabi-size
+MKDIR = mkdir
 
-ifeq ($(OS), Windows_NT)
-  MKDIR = gmkdir
-else
-  MKDIR = mkdir
-endif
+# Build information
+
+BUILD_INFO_COMPILER=$(CC)
+# Looks like: 12.24.2020
+BUILD_INFO_RELEASE = $(shell git describe --tags --abbrev=0)
+# Looks like: 12 24 2020
+BUILD_INFO_RELEASE_PARTS = $(subst ., ,$(BUILD_INFO_RELEASE))
+BUILD_INFO_RELEASE_YEAR = $(word 3,$(BUILD_INFO_RELEASE_PARTS))
+BUILD_INFO_RELEASE_MONTH = $(word 2,$(BUILD_INFO_RELEASE_PARTS))
+BUILD_INFO_RELEASE_DAY = $(word 1,$(BUILD_INFO_RELEASE_PARTS))
+# Looks like: 12.24.2020-46-gb77c425-dirty
+BUILD_INFO_REVISION = $(shell git describe --always --tags --dirty)
+# Looks like: 20/01/2021 22:34 UTC
+BUILD_INFO_DATE = $(shell date -u +"%d/%m/%Y %H:%M UTC")
+# Looks like: stargirl@stargirls-mbp.lan
+BUILD_INFO_MACHINE = $(shell echo `whoami`@`hostname`)
+
+DEFINES +=\
+	-DBUILD_INFO_COMPILER="\"$(BUILD_INFO_COMPILER)\"" \
+	-DBUILD_INFO_RELEASE="\"$(BUILD_INFO_RELEASE)\"" \
+	-DBUILD_INFO_REVISION="\"$(BUILD_INFO_REVISION)\"" \
+	-DBUILD_INFO_RELEASE_YEAR="$(BUILD_INFO_RELEASE_YEAR)" \
+	-DBUILD_INFO_RELEASE_MONTH="$(BUILD_INFO_RELEASE_MONTH)" \
+	-DBUILD_INFO_RELEASE_DAY="$(BUILD_INFO_RELEASE_DAY)" \
+	-DBUILD_INFO_DATE="\"$(BUILD_INFO_DATE)\"" \
+	-DBUILD_INFO_MACHINE="\"$(BUILD_INFO_MACHINE)\""
 
 # Common compiler & linker flags.
 
@@ -106,7 +128,7 @@ OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
 # Build rules
 
-.PHONY: all directory clean size firmware release debug format tidy
+.PHONY: all directory clean size firmware release debug format tidy defines
 
 all: debug
 
@@ -131,7 +153,7 @@ $(BUILD)/$(BIN).bin: $(BUILD)/$(BIN).elf
 	@$(OBJCOPY) -O binary $^ $@
 
 $(BUILD)/$(BIN).uf2: $(BUILD)/$(BIN).bin
-	@python3 third_party/uf2/uf2conv.py -b 0x2000 -o $@ --convert $(BUILD)/$(BIN).bin
+	@python3 third_party/uf2/uf2conv.py -b 0x2000 -o $@ --convert $(BUILD)/$(BIN).bin > /dev/null
 
 %.o:
 	@echo Compile $(filter %/$(subst .o,.c,$(notdir $@)), $(SRCS))
@@ -153,7 +175,7 @@ directory:
 	@python3 -m structy_generator -l c ./data/gem_settings.structy src
 	@clang-format -i src/gem_settings.{h,c}
 	@python3 -m structy_generator -l py ./data/gem_settings.structy ../factory/libgemini
-	# @python3 -m black ../factory/libgemini/gem_settings.py
+	@python3 -m black ../factory/libgemini/gem_settings.py
 	@python3 -m structy_generator -l js ./data/gem_settings.structy ../user_guide/docs/scripts
 
 size: $(BUILD)/$(BIN).elf
@@ -165,10 +187,15 @@ clean:
 	@-rm -rf $(BUILD)
 
 format:
-	clang-format -i src/**.h src/**.c
+	@echo clang-format
+	@clang-format -i src/**.h src/**.c
 
 tidy:
-	clang-tidy src/**.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
+	@echo clang-tidy
+	@clang-tidy src/**.c -checks=-clang-diagnostic-format -- $(INCLUDES) $(DEFINES)
+
+defines:
+	$(CC) $(CFLAGS) -E -dM src/main.c
 
 -include $(wildcard $(BUILD)/*.d)
 

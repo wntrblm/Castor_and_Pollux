@@ -6,11 +6,6 @@
 #include "sam.h"
 #include <stdint.h>
 
-/* 7 bits.
-    0x01: Initial version, starting from October 2020.
-*/
-#define GEM_FIRMWARE_VERSION 0x01
-
 /* Debug helpers. */
 #ifdef DEBUG
 #define DEBUG_TRAP(expr)                                                                                               \

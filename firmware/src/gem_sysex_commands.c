@@ -1,5 +1,6 @@
 #include "gem_sysex_commands.h"
 #include "gem_adc.h"
+#include "gem_build_info.h"
 #include "gem_config.h"
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
@@ -66,13 +67,21 @@ void gem_register_sysex_commands() {
 };
 
 static void _cmd_0x01_hello(uint8_t* data, size_t len) {
+    /*
+        Response: 0x01 and the build info string, for example:
+        "12.24.2020 on 20/01/2021 23:38 UTC with arm-none-eabi-gcc 10.2.1 20201103 (release) by
+        stargirl@stargirls-mbp.lan"
+    */
     (void)(data);
     (void)(len);
 
     gem_adc_stop_scanning();
     gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
 
-    gem_midi_send_sysex((uint8_t[4]){MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x01, GEM_FIRMWARE_VERSION}, 4);
+    const char* build_info = gem_build_info_string();
+
+    gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_BYTE, GEM_MIDI_SYSEX_MARKER, 0x01, 0x01});
+    gem_midi_send_sysex((const uint8_t*)(build_info), strlen(build_info));
 }
 
 static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {

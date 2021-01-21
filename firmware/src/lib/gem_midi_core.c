@@ -104,7 +104,7 @@ timeout_fail:
     return;
 }
 
-void gem_midi_send_sysex(uint8_t* data, size_t len) {
+void gem_midi_send_sysex(const uint8_t* data, size_t len) {
     size_t i = 0;
     for (; i <= len - 3; i += 3) {
         gem_usb_midi_send((uint8_t[4]){MIDI_SYSEX_START_OR_CONTINUE, data[i], data[i + 1], data[i + 2]});
