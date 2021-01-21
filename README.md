@@ -15,4 +15,4 @@ This repository contains the hardware design files, firmware files, factory setu
 
 ## License and contributing
 
-The code here is available under the [MIT License](firmware/LICENSE), the hardware designs are available under [CC BY-SA 4.0](hardware/LICENSE). I welcome contributors, please read the [Code of Conduct](CODE_OF_CONDUCT.md) first. :)
+Castor & Pollux is open-source hardware and software, however, licensing a project like this is a little complicated. Please take a chance to review the [LICENSE](LICENSE) file.
