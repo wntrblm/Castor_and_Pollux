@@ -10,7 +10,6 @@ BIN = gemini-firmware
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 SIZE = arm-none-eabi-size
-MKDIR = mkdir
 
 # Build information
 include scripts/build_info.mk
@@ -140,7 +139,7 @@ firmware: directory $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).bin $(BUILD)/$(BIN).uf2
 	@echo "Created: \n  $(BUILD)/$(BIN).elf\n  $(BUILD)/$(BIN).bin\n  $(BUILD)/$(BIN).uf2"
 
 directory:
-	@$(MKDIR) -p $(BUILD)
+	@mkdir -p $(BUILD)
 
 ./src/gem_voice_param_table.c: ./data/pitch-calibration-table.csv
 	@echo "Generating gem_voice_param_table.c"
@@ -174,4 +173,3 @@ defines:
 	$(CC) $(CFLAGS) -E -dM src/main.c
 
 -include $(wildcard $(BUILD)/*.d)
-
