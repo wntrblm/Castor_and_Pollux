@@ -130,7 +130,7 @@ MEMORY
       user settings and calibration data in the MCU's flash.
 
       The block is located right at the end of the flash space. This
-      is useful because it means that it says in a fixed location
+      is useful because it means that it stays in a fixed location
       regardless of how much flash space the application takes up
       in "rom". Explicitly defining this section also lets the
       linker ensure that application code doesn't overwrite the
