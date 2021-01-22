@@ -103,7 +103,7 @@ OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
 # Build rules
 
-.PHONY: all directory clean size firmware release debug format tidy defines
+.PHONY: all directory clean size firmware release debug format tidy defines tests test
 
 all: debug
 
@@ -163,7 +163,7 @@ clean:
 
 format:
 	@echo clang-format
-	@clang-format -i src/**.h src/**.c src/*/**.h src/*/**.c
+	@clang-format -i src/**.h src/**.c src/*/**.h src/*/**.c tests/**.h tests/**.c tests/*/**.h
 
 tidy:
 	@echo clang-tidy
@@ -171,5 +171,10 @@ tidy:
 
 defines:
 	$(CC) $(CFLAGS) -E -dM src/main.c
+
+tests:
+	@make CAN_RUN=1 -f scripts/tests.mk
+
+test: tests
 
 -include $(wildcard $(BUILD)/*.d)
