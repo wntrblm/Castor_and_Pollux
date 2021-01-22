@@ -25,6 +25,7 @@
 /* MIDI configuration. */
 #define GEM_SYSEX_BUF_SIZE 64
 #define GEM_SYSEX_TIMEOUT 100000
+#define GEM_MIDI_SYSEX_MARKER 0x77
 
 /* Analog to Digital Converter Configuration */
 
@@ -114,10 +115,6 @@ extern const struct GemADCInput gem_adc_inputs[];
 
 #define GEM_HARD_SYNC_BUTTON_PORT 1
 #define GEM_HARD_SYNC_BUTTON_PIN 8
-
-/* USB / MIDI configuration. */
-
-#define GEM_MIDI_SYSEX_MARKER 0x77
 
 /* Behavioral configuration. */
 
