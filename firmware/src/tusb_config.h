@@ -17,7 +17,9 @@
 #define CFG_TUD_HID 0
 #define CFG_TUD_MIDI 1
 #define CFG_TUD_VENDOR 0
-#define CFG_TUD_MIDI_RX_BUFSIZE 64
-#define CFG_TUD_MIDI_TX_BUFSIZE 64
+// Give TinyUSB more memory for usb midi packets. We have the RAM to spare and
+// this lets us send longer SysEx messages.
+#define CFG_TUD_MIDI_RX_BUFSIZE 512
+#define CFG_TUD_MIDI_TX_BUFSIZE 512
 #define CFG_TUSB_ATTR_USBRAM
 #define CFG_TUSB_MEM_ALIGN __attribute__((aligned(4)))
