@@ -6,7 +6,7 @@
 
 #include "teeth.h"
 
-void teeth_encode(uint8_t* src, size_t src_len, uint8_t* dst) {
+void teeth_encode(const uint8_t* src, size_t src_len, uint8_t* dst) {
     size_t src_idx = 0;
     size_t dst_idx = 0;
 
@@ -54,7 +54,7 @@ void teeth_encode(uint8_t* src, size_t src_len, uint8_t* dst) {
     }
 }
 
-size_t teeth_decode(uint8_t* src, size_t src_len, uint8_t* dst) {
+size_t teeth_decode(const uint8_t* src, size_t src_len, uint8_t* dst) {
     // assert(src_len % 5 == 0);
     size_t src_idx = 0;
     size_t dst_idx = 0;
