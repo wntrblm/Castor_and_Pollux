@@ -6,6 +6,10 @@
 
 #pragma once
 
+#include <assert.h>
+
 #define GEM_SYSEX_BUF_SIZE 64
 #define GEM_SYSEX_TIMEOUT 100000
-#define GEM_MIDI_SYSEX_MARKER 0x77
+#define GEM_SYSEX_IDENTIFIER 0x77
+
+#define DEBUG_TRAP(expr) assert(expr);

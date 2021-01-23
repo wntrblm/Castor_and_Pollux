@@ -86,7 +86,7 @@ void GemSettings_save(struct GemSettings* settings) {
     struct StructyResult result = GemSettings_pack(settings, data + 1);
 
     /* This should basically never happen, so debug trap this. */
-    DEBUG_TRAP(result.status != STRUCTY_RESULT_OKAY);
+    DEBUG_TRAP(result.status == STRUCTY_RESULT_OKAY);
 
     gem_nvm_write((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
 

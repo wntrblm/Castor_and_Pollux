@@ -56,7 +56,8 @@ include $(addprefix ./scripts/,$(addsuffix .mk,$(THIRD_PARTY_LIBS)))
 # Sources from the firmware
 
 SRCS += \
-	src/lib/gem_midi_core.c
+	src/lib/gem_midi_core.c \
+	src/lib/gem_sysex_dispatcher.c
 
 ##############################################################################
 

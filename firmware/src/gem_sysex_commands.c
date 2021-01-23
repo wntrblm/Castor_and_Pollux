@@ -16,6 +16,7 @@
 #include "gem_serial_number.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
+#include "gem_sysex_dispatcher.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "printf.h"
@@ -38,43 +39,44 @@ static uint8_t _chunk_buf[SETTINGS_ENCODED_LEN];
 
 /* Forward declarations. */
 
-static void _cmd_0x01_hello(uint8_t* data, size_t len);
-static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len);
-static void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len);
-static void _cmd_0x04_read_adc(uint8_t* data, size_t len);
-static void _cmd_0x05_set_dac(uint8_t* data, size_t len);
-static void _cmd_0x06_set_period(uint8_t* data, size_t len);
-static void _cmd_0x07_erase_settings(uint8_t* data, size_t len);
-static void _cmd_0x08_read_settings(uint8_t* data, size_t len);
-static void _cmd_0x09_write_settings(uint8_t* data, size_t len);
-static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len);
-static void _cmd_0x0B_write_lut(uint8_t* data, size_t len);
-static void _cmd_0x0C_erase_lut(uint8_t* data, size_t len);
-static void _cmd_0x0D_disable_adc_corr(uint8_t* data, size_t len);
-static void _cmd_0x0E_enable_adc_corr(uint8_t* data, size_t len);
-static void _cmd_0x0F_get_serial_no(uint8_t* data, size_t len);
+static void _cmd_0x01_hello(const uint8_t* data, size_t len);
+static void _cmd_0x02_write_adc_gain(const uint8_t* data, size_t len);
+static void _cmd_0x03_write_adc_offset(const uint8_t* data, size_t len);
+static void _cmd_0x04_read_adc(const uint8_t* data, size_t len);
+static void _cmd_0x05_set_dac(const uint8_t* data, size_t len);
+static void _cmd_0x06_set_period(const uint8_t* data, size_t len);
+static void _cmd_0x07_erase_settings(const uint8_t* data, size_t len);
+static void _cmd_0x08_read_settings(const uint8_t* data, size_t len);
+static void _cmd_0x09_write_settings(const uint8_t* data, size_t len);
+static void _cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len);
+static void _cmd_0x0B_write_lut(const uint8_t* data, size_t len);
+static void _cmd_0x0C_erase_lut(const uint8_t* data, size_t len);
+static void _cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len);
+static void _cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len);
+static void _cmd_0x0F_get_serial_no(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
 void gem_register_sysex_commands() {
-    gem_midi_register_sysex_command(0x01, _cmd_0x01_hello);
-    gem_midi_register_sysex_command(0x02, _cmd_0x02_write_adc_gain);
-    gem_midi_register_sysex_command(0x03, _cmd_0x03_write_adc_offset);
-    gem_midi_register_sysex_command(0x04, _cmd_0x04_read_adc);
-    gem_midi_register_sysex_command(0x05, _cmd_0x05_set_dac);
-    gem_midi_register_sysex_command(0x06, _cmd_0x06_set_period);
-    gem_midi_register_sysex_command(0x07, _cmd_0x07_erase_settings);
-    gem_midi_register_sysex_command(0x08, _cmd_0x08_read_settings);
-    gem_midi_register_sysex_command(0x09, _cmd_0x09_write_settings);
-    gem_midi_register_sysex_command(0x0A, _cmd_0x0A_write_lut_entry);
-    gem_midi_register_sysex_command(0x0B, _cmd_0x0B_write_lut);
-    gem_midi_register_sysex_command(0x0C, _cmd_0x0C_erase_lut);
-    gem_midi_register_sysex_command(0x0D, _cmd_0x0D_disable_adc_corr);
-    gem_midi_register_sysex_command(0x0E, _cmd_0x0E_enable_adc_corr);
-    gem_midi_register_sysex_command(0x0F, _cmd_0x0F_get_serial_no);
+    gem_sysex_register_command(0x01, _cmd_0x01_hello);
+    gem_sysex_register_command(0x02, _cmd_0x02_write_adc_gain);
+    gem_sysex_register_command(0x03, _cmd_0x03_write_adc_offset);
+    gem_sysex_register_command(0x04, _cmd_0x04_read_adc);
+    gem_sysex_register_command(0x05, _cmd_0x05_set_dac);
+    gem_sysex_register_command(0x06, _cmd_0x06_set_period);
+    gem_sysex_register_command(0x07, _cmd_0x07_erase_settings);
+    gem_sysex_register_command(0x08, _cmd_0x08_read_settings);
+    gem_sysex_register_command(0x09, _cmd_0x09_write_settings);
+    gem_sysex_register_command(0x0A, _cmd_0x0A_write_lut_entry);
+    gem_sysex_register_command(0x0B, _cmd_0x0B_write_lut);
+    gem_sysex_register_command(0x0C, _cmd_0x0C_erase_lut);
+    gem_sysex_register_command(0x0D, _cmd_0x0D_disable_adc_corr);
+    gem_sysex_register_command(0x0E, _cmd_0x0E_enable_adc_corr);
+    gem_sysex_register_command(0x0F, _cmd_0x0F_get_serial_no);
+    gem_midi_set_sysex_callback(gem_sysex_dispatcher);
 };
 
-static void _cmd_0x01_hello(uint8_t* data, size_t len) {
+static void _cmd_0x01_hello(const uint8_t* data, size_t len) {
     /*
         Response: 0x01 and the build info string, for example:
         "12.24.2020 on 20/01/2021 23:38 UTC with arm-none-eabi-gcc 10.2.1 20201103 (release) by
@@ -95,14 +97,14 @@ static void _cmd_0x01_hello(uint8_t* data, size_t len) {
         data_len = ARRAY_LEN(response_buf) - 2;
     }
 
-    response_buf[0] = GEM_MIDI_SYSEX_MARKER;
+    response_buf[0] = GEM_SYSEX_IDENTIFIER;
     response_buf[1] = 0x01;
     memccpy(response_buf + 2, build_info, 0, data_len);
 
     gem_midi_send_sysex(response_buf, data_len + 2);
 }
 
-static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
+static void _cmd_0x02_write_adc_gain(const uint8_t* data, size_t len) {
     /* Request (teeth): GAIN(2) */
     (void)(len);
 
@@ -110,14 +112,14 @@ static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
     GemSettings_load(&settings);
 
     uint8_t request_buf[2];
-    teeth_decode(data + 2, TEETH_ENCODED_LENGTH(2), request_buf);
+    teeth_decode(data, TEETH_ENCODED_LENGTH(2), request_buf);
 
     settings.adc_gain_corr = UNPACK_16(request_buf, 0);
 
     GemSettings_save(&settings);
 }
 
-static void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len) {
+static void _cmd_0x03_write_adc_offset(const uint8_t* data, size_t len) {
     /* Request (teeth): OFFSET(2) */
     (void)(len);
 
@@ -125,25 +127,25 @@ static void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len) {
     GemSettings_load(&settings);
 
     uint8_t request_buf[2];
-    teeth_decode(data + 2, TEETH_ENCODED_LENGTH(2), request_buf);
+    teeth_decode(data, TEETH_ENCODED_LENGTH(2), request_buf);
 
     settings.adc_offset_corr = UNPACK_16(request_buf, 0);
 
     GemSettings_save(&settings);
 }
 
-static void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
+static void _cmd_0x04_read_adc(const uint8_t* data, size_t len) {
     /* Request: CHANNEL(1) */
     /* Response (teeth): VALUE(2) */
     (void)(len);
 
-    uint16_t result = gem_adc_read_sync(&gem_adc_inputs[data[2]]);
+    uint16_t result = gem_adc_read_sync(&gem_adc_inputs[data[0]]);
     uint8_t response[2];
 
     PACK_16(result, response, 0);
 
     uint8_t response_buf[2 + TEETH_ENCODED_LENGTH(2)];
-    response_buf[0] = GEM_MIDI_SYSEX_MARKER;
+    response_buf[0] = GEM_SYSEX_IDENTIFIER;
     response_buf[1] = 0x04;
 
     teeth_encode(response, 2, response_buf + 2);
@@ -151,12 +153,12 @@ static void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
     gem_midi_send_sysex(response_buf, ARRAY_LEN(response_buf));
 }
 
-static void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
+static void _cmd_0x05_set_dac(const uint8_t* data, size_t len) {
     /* Request: CHANNEL(1) VALUE(2) VREF(1)*/
     (void)(len);
 
     uint8_t request_buf[4];
-    teeth_decode(data + 2, TEETH_ENCODED_LENGTH(4), request_buf);
+    teeth_decode(data, TEETH_ENCODED_LENGTH(4), request_buf);
 
     struct GemMCP4278Channel dac_settings = {};
     dac_settings.vref = request_buf[3];
@@ -164,30 +166,30 @@ static void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
     gem_mcp_4728_write_channel(request_buf[0], dac_settings);
 }
 
-static void _cmd_0x06_set_period(uint8_t* data, size_t len) {
+static void _cmd_0x06_set_period(const uint8_t* data, size_t len) {
     /* Request (teeth): CHANNEL(1) PERIOD(4) */
     (void)(len);
 
     uint8_t request_buf[5];
-    teeth_decode(data + 2, TEETH_ENCODED_LENGTH(5), request_buf);
+    teeth_decode(data, TEETH_ENCODED_LENGTH(5), request_buf);
     gem_pulseout_set_period(request_buf[0], UNPACK_32(request_buf, 1));
 }
 
-static void _cmd_0x07_erase_settings(uint8_t* data, size_t len) {
+static void _cmd_0x07_erase_settings(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     GemSettings_erase();
 }
 
-static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
+static void _cmd_0x08_read_settings(const uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) */
     /* Response: SETTINGS_CHUNK(CHUNK_SIZE) */
     (void)(data);
     (void)(len);
 
-    const uint8_t chunk_num = data[2];
+    const uint8_t chunk_num = data[0];
     if (chunk_num > TOTAL_CHUNKS) {
         printf("Invalid chunk %u.\r\n", chunk_num);
         return;
@@ -201,7 +203,7 @@ static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     teeth_encode(settings_buf, GEMSETTINGS_PACKED_SIZE, _chunk_buf);
 
     uint8_t response_buf[CHUNK_SIZE + 2];
-    response_buf[0] = GEM_MIDI_SYSEX_MARKER;
+    response_buf[0] = GEM_SYSEX_IDENTIFIER;
     response_buf[1] = 0x08;
 
     memcpy(response_buf + 2, _chunk_buf + (CHUNK_SIZE * chunk_num), CHUNK_SIZE);
@@ -209,12 +211,12 @@ static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     gem_midi_send_sysex(response_buf, ARRAY_LEN(response_buf));
 }
 
-static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
+static void _cmd_0x09_write_settings(const uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) SETTINGS_CHUNK(CHUNK_SIZE) */
     (void)(len);
 
-    const uint8_t chunk_num = data[2];
+    const uint8_t chunk_num = data[0];
     if (chunk_num > TOTAL_CHUNKS) {
         printf("Invalid chunk %u.\r\n", chunk_num);
         return;
@@ -224,7 +226,7 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
         memset(_chunk_buf, 0xFF, ARRAY_LEN(_chunk_buf));
     }
 
-    memcpy(_chunk_buf + (CHUNK_SIZE * chunk_num), data + 3, CHUNK_SIZE);
+    memcpy(_chunk_buf + (CHUNK_SIZE * chunk_num), data + 1, CHUNK_SIZE);
 
     /* All data received, decode and save the settings. */
     if (chunk_num == TOTAL_CHUNKS - 1) {
@@ -241,15 +243,15 @@ static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
     }
 
     /* Ack the data. */
-    gem_midi_send_sysex((uint8_t[2]){GEM_MIDI_SYSEX_MARKER, 0x09}, 2);
+    gem_midi_send_sysex((uint8_t[2]){GEM_SYSEX_IDENTIFIER, 0x09}, 2);
 }
 
-static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
+static void _cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
     /* Request (teeth): ENTRY(1) OSC(1) CODE(4) */
     (void)(len);
 
     uint8_t request_buf[6];
-    teeth_decode(data + 2, 6, request_buf);
+    teeth_decode(data, 6, request_buf);
 
     size_t entry = request_buf[0];
     uint8_t osc = request_buf[1];
@@ -268,30 +270,30 @@ static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
     }
 
     /* Acknowledge the message. */
-    gem_midi_send_sysex((uint8_t[2]){GEM_MIDI_SYSEX_MARKER, 0x0A}, 2);
+    gem_midi_send_sysex((uint8_t[2]){GEM_SYSEX_IDENTIFIER, 0x0A}, 2);
 }
 
-static void _cmd_0x0B_write_lut(uint8_t* data, size_t len) {
+static void _cmd_0x0B_write_lut(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_save_dac_codes_table();
 }
 
-static void _cmd_0x0C_erase_lut(uint8_t* data, size_t len) {
+static void _cmd_0x0C_erase_lut(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_save_dac_codes_table();
 }
 
-static void _cmd_0x0D_disable_adc_corr(uint8_t* data, size_t len) {
+static void _cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
     gem_adc_set_error_correction(2048, 0);
 }
 
-static void _cmd_0x0E_enable_adc_corr(uint8_t* data, size_t len) {
+static void _cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
@@ -300,14 +302,14 @@ static void _cmd_0x0E_enable_adc_corr(uint8_t* data, size_t len) {
     gem_adc_set_error_correction(settings.adc_gain_corr, settings.adc_offset_corr);
 }
 
-static void _cmd_0x0F_get_serial_no(uint8_t* data, size_t len) {
+static void _cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
     /* Response (teeth): SERIAL_NO(24) */
     (void)(data);
     (void)(len);
 
     uint8_t response_buf[2 + TEETH_ENCODED_LENGTH(GEM_SERIAL_NUMBER_LEN)];
 
-    response_buf[0] = GEM_MIDI_SYSEX_MARKER;
+    response_buf[0] = GEM_SYSEX_IDENTIFIER;
     response_buf[1] = 0x0F;
 
     uint8_t serial_no[GEM_SERIAL_NUMBER_LEN];
