@@ -9,7 +9,7 @@ import struct
 
 import rtmidi.midiutil
 
-from libgemini import teeth
+from libwinter import teeth
 from libgemini import gem_settings
 
 SYSEX_START = 0xF0
@@ -76,20 +76,20 @@ class Gemini:
             data = teeth.teeth_encode(data)
 
         self.port_out.send_message(
-            [SYSEX_START, SYSEX_MARKER, command] + data + [SYSEX_END]
+            [SYSEX_START, SYSEX_MARKER, command] + list(data) + [SYSEX_END]
         )
 
         if response:
             result = _wait_for_message(self.port_in)
 
             if decode:
-                return teeth.decode(result[3:-1])
+                return teeth.teeth_decode(result[3:-1])
 
             return result
 
     def enter_calibration_mode(self):
         resp = self._sysex(SysExCommands.HELLO, response=True)
-        self.version = b"".join(resp[4:-1])
+        self.version = bytearray(resp[3:-1]).decode("ascii")
         print(f"Gemini version: {self.version}")
 
         resp = self._sysex(SysExCommands.GET_SERIAL_NUMBER, response=True)
@@ -100,19 +100,19 @@ class Gemini:
         resp = self._sysex(
             SysExCommands.READ_ADC, data=[ch], response=True, decode=True
         )
-        (val,) = struct.unpack("H", resp)
+        (val,) = struct.unpack(">H", resp)
         return val
 
-    def set_dac(self, ch, val, gain):
-        data = struct.pack("BBH", ch, gain, val)
+    def set_dac(self, ch, val, vref):
+        data = struct.pack(">BHB", ch, val, vref)
         self._sysex(SysExCommands.SET_DAC, data=data, encode=True)
 
     def set_period(self, ch, val):
-        data = struct.pack("BI", ch, val)
+        data = struct.pack(">BI", ch, val)
         self._sysex(SysExCommands.SET_FREQ, data=data, encode=True)
 
     def set_adc_gain_error_int(self, val):
-        data = struct.pack("H", val)
+        data = struct.pack(">H", val)
         self._sysex(SysExCommands.WRITE_ADC_GAIN, data=data, encode=True)
 
     def set_adc_gain_error(self, val):
@@ -120,7 +120,7 @@ class Gemini:
         self.set_adc_gain_error_int(val)
 
     def set_adc_offset_error(self, val):
-        data = struct.pack("H", val)
+        data = struct.pack(">h", val)
         self._sysex(SysExCommands.WRITE_ADC_OFFSET, data=data, encode=True)
 
     def disable_adc_error_correction(self):
@@ -132,41 +132,41 @@ class Gemini:
     def reset_settings(self):
         self._sysex(SysExCommands.RESET_SETTINGS)
 
-    SETTINGS_CHUNKS = 4
-    CHUNK_SIZE = 20
+    CHUNK_SIZE = 10
+    SETTINGS_ENCODED_LEN = teeth.teeth_encoded_length(
+        gem_settings.GemSettings.PACKED_SIZE
+    )
+    SETTINGS_CHUNKS = SETTINGS_ENCODED_LEN // CHUNK_SIZE
 
     def read_settings(self):
-        settings_encoded = bytearray(
-            teeth.teeth_encoded_length(self.CHUNK_SIZE * self.SETTINGS_CHUNKS)
-        )
+        settings_encoded = bytearray(self.SETTINGS_ENCODED_LEN)
 
         for n in range(self.SETTINGS_CHUNKS):
-            data = self._sysex(
-                SysExCommands.READ_SETTINGS, data=[n], response=True, decode=True
-            )
+            data = self._sysex(SysExCommands.READ_SETTINGS, data=[n], response=True)
+            assert len(data) == self.CHUNK_SIZE + 4
             settings_encoded[
                 self.CHUNK_SIZE * n : self.CHUNK_SIZE * n + self.CHUNK_SIZE
-            ] = data
+            ] = data[3:-1]
 
         settings_buf = teeth.teeth_decode(settings_encoded)
-        settings = gem_settings.unpack(settings_buf)
+        settings = gem_settings.GemSettings.unpack(settings_buf)
         return settings
 
     def save_settings(self, settings):
         settings_buf = settings.pack()
 
-        settings_encoded = teeth.teeth_encode(settings_buf).ljust(
-            self.CHUNK_SIZE * self.SETTINGS_CHUNKS
-        )
+        settings_encoded = teeth.teeth_encode(settings_buf)
 
         for n in range(self.SETTINGS_CHUNKS):
-            chunk = settings_encoded[
-                self.CHUNK_SIZE * n : self.CHUNK_SIZE * n + self.CHUNK_SIZE
-            ]
-            self._sysex(SysExCommands.WRITE_SETTINGS, data=chunk, response=True)
+            chunk = list(
+                settings_encoded[
+                    self.CHUNK_SIZE * n : self.CHUNK_SIZE * n + self.CHUNK_SIZE
+                ]
+            )
+            self._sysex(SysExCommands.WRITE_SETTINGS, data=[n] + chunk, response=True)
 
     def write_lut_entry(self, entry, castor_pollux, val):
-        data = struct.pack("BBH", entry, castor_pollux, val)
+        data = struct.pack(">BBH", entry, castor_pollux, val)
         self._sysex(
             SysExCommands.WRITE_LUT_ENTRY, data=data, encode=True, response=True
         )
