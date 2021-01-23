@@ -1,4 +1,7 @@
+import readline
 from libgemini import gemini
+
+readline.parse_and_bind("tab: complete")
 
 gem = gemini.Gemini()
 gem.enter_calibration_mode()
@@ -15,8 +18,8 @@ while True:
 
     elif cmd == "set_dac":
         if len(vals) < 2:
-            print("requires channel, value, and gain")
-        gem.set_dac(vals[0], vals[1], gain=vals[2])
+            print("requires channel, value, and vref")
+        gem.set_dac(vals[0], vals[1], vref=vals[2])
 
     elif cmd == "set_freq":
         if len(vals) < 2:
@@ -24,8 +27,7 @@ while True:
         gem.set_period(vals[0], vals[1])
 
     elif cmd == "set_adc_gain":
-        val = val / 2048
-        gem.set_adc_gain_error(val)
+        gem.set_adc_gain_error_int(val)
 
     elif cmd == "set_adc_error":
         gem.set_adc_offset_error(val)
