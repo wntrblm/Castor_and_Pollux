@@ -23,18 +23,25 @@ with open(
 ) as fh:
     reader = csv.DictReader(fh)
 
-    for row in reader:
+    for n, row in enumerate(reader):
         period_to_dac_code[int(row["period reg"])] = int(
             row["castor calibrated dac code"]
         )
 
 
 def _code_to_volts(code):
-    return code / 4096 * 2.5
+    return code / 4096 * 2.046
 
 
 def _period_reg_to_freq(period):
     return 8_000_000 / (4 * (period + 1))
+
+
+def _replace_line(new_content):
+    sys.stdout.write("\33[2K\r")
+    sys.stdout.flush()
+    sys.stdout.write(new_content)
+    sys.stdout.flush()
 
 
 def _calibrate_oscillator(gem, scope, oscillator):
@@ -43,6 +50,9 @@ def _calibrate_oscillator(gem, scope, oscillator):
     for period, dac_code in period_to_dac_code.items():
         if last_dac_code > dac_code:
             dac_code = last_dac_code
+
+        if dac_code < 30:
+            dac_code = 30
 
         frequency = _period_reg_to_freq(period)
 
@@ -68,10 +78,10 @@ def _calibrate_oscillator(gem, scope, oscillator):
         sys.stdout.write("> ")
 
         while True:
-            gem.set_dac(0 if oscillator == 0 else 2, dac_code, gain=1)
+            gem.set_dac(0 if oscillator == 0 else 2, dac_code, vref=1)
 
             # Let things settle.
-            time.sleep(0.02)
+            time.sleep(0.01)
 
             # Read the oscilloscope's peak-to-peak stats and adjust as needed.
             peak_to_peak = scope.get_peak_to_peak("c1")
@@ -85,8 +95,8 @@ def _calibrate_oscillator(gem, scope, oscillator):
             elif peak_to_peak <= 3.25:
                 # Too low, increase DAC code.
                 dac_code += 5
-                sys.stdout.write("+")
-                sys.stdout.flush()
+
+                _replace_line(f"> {_code_to_volts(dac_code):.2f} volts +")
 
                 if dac_code >= 4095:
                     print("DAC overflow! Voltage can not be increased from here!")
@@ -95,15 +105,15 @@ def _calibrate_oscillator(gem, scope, oscillator):
             elif peak_to_peak > 3.35:
                 # Too high, decrease the DAC code.
                 dac_code -= 5
-                sys.stdout.write("-")
-                sys.stdout.flush()
+
+                _replace_line(f"> {_code_to_volts(dac_code):.2f} volts -")
 
                 if dac_code < 0:
                     print("DAC underflow!")
                     return
 
             else:
-                sys.stdout.write("✓\r\n")
+                _replace_line(f"> {_code_to_volts(dac_code):.2f} volts ✓\n")
                 measured_frequency = scope.get_frequency()
                 print(
                     f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz"
