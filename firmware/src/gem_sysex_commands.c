@@ -33,6 +33,27 @@
 static_assert(
     SETTINGS_ENCODED_LEN % CHUNK_SIZE == 0, "Total settings encoded length must be a multiple of the chunk size");
 
+#define DECODE_TEETH_REQUEST(size)                                                                                     \
+    DEBUG_TRAP(len == size);                                                                                           \
+    uint8_t request[size];                                                                                             \
+    teeth_decode(data, TEETH_ENCODED_LENGTH(size), request);
+
+#define RESPONSE_0(command) gem_midi_send_sysex((uint8_t[2]){GEM_SYSEX_IDENTIFIER, command}, 2);
+#define RESPONSE_1(command, val1) gem_midi_send_sysex((uint8_t[3]){GEM_SYSEX_IDENTIFIER, command, val1}, 3);
+
+#define PREPARE_RESPONSE(command, size)                                                                                \
+    uint8_t _full_response[2 + size];                                                                                  \
+    uint8_t* response = _full_response + 2;                                                                            \
+    const size_t response_len __attribute__((unused)) = size;                                                          \
+    _full_response[0] = GEM_SYSEX_IDENTIFIER;                                                                          \
+    _full_response[1] = command;
+
+#define SEND_RESPONSE() gem_midi_send_sysex(_full_response, ARRAY_LEN(_full_response));
+
+#define SEND_RESPONSE_LEN(len)                                                                                         \
+    DEBUG_TRAP(len + 2 <= ARRAY_LEN(_full_response));                                                                  \
+    gem_midi_send_sysex(_full_response, len + 2);
+
 /* Static variables. */
 
 static uint8_t _chunk_buf[SETTINGS_ENCODED_LEN];
@@ -89,47 +110,37 @@ static void _cmd_0x01_hello(const uint8_t* data, size_t len) {
     gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
 
     const char* build_info = gem_build_info_string();
-    size_t data_len = strlen(build_info);
-    uint8_t response_buf[200];
+    size_t build_info_len = strlen(build_info);
 
+    PREPARE_RESPONSE(0x01, 128);
     /* Don't copy more of the build info string than we have room for. */
-    if (data_len > ARRAY_LEN(response_buf) - 2) {
-        data_len = ARRAY_LEN(response_buf) - 2;
+    if (build_info_len > response_len) {
+        build_info_len = response_len;
     }
-
-    response_buf[0] = GEM_SYSEX_IDENTIFIER;
-    response_buf[1] = 0x01;
-    memccpy(response_buf + 2, build_info, 0, data_len);
-
-    gem_midi_send_sysex(response_buf, data_len + 2);
+    memccpy(response, build_info, 0, build_info_len);
+    SEND_RESPONSE_LEN(build_info_len);
 }
 
 static void _cmd_0x02_write_adc_gain(const uint8_t* data, size_t len) {
     /* Request (teeth): GAIN(2) */
-    (void)(len);
+    DECODE_TEETH_REQUEST(2);
 
     struct GemSettings settings;
     GemSettings_load(&settings);
 
-    uint8_t request_buf[2];
-    teeth_decode(data, TEETH_ENCODED_LENGTH(2), request_buf);
-
-    settings.adc_gain_corr = UNPACK_16(request_buf, 0);
+    settings.adc_gain_corr = UNPACK_16(request, 0);
 
     GemSettings_save(&settings);
 }
 
 static void _cmd_0x03_write_adc_offset(const uint8_t* data, size_t len) {
     /* Request (teeth): OFFSET(2) */
-    (void)(len);
+    DECODE_TEETH_REQUEST(2);
 
     struct GemSettings settings;
     GemSettings_load(&settings);
 
-    uint8_t request_buf[2];
-    teeth_decode(data, TEETH_ENCODED_LENGTH(2), request_buf);
-
-    settings.adc_offset_corr = UNPACK_16(request_buf, 0);
+    settings.adc_offset_corr = UNPACK_16(request, 0);
 
     GemSettings_save(&settings);
 }
@@ -140,39 +151,32 @@ static void _cmd_0x04_read_adc(const uint8_t* data, size_t len) {
     (void)(len);
 
     uint16_t result = gem_adc_read_sync(&gem_adc_inputs[data[0]]);
-    uint8_t response[2];
 
-    PACK_16(result, response, 0);
+    PREPARE_RESPONSE(0x04, TEETH_ENCODED_LENGTH(2));
 
-    uint8_t response_buf[2 + TEETH_ENCODED_LENGTH(2)];
-    response_buf[0] = GEM_SYSEX_IDENTIFIER;
-    response_buf[1] = 0x04;
+    uint8_t unencoded_response[2];
+    PACK_16(result, unencoded_response, 0);
+    teeth_encode(unencoded_response, 2, response);
 
-    teeth_encode(response, 2, response_buf + 2);
-
-    gem_midi_send_sysex(response_buf, ARRAY_LEN(response_buf));
+    SEND_RESPONSE();
 }
 
 static void _cmd_0x05_set_dac(const uint8_t* data, size_t len) {
     /* Request: CHANNEL(1) VALUE(2) VREF(1)*/
-    (void)(len);
-
-    uint8_t request_buf[4];
-    teeth_decode(data, TEETH_ENCODED_LENGTH(4), request_buf);
+    DECODE_TEETH_REQUEST(4);
 
     struct GemMCP4278Channel dac_settings = {};
-    dac_settings.vref = request_buf[3];
-    dac_settings.value = UNPACK_16(request_buf, 1);
-    gem_mcp_4728_write_channel(request_buf[0], dac_settings);
+    dac_settings.vref = request[3];
+    dac_settings.value = UNPACK_16(request, 1);
+    gem_mcp_4728_write_channel(request[0], dac_settings);
 }
 
 static void _cmd_0x06_set_period(const uint8_t* data, size_t len) {
     /* Request (teeth): CHANNEL(1) PERIOD(4) */
     (void)(len);
+    DECODE_TEETH_REQUEST(5);
 
-    uint8_t request_buf[5];
-    teeth_decode(data, TEETH_ENCODED_LENGTH(5), request_buf);
-    gem_pulseout_set_period(request_buf[0], UNPACK_32(request_buf, 1));
+    gem_pulseout_set_period(request[0], UNPACK_32(request, 1));
 }
 
 static void _cmd_0x07_erase_settings(const uint8_t* data, size_t len) {
@@ -186,7 +190,6 @@ static void _cmd_0x08_read_settings(const uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) */
     /* Response: SETTINGS_CHUNK(CHUNK_SIZE) */
-    (void)(data);
     (void)(len);
 
     const uint8_t chunk_num = data[0];
@@ -202,13 +205,9 @@ static void _cmd_0x08_read_settings(const uint8_t* data, size_t len) {
 
     teeth_encode(settings_buf, GEMSETTINGS_PACKED_SIZE, _chunk_buf);
 
-    uint8_t response_buf[CHUNK_SIZE + 2];
-    response_buf[0] = GEM_SYSEX_IDENTIFIER;
-    response_buf[1] = 0x08;
-
-    memcpy(response_buf + 2, _chunk_buf + (CHUNK_SIZE * chunk_num), CHUNK_SIZE);
-
-    gem_midi_send_sysex(response_buf, ARRAY_LEN(response_buf));
+    PREPARE_RESPONSE(0x08, CHUNK_SIZE);
+    memcpy(response, _chunk_buf + (CHUNK_SIZE * chunk_num), CHUNK_SIZE);
+    SEND_RESPONSE();
 }
 
 static void _cmd_0x09_write_settings(const uint8_t* data, size_t len) {
@@ -243,19 +242,16 @@ static void _cmd_0x09_write_settings(const uint8_t* data, size_t len) {
     }
 
     /* Ack the data. */
-    gem_midi_send_sysex((uint8_t[2]){GEM_SYSEX_IDENTIFIER, 0x09}, 2);
+    RESPONSE_0(0x09);
 }
 
 static void _cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
-    /* Request (teeth): ENTRY(1) OSC(1) CODE(4) */
-    (void)(len);
+    /* Request (teeth): ENTRY(1) OSC(1) CODE(2) */
+    DECODE_TEETH_REQUEST(4);
 
-    uint8_t request_buf[6];
-    teeth_decode(data, 6, request_buf);
-
-    size_t entry = request_buf[0];
-    uint8_t osc = request_buf[1];
-    uint16_t code = UNPACK_16(request_buf, 2);
+    size_t entry = request[0];
+    uint8_t osc = request[1];
+    uint16_t code = UNPACK_16(request, 2);
 
     if (entry >= gem_voice_param_table_len) {
         return;
@@ -270,7 +266,7 @@ static void _cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
     }
 
     /* Acknowledge the message. */
-    gem_midi_send_sysex((uint8_t[2]){GEM_SYSEX_IDENTIFIER, 0x0A}, 2);
+    RESPONSE_0(0x0A);
 }
 
 static void _cmd_0x0B_write_lut(const uint8_t* data, size_t len) {
@@ -290,6 +286,7 @@ static void _cmd_0x0C_erase_lut(const uint8_t* data, size_t len) {
 static void _cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
+
     gem_adc_set_error_correction(2048, 0);
 }
 
@@ -307,15 +304,12 @@ static void _cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    uint8_t response_buf[2 + TEETH_ENCODED_LENGTH(GEM_SERIAL_NUMBER_LEN)];
-
-    response_buf[0] = GEM_SYSEX_IDENTIFIER;
-    response_buf[1] = 0x0F;
+    PREPARE_RESPONSE(0x0F, TEETH_ENCODED_LENGTH(GEM_SERIAL_NUMBER_LEN));
 
     uint8_t serial_no[GEM_SERIAL_NUMBER_LEN];
     gem_get_serial_number(serial_no);
 
-    teeth_encode(serial_no, GEM_SERIAL_NUMBER_LEN, response_buf + 2);
+    teeth_encode(serial_no, GEM_SERIAL_NUMBER_LEN, response);
 
-    gem_midi_send_sysex(response_buf, ARRAY_LEN(response_buf));
+    SEND_RESPONSE();
 }
