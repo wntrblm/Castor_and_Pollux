@@ -38,7 +38,7 @@ one more byte than usual to encode so it's an *overbyte*...
 """
 
 
-def teeth_encode_length(src_len: int) -> int:
+def teeth_encoded_length(src_len: int) -> int:
     """Returns the length of the Teeth-encoded bytearray that
     :func:`teeth_encode()` will return for the given ``src_len``. This will
     always be a multiple of 5."""
@@ -48,45 +48,58 @@ def teeth_encode_length(src_len: int) -> int:
 def teeth_encode(src: bytearray) -> bytearray:
     """Teeth encodes the given bytearray.
 
-    The resulting bytearray will be :func:`teeth_encode_length()` bytes long.
+    The resulting bytearray will be :func:`teeth_encoded_length()` bytes long.
     """
     src_len = len(src)
-    dst_len = teeth_encode_length(src_len)
+    dst_len = teeth_encoded_length(src_len)
     dst = bytearray(dst_len)
     src_idx = 0
     dst_idx = 0
 
-    while(src_idx < src_len):
+    while src_idx < src_len:
         # There's 4 or more bytes left
         if src_idx + 4 <= src_len:
             # First byte carries the leftover bits.
-            dst[dst_idx] = 0x40 | ((src[src_idx] & 0x80) >> 4) | ((src[src_idx + 1] & 0x80) >> 5) | ((src[src_idx + 2] & 0x80) >> 6) | ((src[src_idx + 3] & 0x80) >> 7)
+            dst[dst_idx] = (
+                0x40
+                | ((src[src_idx] & 0x80) >> 4)
+                | ((src[src_idx + 1] & 0x80) >> 5)
+                | ((src[src_idx + 2] & 0x80) >> 6)
+                | ((src[src_idx + 3] & 0x80) >> 7)
+            )
             # Subsequent bytes carry their lower 7 bits.
-            dst[dst_idx+1] = src[src_idx] & 0x7F
-            dst[dst_idx+2] = src[src_idx+1] & 0x7F
-            dst[dst_idx+3] = src[src_idx+2] & 0x7F
-            dst[dst_idx+4] = src[src_idx+3] & 0x7F
+            dst[dst_idx + 1] = src[src_idx] & 0x7F
+            dst[dst_idx + 2] = src[src_idx + 1] & 0x7F
+            dst[dst_idx + 3] = src[src_idx + 2] & 0x7F
+            dst[dst_idx + 4] = src[src_idx + 3] & 0x7F
             dst_idx += 5
             src_idx += 4
         # There's only 3 bytes left
         elif src_idx + 3 == src_len:
-            dst[dst_idx] = 0x30 | ((src[src_idx] & 0x80) >> 4) | ((src[src_idx + 1] & 0x80) >> 5) | ((src[src_idx + 2] & 0x80) >> 6)
-            dst[dst_idx+1] = src[src_idx] & 0x7F
-            dst[dst_idx+2] = src[src_idx+1] & 0x7F
-            dst[dst_idx+3] = src[src_idx+2] & 0x7F
+            dst[dst_idx] = (
+                0x30
+                | ((src[src_idx] & 0x80) >> 4)
+                | ((src[src_idx + 1] & 0x80) >> 5)
+                | ((src[src_idx + 2] & 0x80) >> 6)
+            )
+            dst[dst_idx + 1] = src[src_idx] & 0x7F
+            dst[dst_idx + 2] = src[src_idx + 1] & 0x7F
+            dst[dst_idx + 3] = src[src_idx + 2] & 0x7F
             dst_idx += 4
             src_idx += 3
         # There's only 2 bytes left
         elif src_idx + 2 == src_len:
-            dst[dst_idx] = 0x20 | ((src[src_idx] & 0x80) >> 4) | ((src[src_idx + 1] & 0x80) >> 5)
-            dst[dst_idx+1] = src[src_idx] & 0x7F
-            dst[dst_idx+2] = src[src_idx+1] & 0x7F
+            dst[dst_idx] = (
+                0x20 | ((src[src_idx] & 0x80) >> 4) | ((src[src_idx + 1] & 0x80) >> 5)
+            )
+            dst[dst_idx + 1] = src[src_idx] & 0x7F
+            dst[dst_idx + 2] = src[src_idx + 1] & 0x7F
             dst_idx += 3
             src_idx += 2
         # There's only 1 byte left
         elif src_idx + 1 == src_len:
             dst[dst_idx] = 0x10 | ((src[src_idx] & 0x80) >> 4)
-            dst[dst_idx+1] = src[src_idx] & 0x7F
+            dst[dst_idx + 1] = src[src_idx] & 0x7F
             dst_idx += 2
             src_idx += 1
         else:
@@ -105,10 +118,10 @@ def teeth_decode(src):
     dst_idx = 0
 
     while src_idx < src_len:
-        dst[dst_idx] = (src[src_idx] & 0x8) << 4 | src[src_idx+1]
-        dst[dst_idx+1] = (src[src_idx] & 0x4) << 5 | src[src_idx+2]
-        dst[dst_idx+2] = (src[src_idx] & 0x2) << 6 | src[src_idx+3]
-        dst[dst_idx+3] = (src[src_idx] & 0x1) << 7 | src[src_idx+4]
+        dst[dst_idx] = (src[src_idx] & 0x8) << 4 | src[src_idx + 1]
+        dst[dst_idx + 1] = (src[src_idx] & 0x4) << 5 | src[src_idx + 2]
+        dst[dst_idx + 2] = (src[src_idx] & 0x2) << 6 | src[src_idx + 3]
+        dst[dst_idx + 3] = (src[src_idx] & 0x1) << 7 | src[src_idx + 4]
         len_marker = src[src_idx] >> 4
         dst_idx += len_marker
         src_idx += 5
@@ -117,7 +130,7 @@ def teeth_decode(src):
 
 
 def _hexy(data):
-    return " ".join(f'{x:02x}' for x in data)
+    return " ".join(f"{x:02x}" for x in data)
 
 
 def _test():
@@ -136,7 +149,6 @@ def _test():
         decoded = teeth_decode(encoded)
         assert original == decoded
         print(f"✔️ encode/decode random length {n}.")
-
 
 
 if __name__ == "__main__":
