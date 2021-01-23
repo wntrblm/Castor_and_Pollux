@@ -73,7 +73,7 @@ def run(
         expected_codes, corrected, corrected_gain_error
     )
     print(
-        f"Corrected: Gain: {corrected_gain_error:.3f}, Offset: {corrected_offset_error:.1f}"
+        f"Expected after correction: Gain: {corrected_gain_error:.3f}, Offset: {corrected_offset_error:.1f}"
     )
 
     local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.adc.json"
@@ -93,6 +93,32 @@ def run(
 
     gem.enable_adc_error_correction()
 
+    # Test out the new calibrated ADC
+
+    print("Taking measurements with new calibration.")
+
+    measured_codes = []
+    for n in range(calibration_points + 1):
+        voltage = n / calibration_points * adc_range
+        print(f"Measuring {voltage:.3f}, expecting {expected_codes[n]}.")
+        sol_.send_voltage(voltage)
+        time.sleep(0.2)
+
+        samples = []
+        for s in range(sample_count):
+            samples.append(gem.read_adc(adc_channel))
+
+        result = statistics.mean(samples)
+
+        print(f"Got {result:.1f}, diff {result - expected_codes[n]:.1f}")
+        measured_codes.append(result)
+
+    gain_error = adc_errors.calculate_avg_gain_error(expected_codes, measured_codes)
+    offset_error = adc_errors.calculate_avg_offset_error(
+        expected_codes, measured_codes, gain_error
+    )
+    print(f"Measured, corrected: Gain: {gain_error:.3f}, Offset: {offset_error:.1f}")
+
     print("Done")
     gem.close()
 
@@ -104,7 +130,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--calibration_points",
         type=int,
-        default=100,
+        default=50,
         help="Number of calibration points.",
     )
     parser.add_argument(
