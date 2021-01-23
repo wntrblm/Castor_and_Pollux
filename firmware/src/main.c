@@ -167,10 +167,12 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
         pitch_cv = osc->pitch_cv;
     }
 
-    uint16_t knob_adc_code = FLIP_ADC(adc_results[osc->pitch_knob_channel]);
-    fix16_t knob_value = fix16_div(gem_adc_correct_errors(fix16_from_int(knob_adc_code), knob_errors), F16(4095.0));
+    uint16_t knob_adc_code = adc_results[osc->pitch_knob_channel];
+    fix16_t knob_value =
+        fix16_sub(F16(1.0), fix16_div(gem_adc_correct_errors(fix16_from_int(knob_adc_code), knob_errors), F16(4095.0)));
     /* Adjust the knob value using the non-linear lookup table. */
     knob_value = gem_bezier_1d_lut_lookup(knob_bezier_lut, GEM_KNOB_BEZIER_LUT_LEN, knob_value);
+    /* And apply the user's range settings. */
     fix16_t pitch_knob = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
 
     osc->pitch_cv = fix16_add(pitch_cv, pitch_knob);
