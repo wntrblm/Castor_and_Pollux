@@ -154,7 +154,7 @@ directory:
 	@python3 -m structy_generator -l js ./data/gem_settings.structy ../user_guide/docs/scripts
 
 size: $(BUILD)/$(BIN).elf
-	@echo ""
+	@echo "Build ID: $(BUILD_INFO_STRING)"
 	@./scripts/get_fw_size.py --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $^
 
 clean:
