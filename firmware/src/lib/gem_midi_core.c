@@ -13,7 +13,6 @@
 
 /* Macros & definitions */
 
-#define MAX_SYSEX_CALLBACKS 16
 #define SYSEX_START_BYTE 0xF0
 #define SYSEX_END_BYTE 0xF7
 
@@ -38,10 +37,10 @@ enum GemUSBMIDICodeIndexes {
 
 /* Static variables */
 
-static gem_midi_sysex_command_callback _sysex_callbacks[MAX_SYSEX_CALLBACKS];
 static uint8_t _in_data[4];
 static uint8_t _sysex_data[GEM_SYSEX_BUF_SIZE];
 static size_t _sysex_data_len;
+static gem_midi_sysex_callback _sysex_callback;
 
 /* Private forward declarations. */
 
@@ -56,29 +55,18 @@ void gem_midi_task() {
 
     if ((_in_data[0] & 0x0F) == CIN_SYSEX_START_OR_CONTINUE) {
         _parse_sysex();
-        if (_sysex_data_len < 2) {
-            printf("Invalid SysEx (too short): %02x, length: %lu\r\n", _sysex_data[0], _sysex_data_len);
-            return;
+        if (_sysex_data_len > 0) {
+            _sysex_callback(_sysex_data, _sysex_data_len);
         }
-        if (_sysex_data[0] != GEM_MIDI_SYSEX_MARKER) {
-            printf("Invalid SysEx (wrong marker byte): %02x, length: %lu\r\n", _sysex_data[1], _sysex_data_len);
-            return;
-        }
-
-        uint8_t command = _sysex_data[1];
-        if (command >= MAX_SYSEX_CALLBACKS || _sysex_callbacks[command] == NULL) {
-            printf("Invalid SysEx (invalid command): %02x, length: %lu\r\n", command, _sysex_data_len);
-            return;
-        }
-        _sysex_callbacks[command](_sysex_data, _sysex_data_len);
     }
 }
 
 static void _parse_sysex() {
-    /* Take the last two bytes of the start message. */
-    _sysex_data[0] = _in_data[2];
-    _sysex_data[1] = _in_data[3];
-    size_t data_index = 2;
+    /* Start message has 3 of the sysex bytes. */
+    _sysex_data[0] = _in_data[1];
+    _sysex_data[1] = _in_data[2];
+    _sysex_data[2] = _in_data[3];
+    size_t data_index = 3;
 
     while (1) {
 
@@ -198,6 +186,4 @@ void gem_midi_send_sysex(const uint8_t* data, size_t len) {
     };
 }
 
-void gem_midi_register_sysex_command(uint8_t command, gem_midi_sysex_command_callback callback) {
-    _sysex_callbacks[command] = callback;
-}
+void gem_midi_set_sysex_callback(gem_midi_sysex_callback callback) { _sysex_callback = callback; }
