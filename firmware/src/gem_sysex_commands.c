@@ -26,9 +26,11 @@
 /* Macros & defs */
 
 #define SETTINGS_ENCODED_LEN TEETH_ENCODED_LENGTH(GEMSETTINGS_PACKED_SIZE)
-#define CHUNK_SIZE 20
+#define CHUNK_SIZE 10
 #define TOTAL_CHUNKS (SETTINGS_ENCODED_LEN / CHUNK_SIZE)
 #define ARRAY_LEN(array) (sizeof(array) / sizeof(array[0]))
+static_assert(
+    SETTINGS_ENCODED_LEN % CHUNK_SIZE == 0, "Total settings encoded length must be a multiple of the chunk size");
 
 /* Static variables. */
 
@@ -107,7 +109,7 @@ static void _cmd_0x02_write_adc_gain(uint8_t* data, size_t len) {
     struct GemSettings settings;
     GemSettings_load(&settings);
 
-    uint8_t request_buf[TEETH_DECODED_LENGTH(2)];
+    uint8_t request_buf[2];
     teeth_decode(data + 2, TEETH_ENCODED_LENGTH(2), request_buf);
 
     settings.adc_gain_corr = UNPACK_16(request_buf, 0);
@@ -122,7 +124,7 @@ static void _cmd_0x03_write_adc_offset(uint8_t* data, size_t len) {
     struct GemSettings settings;
     GemSettings_load(&settings);
 
-    uint8_t request_buf[TEETH_DECODED_LENGTH(2)];
+    uint8_t request_buf[2];
     teeth_decode(data + 2, TEETH_ENCODED_LENGTH(2), request_buf);
 
     settings.adc_offset_corr = UNPACK_16(request_buf, 0);
@@ -150,23 +152,23 @@ static void _cmd_0x04_read_adc(uint8_t* data, size_t len) {
 }
 
 static void _cmd_0x05_set_dac(uint8_t* data, size_t len) {
-    /* Request: VREF(1) CHANNEL(1) VALUE(2) */
+    /* Request: CHANNEL(1) VALUE(2) VREF(1)*/
     (void)(len);
 
-    uint8_t request_buf[TEETH_ENCODED_LENGTH(4)];
+    uint8_t request_buf[4];
     teeth_decode(data + 2, TEETH_ENCODED_LENGTH(4), request_buf);
 
     struct GemMCP4278Channel dac_settings = {};
-    dac_settings.vref = request_buf[0];
-    dac_settings.value = UNPACK_16(request_buf, 2);
-    gem_mcp_4728_write_channel(request_buf[1], dac_settings);
+    dac_settings.vref = request_buf[3];
+    dac_settings.value = UNPACK_16(request_buf, 1);
+    gem_mcp_4728_write_channel(request_buf[0], dac_settings);
 }
 
 static void _cmd_0x06_set_period(uint8_t* data, size_t len) {
     /* Request (teeth): CHANNEL(1) PERIOD(4) */
     (void)(len);
 
-    uint8_t request_buf[TEETH_ENCODED_LENGTH(5)];
+    uint8_t request_buf[5];
     teeth_decode(data + 2, TEETH_ENCODED_LENGTH(5), request_buf);
     gem_pulseout_set_period(request_buf[0], UNPACK_32(request_buf, 1));
 }
@@ -181,12 +183,12 @@ static void _cmd_0x07_erase_settings(uint8_t* data, size_t len) {
 static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) */
-    /* Response (teeth): SETTINGS_CHUNK(CHUNK_SIZE) */
+    /* Response: SETTINGS_CHUNK(CHUNK_SIZE) */
     (void)(data);
     (void)(len);
 
     const uint8_t chunk_num = data[2];
-    if (chunk_num >= TOTAL_CHUNKS) {
+    if (chunk_num > TOTAL_CHUNKS) {
         printf("Invalid chunk %u.\r\n", chunk_num);
         return;
     }
@@ -202,18 +204,18 @@ static void _cmd_0x08_read_settings(uint8_t* data, size_t len) {
     response_buf[0] = GEM_MIDI_SYSEX_MARKER;
     response_buf[1] = 0x08;
 
-    memcpy(response_buf, _chunk_buf + (CHUNK_SIZE * chunk_num), CHUNK_SIZE);
+    memcpy(response_buf + 2, _chunk_buf + (CHUNK_SIZE * chunk_num), CHUNK_SIZE);
 
     gem_midi_send_sysex(response_buf, ARRAY_LEN(response_buf));
 }
 
 static void _cmd_0x09_write_settings(uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
-    /* Request: CHUNK_NUM(1) (teeth) SETTINGS_CHUNK(CHUNK_SIZE) */
+    /* Request: CHUNK_NUM(1) SETTINGS_CHUNK(CHUNK_SIZE) */
     (void)(len);
 
     const uint8_t chunk_num = data[2];
-    if (chunk_num >= TOTAL_CHUNKS) {
+    if (chunk_num > TOTAL_CHUNKS) {
         printf("Invalid chunk %u.\r\n", chunk_num);
         return;
     }
@@ -246,7 +248,7 @@ static void _cmd_0x0A_write_lut_entry(uint8_t* data, size_t len) {
     /* Request (teeth): ENTRY(1) OSC(1) CODE(4) */
     (void)(len);
 
-    uint8_t request_buf[TEETH_DECODED_LENGTH(6)];
+    uint8_t request_buf[6];
     teeth_decode(data + 2, 6, request_buf);
 
     size_t entry = request_buf[0];
