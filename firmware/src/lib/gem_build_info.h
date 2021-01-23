@@ -50,7 +50,7 @@ struct GemBuildInfo {
 
     /*
         The name and version of the compiler used to create the build.
-        For example: "arm-none-eabi-gcc 10.2.1 20201103 (release)"
+        For example: "arm-none-eabi-gcc 10.2.1"
     */
     const char* compiler;
 
@@ -62,4 +62,10 @@ struct GemBuildInfo {
 };
 
 struct GemBuildInfo gem_build_info();
+
+/*
+    The full build information string. For example:
+    "12.24.2020-83-g786ee18-dirty (Debug) on 01/23/2021 18:28 UTC with arm-none-eabi-gcc 10.2.1
+   stargirl@stargirls-mbp.lan"
+*/
 const char* gem_build_info_string();
