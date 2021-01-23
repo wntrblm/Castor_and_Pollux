@@ -59,12 +59,9 @@ def run(adc_resolution, invert, adc_channel, save):
     print(f"Saved local copy to {local_copy}")
 
     if save:
-        gain_f16 = int(gain_error * 0x10000)
-        offset_f16 = int(offset_error * 0x10000)
-
         settings = gem.read_settings()
-        settings.knob_gain_corr = gain_f16
-        settings.knob_offset_corr = offset_f16
+        settings.knob_gain_corr = gain_error
+        settings.knob_offset_corr = offset_error
 
         gem.save_settings(settings)
         print("Saved to NVM.")
