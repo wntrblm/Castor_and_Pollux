@@ -1,49 +1,75 @@
 canvas.waveform {
-    display: block;
-    margin: 2em auto;
-    max-width: 80%;
+  display: block;
+  margin: 2em auto;
+  max-width: 80%;
 }
 
 canvas.teal {
-    background: #66AEB5;
+  background: #66aeb5;
 }
 
 canvas.purple {
-    background: #A28AD6;
+  background: #a28ad6;
 }
 
 canvas.red {
-    background: #F57281;
+  background: #f57281;
 }
 
 canvas.teal2 {
-    background: #408D94;
+  background: #408d94;
 }
 
 canvas.purple2 {
-    background: #7D61BB;
+  background: #7d61bb;
 }
 
 canvas.red2 {
-    background: #D94A5B;
+  background: #d94a5b;
 }
 
-div.slider {
-    margin: 1em auto;
-    width: 640px;
-    max-width: 80%;
+div.slider,
+div.output {
+  margin: 1em auto;
+  width: 640px;
+  max-width: 80%;
 }
 
 div.slider input {
-    display: block;
-    width: 100%;
-    background: transparent;
+  display: block;
+  width: 100%;
+  background: transparent;
 }
 
 div.slider label {
-    display: block;
-    width: 100%;
-    text-align: center;
-    color: #333;
-    font-size: 90%;
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: #333;
+  font-size: 90%;
+}
+
+div.output output {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 0.3em;
+  margin: 0.2em 0;
+  border-radius: 5px;
+  background-color: #7d61bb;
+  color: white;
+}
+
+div.output output.teal {
+  background: #408d94;
+}
+
+div.output label {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: #333;
+  font-size: 90%;
+  font-weight: bold;
+  margin: 0.6em 0;
 }
