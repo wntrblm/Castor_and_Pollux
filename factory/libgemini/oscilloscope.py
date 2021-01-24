@@ -5,7 +5,7 @@
 """
 Wrapper for talking to the Siglent SDS 1104X-E over VISA.
 
-SCPI & Programming reference: https://siglentna.com/wp-content/uploads/2020/04/ProgrammingGuide_PG01-E02C.pdf
+SCPI & Programming reference: https://storage.googleapis.com/files.winterbloom.com/docs/Programming%20Guide%20PG%2001%20E%2002%20C.pdf
 """
 
 import time
@@ -39,6 +39,12 @@ class Oscilloscope:
         self.port.write("*rst")
         # *opc? should block until the device is ready, but it doesn't, so just sleep.
         time.sleep(5)
+
+    def enable_channel(self, channel: str):
+        self.port.write(f"{channel}:trace on")
+
+    def disable_channel(self, channel: str):
+        self.port.write(f"{channel}:trace off")
 
     def set_vertical_division(self, channel: str, volts: float):
         self.port.write(f"{channel}:vdiv {volts}")

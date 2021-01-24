@@ -6,6 +6,7 @@ import sys
 import math
 import atexit
 import shutil
+import io
 
 
 class Escape:
@@ -60,6 +61,40 @@ class Colors:
 
 class Updateable:
     def __init__(self):
+        self._buf = io.StringIO()
+        self._line_count = 0
+        self._clear_on_next = False
+
+    def write(self, text):
+        self._buf.write(text)
+
+    def reset(self):
+        self._line_count = 0
+
+    def clear(self):
+        if self._line_count > 0:
+            clear_lines = Escape.CURSOR_PREVIOUS_LINE_NUM.format(count=self._line_count)
+            clear_lines += Escape.ERASE_AFTER_CURSOR
+            sys.stdout.write(clear_lines)
+            self._line_count = 0
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        output = self._buf.getvalue()
+        self.clear()
+        sys.stdout.write(output)
+        self.flush()
+        self._buf.truncate(0)
+        self._line_count = output.count("\n")
+
+    def flush(self):
+        sys.stdout.flush()
+
+
+class UnbufferedUpdateable:
+    def __init__(self):
         self._line_count = 0
         self._clear_on_next = False
 
@@ -85,7 +120,7 @@ class Updateable:
         self._clear_on_next = True
 
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        sys.stdout.flush()
+        self.flush()
 
     def flush(self):
         sys.stdout.flush()
