@@ -42,7 +42,7 @@ def _print_file(*args, sep=" ", end="\n", **kwargs):
 
 
 def debug(*args, **kwargs):
-    _print_term(DEBUG_COLOR, *args, **kwargs)
+    # _print_term(DEBUG_COLOR, *args, **kwargs)
     _print_file("[debug]   : ", *args, **kwargs)
 
 

@@ -5,7 +5,6 @@
 import argparse
 import os.path
 import time
-import sys
 import pathlib
 import json
 import pyvisa as visa
@@ -28,29 +27,103 @@ def _period_reg_to_freq(period):
     return 8_000_000 / (1 * (period + 1))
 
 
-def _replace_line(new_content):
-    sys.stdout.write("\33[2K\r")
-    sys.stdout.flush()
-    sys.stdout.write(new_content)
-    sys.stdout.flush()
+def _seek_voltage_on_channel(output, gem, scope, oscillator, period, start_code):
+
+    if oscillator == 0:
+        dac_channel = 0
+        scope_channel = "c1"
+    else:
+        dac_channel = 2
+        scope_channel = "c2"
+
+    frequency = _period_reg_to_freq(period)
+    dac_code = start_code
+
+    gem.set_period(oscillator, period)
+
+    while True:
+        # Set the DAC
+        gem.set_dac(dac_channel, dac_code, vref=1)
+
+        # Let things settle.
+        time.sleep(0.01)
+
+        # Read the oscilloscope's peak-to-peak stats and adjust as needed.
+        measured_frequency = scope.get_frequency()
+        peak_to_peak = scope.get_peak_to_peak(scope_channel)
+        freq_diff = (measured_frequency / frequency) - 1.0
+        freq_diff_color = tui.gradient(
+            (0.8, 0.8, 1.0), (1.0, 0.5, 0.5), abs(freq_diff) * 2
+        )
+        code_diff = dac_code - start_code
+
+        # Draw the UI
+        output.write(f"Frequency: {frequency:.2f} Hz, Period: {period}\n")
+        output.write(
+            f"│ {measured_frequency:0.2f} Hz ({tui.rgb(freq_diff_color)}{freq_diff*100:+.0f}%{tui.reset})\n"
+        )
+        output.write(f"│ Peak-to-peak: {peak_to_peak:.2f} volts\n")
+
+        # Adjust DAC code if needed.
+        if peak_to_peak < 0.3:
+            # Probe probably isn't connected, sleep and try again.
+            output.write(
+                f"│ 💤 No input detected, voltage reading at {peak_to_peak:.2f}v\n",
+            )
+            time.sleep(0.2)
+            continue
+
+        elif peak_to_peak <= 3.25:
+            # Too low, increase DAC code.
+            # Using random here helps it find the range a bit better.
+            dac_code += random.randrange(1, 5)
+
+            output.write(
+                f"│ {tui.rgb(0.0, 1.0, 1.0)}{_code_to_volts(dac_code):.2f} volts + Δ({_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}\n"
+            )
+
+            if dac_code >= 4095:
+                log.error("DAC overflow! Voltage can not be increased from here!")
+                dac_code = 4095
+
+        elif peak_to_peak > 3.35:
+            # Too high, decrease the DAC code.
+            dac_code -= random.randrange(1, 5)
+
+            output.write(
+                f"│ {tui.rgb(1.0, 1.0, 0.0)}{_code_to_volts(dac_code):.2f} volts - Δ({_code_to_volts(code_diff):.2f}){tui.reset}\n"
+            )
+
+            if dac_code < 0:
+                log.error("DAC underflow!")
+                return
+
+        else:
+            output.write(
+                f"│ {tui.rgb(0.5, 1.0, 0.5)}{_code_to_volts(dac_code):.2f} volts ✓ Δ({_code_to_volts(code_diff):.2f}){tui.reset}\n"
+            )
+            log.debug(
+                f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz\n"
+            )
+            break
+
+    return dac_code
 
 
 def _calibrate_oscillator(gem, scope, oscillator):
-    last_dac_code = 0
-
     output = tui.Updateable()
     bar = tui.Bar()
 
+    last_dac_code = 0
+
     for n, (period, dac_code) in enumerate(period_to_dac_code.items()):
-        progress = n / len(period_to_dac_code)
+        progress = n / (len(period_to_dac_code) - 1)
 
         if last_dac_code > dac_code:
             dac_code = last_dac_code
 
         if dac_code < 30:
             dac_code = 30
-
-        start_code = dac_code
 
         # Adjust the oscilloscope's time division as needed.
         frequency = _period_reg_to_freq(period)
@@ -66,85 +139,16 @@ def _calibrate_oscillator(gem, scope, oscillator):
         else:
             scope.set_time_division("10ms")
 
-        gem.set_period(oscillator, period)
-
-        while True:
-            with output:
-                # Set the DAC
-                gem.set_dac(0 if oscillator == 0 else 2, dac_code, vref=1)
-
-                # Let things settle.
-                time.sleep(0.01)
-
-                # Read the oscilloscope's peak-to-peak stats and adjust as needed.
-                measured_frequency = scope.get_frequency()
-                peak_to_peak = scope.get_peak_to_peak("c1")
-                freq_diff = (measured_frequency / frequency) - 1.0
-                freq_diff_color = tui.gradient(
-                    (0.8, 0.8, 1.0), (1.0, 0.5, 0.5), abs(freq_diff) * 2
-                )
-                code_diff = dac_code - start_code
-
-                # Draw the UI
-                bar.draw(
-                    output,
-                    tui.Segment(
-                        progress, color=tui.gradient(start_color, end_color, progress)
-                    ),
-                )
-                output.write(f"Frequency: {frequency:.2f} Hz, Period: {period}")
-                output.write(
-                    f"> {measured_frequency:0.2f} Hz ({tui.rgb(freq_diff_color)}{freq_diff*100:+.0f}%{tui.reset})"
-                )
-                output.write(f"> Peak-to-peak: {peak_to_peak:.2f} volts")
-
-                if peak_to_peak < 0.3:
-                    # Probe probably isn't connected, sleep and try again.
-                    output.write(
-                        f"💤 No input detected, voltage reading at {peak_to_peak:.2f}v",
-                    )
-                    time.sleep(0.2)
-                    continue
-
-                elif peak_to_peak <= 3.25:
-                    # Too low, increase DAC code.
-                    dac_code += random.randrange(1, 5)
-
-                    output.write(
-                        f"{tui.rgb(0.0, 1.0, 1.0)}> {_code_to_volts(dac_code):.2f} volts + Δ({_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}"
-                    )
-
-                    if dac_code >= 4095:
-                        log.error(
-                            "DAC overflow! Voltage can not be increased from here!"
-                        )
-                        dac_code = 4095
-
-                elif peak_to_peak > 3.35:
-                    # Too high, decrease the DAC code.
-                    dac_code -= random.randrange(1, 5)
-
-                    output.write(
-                        f"{tui.rgb(1.0, 1.0, 0.0)}> {_code_to_volts(dac_code):.2f} volts - Δ({_code_to_volts(code_diff):.2f}){tui.reset}"
-                    )
-
-                    if dac_code < 0:
-                        log.error("DAC underflow!")
-                        return
-
-                else:
-                    output.write(
-                        f"{tui.rgb(0.5, 1.0, 0.5)}> {_code_to_volts(dac_code):.2f} volts ✓ Δ({_code_to_volts(code_diff):.2f}){tui.reset}"
-                    )
-                    log.debug(
-                        f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz"
-                    )
-                    # Show this information for a little bit so we can monitor it.
-                    time.sleep(0.1)
-                    break
-
-        period_to_dac_code[period] = dac_code
-        last_dac_code = dac_code
+        with output:
+            bar.draw(
+                output,
+                tui.Segment(
+                    progress, color=tui.gradient(start_color, end_color, progress)
+                ),
+            )
+            period_to_dac_code[period] = last_dac_code = _seek_voltage_on_channel(
+                output, gem, scope, oscillator, period, dac_code
+            )
 
     return period_to_dac_code.copy()
 
@@ -166,7 +170,7 @@ def run(save):
     gem.enter_calibration_mode()
 
     # Calibrate both oscillators
-    log.section("Calibrating Castor", depth=2)
+    log.section("Calibrating Castor...", depth=2)
 
     input("Connect to RAMP A and press enter to start.")
     castor_calibration = _calibrate_oscillator(gem, scope, 0)
@@ -174,10 +178,10 @@ def run(save):
     lowest_voltage = _code_to_volts(min(castor_calibration.values()))
     highest_voltage = _code_to_volts(max(castor_calibration.values()))
     log.success(
-        f"Calibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v"
+        f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
     )
 
-    log.section("Calibrating Pollux", depth=2)
+    log.section("Calibrating Pollux...", depth=2)
 
     input("Connect to RAMP B and press enter to start.")
     pollux_calibration = _calibrate_oscillator(gem, scope, 1)
@@ -185,10 +189,10 @@ def run(save):
     lowest_voltage = _code_to_volts(min(castor_calibration.values()))
     highest_voltage = _code_to_volts(max(castor_calibration.values()))
     log.success(
-        f"Calibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v"
+        f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
     )
 
-    log.section("Saving calibration table", depth=2)
+    log.section("Saving calibration table...", depth=2)
 
     local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.ramp.json"
     local_copy.parent.mkdir(parents=True, exist_ok=True)
@@ -204,14 +208,14 @@ def run(save):
 
     if save:
         output = tui.Updateable()
-        bar = tui.bar()
+        bar = tui.Bar()
 
         log.info("Sending LUT values to device...")
 
         for o, table in enumerate([castor_calibration, pollux_calibration]):
             for n, dac_code in enumerate(table.values()):
                 with output:
-                    progress = n / len(table.values())
+                    progress = n / (len(table.values()) - 1)
                     bar.draw(
                         output,
                         tui.Segment(
@@ -219,9 +223,7 @@ def run(save):
                             color=tui.gradient(start_color, end_color, progress),
                         ),
                     )
-                    log.debug(
-                        f"Set oscillator {o} entry {n} to {dac_code}.", file=output
-                    )
+                    log.debug(f"Set oscillator {o} entry {n} to {dac_code}.")
 
                     gem.write_lut_entry(n, o, dac_code)
 
@@ -238,6 +240,8 @@ def run(save):
         log.warning("Dry run enabled, calibration table not saved to device.")
 
     gem.close()
+
+    print("")
     log.success("Done!")
 
 
