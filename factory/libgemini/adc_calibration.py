@@ -8,6 +8,7 @@ import pathlib
 import json
 import statistics
 
+from libwinter import log
 from libgemini import gemini
 from libgemini import sol
 from libgemini import adc_errors
@@ -46,7 +47,7 @@ def run(
 
     for n in range(calibration_points + 1):
         voltage = n / calibration_points * adc_range
-        print(f"Measuring {voltage:.3f}, expecting {expected_codes[n]}.")
+        log.info(f"Measuring {voltage:.3f}, expecting {expected_codes[n]}.")
         sol_.send_voltage(voltage)
         time.sleep(0.2)
 
@@ -56,14 +57,14 @@ def run(
 
         result = statistics.mean(samples)
 
-        print(f"Got {result:.1f}, diff {result - expected_codes[n]:.1f}")
+        log.info(f"Got {result:.1f}, diff {result - expected_codes[n]:.1f}")
         measured_codes.append(result)
 
     gain_error = adc_errors.calculate_avg_gain_error(expected_codes, measured_codes)
     offset_error = adc_errors.calculate_avg_offset_error(
         expected_codes, measured_codes, gain_error
     )
-    print(f"Measured: Gain: {gain_error:.3f}, Offset: {offset_error:.1f}")
+    log.info(f"Measured: Gain: {gain_error:.3f}, Offset: {offset_error:.1f}")
 
     corrected = adc_errors.apply_correction(measured_codes, gain_error, offset_error)
     corrected_gain_error = adc_errors.calculate_avg_gain_error(
@@ -72,7 +73,7 @@ def run(
     corrected_offset_error = adc_errors.calculate_avg_offset_error(
         expected_codes, corrected, corrected_gain_error
     )
-    print(
+    log.success(
         f"Expected after correction: Gain: {corrected_gain_error:.3f}, Offset: {corrected_offset_error:.1f}"
     )
 
@@ -82,25 +83,25 @@ def run(
     with local_copy.open("w") as fh:
         json.dump({"gain_error": gain_error, "offset_error": offset_error}, fh)
 
-    print(f"Saved local copy to {local_copy}")
+    log.info(f"Saved local copy to {local_copy}")
 
     if save:
         gem.set_adc_gain_error(gain_error)
         gem.set_adc_offset_error(int(offset_error))
-        print("Saved to NVM.")
+        log.success("Saved to NVM.")
     else:
-        print("Dry run, not saved to NVM.")
+        log.warning("Dry run, not saved to NVM.")
 
     gem.enable_adc_error_correction()
 
     # Test out the new calibrated ADC
 
-    print("Taking measurements with new calibration.")
+    log.info("Taking measurements with new calibration.")
 
     measured_codes = []
     for n in range(calibration_points + 1):
         voltage = n / calibration_points * adc_range
-        print(f"Measuring {voltage:.3f}, expecting {expected_codes[n]}.")
+        log.debug(f"Measuring {voltage:.3f}, expecting {expected_codes[n]}.")
         sol_.send_voltage(voltage)
         time.sleep(0.2)
 
@@ -110,16 +111,18 @@ def run(
 
         result = statistics.mean(samples)
 
-        print(f"Got {result:.1f}, diff {result - expected_codes[n]:.1f}")
+        log.debug(f"Got {result:.1f}, diff {result - expected_codes[n]:.1f}")
         measured_codes.append(result)
 
     gain_error = adc_errors.calculate_avg_gain_error(expected_codes, measured_codes)
     offset_error = adc_errors.calculate_avg_offset_error(
         expected_codes, measured_codes, gain_error
     )
-    print(f"Measured, corrected: Gain: {gain_error:.3f}, Offset: {offset_error:.1f}")
+    log.success(
+        f"Measured, corrected: Gain: {gain_error:.3f}, Offset: {offset_error:.1f}"
+    )
 
-    print("Done")
+    log.success("Done")
     gem.close()
 
 

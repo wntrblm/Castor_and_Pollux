@@ -7,6 +7,7 @@ import statistics
 import pathlib
 import json
 
+from libwinter import log
 from libgemini import gemini
 
 
@@ -33,7 +34,7 @@ def run(adc_resolution, invert, adc_channel, save):
 
     low_measured = statistics.mean(samples)
 
-    print(f"> Measured {low_measured}, expected {low_expected}")
+    log.info(f"> Measured {low_measured}, expected {low_expected}")
 
     input(f"Set knob for channel {adc_channel} all the way CW and press enter.")
 
@@ -43,12 +44,12 @@ def run(adc_resolution, invert, adc_channel, save):
 
     high_measured = statistics.mean(samples)
 
-    print(f"> Measured {high_measured}, expected {high_expected}")
+    log.info(f"> Measured {high_measured}, expected {high_expected}")
 
     gain_error = (high_expected - low_expected) / (high_measured - low_measured)
     offset_error = (low_measured * gain_error) - low_expected
 
-    print(f"Knob gain error: {gain_error:.3f}, offset error: {offset_error:.1f}")
+    log.success(f"Knob gain error: {gain_error:.3f}, offset error: {offset_error:.1f}")
 
     local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.knob.json"
     local_copy.parent.mkdir(parents=True, exist_ok=True)
@@ -56,7 +57,7 @@ def run(adc_resolution, invert, adc_channel, save):
     with local_copy.open("w") as fh:
         json.dump({"gain_error": gain_error, "offset_error": offset_error}, fh)
 
-    print(f"Saved local copy to {local_copy}")
+    log.success(f"Saved local copy to {local_copy}")
 
     if save:
         settings = gem.read_settings()
@@ -64,11 +65,11 @@ def run(adc_resolution, invert, adc_channel, save):
         settings.knob_offset_corr = offset_error
 
         gem.save_settings(settings)
-        print("Saved to NVM.")
+        log.success("Saved to NVM.")
     else:
-        print("Dry run, not saved to NVM.")
+        log.warning("Dry run, not saved to NVM.")
 
-    print("Done")
+    log.success("Done!")
     gem.close()
 
 

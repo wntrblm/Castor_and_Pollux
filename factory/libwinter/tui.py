@@ -1,3 +1,7 @@
+# Copyright (c) 2021 Alethea Katherine Flowers.
+# Published under the standard MIT License.
+# Full text available at: https://opensource.org/licenses/MIT
+
 import sys
 import math
 import atexit
@@ -29,6 +33,14 @@ def gradient(a, b, v):
     g = a[1] + v * (b[1] - a[1])
     b = a[2] + v * (b[2] - a[2])
     return r, g, b
+
+
+def gradient_text(string, start, end):
+    result = ""
+    for n, c in enumerate(string):
+        color = gradient(start, end, n / len(string))
+        result += rgb(color) + c
+    return result
 
 
 class Colors:

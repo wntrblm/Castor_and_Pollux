@@ -11,10 +11,8 @@ import json
 import pyvisa as visa
 import random
 
-from libgemini import gemini
-from libgemini import oscilloscope
-from libgemini import reference_calibration
-from libwinter import tui
+from libgemini import gemini, oscilloscope, reference_calibration
+from libwinter import tui, log
 
 here = os.path.abspath(os.path.dirname(__file__))
 period_to_dac_code = reference_calibration.castor.copy()
@@ -94,26 +92,16 @@ def _calibrate_oscillator(gem, scope, oscillator):
                         progress, color=tui.gradient(start_color, end_color, progress)
                     ),
                 )
-                print(
-                    f"Frequency: {frequency:.2f} Hz, Period: {period}",
-                    file=output,
+                output.write(f"Frequency: {frequency:.2f} Hz, Period: {period}")
+                output.write(
+                    f"> {measured_frequency:0.2f} Hz ({tui.rgb(freq_diff_color)}{freq_diff*100:+.0f}%{tui.reset})"
                 )
-                print(
-                    f"> {measured_frequency:0.2f} Hz (",
-                    tui.rgb(freq_diff_color),
-                    f"{freq_diff*100:+.0f}%",
-                    tui.reset,
-                    ")",
-                    file=output,
-                    sep="",
-                )
-                print(f"> Peak-to-peak: {peak_to_peak:.2f} volts", file=output)
+                output.write(f"> Peak-to-peak: {peak_to_peak:.2f} volts")
 
                 if peak_to_peak < 0.3:
                     # Probe probably isn't connected, sleep and try again.
-                    print(
+                    output.write(
                         f"💤 No input detected, voltage reading at {peak_to_peak:.2f}v",
-                        file=output,
                     )
                     time.sleep(0.2)
                     continue
@@ -122,45 +110,35 @@ def _calibrate_oscillator(gem, scope, oscillator):
                     # Too low, increase DAC code.
                     dac_code += random.randrange(1, 5)
 
-                    print(
-                        tui.rgb(0.0, 1.0, 1.0),
-                        f"> {_code_to_volts(dac_code):.2f} volts + Δ({_code_to_volts(code_diff):+.4f}, {code_diff} points)",
-                        tui.reset,
-                        file=output,
-                        sep="",
+                    output.write(
+                        f"{tui.rgb(0.0, 1.0, 1.0)}> {_code_to_volts(dac_code):.2f} volts + Δ({_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}"
                     )
 
                     if dac_code >= 4095:
-                        print("DAC overflow! Voltage can not be increased from here!")
+                        log.error(
+                            "DAC overflow! Voltage can not be increased from here!"
+                        )
                         dac_code = 4095
 
                 elif peak_to_peak > 3.35:
                     # Too high, decrease the DAC code.
                     dac_code -= random.randrange(1, 5)
 
-                    print(
-                        tui.rgb(1.0, 1.0, 0.0),
-                        f"> {_code_to_volts(dac_code):.2f} volts - Δ({_code_to_volts(code_diff):.2f})",
-                        tui.reset,
-                        file=output,
-                        sep="",
+                    output.write(
+                        f"{tui.rgb(1.0, 1.0, 0.0)}> {_code_to_volts(dac_code):.2f} volts - Δ({_code_to_volts(code_diff):.2f}){tui.reset}"
                     )
 
                     if dac_code < 0:
-                        print("DAC underflow!")
+                        log.error("DAC underflow!")
                         return
 
                 else:
-                    print(
-                        tui.rgb(0.5, 1.0, 0.5),
-                        f"> {_code_to_volts(dac_code):.2f} volts ✓ Δ({_code_to_volts(code_diff):.2f})",
-                        tui.reset,
-                        file=output,
-                        sep="",
+                    output.write(
+                        f"{tui.rgb(0.5, 1.0, 0.5)}> {_code_to_volts(dac_code):.2f} volts ✓ Δ({_code_to_volts(code_diff):.2f}){tui.reset}"
                     )
-                    # print(
-                    #     f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz"
-                    # )
+                    log.debug(
+                        f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz"
+                    )
                     # Show this information for a little bit so we can monitor it.
                     time.sleep(0.1)
                     break
@@ -173,7 +151,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
 
 def run(save):
     # Oscilloscope setup.
-    print("Configuring oscilloscope...")
+    log.info("Configuring oscilloscope...")
     resource_manager = visa.ResourceManager("@ivi")
     scope = oscilloscope.Oscilloscope(resource_manager)
     scope.reset()
@@ -183,28 +161,34 @@ def run(save):
     scope.set_trigger_level("c1", 1)
 
     # Gemini setup
-    print("Connecting to Gemini...")
+    log.info("Connecting to Gemini...")
     gem = gemini.Gemini()
     gem.enter_calibration_mode()
 
     # Calibrate both oscillators
-    print("--------- Calibrating Castor ---------")
+    log.section("Calibrating Castor", depth=2)
+
     input("Connect to RAMP A and press enter to start.")
     castor_calibration = _calibrate_oscillator(gem, scope, 0)
 
     lowest_voltage = _code_to_volts(min(castor_calibration.values()))
     highest_voltage = _code_to_volts(max(castor_calibration.values()))
-    print(f"Lowest voltage: {lowest_voltage:.2f}, Highest: {highest_voltage:.2f}")
+    log.success(
+        f"Calibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v"
+    )
 
-    print("--------- Calibrating Pollux ---------")
+    log.section("Calibrating Pollux", depth=2)
+
     input("Connect to RAMP B and press enter to start.")
     pollux_calibration = _calibrate_oscillator(gem, scope, 1)
 
     lowest_voltage = _code_to_volts(min(castor_calibration.values()))
     highest_voltage = _code_to_volts(max(castor_calibration.values()))
-    print(f"Lowest voltage: {lowest_voltage:.2f}, Highest: {highest_voltage:.2f}")
+    log.success(
+        f"Calibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v"
+    )
 
-    print("--------- Saving calibration table ---------")
+    log.section("Saving calibration table", depth=2)
 
     local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.ramp.json"
     local_copy.parent.mkdir(parents=True, exist_ok=True)
@@ -216,13 +200,13 @@ def run(save):
         }
         json.dump(data, fh)
 
-    print(f"Saved local copy to {local_copy}")
+    log.success(f"Saved local copy to {local_copy}")
 
     if save:
         output = tui.Updateable()
         bar = tui.bar()
 
-        print("Sending LUT values...")
+        log.info("Sending LUT values to device...")
 
         for o, table in enumerate([castor_calibration, pollux_calibration]):
             for n, dac_code in enumerate(table.values()):
@@ -235,24 +219,26 @@ def run(save):
                             color=tui.gradient(start_color, end_color, progress),
                         ),
                     )
-                    print(f"> Set oscillator {o} entry {n} to {dac_code}.", file=output)
+                    log.debug(
+                        f"Set oscillator {o} entry {n} to {dac_code}.", file=output
+                    )
 
                     gem.write_lut_entry(n, o, dac_code)
 
-        print("Committing LUT to NVM...")
+        log.info("Committing LUT to NVM...")
         gem.write_lut()
 
         checksum = 0
         for dac_code in castor_calibration.values():
             checksum ^= dac_code
 
-        print(f"Calibration table written, checksum: {checksum:04x}")
+        log.success(f"Calibration table written, checksum: {checksum:04x}")
 
     else:
-        print("Dry run enabled, calibration table not saved to device.")
+        log.warning("Dry run enabled, calibration table not saved to device.")
 
     gem.close()
-    print("Done")
+    log.success("Done!")
 
 
 if __name__ == "__main__":

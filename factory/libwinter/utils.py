@@ -1,3 +1,7 @@
+# Copyright (c) 2021 Alethea Katherine Flowers.
+# Published under the standard MIT License.
+# Full text available at: https://opensource.org/licenses/MIT
+
 import os.path
 import pathlib
 import platform
@@ -288,9 +292,11 @@ def bell():
 
 
 _original_input = __builtins__["input"]
-    
+
+
 def input_with_bell(*args, **kwargs):
     bell()
     return _original_input(*args, **kwargs)
+
 
 __builtins__["input"] = input_with_bell

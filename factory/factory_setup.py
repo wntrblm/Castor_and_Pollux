@@ -1,6 +1,6 @@
 import argparse
 
-from libwinter import utils
+from libwinter import utils, log
 from libgemini import adc_calibration, ramp_calibration, knob_calibration
 
 DEVICE_NAME = "winterbloom_gemini"
@@ -9,7 +9,7 @@ JLINK_SCRIPT = "scripts/flash.jlink"
 
 
 def program_firmware():
-    print("========== PROGRAMMING FIRMWARE ==========")
+    log.section("Programming firmware")
 
     bootloader_url = utils.find_latest_bootloader(DEVICE_NAME)
 
@@ -19,7 +19,7 @@ def program_firmware():
 
 
 def run_adc_calibration():
-    print("========== CALIBRATING ADC ==========")
+    log.section("Calibrating ADC")
     # TODO: copy over Sol's code.
 
     input("Connect Sol output A to Gemini CV A, press enter when ready.")
@@ -36,12 +36,12 @@ def run_adc_calibration():
 
 
 def run_ramp_calibration():
-    print("========== CALIBRATING RAMP ==========")
+    log.section("Calibrating ramps")
     ramp_calibration.run(save=True)
 
 
 def run_knob_calibration():
-    print("========== CALIBRATING KNOB ==========")
+    log.section("Calibrating knob")
 
     knob_calibration.run(
         adc_resolution=2 ** 12,
