@@ -5,9 +5,9 @@ BUILD_INFO_COMPILER = $(CC) $(shell $(CC) -dumpversion)
 BUILD_INFO_RELEASE = $(shell git describe --tags --abbrev=0)
 # Looks like: 12 24 2020
 BUILD_INFO_RELEASE_PARTS = $(subst ., ,$(BUILD_INFO_RELEASE))
-BUILD_INFO_RELEASE_YEAR = $(word 3,$(BUILD_INFO_RELEASE_PARTS))
+BUILD_INFO_RELEASE_YEAR = $(word 1,$(BUILD_INFO_RELEASE_PARTS))
 BUILD_INFO_RELEASE_MONTH = $(word 2,$(BUILD_INFO_RELEASE_PARTS))
-BUILD_INFO_RELEASE_DAY = $(word 1,$(BUILD_INFO_RELEASE_PARTS))
+BUILD_INFO_RELEASE_DAY = $(word 3,$(BUILD_INFO_RELEASE_PARTS))
 # Looks like: 12.24.2020-46-gb77c425-dirty
 BUILD_INFO_REVISION = $(shell git describe --always --tags --dirty)
 # Looks like: 20/01/2021 22:34 UTC
