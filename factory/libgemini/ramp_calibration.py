@@ -17,8 +17,9 @@ from libgemini import reference_calibration
 from libwinter import tui
 
 here = os.path.abspath(os.path.dirname(__file__))
-
 period_to_dac_code = reference_calibration.castor.copy()
+start_color = (1.0, 1.0, 0.0)
+end_color = (0.5, 0.6, 1.0)
 
 
 def _code_to_volts(code):
@@ -41,8 +42,6 @@ def _calibrate_oscillator(gem, scope, oscillator):
 
     output = tui.Updateable()
     bar = tui.Bar()
-    start_color = (1.0, 1.0, 0.0)
-    end_color = (0.5, 0.6, 1.0)
 
     for n, (period, dac_code) in enumerate(period_to_dac_code.items()):
         progress = n / len(period_to_dac_code)
@@ -220,12 +219,27 @@ def run(save):
     print(f"Saved local copy to {local_copy}")
 
     if save:
+        output = tui.Updateable()
+        bar = tui.bar()
+
+        print("Sending LUT values...")
+
         for o, table in enumerate([castor_calibration, pollux_calibration]):
             for n, dac_code in enumerate(table.values()):
-                print(f"> Set oscillator {o} entry {n} to {dac_code}.")
-                gem.write_lut_entry(n, o, dac_code)
+                with output:
+                    progress = n / len(table.values())
+                    bar.draw(
+                        output,
+                        tui.Segment(
+                            progress,
+                            color=tui.gradient(start_color, end_color, progress),
+                        ),
+                    )
+                    print(f"> Set oscillator {o} entry {n} to {dac_code}.", file=output)
 
-        print("Writing LUT to NVM")
+                    gem.write_lut_entry(n, o, dac_code)
+
+        print("Committing LUT to NVM...")
         gem.write_lut()
 
         checksum = 0
@@ -235,7 +249,7 @@ def run(save):
         print(f"Calibration table written, checksum: {checksum:04x}")
 
     else:
-        print("WARNING: Dry run enabled, calibration table not saved to device.")
+        print("Dry run enabled, calibration table not saved to device.")
 
     gem.close()
     print("Done")
