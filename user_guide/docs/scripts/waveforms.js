@@ -16,7 +16,7 @@
             if(one_frame === undefined || one_frame === false) {
                 t += speed;
             }
-            
+
             const resolution = canvas.width;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -182,4 +182,40 @@
         chorusing_amount = chorusing_amount_slider.valueAsNumber;
         update_chorusing(true);
     });
+
+    /* Non-linear tune */
+    const tuning_slider = document.getElementById('tuning_slider');
+    const linear_output = document.getElementById('linear_tune');
+    const non_linear_output = document.getElementById('non_linear_tune');
+    const difference_output = document.getElementById('tuning_difference');
+
+    function bezier_1d_2c(c1, c2, t) {
+        /* Copied from gem_bezier.c */
+        return 3 * c1 * t * Math.pow(1 - t, 2) + 3 * c2 * (1 - t) * Math.pow(t, 2) + Math.pow(t, 3);
+    }
+
+    function update_tuning() {
+        const tuning = tuning_slider.valueAsNumber;
+        const linear_response = 440 * Math.pow(2, tuning);
+        const non_linear_tuning = -1.0 + bezier_1d_2c(0.8, 1.0 - 0.8, (tuning + 1.0) / 2) * 2;
+        const non_linear_response = 440 * Math.pow(2, non_linear_tuning);
+        const difference = Math.abs(non_linear_tuning - tuning) * 100;
+        const difference_alpha = (difference / 30).toFixed(3);
+
+        linear_output.innerText = `${linear_response.toFixed(2)} Hz`;
+        non_linear_output.innerText = `${non_linear_response.toFixed(2)} Hz`;
+        difference_output.innerText = `${difference.toFixed(0)}%`;
+        difference_output.style.backgroundColor = `rgba(255, 0, 0, ${difference_alpha})`;
+        if(difference_alpha < 0.3) {
+            difference_output.style.color = "#333";
+        } else {
+            difference_output.style.color = "#FFF";
+        }
+    }
+
+    tuning_slider.addEventListener('input', function(e) {
+        update_tuning();
+    });
+
+    update_tuning();
 })();

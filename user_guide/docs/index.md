@@ -47,7 +47,7 @@ Castor & Pollux contains *two* separate oscillators. Each has two inputs with as
 ![Inputs for one oscillator highlighted](images/inputs.png)
 
 - A pitch CV input. The range is 0v to +6v.
-- A pitch knob. The range is -1 octave to +1 octave and is added to any incoming pitch CV.
+- A pitch knob. The range is -1 octave to +1 octave and is added to any incoming pitch CV. These have a special response curve that makes it easier to [tune the oscillators](#tuning).
 - A pulse width CV input. This changes the pulse width of the pulse wave. The range is 0v to +5v.
 - A pulse width knob. When combined with the pulse width CV it sets the *minimum* pulse width.
 
@@ -78,6 +78,30 @@ Finally, there is a knob to enable chorusing and a button to enable hard sync:
 ![Chorusing knob and hard sync button](images/chorusing_hard_sync.png)
 
 The [chorusing](#chorusing) section goes into more detail and has some sound samples, and the [hard sync](#hard-sync) section shows how hard sync affects the second oscillator.
+
+
+## Tuning
+
+Castor & Pollux is an analog oscillator with a digital brain. It's calibrated during assembled to accurately track 1 volt/octave on the *CV inputs* and you can use the *pitch knobs* to adjust the tuning of each oscillator.
+
+In order to make tuning easier, the pitch knobs have a **non-linear** response: they are more less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out this little demonstration:
+
+<div class="output">
+    <label for="linear_tune">Linear response</label>
+    <output id="linear_tune" name="linear_tune">440 Hz</output>
+    <label for="non_linear_tune">Non-linear response</label>
+    <output id="non_linear_tune" name="non_linear_tune" class="teal">440 Hz</output>
+    <label for="tuning_difference">Difference</label>
+    <output id="tuning_difference" name="non_linear_tune">0 Hz</output>
+</div>
+<div class="slider">
+    <input type="range" id="tuning_slider" name="tuning_slider"
+            min="-1.0" max="1.0" step="0.01" value="0.0">
+    <label for="tuning_slider">pitch knob</label>
+</div>
+
+Notice that with the non-linear response it's much easier to tune to frequencies around `440 Hz`. This is how Castor & Pollux's pitch knobs work. You can configure how strong this effect is using the [settings editor](#settings-editor).
+
 
 ## Waveshapes
 
