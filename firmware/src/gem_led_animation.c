@@ -111,12 +111,12 @@ static void _gem_led_animation_step_hard_sync(uint32_t delta) {
         _phase_a = fix16_sub(_phase_a, F16(1.0));
 
     _hue_accum += delta * 5;
+    uint16_t hue = _hue_accum % UINT16_MAX;
 
     for (size_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
         fix16_t phase_offset = fix16_div(fix16_from_int(i), F16(GEM_DOTSTAR_COUNT));
         fix16_t sin_a = gem_sine_norm(_phase_a + phase_offset);
         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
-        uint16_t hue = _hue_accum % UINT16_MAX;
         uint32_t color;
 
         if (gem_random32() % 400 == 0)
@@ -137,14 +137,13 @@ static void _gem_led_animation_step_hard_sync(uint32_t delta) {
 }
 
 static void _gem_led_animation_step_calibration(uint32_t ticks) {
-    for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
-        fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(5000.0));
-        fix16_t sinv = gem_sine(bright_time);
-        fix16_t sinadj = fix16_div(fix16_add(sinv, F16(1.0)), F16(2.0));
-        uint8_t value = fix16_to_int(fix16_mul(F16(255.0), sinadj));
-        uint32_t color = gem_colorspace_hsv_to_rgb(0, 255 - value / 2, value);
-        gem_dotstar_set32(i, color);
-    }
+    fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(5000.0));
+    fix16_t sinv = gem_sine(bright_time);
+    fix16_t sinadj = fix16_div(fix16_add(sinv, F16(1.0)), F16(2.0));
+    uint8_t value = fix16_to_int(fix16_mul(F16(255.0), sinadj));
+    uint32_t color = gem_colorspace_hsv_to_rgb(0, 255 - value / 2, 127 + value / 2);
+
+    for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) { gem_dotstar_set32(i, color); }
 }
 
 static void _gem_led_animation_step_tweak(uint32_t delta) {
