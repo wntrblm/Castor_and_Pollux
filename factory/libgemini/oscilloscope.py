@@ -10,6 +10,10 @@ SCPI & Programming reference: https://siglentna.com/wp-content/uploads/2020/04/P
 
 import time
 
+import pyvisa.errors
+
+from libwinter import log
+
 
 class Oscilloscope:
     RESOURCE_NAME = "USB0::0xF4EC::0xEE38::SDSMMEBD3R6070::INSTR"
@@ -19,7 +23,10 @@ class Oscilloscope:
         self._connect(resource_manager)
 
     def _connect(self, resource_manager):
-        resource = resource_manager.open_resource(self.RESOURCE_NAME)
+        try:
+            resource = resource_manager.open_resource(self.RESOURCE_NAME)
+        except pyvisa.errors.VisaIOError as exc:
+            log.error("Couldn't connect to oscilloscope", exc=exc)
         resource.timeout = self.TIMEOUT
         self.port = resource
         # Don't send command headers in responses, just the result.

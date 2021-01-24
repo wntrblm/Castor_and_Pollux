@@ -9,7 +9,7 @@ import struct
 
 import rtmidi.midiutil
 
-from libwinter import teeth
+from libwinter import teeth, log
 from libgemini import gem_settings
 
 SYSEX_START = 0xF0
@@ -90,11 +90,11 @@ class Gemini:
     def enter_calibration_mode(self):
         resp = self._sysex(SysExCommands.HELLO, response=True)
         self.version = bytearray(resp[3:-1]).decode("ascii")
-        print(f"Gemini version: {self.version}")
+        log.info(f"Gemini version: {self.version}")
 
         resp = self._sysex(SysExCommands.GET_SERIAL_NUMBER, response=True)
         self.serial_number = teeth.teeth_decode(resp[3:-1]).hex()
-        print(f"Serial number: {self.serial_number}")
+        log.info(f"Serial number: {self.serial_number}")
 
     def read_adc(self, ch):
         resp = self._sysex(
