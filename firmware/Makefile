@@ -6,6 +6,7 @@ include boardconfig.mk
 
 # Toolchain configuration
 BUILD = build
+DIST = dist
 BIN = gemini-firmware
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
@@ -103,7 +104,7 @@ OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
 # Build rules
 
-.PHONY: all directory clean size firmware release debug format tidy defines tests test
+.PHONY: all directory clean size firmware release debug format tidy defines tests test prepare-release-artifacts
 
 all: debug
 
@@ -158,7 +159,7 @@ size: $(BUILD)/$(BIN).elf
 	@./scripts/get_fw_size.py --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $^
 
 clean:
-	@echo clean
+	@echo Clean $(BUILD)
 	@-rm -rf $(BUILD)
 
 format:
@@ -176,5 +177,20 @@ tests:
 	@make CAN_RUN=1 -f scripts/tests.mk
 
 test: tests
+
+prepare-release-artifacts:
+	@echo "Preparing firmware files for distribution"
+	@-rm -rf $(DIST)
+	@mkdir -p $(DIST)
+	@echo "Building debug firmware..."
+	@$(MAKE) --silent clean debug >/dev/null
+	@mv $(BUILD)/gemini-firmware.elf $(DIST)/gemini-firmware-$(BUILD_INFO_RELEASE)-debug.elf
+	@mv $(BUILD)/gemini-firmware.uf2 $(DIST)/gemini-firmware-$(BUILD_INFO_RELEASE)-debug.uf2
+	@echo "Created:\n- $(dist)/gemini-firmware-$(BUILD_INFO_RELEASE)-debug.elf\n- /gemini-firmware-$(BUILD_INFO_RELEASE)-debug.uf2"
+	@echo Building release firmware...
+	@$(MAKE) --silent clean release >/dev/null
+	@mv $(BUILD)/gemini-firmware.elf $(DIST)/gemini-firmware-$(BUILD_INFO_RELEASE)-release.elf
+	@mv $(BUILD)/gemini-firmware.uf2 $(DIST)/gemini-firmware-$(BUILD_INFO_RELEASE)-release.uf2
+	@echo "Created:\n- $(dist)/gemini-firmware-$(BUILD_INFO_RELEASE)-release.elf\n- /gemini-firmware-$(BUILD_INFO_RELEASE)-release.uf2"
 
 -include $(wildcard $(BUILD)/*.d)
