@@ -96,7 +96,7 @@ In order to make tuning easier, the pitch knobs have a **non-linear** response: 
 </div>
 <div class="slider">
     <input type="range" id="tuning_slider" name="tuning_slider"
-            min="-1.0" max="1.0" step="0.01" value="0.0">
+            min="-1.0" max="1.0" step="0.001" value="0.0">
     <label for="tuning_slider">pitch knob</label>
 </div>
 
