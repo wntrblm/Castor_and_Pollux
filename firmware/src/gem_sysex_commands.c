@@ -34,7 +34,7 @@ static_assert(
     SETTINGS_ENCODED_LEN % CHUNK_SIZE == 0, "Total settings encoded length must be a multiple of the chunk size");
 
 #define DECODE_TEETH_REQUEST(size)                                                                                     \
-    DEBUG_TRAP(len == size);                                                                                           \
+    DEBUG_TRAP(len == TEETH_ENCODED_LENGTH(size));                                                                     \
     uint8_t request[size];                                                                                             \
     teeth_decode(data, TEETH_ENCODED_LENGTH(size), request);
 
