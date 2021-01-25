@@ -11,6 +11,7 @@ import rtmidi.midiutil
 
 from libwinter import teeth, log
 from libgemini import gem_settings
+from libgemini import gem_monitor_update
 
 SYSEX_START = 0xF0
 SYSEX_END = 0xF7
@@ -48,6 +49,7 @@ class SysExCommands(enum.IntEnum):
     DISABLE_ADC_CORR = 0x0D
     ENABLE_ADC_CORR = 0x0E
     GET_SERIAL_NUMBER = 0x0F
+    MONITOR = 0x10
 
 
 class Gemini:
@@ -176,3 +178,20 @@ class Gemini:
 
     def erase_lut(self):
         self._sysex(SysExCommands.ERASE_LUT)
+
+    def enable_monitor(self):
+        self._sysex(SysExCommands.MONITOR, data=[1])
+
+    def disable_monitor(self):
+        self._sysex(SysExCommands.MONITOR, data=[0])
+
+    def monitor(self):
+        self.enable_monitor()
+        try:
+            result = _wait_for_message(self.port_in)
+            decoded = teeth.teeth_decode(result[3:-1])
+            unpacked = gem_monitor_update.GemMonitorUpdate.unpack(decoded)
+            return unpacked
+        except Exception as e:
+            self.disable_monitor()
+            raise e

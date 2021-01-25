@@ -16,6 +16,9 @@ class Escape:
     CURSOR_PREVIOUS_LINE = f"{CSI}1F"
     CURSOR_PREVIOUS_LINE_NUM = f"{CSI}{{count}}F"
     ERASE_AFTER_CURSOR = f"{CSI}0J"
+    HIDE_CURSOR = f"{CSI}?25l"
+    SHOW_CURSOR = f"{CSI}?25h"
+
     RESET = f"{CSI}0m"
     COLOR24 = f"{CSI}38;2;{{r}};{{g}};{{b}}m"
     BOLD = f"{CSI}1m"
@@ -28,7 +31,20 @@ class Escape:
     OVERLINED = f"{CSI}53m"
 
 
+def _normalize_color(r, g=None, b=None):
+    if isinstance(r, tuple):
+        r, g, b = r
+
+    if r > 1 or g > 1 or b > 1:
+        r, g, b = r / 255, g / 255, b / 255
+
+    return r, g, b
+
+
 def gradient(a, b, v):
+    a = _normalize_color(a)
+    b = _normalize_color(b)
+
     v = max(0.0, min(v, 1.0))
     r = a[0] + v * (b[0] - a[0])
     g = a[1] + v * (b[1] - a[1])
@@ -49,21 +65,16 @@ class Colors:
 
     @staticmethod
     def rgb(r, g=None, b=None):
-        if isinstance(r, tuple):
-            r, g, b = r
-
-        if r > 1 or g > 1 or b > 1:
-            r, g, b = r / 255, g / 255, b / 255
-
+        r, g, b = _normalize_color(r, g, b)
         r, g, b = [int(x * 255) for x in (r, g, b)]
         return Escape.COLOR24.format(r=r, g=g, b=b)
 
 
 class Updateable:
-    def __init__(self):
+    def __init__(self, clear_all=False):
         self._buf = io.StringIO()
         self._line_count = 0
-        self._clear_on_next = False
+        self._clear_all = clear_all
 
     def write(self, text):
         self._buf.write(text)
@@ -71,23 +82,27 @@ class Updateable:
     def reset(self):
         self._line_count = 0
 
-    def clear(self):
+    def update(self):
         if self._line_count > 0:
             clear_lines = Escape.CURSOR_PREVIOUS_LINE_NUM.format(count=self._line_count)
-            clear_lines += Escape.ERASE_AFTER_CURSOR
+            if self._clear_all:
+                clear_lines += Escape.ERASE_AFTER_CURSOR
+            clear_lines += "\r"
             sys.stdout.write(clear_lines)
             self._line_count = 0
 
-    def __enter__(self):
-        pass
-
-    def __exit__(self, exc_type, exc_value, exc_traceback):
         output = self._buf.getvalue()
-        self.clear()
         sys.stdout.write(output)
-        self.flush()
+        sys.stdout.flush()
         self._buf.truncate(0)
         self._line_count = output.count("\n")
+
+    def __enter__(self):
+        sys.stdout.write(Escape.HIDE_CURSOR)
+
+    def __exit__(self, exc_type, exc_value, exc_traceback):
+        sys.stdout.write(Escape.SHOW_CURSOR)
+        self.update()
 
     def flush(self):
         sys.stdout.flush()
@@ -189,7 +204,7 @@ class Columns:
 
             c = self._columns[n]
             formatter = f"{{: {c}}}"
-            output.write(formatter.format(v))
+            output.write(formatter.format(str(v)))
 
             n += 1
 
@@ -205,7 +220,7 @@ def width():
 
 
 def reset_terminal():
-    print(Escape.RESET, end="")
+    print(Escape.RESET + Escape.SHOW_CURSOR, end="")
     sys.stdout.flush()
 
 
