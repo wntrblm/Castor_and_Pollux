@@ -44,11 +44,11 @@ void gem_led_animation_init() { _last_update = gem_get_ticks(); }
 
 void gem_led_animation_set_mode(enum GemLEDAnimationMode mode) { _mode = mode; }
 
-void gem_led_animation_step() {
+bool gem_led_animation_step() {
     uint32_t ticks = gem_get_ticks();
     uint32_t delta = ticks - _last_update;
     if (delta < GEM_ANIMATION_INTERVAL) {
-        return;
+        return false;
     }
 
     _last_update = ticks;
@@ -70,6 +70,8 @@ void gem_led_animation_step() {
             break;
     }
     gem_dotstar_update();
+
+    return true;
 }
 
 /* Private functions. */

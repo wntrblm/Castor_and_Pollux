@@ -21,6 +21,6 @@ extern struct GemLEDTweakData {
 
 void gem_led_animation_init();
 
-void gem_led_animation_step();
+bool gem_led_animation_step();
 
 void gem_led_animation_set_mode(enum GemLEDAnimationMode mode);
