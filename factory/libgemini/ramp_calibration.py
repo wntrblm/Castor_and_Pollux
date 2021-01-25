@@ -70,6 +70,7 @@ def _seek_voltage_on_channel(output, gem, scope, oscillator, period, start_code)
             output.write(
                 f"│ 💤 No input detected, voltage reading at {peak_to_peak:.2f}v\n",
             )
+            output.update()
             time.sleep(0.2)
             continue
 
@@ -81,6 +82,7 @@ def _seek_voltage_on_channel(output, gem, scope, oscillator, period, start_code)
             output.write(
                 f"│ {tui.rgb(0.0, 1.0, 1.0)}{_code_to_volts(dac_code):.2f} volts + Δ({_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}\n"
             )
+            output.update()
 
             if dac_code >= 4095:
                 log.error("DAC overflow! Voltage can not be increased from here!")
@@ -93,6 +95,7 @@ def _seek_voltage_on_channel(output, gem, scope, oscillator, period, start_code)
             output.write(
                 f"│ {tui.rgb(1.0, 1.0, 0.0)}{_code_to_volts(dac_code):.2f} volts - Δ({_code_to_volts(code_diff):.2f}){tui.reset}\n"
             )
+            output.update()
 
             if dac_code < 0:
                 log.error("DAC underflow!")
@@ -102,6 +105,7 @@ def _seek_voltage_on_channel(output, gem, scope, oscillator, period, start_code)
             output.write(
                 f"│ {tui.rgb(0.5, 1.0, 0.5)}{_code_to_volts(dac_code):.2f} volts ✓ Δ({_code_to_volts(code_diff):.2f}){tui.reset}\n"
             )
+            output.update()
             log.debug(
                 f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz\n"
             )
