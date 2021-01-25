@@ -17,6 +17,7 @@
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
 #include "gem_sysex_dispatcher.h"
+#include "gem_systick.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "printf.h"
@@ -57,6 +58,8 @@ static_assert(
 /* Static variables. */
 
 static uint8_t _chunk_buf[SETTINGS_ENCODED_LEN];
+static bool _monitor_enabled = false;
+static uint32_t _last_monitor_update = 0;
 
 /* Forward declarations. */
 
@@ -75,6 +78,7 @@ static void _cmd_0x0C_erase_lut(const uint8_t* data, size_t len);
 static void _cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len);
 static void _cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len);
 static void _cmd_0x0F_get_serial_no(const uint8_t* data, size_t len);
+static void _cmd_0x10_monitor(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -94,8 +98,31 @@ void gem_register_sysex_commands() {
     gem_sysex_register_command(0x0D, _cmd_0x0D_disable_adc_corr);
     gem_sysex_register_command(0x0E, _cmd_0x0E_enable_adc_corr);
     gem_sysex_register_command(0x0F, _cmd_0x0F_get_serial_no);
+    gem_sysex_register_command(0x10, _cmd_0x10_monitor);
     gem_midi_set_sysex_callback(gem_sysex_dispatcher);
 };
+
+void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
+    if (!_monitor_enabled) {
+        return;
+    }
+
+    /* Don't send updates more often than once every 1/10th of a second. */
+    uint32_t ticks = gem_get_ticks();
+    if (ticks - _last_monitor_update < 100) {
+        return;
+    }
+    _last_monitor_update = ticks;
+
+    uint8_t update_buf[GEMMONITORUPDATE_PACKED_SIZE];
+    GemMonitorUpdate_pack(update, update_buf);
+
+    PREPARE_RESPONSE(0x10, TEETH_ENCODED_LENGTH(ARRAY_LEN(update_buf)));
+    teeth_encode(update_buf, ARRAY_LEN(update_buf), response);
+    SEND_RESPONSE();
+}
+
+/* Private functions. */
 
 static void _cmd_0x01_hello(const uint8_t* data, size_t len) {
     /*
@@ -312,4 +339,16 @@ static void _cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
     teeth_encode(serial_no, GEM_SERIAL_NUMBER_LEN, response);
 
     SEND_RESPONSE();
+}
+
+static void _cmd_0x10_monitor(const uint8_t* data, size_t len) {
+    (void)len;
+
+    if (data[0] > 0) {
+        gem_adc_resume_scanning();
+        gem_led_animation_set_mode(GEM_LED_MODE_NORMAL);
+        _monitor_enabled = true;
+    } else {
+        _monitor_enabled = false;
+    }
 }

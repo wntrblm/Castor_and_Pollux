@@ -161,6 +161,7 @@ void gem_adc_start_scanning(const struct GemADCInput* inputs, size_t num_inputs,
 }
 
 void gem_adc_stop_scanning() { NVIC_DisableIRQ(ADC_IRQn); }
+void gem_adc_resume_scanning() { NVIC_EnableIRQ(ADC_IRQn); }
 
 bool gem_adc_results_ready() {
     if (_results_ready) {

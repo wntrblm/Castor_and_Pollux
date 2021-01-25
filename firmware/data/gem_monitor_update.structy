@@ -1,0 +1,14 @@
+class GemMonitorUpdate:
+
+    castor_pitch_knob: fix16 = 0
+    castor_pitch_cv: fix16 = 0
+    castor_pulse_width_knob: uint16 = 0
+    castor_pulse_width_cv: uint16 = 0
+
+    pollux_pitch_knob: fix16 = 0
+    pollux_pitch_cv: fix16 = 0
+    pollux_pulse_width_knob: uint16 = 0
+    pollux_pulse_width_cv: uint16 = 0
+
+    button_state: bool = False
+    lfo_intensity: fix16 = 0
