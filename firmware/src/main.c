@@ -30,6 +30,8 @@ static struct GemADCErrors knob_errors;
 static struct GemButton hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
 static bool hard_sync = false;
 static struct GemPeriodicWaveform lfo;
+static uint32_t animation_time = 0;
+static uint32_t sample_time = 0;
 
 struct OscillatorState {
     enum GemADCChannels pitch_cv_channel;
@@ -171,6 +173,9 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
     }
 
     uint16_t knob_adc_code = adc_results[osc->pitch_knob_channel];
+    if (knob_adc_code <= GEM_ADC_LINEAR_REGION_CUTOFF) {
+        knob_adc_code = 0;
+    }
     fix16_t knob_value =
         fix16_sub(F16(1.0), fix16_div(gem_adc_correct_errors(fix16_from_int(knob_adc_code), knob_errors), F16(4095.0)));
     /* Adjust the knob value using the non-linear lookup table. */
@@ -196,6 +201,8 @@ void calculate_pulse_width(struct OscillatorState* osc) {
 }
 
 static void loop() {
+    uint32_t loop_start_time = gem_get_ticks();
+
     calculate_pitch_cv(&castor, 0);
     pollux.pitch = castor.pitch;
     calculate_pitch_cv(&pollux, settings.pollux_follower_threshold);
@@ -280,6 +287,11 @@ static void loop() {
         (struct GemMCP4278Channel){.value = pollux.pulse_width});
 
     /*
+        Update the loop timer.
+    */
+    uint16_t loop_time = (uint16_t)(gem_get_ticks() - loop_start_time);
+
+    /*
         If monitoring has been enabled, send an update.
     */
     struct GemMonitorUpdate monitor_update = {
@@ -292,7 +304,10 @@ static void loop() {
         .pollux_pulse_width_knob = pollux.pulse_width_knob,
         .pollux_pulse_width_cv = pollux.pulse_width_cv,
         .button_state = hard_sync_button.state,
-        .lfo_intensity = chorus_lfo_intensity};
+        .lfo_intensity = chorus_lfo_intensity,
+        .loop_time = loop_time,
+        .animation_time = (uint16_t)(animation_time),
+        .sample_time = (uint16_t)(sample_time)};
 
     gem_sysex_send_monitor_update(&monitor_update);
 }
@@ -353,12 +368,20 @@ void tweak_loop() {
 int main(void) {
     init();
 
+    uint32_t last_sample_time = gem_get_ticks();
+
     while (1) {
         gem_usb_task();
         gem_midi_task();
-        gem_led_animation_step();
+
+        uint32_t animation_start_time = gem_get_ticks();
+        if (gem_led_animation_step()) {
+            animation_time = gem_get_ticks() - animation_start_time;
+        }
 
         if (gem_adc_results_ready()) {
+            sample_time = (uint16_t)(gem_get_ticks() - last_sample_time);
+            last_sample_time = gem_get_ticks();
             GemButton_update(&hard_sync_button);
             loop();
             tweak_loop();
