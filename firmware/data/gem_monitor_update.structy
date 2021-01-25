@@ -12,3 +12,7 @@ class GemMonitorUpdate:
 
     button_state: bool = False
     lfo_intensity: fix16 = 0
+
+    loop_time: uint16 = 0
+    animation_time: uint16 = 0
+    sample_time: uint16 = 0
