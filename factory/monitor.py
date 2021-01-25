@@ -35,57 +35,82 @@ def main():
     gem.enable_monitor()
 
     column_size = max(tui.width() / 10, 12)
-    columns1 = tui.Columns(*[f">{column_size}"] * 6)
-    columns2 = tui.Columns(*[f">{column_size}"] * 6)
+    columns = tui.Columns(*[f">{column_size}"] * 4)
 
     output = tui.Updateable()
 
     with output:
         while True:
             update = gem.monitor()
-            columns1.draw(
-                output,
-                tui.underline,
-                "CV A",
-                "Knob A",
-                "PW A",
-                "PW Knob A",
-                "LFO",
-                "Button",
-            )
+            columns.draw(output, "", tui.underline, "Castor", "Pollux")
 
-            columns1.draw(
+            columns.draw(
                 output,
+                "CV In │",
                 color_range_cv(update.castor_pitch_cv, 0.0, 6.0),
                 f"{update.castor_pitch_cv:.3f}v",
+                color_range_cv(update.pollux_pitch_cv, 0.0, 6.0),
+                f"{update.pollux_pitch_cv:.3f}v",
+            )
+
+            columns.draw(
+                output,
+                "CV Knob │",
                 color_range_bipolar(update.castor_pitch_knob, -1.0, 1.0),
                 f"{update.castor_pitch_knob:+.3f}v",
+                color_range_bipolar(update.pollux_pitch_knob, -1.0, 1.0),
+                f"{update.pollux_pitch_knob:+.3f}v",
+            )
+
+            columns.draw(
+                output,
+                "PW In │",
                 color_range(update.castor_pulse_width_cv, 0, 4095),
                 f"{update.castor_pulse_width_cv / 4095 * 100:.0f}%",
+                color_range(update.pollux_pulse_width_cv, 0, 4095),
+                f"{update.pollux_pulse_width_cv / 4095 * 100:.0f}%",
+            )
+
+            columns.draw(
+                output,
+                tui.underline,
+                "PW Knob │",
                 color_range(update.castor_pulse_width_knob, 0, 4095),
                 f"{update.castor_pulse_width_knob / 4095 * 100:.0f}%",
+                color_range(update.pollux_pulse_width_knob, 0, 4095),
+                f"{update.pollux_pulse_width_knob / 4095 * 100:.0f}%",
+            )
+
+            columns.draw(
+                output,
+                "LFO │",
                 color_range(update.lfo_intensity, 0, 1.0),
                 f"{update.lfo_intensity * 100:.0f}%",
+            )
+            columns.draw(
+                output,
+                "Button │",
                 color_range_bipolar(int(update.button_state), 0, 1.0),
                 update.button_state,
             )
-
-            columns2.draw(
-                output, tui.underline, "CV B", "Knob B", "PW B", "PW Knob B", "", "Time"
-            )
-
-            columns2.draw(
+            columns.draw(
                 output,
-                color_range_cv(update.pollux_pitch_cv, 0.0, 6.0),
-                f"{update.pollux_pitch_cv:.3f}v",
-                color_range_bipolar(update.pollux_pitch_knob, -1.0, 1.0),
-                f"{update.pollux_pitch_knob:+.3f}v",
-                color_range(update.pollux_pulse_width_cv, 0, 4095),
-                f"{update.pollux_pulse_width_cv / 4095 * 100:.0f}%",
-                color_range(update.pollux_pulse_width_knob, 0, 4095),
-                f"{update.pollux_pulse_width_knob / 4095 * 100:.0f}%",
-                "",
-                tui.reset,
+                "Loop time │",
+                f"{update.loop_time}",
+            )
+            columns.draw(
+                output,
+                "LED time │",
+                f"{update.animation_time}",
+            )
+            columns.draw(
+                output,
+                "ADC time │",
+                f"{update.sample_time}",
+            )
+            columns.draw(
+                output,
+                "Runtime │",
                 f"{time.monotonic() - start:.0f}",
             )
 

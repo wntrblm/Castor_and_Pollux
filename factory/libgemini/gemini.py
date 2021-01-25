@@ -186,7 +186,6 @@ class Gemini:
         self._sysex(SysExCommands.MONITOR, data=[0])
 
     def monitor(self):
-        self.enable_monitor()
         try:
             result = _wait_for_message(self.port_in)
             decoded = teeth.teeth_decode(result[3:-1])
