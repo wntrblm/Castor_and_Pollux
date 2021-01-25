@@ -19,6 +19,7 @@
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
 #include "gem_midi_core.h"
+#include "gem_monitor_update.h"
 #include "gem_nvm.h"
 #include "gem_periodic_waveform.h"
 #include "gem_pulseout.h"

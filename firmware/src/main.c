@@ -40,7 +40,11 @@ struct OscillatorState {
     struct GemSmoothie smooth;
     fix16_t knob_min;
     fix16_t knob_range;
+    fix16_t pitch_knob;
     fix16_t pitch_cv;
+    fix16_t pitch;
+    uint16_t pulse_width_knob;
+    uint16_t pulse_width_cv;
     uint16_t pulse_width;
     bool lfo_pwm;
 };
@@ -153,7 +157,6 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
     */
 
     uint16_t cv_adc_code = FLIP_ADC(adc_results[osc->pitch_cv_channel]);
-    fix16_t pitch_cv;
 
     /*
         This allows the second oscillator to follow the first. If the pitch cv
@@ -162,9 +165,9 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
         enough of an input to calculate the pitch cv from the input.
     */
     if (follower_threshold == 0 || cv_adc_code > follower_threshold) {
-        pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, ADC_TO_F16(cv_adc_code)));
+        osc->pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, ADC_TO_F16(cv_adc_code)));
     } else {
-        pitch_cv = osc->pitch_cv;
+        osc->pitch_cv = osc->pitch;
     }
 
     uint16_t knob_adc_code = adc_results[osc->pitch_knob_channel];
@@ -173,33 +176,33 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
     /* Adjust the knob value using the non-linear lookup table. */
     knob_value = gem_bezier_1d_lut_lookup(knob_bezier_lut, GEM_KNOB_BEZIER_LUT_LEN, knob_value);
     /* And apply the user's range settings. */
-    fix16_t pitch_knob = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
+    osc->pitch_knob = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
 
-    osc->pitch_cv = fix16_add(pitch_cv, pitch_knob);
+    osc->pitch = fix16_add(osc->pitch_cv, osc->pitch_knob);
 }
 
 void calculate_pulse_width(struct OscillatorState* osc) {
-    uint16_t duty_knob = FLIP_ADC(adc_results[osc->pulse_width_knob_channel]);
-    uint16_t duty_cv = FLIP_ADC(adc_results[osc->pulse_width_cv_channel]);
+    osc->pulse_width_knob = FLIP_ADC(adc_results[osc->pulse_width_knob_channel]);
+    osc->pulse_width_cv = FLIP_ADC(adc_results[osc->pulse_width_cv_channel]);
 
     if (osc->lfo_pwm) {
-        fix16_t lfo_multiplier = ADC_TO_F16(duty_cv + duty_knob);
+        fix16_t lfo_multiplier = ADC_TO_F16(osc->pulse_width_cv + osc->pulse_width_knob);
         uint16_t duty_lfo = 2048 + fix16_to_int(fix16_mul(F16(2048), fix16_mul(lfo_multiplier, lfo.value)));
-        osc->pulse_width = duty_cv + duty_lfo;
+        osc->pulse_width = osc->pulse_width_cv + duty_lfo;
     } else {
-        osc->pulse_width = duty_cv + duty_knob;
+        osc->pulse_width = osc->pulse_width_cv + osc->pulse_width_knob;
     }
     UINT12_CLAMP(osc->pulse_width);
 }
 
 static void loop() {
     calculate_pitch_cv(&castor, 0);
-    pollux.pitch_cv = castor.pitch_cv;
+    pollux.pitch = castor.pitch;
     calculate_pitch_cv(&pollux, settings.pollux_follower_threshold);
 
     /* Apply smoothing to pitch CVs. */
-    castor.pitch_cv = GemSmoothie_step(&castor.smooth, castor.pitch_cv);
-    pollux.pitch_cv = GemSmoothie_step(&pollux.smooth, pollux.pitch_cv);
+    castor.pitch = GemSmoothie_step(&castor.smooth, castor.pitch);
+    pollux.pitch = GemSmoothie_step(&pollux.smooth, pollux.pitch);
 
     /*
         Calculate the LFO
@@ -212,13 +215,13 @@ static void loop() {
     fix16_t chorus_lfo_intensity = ADC_TO_F16(FLIP_ADC(adc_results[GEM_IN_CHORUS_POT]));
     fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(chorus_lfo_intensity, lfo.value));
 
-    pollux.pitch_cv = fix16_add(pollux.pitch_cv, chorus_lfo_mod);
+    pollux.pitch = fix16_add(pollux.pitch, chorus_lfo_mod);
 
     /*
         Limit pitch CVs to fit within the parameter table's max value.
     */
-    castor.pitch_cv = fix16_clamp(castor.pitch_cv, F16(0), F16(7));
-    pollux.pitch_cv = fix16_clamp(pollux.pitch_cv, F16(0), F16(7));
+    castor.pitch = fix16_clamp(castor.pitch, F16(0), F16(7));
+    pollux.pitch = fix16_clamp(pollux.pitch, F16(0), F16(7));
 
     /*
         Read pulse width inputs and apply LFO if routed.
@@ -248,13 +251,13 @@ static void loop() {
         gem_voice_voltage_and_period_table,
         gem_voice_dac_codes_table,
         gem_voice_param_table_len,
-        castor.pitch_cv,
+        castor.pitch,
         &castor.params);
     GemVoiceParams_from_cv(
         gem_voice_voltage_and_period_table,
         gem_voice_dac_codes_table,
         gem_voice_param_table_len,
-        pollux.pitch_cv,
+        pollux.pitch,
         &pollux.params);
 
     /*
@@ -275,6 +278,23 @@ static void loop() {
         (struct GemMCP4278Channel){.value = castor.pulse_width},
         (struct GemMCP4278Channel){.value = pollux.params.dac_codes.pollux, .vref = 1},
         (struct GemMCP4278Channel){.value = pollux.pulse_width});
+
+    /*
+        If monitoring has been enabled, send an update.
+    */
+    struct GemMonitorUpdate monitor_update = {
+        .castor_pitch_knob = castor.pitch_knob,
+        .castor_pitch_cv = castor.pitch_cv,
+        .castor_pulse_width_knob = castor.pulse_width_knob,
+        .castor_pulse_width_cv = castor.pulse_width_cv,
+        .pollux_pitch_knob = pollux.pitch_knob,
+        .pollux_pitch_cv = pollux.pitch_cv,
+        .pollux_pulse_width_knob = pollux.pulse_width_knob,
+        .pollux_pulse_width_cv = pollux.pulse_width_cv,
+        .button_state = hard_sync_button.state,
+        .lfo_intensity = chorus_lfo_intensity};
+
+    gem_sysex_send_monitor_update(&monitor_update);
 }
 
 /* This loop is responsible for dealing with the "tweak"

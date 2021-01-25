@@ -45,6 +45,7 @@ uint16_t gem_adc_read_sync(const struct GemADCInput* input);
 void gem_adc_start_scanning(const struct GemADCInput* inputs, size_t num_inputs, uint32_t* results);
 
 void gem_adc_stop_scanning();
+void gem_adc_resume_scanning();
 
 /* Check if the channel scanning has finished scanning all channels. */
 bool gem_adc_results_ready();

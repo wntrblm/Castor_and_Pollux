@@ -154,6 +154,13 @@ directory:
 	@python3 -m black ../factory/libgemini/gem_settings.py
 	@python3 -m structy_generator -l js ./data/gem_settings.structy ../user_guide/docs/scripts
 
+./src/gem_monitor_update.c: ./data/gem_monitor_update.structy
+	@echo "Generating gem_monitor_update.{c,py} using Structy"
+	@python3 -m structy_generator -l c ./data/gem_monitor_update.structy src
+	@clang-format -i src/gem_monitor_update.{h,c}
+	@python3 -m structy_generator -l py ./data/gem_monitor_update.structy ../factory/libgemini
+	@python3 -m black ../factory/libgemini/gem_monitor_update.py
+
 size: $(BUILD)/$(BIN).elf
 	@echo "Build ID: $(BUILD_INFO_STRING)"
 	@./scripts/get_fw_size.py --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $^

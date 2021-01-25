@@ -12,7 +12,7 @@
 
 /* Macros & definitions */
 
-#define MAX_SYSEX_CALLBACKS 16
+#define MAX_SYSEX_CALLBACKS 32
 
 /* Static variables. */
 
