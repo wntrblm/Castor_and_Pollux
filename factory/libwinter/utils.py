@@ -263,6 +263,7 @@ def run_jlink(device, script):
     subprocess.check_call(
         [
             JLINK_PATH,
+            "-exitonerror",
             "-device",
             device,
             "-autoconnect",
