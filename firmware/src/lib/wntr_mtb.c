@@ -52,10 +52,6 @@ static_assert(IS_POWER_OF_TWO(MTB_LENGTH), "WNTR_MTB_SIZE * 4 must be a power of
     be aligned on a boundary that's equal to the size of the MTB because the
     wrap-around can only clear one bit.
 
-    Notes:
-    1. This pretends it's little-endian to make it easier to understand but
-       Cortex M devices are big-endian.
-
     Reference:
     * https://developer.arm.com/documentation/ddi0486/b/functional-description/operation/mtb-execution-trace-packet-format?lang=en
     * https://learn.adafruit.com/debugging-the-samd21-with-gdb/micro-trace-buffer
