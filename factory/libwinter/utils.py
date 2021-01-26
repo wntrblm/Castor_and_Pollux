@@ -264,6 +264,7 @@ def run_jlink(device, script):
         [
             JLINK_PATH,
             "-exitonerror",
+            "1",
             "-device",
             device,
             "-autoconnect",
