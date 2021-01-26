@@ -22,7 +22,7 @@
 #include "gem_voice_param_table.h"
 #include "printf.h"
 #include "teeth.h"
-#include <assert.h>
+#include "wntr_assert.h"
 #include <string.h>
 
 /* Macros & defs */
@@ -35,7 +35,7 @@ static_assert(
     SETTINGS_ENCODED_LEN % CHUNK_SIZE == 0, "Total settings encoded length must be a multiple of the chunk size");
 
 #define DECODE_TEETH_REQUEST(size)                                                                                     \
-    DEBUG_TRAP(len == TEETH_ENCODED_LENGTH(size));                                                                     \
+    WNTR_ASSERT(len == TEETH_ENCODED_LENGTH(size));                                                                    \
     uint8_t request[size];                                                                                             \
     teeth_decode(data, TEETH_ENCODED_LENGTH(size), request);
 
@@ -52,7 +52,7 @@ static_assert(
 #define SEND_RESPONSE() gem_midi_send_sysex(_full_response, ARRAY_LEN(_full_response));
 
 #define SEND_RESPONSE_LEN(len)                                                                                         \
-    DEBUG_TRAP(len + 2 <= ARRAY_LEN(_full_response));                                                                  \
+    WNTR_ASSERT(len + 2 <= ARRAY_LEN(_full_response));                                                                 \
     gem_midi_send_sysex(_full_response, len + 2);
 
 /* Static variables. */

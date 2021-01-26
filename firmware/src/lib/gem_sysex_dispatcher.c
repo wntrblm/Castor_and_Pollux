@@ -8,7 +8,7 @@
 #include "gem_config.h"
 #include "gem_midi_core.h"
 #include "printf.h"
-#include <assert.h>
+#include "wntr_assert.h"
 
 /* Macros & definitions */
 
@@ -52,6 +52,6 @@ void gem_sysex_dispatcher(const uint8_t* data, size_t len) {
 }
 
 void gem_sysex_register_command(uint8_t command, gem_sysex_command_callback callback) {
-    DEBUG_TRAP(command < MAX_SYSEX_CALLBACKS);
+    WNTR_ASSERT(command < MAX_SYSEX_CALLBACKS);
     _sysex_callbacks[command] = callback;
 }
