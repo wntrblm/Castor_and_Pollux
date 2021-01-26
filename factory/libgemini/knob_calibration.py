@@ -29,7 +29,7 @@ def run(adc_resolution, invert, adc_channel, save):
     input(f"Set knob for channel {adc_channel} all the way CCW and press enter.")
 
     samples = []
-    for s in range(128):
+    for s in range(512):
         samples.append(gem.read_adc(adc_channel))
 
     low_measured = statistics.mean(samples)
@@ -39,7 +39,7 @@ def run(adc_resolution, invert, adc_channel, save):
     input(f"Set knob for channel {adc_channel} all the way CW and press enter.")
 
     samples = []
-    for s in range(128):
+    for s in range(512):
         samples.append(gem.read_adc(adc_channel))
 
     high_measured = statistics.mean(samples)
