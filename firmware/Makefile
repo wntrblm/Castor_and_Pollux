@@ -194,10 +194,14 @@ prepare-release-artifacts:
 	@mv $(BUILD)/gemini-firmware.elf $(DIST)/gemini-firmware-$(BUILD_INFO_RELEASE)-debug.elf
 	@mv $(BUILD)/gemini-firmware.uf2 $(DIST)/gemini-firmware-$(BUILD_INFO_RELEASE)-debug.uf2
 	@echo "Created:\n- $(dist)/gemini-firmware-$(BUILD_INFO_RELEASE)-debug.elf\n- /gemini-firmware-$(BUILD_INFO_RELEASE)-debug.uf2"
+	$(eval BUILD_TYPE = "Debug")
+	@echo "Build ID: $(BUILD_INFO_STRING)"
 	@echo Building release firmware...
 	@$(MAKE) --silent clean release >/dev/null
 	@mv $(BUILD)/gemini-firmware.elf $(DIST)/gemini-firmware-$(BUILD_INFO_RELEASE)-release.elf
 	@mv $(BUILD)/gemini-firmware.uf2 $(DIST)/gemini-firmware-$(BUILD_INFO_RELEASE)-release.uf2
 	@echo "Created:\n- $(dist)/gemini-firmware-$(BUILD_INFO_RELEASE)-release.elf\n- /gemini-firmware-$(BUILD_INFO_RELEASE)-release.uf2"
+	$(eval BUILD_TYPE = "Release")
+	@echo "Build ID: $(BUILD_INFO_STRING)"
 
 -include $(wildcard $(BUILD)/*.d)
