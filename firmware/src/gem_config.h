@@ -12,16 +12,6 @@
 #include "sam.h"
 #include <stdint.h>
 
-/* Debug helpers. */
-#ifdef DEBUG
-#define DEBUG_TRAP(expr)                                                                                               \
-    if (!(expr)) {                                                                                                     \
-        __BKPT(0);                                                                                                     \
-    }
-#else
-#define DEBUG_TRAP(expr) (void)(expr);
-#endif
-
 /* MIDI configuration. */
 #define GEM_SYSEX_BUF_SIZE 64
 #define GEM_SYSEX_TIMEOUT 100000
