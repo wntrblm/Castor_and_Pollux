@@ -40,6 +40,9 @@ class Oscilloscope:
         # *opc? should block until the device is ready, but it doesn't, so just sleep.
         time.sleep(5)
 
+    def enable_bandwidth_limit(self):
+        self.port.write("BWL C1,ON,C2,ON,C3,ON,C4,ON")
+
     def enable_channel(self, channel: str):
         self.port.write(f"{channel}:trace on")
 
@@ -68,7 +71,10 @@ class Oscilloscope:
 
     def get_peak_to_peak(self, trace: str):
         self.port.write(f"{trace}:parameter_value? PKPK")
-        return float(self.port.read_raw().decode("utf-8").split(",")[-1])
+        try:
+            return float(self.port.read_raw().decode("utf-8").split(",")[-1])
+        except ValueError:
+            return 0
 
     def set_trigger_level(self, trig_source: str, trig_level: float):
         self.port.write(f"{trig_source}:trig_level {trig_level}V")
