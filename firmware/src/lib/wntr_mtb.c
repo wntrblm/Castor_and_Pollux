@@ -10,7 +10,7 @@
 
 #ifndef WNTR_MTB_SIZE
 /* The number of entries the MTB packet buffer can hold at a time. */
-#define WNTR_MTB_SIZE 256
+#define WNTR_MTB_SIZE 128
 #endif
 
 /* The length, in bytes, of the MTB packet buffer. */
