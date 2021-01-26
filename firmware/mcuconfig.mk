@@ -39,3 +39,7 @@ MCU_DEFINES = -DSAMD21
 
 # TinyUSB configuration
 TINYUSB_MCU = OPT_MCU_SAMD21
+
+# Enable the micro trace buffer - a feature of the M0+ that tracks stack
+# traces.
+MCU_DEFINES += -DWNTR_ENABLE_MTB

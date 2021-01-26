@@ -78,8 +78,8 @@ static struct OscillatorState pollux = {
 };
 
 static void init() {
-    /* Tell the world who we are and how we got here. :) */
-    printf(gem_build_info_string());
+    /* Enable the Micro Trace Buffer for better debug stacktraces. */
+    wntr_mtb_init();
 
     /* Configure clocks. */
     gem_clocks_init();
@@ -89,6 +89,9 @@ static void init() {
 
     /* Initialize NVM */
     gem_nvm_init();
+
+    /* Tell the world who we are and how we got here. :) */
+    printf(gem_build_info_string());
 
     /* Initialize Random Number Generators */
     gem_random_init(gem_serial_number_low());
