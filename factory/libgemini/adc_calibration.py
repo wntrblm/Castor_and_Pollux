@@ -46,10 +46,11 @@ def run(
     sol_.send_voltage(0)
 
     for n in range(calibration_points + 1):
+        expected = expected_codes[n]
         voltage = n / calibration_points * adc_range
-        log.info(f"Measuring {voltage:.3f}, expecting {expected_codes[n]}.")
+        log.info(f"Measuring {voltage:.3f}, expecting {expected}.")
         sol_.send_voltage(voltage)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
         samples = []
         for s in range(sample_count):
@@ -57,7 +58,14 @@ def run(
 
         result = statistics.mean(samples)
 
-        log.info(f"Got {result:.1f}, diff {result - expected_codes[n]:.1f}")
+        diff = result - expected_codes[n]
+
+        if abs(diff) > 100:
+            log.error(
+                "ADC reading too far out of range. Expected {expected}, measured: {result:.1f}, diff: {diff:.1f}"
+            )
+
+        log.info(f"Measured {result:.1f}, diff {diff:.1f}")
         measured_codes.append(result)
 
     gain_error = adc_errors.calculate_avg_gain_error(expected_codes, measured_codes)
@@ -96,14 +104,14 @@ def run(
 
     # Test out the new calibrated ADC
 
-    log.info("Taking measurements with new calibration.")
+    log.info("Taking measurements with new calibration...")
 
     measured_codes = []
     for n in range(calibration_points + 1):
         voltage = n / calibration_points * adc_range
         log.debug(f"Measuring {voltage:.3f}, expecting {expected_codes[n]}.")
         sol_.send_voltage(voltage)
-        time.sleep(0.2)
+        time.sleep(0.1)
 
         samples = []
         for s in range(sample_count):
@@ -111,7 +119,13 @@ def run(
 
         result = statistics.mean(samples)
 
-        log.debug(f"Got {result:.1f}, diff {result - expected_codes[n]:.1f}")
+        log.info(f"Measured {result:.1f}, diff {result - expected_codes[n]:.1f}")
+
+        if abs(diff) > 50:
+            log.error(
+                "ADC reading too far out of range. Expected {expected}, measured: {result:.1f}, diff: {diff:.1f}"
+            )
+
         measured_codes.append(result)
 
     gain_error = adc_errors.calculate_avg_gain_error(expected_codes, measured_codes)
