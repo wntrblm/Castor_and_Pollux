@@ -10,19 +10,19 @@
 #include "gem_gpio.h"
 #include "sam.h"
 
-/* Inputs to scan. */
-static const struct GemADCInput* _inputs;
-static size_t _num_inputs;
+/* Inputs to scan_next_channel. */
+static const struct GemADCInput* inputs_;
+static size_t num_inputs_;
 
 /* Results from input scanning */
-static volatile uint32_t* _results;
+static volatile uint32_t* results_;
 
 /* Scanning state */
-static volatile size_t _current_input = 0;
-static volatile bool _results_ready = false;
+static volatile size_t current_input_idx_ = 0;
+static volatile bool results_ready_ = false;
 
 /* Private forward declarations. */
-static void _gem_adc_scan();
+static void scan_next_channel();
 
 /* Public methods. */
 
@@ -148,24 +148,24 @@ uint16_t gem_adc_read_sync(const struct GemADCInput* input) {
 }
 
 void gem_adc_start_scanning(const struct GemADCInput* inputs, size_t num_inputs, uint32_t* results) {
-    _inputs = inputs;
-    _num_inputs = num_inputs;
-    _current_input = 0;
-    _results_ready = false;
-    _results = results;
+    inputs_ = inputs;
+    num_inputs_ = num_inputs;
+    current_input_idx_ = 0;
+    results_ready_ = false;
+    results_ = results;
 
     NVIC_SetPriority(ADC_IRQn, 1);
     NVIC_EnableIRQ(ADC_IRQn);
 
-    _gem_adc_scan();
+    scan_next_channel();
 }
 
 void gem_adc_stop_scanning() { NVIC_DisableIRQ(ADC_IRQn); }
 void gem_adc_resume_scanning() { NVIC_EnableIRQ(ADC_IRQn); }
 
 bool gem_adc_results_ready() {
-    if (_results_ready) {
-        _results_ready = false;
+    if (results_ready_) {
+        results_ready_ = false;
         return true;
     } else {
         return false;
@@ -195,8 +195,8 @@ uint16_t gem_adc_correct_errors_u_int16(const uint16_t value, const struct GemAD
 
 /* Private methods & interrupt handlers. */
 
-static void _gem_adc_scan() {
-    struct GemADCInput input = _inputs[_current_input];
+static void scan_next_channel() {
+    struct GemADCInput input = inputs_[current_input_idx_];
 
     /* Swap out the input pin. */
     ADC->INPUTCTRL.bit.MUXPOS = input.ain;
@@ -225,14 +225,14 @@ void ADC_Handler(void) {
     ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
 
     /* Store the result */
-    _results[_current_input] = ADC->RESULT.reg;
+    results_[current_input_idx_] = ADC->RESULT.reg;
 
     /* Scan the next input */
-    _current_input = _current_input + 1;
-    if (_current_input == _num_inputs) {
-        _current_input = 0;
-        _results_ready = true;
+    current_input_idx_ = current_input_idx_ + 1;
+    if (current_input_idx_ == num_inputs_) {
+        current_input_idx_ = 0;
+        results_ready_ = true;
     }
 
-    _gem_adc_scan();
+    scan_next_channel();
 }

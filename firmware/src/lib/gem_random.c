@@ -17,14 +17,14 @@ void gem_random_init(uint32_t seed) {
 }
 
 /* Modified wyhash algorithm, https://lemire.me/blog/2019/07/03/a-fast-16-bit-random-number-generator/ */
-static uint32_t _hash16(uint32_t input, uint32_t key) {
+static uint32_t hash16_(uint32_t input, uint32_t key) {
     uint32_t hash = input * key;
     return ((hash >> 16) ^ hash) & 0xFFFF;
 }
 
 uint16_t gem_random16() {
     wyhash_state += 0xfc15;
-    return _hash16(wyhash_state, 0x2ab);
+    return hash16_(wyhash_state, 0x2ab);
 }
 
 /* 32-bit xorshift, adapted from Wikipedia */

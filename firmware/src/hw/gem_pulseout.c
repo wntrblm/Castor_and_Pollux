@@ -7,8 +7,8 @@
 #include "gem_pulseout.h"
 #include "gem_config.h"
 
-static uint32_t _timer_2_period = 0;
-static bool _hard_sync = false;
+static uint32_t timer_2_period_ = 0;
+static bool hard_sync_ = false;
 
 /* Public functions */
 
@@ -90,7 +90,7 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
         case 1:
             TCC1->PERB.bit.PERB = period;
             TCC1->CCB[GEM_TCC1_WO].reg = (uint32_t)(period / 2);
-            _timer_2_period = period;
+            timer_2_period_ = period;
             break;
 
         default:
@@ -98,12 +98,12 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
     }
 }
 
-void gem_pulseout_hard_sync(bool state) { _hard_sync = state; }
+void gem_pulseout_hard_sync(bool state) { hard_sync_ = state; }
 
 void TCC0_Handler(void) {
     TCC0->INTFLAG.reg = TCC_INTFLAG_OVF;
 
-    if (_hard_sync) {
+    if (hard_sync_) {
         TCC1->CTRLBSET.reg = TCC_CTRLBSET_CMD_RETRIGGER;
     }
 }

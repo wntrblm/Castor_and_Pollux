@@ -16,7 +16,7 @@
 
 /* Static variables. */
 
-static gem_sysex_command_callback _sysex_callbacks[MAX_SYSEX_CALLBACKS];
+static gem_sysex_command_callback sysex_callbacks_[MAX_SYSEX_CALLBACKS];
 
 void gem_sysex_dispatcher(const uint8_t* data, size_t len) {
     /*
@@ -39,7 +39,7 @@ void gem_sysex_dispatcher(const uint8_t* data, size_t len) {
     }
 
     uint8_t command = data[2];
-    if (command >= MAX_SYSEX_CALLBACKS || _sysex_callbacks[command] == NULL) {
+    if (command >= MAX_SYSEX_CALLBACKS || sysex_callbacks_[command] == NULL) {
         printf("Invalid SysEx (invalid command): %02x\r\n", command);
         return;
     }
@@ -48,10 +48,10 @@ void gem_sysex_dispatcher(const uint8_t* data, size_t len) {
         Invoke the callback - remove the 3 header bytes and the trailing SysEx
         end byte.
     */
-    _sysex_callbacks[command](data + 3, len - 4);
+    sysex_callbacks_[command](data + 3, len - 4);
 }
 
 void gem_sysex_register_command(uint8_t command, gem_sysex_command_callback callback) {
     WNTR_ASSERT(command < MAX_SYSEX_CALLBACKS);
-    _sysex_callbacks[command] = callback;
+    sysex_callbacks_[command] = callback;
 }
