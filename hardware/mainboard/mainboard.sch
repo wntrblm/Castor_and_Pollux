@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 1 7
 Title "Castor & Pollux"
-Date "2020-09-26"
-Rev "v2"
+Date "2021-01-27"
+Rev "v3"
 Comp "Winterbloom"
 Comment1 "CERN-OHL-P v2"
 Comment2 "Alethea Flowers"
@@ -32,6 +32,7 @@ F 3 "~" H 2400 6750 50  0001 C CNN
 F 4 "yes" H 2400 6750 50  0001 C CNN "finalized"
 F 5 "4UCON 21790" H 2400 6750 50  0001 C CNN "mpn"
 F 6 "" H 2400 6750 50  0001 C CNN "mpn alt"
+F 7 "1" H 2400 6750 50  0001 C CNN "dnp"
 	1    2400 6750
 	1    0    0    1   
 $EndComp
@@ -303,6 +304,7 @@ F 3 "~" H 3100 6750 50  0001 C CNN
 F 4 "yes" H 3100 6750 50  0001 C CNN "finalized"
 F 5 "4UCON 21790" H 3100 6750 50  0001 C CNN "mpn"
 F 6 "" H 3100 6750 50  0001 C CNN "mpn alt"
+F 7 "1" H 3100 6750 50  0001 C CNN "dnp"
 	1    3100 6750
 	-1   0    0    1   
 $EndComp
@@ -521,6 +523,8 @@ F 0 "MH1" H 6450 6249 50  0000 L CNN
 F 1 "M3" H 6450 6158 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 6350 6200 50  0001 C CNN
 F 3 "~" H 6350 6200 50  0001 C CNN
+F 4 "1" H 6350 6200 50  0001 C CNN "dnp"
+F 5 "yes" H 6350 6200 50  0001 C CNN "finalized"
 	1    6350 6200
 	1    0    0    -1  
 $EndComp
