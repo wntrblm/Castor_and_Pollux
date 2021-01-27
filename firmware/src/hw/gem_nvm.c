@@ -11,8 +11,8 @@
 
 /* Private forward declarations. */
 
-static void _gem_nvm_erase_row(uint32_t addr);
-static void _gem_nvm_write_page(uint32_t dst, uint8_t* buf, size_t len);
+static void erase_row(uint32_t addr);
+static void write_page(uint32_t dst, uint8_t* buf, size_t len);
 
 /* Public functions. */
 
@@ -85,11 +85,11 @@ void gem_nvm_write(uint32_t dst, const uint8_t* buf, size_t len) {
         }
 
         /* erase row before write */
-        _gem_nvm_erase_row(row_start_addr);
+        erase_row(row_start_addr);
 
         /* write buffer to flash */
         for (i = 0; i < NVMCTRL_ROW_PAGES; i++) {
-            _gem_nvm_write_page(row_start_addr + i * NVMCTRL_PAGE_SIZE, tmp_buffer[i], NVMCTRL_PAGE_SIZE);
+            write_page(row_start_addr + i * NVMCTRL_PAGE_SIZE, tmp_buffer[i], NVMCTRL_PAGE_SIZE);
         }
 
     } while (row_end_addr < (wr_start_addr + len - 1));
@@ -97,7 +97,7 @@ void gem_nvm_write(uint32_t dst, const uint8_t* buf, size_t len) {
 
 /* Private functions. */
 
-static void _gem_nvm_erase_row(uint32_t addr) {
+static void erase_row(uint32_t addr) {
     /* Wait until the NVM is free. */
     while (!NVMCTRL->INTFLAG.bit.READY) {};
 
@@ -109,7 +109,7 @@ static void _gem_nvm_erase_row(uint32_t addr) {
     NVMCTRL->CTRLA.reg = NVMCTRL_CTRLA_CMD_ER | NVMCTRL_CTRLA_CMDEX_KEY;
 }
 
-static void _gem_nvm_write_page(uint32_t dst, uint8_t* buf, size_t len) {
+static void write_page(uint32_t dst, uint8_t* buf, size_t len) {
     uint32_t nvm_address = dst / 2;
     uint16_t i, data;
 

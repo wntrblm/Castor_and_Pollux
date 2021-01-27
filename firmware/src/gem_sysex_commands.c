@@ -57,62 +57,62 @@ static_assert(
 
 /* Static variables. */
 
-static uint8_t _chunk_buf[SETTINGS_ENCODED_LEN];
-static bool _monitor_enabled = false;
-static uint32_t _last_monitor_update = 0;
+static uint8_t chunk_buf_[SETTINGS_ENCODED_LEN];
+static bool monitor_enabled_ = false;
+static uint32_t last_monitor_update_ = 0;
 
 /* Forward declarations. */
 
-static void _cmd_0x01_hello(const uint8_t* data, size_t len);
-static void _cmd_0x02_write_adc_gain(const uint8_t* data, size_t len);
-static void _cmd_0x03_write_adc_offset(const uint8_t* data, size_t len);
-static void _cmd_0x04_read_adc(const uint8_t* data, size_t len);
-static void _cmd_0x05_set_dac(const uint8_t* data, size_t len);
-static void _cmd_0x06_set_period(const uint8_t* data, size_t len);
-static void _cmd_0x07_erase_settings(const uint8_t* data, size_t len);
-static void _cmd_0x08_read_settings(const uint8_t* data, size_t len);
-static void _cmd_0x09_write_settings(const uint8_t* data, size_t len);
-static void _cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len);
-static void _cmd_0x0B_write_lut(const uint8_t* data, size_t len);
-static void _cmd_0x0C_erase_lut(const uint8_t* data, size_t len);
-static void _cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len);
-static void _cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len);
-static void _cmd_0x0F_get_serial_no(const uint8_t* data, size_t len);
-static void _cmd_0x10_monitor(const uint8_t* data, size_t len);
+static void cmd_0x01_hello(const uint8_t* data, size_t len);
+static void cmd_0x02_write_adc_gain(const uint8_t* data, size_t len);
+static void cmd_0x03_write_adc_offset(const uint8_t* data, size_t len);
+static void cmd_0x04_read_adc(const uint8_t* data, size_t len);
+static void cmd_0x05_set_dac(const uint8_t* data, size_t len);
+static void cmd_0x06_set_period(const uint8_t* data, size_t len);
+static void cmd_0x07_erase_settings(const uint8_t* data, size_t len);
+static void cmd_0x08_read_settings(const uint8_t* data, size_t len);
+static void cmd_0x09_write_settings(const uint8_t* data, size_t len);
+static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len);
+static void cmd_0x0B_write_lut(const uint8_t* data, size_t len);
+static void cmd_0x0C_erase_lut(const uint8_t* data, size_t len);
+static void cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len);
+static void cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len);
+static void cmd_0x0F_get_serial_no(const uint8_t* data, size_t len);
+static void cmd_0x10_monitor(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
 void gem_register_sysex_commands() {
-    gem_sysex_register_command(0x01, _cmd_0x01_hello);
-    gem_sysex_register_command(0x02, _cmd_0x02_write_adc_gain);
-    gem_sysex_register_command(0x03, _cmd_0x03_write_adc_offset);
-    gem_sysex_register_command(0x04, _cmd_0x04_read_adc);
-    gem_sysex_register_command(0x05, _cmd_0x05_set_dac);
-    gem_sysex_register_command(0x06, _cmd_0x06_set_period);
-    gem_sysex_register_command(0x07, _cmd_0x07_erase_settings);
-    gem_sysex_register_command(0x08, _cmd_0x08_read_settings);
-    gem_sysex_register_command(0x09, _cmd_0x09_write_settings);
-    gem_sysex_register_command(0x0A, _cmd_0x0A_write_lut_entry);
-    gem_sysex_register_command(0x0B, _cmd_0x0B_write_lut);
-    gem_sysex_register_command(0x0C, _cmd_0x0C_erase_lut);
-    gem_sysex_register_command(0x0D, _cmd_0x0D_disable_adc_corr);
-    gem_sysex_register_command(0x0E, _cmd_0x0E_enable_adc_corr);
-    gem_sysex_register_command(0x0F, _cmd_0x0F_get_serial_no);
-    gem_sysex_register_command(0x10, _cmd_0x10_monitor);
+    gem_sysex_register_command(0x01, cmd_0x01_hello);
+    gem_sysex_register_command(0x02, cmd_0x02_write_adc_gain);
+    gem_sysex_register_command(0x03, cmd_0x03_write_adc_offset);
+    gem_sysex_register_command(0x04, cmd_0x04_read_adc);
+    gem_sysex_register_command(0x05, cmd_0x05_set_dac);
+    gem_sysex_register_command(0x06, cmd_0x06_set_period);
+    gem_sysex_register_command(0x07, cmd_0x07_erase_settings);
+    gem_sysex_register_command(0x08, cmd_0x08_read_settings);
+    gem_sysex_register_command(0x09, cmd_0x09_write_settings);
+    gem_sysex_register_command(0x0A, cmd_0x0A_write_lut_entry);
+    gem_sysex_register_command(0x0B, cmd_0x0B_write_lut);
+    gem_sysex_register_command(0x0C, cmd_0x0C_erase_lut);
+    gem_sysex_register_command(0x0D, cmd_0x0D_disable_adc_corr);
+    gem_sysex_register_command(0x0E, cmd_0x0E_enable_adc_corr);
+    gem_sysex_register_command(0x0F, cmd_0x0F_get_serial_no);
+    gem_sysex_register_command(0x10, cmd_0x10_monitor);
     gem_midi_set_sysex_callback(gem_sysex_dispatcher);
 };
 
 void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
-    if (!_monitor_enabled) {
+    if (!monitor_enabled_) {
         return;
     }
 
     /* Don't send updates more often than once every 1/10th of a second. */
     uint32_t ticks = gem_get_ticks();
-    if (ticks - _last_monitor_update < 100) {
+    if (ticks - last_monitor_update_ < 100) {
         return;
     }
-    _last_monitor_update = ticks;
+    last_monitor_update_ = ticks;
 
     uint8_t update_buf[GEMMONITORUPDATE_PACKED_SIZE];
     GemMonitorUpdate_pack(update, update_buf);
@@ -124,7 +124,7 @@ void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
 
 /* Private functions. */
 
-static void _cmd_0x01_hello(const uint8_t* data, size_t len) {
+static void cmd_0x01_hello(const uint8_t* data, size_t len) {
     /*
         Response: 0x01 and the build info string, for example:
         "12.24.2020 on 20/01/2021 23:38 UTC with arm-none-eabi-gcc 10.2.1 20201103 (release) by
@@ -148,7 +148,7 @@ static void _cmd_0x01_hello(const uint8_t* data, size_t len) {
     SEND_RESPONSE_LEN(build_info_len);
 }
 
-static void _cmd_0x02_write_adc_gain(const uint8_t* data, size_t len) {
+static void cmd_0x02_write_adc_gain(const uint8_t* data, size_t len) {
     /* Request (teeth): GAIN(2) */
     DECODE_TEETH_REQUEST(2);
 
@@ -160,7 +160,7 @@ static void _cmd_0x02_write_adc_gain(const uint8_t* data, size_t len) {
     GemSettings_save(&settings);
 }
 
-static void _cmd_0x03_write_adc_offset(const uint8_t* data, size_t len) {
+static void cmd_0x03_write_adc_offset(const uint8_t* data, size_t len) {
     /* Request (teeth): OFFSET(2) */
     DECODE_TEETH_REQUEST(2);
 
@@ -172,7 +172,7 @@ static void _cmd_0x03_write_adc_offset(const uint8_t* data, size_t len) {
     GemSettings_save(&settings);
 }
 
-static void _cmd_0x04_read_adc(const uint8_t* data, size_t len) {
+static void cmd_0x04_read_adc(const uint8_t* data, size_t len) {
     /* Request: CHANNEL(1) */
     /* Response (teeth): VALUE(2) */
     (void)(len);
@@ -188,7 +188,7 @@ static void _cmd_0x04_read_adc(const uint8_t* data, size_t len) {
     SEND_RESPONSE();
 }
 
-static void _cmd_0x05_set_dac(const uint8_t* data, size_t len) {
+static void cmd_0x05_set_dac(const uint8_t* data, size_t len) {
     /* Request: CHANNEL(1) VALUE(2) VREF(1)*/
     DECODE_TEETH_REQUEST(4);
 
@@ -198,7 +198,7 @@ static void _cmd_0x05_set_dac(const uint8_t* data, size_t len) {
     gem_mcp_4728_write_channel(request[0], dac_settings);
 }
 
-static void _cmd_0x06_set_period(const uint8_t* data, size_t len) {
+static void cmd_0x06_set_period(const uint8_t* data, size_t len) {
     /* Request (teeth): CHANNEL(1) PERIOD(4) */
     (void)(len);
     DECODE_TEETH_REQUEST(5);
@@ -206,14 +206,14 @@ static void _cmd_0x06_set_period(const uint8_t* data, size_t len) {
     gem_pulseout_set_period(request[0], UNPACK_32(request, 1));
 }
 
-static void _cmd_0x07_erase_settings(const uint8_t* data, size_t len) {
+static void cmd_0x07_erase_settings(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     GemSettings_erase();
 }
 
-static void _cmd_0x08_read_settings(const uint8_t* data, size_t len) {
+static void cmd_0x08_read_settings(const uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) */
     /* Response: SETTINGS_CHUNK(CHUNK_SIZE) */
@@ -230,14 +230,14 @@ static void _cmd_0x08_read_settings(const uint8_t* data, size_t len) {
     GemSettings_load(&settings);
     GemSettings_pack(&settings, settings_buf);
 
-    teeth_encode(settings_buf, GEMSETTINGS_PACKED_SIZE, _chunk_buf);
+    teeth_encode(settings_buf, GEMSETTINGS_PACKED_SIZE, chunk_buf_);
 
     PREPARE_RESPONSE(0x08, CHUNK_SIZE);
-    memcpy(response, _chunk_buf + (CHUNK_SIZE * chunk_num), CHUNK_SIZE);
+    memcpy(response, chunk_buf_ + (CHUNK_SIZE * chunk_num), CHUNK_SIZE);
     SEND_RESPONSE();
 }
 
-static void _cmd_0x09_write_settings(const uint8_t* data, size_t len) {
+static void cmd_0x09_write_settings(const uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) SETTINGS_CHUNK(CHUNK_SIZE) */
     (void)(len);
@@ -249,17 +249,17 @@ static void _cmd_0x09_write_settings(const uint8_t* data, size_t len) {
     }
 
     if (chunk_num == 0) {
-        memset(_chunk_buf, 0xFF, ARRAY_LEN(_chunk_buf));
+        memset(chunk_buf_, 0xFF, ARRAY_LEN(chunk_buf_));
     }
 
-    memcpy(_chunk_buf + (CHUNK_SIZE * chunk_num), data + 1, CHUNK_SIZE);
+    memcpy(chunk_buf_ + (CHUNK_SIZE * chunk_num), data + 1, CHUNK_SIZE);
 
     /* All data received, decode and save the settings. */
     if (chunk_num == TOTAL_CHUNKS - 1) {
         struct GemSettings settings;
         uint8_t settings_buf[GEMSETTINGS_PACKED_SIZE];
 
-        teeth_decode(_chunk_buf, ARRAY_LEN(_chunk_buf), settings_buf);
+        teeth_decode(chunk_buf_, ARRAY_LEN(chunk_buf_), settings_buf);
 
         if (GemSettings_unpack(&settings, settings_buf).status == STRUCTY_RESULT_OKAY) {
             GemSettings_save(&settings);
@@ -272,7 +272,7 @@ static void _cmd_0x09_write_settings(const uint8_t* data, size_t len) {
     RESPONSE_0(0x09);
 }
 
-static void _cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
+static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
     /* Request (teeth): ENTRY(1) OSC(1) CODE(2) */
     DECODE_TEETH_REQUEST(4);
 
@@ -296,28 +296,28 @@ static void _cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
     RESPONSE_0(0x0A);
 }
 
-static void _cmd_0x0B_write_lut(const uint8_t* data, size_t len) {
+static void cmd_0x0B_write_lut(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_save_dac_codes_table();
 }
 
-static void _cmd_0x0C_erase_lut(const uint8_t* data, size_t len) {
+static void cmd_0x0C_erase_lut(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_save_dac_codes_table();
 }
 
-static void _cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len) {
+static void cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_adc_set_error_correction(2048, 0);
 }
 
-static void _cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len) {
+static void cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
@@ -326,7 +326,7 @@ static void _cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len) {
     gem_adc_set_error_correction(settings.adc_gain_corr, settings.adc_offset_corr);
 }
 
-static void _cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
+static void cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
     /* Response (teeth): SERIAL_NO(24) */
     (void)(data);
     (void)(len);
@@ -341,14 +341,14 @@ static void _cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
     SEND_RESPONSE();
 }
 
-static void _cmd_0x10_monitor(const uint8_t* data, size_t len) {
+static void cmd_0x10_monitor(const uint8_t* data, size_t len) {
     (void)len;
 
     if (data[0] > 0) {
         gem_adc_resume_scanning();
         gem_led_animation_set_mode(GEM_LED_MODE_NORMAL);
-        _monitor_enabled = true;
+        monitor_enabled_ = true;
     } else {
-        _monitor_enabled = false;
+        monitor_enabled_ = false;
     }
 }

@@ -37,35 +37,35 @@ enum GemUSBMIDICodeIndexes {
 
 /* Static variables */
 
-static uint8_t _in_data[4];
-static uint8_t _sysex_data[GEM_SYSEX_BUF_SIZE];
-static size_t _sysex_data_len;
-static gem_midi_sysex_callback _sysex_callback;
+static uint8_t in_packet_[4];
+static uint8_t sysex_data_[GEM_SYSEX_BUF_SIZE];
+static size_t sysex_data_len_;
+static gem_midi_sysex_callback sysex_callback_;
 
 /* Private forward declarations. */
 
-static void _parse_sysex();
+static void consume_sysex();
 
 /* Public functions. */
 
 void gem_midi_task() {
-    if (gem_usb_midi_receive(_in_data) == false) {
+    if (gem_usb_midi_receive(in_packet_) == false) {
         return;
     }
 
-    if ((_in_data[0] & 0x0F) == CIN_SYSEX_START_OR_CONTINUE) {
-        _parse_sysex();
-        if (_sysex_data_len > 0) {
-            _sysex_callback(_sysex_data, _sysex_data_len);
+    if ((in_packet_[0] & 0x0F) == CIN_SYSEX_START_OR_CONTINUE) {
+        consume_sysex();
+        if (sysex_data_len_ > 0) {
+            sysex_callback_(sysex_data_, sysex_data_len_);
         }
     }
 }
 
-static void _parse_sysex() {
+static void consume_sysex() {
     /* Start message has 3 of the sysex bytes. */
-    _sysex_data[0] = _in_data[1];
-    _sysex_data[1] = _in_data[2];
-    _sysex_data[2] = _in_data[3];
+    sysex_data_[0] = in_packet_[1];
+    sysex_data_[1] = in_packet_[2];
+    sysex_data_[2] = in_packet_[3];
     size_t data_index = 3;
 
     while (1) {
@@ -73,7 +73,7 @@ static void _parse_sysex() {
         /* Wait until we get a message, but fail out if it doesn't arrive in time. */
         size_t m = 0;
         for (; m < GEM_SYSEX_TIMEOUT; m++) {
-            if (gem_usb_midi_receive(_in_data)) {
+            if (gem_usb_midi_receive(in_packet_)) {
                 break;
             }
         }
@@ -82,39 +82,39 @@ static void _parse_sysex() {
             goto timeout_fail;
         }
 
-        if ((_in_data[0] & 0x0F) == CIN_SYSEX_START_OR_CONTINUE) {
+        if ((in_packet_[0] & 0x0F) == CIN_SYSEX_START_OR_CONTINUE) {
             if (data_index + 3 > GEM_SYSEX_BUF_SIZE - 1)
                 break;
-            _sysex_data[data_index++] = _in_data[1];
-            _sysex_data[data_index++] = _in_data[2];
-            _sysex_data[data_index++] = _in_data[3];
-        } else if ((_in_data[0] & 0x0F) == CIN_SYSEX_END_THREE_BYTE) {
+            sysex_data_[data_index++] = in_packet_[1];
+            sysex_data_[data_index++] = in_packet_[2];
+            sysex_data_[data_index++] = in_packet_[3];
+        } else if ((in_packet_[0] & 0x0F) == CIN_SYSEX_END_THREE_BYTE) {
             if (data_index + 3 > GEM_SYSEX_BUF_SIZE - 1)
                 break;
-            _sysex_data[data_index++] = _in_data[1];
-            _sysex_data[data_index++] = _in_data[2];
-            _sysex_data[data_index++] = _in_data[3];
+            sysex_data_[data_index++] = in_packet_[1];
+            sysex_data_[data_index++] = in_packet_[2];
+            sysex_data_[data_index++] = in_packet_[3];
             break;
-        } else if ((_in_data[0] & 0x0F) == CIN_SYSEX_END_TWO_BYTE) {
+        } else if ((in_packet_[0] & 0x0F) == CIN_SYSEX_END_TWO_BYTE) {
             if (data_index + 2 > GEM_SYSEX_BUF_SIZE - 1)
                 break;
-            _sysex_data[data_index++] = _in_data[1];
-            _sysex_data[data_index++] = _in_data[2];
+            sysex_data_[data_index++] = in_packet_[1];
+            sysex_data_[data_index++] = in_packet_[2];
             break;
-        } else if ((_in_data[0] & 0x0F) == CIN_SYSEX_END_ONE_BYTE) {
+        } else if ((in_packet_[0] & 0x0F) == CIN_SYSEX_END_ONE_BYTE) {
             if (data_index + 1 > GEM_SYSEX_BUF_SIZE - 1)
                 break;
-            _sysex_data[data_index++] = _in_data[1];
+            sysex_data_[data_index++] = in_packet_[1];
             break;
         }
     }
 
-    _sysex_data_len = data_index;
+    sysex_data_len_ = data_index;
 
     return;
 
 timeout_fail:
-    _sysex_data_len = 0;
+    sysex_data_len_ = 0;
     printf("Timed out while waiting for SysEx.");
     return;
 }
@@ -186,4 +186,4 @@ void gem_midi_send_sysex(const uint8_t* data, size_t len) {
     };
 }
 
-void gem_midi_set_sysex_callback(gem_midi_sysex_callback callback) { _sysex_callback = callback; }
+void gem_midi_set_sysex_callback(gem_midi_sysex_callback callback) { sysex_callback_ = callback; }

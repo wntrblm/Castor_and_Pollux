@@ -47,8 +47,8 @@ const char* string_desc_arr[] = {
     "Gemini",                    // 2: Product
 };
 
-static char _serial_number_str[] = "00000000FFFFFFFF";  // 3: Serial number
-static uint16_t _desc_str[32];
+static char serial_number_str_[] = "00000000FFFFFFFF";  // 3: Serial number
+static uint16_t desc_str_[32];
 
 /* Callback functions. */
 
@@ -64,14 +64,14 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
     uint8_t chr_count;
 
     if (index == 0) {
-        memcpy(&_desc_str[1], string_desc_arr[0], 2);
+        memcpy(&desc_str_[1], string_desc_arr[0], 2);
         chr_count = 1;
     } else if (index == 3) {
         // Serial number.
         uint32_t serial_high = gem_serial_number_high();
         uint32_t serial_low = gem_serial_number_low();
-        snprintf(_serial_number_str, 16 + 1, "%lx%lx", serial_high, serial_low);
-        for (uint8_t i = 0; i < 16; i++) { _desc_str[1 + i] = _serial_number_str[i]; }
+        snprintf(serial_number_str_, 16 + 1, "%lx%lx", serial_high, serial_low);
+        for (uint8_t i = 0; i < 16; i++) { desc_str_[1 + i] = serial_number_str_[i]; }
         chr_count = 16;
     } else {
         // Note: the 0xEE index string is a Microsoft OS 1.0 Descriptors.
@@ -88,11 +88,11 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
             chr_count = 31;
 
         // Convert ASCII string into UTF-16
-        for (uint8_t i = 0; i < chr_count; i++) { _desc_str[1 + i] = str[i]; }
+        for (uint8_t i = 0; i < chr_count; i++) { desc_str_[1 + i] = str[i]; }
     }
 
     // first byte is length (including header), second byte is string type
-    _desc_str[0] = (TUSB_DESC_STRING << 8) | (2 * chr_count + 2);
+    desc_str_[0] = (TUSB_DESC_STRING << 8) | (2 * chr_count + 2);
 
-    return _desc_str;
+    return desc_str_;
 }

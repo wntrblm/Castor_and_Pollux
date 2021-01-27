@@ -11,9 +11,9 @@
 
 /* Private function forward declarations. */
 
-static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint16_t frac);
+static int32_t fix16_lerp_int(int64_t a, int64_t b, uint16_t frac);
 
-static void _find_nearest_table_entries(
+static void find_nearest_table_entries(
     const struct GemVoltageAndPeriod* volt_table,
     struct GemDACCodePair* dac_table,
     size_t table_len,
@@ -32,7 +32,7 @@ void GemVoiceParams_from_cv(
     struct GemVoiceParams low = {};
     struct GemVoiceParams high = {};
 
-    _find_nearest_table_entries(volt_table, dac_table, table_len, voltage, &low, &high);
+    find_nearest_table_entries(volt_table, dac_table, table_len, voltage, &low, &high);
 
     /* Special case; low table entry and voltage are the same, just use the low entry. */
     if (low.voltage_and_period.voltage == voltage) {
@@ -52,7 +52,7 @@ void GemVoiceParams_from_cv(
 
     out->voltage_and_period.voltage = voltage;
     out->voltage_and_period.period =
-        _fix16_lerp_int(low.voltage_and_period.period, high.voltage_and_period.period, t_int);
+        fix16_lerp_int(low.voltage_and_period.period, high.voltage_and_period.period, t_int);
     out->dac_codes.castor = fix16_lerp16(low.dac_codes.castor, high.dac_codes.castor, t_int);
     out->dac_codes.pollux = fix16_lerp16(low.dac_codes.pollux, high.dac_codes.pollux, t_int);
 };
@@ -60,7 +60,7 @@ void GemVoiceParams_from_cv(
 /* Private functions. */
 
 /* Similar to libfixmath's fix16_lerp64, but intentionally operates on integers instead of fix16s */
-static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint16_t frac) {
+static int32_t fix16_lerp_int(int64_t a, int64_t b, uint16_t frac) {
     int64_t result;
     result = a * (((int32_t)1 << 16) - frac);
     result += b * frac;
@@ -71,7 +71,7 @@ static int32_t _fix16_lerp_int(int64_t a, int64_t b, uint16_t frac) {
 /* Used to find the two nearest table entries for doing linear interpolation.
    the table entries are defined in gem_voice_params_table.h.
 */
-static void _find_nearest_table_entries(
+static void find_nearest_table_entries(
     const struct GemVoltageAndPeriod* volt_table,
     struct GemDACCodePair* dac_table,
     size_t table_len,
