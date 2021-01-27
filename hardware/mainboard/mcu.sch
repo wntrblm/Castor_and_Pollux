@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 6 7
 Title "Castor & Pollux"
-Date "2020-09-26"
-Rev "v2"
+Date "2021-01-27"
+Rev "v3"
 Comp "Winterbloom"
 Comment1 "CERN-OHL-P v2"
 Comment2 "Alethea Flowers"
@@ -279,7 +279,8 @@ F 0 "J2" H 5450 7417 50  0000 C CNN
 F 1 "Tag-Connect SWD" H 5450 7326 50  0000 C CNN
 F 2 "Connector:Tag-Connect_TC2030-IDC-NL_2x03_P1.27mm_Vertical" H 5400 7100 50  0001 C CNN
 F 3 "~" H 5400 7100 50  0001 C CNN
-F 4 "" H 5400 7100 50  0001 C CNN "finalized"
+F 4 "yes" H 5400 7100 50  0001 C CNN "finalized"
+F 5 "1" H 5400 7100 50  0001 C CNN "dnp"
 	1    5400 7100
 	1    0    0    -1  
 $EndComp
@@ -680,6 +681,8 @@ F 0 "TP3" V 7804 1188 50  0000 L CNN
 F 1 "SQ1" V 7895 1188 50  0000 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8050 1000 50  0001 C CNN
 F 3 "~" H 8050 1000 50  0001 C CNN
+F 4 "1" H 7850 1000 50  0001 C CNN "dnp"
+F 5 "yes" H 7850 1000 50  0001 C CNN "finalized"
 	1    7850 1000
 	0    1    1    0   
 $EndComp
@@ -693,6 +696,8 @@ F 0 "TP4" V 7804 1388 50  0000 L CNN
 F 1 "SQ2" V 7895 1388 50  0000 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 8050 1200 50  0001 C CNN
 F 3 "~" H 8050 1200 50  0001 C CNN
+F 4 "1" H 7850 1200 50  0001 C CNN "dnp"
+F 5 "yes" H 7850 1200 50  0001 C CNN "finalized"
 	1    7850 1200
 	0    1    1    0   
 $EndComp
@@ -812,6 +817,8 @@ F 0 "TP5" V 5204 7638 50  0000 L CNN
 F 1 "SWDIO" V 5295 7638 50  0000 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 5450 7450 50  0001 C CNN
 F 3 "~" H 5450 7450 50  0001 C CNN
+F 4 "1" H 5250 7450 50  0001 C CNN "dnp"
+F 5 "yes" H 5250 7450 50  0001 C CNN "finalized"
 	1    5250 7450
 	0    1    1    0   
 $EndComp
@@ -823,6 +830,8 @@ F 0 "TP6" V 5204 7838 50  0000 L CNN
 F 1 "SWCLK" V 5295 7838 50  0000 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 5450 7650 50  0001 C CNN
 F 3 "~" H 5450 7650 50  0001 C CNN
+F 4 "1" H 5250 7650 50  0001 C CNN "dnp"
+F 5 "yes" H 5250 7650 50  0001 C CNN "finalized"
 	1    5250 7650
 	0    1    1    0   
 $EndComp
@@ -840,6 +849,8 @@ F 0 "TP7" V 5204 8038 50  0000 L CNN
 F 1 "RESET" V 5295 8038 50  0000 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 5450 7850 50  0001 C CNN
 F 3 "~" H 5450 7850 50  0001 C CNN
+F 4 "1" H 5250 7850 50  0001 C CNN "dnp"
+F 5 "yes" H 5250 7850 50  0001 C CNN "finalized"
 	1    5250 7850
 	0    1    1    0   
 $EndComp

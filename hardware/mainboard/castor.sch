@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 7 7
 Title "Castor & Pollux"
-Date "2020-09-26"
-Rev "v2"
+Date "2021-01-27"
+Rev "v3"
 Comp "Winterbloom"
 Comment1 "CERN-OHL-P v2"
 Comment2 "Alethea Flowers"
@@ -20,14 +20,14 @@ P 2350 1250
 AR Path="/5F016AD7/5EE545BA" Ref="C6"  Part="1" 
 AR Path="/5F0E55E2/5EE545BA" Ref="C25"  Part="1" 
 F 0 "C6" V 2098 1250 50  0000 C CNN
-F 1 "4.7nF" V 2189 1250 50  0000 C CNN
+F 1 "270pF" V 2189 1250 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2388 1100 50  0001 C CNN
 F 3 "~" H 2350 1250 50  0001 C CNN
 F 4 "C0G 1%" H 2350 1250 50  0001 C CNN "Reqs"
 F 5 "yes" H 2350 1250 50  0001 C CNN "finalized"
-F 6 "C0603C472F3GECTU" H 2350 1250 50  0001 C CNN "mpn"
+F 6 "GCM1885C2A271FA16D" H 2350 1250 50  0001 C CNN "mpn"
 F 7 "1%, 50v" H 2350 1250 50  0001 C CNN "mpn specs"
-F 8 "C0603C472F5GACTU" H 2350 1250 50  0001 C CNN "mpn alt"
+F 8 "GRM1885C2A271JA01D" H 2350 1250 50  0001 C CNN "mpn alt"
 	1    2350 1250
 	0    1    1    0   
 $EndComp
@@ -38,12 +38,13 @@ P 3300 1400
 AR Path="/5F016AD7/5EE54BED" Ref="R4"  Part="1" 
 AR Path="/5F0E55E2/5EE54BED" Ref="R28"  Part="1" 
 F 0 "R4" H 3232 1354 50  0000 R CNN
-F 1 "2.2k" H 3232 1445 50  0000 R CNN
+F 1 "1k+" H 3232 1445 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3340 1390 50  0001 C CNN
 F 3 "~" H 3300 1400 50  0001 C CNN
-F 4 "yes" H 3300 1400 50  0001 C CNN "finalized"
-F 5 "ERA-3AED222V" H 3300 1400 50  0001 C CNN "mpn"
+F 4 "" H 3300 1400 50  0001 C CNN "finalized"
+F 5 "ERA-3AED102V" H 3300 1400 50  0001 C CNN "mpn"
 F 6 "100mW" H 3300 1400 50  0001 C CNN "mpn specs"
+F 7 "1k+, needs testing" H 3300 1400 50  0001 C CNN "Reqs"
 	1    3300 1400
 	-1   0    0    1   
 $EndComp
@@ -86,14 +87,14 @@ P 3300 2500
 AR Path="/5F016AD7/5EE5D698" Ref="C9"  Part="1" 
 AR Path="/5F0E55E2/5EE5D698" Ref="C28"  Part="1" 
 F 0 "C9" V 3048 2500 50  0000 C CNN
-F 1 "4.7nF" V 3139 2500 50  0000 C CNN
+F 1 "1nF" V 3139 2500 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3338 2350 50  0001 C CNN
 F 3 "~" H 3300 2500 50  0001 C CNN
 F 4 "C0G 1%" H 3300 2500 50  0001 C CNN "Reqs"
 F 5 "yes" H 3300 2500 50  0001 C CNN "finalized"
-F 6 "C0603C472F3GECTU" H 3300 2500 50  0001 C CNN "mpn"
+F 6 "GRM1885C1H102FA01J" H 3300 2500 50  0001 C CNN "mpn"
 F 7 "1%, 50v" H 3300 2500 50  0001 C CNN "mpn specs"
-F 8 "C0603C472F5GACTU" H 3300 2500 50  0001 C CNN "mpn alt"
+F 8 "GRM1885C1H102FA01D" H 3300 2500 50  0001 C CNN "mpn alt"
 	1    3300 2500
 	0    1    1    0   
 $EndComp
@@ -105,8 +106,6 @@ Wire Wire Line
 	2950 2500 3150 2500
 Wire Wire Line
 	3450 2500 3650 2500
-Wire Wire Line
-	3650 2500 3650 1850
 Wire Wire Line
 	3650 1850 3500 1850
 $Comp
@@ -165,12 +164,12 @@ P 2550 2850
 AR Path="/5F016AD7/5EE67C3A" Ref="R3"  Part="1" 
 AR Path="/5F0E55E2/5EE67C3A" Ref="R27"  Part="1" 
 F 0 "R3" V 2755 2850 50  0000 C CNN
-F 1 "470k" V 2664 2850 50  0000 C CNN
+F 1 "200k" V 2664 2850 50  0000 C CNN
 F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2590 2840 50  0001 C CNN
 F 3 "~" H 2550 2850 50  0001 C CNN
 F 4 "yes" H 2550 2850 50  0001 C CNN "finalized"
-F 5 "ERA-6AEB474V" H 2550 2850 50  0001 C CNN "mpn"
-F 6 "0.5%" H 2550 2850 50  0001 C CNN "Reqs"
+F 5 "ERA-3AEB204V" H 2550 2850 50  0001 C CNN "mpn"
+F 6 "5%" H 2550 2850 50  0001 C CNN "Reqs"
 F 7 "100mW" H 2550 2850 50  0001 C CNN "mpn specs"
 	1    2550 2850
 	0    -1   -1   0   
@@ -180,24 +179,7 @@ Cap charge buffer
 Text Notes 2800 950  0    50   ~ 0
 Ramp core
 Text Notes 1050 3100 0    50   ~ 0
-0v - 3.3v
-$Comp
-L Device:R_US R5
-U 1 1 5EE6F81D
-P 4200 2950
-AR Path="/5F016AD7/5EE6F81D" Ref="R5"  Part="1" 
-AR Path="/5F0E55E2/5EE6F81D" Ref="R29"  Part="1" 
-F 0 "R5" V 4405 2950 50  0000 C CNN
-F 1 "1.3k" V 4314 2950 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4240 2940 50  0001 C CNN
-F 3 "~" H 4200 2950 50  0001 C CNN
-F 4 "yes" H 4200 2950 50  0001 C CNN "finalized"
-F 5 "ERA-3AEB132V" H 4200 2950 50  0001 C CNN "mpn"
-F 6 "0.5%" H 4200 2950 50  0001 C CNN "Reqs"
-F 7 "100mW" H 4200 2950 50  0001 C CNN "mpn specs"
-	1    4200 2950
-	0    -1   -1   0   
-$EndComp
+0v → +3.3v
 $Comp
 L Amplifier_Operational:TL074 U3
 U 3 1 5EE70505
@@ -238,7 +220,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4890 2540 50  0
 F 3 "~" H 4850 2550 50  0001 C CNN
 F 4 "yes" H 4850 2550 50  0001 C CNN "finalized"
 F 5 "ERA-3AED103V" H 4850 2550 50  0001 C CNN "mpn"
-F 6 "1%" H 4850 2550 50  0001 C CNN "Reqs"
+F 6 "5%" H 4850 2550 50  0001 C CNN "Reqs"
 F 7 "100mW" H 4850 2550 50  0001 C CNN "mpn specs"
 	1    4850 2550
 	0    -1   -1   0   
@@ -257,13 +239,13 @@ Wire Wire Line
 Wire Wire Line
 	5150 2550 5150 3050
 Text Notes 3250 3150 0    50   ~ 0
-0v - -400mV
+0v → -10v
 Text Notes 5600 3200 0    50   ~ 0
-0v - 3.3v
+0v → +3.3v
 Wire Notes Line
 	3850 850  3850 3450
 Text Notes 3900 2350 0    50   ~ 0
-Ramp buffer\n
+Ramp buffer/inverter\n
 Wire Notes Line
 	5400 3450 5400 2250
 Wire Notes Line
@@ -1119,7 +1101,6 @@ Wire Wire Line
 	2950 2850 3000 2850
 Wire Wire Line
 	3650 2500 3650 2950
-Connection ~ 3650 2500
 Connection ~ 3650 2950
 Wire Wire Line
 	3650 2950 4050 2950
@@ -1184,22 +1165,6 @@ F 3 "" H 1900 4450 50  0001 C CNN
 	1    1900 4450
 	1    0    0    -1  
 $EndComp
-$Comp
-L Transistor_BJT:MMBT3904 Q1
-U 1 1 5F14584B
-P 3300 1750
-AR Path="/5F016AD7/5F14584B" Ref="Q1"  Part="1" 
-AR Path="/5F0E55E2/5F14584B" Ref="Q2"  Part="1" 
-F 0 "Q1" V 3535 1750 50  0000 C CNN
-F 1 "MMBT3904" V 3626 1750 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 3500 1675 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 3300 1750 50  0001 L CNN
-F 4 "yes" H 3300 1750 50  0001 C CNN "finalized"
-F 5 "MF-DSC-SOT233-MMBT3904" H 3300 1750 50  0001 C CNN "mpn"
-F 6 "MMBT3904,215" H 3300 1750 50  0001 C CNN "mpn alt"
-	1    3300 1750
-	0    1    1    0   
-$EndComp
 Text HLabel 1900 1250 0    50   Input ~ 0
 square_in
 Text HLabel 1450 2950 0    50   Input ~ 0
@@ -1233,44 +1198,44 @@ ramp_pre
 $Comp
 L Amplifier_Operational:TL074 U3
 U 4 1 5F103946
-P 4900 1500
+P 6475 1225
 AR Path="/5F016AD7/5F103946" Ref="U3"  Part="4" 
 AR Path="/5F0E55E2/5F103946" Ref="U9"  Part="4" 
-F 0 "U3" H 4900 1000 50  0000 C CNN
-F 1 "TL074" H 4900 1100 50  0000 C CNN
-F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 4850 1600 50  0001 C CNN
-F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 4950 1700 50  0001 C CNN
-F 4 "yes" H 4900 1500 50  0001 C CNN "finalized"
-F 5 "TL074CPWR" H 4900 1500 50  0001 C CNN "mpn"
-	4    4900 1500
+F 0 "U3" H 6475 725 50  0000 C CNN
+F 1 "TL074" H 6475 825 50  0000 C CNN
+F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 6425 1325 50  0001 C CNN
+F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 6525 1425 50  0001 C CNN
+F 4 "yes" H 6475 1225 50  0001 C CNN "finalized"
+F 5 "TL074CPWR" H 6475 1225 50  0001 C CNN "mpn"
+	4    6475 1225
 	1    0    0    1   
 $EndComp
 $Comp
 L power:GND #PWR036
 U 1 1 5F105CB5
-P 4600 1600
+P 6175 1325
 AR Path="/5F016AD7/5F105CB5" Ref="#PWR036"  Part="1" 
 AR Path="/5F0E55E2/5F105CB5" Ref="#PWR093"  Part="1" 
-F 0 "#PWR036" H 4600 1350 50  0001 C CNN
-F 1 "GND" H 4605 1427 50  0000 C CNN
-F 2 "" H 4600 1600 50  0001 C CNN
-F 3 "" H 4600 1600 50  0001 C CNN
-	1    4600 1600
+F 0 "#PWR036" H 6175 1075 50  0001 C CNN
+F 1 "GND" H 6180 1152 50  0000 C CNN
+F 2 "" H 6175 1325 50  0001 C CNN
+F 3 "" H 6175 1325 50  0001 C CNN
+	1    6175 1325
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5200 1500 5200 1250
+	6775 1225 6775 975 
 Wire Wire Line
-	5200 1250 4600 1250
+	6775 975  6175 975 
 Wire Wire Line
-	4600 1250 4600 1400
+	6175 975  6175 1125
 Wire Wire Line
 	7150 4800 7850 4800
 Wire Wire Line
 	7150 5500 7850 5500
 Wire Wire Line
 	7150 6200 7850 6200
-Text Notes 5050 1650 0    50   ~ 0
+Text Notes 6625 1375 0    50   ~ 0
 unused
 Wire Wire Line
 	1900 1250 2200 1250
@@ -1535,6 +1500,8 @@ F 0 "TP2" H 5092 3526 50  0000 R CNN
 F 1 "Ramp Pre" H 5092 3617 50  0000 R CNN
 F 2 "TestPoint:TestPoint_Pad_D1.0mm" H 5350 3500 50  0001 C CNN
 F 3 "~" H 5350 3500 50  0001 C CNN
+F 4 "1" H 5150 3500 50  0001 C CNN "dnp"
+F 5 "yes" H 5150 3500 50  0001 C CNN "finalized"
 	1    5150 3500
 	-1   0    0    1   
 $EndComp
@@ -1580,4 +1547,66 @@ Wire Wire Line
 	9250 5200 9250 4900
 Wire Wire Line
 	9550 5600 9800 5600
+$Comp
+L Transistor_BJT:MMBT3906 Q1
+U 1 1 601956FB
+P 3300 1750
+AR Path="/5F016AD7/601956FB" Ref="Q1"  Part="1" 
+AR Path="/5F0E55E2/601956FB" Ref="Q2"  Part="1" 
+F 0 "Q1" V 3400 1750 50  0000 C CNN
+F 1 "MMBT3906" V 3525 1750 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 3500 1675 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3906.pdf" H 3300 1750 50  0001 L CNN
+F 4 "yes" H 3300 1750 50  0001 C CNN "finalized"
+F 5 "MF-DSC-SOT233-MMBT3906" H 3300 1750 50  0001 C CNN "mpn"
+F 6 "MMBT3906L" H 3300 1750 50  0001 C CNN "mpn alt"
+	1    3300 1750
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:R_US R61
+U 1 1 6019886A
+P 3650 2175
+AR Path="/5F016AD7/6019886A" Ref="R61"  Part="1" 
+AR Path="/5F0E55E2/6019886A" Ref="R60"  Part="1" 
+F 0 "R61" V 3575 2275 50  0000 R CNN
+F 1 "2.2k" V 3725 2275 50  0000 R CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3690 2165 50  0001 C CNN
+F 3 "~" H 3650 2175 50  0001 C CNN
+F 4 "yes" H 3650 2175 50  0001 C CNN "finalized"
+F 5 "ERA-3AED222V" H 3650 2175 50  0001 C CNN "mpn"
+F 6 "100mW" H 3650 2175 50  0001 C CNN "mpn specs"
+F 7 "1%" H 3650 2175 50  0001 C CNN "Reqs"
+	1    3650 2175
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	3650 1850 3650 2025
+Wire Wire Line
+	3650 2325 3650 2500
+Connection ~ 3650 2500
+Text Notes 2025 1000 2    50   ~ 0
+RC= 2.7uS\n0.4% of duty cycle @ 1.5kHz
+Text Notes 3875 1850 0    50   ~ 0
+Charge RC: 0.2ms (5kHz)\nDischarge RC: 2.2uS (0.3% of duty cycle @ 1.5kHz)
+Text Notes 3900 2525 0    50   ~ 0
+Gain: -0.3333\nMax. Vout: +3.7v
+$Comp
+L Device:R_US R5
+U 1 1 5EE6F81D
+P 4200 2950
+AR Path="/5F016AD7/5EE6F81D" Ref="R5"  Part="1" 
+AR Path="/5F0E55E2/5EE6F81D" Ref="R29"  Part="1" 
+F 0 "R5" V 4405 2950 50  0000 C CNN
+F 1 "30k" V 4314 2950 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4240 2940 50  0001 C CNN
+F 3 "~" H 4200 2950 50  0001 C CNN
+F 4 "yes" H 4200 2950 50  0001 C CNN "finalized"
+F 5 "RR0816P-303-D" H 4200 2950 50  0001 C CNN "mpn"
+F 6 "1%" H 4200 2950 50  0001 C CNN "Reqs"
+F 7 "100mW" H 4200 2950 50  0001 C CNN "mpn specs"
+F 8 "ERA-3AEB303V" H 4200 2950 50  0001 C CNN "mpn alt"
+	1    4200 2950
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC
