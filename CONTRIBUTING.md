@@ -44,15 +44,15 @@ Did you find a typo? Got a hot tip you want to add? Wonderful! The user guide is
 
 You don't have to test your changes to the user guide locally, but, if you want to you'll need to install some Python packages:
 
-```
-cd user_guide
-python3 -m pip install -r requirements.txt
+```bash
+$ cd user_guide
+$ python3 -m pip install -r requirements.txt
 ```
 
 After that you can run MkDocs to test out your changes:
 
-```
-mkdocs serve
+```bash
+$ mkdocs serve
 ```
 
 ## Contributing to the hardware
