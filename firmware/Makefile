@@ -142,7 +142,7 @@ firmware: directory $(BUILD)/$(BIN).elf $(BUILD)/$(BIN).bin $(BUILD)/$(BIN).uf2
 directory:
 	@mkdir -p $(BUILD)
 
-./src/gem_voice_param_table.c: ./data/pitch-calibration-table.csv
+./src/gem_voice_param_table.c:
 	@echo "Generating gem_voice_param_table.c"
 	@./scripts/generate_voice_param_table.py src/gem_voice_param_table.c
 
@@ -163,7 +163,7 @@ directory:
 
 size: $(BUILD)/$(BIN).elf
 	@echo "Build ID: $(BUILD_INFO_STRING)"
-	@./scripts/get_fw_size.py --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $^
+	@cd ../factory && python3 -m libwinter.fw_size --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $(abspath $^)
 
 clean:
 	@echo Clean $(BUILD)
