@@ -3,7 +3,7 @@
 Oh hey, it's super cool that you're interested in contributing. We love contributors! Before you jump in, take a minute to:
 
 1. Read our [Code of Conduct](CODE_OF_CONDUCT.md)
-2. Read our [license](LICENSE.md) - it's import to know what rights you have and cede when contributing to this project.
+2. Read our [license](LICENSE.md) - it's important to know what rights you have and cede when contributing to this project.
 3. For anything that can't be explained in one sentence, please [file an issue](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/issues) about what you want to contribute. This gives us a chance to talk before you get too deep into things. We promise that it'll help make your experience more fun. If there's an existing issue that's related, feel free to comment on it.
 4. Read through our [commit and pull request conventions](#commit-conventions)
 5. If you want to help out with the user guide, read through the [contributing to the user guide](#contributing-to-the-user-guide) section.
