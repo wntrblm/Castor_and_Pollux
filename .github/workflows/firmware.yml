@@ -1,0 +1,89 @@
+name: Firmware
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Lint firmware code
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq eatmydata
+          sudo eatmydata apt-get install -qq make clang-tidy clang-format
+
+      - name: Versions
+        run: |
+          clang-format --version
+          clang-tidy --version
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        # Required so that build_info.mk can properly construct a buildinfo
+        # string.
+        with:
+          fetch-depth: 0
+
+      - name: Run format and error if anything changes
+        run: |
+          cd firmware
+          make format
+          git diff --color --exit-code src
+
+      - name: Run tidy
+        run: |
+          cd firmware
+          clang-tidy -dump-config
+          make tidy
+
+  build:
+    name: Build firmware code
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq eatmydata
+          sudo eatmydata apt-get install -qq make wget
+
+      - name: Install ARM embedded toolchain
+        # TODO: Put this file on static.winterbloom.com
+        run: |
+          wget --no-verbose https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
+          sudo tar -C /usr --strip-components=1 -xaf gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Versions
+        run: |
+          python3 --version
+          arm-none-eabi-gcc --version
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        # Required so that build_info.mk can properly construct a buildinfo
+        # string.
+        with:
+          fetch-depth: 0
+
+      - name: Run build
+        run: |
+          cd firmware
+          make build-deps
+          make debug
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: gemini-firmware.elf
+          path: firmware/build/gemini-firmware.elf
+          if-no-files-found: error
