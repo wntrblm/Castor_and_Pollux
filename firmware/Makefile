@@ -104,7 +104,7 @@ OBJS = $(addprefix $(BUILD)/, $(notdir %/$(subst .c,.o, $(SRCS))))
 
 # Build rules
 
-.PHONY: all directory clean size firmware release debug format tidy defines tests test prepare-release-artifacts
+.PHONY: all directory clean size firmware release debug format tidy defines tests test prepare-release-artifacts build-deps
 
 all: debug
 
@@ -203,5 +203,9 @@ prepare-release-artifacts:
 	@echo "Created:\n- $(dist)/gemini-firmware-$(BUILD_INFO_RELEASE)-release.elf\n- /gemini-firmware-$(BUILD_INFO_RELEASE)-release.uf2"
 	$(eval BUILD_TYPE = "Release")
 	@echo "Build ID: $(BUILD_INFO_STRING)"
+
+build-deps:
+	@echo "Installing build dependencies"
+	python3 -m pip -q install structy_generator
 
 -include $(wildcard $(BUILD)/*.d)
