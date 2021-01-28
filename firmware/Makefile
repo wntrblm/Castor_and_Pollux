@@ -144,7 +144,7 @@ directory:
 
 ./src/gem_voice_param_table.c: ./data/pitch-calibration-table.csv
 	@echo "Generating gem_voice_param_table.c"
-	@./scripts/generate_voice_param_table.py data/pitch-calibration-table.csv src/gem_voice_param_table.c
+	@./scripts/generate_voice_param_table.py src/gem_voice_param_table.c
 
 ./src/gem_settings.c: ./data/gem_settings.structy
 	@echo "Generating gem_settings.{c,js,py} using Structy"
