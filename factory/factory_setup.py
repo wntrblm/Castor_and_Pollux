@@ -1,7 +1,8 @@
 import argparse
 
-from libwinter import utils, log
-from libgemini import adc_calibration, ramp_calibration, knob_calibration
+from wintertools import fw_fetch, jlink, log
+
+from libgemini import adc_calibration, knob_calibration, ramp_calibration
 
 DEVICE_NAME = "winterbloom_gemini"
 JLINK_DEVICE = "ATSAMD21G18"
@@ -11,11 +12,9 @@ JLINK_SCRIPT = "scripts/flash.jlink"
 def program_firmware():
     log.section("Programming firmware")
 
-    bootloader_url = utils.find_latest_bootloader(DEVICE_NAME)
+    fw_fetch.latest_bootloader(DEVICE_NAME)
 
-    utils.download_file_to_cache(bootloader_url, "bootloader.bin")
-
-    utils.run_jlink(JLINK_DEVICE, JLINK_SCRIPT)
+    jlink.run(JLINK_DEVICE, JLINK_SCRIPT)
 
 
 def run_adc_calibration():

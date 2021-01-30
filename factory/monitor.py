@@ -4,10 +4,11 @@
 
 """Monitor Gemini's inputs."""
 
-from libgemini import gemini
-from libwinter import tui
-
 import time
+
+from wintertools import tui
+
+from libgemini import gemini
 
 
 def color_range_bipolar(v, low, high):
@@ -42,10 +43,9 @@ def main():
     with output:
         while True:
             update = gem.monitor()
-            columns.draw(output, "", tui.underline, "Castor", "Pollux")
+            columns.draw("", tui.underline, "Castor", "Pollux")
 
             columns.draw(
-                output,
                 "CV In │",
                 color_range_cv(update.castor_pitch_cv, 0.0, 6.0),
                 f"{update.castor_pitch_cv:.3f}v",
@@ -54,7 +54,6 @@ def main():
             )
 
             columns.draw(
-                output,
                 "CV Knob │",
                 color_range_bipolar(update.castor_pitch_knob, -1.0, 1.0),
                 f"{update.castor_pitch_knob:+.3f}v",
@@ -63,7 +62,6 @@ def main():
             )
 
             columns.draw(
-                output,
                 "PW In │",
                 color_range(update.castor_pulse_width_cv, 0, 4095),
                 f"{update.castor_pulse_width_cv / 4095 * 100:.0f}%",
@@ -72,7 +70,6 @@ def main():
             )
 
             columns.draw(
-                output,
                 tui.underline,
                 "PW Knob │",
                 color_range(update.castor_pulse_width_knob, 0, 4095),
@@ -82,34 +79,28 @@ def main():
             )
 
             columns.draw(
-                output,
                 "LFO │",
                 color_range(update.lfo_intensity, 0, 1.0),
                 f"{update.lfo_intensity * 100:.0f}%",
             )
             columns.draw(
-                output,
                 "Button │",
                 color_range_bipolar(int(update.button_state), 0, 1.0),
                 update.button_state,
             )
             columns.draw(
-                output,
                 "Loop time │",
                 f"{update.loop_time}",
             )
             columns.draw(
-                output,
                 "LED time │",
                 f"{update.animation_time}",
             )
             columns.draw(
-                output,
                 "ADC time │",
                 f"{update.sample_time}",
             )
             columns.draw(
-                output,
                 "Runtime │",
                 f"{time.monotonic() - start:.0f}",
             )

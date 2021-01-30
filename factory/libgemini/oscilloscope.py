@@ -11,8 +11,7 @@ SCPI & Programming reference: https://storage.googleapis.com/files.winterbloom.c
 import time
 
 import pyvisa.errors
-
-from libwinter import log
+from wintertools import log
 
 
 class Oscilloscope:
