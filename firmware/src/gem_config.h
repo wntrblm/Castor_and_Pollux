@@ -32,8 +32,6 @@
 #define GEM_ADC_SAMPLE_NUM ADC_AVGCTRL_SAMPLENUM_32
 #define GEM_ADC_SAMPLE_ADJRES ADC_AVGCTRL_ADJRES(4)
 
-// #define GEM_ADC_USE_EXTERNAL_REF
-
 extern const struct GemADCInput gem_adc_inputs[];
 
 /* Pulse out/TCC configuration. */
