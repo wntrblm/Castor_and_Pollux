@@ -10,9 +10,9 @@ import random
 import time
 
 import pyvisa as visa
-from wintertools import log, tui
+from wintertools import log, oscilloscope, tui
 
-from libgemini import gemini, oscilloscope, reference_calibration
+from libgemini import gemini, reference_calibration
 
 here = os.path.abspath(os.path.dirname(__file__))
 period_to_dac_code = reference_calibration.castor.copy()
