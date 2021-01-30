@@ -247,8 +247,8 @@ Wire Wire Line
 	1900 1100 2100 1100
 Wire Wire Line
 	1900 1750 2100 1750
-Text Notes 3850 1900 0    50   ~ 0
-TODO: Calculate power dissipation
+Text Notes 6050 1700 0    50   ~ 0
+Power consumption: 65-100mA, 0.7-1.2W\nPower dissipated: 0.8W\nHeatsink area: 1.15in^2\nThermal resistance: 66 C/W (estimated)\nMaximum thermal resistance: 118 C/W\n
 $Comp
 L Reference_Voltage:LM4040DBZ-10 U1
 U 1 1 5F095537
@@ -361,8 +361,8 @@ Wire Wire Line
 	1350 1750 1700 1750
 Wire Wire Line
 	1350 1100 1700 1100
-Text Notes 3850 2050 0    50   ~ 0
-TODO: If current < 100mA, consider ld2981\nTODO: If current > 100mA, consider TPS62135
+Text Notes 6050 1950 0    50   ~ 0
+Alternatives considered:\n- LD2981 (< 100mA)\n- TPS62135 (> 100mA)
 $Comp
 L power:GND #PWR02
 U 1 1 5F1FA7FD

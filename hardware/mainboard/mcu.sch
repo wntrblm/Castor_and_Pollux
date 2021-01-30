@@ -532,8 +532,6 @@ Text HLabel 5900 2800 2    50   Input ~ 0
 hard_sync
 Text HLabel 5900 2950 2    50   Input ~ 0
 chorus_pot
-Text HLabel 5900 3100 2    50   Output ~ 0
-jack_detection_probe
 Text Label 1850 2450 2    50   ~ 0
 AIN0
 Text Label 1850 2650 2    50   ~ 0
@@ -635,8 +633,6 @@ Wire Wire Line
 	5500 2800 5900 2800
 Wire Wire Line
 	5500 2950 5900 2950
-Wire Wire Line
-	5900 3100 5500 3100
 Text Label 5500 2800 2    50   ~ 0
 AIN2
 Text Label 5500 2500 2    50   ~ 0
@@ -782,7 +778,6 @@ Wire Wire Line
 Text Label 5500 3400 2    50   ~ 0
 AIN4(VREFB)
 NoConn ~ 5500 3400
-NoConn ~ 5500 3100
 NoConn ~ 1850 3450
 NoConn ~ 1850 3550
 NoConn ~ 1850 3650
@@ -852,4 +847,6 @@ Text Label 5550 1150 2    50   ~ 0
 TCC1WO1
 Text Label 7850 1200 2    50   ~ 0
 TCC1WO1
+Text Notes 5575 3250 0    50   ~ 0
+unused
 $EndSCHEMATC
