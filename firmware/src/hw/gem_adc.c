@@ -9,6 +9,7 @@
 #include "gem_config.h"
 #include "gem_gpio.h"
 #include "sam.h"
+#include "wntr_assert.h"
 
 /* Inputs to scan_next_channel. */
 static const struct GemADCInput* inputs_;
@@ -81,6 +82,10 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     ADC->REFCTRL.reg |= ADC_REFCTRL_REFSEL_INTVCC1;
     ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_GAIN_DIV2 | ADC_INPUTCTRL_MUXNEG_GND;
 #else
+    /*
+        Use the external voltage reference. Note that the highest this can be is
+        VCC - 0.6v.
+    */
     ADC->REFCTRL.reg |= ADC_REFCTRL_REFSEL_AREFA;
     ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_GAIN_1X | ADC_INPUTCTRL_MUXNEG_GND;
 #endif
@@ -122,8 +127,12 @@ void gem_adc_init_input(const struct GemADCInput* input) {
 }
 
 uint16_t gem_adc_read_sync(const struct GemADCInput* input) {
-    /* Disable interrupts - this stops any scanning. */
-    NVIC_DisableIRQ(ADC_IRQn);
+    /* Stop channel scanning, we need exclusive control over the ADC. */
+    gem_adc_stop_scanning();
+
+    /* Flush the ADC - if there's a conversion in process it'll be cancelled. */
+    ADC->SWTRIG.reg = ADC_SWTRIG_FLUSH;
+    while (ADC->SWTRIG.bit.FLUSH) {};
 
     /* Set the positive mux to the input pin */
     ADC->INPUTCTRL.bit.MUXPOS = input->ain;
@@ -138,12 +147,15 @@ uint16_t gem_adc_read_sync(const struct GemADCInput* input) {
     /* Clear the flag. */
     ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
 
-    /* Do it twice to ensure no weirdness with the measurement. */
+    /*
+        Throw away the first result and measure again - the datasheet
+        recommends doing that since the first conversion for a new
+        configuration will be incorrect.
+    */
     ADC->SWTRIG.bit.START = 1;
     while (ADC->INTFLAG.bit.RESRDY == 0) {};
     ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
 
-    /* Read the value. */
     return ADC->RESULT.reg;
 }
 
@@ -154,9 +166,15 @@ void gem_adc_start_scanning(const struct GemADCInput* inputs, size_t num_inputs,
     results_ready_ = false;
     results_ = results;
 
+    /* Enable ADC interrupts and the "result ready" interrupt */
     NVIC_SetPriority(ADC_IRQn, 1);
     NVIC_EnableIRQ(ADC_IRQn);
+    ADC->INTENSET.bit.RESRDY = 1;
 
+    /*
+        Start scanning, the interrupt will keep calling scan_next_channel
+        after each result is ready.
+    */
     scan_next_channel();
 }
 
@@ -201,9 +219,6 @@ static void scan_next_channel() {
     /* Swap out the input pin. */
     ADC->INPUTCTRL.bit.MUXPOS = input.ain;
 
-    /* Enable the interrupt for result ready. */
-    ADC->INTENSET.bit.RESRDY = 1;
-
     /* Wait for synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
 
@@ -212,19 +227,20 @@ static void scan_next_channel() {
 }
 
 void ADC_Handler(void) {
-    /* Should always be the result ready flag. */
+    /*
+        Should always be the result ready flag since its the only interrupt we
+        use- if it isn't, something bad has happened. :(
+    */
     if (!ADC->INTFLAG.bit.RESRDY) {
-#ifdef DEBUG
-        while (1) {}
-#endif
+        WNTR_ASSERT(0);
         ADC->INTFLAG.reg = ADC_INTFLAG_RESETVALUE;
         return;
     }
 
-    /* Clear the interrupt flag. */
-    ADC->INTFLAG.reg = ADC_INTFLAG_RESRDY;
-
-    /* Store the result */
+    /*
+        Store the result, reading ADC->RESULT automatically clears the
+        interrupt flag.
+    */
     results_[current_input_idx_] = ADC->RESULT.reg;
 
     /* Scan the next input */
