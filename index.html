@@ -122,14 +122,14 @@
 <p>The <a href="#chorusing">chorusing</a> section goes into more detail and has some sound samples, and the <a href="#hard-sync">hard sync</a> section shows how hard sync affects the second oscillator.</p>
 <h2 id="tuning">Tuning<a class="headerlink" href="#tuning" title="Permanent link">#</a></h2>
 <p>Castor &amp; Pollux is an analog oscillator with a digital brain. It's calibrated during assembled to accurately track 1 volt/octave on the <em>CV inputs</em> and you can use the <em>pitch knobs</em> to adjust the tuning of each oscillator.</p>
-<p>In order to make tuning easier, the pitch knobs have a <strong>non-linear</strong> response: they are more less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out this little demonstration:</p>
+<p>In order to make tuning easier, the pitch knobs have a <strong>non-linear</strong> response: they are less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out this little demonstration:</p>
 <div class="output">
     <label for="linear_tune">Linear response</label>
+    <canvas id="linear_tune_canvas" width="640" height="50" class=""></canvas>
     <output id="linear_tune" name="linear_tune">440 Hz</output>
     <label for="non_linear_tune">Non-linear response</label>
+    <canvas id="nonlinear_tune_canvas" width="640" height="50" class=""></canvas>
     <output id="non_linear_tune" name="non_linear_tune" class="teal">440 Hz</output>
-    <label for="tuning_difference">Difference</label>
-    <output id="tuning_difference" name="non_linear_tune">0 Hz</output>
 </div>
 <div class="slider">
     <input type="range" id="tuning_slider" name="tuning_slider"
@@ -326,7 +326,7 @@ the module.</p>
 					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/master/user_guide/docs/index.md">Edit this page on GitHub</a>.
 				</p>
 				<p class="updated">
-					Last updated on January 27, 2021
+					Last updated on January 30, 2021
 				</p>
 			</footer>
 		</div>
