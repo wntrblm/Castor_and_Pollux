@@ -188,6 +188,7 @@
     const linear_output = document.getElementById('linear_tune');
     const non_linear_output = document.getElementById('non_linear_tune');
     const difference_output = document.getElementById('tuning_difference');
+    const linear_tune_canvas = document.getElementById('linear_tune_canvas');
 
     function bezier_1d_2c(c1, c2, t) {
         /* Copied from gem_bezier.c */
@@ -197,20 +198,14 @@
     function update_tuning() {
         const tuning = tuning_slider.valueAsNumber;
         const linear_response = 440 * Math.pow(2, tuning);
-        const non_linear_tuning = -1.0 + bezier_1d_2c(0.8, 1.0 - 0.8, (tuning + 1.0) / 2) * 2;
+        const non_linear_tuning = -1.0 + bezier_1d_2c(0.6, 1.0 - 0.6, (tuning + 1.0) / 2) * 2;
         const non_linear_response = 440 * Math.pow(2, non_linear_tuning);
-        const difference = Math.abs(non_linear_tuning - tuning) * 100;
-        const difference_alpha = (difference / 30).toFixed(3);
 
         linear_output.innerText = `${linear_response.toFixed(2)} Hz`;
         non_linear_output.innerText = `${non_linear_response.toFixed(2)} Hz`;
-        difference_output.innerText = `${difference.toFixed(0)}%`;
-        difference_output.style.backgroundColor = `rgba(255, 0, 0, ${difference_alpha})`;
-        if(difference_alpha < 0.3) {
-            difference_output.style.color = "#333";
-        } else {
-            difference_output.style.color = "#FFF";
-        }
+
+        window.requestAnimationFrame(() => draw_tuning_thingy(linear_tune_canvas, '125, 97, 186', (x) => x, (tuning + 1.0) / 2));
+        window.requestAnimationFrame(() => draw_tuning_thingy(nonlinear_tune_canvas, '64, 140, 148', (x) => bezier_1d_2c(0.6, 1.0 - 0.6, x), (non_linear_tuning + 1.0) / 2));
     }
 
     tuning_slider.addEventListener('input', function(e) {
@@ -218,4 +213,24 @@
     });
 
     update_tuning();
+
+    function draw_tuning_thingy(canvas, color, func, selected) {
+        const ctx = canvas.getContext('2d');
+        const iterations = 20;
+        const radius = canvas.height * 0.4;
+        const padding = radius * 1.3;
+
+        ctx.lineWidth = 2;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        for(let n = 0; n < iterations + 1; n++) {
+            const progress = n / iterations;
+            const output = func(progress);
+            const alpha = Math.max(0.2, (1.0 - Math.abs(progress - selected) * 5));
+            ctx.strokeStyle = `rgba(${color}, ${alpha})`;
+            ctx.beginPath();
+            ctx.arc(padding + (output * (canvas.width - padding * 2)), canvas.height / 2, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+        }
+    }
 })();

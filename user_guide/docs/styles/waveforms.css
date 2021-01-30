@@ -73,3 +73,7 @@ div.output label {
   font-weight: bold;
   margin: 0.6em 0;
 }
+
+div.output canvas {
+  max-width: 100%;
+}

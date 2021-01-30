@@ -84,15 +84,16 @@ The [chorusing](#chorusing) section goes into more detail and has some sound sam
 
 Castor & Pollux is an analog oscillator with a digital brain. It's calibrated during assembled to accurately track 1 volt/octave on the *CV inputs* and you can use the *pitch knobs* to adjust the tuning of each oscillator.
 
-In order to make tuning easier, the pitch knobs have a **non-linear** response: they are more less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out this little demonstration:
+In order to make tuning easier, the pitch knobs have a **non-linear** response: they are less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out this little demonstration:
+
 
 <div class="output">
     <label for="linear_tune">Linear response</label>
+    <canvas id="linear_tune_canvas" width="640" height="50" class=""></canvas>
     <output id="linear_tune" name="linear_tune">440 Hz</output>
     <label for="non_linear_tune">Non-linear response</label>
+    <canvas id="nonlinear_tune_canvas" width="640" height="50" class=""></canvas>
     <output id="non_linear_tune" name="non_linear_tune" class="teal">440 Hz</output>
-    <label for="tuning_difference">Difference</label>
-    <output id="tuning_difference" name="non_linear_tune">0 Hz</output>
 </div>
 <div class="slider">
     <input type="range" id="tuning_slider" name="tuning_slider"
