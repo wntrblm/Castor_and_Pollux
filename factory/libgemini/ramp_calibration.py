@@ -3,15 +3,16 @@
 # Full text available at: https://opensource.org/licenses/MIT
 
 import argparse
-import os.path
-import time
-import pathlib
 import json
-import pyvisa as visa
+import os.path
+import pathlib
 import random
+import time
+
+import pyvisa as visa
+from wintertools import log, tui
 
 from libgemini import gemini, oscilloscope, reference_calibration
-from libwinter import tui, log
 
 here = os.path.abspath(os.path.dirname(__file__))
 period_to_dac_code = reference_calibration.castor.copy()
@@ -69,22 +70,23 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
             code_diff = dac_code - start_code
 
             # Draw the UI
-            output.write(
-                f"│ {measured_frequency:0.2f} Hz ({tui.rgb(freq_diff_color)}{freq_diff*100:+.0f}%{tui.reset})\n"
+            print(
+                f"│ {measured_frequency:0.2f} Hz ({tui.rgb(freq_diff_color)}{freq_diff*100:+.0f}%{tui.reset})"
             )
-            output.write(f"│ Peak-to-peak: {peak_to_peak:.2f} volts\n")
+            print(f"│ Peak-to-peak: {peak_to_peak:.2f} volts")
 
             # Check the frequency
             if freq_diff > 0.3:
-                output.write("Frequency seems wrong, trying again...")
+                print("Frequency seems wrong, trying again...")
+                output.update()
                 time.sleep(0.2)
                 continue
 
             # Adjust DAC code if needed.
             elif peak_to_peak < 0.3:
                 # Probe probably isn't connected, sleep and try again.
-                output.write(
-                    f"│ 💤 No input detected, voltage reading at {peak_to_peak:.2f}v\n",
+                print(
+                    f"│ 💤 No input detected, voltage reading at {peak_to_peak:.2f}v",
                 )
                 output.update()
                 time.sleep(0.2)
@@ -95,8 +97,9 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
                 # Using random here helps it find the range a bit better.
                 dac_code += random.randrange(1, 5)
 
-                output.write(
-                    f"│ {tui.rgb(0.0, 1.0, 1.0)}{_code_to_volts(dac_code):.2f} volts + Δ({_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}\n"
+                print(
+                    f"│ {tui.rgb(0.0, 1.0, 1.0)}{_code_to_volts(dac_code):.2f} volts "
+                    f"+ Δ({_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}"
                 )
                 output.update()
 
@@ -108,8 +111,9 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
                 # Too high, decrease the DAC code.
                 dac_code -= random.randrange(1, 5)
 
-                output.write(
-                    f"│ {tui.rgb(1.0, 1.0, 0.0)}{_code_to_volts(dac_code):.2f} volts - Δ({_code_to_volts(code_diff):.2f}){tui.reset}\n"
+                print(
+                    f"│ {tui.rgb(1.0, 1.0, 0.0)}{_code_to_volts(dac_code):.2f} volts "
+                    f"- Δ({_code_to_volts(code_diff):.2f}){tui.reset}"
                 )
                 output.update()
 
@@ -118,8 +122,9 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
                     return
 
             else:
-                output.write(
-                    f"│ {tui.rgb(0.5, 1.0, 0.5)}{_code_to_volts(dac_code):.2f} volts ✓ Δ({_code_to_volts(code_diff):.2f}){tui.reset}\n"
+                print(
+                    f"│ {tui.rgb(0.5, 1.0, 0.5)}{_code_to_volts(dac_code):.2f} volts "
+                    f"✓ Δ({_code_to_volts(code_diff):.2f}){tui.reset}"
                 )
                 output.update()
                 log.debug(
@@ -135,14 +140,10 @@ def _calibrate_oscillator(gem, scope, oscillator):
     bar = tui.Bar()
 
     if oscillator == 0:
-        dac_channel = 0
-        scope_channel = "c1"
         scope.enable_channel("c1")
         scope.disable_channel("c2")
         scope.set_trigger_level("c1", 1)
     else:
-        dac_channel = 2
-        scope_channel = "c2"
         scope.enable_channel("c2")
         scope.disable_channel("c1")
         scope.set_trigger_level("c2", 1)
@@ -177,12 +178,11 @@ def _calibrate_oscillator(gem, scope, oscillator):
 
         with output:
             bar.draw(
-                output,
                 tui.Segment(
                     progress, color=tui.gradient(start_color, end_color, progress)
                 ),
             )
-            output.write(f"Frequency: {frequency:.2f} Hz, Period: {period}\n")
+            print(f"Frequency: {frequency:.2f} Hz, Period: {period}")
             output.update()
 
             period_to_dac_code[period] = last_dac_code = _seek_voltage_on_channel(
@@ -260,7 +260,6 @@ def run(save):
                 with output:
                     progress = n / (len(table.values()) - 1)
                     bar.draw(
-                        output,
                         tui.Segment(
                             progress,
                             color=tui.gradient(start_color, end_color, progress),

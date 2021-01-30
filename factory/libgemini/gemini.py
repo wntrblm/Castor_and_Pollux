@@ -8,10 +8,9 @@ import enum
 import struct
 
 import rtmidi.midiutil
+from wintertools import log, teeth
 
-from libwinter import teeth, log
-from libgemini import gem_settings
-from libgemini import gem_monitor_update
+from libgemini import gem_monitor_update, gem_settings
 
 SYSEX_START = 0xF0
 SYSEX_END = 0xF7

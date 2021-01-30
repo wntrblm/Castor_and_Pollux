@@ -4,11 +4,11 @@
 
 import argparse
 import json
-from pathlib import Path
 import statistics
-import sys
+from pathlib import Path
 
-from libwinter import tui
+from wintertools import tui
+
 from libgemini.ramp_calibration import _period_reg_to_freq
 
 calibration_files = Path(Path(__file__).parent, "../calibrations").glob("*.ramp.json")
@@ -64,7 +64,7 @@ def run(dry_run=False):
                 (c_average - p_average) / 4095, color=(1.0, 0.3, 1.0)
             )
 
-        bar.draw(sys.stdout, a_segment, b_segment)
+        bar.draw(a_segment, b_segment)
 
     if dry_run:
         print("Dry run, not generating new reference calibration.")
