@@ -122,14 +122,11 @@ $(BUILD)/$(BIN).elf: $(OBJS)
 	@echo Link $@
 	@$(CC) $(LDFLAGS) $(OBJS) $(LIBS) -o $@
 
-$(BUILD)/$(BIN).hex: $(BUILD)/$(BIN).elf
-	@$(OBJCOPY) -O ihex $^ $@
-
 $(BUILD)/$(BIN).bin: $(BUILD)/$(BIN).elf
 	@$(OBJCOPY) -O binary $^ $@
 
 $(BUILD)/$(BIN).uf2: $(BUILD)/$(BIN).bin
-	@python3 third_party/uf2/uf2conv.py -b 0x2000 -o $@ --convert $(BUILD)/$(BIN).bin > /dev/null
+	@python3 -m wintertools.bin_to_uf2 $(BUILD)/$(BIN).bin $@
 
 %.o:
 	@echo Compile $(filter %/$(subst .o,.c,$(notdir $@)), $(SRCS))
@@ -163,7 +160,7 @@ directory:
 
 size: $(BUILD)/$(BIN).elf
 	@echo "Build ID: $(BUILD_INFO_STRING)"
-	@cd ../factory && python3 -m libwinter.fw_size --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $(abspath $^)
+	@cd ../factory && python3 -m wintertools.fw_size --flash-size $(FLASH_SIZE) --ram-size $(RAM_SIZE) $(abspath $^)
 
 clean:
 	@echo Clean $(BUILD)
