@@ -7,7 +7,6 @@
 #pragma once
 
 #include "gem_adc.h"
-#include "gem_bezier.h"
 #include "gem_build_info.h"
 #include "gem_button.h"
 #include "gem_clocks.h"
@@ -35,4 +34,5 @@
 #include "gem_voice_param_table.h"
 #include "gem_voice_params.h"
 #include "gem_waveforms.h"
+#include "wntr_bezier.h"
 #include "wntr_mtb.h"
