@@ -237,6 +237,24 @@ def collect_defines(defines):
     return " ".join([f"-D{key}={value}" for key, value in defines.items()])
 
 
+def structy_build(writer, src, **langs_to_dests):
+    for lang, dest in langs_to_dests.items():
+        output_stem = pathlib.Path(src).stem
+        outputs = [pathlib.Path(dest, f"{output_stem}.{lang}")]
+
+        # Include the header as well for C.
+        if lang == "c":
+            outputs.append(pathlib.Path(dest, f"{output_stem}.h"))
+
+        writer.build(
+            strigify_paths(outputs),
+            "structy",
+            src,
+            variables=dict(lang=lang, dest=dest),
+        )
+        writer.newline()
+
+
 def check_dependencies():
     if not shutil.which(GCC):
         print(
@@ -389,42 +407,20 @@ def generate_build(configuration, run_generators=True):
 
     if run_generators:
         # Structies
-        writer.build(
-            ["src/gem_settings.h", "src/gem_settings.c"],
-            "structy",
+        structy_build(
+            writer,
             "data/gem_settings.structy",
-            variables=dict(lang="c", dest="src"),
+            c="src/generated",
+            py="../factory/libgemini",
+            js="../user_guide/docs/scripts",
         )
-        writer.newline()
-        writer.build(
-            ["../factory/libgemini/gem_settings.py"],
-            "structy",
-            "data/gem_settings.structy",
-            variables=dict(lang="py", dest="../factory/libgemini"),
-        )
-        writer.newline()
-        writer.build(
-            ["../user_guide/docs/scripts/gem_settings.js"],
-            "structy",
-            "data/gem_settings.structy",
-            variables=dict(lang="js", dest="../user_guide/docs/scripts"),
-        )
-        writer.newline()
 
-        writer.build(
-            ["src/gem_monitor_update.h", "src/gem_monitor_update.c"],
-            "structy",
+        structy_build(
+            writer,
             "data/gem_monitor_update.structy",
-            variables=dict(lang="c", dest="src"),
+            c="src/generated",
+            py="../factory/libgemini",
         )
-        writer.newline()
-        writer.build(
-            ["../factory/libgemini/gem_monitor_update.py"],
-            "structy",
-            "data/gem_monitor_update.structy",
-            variables=dict(lang="py", dest="../factory/libgemini"),
-        )
-        writer.newline()
 
     # Builds for output format conversion
     writer.build(
