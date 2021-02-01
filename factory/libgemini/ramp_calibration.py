@@ -12,7 +12,7 @@ import time
 import pyvisa as visa
 from wintertools import log, oscilloscope, tui
 
-from libgemini import gemini, reference_calibration
+from libgemini import gemini, oscillators, reference_calibration
 
 here = os.path.abspath(os.path.dirname(__file__))
 period_to_dac_code = reference_calibration.castor.copy()
@@ -20,17 +20,9 @@ start_color = (1.0, 1.0, 0.0)
 end_color = (0.5, 0.6, 1.0)
 
 
-def _code_to_volts(code):
-    return code / 4096 * 2.046
-
-
-def _period_reg_to_freq(period):
-    return 8_000_000 / (1 * (period + 1))
-
-
 def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
     output = tui.Updateable(clear_all=True)
-    frequency = _period_reg_to_freq(period)
+    frequency = oscillators.timer_period_to_frequency(period)
     dac_code = start_code
 
     if oscillator == 0:
@@ -47,12 +39,7 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
 
     with output:
         while True:
-            # Below ~50Hz things get weird if we apply too much voltage,
-            # so lower the threshold for those frequences.
-            if frequency < 50:
-                low_threshold, high_threshold = 3.1, 3.3
-            else:
-                low_threshold, high_threshold = 3.25, 3.35
+            low_threshold, high_threshold = 3.25, 3.35
 
             # Set the DAC
             gem.set_dac(dac_channel, dac_code, vref=1)
@@ -98,8 +85,8 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
                 dac_code += random.randrange(1, 5)
 
                 print(
-                    f"│ {tui.rgb(0.0, 1.0, 1.0)}{_code_to_volts(dac_code):.2f} volts "
-                    f"+ Δ({_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}"
+                    f"│ {tui.rgb(0.0, 1.0, 1.0)}{oscillators.charge_code_to_volts(dac_code):.2f} volts "
+                    f"+ Δ({oscillators.charge_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}"
                 )
                 output.update()
 
@@ -112,8 +99,8 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
                 dac_code -= random.randrange(1, 5)
 
                 print(
-                    f"│ {tui.rgb(1.0, 1.0, 0.0)}{_code_to_volts(dac_code):.2f} volts "
-                    f"- Δ({_code_to_volts(code_diff):.2f}){tui.reset}"
+                    f"│ {tui.rgb(1.0, 1.0, 0.0)}{oscillators.charge_code_to_volts(dac_code):.2f} volts "
+                    f"- Δ({oscillators.charge_code_to_volts(code_diff):.2f}){tui.reset}"
                 )
                 output.update()
 
@@ -123,12 +110,12 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
 
             else:
                 print(
-                    f"│ {tui.rgb(0.5, 1.0, 0.5)}{_code_to_volts(dac_code):.2f} volts "
-                    f"✓ Δ({_code_to_volts(code_diff):.2f}){tui.reset}"
+                    f"│ {tui.rgb(0.5, 1.0, 0.5)}{oscillators.charge_code_to_volts(dac_code):.2f} volts "
+                    f"✓ Δ({oscillators.charge_code_to_volts(code_diff):.2f}){tui.reset}"
                 )
                 output.update()
                 log.debug(
-                    f"Calibrated to code: {dac_code}, voltage: {_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz\n"
+                    f"Calibrated to code: {dac_code}, voltage: {oscillators.charge_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz\n"
                 )
                 break
 
@@ -163,7 +150,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
             dac_code = 30
 
         # Adjust the oscilloscope's time division as needed.
-        frequency = _period_reg_to_freq(period)
+        frequency = oscillator.timer_period_to_frequency(period)
 
         if frequency > 500:
             scope.set_time_division("250us")
@@ -219,8 +206,8 @@ def run(save):
     )
     castor_calibration = _calibrate_oscillator(gem, scope, 0)
 
-    lowest_voltage = _code_to_volts(min(castor_calibration.values()))
-    highest_voltage = _code_to_volts(max(castor_calibration.values()))
+    lowest_voltage = oscillators.charge_code_to_volts(min(castor_calibration.values()))
+    highest_voltage = oscillators.charge_code_to_volts(max(castor_calibration.values()))
     log.success(
         f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
     )
@@ -229,8 +216,8 @@ def run(save):
 
     pollux_calibration = _calibrate_oscillator(gem, scope, 1)
 
-    lowest_voltage = _code_to_volts(min(castor_calibration.values()))
-    highest_voltage = _code_to_volts(max(castor_calibration.values()))
+    lowest_voltage = oscillators.charge_code_to_volts(min(castor_calibration.values()))
+    highest_voltage = oscillators.charge_code_to_volts(max(castor_calibration.values()))
     log.success(
         f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
     )
