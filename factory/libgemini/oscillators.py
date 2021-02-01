@@ -27,9 +27,17 @@ def frequency_to_timer_period(frequency):
     return round(((TCC_GCLK_FREQUENCY / TCC_GCLK_DIVISION) / frequency) - 1)
 
 
+def timer_period_to_frequency(period):
+    return TCC_GCLK_FREQUENCY / (TCC_GCLK_DIVISION * (period + 1))
+
+
 def voltage_to_adc_code(voltage):
     return round((ADC_SCALE - voltage) / ADC_SCALE * ADC_RESOLUTION)
 
 
 def charge_code_for_frequency(frequency):
     return min(round(10 * frequency / 5_000 / 3.3 * 4095), 4095)
+
+
+def charge_code_to_volts(charge_code):
+    return charge_code / 4095 * 3.3
