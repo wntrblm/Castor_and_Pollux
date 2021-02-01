@@ -1,7 +1,7 @@
 import readline
 import time
 
-from libgemini import fallback_calibration, gemini
+from libgemini import gemini, oscillators
 
 readline.parse_and_bind("tab: complete")
 
@@ -12,9 +12,9 @@ settings = None
 
 
 def _set_oscillators_to_note(note):
-    freq = fallback_calibration._midi_note_to_frequency(note)
-    period = fallback_calibration._frequency_to_timer_period(freq)
-    charge_code = fallback_calibration._estimate_charge_code(freq)
+    freq = oscillators.midi_note_to_frequency(note)
+    period = oscillators.frequency_to_timer_period(freq)
+    charge_code = oscillators.estimate_charge_code(freq)
     print(f"Note: {note}, Freq: {freq}, Charge code: {charge_code}")
     gem.set_period(0, period)
     gem.set_dac(0, charge_code, 0)
