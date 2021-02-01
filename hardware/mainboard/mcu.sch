@@ -5,7 +5,7 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 6 7
 Title "Castor & Pollux"
-Date "2021-01-27"
+Date "2021-02-01"
 Rev "v3"
 Comp "Winterbloom"
 Comment1 "CERN-OHL-P v2"
