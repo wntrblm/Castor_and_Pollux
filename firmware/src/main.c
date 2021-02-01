@@ -104,7 +104,7 @@ static void init() {
     gem_load_dac_codes_table();
 
     /* Intialize the LUT table for the pitch knobs. */
-    gem_bezier_1d_2c_generate_lut(
+    wntr_bezier_1d_2c_generate_lut(
         settings.pitch_knob_nonlinearity,
         fix16_sub(F16(1.0), settings.pitch_knob_nonlinearity),
         knob_bezier_lut,
@@ -182,7 +182,7 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
     fix16_t knob_value =
         fix16_sub(F16(1.0), fix16_div(gem_adc_correct_errors(fix16_from_int(knob_adc_code), knob_errors), F16(4095.0)));
     /* Adjust the knob value using the non-linear lookup table. */
-    knob_value = gem_bezier_1d_lut_lookup(knob_bezier_lut, GEM_KNOB_BEZIER_LUT_LEN, knob_value);
+    knob_value = wntr_bezier_1d_lut_lookup(knob_bezier_lut, GEM_KNOB_BEZIER_LUT_LEN, knob_value);
     /* And apply the user's range settings. */
     osc->pitch_knob = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
 
