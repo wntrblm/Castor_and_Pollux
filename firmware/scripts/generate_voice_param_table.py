@@ -12,41 +12,13 @@ import pathlib
 import sys
 import textwrap
 
-TCC_GCLK_FREQUENCY = 8_000_000
-TCC_GCLK_DIVISION = 1
-TCC_GCLK_RESOLUTION = 2 ** 24
-ADC_RESOLUTION = 2 ** 12
-ADC_SCALE = 6.0
-MIDI_NOTE_RANGE = (12, 96)
+factory_path = pathlib.Path(pathlib.Path(__file__).parent, "../../factory")
+sys.path.insert(1, str(factory_path.resolve()))
 
-
-def _load_reference_calibration():
-    factory_path = pathlib.Path(pathlib.Path(__file__).parent, "../../factory")
-    sys.path.insert(1, str(factory_path.resolve()))
-    from libgemini import reference_calibration
-
-    return reference_calibration
-
-
-def _midi_note_to_voltage(note):
-    return (note - 12) * (1 / 12)
-
-
-def _midi_note_to_frequency(note):
-    return pow(2, (note - 69) / 12) * 440
-
-
-def _frequency_to_timer_period(frequency):
-    return round(((TCC_GCLK_FREQUENCY / TCC_GCLK_DIVISION) / frequency) - 1)
-
-
-def _voltage_to_adc_code(voltage):
-    return round((ADC_SCALE - voltage) / ADC_SCALE * ADC_RESOLUTION)
+from libgemini import oscillators, reference_calibration  # noqa
 
 
 def main(output_file):
-    reference_calibration = _load_reference_calibration()
-
     with output_file.open("w") as fh:
         fh.write(
             textwrap.dedent(
@@ -62,10 +34,10 @@ def main(output_file):
             )
         )
 
-        for note in range(MIDI_NOTE_RANGE[0], MIDI_NOTE_RANGE[1] + 1):
-            voltage = _midi_note_to_voltage(note)
-            frequency = _midi_note_to_frequency(note)
-            period_reg = _frequency_to_timer_period(frequency)
+        for note in oscillators.midi_note_range():
+            voltage = oscillators.midi_note_to_voltage(note)
+            frequency = oscillators.midi_note_to_frequency(note)
+            period_reg = oscillators.frequency_to_timer_period(frequency)
             fh.write(f"  {{.voltage = F16({voltage:.6f}), .period = {period_reg}}},\n")
 
         fh.write(
@@ -78,10 +50,10 @@ def main(output_file):
             )
         )
 
-        for note in range(MIDI_NOTE_RANGE[0], MIDI_NOTE_RANGE[1] + 1):
-            voltage = _midi_note_to_voltage(note)
-            frequency = _midi_note_to_frequency(note)
-            period_reg = _frequency_to_timer_period(frequency)
+        for note in oscillators.midi_note_range():
+            voltage = oscillators.midi_note_to_voltage(note)
+            frequency = oscillators.midi_note_to_frequency(note)
+            period_reg = oscillators.frequency_to_timer_period(frequency)
             dac_code_castor = reference_calibration.castor[period_reg]
             dac_code_pollux = reference_calibration.pollux[period_reg]
             fh.write(

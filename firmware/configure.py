@@ -390,6 +390,8 @@ def generate_build(configuration, run_generators=True):
     writer.newline()
 
     # Builds for generated files
+
+    # Build info is always generated, even if generators are disabled.
     writer.build(
         "build/generated_build_info.c",
         "runcmd_arg_out",
@@ -421,6 +423,19 @@ def generate_build(configuration, run_generators=True):
             c="src/generated",
             py="../factory/libgemini",
         )
+
+        # Parameter table
+        writer.build(
+            "src/generated/gem_voice_param_table.c",
+            "runcmd_arg_out",
+            "",
+            variables=dict(
+                cmd="python3 scripts/generate_voice_param_table.py",
+                desc="Generate voice parameter table",
+            ),
+            implicit=["scripts/generate_voice_param_table.py"],
+        )
+        writer.newline()
 
     # Builds for output format conversion
     writer.build(
