@@ -5,7 +5,7 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 7 7
 Title "Castor & Pollux"
-Date "2021-01-27"
+Date "2021-02-01"
 Rev "v3"
 Comp "Winterbloom"
 Comment1 "CERN-OHL-P v2"
@@ -41,8 +41,8 @@ F 0 "R4" H 3232 1354 50  0000 R CNN
 F 1 "1k+" H 3232 1445 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3340 1390 50  0001 C CNN
 F 3 "~" H 3300 1400 50  0001 C CNN
-F 4 "" H 3300 1400 50  0001 C CNN "finalized"
-F 5 "ERA-3AED102V" H 3300 1400 50  0001 C CNN "mpn"
+F 4 "yes" H 3300 1400 50  0001 C CNN "finalized"
+F 5 "ERA-3AEB102V" H 3300 1400 50  0001 C CNN "mpn"
 F 6 "100mW" H 3300 1400 50  0001 C CNN "mpn specs"
 F 7 "1k+, needs testing" H 3300 1400 50  0001 C CNN "Reqs"
 	1    3300 1400
@@ -165,7 +165,7 @@ AR Path="/5F016AD7/5EE67C3A" Ref="R3"  Part="1"
 AR Path="/5F0E55E2/5EE67C3A" Ref="R27"  Part="1" 
 F 0 "R3" V 2755 2850 50  0000 C CNN
 F 1 "200k" V 2664 2850 50  0000 C CNN
-F 2 "Resistor_SMD:R_0805_2012Metric_Pad1.15x1.40mm_HandSolder" V 2590 2840 50  0001 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2590 2840 50  0001 C CNN
 F 3 "~" H 2550 2850 50  0001 C CNN
 F 4 "yes" H 2550 2850 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB204V" H 2550 2850 50  0001 C CNN "mpn"
