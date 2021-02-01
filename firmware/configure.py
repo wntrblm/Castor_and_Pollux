@@ -216,7 +216,14 @@ def strigify_paths(paths):
 def collect_srcs(srcs):
     result = []
     for pattern in srcs:
-        result.extend(pathlib.Path(".").glob(pattern))
+        if any(_ in pattern for _ in ("*", "[", "?")):
+            expanded = pathlib.Path(".").glob(pattern)
+            if not expanded:
+                print(f"No files match {pattern}")
+                sys.exit(1)
+            result.extend(expanded)
+        else:
+            result.append(pathlib.Path(".", pattern))
     return result
 
 
@@ -233,7 +240,7 @@ def collect_defines(defines):
 def check_dependencies():
     if not shutil.which(GCC):
         print(
-            f"Requirs {GCC}, install from https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads"
+            f"Requires {GCC}, install from https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads"
         )
         sys.exit(1)
 
@@ -267,7 +274,7 @@ sys.path.insert(1, "third_party/ninja")
 import ninja_syntax  # noqa
 
 
-def generate_build(configuration):
+def generate_build(configuration, run_generators=True):
     srcs = collect_srcs(SRCS)
     includes = collect_includes(srcs, INCLUDES)
     defines = collect_defines(DEFINES)
@@ -352,7 +359,11 @@ def generate_build(configuration):
     objects = []
 
     for src in srcs:
-        object_path = pathlib.Path("./build") / src.with_suffix(".o")
+        if src.parts[0] == "build":
+            object_path = src.with_suffix(".o")
+        else:
+            object_path = pathlib.Path("./build") / src.with_suffix(".o")
+
         writer.build(outputs=str(object_path), rule="cc", inputs=str(src))
         objects.append(object_path)
         writer.newline()
@@ -376,43 +387,44 @@ def generate_build(configuration):
     writer.build("generated.phony", "phony")
     writer.newline()
 
-    # Structies
-    writer.build(
-        ["src/gem_settings.h", "src/gem_settings.c"],
-        "structy",
-        "data/gem_settings.structy",
-        variables=dict(lang="c", dest="src"),
-    )
-    writer.newline()
-    writer.build(
-        ["../factory/libgemini/gem_settings.py"],
-        "structy",
-        "data/gem_settings.structy",
-        variables=dict(lang="py", dest="../factory/libgemini"),
-    )
-    writer.newline()
-    writer.build(
-        ["../user_guide/docs/scripts/gem_settings.js"],
-        "structy",
-        "data/gem_settings.structy",
-        variables=dict(lang="js", dest="../user_guide/docs/scripts"),
-    )
-    writer.newline()
+    if run_generators:
+        # Structies
+        writer.build(
+            ["src/gem_settings.h", "src/gem_settings.c"],
+            "structy",
+            "data/gem_settings.structy",
+            variables=dict(lang="c", dest="src"),
+        )
+        writer.newline()
+        writer.build(
+            ["../factory/libgemini/gem_settings.py"],
+            "structy",
+            "data/gem_settings.structy",
+            variables=dict(lang="py", dest="../factory/libgemini"),
+        )
+        writer.newline()
+        writer.build(
+            ["../user_guide/docs/scripts/gem_settings.js"],
+            "structy",
+            "data/gem_settings.structy",
+            variables=dict(lang="js", dest="../user_guide/docs/scripts"),
+        )
+        writer.newline()
 
-    writer.build(
-        ["src/gem_monitor_update.h", "src/gem_monitor_update.c"],
-        "structy",
-        "data/gem_monitor_update.structy",
-        variables=dict(lang="c", dest="src"),
-    )
-    writer.newline()
-    writer.build(
-        ["../factory/libgemini/gem_monitor_update.py"],
-        "structy",
-        "data/gem_monitor_update.structy",
-        variables=dict(lang="py", dest="../factory/libgemini"),
-    )
-    writer.newline()
+        writer.build(
+            ["src/gem_monitor_update.h", "src/gem_monitor_update.c"],
+            "structy",
+            "data/gem_monitor_update.structy",
+            variables=dict(lang="c", dest="src"),
+        )
+        writer.newline()
+        writer.build(
+            ["../factory/libgemini/gem_monitor_update.py"],
+            "structy",
+            "data/gem_monitor_update.structy",
+            variables=dict(lang="py", dest="../factory/libgemini"),
+        )
+        writer.newline()
 
     # Builds for output format conversion
     writer.build(
@@ -479,11 +491,15 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
     parser.add_argument("--config", choices=["debug", "release"], default="debug")
+    parser.add_argument("--skip-checks", action="store_true", default=False)
+    parser.add_argument("--no-generators", action="store_true", default=False)
 
     args = parser.parse_args()
 
-    check_dependencies()
-    generate_build(args.config)
+    if not args.skip_checks:
+        check_dependencies()
+
+    generate_build(args.config, not args.no_generators)
 
 
 if __name__ == "__main__":
