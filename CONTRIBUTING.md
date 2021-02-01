@@ -155,23 +155,23 @@ $ make tidy
 
 Gemini is built using the [GNU ARM Compiler Toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm). We highly recommend installing it directly from ARM instead of relying on package managers since they tend to be pretty out of date.
 
-Gemini uses [GNU Make](https://www.gnu.org/software/make/) to run builds. It also requires [Python 3.8+](https://python.org) to run some of the scripts involved in building. Our Makefile almost certainly doesn't work on Windows, but should work on macOS, Linux, and WSL.
-
-You can create a debug build of Gemini using:
+Gemini uses [Python 3.9+](https://python.org) & [Ninja](https://ninja-build.org/) build the firmware. You'll need to run the configure script to generate the ninja build file and then run ninja to build the firmware.
 
 ```bash
 $ cd firmware
-$ make debug # or just "make"
+$ python3 configure.py
+$ ninja
 ```
 
-And a release build using:
+The firmware is built in `firmware/build` and is available as `gemini-firmware.elf` (it also creates `.bin` and `.uf2` versions as well.)
+
+To create a release build use:
 
 ```bash
-$ make release
+$ cd firmware
+$ python3 configure.py --config release
+$ ninja
 ```
-
-Either way the firmware is built in `firmware/build` and is available as `gemini-firmware.elf` (it also creates `.bin` and `.uf2` version as well.)
-
 
 ## Loading and debugging
 
