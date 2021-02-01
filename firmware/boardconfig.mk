@@ -1,7 +1,0 @@
-MCU = SAMD21G18A
-F_CPU = 48000000
-FLASH_SIZE = 0x40000
-RAM_SIZE = 0x8000
-STACK_SIZE = 0x800
-LINKER_SCRIPT = scripts/samd21g18a.ld
-THIRD_PARTY_LIBS += printf rtt libfixmath structy tinyusb
