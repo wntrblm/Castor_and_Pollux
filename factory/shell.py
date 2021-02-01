@@ -1,6 +1,7 @@
 import readline
+import time
 
-from libgemini import gemini, reference_calibration
+from libgemini import gemini
 
 readline.parse_and_bind("tab: complete")
 
@@ -22,6 +23,18 @@ def _estimate_charge_code(frequency):
     return min(round(10 * frequency / 5_000 / 3.3 * 4095), 4095)
 
 
+def _set_oscillators_to_note(note):
+    freq = _midi_note_to_frequency(note)
+    period = _frequency_to_timer_period(freq)
+    charge_code = _estimate_charge_code(freq)
+    print(f"Note: {note}, Freq: {freq}, Charge code: {charge_code}")
+    gem.set_period(0, period)
+    gem.set_dac(0, charge_code, 0)
+    time.sleep(0.1)  # Needed so the DAC has time to update EEPROM
+    gem.set_period(1, period)
+    gem.set_dac(2, charge_code, 0)
+
+
 midi_note = 11
 
 
@@ -31,23 +44,16 @@ while True:
     val = vals[0] if vals else None
 
     if cmd == "note":
-        freq = vals[0]
-        charge_code = vals[1]
-        period = _frequency_to_timer_period(freq)
-        print(f"Period: {period}")
-        gem.set_period(0, period)
-        gem.set_dac(0, charge_code, 0)
+        _set_oscillators_to_note(val)
 
-    if cmd == "next":
+    elif cmd == "next":
         midi_note += 2
-        freq = _midi_note_to_frequency(midi_note)
-        period = _frequency_to_timer_period(freq)
-        charge_code = _estimate_charge_code(freq)
-        print(f"Note: {midi_note}, Freq: {freq}, Charge code: {charge_code}")
-        gem.set_period(0, period)
-        gem.set_dac(0, charge_code, 0)
-        gem.set_period(1, period)
-        gem.set_dac(2, reference_calibration.pollux[period], 1)
+        _set_oscillators_to_note(midi_note)
+
+    elif cmd == "sweep":
+        for n in range(11, 94):
+            _set_oscillators_to_note(n)
+            time.sleep(0.5)
 
     elif cmd == "read_adc":
         print(gem.read_adc(val))
