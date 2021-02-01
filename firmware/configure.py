@@ -398,11 +398,11 @@ def generate_build(configuration, run_generators=True):
             cmd=f"python3 scripts/generate_build_info.py --config {configuration}",
             desc="Generate build info",
         ),
-        implicit=["scripts/generate_build_info.py", "generated.phony"],
+        implicit=["scripts/generate_build_info.py", "always.phony"],
     )
     writer.newline()
 
-    writer.build("generated.phony", "phony")
+    writer.build("always.phony", "phony")
     writer.newline()
 
     if run_generators:
