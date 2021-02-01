@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 
-struct GemBuildInfo {
+struct WntrBuildInfo {
     /*
         The release is the closest tag to the build's revision, aka - the most
         recent release when the build was created.
@@ -66,11 +66,11 @@ struct GemBuildInfo {
     const char* machine;
 };
 
-struct GemBuildInfo gem_build_info();
+struct WntrBuildInfo wntr_build_info();
 
 /*
     The full build information string. For example:
     "12.24.2020-83-g786ee18-dirty (Debug) on 01/23/2021 18:28 UTC with arm-none-eabi-gcc 10.2.1
    stargirl@stargirls-mbp.lan"
 */
-const char* gem_build_info_string();
+const char* wntr_build_info_string();
