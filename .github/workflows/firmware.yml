@@ -16,31 +16,36 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -qq eatmydata
-          sudo eatmydata apt-get install -qq make clang-tidy clang-format
+          sudo eatmydata apt-get install -qq ninja-build clang-tidy clang-format
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
 
       - name: Versions
         run: |
+          ninja --version
+          python3 --version
           clang-format --version
           clang-tidy --version
 
       - name: Checkout code
         uses: actions/checkout@v2
-        # Required so that build_info.mk can properly construct a buildinfo
-        # string.
-        with:
-          fetch-depth: 0
 
       - name: Run format and error if anything changes
         run: |
           cd firmware
-          make format
+          python3 configure.py --skip-checks --no-generators
+          ninja format
           git diff --color --exit-code src
 
-      - name: Run tidy
-        run: |
-          cd firmware
-          clang-tidy -dump-config
-          make tidy
+      # TODO: Re-enable this
+      # - name: Run tidy
+      #   run: |
+      #     cd firmware
+      #     clang-tidy -dump-config
+      #     make tidy
 
   build:
     name: Build firmware code
@@ -51,7 +56,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -qq eatmydata
-          sudo eatmydata apt-get install -qq make wget
+          sudo eatmydata apt-get install -qq ninja-build wget
 
       - name: Install ARM embedded toolchain
         # TODO: Put this file on static.winterbloom.com
@@ -64,8 +69,13 @@ jobs:
         with:
           python-version: 3.9
 
+      - name: Install python dependencies
+        run: |
+          python3 -m pip -q install structy_generator git+https://github.com/theacodes/wintertools
+
       - name: Versions
         run: |
+          ninja --version
           python3 --version
           arm-none-eabi-gcc --version
 
@@ -79,8 +89,8 @@ jobs:
       - name: Run build
         run: |
           cd firmware
-          make build-deps
-          make debug
+          python3 configure.py
+          ninja
 
       - uses: actions/upload-artifact@v2
         with:
