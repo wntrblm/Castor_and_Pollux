@@ -284,9 +284,9 @@ static void loop() {
         Update DACs.
     */
     gem_mcp_4728_write_channels(
-        (struct GemMCP4278Channel){.value = castor.params.dac_codes.castor, .vref = 1},
+        (struct GemMCP4278Channel){.value = castor.params.dac_codes.castor},
         (struct GemMCP4278Channel){.value = castor.pulse_width},
-        (struct GemMCP4278Channel){.value = pollux.params.dac_codes.pollux, .vref = 1},
+        (struct GemMCP4278Channel){.value = pollux.params.dac_codes.pollux},
         (struct GemMCP4278Channel){.value = pollux.pulse_width});
 
     /*
