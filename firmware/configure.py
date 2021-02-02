@@ -15,6 +15,8 @@ SRCS = [
     # The generated build info source file. It provides various details about
     # the build to the program. The header is at src/lib/gem_build_info.h
     "build/generated_build_info.c",
+    # libwinter is common winterbloom code.
+    "third_party/libwinter/*.c",
     # Contains the main entrypoint for the processor and the ARM exception
     # table.
     "third_party/samd21/gcc/gcc/startup_samd21.c",
