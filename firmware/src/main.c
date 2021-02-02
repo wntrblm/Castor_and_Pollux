@@ -94,7 +94,7 @@ static void init() {
     printf(wntr_build_info_string());
 
     /* Initialize Random Number Generators */
-    gem_random_init(gem_serial_number_low());
+    wntr_random_init(gem_serial_number_low());
 
     /* Load settings */
     GemSettings_load(&settings);

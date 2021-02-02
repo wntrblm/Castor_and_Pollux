@@ -6,11 +6,12 @@
 
 #pragma once
 
-/* Routines for pseudo-random number generation. */
+/* Routines for pseudorandom number generation. */
 
 #include <stdint.h>
 
-void gem_random_init(uint32_t seed);
-uint16_t gem_random16();
-uint32_t gem_random32();
-uint64_t gem_random64();
+void wntr_random_init(uint32_t seed);
+
+uint16_t wntr_random16();
+uint32_t wntr_random32();
+uint64_t wntr_random64();

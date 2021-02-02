@@ -8,10 +8,10 @@
 #include "fix16.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
-#include "gem_random.h"
 #include "gem_systick.h"
 #include "gem_waveforms.h"
 #include "wntr_colorspace.h"
+#include "wntr_random.h"
 #include <stdint.h>
 
 struct GemLEDTweakData gem_led_tweak_data = {.lfo_value = F16(0)};
@@ -90,7 +90,7 @@ static void animation_step_normal(uint32_t delta) {
         uint16_t hue = (hue_accum_ + hue_offsets_[i]) % UINT16_MAX;
         uint32_t color;
 
-        if (gem_random32() % 400 == 0)
+        if (wntr_random32() % 400 == 0)
             sparkles_[i] = 255;
 
         if (sparkles_[i] == 0) {
@@ -121,7 +121,7 @@ static void animation_step_hard_sync(uint32_t delta) {
         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
         uint32_t color;
 
-        if (gem_random32() % 400 == 0)
+        if (wntr_random32() % 400 == 0)
             sparkles_[i] = 255;
 
         if (sparkles_[i] == 0) {
