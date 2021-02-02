@@ -29,7 +29,7 @@ static uint32_t* adc_results = adc_results_live;
 static struct GemADCErrors knob_errors;
 static struct WntrButton hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
 static bool hard_sync = false;
-static struct GemPeriodicWaveform lfo;
+static struct WntrPeriodicWaveform lfo;
 static uint32_t animation_time = 0;
 static uint32_t sample_time = 0;
 
@@ -137,7 +137,7 @@ static void init() {
     WntrButton_init(&hard_sync_button);
 
     /* Setup LFO. */
-    GemPeriodicWaveform_init(&lfo, wntr_triangle, settings.lfo_frequency);
+    WntrPeriodicWaveform_init(&lfo, wntr_triangle, settings.lfo_frequency);
 
     /* Setup oscillators. */
     knob_errors = (struct GemADCErrors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
@@ -217,7 +217,7 @@ static void loop() {
     /*
         Calculate the LFO
     */
-    GemPeriodicWaveform_step(&lfo);
+    WntrPeriodicWaveform_step(&lfo);
 
     /*
         Calculate chorusing and account for LFO in Pollux's pitch.
