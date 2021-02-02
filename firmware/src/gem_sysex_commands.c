@@ -9,7 +9,6 @@
 #include "gem_config.h"
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
-#include "gem_pack.h"
 #include "gem_pulseout.h"
 #include "gem_serial_number.h"
 #include "gem_settings.h"
@@ -23,6 +22,7 @@
 #include "wntr_assert.h"
 #include "wntr_build_info.h"
 #include "wntr_midi_core.h"
+#include "wntr_pack.h"
 #include <string.h>
 
 /* Macros & defs */
@@ -155,7 +155,7 @@ static void cmd_0x02_write_adc_gain(const uint8_t* data, size_t len) {
     struct GemSettings settings;
     GemSettings_load(&settings);
 
-    settings.adc_gain_corr = UNPACK_16(request, 0);
+    settings.adc_gain_corr = WNTR_UNPACK_16(request, 0);
 
     GemSettings_save(&settings);
 }
@@ -167,7 +167,7 @@ static void cmd_0x03_write_adc_offset(const uint8_t* data, size_t len) {
     struct GemSettings settings;
     GemSettings_load(&settings);
 
-    settings.adc_offset_corr = UNPACK_16(request, 0);
+    settings.adc_offset_corr = WNTR_UNPACK_16(request, 0);
 
     GemSettings_save(&settings);
 }
@@ -182,7 +182,7 @@ static void cmd_0x04_read_adc(const uint8_t* data, size_t len) {
     PREPARE_RESPONSE(0x04, TEETH_ENCODED_LENGTH(2));
 
     uint8_t unencoded_response[2];
-    PACK_16(result, unencoded_response, 0);
+    WNTR_PACK_16(result, unencoded_response, 0);
     teeth_encode(unencoded_response, 2, response);
 
     SEND_RESPONSE();
@@ -194,7 +194,7 @@ static void cmd_0x05_set_dac(const uint8_t* data, size_t len) {
 
     struct GemMCP4278Channel dac_settings = {};
     dac_settings.vref = request[3];
-    dac_settings.value = UNPACK_16(request, 1);
+    dac_settings.value = WNTR_UNPACK_16(request, 1);
     gem_mcp_4728_write_channel(request[0], dac_settings);
 }
 
@@ -203,7 +203,7 @@ static void cmd_0x06_set_period(const uint8_t* data, size_t len) {
     (void)(len);
     DECODE_TEETH_REQUEST(5);
 
-    gem_pulseout_set_period(request[0], UNPACK_32(request, 1));
+    gem_pulseout_set_period(request[0], WNTR_UNPACK_32(request, 1));
 }
 
 static void cmd_0x07_erase_settings(const uint8_t* data, size_t len) {
@@ -278,7 +278,7 @@ static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
 
     size_t entry = request[0];
     uint8_t osc = request[1];
-    uint16_t code = UNPACK_16(request, 2);
+    uint16_t code = WNTR_UNPACK_16(request, 2);
 
     if (entry >= gem_voice_param_table_len) {
         return;
