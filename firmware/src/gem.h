@@ -18,7 +18,6 @@
 #include "gem_nvm.h"
 #include "gem_periodic_waveform.h"
 #include "gem_pulseout.h"
-#include "gem_random.h"
 #include "gem_serial_number.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
@@ -36,3 +35,4 @@
 #include "wntr_colorspace.h"
 #include "wntr_midi_core.h"
 #include "wntr_mtb.h"
+#include "wntr_random.h"

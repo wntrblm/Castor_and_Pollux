@@ -4,13 +4,13 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_random.h"
+#include "wntr_random.h"
 
 static uint16_t wyhash_state;
 static uint32_t xorshift32_state;
 static uint64_t xorshift64_state;
 
-void gem_random_init(uint32_t seed) {
+void wntr_random_init(uint32_t seed) {
     wyhash_state = seed & 0xFFFF;
     xorshift32_state = seed;
     xorshift64_state = (uint64_t)(seed) << 32 | seed;
@@ -22,13 +22,13 @@ static uint32_t hash16_(uint32_t input, uint32_t key) {
     return ((hash >> 16) ^ hash) & 0xFFFF;
 }
 
-uint16_t gem_random16() {
+uint16_t wntr_random16() {
     wyhash_state += 0xfc15;
     return hash16_(wyhash_state, 0x2ab);
 }
 
 /* 32-bit xorshift, adapted from Wikipedia */
-uint32_t gem_random32() {
+uint32_t wntr_random32() {
     /* Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs" */
     uint32_t x = xorshift32_state;
     x ^= x << 13;
@@ -38,7 +38,7 @@ uint32_t gem_random32() {
 }
 
 /* 64-bit xorshift, adapted from Wikipedia */
-uint64_t gem_random64() {
+uint64_t wntr_random64() {
     uint64_t x = xorshift64_state;
     x ^= x << 13;
     x ^= x >> 7;
