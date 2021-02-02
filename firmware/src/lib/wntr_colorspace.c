@@ -4,10 +4,10 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_colorspace.h"
+#include "wntr_colorspace.h"
 
 /* Adapted from the Adafruit DotStar library */
-uint32_t gem_colorspace_hsv_to_rgb(uint16_t hue, uint8_t sat, uint8_t val) {
+uint32_t wntr_colorspace_hsv_to_rgb(uint16_t hue, uint8_t sat, uint8_t val) {
 
     uint8_t r, g, b;
 

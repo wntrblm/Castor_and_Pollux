@@ -10,4 +10,10 @@
 
 #include <stdint.h>
 
-uint32_t gem_colorspace_hsv_to_rgb(uint16_t hue, uint8_t sat, uint8_t val);
+/*
+    HSV to RGB.
+
+    The hue is represented as a 16-bit number instead of the usual degrees.
+    0 corresponds to 0 degrees and 65536 corresponds to 360 degrees.
+*/
+uint32_t wntr_colorspace_hsv_to_rgb(uint16_t hue, uint8_t sat, uint8_t val);

@@ -8,7 +8,6 @@
 
 #include "gem_adc.h"
 #include "gem_clocks.h"
-#include "gem_colorspace.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
 #include "gem_gpio.h"
@@ -35,4 +34,5 @@
 #include "wntr_bezier.h"
 #include "wntr_build_info.h"
 #include "wntr_button.h"
+#include "wntr_colorspace.h"
 #include "wntr_mtb.h"
