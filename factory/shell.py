@@ -74,6 +74,9 @@ while True:
     elif cmd == "save_settings":
         gem.save_settings(settings)
 
+    elif cmd == "erase_lut":
+        gem.erase_lut()
+
     elif cmd.startswith("$"):
         eval(cmd[1:])
 
