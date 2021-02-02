@@ -6,7 +6,6 @@
 
 #include "gem_sysex_commands.h"
 #include "gem_adc.h"
-#include "gem_build_info.h"
 #include "gem_config.h"
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
@@ -23,6 +22,7 @@
 #include "printf.h"
 #include "teeth.h"
 #include "wntr_assert.h"
+#include "wntr_build_info.h"
 #include <string.h>
 
 /* Macros & defs */
@@ -136,7 +136,7 @@ static void cmd_0x01_hello(const uint8_t* data, size_t len) {
     gem_adc_stop_scanning();
     gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
 
-    const char* build_info = gem_build_info_string();
+    const char* build_info = wntr_build_info_string();
     size_t build_info_len = strlen(build_info);
 
     PREPARE_RESPONSE(0x01, 128);
