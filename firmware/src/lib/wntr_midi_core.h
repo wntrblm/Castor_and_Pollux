@@ -20,16 +20,16 @@
    Should be called at least once per millisecond to process outstanding
    MIDI messages.
 */
-void gem_midi_task();
+void wntr_midi_task();
 
 /*
    Register a callback to handle SysEx messages.
 */
-typedef void (*gem_midi_sysex_callback)(const uint8_t*, size_t);
-void gem_midi_set_sysex_callback(gem_midi_sysex_callback callback);
+typedef void (*wntr_midi_sysex_callback)(const uint8_t*, size_t);
+void wntr_midi_set_sysex_callback(wntr_midi_sysex_callback callback);
 
 /*
    Send a sysex message. The data should not contain the start and end byte,
    this function will add it automatically.
 */
-void gem_midi_send_sysex(const uint8_t* data, size_t len);
+void wntr_midi_send_sysex(const uint8_t* data, size_t len);

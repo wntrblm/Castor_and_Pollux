@@ -14,7 +14,6 @@
 #include "gem_i2c.h"
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
-#include "gem_midi_core.h"
 #include "gem_monitor_update.h"
 #include "gem_nvm.h"
 #include "gem_periodic_waveform.h"
@@ -35,4 +34,5 @@
 #include "wntr_build_info.h"
 #include "wntr_button.h"
 #include "wntr_colorspace.h"
+#include "wntr_midi_core.h"
 #include "wntr_mtb.h"

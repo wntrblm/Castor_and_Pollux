@@ -6,9 +6,9 @@
 
 /* Tests for src/lib/gem_midi_core.c */
 
-#include "gem_midi_core.h"
 #include "gem_sysex_dispatcher.h"
 #include "gem_test.h"
+#include "wntr_midi_core.h"
 
 static uint8_t usb_midi_in_packets[1024];
 static size_t usb_midi_in_packets_idx = 0;
@@ -55,7 +55,7 @@ static void sysex_callback(const uint8_t* data, size_t len) {
 
 TEST_CASE_BEGIN(send_sysex_one)
     /* one byte -> single packet */
-    gem_midi_send_sysex((const uint8_t[]){1}, 1);
+    wntr_midi_send_sysex((const uint8_t[]){1}, 1);
 
     const uint8_t expected[] = {0x7, 0xF0, 1, 0xF7};
     print_hex(usb_midi_out_packets, ARRAY_LEN(expected));
@@ -64,7 +64,7 @@ TEST_CASE_END
 
 TEST_CASE_BEGIN(send_sysex_two)
     /* two bytes -> two packets */
-    gem_midi_send_sysex((const uint8_t[]){1, 2}, 2);
+    wntr_midi_send_sysex((const uint8_t[]){1, 2}, 2);
 
     // clang-format off
     const uint8_t expected[] = {
@@ -79,7 +79,7 @@ TEST_CASE_END
 
 TEST_CASE_BEGIN(send_sysex_three)
     /* three bytes -> two packets */
-    gem_midi_send_sysex((const uint8_t[]){1, 2, 3}, 3);
+    wntr_midi_send_sysex((const uint8_t[]){1, 2, 3}, 3);
 
     // clang-format off
     const uint8_t expected[] = {
@@ -94,7 +94,7 @@ TEST_CASE_END
 
 TEST_CASE_BEGIN(send_sysex_four)
     /* four bytes -> two packets */
-    gem_midi_send_sysex((const uint8_t[]){1, 2, 3, 4}, 4);
+    wntr_midi_send_sysex((const uint8_t[]){1, 2, 3, 4}, 4);
 
     // clang-format off
     const uint8_t expected[] = {
@@ -109,7 +109,7 @@ TEST_CASE_END
 
 TEST_CASE_BEGIN(send_sysex_many)
     /* many bytes -> many packets */
-    gem_midi_send_sysex((const uint8_t[]){1, 2, 3, 4, 5, 6, 7, 8, 9}, 9);
+    wntr_midi_send_sysex((const uint8_t[]){1, 2, 3, 4, 5, 6, 7, 8, 9}, 9);
 
     // clang-format off
     const uint8_t expected[] = {
@@ -137,9 +137,9 @@ TEST_CASE_BEGIN(receive_sysex_simple)
     memcpy(usb_midi_in_packets, midi_packets, ARRAY_LEN(midi_packets));
 
     gem_sysex_register_command(0x1, sysex_callback);
-    gem_midi_set_sysex_callback(gem_sysex_dispatcher);
+    wntr_midi_set_sysex_callback(gem_sysex_dispatcher);
 
-    gem_midi_task();
+    wntr_midi_task();
 
     /* Command callback should be invoked with just the data payload. */
     const uint8_t expected[] = {2, 3, 4, 5, 6, 7, 8};
