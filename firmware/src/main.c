@@ -39,7 +39,7 @@ struct OscillatorState {
     enum GemADCChannels pulse_width_cv_channel;
     enum GemADCChannels pulse_width_knob_channel;
     struct GemVoiceParams params;
-    struct GemSmoothie smooth;
+    struct WntrSmoothie smooth;
     fix16_t knob_min;
     fix16_t knob_range;
     fix16_t pitch_knob;
@@ -211,8 +211,8 @@ static void loop() {
     calculate_pitch_cv(&pollux, settings.pollux_follower_threshold);
 
     /* Apply smoothing to pitch CVs. */
-    castor.pitch = GemSmoothie_step(&castor.smooth, castor.pitch);
-    pollux.pitch = GemSmoothie_step(&pollux.smooth, pollux.pitch);
+    castor.pitch = WntrSmoothie_step(&castor.smooth, castor.pitch);
+    pollux.pitch = WntrSmoothie_step(&pollux.smooth, pollux.pitch);
 
     /*
         Calculate the LFO
