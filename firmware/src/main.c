@@ -27,7 +27,7 @@ static uint32_t adc_results_live[GEM_IN_COUNT];
 static uint32_t adc_results_snapshot[GEM_IN_COUNT];
 static uint32_t* adc_results = adc_results_live;
 static struct GemADCErrors knob_errors;
-static struct GemButton hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
+static struct WntrButton hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
 static bool hard_sync = false;
 static struct GemPeriodicWaveform lfo;
 static uint32_t animation_time = 0;
@@ -91,7 +91,7 @@ static void init() {
     gem_nvm_init();
 
     /* Tell the world who we are and how we got here. :) */
-    printf(gem_build_info_string());
+    printf(wntr_build_info_string());
 
     /* Initialize Random Number Generators */
     gem_random_init(gem_serial_number_low());
@@ -134,7 +134,7 @@ static void init() {
     gem_pulseout_init();
 
     /* Configure input for the hard sync button. */
-    GemButton_init(&hard_sync_button);
+    WntrButton_init(&hard_sync_button);
 
     /* Setup LFO. */
     GemPeriodicWaveform_init(&lfo, gem_triangle, settings.lfo_frequency);
@@ -243,7 +243,7 @@ static void loop() {
         Handle toggling hard sync.
     */
 
-    if (GemButton_tapped(&hard_sync_button)) {
+    if (WntrButton_tapped(&hard_sync_button)) {
         hard_sync = !hard_sync;
         if (hard_sync) {
             gem_pulseout_hard_sync(true);
@@ -320,12 +320,12 @@ static void loop() {
    interface knobs allow tweaking various settings. */
 
 void tweak_loop() {
-    if (GemButton_held(&hard_sync_button)) {
+    if (WntrButton_held(&hard_sync_button)) {
         /* If we just entered tweak mode, copy the adc results to
            the snapshot buffer and point the loop's adc results to
            the snapshot. This prevents the tweak interface for messing
            with the running oscillators. */
-        if (GemButton_hold_started(&hard_sync_button)) {
+        if (WntrButton_hold_started(&hard_sync_button)) {
             memcpy(adc_results_snapshot, adc_results_live, GEM_IN_COUNT * sizeof(uint32_t));
             adc_results = adc_results_snapshot;
             gem_led_animation_set_mode(GEM_LED_MODE_TWEAK);
@@ -361,7 +361,7 @@ void tweak_loop() {
 
     } else {
         /* If we just left tweak mode, undo the adc result trickery. */
-        if (GemButton_hold_ended(&hard_sync_button)) {
+        if (WntrButton_hold_ended(&hard_sync_button)) {
             adc_results = adc_results_live;
             gem_led_animation_set_mode(hard_sync ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
         }
@@ -385,7 +385,7 @@ int main(void) {
         if (gem_adc_results_ready()) {
             sample_time = (uint16_t)(gem_get_ticks() - last_sample_time);
             last_sample_time = gem_get_ticks();
-            GemButton_update(&hard_sync_button);
+            WntrButton_update(&hard_sync_button);
             loop();
             tweak_loop();
         }
