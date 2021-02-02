@@ -9,7 +9,6 @@
 #include "gem_config.h"
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
-#include "gem_midi_core.h"
 #include "gem_pack.h"
 #include "gem_pulseout.h"
 #include "gem_serial_number.h"
@@ -23,6 +22,7 @@
 #include "teeth.h"
 #include "wntr_assert.h"
 #include "wntr_build_info.h"
+#include "wntr_midi_core.h"
 #include <string.h>
 
 /* Macros & defs */
@@ -39,8 +39,8 @@ static_assert(
     uint8_t request[size];                                                                                             \
     teeth_decode(data, TEETH_ENCODED_LENGTH(size), request);
 
-#define RESPONSE_0(command) gem_midi_send_sysex((uint8_t[2]){GEM_SYSEX_IDENTIFIER, command}, 2);
-#define RESPONSE_1(command, val1) gem_midi_send_sysex((uint8_t[3]){GEM_SYSEX_IDENTIFIER, command, val1}, 3);
+#define RESPONSE_0(command) wntr_midi_send_sysex((uint8_t[2]){GEM_SYSEX_IDENTIFIER, command}, 2);
+#define RESPONSE_1(command, val1) wntr_midi_send_sysex((uint8_t[3]){GEM_SYSEX_IDENTIFIER, command, val1}, 3);
 
 #define PREPARE_RESPONSE(command, size)                                                                                \
     uint8_t _full_response[2 + size];                                                                                  \
@@ -49,11 +49,11 @@ static_assert(
     _full_response[0] = GEM_SYSEX_IDENTIFIER;                                                                          \
     _full_response[1] = command;
 
-#define SEND_RESPONSE() gem_midi_send_sysex(_full_response, ARRAY_LEN(_full_response));
+#define SEND_RESPONSE() wntr_midi_send_sysex(_full_response, ARRAY_LEN(_full_response));
 
 #define SEND_RESPONSE_LEN(len)                                                                                         \
     WNTR_ASSERT(len + 2 <= ARRAY_LEN(_full_response));                                                                 \
-    gem_midi_send_sysex(_full_response, len + 2);
+    wntr_midi_send_sysex(_full_response, len + 2);
 
 /* Static variables. */
 
@@ -99,7 +99,7 @@ void gem_register_sysex_commands() {
     gem_sysex_register_command(0x0E, cmd_0x0E_enable_adc_corr);
     gem_sysex_register_command(0x0F, cmd_0x0F_get_serial_no);
     gem_sysex_register_command(0x10, cmd_0x10_monitor);
-    gem_midi_set_sysex_callback(gem_sysex_dispatcher);
+    wntr_midi_set_sysex_callback(gem_sysex_dispatcher);
 };
 
 void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {

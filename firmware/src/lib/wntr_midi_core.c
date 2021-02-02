@@ -4,7 +4,7 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_midi_core.h"
+#include "wntr_midi_core.h"
 #include "gem_config.h"
 #include "gem_usb.h"
 #include "printf.h"
@@ -18,7 +18,7 @@
 
 /* Enums */
 
-enum GemUSBMIDICodeIndexes {
+enum USBMIDICodeIndexes {
     CIN_TWO_BYTE_COMMON = 0x2,
     CIN_THREE_BYTE_COMMON = 0x3,
     CIN_SYSEX_START_OR_CONTINUE = 0x4,
@@ -40,7 +40,7 @@ enum GemUSBMIDICodeIndexes {
 static uint8_t in_packet_[4];
 static uint8_t sysex_data_[GEM_SYSEX_BUF_SIZE];
 static size_t sysex_data_len_;
-static gem_midi_sysex_callback sysex_callback_;
+static wntr_midi_sysex_callback sysex_callback_;
 
 /* Private forward declarations. */
 
@@ -48,7 +48,7 @@ static void consume_sysex();
 
 /* Public functions. */
 
-void gem_midi_task() {
+void wntr_midi_task() {
     if (gem_usb_midi_receive(in_packet_) == false) {
         return;
     }
@@ -131,7 +131,7 @@ timeout_fail:
             yield b
         yield MIDI_SYSEX_START_BYTE
 */
-static bool sysex_iterator_next(const uint8_t* data, size_t len, size_t* head, uint8_t* dst) {
+static bool sysex_iterator_next_(const uint8_t* data, size_t len, size_t* head, uint8_t* dst) {
     if (*head == 0) {
         (*dst) = (uint8_t)SYSEX_START_BYTE;
         (*head)++;
@@ -150,40 +150,40 @@ static bool sysex_iterator_next(const uint8_t* data, size_t len, size_t* head, u
     return true;
 }
 
-static size_t sysex_iterator_remaining(size_t len, size_t head) { return len + 2 - head; }
+static size_t sysex_iterator_remaining_(size_t len, size_t head) { return len + 2 - head; }
 
-void gem_midi_send_sysex(const uint8_t* data, size_t len) {
+void wntr_midi_send_sysex(const uint8_t* data, size_t len) {
     size_t head = 0;
     while (true) {
         uint8_t packet[] = {0, 0, 0, 0};
-        size_t remaining = sysex_iterator_remaining(len, head);
+        size_t remaining = sysex_iterator_remaining_(len, head);
         if (remaining > 3) {
             packet[0] = CIN_SYSEX_START_OR_CONTINUE;
-            sysex_iterator_next(data, len, &head, packet + 1);
-            sysex_iterator_next(data, len, &head, packet + 2);
-            sysex_iterator_next(data, len, &head, packet + 3);
+            sysex_iterator_next_(data, len, &head, packet + 1);
+            sysex_iterator_next_(data, len, &head, packet + 2);
+            sysex_iterator_next_(data, len, &head, packet + 3);
             gem_usb_midi_send(packet);
             continue;
         } else if (remaining == 3) {
             packet[0] = CIN_SYSEX_END_THREE_BYTE;
-            sysex_iterator_next(data, len, &head, packet + 1);
-            sysex_iterator_next(data, len, &head, packet + 2);
-            sysex_iterator_next(data, len, &head, packet + 3);
+            sysex_iterator_next_(data, len, &head, packet + 1);
+            sysex_iterator_next_(data, len, &head, packet + 2);
+            sysex_iterator_next_(data, len, &head, packet + 3);
             gem_usb_midi_send(packet);
             return;
         } else if (remaining == 2) {
             packet[0] = CIN_SYSEX_END_TWO_BYTE;
-            sysex_iterator_next(data, len, &head, packet + 1);
-            sysex_iterator_next(data, len, &head, packet + 2);
+            sysex_iterator_next_(data, len, &head, packet + 1);
+            sysex_iterator_next_(data, len, &head, packet + 2);
             gem_usb_midi_send(packet);
             return;
         } else if (remaining == 1) {
             packet[0] = CIN_SYSEX_END_ONE_BYTE;
-            sysex_iterator_next(data, len, &head, packet + 1);
+            sysex_iterator_next_(data, len, &head, packet + 1);
             gem_usb_midi_send(packet);
             return;
         }
     };
 }
 
-void gem_midi_set_sysex_callback(gem_midi_sysex_callback callback) { sysex_callback_ = callback; }
+void wntr_midi_set_sysex_callback(wntr_midi_sysex_callback callback) { sysex_callback_ = callback; }

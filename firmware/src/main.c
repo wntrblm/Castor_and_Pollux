@@ -375,7 +375,7 @@ int main(void) {
 
     while (1) {
         gem_usb_task();
-        gem_midi_task();
+        wntr_midi_task();
 
         uint32_t animation_start_time = gem_get_ticks();
         if (gem_led_animation_step()) {

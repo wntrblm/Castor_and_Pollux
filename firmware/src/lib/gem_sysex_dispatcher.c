@@ -6,9 +6,9 @@
 
 #include "gem_sysex_dispatcher.h"
 #include "gem_config.h"
-#include "gem_midi_core.h"
 #include "printf.h"
 #include "wntr_assert.h"
+#include "wntr_midi_core.h"
 
 /* Macros & definitions */
 
