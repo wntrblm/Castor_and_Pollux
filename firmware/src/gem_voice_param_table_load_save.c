@@ -9,6 +9,7 @@
 #include "printf.h"
 #include "wntr_pack.h"
 #include <stdbool.h>
+#include <string.h>
 
 #define VALID_TABLE_MARKER 0x41
 #define BUFFER_LEN 512
@@ -57,5 +58,10 @@ void gem_save_dac_codes_table() {
 
     param_table_load_buf_[BUFFER_LEN - 1] = VALID_TABLE_MARKER;
 
+    gem_nvm_write((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
+}
+
+void gem_erase_dac_codes_table() {
+    memset(param_table_load_buf_, 0xFF, BUFFER_LEN);
     gem_nvm_write((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
 }

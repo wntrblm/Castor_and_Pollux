@@ -307,7 +307,7 @@ static void cmd_0x0C_erase_lut(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    gem_save_dac_codes_table();
+    gem_erase_dac_codes_table();
 }
 
 static void cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len) {

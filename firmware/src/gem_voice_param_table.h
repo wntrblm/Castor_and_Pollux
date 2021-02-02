@@ -19,3 +19,4 @@ extern size_t gem_voice_param_table_len;
 
 void gem_load_dac_codes_table();
 void gem_save_dac_codes_table();
+void gem_erase_dac_codes_table();
