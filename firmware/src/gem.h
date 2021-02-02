@@ -21,7 +21,6 @@
 #include "gem_serial_number.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
-#include "gem_smoothie.h"
 #include "gem_spi.h"
 #include "gem_sysex_commands.h"
 #include "gem_systick.h"
@@ -36,3 +35,4 @@
 #include "wntr_midi_core.h"
 #include "wntr_mtb.h"
 #include "wntr_random.h"
+#include "wntr_smoothie.h"
