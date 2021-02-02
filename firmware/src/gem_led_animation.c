@@ -8,9 +8,9 @@
 #include "fix16.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
-#include "gem_systick.h"
 #include "wntr_colorspace.h"
 #include "wntr_random.h"
+#include "wntr_ticks.h"
 #include "wntr_waveforms.h"
 #include <stdint.h>
 
@@ -40,12 +40,12 @@ static void animation_step_tweak(uint32_t ticks);
 
 /* Public functions. */
 
-void gem_led_animation_init() { last_update_ = gem_get_ticks(); }
+void gem_led_animation_init() { last_update_ = wntr_ticks(); }
 
 void gem_led_animation_set_mode(enum GemLEDAnimationMode mode) { mode_ = mode; }
 
 bool gem_led_animation_step() {
-    uint32_t ticks = gem_get_ticks();
+    uint32_t ticks = wntr_ticks();
     uint32_t delta = ticks - last_update_;
     if (delta < GEM_ANIMATION_INTERVAL) {
         return false;

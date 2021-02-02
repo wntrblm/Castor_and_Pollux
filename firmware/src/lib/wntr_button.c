@@ -6,7 +6,7 @@
 
 #include "wntr_button.h"
 #include "gem_gpio.h"
-#include "gem_systick.h"
+#include "wntr_ticks.h"
 
 /* Constants and macros */
 
@@ -23,10 +23,10 @@ void WntrButton_update(struct WntrButton* button) {
     button->state = !gem_gpio_get(button->port, button->pin);
 
     if (button->state == true && button->_previous_state == false) {
-        button->_rising_edge_time = gem_get_ticks();
+        button->_rising_edge_time = wntr_ticks();
     }
 
-    button->_update_time = gem_get_ticks();
+    button->_update_time = wntr_ticks();
 }
 
 bool WntrButton_tapped(struct WntrButton* button) {

@@ -5,7 +5,7 @@
 */
 
 #include "wntr_periodic_waveform.h"
-#include "gem_systick.h"
+#include "wntr_ticks.h"
 
 /* Constants and macros. */
 
@@ -19,11 +19,11 @@ void WntrPeriodicWaveform_init(
     waveform->frequency = frequency;
     waveform->phase = F16(0);
     waveform->value = F16(0);
-    waveform->_last_update = gem_get_ticks();
+    waveform->_last_update = wntr_ticks();
 }
 
 void WntrPeriodicWaveform_step(struct WntrPeriodicWaveform* waveform) {
-    uint32_t now = gem_get_ticks();
+    uint32_t now = wntr_ticks();
     uint32_t delta = now - waveform->_last_update;
 
     if (delta > 0) {

@@ -22,7 +22,6 @@
 #include "gem_settings_load_save.h"
 #include "gem_spi.h"
 #include "gem_sysex_commands.h"
-#include "gem_systick.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "gem_voice_params.h"
@@ -35,4 +34,5 @@
 #include "wntr_periodic_waveform.h"
 #include "wntr_random.h"
 #include "wntr_smoothie.h"
+#include "wntr_ticks.h"
 #include "wntr_waveforms.h"

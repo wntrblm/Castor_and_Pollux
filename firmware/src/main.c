@@ -85,7 +85,7 @@ static void init() {
     gem_clocks_init();
 
     /* Configure systick */
-    gem_systick_init();
+    wntr_ticks_init();
 
     /* Initialize NVM */
     gem_nvm_init();
@@ -204,7 +204,7 @@ void calculate_pulse_width(struct OscillatorState* osc) {
 }
 
 static void loop() {
-    uint32_t loop_start_time = gem_get_ticks();
+    uint32_t loop_start_time = wntr_ticks();
 
     calculate_pitch_cv(&castor, 0);
     pollux.pitch = castor.pitch;
@@ -292,7 +292,7 @@ static void loop() {
     /*
         Update the loop timer.
     */
-    uint16_t loop_time = (uint16_t)(gem_get_ticks() - loop_start_time);
+    uint16_t loop_time = (uint16_t)(wntr_ticks() - loop_start_time);
 
     /*
         If monitoring has been enabled, send an update.
@@ -371,20 +371,20 @@ void tweak_loop() {
 int main(void) {
     init();
 
-    uint32_t last_sample_time = gem_get_ticks();
+    uint32_t last_sample_time = wntr_ticks();
 
     while (1) {
         gem_usb_task();
         wntr_midi_task();
 
-        uint32_t animation_start_time = gem_get_ticks();
+        uint32_t animation_start_time = wntr_ticks();
         if (gem_led_animation_step()) {
-            animation_time = gem_get_ticks() - animation_start_time;
+            animation_time = wntr_ticks() - animation_start_time;
         }
 
         if (gem_adc_results_ready()) {
-            sample_time = (uint16_t)(gem_get_ticks() - last_sample_time);
-            last_sample_time = gem_get_ticks();
+            sample_time = (uint16_t)(wntr_ticks() - last_sample_time);
+            last_sample_time = wntr_ticks();
             WntrButton_update(&hard_sync_button);
             loop();
             tweak_loop();

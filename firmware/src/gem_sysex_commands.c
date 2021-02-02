@@ -14,7 +14,6 @@
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
 #include "gem_sysex_dispatcher.h"
-#include "gem_systick.h"
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "printf.h"
@@ -23,6 +22,7 @@
 #include "wntr_build_info.h"
 #include "wntr_midi_core.h"
 #include "wntr_pack.h"
+#include "wntr_ticks.h"
 #include <string.h>
 
 /* Macros & defs */
@@ -108,7 +108,7 @@ void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
     }
 
     /* Don't send updates more often than once every 1/10th of a second. */
-    uint32_t ticks = gem_get_ticks();
+    uint32_t ticks = wntr_ticks();
     if (ticks - last_monitor_update_ < 100) {
         return;
     }
