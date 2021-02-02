@@ -6,12 +6,12 @@
 
 #include "gem_led_animation.h"
 #include "fix16.h"
-#include "gem_colorspace.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
 #include "gem_random.h"
 #include "gem_systick.h"
 #include "gem_waveforms.h"
+#include "wntr_colorspace.h"
 #include <stdint.h>
 
 struct GemLEDTweakData gem_led_tweak_data = {.lfo_value = F16(0)};
@@ -94,9 +94,9 @@ static void animation_step_normal(uint32_t delta) {
             sparkles_[i] = 255;
 
         if (sparkles_[i] == 0) {
-            color = gem_colorspace_hsv_to_rgb(hue, 255, value);
+            color = wntr_colorspace_hsv_to_rgb(hue, 255, value);
         } else {
-            color = gem_colorspace_hsv_to_rgb(hue, 255 - sparkles_[i], value);
+            color = wntr_colorspace_hsv_to_rgb(hue, 255 - sparkles_[i], value);
             if (sparkles_[i] <= delta / 4)
                 sparkles_[i] = 0;
             else
@@ -125,9 +125,9 @@ static void animation_step_hard_sync(uint32_t delta) {
             sparkles_[i] = 255;
 
         if (sparkles_[i] == 0) {
-            color = gem_colorspace_hsv_to_rgb(hue, 255, value);
+            color = wntr_colorspace_hsv_to_rgb(hue, 255, value);
         } else {
-            color = gem_colorspace_hsv_to_rgb(hue, 255 - sparkles_[i], value);
+            color = wntr_colorspace_hsv_to_rgb(hue, 255 - sparkles_[i], value);
             if (sparkles_[i] <= delta / 4)
                 sparkles_[i] = 0;
             else
@@ -142,8 +142,8 @@ static void animation_step_calibration(uint32_t ticks) {
     fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(2000.0));
     fix16_t sinv = gem_sine_norm(bright_time);
     uint8_t value = fix16_to_int(fix16_mul(F16(255.0), sinv));
-    uint32_t colora = gem_colorspace_hsv_to_rgb(50000, 255, value);
-    uint32_t colorb = gem_colorspace_hsv_to_rgb(10000, 255, 255 - value);
+    uint32_t colora = wntr_colorspace_hsv_to_rgb(50000, 255, value);
+    uint32_t colorb = wntr_colorspace_hsv_to_rgb(10000, 255, 255 - value);
 
     for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
         if (i % 2 == 0) {
@@ -171,7 +171,7 @@ static void animation_step_tweak(uint32_t delta) {
 
     fix16_t lfoadj = fix16_div(fix16_add(gem_led_tweak_data.lfo_value, F16(1.0)), F16(2.0));
     uint8_t lfo_value = fix16_to_int(fix16_mul(F16(255.0), lfoadj));
-    gem_dotstar_set32(4, gem_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
-    gem_dotstar_set32(5, gem_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
-    gem_dotstar_set32(6, gem_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
+    gem_dotstar_set32(4, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
+    gem_dotstar_set32(5, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
+    gem_dotstar_set32(6, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
 }
