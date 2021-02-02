@@ -9,9 +9,9 @@
 #include "gem_config.h"
 #include "gem_dotstar.h"
 #include "gem_systick.h"
-#include "gem_waveforms.h"
 #include "wntr_colorspace.h"
 #include "wntr_random.h"
+#include "wntr_waveforms.h"
 #include <stdint.h>
 
 struct GemLEDTweakData gem_led_tweak_data = {.lfo_value = F16(0)};
@@ -85,7 +85,7 @@ static void animation_step_normal(uint32_t delta) {
 
     for (size_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
         fix16_t phase_offset = fix16_div(fix16_from_int(i), F16(GEM_DOTSTAR_COUNT));
-        fix16_t sin_a = gem_sine_norm(phase_a_ + phase_offset);
+        fix16_t sin_a = wntr_sine_normalized(phase_a_ + phase_offset);
         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
         uint16_t hue = (hue_accum_ + hue_offsets_[i]) % UINT16_MAX;
         uint32_t color;
@@ -117,7 +117,7 @@ static void animation_step_hard_sync(uint32_t delta) {
 
     for (size_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
         fix16_t phase_offset = fix16_div(fix16_from_int(i), F16(GEM_DOTSTAR_COUNT));
-        fix16_t sin_a = gem_sine_norm(phase_a_ + phase_offset);
+        fix16_t sin_a = wntr_sine_normalized(phase_a_ + phase_offset);
         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
         uint32_t color;
 
@@ -140,7 +140,7 @@ static void animation_step_hard_sync(uint32_t delta) {
 
 static void animation_step_calibration(uint32_t ticks) {
     fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(2000.0));
-    fix16_t sinv = gem_sine_norm(bright_time);
+    fix16_t sinv = wntr_sine_normalized(bright_time);
     uint8_t value = fix16_to_int(fix16_mul(F16(255.0), sinv));
     uint32_t colora = wntr_colorspace_hsv_to_rgb(50000, 255, value);
     uint32_t colorb = wntr_colorspace_hsv_to_rgb(10000, 255, 255 - value);

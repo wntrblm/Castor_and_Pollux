@@ -27,7 +27,6 @@
 #include "gem_usb.h"
 #include "gem_voice_param_table.h"
 #include "gem_voice_params.h"
-#include "gem_waveforms.h"
 #include "wntr_bezier.h"
 #include "wntr_build_info.h"
 #include "wntr_button.h"
@@ -36,3 +35,4 @@
 #include "wntr_mtb.h"
 #include "wntr_random.h"
 #include "wntr_smoothie.h"
+#include "wntr_waveforms.h"

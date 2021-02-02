@@ -137,7 +137,7 @@ static void init() {
     WntrButton_init(&hard_sync_button);
 
     /* Setup LFO. */
-    GemPeriodicWaveform_init(&lfo, gem_triangle, settings.lfo_frequency);
+    GemPeriodicWaveform_init(&lfo, wntr_triangle, settings.lfo_frequency);
 
     /* Setup oscillators. */
     knob_errors = (struct GemADCErrors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
