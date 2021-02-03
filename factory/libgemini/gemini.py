@@ -166,8 +166,8 @@ class Gemini:
             )
             self._sysex(SysExCommands.WRITE_SETTINGS, data=[n] + chunk, response=True)
 
-    def write_lut_entry(self, entry, castor_pollux, val):
-        data = struct.pack(">BBH", entry, castor_pollux, val)
+    def write_lut_entry(self, entry, period, castor, pollux):
+        data = struct.pack(">BIHH", entry, period, castor, pollux)
         self._sysex(
             SysExCommands.WRITE_LUT_ENTRY, data=data, encode=True, response=True
         )

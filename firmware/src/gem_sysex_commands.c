@@ -273,24 +273,23 @@ static void cmd_0x09_write_settings(const uint8_t* data, size_t len) {
 }
 
 static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
-    /* Request (teeth): ENTRY(1) OSC(1) CODE(2) */
+    /* Request (teeth): ENTRY(1) PERIOD(4) CASTOR_CODE(2) POLLUX_CODE(2) */
     DECODE_TEETH_REQUEST(4);
 
     size_t entry = request[0];
-    uint8_t osc = request[1];
-    uint16_t code = WNTR_UNPACK_16(request, 2);
+    uint32_t period = WNTR_UNPACK_32(request, 1);
+    uint16_t castor_code = WNTR_UNPACK_16(request, 5);
+    uint16_t pollux_code = WNTR_UNPACK_16(request, 7);
 
-    if (entry >= gem_voice_param_table_len) {
+    if (entry >= gem_voice_dac_codes_table_len) {
         return;
     }
 
-    printf("Set LUT entry %u to %u\r\n", entry, code);
+    printf("Set LUT entry %u to %u & %u\r\n", entry, castor_code, pollux_code);
 
-    if (osc == 0) {
-        gem_voice_dac_codes_table[entry].castor = code;
-    } else {
-        gem_voice_dac_codes_table[entry].pollux = code;
-    }
+    gem_voice_dac_codes_table->period = period;
+    gem_voice_dac_codes_table[entry].castor = castor_code;
+    gem_voice_dac_codes_table[entry].pollux = pollux_code;
 
     /* Acknowledge the message. */
     RESPONSE_0(0x0A);
