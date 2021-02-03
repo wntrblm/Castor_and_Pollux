@@ -45,3 +45,4 @@ inline static void print_hex(const uint8_t* buf, size_t len) {
 /* Suites */
 
 MunitSuite test_midi_core_suite;
+MunitSuite test_voice_params_suite;
