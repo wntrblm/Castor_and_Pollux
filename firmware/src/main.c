@@ -257,18 +257,8 @@ static void loop() {
     /*
         Calculate the final voice parameters given the input CVs.
     */
-    GemVoiceParams_from_cv(
-        gem_voice_voltage_and_period_table,
-        gem_voice_dac_codes_table,
-        gem_voice_param_table_len,
-        castor.pitch,
-        &castor.params);
-    GemVoiceParams_from_cv(
-        gem_voice_voltage_and_period_table,
-        gem_voice_dac_codes_table,
-        gem_voice_param_table_len,
-        pollux.pitch,
-        &pollux.params);
+    GemVoiceParams_from_cv(castor.pitch, &castor.params);
+    GemVoiceParams_from_cv(pollux.pitch, &pollux.params);
 
     /*
         Update timers.
