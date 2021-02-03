@@ -115,17 +115,17 @@ def calibrated_charge_code_for_period(period, table):
     low_period, high_period = find_nearest_pair(
         list(reversed(list(table.keys()))), period
     )
-    print("Nearest to ", period, ": ", low_period, high_period)
     low_code = table[low_period]
     high_code = table[high_period]
-
-    print("Low", low_code, "high", high_code)
 
     if low_code == high_code:
         return low_code
 
-    offset = normalized_difference(low_period, high_period, period)
-
-    print("Normalized diff:", offset)
+    offset = normalized_difference(
+        timer_period_to_frequency(low_period),
+        timer_period_to_frequency(high_period),
+        timer_period_to_frequency(period),
+    )
+    # print(f"{low_period=}, {period=}, {high_period=}, {offset=}")
 
     return round(lerp(low_code, high_code, offset))
