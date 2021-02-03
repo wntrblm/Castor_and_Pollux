@@ -329,19 +329,23 @@ def run(save):
 
         log.info("Sending LUT values to device...")
 
-        for o, table in enumerate([castor_calibration, pollux_calibration]):
-            for n, dac_code in enumerate(table.values()):
-                with output:
-                    progress = n / (len(table.values()) - 1)
-                    bar.draw(
-                        tui.Segment(
-                            progress,
-                            color=tui.gradient(start_color, end_color, progress),
-                        ),
-                    )
-                    log.debug(f"Set oscillator {o} entry {n} to {dac_code}.")
+        with output:
+            for n, timer_period in enumerate(castor_calibration.keys()):
+                progress = n / (len(table.values()) - 1)
+                bar.draw(
+                    tui.Segment(
+                        progress,
+                        color=tui.gradient(start_color, end_color, progress),
+                    ),
+                )
+                output.update()
 
-                    gem.write_lut_entry(n, o, dac_code)
+                castor_code = castor_calibration[timer_period];
+                pollux_code = pollux_calibration[timer_period]
+
+                gem.write_lut_entry(n, timer_period, castor_code, pollux_code)
+
+                log.debug(f"Set LUT entry {n} to period={timer_period}, castor={castor_code}, pollux={pollux_code}.")
 
         log.info("Committing LUT to NVM...")
         gem.write_lut()
