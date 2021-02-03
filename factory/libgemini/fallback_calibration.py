@@ -12,7 +12,7 @@ castor = {
     oscillators.frequency_to_timer_period(
         oscillators.midi_note_to_frequency(note)
     ): oscillators.charge_code_for_frequency(oscillators.midi_note_to_frequency(note))
-    for note in oscillators.midi_note_range()
+    for note in oscillators.calibration_note_range()
 }
 
 pollux = castor.copy()
