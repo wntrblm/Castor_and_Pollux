@@ -1,84 +1,55 @@
-import readline
 import time
 
-from libgemini import gemini, oscillators
+import IPython
+import pyvisa
+import wintertools.oscilloscope
 
-readline.parse_and_bind("tab: complete")
+from libgemini import fallback_calibration, gemini, oscillators, reference_calibration
 
+_visa_resources_mgr = pyvisa.ResourceManager("@ivi")
 gem = gemini.Gemini()
-gem.enter_calibration_mode()
-
-settings = None
 
 
-def _set_oscillators_to_note(note):
+def set_oscillators_to_note(note, calibration=reference_calibration):
     freq = oscillators.midi_note_to_frequency(note)
     period = oscillators.frequency_to_timer_period(freq)
-    charge_code = oscillators.estimate_charge_code(freq)
-    print(f"Note: {note}, Freq: {freq}, Charge code: {charge_code}")
+
+    charge_code_castor = oscillators.calibrated_charge_code_for_period(
+        period, calibration.castor
+    )
+    charge_code_pollux = oscillators.calibrated_charge_code_for_period(
+        period, calibration.pollux
+    )
+
+    print(
+        f"Note: {note}, Freq: {freq}, Charge codes: {charge_code_castor}, {charge_code_pollux}"
+    )
+
     gem.set_period(0, period)
-    gem.set_dac(0, charge_code, 0)
+    gem.set_dac(0, charge_code_castor, 0)
     time.sleep(0.1)  # Needed so the DAC has time to update EEPROM
     gem.set_period(1, period)
-    gem.set_dac(2, charge_code, 0)
+    gem.set_dac(2, charge_code_pollux, 0)
 
 
-midi_note = 11
+def sweep_notes(calibration=reference_calibration):
+    for n in range(12, 94):
+        set_oscillators_to_note(n, calibration=reference_calibration)
+        time.sleep(0.5)
 
 
-while True:
-    cmd, *vals = input("> ").strip().split()
-    vals = [int(val) for val in vals]
-    val = vals[0] if vals else None
+def sweep_notes_with_ref():
+    return sweep_notes(calibration=reference_calibration)
 
-    if cmd == "note":
-        _set_oscillators_to_note(val)
 
-    elif cmd == "next":
-        midi_note += 2
-        _set_oscillators_to_note(midi_note)
+def sweep_notes_with_fallback():
+    return sweep_notes(calibration=fallback_calibration)
 
-    elif cmd == "sweep":
-        for n in range(11, 94):
-            _set_oscillators_to_note(n)
-            time.sleep(0.5)
 
-    elif cmd == "read_adc":
-        print(gem.read_adc(val))
+def get_oscilloscope():
+    return wintertools.oscilloscope.Oscilloscope(_visa_resources_mgr)
 
-    elif cmd == "set_dac":
-        if len(vals) < 2:
-            print("requires channel, value, and vref")
-        gem.set_dac(vals[0], vals[1], vref=vals[2])
 
-    elif cmd == "set_freq":
-        if len(vals) < 2:
-            print("requires channel and period")
-        gem.set_period(vals[0], vals[1])
+gem.enter_calibration_mode()
 
-    elif cmd == "set_adc_gain":
-        gem.set_adc_gain_error_int(val)
-
-    elif cmd == "set_adc_error":
-        gem.set_adc_offset_error(val)
-
-    elif cmd == "load_settings":
-        settings = gem.read_settings()
-        gem_settings = settings
-        print(settings)
-
-    elif cmd == "reset_settings":
-        gem.reset_settings()
-        print(settings)
-
-    elif cmd == "save_settings":
-        gem.save_settings(settings)
-
-    elif cmd == "erase_lut":
-        gem.erase_lut()
-
-    elif cmd.startswith("$"):
-        eval(cmd[1:])
-
-    else:
-        print("unknown command")
+IPython.embed()
