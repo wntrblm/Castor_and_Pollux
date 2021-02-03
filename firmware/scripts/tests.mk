@@ -1,16 +1,9 @@
-ifndef CAN_RUN
-$(error This script should be run from /firmware using "make tests")
-endif
-
 # Toolchain configuration
 BUILD = build/test
 BIN = test
 CC = gcc
 OBJCOPY = objcopy
-SIZE = size
-
-# Build information
-include ./scripts/build_info.mk
+SIZE = SIZE
 
 # Common compiler & linker flags.
 
@@ -37,27 +30,29 @@ INCLUDES += \
   -I./src \
   -I./src/hw \
   -I./src/drivers \
-  -I./src/lib
+  -I./src/lib \
+  -I./src/generated \
+  -I./third_party/libwinter \
+  -I./third_party/libfixmath \
+  -I./third_party/munit
 
 # Linker configuration
 
 LDFLAGS += $(COMMON_FLAGS)
 LIBS += -lm
 
-# Include any makefiles for third-party libraries. These files
-# should add to INCLUDES, SOURCES, and DEFINES.
-
-THIRD_PARTY_LIBS = \
-	munit
-include $(addprefix ./scripts/,$(addsuffix .mk,$(THIRD_PARTY_LIBS)))
-
 ##############################################################################
 
 # Sources from the firmware
 
 SRCS += \
-	src/lib/gem_midi_core.c \
-	src/lib/gem_sysex_dispatcher.c
+	src/lib/wntr_midi_core.c \
+	src/lib/gem_sysex_dispatcher.c \
+	src/generated/gem_voice_param_table.c \
+	src/gem_voice_params.c \
+	third_party/libwinter/wntr_assert.c \
+	third_party/libfixmath/fix16.c \
+	third_party/munit/munit.c
 
 ##############################################################################
 
