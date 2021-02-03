@@ -4,13 +4,14 @@
 
 import argparse
 import json
+import math
 import os.path
 import pathlib
-import random
+import statistics
 import time
 
 import pyvisa as visa
-from wintertools import log, oscilloscope, tui
+from wintertools import keyboard, log, oscilloscope, tui
 
 from libgemini import gemini, oscillators, reference_calibration
 
@@ -19,11 +20,29 @@ period_to_dac_code = reference_calibration.castor.copy()
 start_color = (1.0, 1.0, 0.0)
 end_color = (0.5, 0.6, 1.0)
 
+AVERAGE_COUNT = 2
 
-def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
+
+# Use max because PK-PK has poor resolution and also includes negative transients.
+def _measure_max(scope, scope_channel):
+    return statistics.mean(
+        scope.get_max(scope_channel) for _ in range(0, AVERAGE_COUNT)
+    )
+
+
+def _set_code_and_measure_max(gem, scope, dac_channel, scope_channel, code):
+    gem.set_dac(dac_channel, code, vref=0)
+    time.sleep(0.005)
+    return _measure_max(scope, scope_channel)
+
+
+def _seek_voltage_on_channel(
+    gem, scope, oscillator, period, start_code, target_voltage
+):
     output = tui.Updateable(clear_all=True)
     frequency = oscillators.timer_period_to_frequency(period)
-    dac_code = start_code
+    low_threshold, high_threshold = target_voltage - 0.15, target_voltage + 0.05
+    low_code, high_code = 0, 0
 
     if oscillator == 0:
         dac_channel = 0
@@ -33,124 +52,196 @@ def _seek_voltage_on_channel(gem, scope, oscillator, period, start_code):
         scope_channel = "c2"
 
     gem.set_period(oscillator, period)
+    gem.set_dac(dac_channel, start_code, vref=0)
 
     # Let things settle.
     time.sleep(0.01)
 
+    # Phase one: wait for frequency to be within range.
     with output:
         while True:
-            low_threshold, high_threshold = 3.25, 3.35
-
-            # Set the DAC
-            gem.set_dac(dac_channel, dac_code, vref=1)
-
-            # Let things settle.
-            time.sleep(0.005)
-
-            # Read the oscilloscope's peak-to-peak stats and adjust as needed.
             measured_frequency = scope.get_frequency()
-            peak_to_peak = scope.get_peak_to_peak(scope_channel)
-            freq_diff = (measured_frequency / frequency) - 1.0
-            freq_diff_color = tui.gradient(
-                (0.8, 0.8, 1.0), (1.0, 0.5, 0.5), abs(freq_diff) * 2
-            )
-            code_diff = dac_code - start_code
 
-            # Draw the UI
-            print(
-                f"│ {measured_frequency:0.2f} Hz ({tui.rgb(freq_diff_color)}{freq_diff*100:+.0f}%{tui.reset})"
-            )
-            print(f"│ Peak-to-peak: {peak_to_peak:.2f} volts")
+            freq_diff = abs(measured_frequency / frequency) - 1.0
 
-            # Check the frequency
             if freq_diff > 0.3:
-                print("Frequency seems wrong, trying again...")
-                output.update()
-                time.sleep(0.2)
-                continue
-
-            # Adjust DAC code if needed.
-            elif peak_to_peak < 0.3:
-                # Probe probably isn't connected, sleep and try again.
                 print(
-                    f"│ 💤 No input detected, voltage reading at {peak_to_peak:.2f}v",
+                    f"Waiting for {frequency}, currently measuring {measured_frequency}"
                 )
                 output.update()
                 time.sleep(0.2)
                 continue
 
-            elif peak_to_peak <= low_threshold:
-                # Too low, increase DAC code.
-                # Using random here helps it find the range a bit better.
-                dac_code += random.randrange(1, 5)
+            break
 
-                print(
-                    f"│ {tui.rgb(0.0, 1.0, 1.0)}{oscillators.charge_code_to_volts(dac_code):.2f} volts "
-                    f"+ Δ({oscillators.charge_code_to_volts(code_diff):+.4f}, {code_diff} points){tui.reset}"
+    # Phase two: find initial high and low values.
+    initial_pkpk = _measure_max(scope, scope_channel)
+
+    # Initial measure is within range, nothing to do.
+    if initial_pkpk >= low_threshold and initial_pkpk <= high_threshold:
+        return start_code
+
+    # Start code is our new *low* code, find the high code.
+    if initial_pkpk < low_threshold:
+        low_code = start_code
+
+        # start at the low code and go up.
+        high_code = low_code
+
+        with output:
+            while True:
+                # To improve seek time, move exponentially.
+                high_code = math.ceil(high_code * 1.1)
+
+                if high_code >= 4095:
+                    high_code = 4095
+                    break
+
+                pkpk = _set_code_and_measure_max(
+                    gem, scope, dac_channel, scope_channel, high_code
                 )
+
+                if pkpk > high_threshold:
+                    break
+
+                print(f"Seeking high code, currently at {high_code}")
                 output.update()
 
-                if dac_code >= 4095:
-                    log.error("DAC overflow! Voltage can not be increased from here!")
-                    dac_code = 4095
+    # Start code is our new *high* value, find the low value.
+    elif initial_pkpk > high_threshold:
+        high_code = start_code
 
-            elif peak_to_peak > high_threshold:
-                # Too high, decrease the DAC code.
-                dac_code -= random.randrange(1, 5)
+        # start at the high code and go down
+        low_code = high_code
 
-                print(
-                    f"│ {tui.rgb(1.0, 1.0, 0.0)}{oscillators.charge_code_to_volts(dac_code):.2f} volts "
-                    f"- Δ({oscillators.charge_code_to_volts(code_diff):.2f}){tui.reset}"
+        with output:
+            while True:
+                low_code = math.floor(low_code * 0.90)
+
+                if low_code <= 1:
+                    low_code = 1
+                    break
+
+                pkpk = _set_code_and_measure_max(
+                    gem, scope, dac_channel, scope_channel, low_code
                 )
+
+                if pkpk < low_threshold:
+                    break
+
+                print(f"Seeking low code, currently at {low_code}")
                 output.update()
 
-                if dac_code < 0:
-                    log.error("DAC underflow!")
-                    return
+    # Phase three: binary search
+    while True:
+        code = low_code + math.floor(((high_code - low_code) / 2))
+        print(f"Trying {code}, low: {low_code}, high: {high_code}... ", end="")
 
+        pkpk = _set_code_and_measure_max(gem, scope, dac_channel, scope_channel, code)
+
+        print(f"measured {pkpk}.")
+
+        # We've exhausted the search.
+        if code == low_code:
+            # TODO: fall back to one-by-one method?
+            if code == 4095:
+                return 4095
+
+            print("Binary search exhausted, re-trying...")
+            low_code = math.floor(low_code * 0.90)
+            high_code = min(math.floor(high_code * 1.10), 4095)
+            continue
+
+        if pkpk > high_threshold:
+            # if setting the high code would just repeat the same code next
+            # iteration, nudge it.
+            if code + 1 == high_code:
+                high_code = min(high_code + 4, 4095)
             else:
-                print(
-                    f"│ {tui.rgb(0.5, 1.0, 0.5)}{oscillators.charge_code_to_volts(dac_code):.2f} volts "
-                    f"✓ Δ({oscillators.charge_code_to_volts(code_diff):.2f}){tui.reset}"
-                )
-                output.update()
-                log.debug(
-                    f"Calibrated to code: {dac_code}, voltage: {oscillators.charge_code_to_volts(dac_code):.2f}v, peak-to-peak: {peak_to_peak:.2f}v, measured frequency: {measured_frequency:.2f}Hz\n"
-                )
-                break
+                high_code = min(code + 1, 4095)
+            continue
 
-    return dac_code
+        elif pkpk < low_threshold:
+            if code - 1 == low_code:
+                low_code = max(low_code - 4, 0)
+            else:
+                low_code = max(code - 1, 0)
+            continue
+
+        else:
+            print(f"Binary search found {code} for {pkpk:.2f} peak-to-peak")
+            return code
+
+    raise RuntimeError("I shouldn't have gotten here...")
 
 
 def _calibrate_oscillator(gem, scope, oscillator):
-    output = tui.Updateable(clear_all=True)
     bar = tui.Bar()
+    output = tui.Updateable()
 
     if oscillator == 0:
+        scope_channel = "c1"
         scope.enable_channel("c1")
         scope.disable_channel("c2")
-        scope.set_trigger_level("c1", 1)
+        dac_channel = 0
     else:
+        scope_channel = "c2"
         scope.enable_channel("c2")
         scope.disable_channel("c1")
-        scope.set_trigger_level("c2", 1)
+        dac_channel = 2
+
+    scope.set_trigger_level(scope_channel, 1)
+    scope.show_measurement(scope_channel, "PKPK")
+    scope.show_measurement(scope_channel, "MAX")
+    scope.set_time_division("10ms")
 
     # Wait a moment for the scope to get ready.
     time.sleep(0.2)
 
-    last_dac_code = 0
+    # Start with the lowest note and manually calibrate it. This will be used
+    # as the reference for other notes.
+    lowest_period = list(period_to_dac_code.keys())[0]
+    start_code = period_to_dac_code[lowest_period]
+    gem.set_period(oscillator, lowest_period)
+    time.sleep(0.2)
+
+    print(
+        "Calibrate first note: use up and down to change DAC code, press enter to accept."
+    )
+
+    with output:
+        while True:
+            gem.set_dac(dac_channel, start_code, 0)
+            print(
+                f"DAC code: {start_code}, voltage: {oscillators.charge_code_to_volts(start_code)}"
+            )
+            output.update()
+            key = keyboard.read()
+            if key == keyboard.UP:
+                start_code += 1
+            elif key == keyboard.DOWN:
+                start_code -= 1
+            elif key == keyboard.ENTER:
+                break
+
+    period_to_dac_code[lowest_period] = start_code
+
+    target_voltage = _measure_max(scope, scope_channel)
+
+    log.info(
+        f"Calibrated {oscillators.timer_period_to_frequency(lowest_period)} to {start_code} with magnitude of {target_voltage}."
+    )
+
+    last_dac_code = start_code
 
     for n, (period, dac_code) in enumerate(period_to_dac_code.items()):
         progress = n / (len(period_to_dac_code) - 1)
 
-        if last_dac_code > dac_code:
+        if dac_code < last_dac_code:
             dac_code = last_dac_code
 
-        if dac_code < 30:
-            dac_code = 30
-
         # Adjust the oscilloscope's time division as needed.
-        frequency = oscillator.timer_period_to_frequency(period)
+        frequency = oscillators.timer_period_to_frequency(period)
 
         if frequency > 500:
             scope.set_time_division("250us")
@@ -163,18 +254,14 @@ def _calibrate_oscillator(gem, scope, oscillator):
         else:
             scope.set_time_division("10ms")
 
-        with output:
-            bar.draw(
-                tui.Segment(
-                    progress, color=tui.gradient(start_color, end_color, progress)
-                ),
-            )
-            print(f"Frequency: {frequency:.2f} Hz, Period: {period}")
-            output.update()
+        bar.draw(
+            tui.Segment(progress, color=tui.gradient(start_color, end_color, progress)),
+        )
+        print(f"Frequency: {frequency:.2f} Hz, Period: {period}")
 
-            period_to_dac_code[period] = last_dac_code = _seek_voltage_on_channel(
-                gem, scope, oscillator, period, dac_code
-            )
+        period_to_dac_code[period] = last_dac_code = _seek_voltage_on_channel(
+            gem, scope, oscillator, period, dac_code, target_voltage
+        )
 
     return period_to_dac_code.copy()
 
@@ -188,6 +275,7 @@ def run(save):
 
     scope.enable_bandwidth_limit()
     scope.set_time_division("10ms")
+    scope.set_vertical_cursor("c1", 0, 3.3)
     scope.set_vertical_division("c1", "800mV")
     scope.set_vertical_division("c2", "800mV")
     scope.set_vertical_offset("c1", -1.65)
@@ -198,23 +286,22 @@ def run(save):
     gem = gemini.Gemini()
     gem.enter_calibration_mode()
 
-    # Calibrate both oscillators
-    log.section("Calibrating Castor...", depth=2)
-
     input(
         "Connect PROBE ONE to RAMP A\nConnect PROBE TWO to RAMP B\n> press enter to start."
     )
-    castor_calibration = _calibrate_oscillator(gem, scope, 0)
 
-    lowest_voltage = oscillators.charge_code_to_volts(min(castor_calibration.values()))
-    highest_voltage = oscillators.charge_code_to_volts(max(castor_calibration.values()))
+    # Calibrate both oscillators
+    log.section("Calibrating Pollux...", depth=2)
+    pollux_calibration = _calibrate_oscillator(gem, scope, 1)
+
+    lowest_voltage = oscillators.charge_code_to_volts(min(pollux_calibration.values()))
+    highest_voltage = oscillators.charge_code_to_volts(max(pollux_calibration.values()))
     log.success(
         f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
     )
 
-    log.section("Calibrating Pollux...", depth=2)
-
-    pollux_calibration = _calibrate_oscillator(gem, scope, 1)
+    log.section("Calibrating Castor...", depth=2)
+    castor_calibration = _calibrate_oscillator(gem, scope, 0)
 
     lowest_voltage = oscillators.charge_code_to_volts(min(castor_calibration.values()))
     highest_voltage = oscillators.charge_code_to_volts(max(castor_calibration.values()))
