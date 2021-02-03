@@ -26,6 +26,7 @@ struct GemVoltageAndPeriod {
 /* The configuration values for this struct are calibrated after assembly, therefore
    they are stored in NVM so they're a separate struct. */
 struct GemDACCodePair {
+    uint32_t period;
     uint16_t castor;
     uint16_t pollux;
 };
@@ -35,9 +36,4 @@ struct GemVoiceParams {
     struct GemDACCodePair dac_codes;
 };
 
-void GemVoiceParams_from_cv(
-    const struct GemVoltageAndPeriod* volt_table,
-    struct GemDACCodePair* dac_table,
-    size_t table_len,
-    fix16_t voltage,
-    struct GemVoiceParams* out);
+void GemVoiceParams_from_cv(fix16_t voltage, struct GemVoiceParams* out);
