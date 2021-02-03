@@ -50,14 +50,14 @@ def main(output_file):
             )
         )
 
-        for note in oscillators.midi_note_range():
+        for note in oscillators.calibration_note_range():
             voltage = oscillators.midi_note_to_voltage(note)
             frequency = oscillators.midi_note_to_frequency(note)
             period_reg = oscillators.frequency_to_timer_period(frequency)
             dac_code_castor = reference_calibration.castor[period_reg]
             dac_code_pollux = reference_calibration.pollux[period_reg]
             fh.write(
-                f"  {{.castor = {dac_code_castor}, .pollux = {dac_code_pollux} }},\n"
+                f"  {{.period = {period_reg}, .castor = {dac_code_castor}, .pollux = {dac_code_pollux} }},\n"
             )
 
         fh.write(
@@ -65,7 +65,8 @@ def main(output_file):
                 """\
         };
 
-        size_t gem_voice_param_table_len = sizeof(gem_voice_voltage_and_period_table) / sizeof(struct GemVoltageAndPeriod);
+        size_t gem_voice_voltage_and_period_table_len = sizeof(gem_voice_voltage_and_period_table) / sizeof(struct GemVoltageAndPeriod);
+        size_t gem_voice_dac_codes_table_len = sizeof(gem_voice_dac_codes_table) / sizeof(struct GemDACCodePair);
 
         /* clang-format on */
         """

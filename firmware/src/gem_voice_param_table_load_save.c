@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <string.h>
 
-#define VALID_TABLE_MARKER 0x41
+#define VALID_TABLE_MARKER 0x43
 #define BUFFER_LEN 512
 
 extern uint8_t _nvm_lut_base_address;
@@ -40,9 +40,10 @@ void gem_load_dac_codes_table() {
     }
 
     uint16_t checksum = 0;
-    for (size_t table_idx = 0; table_idx < gem_voice_param_table_len; table_idx++) {
-        gem_voice_dac_codes_table[table_idx].castor = WNTR_UNPACK_16(param_table_load_buf_, table_idx * 4);
-        gem_voice_dac_codes_table[table_idx].pollux = WNTR_UNPACK_16(param_table_load_buf_, table_idx * 4 + 2);
+    for (size_t table_idx = 0; table_idx < gem_voice_dac_codes_table_len; table_idx++) {
+        gem_voice_dac_codes_table[table_idx].period = WNTR_UNPACK_32(param_table_load_buf_, table_idx * 4);
+        gem_voice_dac_codes_table[table_idx].castor = WNTR_UNPACK_16(param_table_load_buf_, table_idx * 4 + 4);
+        gem_voice_dac_codes_table[table_idx].pollux = WNTR_UNPACK_16(param_table_load_buf_, table_idx * 4 + 6);
 
         checksum ^= gem_voice_dac_codes_table[table_idx].castor;
     }
@@ -51,9 +52,10 @@ void gem_load_dac_codes_table() {
 }
 
 void gem_save_dac_codes_table() {
-    for (size_t table_idx = 0; table_idx < gem_voice_param_table_len; table_idx++) {
-        WNTR_PACK_16(gem_voice_dac_codes_table[table_idx].castor, param_table_load_buf_, table_idx * 4);
-        WNTR_PACK_16(gem_voice_dac_codes_table[table_idx].pollux, param_table_load_buf_, table_idx * 4 + 2);
+    for (size_t table_idx = 0; table_idx < gem_voice_dac_codes_table_len; table_idx++) {
+        WNTR_PACK_32(gem_voice_dac_codes_table[table_idx].period, param_table_load_buf_, table_idx * 4)
+        WNTR_PACK_16(gem_voice_dac_codes_table[table_idx].castor, param_table_load_buf_, table_idx * 4 + 4);
+        WNTR_PACK_16(gem_voice_dac_codes_table[table_idx].pollux, param_table_load_buf_, table_idx * 4 + 6);
     }
 
     param_table_load_buf_[BUFFER_LEN - 1] = VALID_TABLE_MARKER;
