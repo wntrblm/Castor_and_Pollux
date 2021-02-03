@@ -5,11 +5,18 @@
 */
 
 #include "wntr_assert.h"
-#include "printf.h"
-#include "sam.h"
 #include "wntr_mtb.h"
 
+#ifdef __arm__
+#include "printf.h"
+#include "sam.h"
+#else
+#include <assert.h>
+#include <stdio.h>
+#endif
+
 void _wntr_assert(const char* file, int line) {
+#ifdef __arm__
     /*
         Disable the micro trace buffer so that the following operations don't
         pollute the MTB.
@@ -18,6 +25,7 @@ void _wntr_assert(const char* file, int line) {
 
     /* Nothing should interrupt this. */
     __disable_irq();
+#endif
 
     /*
         Print out the file & line using printf. This can be viewed using
@@ -25,6 +33,7 @@ void _wntr_assert(const char* file, int line) {
     */
     printf("Assertion failed @ %s:%d.", file, line);
 
+#ifdef __arm__
     /*
         Is a debugger present? if so, break. This register is specific to
         the SAMD21
@@ -35,4 +44,7 @@ void _wntr_assert(const char* file, int line) {
 
     /* Failed assertions are never recoverable. Reset the system. */
     NVIC_SystemReset();
+#else
+    assert(0);
+#endif
 }
