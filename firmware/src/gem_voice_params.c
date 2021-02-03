@@ -77,6 +77,9 @@ void GemVoiceParams_from_cv(fix16_t pitch_control_voltage, struct GemVoiceParams
         and interpolation. The lookup table for DAC codes is a bit smaller
         than the one for voltage & period. Also note that the period is sorted
         in decreasing order in the table, so this looks inverted.
+
+        Also of note is that since this uses the period register instead of the
+        frequency it isn't *quite* linear with frequency, but it's close enough.
     */
     find_nearest_pair_with_period_(out->voltage_and_period.period, &low.dac_codes, &high.dac_codes);
 
