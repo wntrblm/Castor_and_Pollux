@@ -15,7 +15,7 @@ uint32_t _ms_ticks;
 
 void wntr_ticks_init() {
     /* 1ms per tick. */
-    SysTick_Config(F_CPU / 1000);
+    SysTick_Config(SystemCoreClock / 1000);
 }
 
 uint32_t wntr_ticks() { return _ms_ticks; }

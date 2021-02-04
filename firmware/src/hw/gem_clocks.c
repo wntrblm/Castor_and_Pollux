@@ -56,6 +56,9 @@ void gem_clocks_init() {
     /* GENCTRL is Write-Synchronized...so wait for write to complete */
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
+    /* CPU clock is now 48 MHz */
+    SystemCoreClock = 48000000;
+
     /* Configure GCLK1 to follow the 8MHz oscillator.
         This is used to clock the ADC & TCC peripherals.
     */
