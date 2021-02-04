@@ -74,11 +74,6 @@ MCU = "SAMD21G18A"
 # - cortex-m7
 CPU = "cortex-m0plus"
 
-# The usual CPU clock frequency. This is used to determine SysTick frequency
-# and timing calculations, such as baudrates for SERCOMs. Gemini runs the
-# SAMD21 at it's maximum 48 MHz clock.
-F_CPU = 48_000_000
-
 # Floating point unit type.
 # - Cortex M0+: auto (emulated)
 # - Cortex M4F: fpv4-sp-d16
@@ -103,9 +98,6 @@ LINKER_SCRIPT = f"scripts/{MCU.lower()}.ld"
 
 
 # Translate the options above into necessary defines.
-
-# Used in gem_systick.c
-DEFINES["F_CPU"] = F_CPU
 
 # Used in CMSIS device support header. See sam.h.
 DEFINES[f"__{MCU}__"] = 1
