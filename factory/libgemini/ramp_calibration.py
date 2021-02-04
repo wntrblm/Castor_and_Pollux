@@ -4,7 +4,6 @@
 
 import argparse
 import json
-import math
 import os.path
 import pathlib
 import statistics
@@ -36,28 +35,8 @@ def _set_code_and_measure_max(gem, scope, dac_channel, scope_channel, code):
     return _measure_max(scope, scope_channel)
 
 
-def _seek_voltage_on_channel(
-    gem, scope, oscillator, period, start_code, target_voltage
-):
+def _wait_for_frequency(scope, frequency):
     output = tui.Updateable(clear_all=True)
-    frequency = oscillators.timer_period_to_frequency(period)
-    low_threshold, high_threshold = target_voltage - 0.15, target_voltage + 0.05
-    low_code, high_code = 0, 0
-
-    if oscillator == 0:
-        dac_channel = 0
-        scope_channel = "c1"
-    else:
-        dac_channel = 2
-        scope_channel = "c2"
-
-    gem.set_period(oscillator, period)
-    gem.set_dac(dac_channel, start_code, vref=0)
-
-    # Let things settle.
-    time.sleep(0.01)
-
-    # Phase one: wait for frequency to be within range.
     with output:
         while True:
             measured_frequency = scope.get_frequency()
@@ -71,113 +50,37 @@ def _seek_voltage_on_channel(
                 output.update()
                 time.sleep(0.2)
                 continue
-
             break
 
-    # Phase two: find initial high and low values.
-    initial_pkpk = _measure_max(scope, scope_channel)
 
-    # Initial measure is within range, nothing to do.
-    if initial_pkpk >= low_threshold and initial_pkpk <= high_threshold:
-        return start_code
+def _manual_seek(gem, dac_channel, charge_code):
+    output = tui.Updateable()
 
-    # Start code is our new *low* code, find the high code.
-    if initial_pkpk < low_threshold:
-        low_code = start_code
+    with output:
+        while True:
+            gem.set_dac(dac_channel, charge_code, 0)
+            print(
+                f"code: {charge_code}, voltage: {oscillators.charge_code_to_volts(charge_code)}. up/down to adjust, enter to accept."
+            )
+            output.update()
+            key = keyboard.read()
+            if key == keyboard.UP:
+                charge_code += 1
+            elif key == keyboard.DOWN:
+                charge_code -= 1
+            elif key == keyboard.ENTER:
+                break
 
-        # start at the low code and go up.
-        high_code = low_code
+            if charge_code > 4095:
+                charge_code = 4095
+            if charge_code < 0:
+                charge_code = 0
 
-        with output:
-            while True:
-                # To improve seek time, move exponentially.
-                high_code = math.ceil(high_code * 1.1)
-
-                if high_code >= 4095:
-                    high_code = 4095
-                    break
-
-                pkpk = _set_code_and_measure_max(
-                    gem, scope, dac_channel, scope_channel, high_code
-                )
-
-                if pkpk > high_threshold:
-                    break
-
-                print(f"Seeking high code, currently at {high_code}")
-                output.update()
-
-    # Start code is our new *high* value, find the low value.
-    elif initial_pkpk > high_threshold:
-        high_code = start_code
-
-        # start at the high code and go down
-        low_code = high_code
-
-        with output:
-            while True:
-                low_code = math.floor(low_code * 0.90)
-
-                if low_code <= 1:
-                    low_code = 1
-                    break
-
-                pkpk = _set_code_and_measure_max(
-                    gem, scope, dac_channel, scope_channel, low_code
-                )
-
-                if pkpk < low_threshold:
-                    break
-
-                print(f"Seeking low code, currently at {low_code}")
-                output.update()
-
-    # Phase three: binary search
-    while True:
-        code = low_code + math.floor(((high_code - low_code) / 2))
-        print(f"Trying {code}, low: {low_code}, high: {high_code}... ", end="")
-
-        pkpk = _set_code_and_measure_max(gem, scope, dac_channel, scope_channel, code)
-
-        print(f"measured {pkpk}.")
-
-        # We've exhausted the search.
-        if code == low_code:
-            # TODO: fall back to one-by-one method?
-            if code == 4095:
-                return 4095
-
-            print("Binary search exhausted, re-trying...")
-            low_code = math.floor(low_code * 0.90)
-            high_code = min(math.floor(high_code * 1.10), 4095)
-            continue
-
-        if pkpk > high_threshold:
-            # if setting the high code would just repeat the same code next
-            # iteration, nudge it.
-            if code + 1 == high_code:
-                high_code = min(high_code + 4, 4095)
-            else:
-                high_code = min(code + 1, 4095)
-            continue
-
-        elif pkpk < low_threshold:
-            if code - 1 == low_code:
-                low_code = max(low_code - 4, 0)
-            else:
-                low_code = max(code - 1, 0)
-            continue
-
-        else:
-            print(f"Binary search found {code} for {pkpk:.2f} peak-to-peak")
-            return code
-
-    raise RuntimeError("I shouldn't have gotten here...")
+    return charge_code
 
 
 def _calibrate_oscillator(gem, scope, oscillator):
     bar = tui.Bar()
-    output = tui.Updateable()
 
     if oscillator == 0:
         scope_channel = "c1"
@@ -198,41 +101,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
     # Wait a moment for the scope to get ready.
     time.sleep(0.2)
 
-    # Start with the lowest note and manually calibrate it. This will be used
-    # as the reference for other notes.
-    lowest_period = list(period_to_dac_code.keys())[0]
-    start_code = period_to_dac_code[lowest_period]
-    gem.set_period(oscillator, lowest_period)
-    time.sleep(0.2)
-
-    print(
-        "Calibrate first note: use up and down to change DAC code, press enter to accept."
-    )
-
-    with output:
-        while True:
-            gem.set_dac(dac_channel, start_code, 0)
-            print(
-                f"DAC code: {start_code}, voltage: {oscillators.charge_code_to_volts(start_code)}"
-            )
-            output.update()
-            key = keyboard.read()
-            if key == keyboard.UP:
-                start_code += 1
-            elif key == keyboard.DOWN:
-                start_code -= 1
-            elif key == keyboard.ENTER:
-                break
-
-    period_to_dac_code[lowest_period] = start_code
-
-    target_voltage = _measure_max(scope, scope_channel)
-
-    log.info(
-        f"Calibrated {oscillators.timer_period_to_frequency(lowest_period)} to {start_code} with magnitude of {target_voltage}."
-    )
-
-    last_dac_code = start_code
+    last_dac_code = 0
 
     for n, (period, dac_code) in enumerate(period_to_dac_code.items()):
         progress = n / (len(period_to_dac_code) - 1)
@@ -257,11 +126,24 @@ def _calibrate_oscillator(gem, scope, oscillator):
         bar.draw(
             tui.Segment(progress, color=tui.gradient(start_color, end_color, progress)),
         )
-        print(f"Frequency: {frequency:.2f} Hz, Period: {period}")
 
-        period_to_dac_code[period] = last_dac_code = _seek_voltage_on_channel(
-            gem, scope, oscillator, period, dac_code, target_voltage
+        log.info(f"Calibrating ramp for {frequency=:.2f} Hz {period=}")
+
+        gem.set_period(oscillator, period)
+
+        _wait_for_frequency(scope, frequency)
+
+        calibrated_code = _manual_seek(gem, dac_channel, dac_code)
+
+        period_to_dac_code[period] = calibrated_code
+
+        magnitude = _measure_max(scope, scope_channel)
+
+        log.success(
+            f"Calibrated to {calibrated_code} ({oscillators.charge_code_to_volts(calibrated_code)} volts), magnitude: {magnitude:.2f} volts"
         )
+
+        last_dac_code = calibrated_code
 
     return period_to_dac_code.copy()
 
@@ -291,20 +173,20 @@ def run(save):
     )
 
     # Calibrate both oscillators
-    log.section("Calibrating Pollux...", depth=2)
-    pollux_calibration = _calibrate_oscillator(gem, scope, 1)
-
-    lowest_voltage = oscillators.charge_code_to_volts(min(pollux_calibration.values()))
-    highest_voltage = oscillators.charge_code_to_volts(max(pollux_calibration.values()))
-    log.success(
-        f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
-    )
-
     log.section("Calibrating Castor...", depth=2)
     castor_calibration = _calibrate_oscillator(gem, scope, 0)
 
     lowest_voltage = oscillators.charge_code_to_volts(min(castor_calibration.values()))
     highest_voltage = oscillators.charge_code_to_volts(max(castor_calibration.values()))
+    log.success(
+        f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
+    )
+
+    log.section("Calibrating Pollux...", depth=2)
+    pollux_calibration = _calibrate_oscillator(gem, scope, 1)
+
+    lowest_voltage = oscillators.charge_code_to_volts(min(pollux_calibration.values()))
+    highest_voltage = oscillators.charge_code_to_volts(max(pollux_calibration.values()))
     log.success(
         f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
     )
@@ -331,7 +213,7 @@ def run(save):
 
         with output:
             for n, timer_period in enumerate(castor_calibration.keys()):
-                progress = n / (len(table.values()) - 1)
+                progress = n / (len(castor_calibration.values()) - 1)
                 bar.draw(
                     tui.Segment(
                         progress,
@@ -340,12 +222,14 @@ def run(save):
                 )
                 output.update()
 
-                castor_code = castor_calibration[timer_period];
+                castor_code = castor_calibration[timer_period]
                 pollux_code = pollux_calibration[timer_period]
 
                 gem.write_lut_entry(n, timer_period, castor_code, pollux_code)
 
-                log.debug(f"Set LUT entry {n} to period={timer_period}, castor={castor_code}, pollux={pollux_code}.")
+                log.debug(
+                    f"Set LUT entry {n} to {timer_period=}, {castor_code=}, {pollux_code=}."
+                )
 
         log.info("Committing LUT to NVM...")
         gem.write_lut()
