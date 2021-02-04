@@ -18,7 +18,7 @@ SRCS = [
     # libwinter is common winterbloom code.
     "third_party/libwinter/*.c",
     # Contains the main entrypoint for the processor and the ARM exception
-    # table.
+    # table. TODO: this should be pulled into the application.
     "third_party/samd21/gcc/gcc/startup_samd21.c",
     # Tiny printf
     "third_party/printf/*.c",
@@ -58,9 +58,6 @@ DEFINES = dict(
     # - Disable float support since we don't use floats in Gemini.
     PRINTF_DISABLE_SUPPORT_FLOAT=1,
     PRINTF_DISABLE_SUPPORT_EXPONENTIAL=1,
-    # For now, Gemini doesn't use SystemInit()/SystemCoreClock from CMSIS
-    # See: https://www.keil.com/pack/doc/cmsis/Core/html/group__system__init__gr.html
-    DONT_USE_CMSIS_INIT=1,
 )
 
 
