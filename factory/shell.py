@@ -33,6 +33,10 @@ def set_oscillators_to_note(note, calibration=reference_calibration):
 
 
 def sweep_notes(calibration=reference_calibration):
+    # Set the PWM DACs to 50%
+    gem.set_dac(1, 2048, 0)
+    gem.set_dac(3, 2048, 0)
+
     for n in range(12, 94):
         set_oscillators_to_note(n, calibration=reference_calibration)
         time.sleep(0.5)
