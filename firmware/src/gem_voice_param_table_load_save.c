@@ -7,12 +7,14 @@
 #include "gem_nvm.h"
 #include "gem_voice_param_table.h"
 #include "printf.h"
+#include "wntr_assert.h"
 #include "wntr_pack.h"
 #include <stdbool.h>
 #include <string.h>
 
 #define VALID_TABLE_MARKER 0x43
 #define BUFFER_LEN 512
+#define ENTRY_SIZE 8
 
 extern uint8_t _nvm_lut_base_address;
 extern uint8_t _nvm_lut_length;
@@ -41,9 +43,9 @@ void gem_load_dac_codes_table() {
 
     uint16_t checksum = 0;
     for (size_t table_idx = 0; table_idx < gem_voice_dac_codes_table_len; table_idx++) {
-        gem_voice_dac_codes_table[table_idx].period = WNTR_UNPACK_32(param_table_load_buf_, table_idx * 4);
-        gem_voice_dac_codes_table[table_idx].castor = WNTR_UNPACK_16(param_table_load_buf_, table_idx * 4 + 4);
-        gem_voice_dac_codes_table[table_idx].pollux = WNTR_UNPACK_16(param_table_load_buf_, table_idx * 4 + 6);
+        gem_voice_dac_codes_table[table_idx].period = WNTR_UNPACK_32(param_table_load_buf_, table_idx * ENTRY_SIZE);
+        gem_voice_dac_codes_table[table_idx].castor = WNTR_UNPACK_16(param_table_load_buf_, table_idx * ENTRY_SIZE + 4);
+        gem_voice_dac_codes_table[table_idx].pollux = WNTR_UNPACK_16(param_table_load_buf_, table_idx * ENTRY_SIZE + 6);
 
         checksum ^= gem_voice_dac_codes_table[table_idx].castor;
     }
@@ -52,10 +54,12 @@ void gem_load_dac_codes_table() {
 }
 
 void gem_save_dac_codes_table() {
+    WNTR_ASSERT_DEBUG(BUFFER_LEN >= gem_voice_dac_codes_table_len * 8 + 1);
+
     for (size_t table_idx = 0; table_idx < gem_voice_dac_codes_table_len; table_idx++) {
-        WNTR_PACK_32(gem_voice_dac_codes_table[table_idx].period, param_table_load_buf_, table_idx * 4)
-        WNTR_PACK_16(gem_voice_dac_codes_table[table_idx].castor, param_table_load_buf_, table_idx * 4 + 4);
-        WNTR_PACK_16(gem_voice_dac_codes_table[table_idx].pollux, param_table_load_buf_, table_idx * 4 + 6);
+        WNTR_PACK_32(gem_voice_dac_codes_table[table_idx].period, param_table_load_buf_, table_idx * ENTRY_SIZE)
+        WNTR_PACK_16(gem_voice_dac_codes_table[table_idx].castor, param_table_load_buf_, table_idx * ENTRY_SIZE + 4);
+        WNTR_PACK_16(gem_voice_dac_codes_table[table_idx].pollux, param_table_load_buf_, table_idx * ENTRY_SIZE + 6);
     }
 
     param_table_load_buf_[BUFFER_LEN - 1] = VALID_TABLE_MARKER;

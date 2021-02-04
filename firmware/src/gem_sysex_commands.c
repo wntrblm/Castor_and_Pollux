@@ -274,7 +274,7 @@ static void cmd_0x09_write_settings(const uint8_t* data, size_t len) {
 
 static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
     /* Request (teeth): ENTRY(1) PERIOD(4) CASTOR_CODE(2) POLLUX_CODE(2) */
-    DECODE_TEETH_REQUEST(4);
+    DECODE_TEETH_REQUEST(9);
 
     size_t entry = request[0];
     uint32_t period = WNTR_UNPACK_32(request, 1);
@@ -285,9 +285,9 @@ static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
         return;
     }
 
-    printf("Set LUT entry %u to %u & %u\r\n", entry, castor_code, pollux_code);
+    printf("Set LUT entry %u to period=%u, castor=%u, pollux=%u\r\n", entry, period, castor_code, pollux_code);
 
-    gem_voice_dac_codes_table->period = period;
+    gem_voice_dac_codes_table[entry].period = period;
     gem_voice_dac_codes_table[entry].castor = castor_code;
     gem_voice_dac_codes_table[entry].pollux = pollux_code;
 
