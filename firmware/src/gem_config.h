@@ -119,13 +119,6 @@ enum GemADCChannels {
     GEM_IN_COUNT,
 };
 
-/*
-    The ADC has very non-linear output towards the lower end of its range. This
-    is generally okay, but causes some jumping for the pitch knobs. This
-    sets the threshold measurement code below which Gemini just rounds down to
-    zero.
-*/
-#define GEM_ADC_LINEAR_REGION_CUTOFF 20
 #define GEM_CV_INPUT_RANGE F16(6.0)
 #define GEM_CV_BASE_OFFSET F16(1.0)
 #define GEM_TWEAK_MAX_LFO_FREQUENCY F16(5)
