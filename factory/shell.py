@@ -1,3 +1,4 @@
+import statistics
 import time
 
 import IPython
@@ -52,6 +53,10 @@ def sweep_notes_with_fallback():
 
 def get_oscilloscope():
     return wintertools.oscilloscope.Oscilloscope(_visa_resources_mgr)
+
+
+def read_adc_average(channel, count=100):
+    return statistics.mean([gem.read_adc(channel) for _ in range(count)])
 
 
 gem.enter_calibration_mode()
