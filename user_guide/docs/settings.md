@@ -106,14 +106,14 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         </div>
         <span class="form-message">The following settings determine how the module corrects for gain and offset errors in its ADC.</span>
         <div class="form-group">
-            <label for="adc_gain_corr">Knob gain correction</label>
-            <input type="number" name="knob_gain_corr" class="form-control" value="1" min="0.5" max="2.0" readonly />
-            <span class="form-unit"><span id="knob_gain_corr_display_value"></span>x multiplier</span>
+            <label for="cv_gain_error">CV input gain correction</label>
+            <input type="number" name="cv_gain_error" class="form-control" value="1" min="0.5" max="2.0" readonly />
+            <span class="form-unit"><span id="cv_gain_error_display_value"></span>x multiplier</span>
         </div>
         <div class="form-group">
-            <label for="knob_gain_corr">Knob offset correction</label>
-            <input type="number" name="knob_offset_corr" class="form-control" value="0" readonly />
-            <span class="form-unit"><span id="knob_offset_corr_display_value"></span> code points</span>
+            <label for="cv_offset_error">CV input error correction</label>
+            <input type="number" name="cv_offset_error" class="form-control" value="0" readonly />
+            <span class="form-unit"><span id="cv_offset_error_display_value"></span> code points</span>
         </div>
         <div class="form-group">
             <label for="adc_gain_corr">ADC gain correction</label>
