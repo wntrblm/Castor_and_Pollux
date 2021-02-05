@@ -17,8 +17,8 @@ void GemSettings_init(struct GemSettings* inst) {
     inst->pollux_knob_max = F16(1.01);
     inst->chorus_max_intensity = F16(0.05);
     inst->lfo_frequency = F16(0.2);
-    inst->knob_offset_corr = F16(0.0);
-    inst->knob_gain_corr = F16(1.0);
+    inst->cv_offset_error = F16(0.0);
+    inst->cv_gain_error = F16(1.0);
     inst->smooth_initial_gain = F16(0.1);
     inst->smooth_sensitivity = F16(30.0);
     inst->pollux_follower_threshold = 56;
@@ -41,8 +41,8 @@ struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* b
         inst->pollux_knob_max,
         inst->chorus_max_intensity,
         inst->lfo_frequency,
-        inst->knob_offset_corr,
-        inst->knob_gain_corr,
+        inst->cv_offset_error,
+        inst->cv_gain_error,
         inst->smooth_initial_gain,
         inst->smooth_sensitivity,
         inst->pollux_follower_threshold,
@@ -65,8 +65,8 @@ struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t*
         &inst->pollux_knob_max,
         &inst->chorus_max_intensity,
         &inst->lfo_frequency,
-        &inst->knob_offset_corr,
-        &inst->knob_gain_corr,
+        &inst->cv_offset_error,
+        &inst->cv_gain_error,
         &inst->smooth_initial_gain,
         &inst->smooth_sensitivity,
         &inst->pollux_follower_threshold,
@@ -113,13 +113,13 @@ void GemSettings_print(const struct GemSettings* inst) {
     }
     {
         char fix16buf[13];
-        fix16_to_str(inst->knob_offset_corr, fix16buf, 2);
-        STRUCTY_PRINTF("- knob_offset_corr: %s\n", fix16buf);
+        fix16_to_str(inst->cv_offset_error, fix16buf, 2);
+        STRUCTY_PRINTF("- cv_offset_error: %s\n", fix16buf);
     }
     {
         char fix16buf[13];
-        fix16_to_str(inst->knob_gain_corr, fix16buf, 2);
-        STRUCTY_PRINTF("- knob_gain_corr: %s\n", fix16buf);
+        fix16_to_str(inst->cv_gain_error, fix16buf, 2);
+        STRUCTY_PRINTF("- cv_gain_error: %s\n", fix16buf);
     }
     {
         char fix16buf[13];

@@ -26,7 +26,7 @@ static struct GemSettings settings;
 static uint32_t adc_results_live[GEM_IN_COUNT];
 static uint32_t adc_results_snapshot[GEM_IN_COUNT];
 static uint32_t* adc_results = adc_results_live;
-static struct GemADCErrors knob_errors;
+static struct GemADCErrors cv_adc_errors;
 static struct WntrButton hard_sync_button = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
 static bool hard_sync = false;
 static struct WntrPeriodicWaveform lfo;
@@ -140,7 +140,7 @@ static void init() {
     WntrPeriodicWaveform_init(&lfo, wntr_triangle, settings.lfo_frequency);
 
     /* Setup oscillators. */
-    knob_errors = (struct GemADCErrors){.offset = settings.knob_offset_corr, .gain = settings.knob_gain_corr};
+    cv_adc_errors = (struct GemADCErrors){.offset = settings.cv_gain_error, .gain = settings.cv_offset_error};
 
     castor.knob_min = settings.castor_knob_min;
     castor.knob_range = fix16_sub(settings.castor_knob_max, settings.castor_knob_min);
@@ -170,17 +170,14 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
         enough of an input to calculate the pitch cv from the input.
     */
     if (follower_threshold == 0 || cv_adc_code > follower_threshold) {
-        osc->pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, ADC_TO_F16(cv_adc_code)));
+        fix16_t cv_adc = gem_adc_correct_errors(ADC_TO_F16(cv_adc_code), cv_adc_errors);
+        osc->pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, cv_adc));
     } else {
         osc->pitch_cv = osc->pitch;
     }
 
     uint16_t knob_adc_code = adc_results[osc->pitch_knob_channel];
-    if (knob_adc_code <= GEM_ADC_LINEAR_REGION_CUTOFF) {
-        knob_adc_code = 0;
-    }
-    fix16_t knob_value =
-        fix16_sub(F16(1.0), fix16_div(gem_adc_correct_errors(fix16_from_int(knob_adc_code), knob_errors), F16(4095.0)));
+    fix16_t knob_value = fix16_sub(F16(1.0), fix16_div(fix16_from_int(knob_adc_code), F16(4095.0)));
     /* Adjust the knob value using the non-linear lookup table. */
     knob_value = wntr_bezier_1d_lut_lookup(knob_bezier_lut, GEM_KNOB_BEZIER_LUT_LEN, knob_value);
     /* And apply the user's range settings. */

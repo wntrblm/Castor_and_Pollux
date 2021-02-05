@@ -22,18 +22,18 @@ class GemSettings:
     """The default LFO frequency in hertz."""
     lfo_frequency: fix16 = 0.2
 
-    """Error correction for the ADC readings for the CV and PWM knobs."""
-    knob_offset_corr: fix16 = 0.0
-    knob_gain_corr: fix16 = 1.0
+    """Error correction for the ADC readings for the CV input."""
+    cv_offset_error: fix16 = 0.0
+    cv_gain_error: fix16 = 1.0
 
     """Pitch input CV smoothing parameters."""
     smooth_initial_gain: fix16 = 0.1
     smooth_sensitivity: fix16 = 30.0
 
     """This is the "deadzone" for Pollux's pitch CV input, basically, it
-       should be around 0v and it's the point where Pollux starts following
-       Castor's pitch CV. By default this is 6 code points to allow some
-       variance in time and temperature."""
+        should be around 0v and it's the point where Pollux starts following
+        Castor's pitch CV. By default this is 56 code points to allow some
+        variance in time and temperature."""
     pollux_follower_threshold: uint16 = 56
 
     """Route LFO to PWM for oscillators"""
@@ -41,11 +41,11 @@ class GemSettings:
     pollux_lfo_pwm: bool = False
 
     """The firmware adjusts the pitch CV knobs so that it's easier to tune
-       the oscillators. It does this by spreading the values near the center
-       of the knob out so that the range at the center is more fine. This
-       makes the knobs non-linear. This setting controls how "intense"
-       this non-linearity is. A value of 0.33 is equivalent to a linear
-       response. Higher values make it easier and easier to tune the
-       oscillator but sacrifice the range, values lower than 0.33 will
-       make it harder to tune and aren't recommended."""
+        the oscillators. It does this by spreading the values near the center
+        of the knob out so that the range at the center is more fine. This
+        makes the knobs non-linear. This setting controls how "intense"
+        this non-linearity is. A value of 0.33 is equivalent to a linear
+        response. Higher values make it easier and easier to tune the
+        oscillator but sacrifice the range, values lower than 0.33 will
+        make it harder to tune and aren't recommended."""
     pitch_knob_nonlinearity: fix16 = 0.6
