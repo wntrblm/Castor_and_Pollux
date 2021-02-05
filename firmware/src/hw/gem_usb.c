@@ -22,10 +22,10 @@ void gem_usb_init() {
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
     /* Configure pins for USB. */
-    gem_gpio_set_as_output(0, 24);
-    gem_gpio_set_as_output(0, 25);
-    gem_gpio_set_mux(0, 24, GEM_PMUX_G);
-    gem_gpio_set_mux(0, 25, GEM_PMUX_G);
+    wntr_gpio_set_as_output(0, 24);
+    wntr_gpio_set_as_output(0, 25);
+    wntr_gpio_configure_alt(0, 24, GEM_PMUX_G);
+    wntr_gpio_configure_alt(0, 25, GEM_PMUX_G);
 
     /* Set the priority for the USB interrupt. */
     NVIC_SetPriority(USB_IRQn, 1);

@@ -122,8 +122,8 @@ void gem_adc_set_error_correction(uint16_t gain, uint16_t offset) {
 }
 
 void gem_adc_init_input(const struct GemADCInput* input) {
-    gem_gpio_set_as_input(input->port, input->pin, false);
-    gem_gpio_set_mux(input->port, input->pin, GEM_PMUX_B);
+    wntr_gpio_set_as_input(input->port, input->pin, false);
+    wntr_gpio_configure_alt(input->port, input->pin, GEM_PMUX_B);
 }
 
 uint16_t gem_adc_read_sync(const struct GemADCInput* input) {
