@@ -38,7 +38,7 @@ def main():
     column_size = max(tui.width() / 10, 12)
     columns = tui.Columns(*[f">{column_size}"] * 4)
 
-    output = tui.Updateable()
+    output = tui.Updateable(clear_all=False)
 
     with output:
         while True:
