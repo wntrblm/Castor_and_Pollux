@@ -38,10 +38,10 @@ class GemSettings(structy.Struct):
     lfo_frequency: structy.Fix16 = 0.2
     """The default LFO frequency in hertz."""
 
-    knob_offset_corr: structy.Fix16 = 0.0
-    """Error correction for the ADC readings for the CV and PWM knobs."""
+    cv_offset_error: structy.Fix16 = 0.0
+    """Error correction for the ADC readings for the CV input."""
 
-    knob_gain_corr: structy.Fix16 = 1.0
+    cv_gain_error: structy.Fix16 = 1.0
 
     smooth_initial_gain: structy.Fix16 = 0.1
     """Pitch input CV smoothing parameters."""
@@ -50,9 +50,9 @@ class GemSettings(structy.Struct):
 
     pollux_follower_threshold: int = 56
     """This is the "deadzone" for Pollux's pitch CV input, basically, it
-           should be around 0v and it's the point where Pollux starts following
-           Castor's pitch CV. By default this is 6 code points to allow some
-           variance in time and temperature."""
+            should be around 0v and it's the point where Pollux starts following
+            Castor's pitch CV. By default this is 56 code points to allow some
+            variance in time and temperature."""
 
     castor_lfo_pwm: bool = False
     """Route LFO to PWM for oscillators"""
@@ -61,10 +61,10 @@ class GemSettings(structy.Struct):
 
     pitch_knob_nonlinearity: structy.Fix16 = 0.6
     """The firmware adjusts the pitch CV knobs so that it's easier to tune
-           the oscillators. It does this by spreading the values near the center
-           of the knob out so that the range at the center is more fine. This
-           makes the knobs non-linear. This setting controls how "intense"
-           this non-linearity is. A value of 0.33 is equivalent to a linear
-           response. Higher values make it easier and easier to tune the
-           oscillator but sacrifice the range, values lower than 0.33 will
-           make it harder to tune and aren't recommended."""
+            the oscillators. It does this by spreading the values near the center
+            of the knob out so that the range at the center is more fine. This
+            makes the knobs non-linear. This setting controls how "intense"
+            this non-linearity is. A value of 0.33 is equivalent to a linear
+            response. Higher values make it easier and easier to tune the
+            oscillator but sacrifice the range, values lower than 0.33 will
+            make it harder to tune and aren't recommended."""
