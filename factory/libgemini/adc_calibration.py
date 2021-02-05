@@ -8,83 +8,166 @@ import pathlib
 import statistics
 import time
 
-from wintertools import log
+from wintertools import log, tui
 
 from libgemini import adc_errors, gemini, sol
 
 
+def _color_for_diff(diff):
+    return tui.rgb(tui.gradient((0.0, 1.0, 0.0), (1.0, 0.0, 0.0), abs(diff) / 300))
+
+
+def _measure_range(gem, sol_, channel, sample_count, calibration_points):
+    output = tui.Updateable()
+    bar = tui.Bar()
+    lowest_diff, highest_diff = 0, 0
+
+    results = {}
+
+    with output:
+        for n, (voltage, expected_code) in enumerate(calibration_points.items()):
+            progress = (n + 1) / len(calibration_points)
+            bar.draw(
+                tui.Segment(
+                    progress,
+                    color=tui.gradient((1.0, 1.0, 1.0), (0.5, 0.5, 1.0), progress),
+                )
+            )
+            log.info(f"{tui.reset}Measuring   {voltage:.3f} volts")
+            log.info(f"{tui.reset}expecting:  {expected_code}")
+
+            sol_.send_voltage(voltage)
+            time.sleep(0.2)
+
+            samples = []
+            for s in range(sample_count):
+                samples.append(gem.read_adc(channel))
+
+            result = statistics.mean(samples)
+
+            diff = result - expected_code
+
+            if diff < lowest_diff:
+                lowest_diff = diff
+
+            if diff > highest_diff:
+                highest_diff = diff
+
+            if abs(diff) > 300:
+                log.error(
+                    f"ADC reading too far out of range. Expected {expected_code}, measured: {result:.1f}, diff: {diff:.1f}"
+                )
+
+            log.info(f"{tui.reset}measured:   {result:.1f}")
+            log.info(f"{tui.reset}diff:       {_color_for_diff(diff)}{diff:.1f}")
+            log.info(
+                f"{tui.reset}lowest diff: {_color_for_diff(lowest_diff)}{lowest_diff:.1f}{tui.reset}, highest_diff: {_color_for_diff(highest_diff)}{highest_diff:.1f}{tui.reset}"
+            )
+            output.update()
+
+            results[voltage] = result
+
+    return results
+
+
+class DirectADCStrategy:
+    channel = 8
+    range_ = 3.3
+    resolution = 2 ** 12
+    invert = False
+
+    def setup(self, gem):
+        gem.disable_adc_error_correction()
+        input("Connect Sol channel A to the LFO potentiometer channel and press enter.")
+
+    def save(self, gem, gain_error, offset_error):
+        gem.set_adc_gain_error(gain_error)
+        gem.set_adc_offset_error(int(offset_error))
+
+    def file_name(self, gem):
+        return f"{gem.serial_number}.adc.json"
+
+    def finish(self, gem):
+        gem.enable_adc_error_correction()
+
+
+class ThroughAFEStrategy:
+    channel = 0
+    range_ = 6.0
+    resolution = 2 ** 12
+    invert = True
+
+    def setup(self, gem):
+        input("Connect Sol channel A to CV A input and press enter.")
+        gem.enable_adc_error_correction()
+
+    def save(self, gem, gain_error, offset_error):
+        settings = gem.read_settings()
+        settings.cv_gain_error = gain_error
+        settings.cv_offset_error = offset_error
+        gem.save_settings(settings)
+
+    def file_name(self, gem):
+        return f"{gem.serial_number}.afe.json"
+
+    def finish(self, gem):
+        pass
+
+
 def run(
-    calibration_points,
+    num_calibration_points,
     sample_count,
-    adc_range,
-    adc_resolution,
-    invert,
-    adc_channel,
+    strategy,
     save,
 ):
+    if strategy == "adc":
+        strategy = DirectADCStrategy()
+    elif strategy == "afe":
+        strategy = ThroughAFEStrategy()
+    else:
+        raise ValueError(f"Unknonw strategy {strategy}.")
+
+    # Create the list of calibration points and expected codes.
     voltages = [
-        n / calibration_points * adc_range for n in range(calibration_points + 1)
+        n / num_calibration_points * strategy.range_
+        for n in range(num_calibration_points + 1)
     ]
 
     expected_codes = [
-        int(voltages[n] / adc_range * (adc_resolution - 1))
-        for n in range(calibration_points + 1)
+        int(voltages[n] / strategy.range_ * (strategy.resolution - 1))
+        for n in range(num_calibration_points + 1)
     ]
 
-    if invert:
-        expected_codes = [adc_resolution - 1 - code for code in expected_codes]
+    if strategy.invert:
+        expected_codes = [strategy.resolution - 1 - code for code in expected_codes]
 
-    measured_codes = []
+    calibration_points = dict(zip(voltages, expected_codes))
 
     gem = gemini.Gemini()
     sol_ = sol.Sol()
 
-    gem.enter_calibration_mode()
-    gem.disable_adc_error_correction()
-
     sol_.send_voltage(0)
 
-    for n in range(calibration_points + 1):
-        expected = expected_codes[n]
-        voltage = n / calibration_points * adc_range
-        log.info(f"Measuring {voltage:.3f}, expecting {expected}.")
-        sol_.send_voltage(voltage)
-        time.sleep(0.1)
+    gem.enter_calibration_mode()
 
-        samples = []
-        for s in range(sample_count):
-            samples.append(gem.read_adc(adc_channel))
+    strategy.setup(gem)
 
-        result = statistics.mean(samples)
+    measured = _measure_range(
+        gem, sol_, strategy.channel, sample_count, calibration_points
+    )
 
-        diff = result - expected_codes[n]
-
-        if abs(diff) > 100:
-            log.error(
-                "ADC reading too far out of range. Expected {expected}, measured: {result:.1f}, diff: {diff:.1f}"
-            )
-
-        log.info(f"Measured {result:.1f}, diff {diff:.1f}")
-        measured_codes.append(result)
-
-    gain_error = adc_errors.calculate_avg_gain_error(expected_codes, measured_codes)
+    gain_error = adc_errors.calculate_avg_gain_error(
+        expected_codes, list(measured.values())
+    )
     offset_error = adc_errors.calculate_avg_offset_error(
-        expected_codes, measured_codes, gain_error
-    )
-    log.info(f"Measured: Gain: {gain_error:.3f}, Offset: {offset_error:.1f}")
-
-    corrected = adc_errors.apply_correction(measured_codes, gain_error, offset_error)
-    corrected_gain_error = adc_errors.calculate_avg_gain_error(
-        expected_codes, corrected
-    )
-    corrected_offset_error = adc_errors.calculate_avg_offset_error(
-        expected_codes, corrected, corrected_gain_error
-    )
-    log.success(
-        f"Expected after correction: Gain: {corrected_gain_error:.3f}, Offset: {corrected_offset_error:.1f}"
+        expected_codes, list(measured.values()), gain_error
     )
 
-    local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.adc.json"
+    log.success(f"Measured gain={gain_error:.3f}, offset={offset_error:.1f}")
+
+    strategy.finish(gem)
+
+    local_copy = pathlib.Path("calibrations") / strategy.file_name(gem)
     local_copy.parent.mkdir(parents=True, exist_ok=True)
 
     with local_copy.open("w") as fh:
@@ -93,47 +176,29 @@ def run(
     log.info(f"Saved local copy to {local_copy}")
 
     if save:
-        gem.set_adc_gain_error(gain_error)
-        gem.set_adc_offset_error(int(offset_error))
+        strategy.save(gem, gain_error, offset_error)
         log.success("Saved to NVM.")
     else:
-        log.warning("Dry run, not saved to NVM.")
+        log.warning("Dry run, not saving to NVM.")
+        return
 
-    gem.enable_adc_error_correction()
-
-    # Test out the new calibrated ADC
+    # Test out the new calibration
 
     log.info("Taking measurements with new calibration...")
 
-    measured_codes = []
-    for n in range(calibration_points + 1):
-        voltage = n / calibration_points * adc_range
-        log.debug(f"Measuring {voltage:.3f}, expecting {expected_codes[n]}.")
-        sol_.send_voltage(voltage)
-        time.sleep(0.1)
+    gem.enable_adc_error_correction()
 
-        samples = []
-        for s in range(sample_count):
-            samples.append(gem.read_adc(adc_channel))
+    measured = _measure_range(
+        gem, sol_, strategy.channel, sample_count, calibration_points
+    )
 
-        result = statistics.mean(samples)
-
-        log.info(f"Measured {result:.1f}, diff {result - expected_codes[n]:.1f}")
-
-        if abs(diff) > 50:
-            log.error(
-                "ADC reading too far out of range. Expected {expected}, measured: {result:.1f}, diff: {diff:.1f}"
-            )
-
-        measured_codes.append(result)
-
-    gain_error = adc_errors.calculate_avg_gain_error(expected_codes, measured_codes)
+    gain_error = adc_errors.calculate_avg_gain_error(
+        expected_codes, list(measured.values())
+    )
     offset_error = adc_errors.calculate_avg_offset_error(
-        expected_codes, measured_codes, gain_error
+        expected_codes, list(measured.values()), gain_error
     )
-    log.success(
-        f"Measured, corrected: Gain: {gain_error:.3f}, Offset: {offset_error:.1f}"
-    )
+    log.info(f"Remeasured gain={gain_error:.3f}, offset={offset_error:.1f}")
 
     log.success("Done")
     gem.close()
@@ -155,24 +220,7 @@ if __name__ == "__main__":
         default=128,
         help="Number of samples to take at each calibration point.",
     )
-    parser.add_argument(
-        "--adc_range", type=float, default=3.3, help="ADC range (in volts)."
-    )
-    parser.add_argument(
-        "--adc_resolution", type=int, default=2 ** 12, help="ADC resolution."
-    )
-    parser.add_argument(
-        "--adc_channel",
-        type=int,
-        default=0,
-        help="Which of Gemini's ADC channels to measure.",
-    )
-    parser.add_argument(
-        "--invert",
-        action="store_true",
-        default=False,
-        help="Indicates that the bottom of the voltage range represents the top of the ADC code range",
-    )
+    parser.add_argument("--strategy", choices=["adc", "afe"], required=True)
     parser.add_argument(
         "--dry_run",
         action="store_true",
@@ -185,9 +233,6 @@ if __name__ == "__main__":
     run(
         args.calibration_points,
         args.sample_count,
-        args.adc_range,
-        args.adc_resolution,
-        args.invert,
-        args.adc_channel,
+        args.strategy,
         not args.dry_run,
     )

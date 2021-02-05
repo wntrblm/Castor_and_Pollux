@@ -35,7 +35,12 @@ def calculate_avg_offset_error(expected, measured, gain_error):
     return statistics.mean(offset_errors)
 
 
-def apply_correction(data, gain_error, offset_error):
+def apply_correction(value, gain_error, offset_error):
+    return (value - offset_error) * gain_error
+
+
+
+def apply_correction_list(data, gain_error, offset_error):
     result = []
     for value in data:
         result.append((value - offset_error) * gain_error)
