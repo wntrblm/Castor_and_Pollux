@@ -5,14 +5,15 @@
 */
 
 #include "wntr_midi_core.h"
-#include "gem_config.h"
-#include "gem_usb.h"
+#include "class/midi/midi_device.h"
 #include "printf.h"
 #include <stdbool.h>
 #include <stdint.h>
 
 /* Macros & definitions */
 
+#define SYSEX_BUF_SIZE 64
+#define SYSEX_TIMEOUT 100000
 #define SYSEX_START_BYTE 0xF0
 #define SYSEX_END_BYTE 0xF7
 
@@ -38,7 +39,7 @@ enum USBMIDICodeIndexes {
 /* Static variables */
 
 static uint8_t in_packet_[4];
-static uint8_t sysex_data_[GEM_SYSEX_BUF_SIZE];
+static uint8_t sysex_data_[SYSEX_BUF_SIZE];
 static size_t sysex_data_len_;
 static wntr_midi_sysex_callback sysex_callback_;
 
@@ -49,7 +50,7 @@ static void consume_sysex();
 /* Public functions. */
 
 void wntr_midi_task() {
-    if (gem_usb_midi_receive(in_packet_) == false) {
+    if (tud_midi_receive(in_packet_) == false) {
         return;
     }
 
@@ -72,37 +73,37 @@ static void consume_sysex() {
 
         /* Wait until we get a message, but fail out if it doesn't arrive in time. */
         size_t m = 0;
-        for (; m < GEM_SYSEX_TIMEOUT; m++) {
-            if (gem_usb_midi_receive(in_packet_)) {
+        for (; m < SYSEX_TIMEOUT; m++) {
+            if (tud_midi_receive(in_packet_)) {
                 break;
             }
         }
 
-        if (m == GEM_SYSEX_TIMEOUT) {
+        if (m == SYSEX_TIMEOUT) {
             goto timeout_fail;
         }
 
         if ((in_packet_[0] & 0x0F) == CIN_SYSEX_START_OR_CONTINUE) {
-            if (data_index + 3 > GEM_SYSEX_BUF_SIZE - 1)
+            if (data_index + 3 > SYSEX_BUF_SIZE - 1)
                 break;
             sysex_data_[data_index++] = in_packet_[1];
             sysex_data_[data_index++] = in_packet_[2];
             sysex_data_[data_index++] = in_packet_[3];
         } else if ((in_packet_[0] & 0x0F) == CIN_SYSEX_END_THREE_BYTE) {
-            if (data_index + 3 > GEM_SYSEX_BUF_SIZE - 1)
+            if (data_index + 3 > SYSEX_BUF_SIZE - 1)
                 break;
             sysex_data_[data_index++] = in_packet_[1];
             sysex_data_[data_index++] = in_packet_[2];
             sysex_data_[data_index++] = in_packet_[3];
             break;
         } else if ((in_packet_[0] & 0x0F) == CIN_SYSEX_END_TWO_BYTE) {
-            if (data_index + 2 > GEM_SYSEX_BUF_SIZE - 1)
+            if (data_index + 2 > SYSEX_BUF_SIZE - 1)
                 break;
             sysex_data_[data_index++] = in_packet_[1];
             sysex_data_[data_index++] = in_packet_[2];
             break;
         } else if ((in_packet_[0] & 0x0F) == CIN_SYSEX_END_ONE_BYTE) {
-            if (data_index + 1 > GEM_SYSEX_BUF_SIZE - 1)
+            if (data_index + 1 > SYSEX_BUF_SIZE - 1)
                 break;
             sysex_data_[data_index++] = in_packet_[1];
             break;
@@ -162,25 +163,25 @@ void wntr_midi_send_sysex(const uint8_t* data, size_t len) {
             sysex_iterator_next_(data, len, &head, packet + 1);
             sysex_iterator_next_(data, len, &head, packet + 2);
             sysex_iterator_next_(data, len, &head, packet + 3);
-            gem_usb_midi_send(packet);
+            tud_midi_send(packet);
             continue;
         } else if (remaining == 3) {
             packet[0] = CIN_SYSEX_END_THREE_BYTE;
             sysex_iterator_next_(data, len, &head, packet + 1);
             sysex_iterator_next_(data, len, &head, packet + 2);
             sysex_iterator_next_(data, len, &head, packet + 3);
-            gem_usb_midi_send(packet);
+            tud_midi_send(packet);
             return;
         } else if (remaining == 2) {
             packet[0] = CIN_SYSEX_END_TWO_BYTE;
             sysex_iterator_next_(data, len, &head, packet + 1);
             sysex_iterator_next_(data, len, &head, packet + 2);
-            gem_usb_midi_send(packet);
+            tud_midi_send(packet);
             return;
         } else if (remaining == 1) {
             packet[0] = CIN_SYSEX_END_ONE_BYTE;
             sysex_iterator_next_(data, len, &head, packet + 1);
-            gem_usb_midi_send(packet);
+            tud_midi_send(packet);
             return;
         }
     };
