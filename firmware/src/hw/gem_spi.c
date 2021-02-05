@@ -25,8 +25,8 @@ void gem_spi_init() { /* Enable the APB clock for SERCOM. */
     while (GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.SWRST || GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.ENABLE) {};
 
     /* Configure pins for the correct function. */
-    gem_gpio_set_mux(GEM_SPI_SCK_PORT, GEM_SPI_SCK_PIN, GEM_SPI_SCK_PIN_FUNC);
-    gem_gpio_set_mux(GEM_SPI_SDO_PORT, GEM_SPI_SDO_PIN, GEM_SPI_SDO_PIN_FUNC);
+    wntr_gpio_configure_alt(GEM_SPI_SCK_PORT, GEM_SPI_SCK_PIN, GEM_SPI_SCK_PIN_FUNC);
+    wntr_gpio_configure_alt(GEM_SPI_SDO_PORT, GEM_SPI_SDO_PIN, GEM_SPI_SDO_PIN_FUNC);
 
     /* Setup SPI controller. */
     GEM_SPI_SERCOM->SPI.CTRLA.reg = SERCOM_SPI_CTRLA_MODE_SPI_MASTER | SERCOM_SPI_CTRLA_DOPO(GEM_SPI_DOPO);

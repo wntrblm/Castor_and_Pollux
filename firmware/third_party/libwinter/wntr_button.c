@@ -5,7 +5,7 @@
 */
 
 #include "wntr_button.h"
-#include "gem_gpio.h"
+#include "wntr_gpio.h"
 #include "wntr_ticks.h"
 
 /* Constants and macros */
@@ -15,12 +15,12 @@
 
 /* Public functions */
 
-void WntrButton_init(struct WntrButton* button) { gem_gpio_set_as_input(button->port, button->pin, true); }
+void WntrButton_init(struct WntrButton* button) { wntr_gpio_set_as_input(button->port, button->pin, true); }
 
 void WntrButton_update(struct WntrButton* button) {
     button->_previous_state = button->state;
     /* Invert gpio reading since pressed means pulled to ground. */
-    button->state = !gem_gpio_get(button->port, button->pin);
+    button->state = !wntr_gpio_get(button->port, button->pin);
 
     if (button->state == true && button->_previous_state == false) {
         button->_rising_edge_time = wntr_ticks();

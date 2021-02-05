@@ -31,8 +31,8 @@ void gem_i2c_init() {
     while (GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.SWRST || GEM_I2C_SERCOM->I2CM.SYNCBUSY.bit.ENABLE) {};
 
     /* Configure pins for the correct function. */
-    gem_gpio_set_mux(GEM_I2C_PAD_0_PORT, GEM_I2C_PAD_0_PIN, GEM_I2C_PAD_0_PIN_FUNC);
-    gem_gpio_set_mux(GEM_I2C_PAD_1_PORT, GEM_I2C_PAD_1_PIN, GEM_I2C_PAD_1_PIN_FUNC);
+    wntr_gpio_configure_alt(GEM_I2C_PAD_0_PORT, GEM_I2C_PAD_0_PIN, GEM_I2C_PAD_0_PIN_FUNC);
+    wntr_gpio_configure_alt(GEM_I2C_PAD_1_PORT, GEM_I2C_PAD_1_PIN, GEM_I2C_PAD_1_PIN_FUNC);
 
     /* Configure SERCOM for i2c master. */
     GEM_I2C_SERCOM->I2CM.CTRLA.bit.SWRST = 1;
