@@ -294,9 +294,9 @@ F 1 "2.2k" H 2268 2755 50  0000 L CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2240 2790 50  0001 C CNN
 F 3 "~" H 2200 2800 50  0001 C CNN
 F 4 "yes" H 2200 2800 50  0001 C CNN "finalized"
-F 5 "ERA-3AED222V" H 2200 2800 50  0001 C CNN "mpn"
-F 6 "1%, vref current control" H 2200 2800 50  0001 C CNN "Reqs"
-F 7 "100mW" H 2200 2800 50  0001 C CNN "mpn specs"
+F 5 "MCT06030C2201FP500" H 2200 2800 50  0001 C CNN "mpn"
+F 6 "1%, 60mW, vref current control" H 2200 2800 50  0001 C CNN "Reqs"
+F 7 "125mW,  1%" H 2200 2800 50  0001 C CNN "mpn specs"
 	1    2200 2800
 	1    0    0    -1  
 $EndComp
@@ -381,13 +381,13 @@ L Device:C C48
 U 1 1 5F1FB229
 P 4400 2950
 F 0 "C48" H 4515 2996 50  0000 L CNN
-F 1 "22uF" H 4515 2905 50  0000 L CNN
+F 1 "20uF+" H 4515 2905 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 4438 2800 50  0001 C CNN
 F 3 "~" H 4400 2950 50  0001 C CNN
-F 4 "CL21A226MAQNNNE" H 4400 2950 50  0001 C CNN "mpn"
+F 4 "CL21A226MAQNNN" H 4400 2950 50  0001 C CNN "mpn"
 F 5 "yes" H 4400 2950 50  0001 C CNN "finalized"
-F 6 "20% 25v" H 4400 2950 50  0001 C CNN "mpn specs"
-F 7 "power bypass" H 4400 2950 50  0001 C CNN "Reqs"
+F 6 "22uF 20% 25v" H 4400 2950 50  0001 C CNN "mpn specs"
+F 7 "power bypass, 25v" H 4400 2950 50  0001 C CNN "Reqs"
 F 8 "GRM21BR61E226ME44L" H 4400 2950 50  0001 C CNN "mpn alt"
 	1    4400 2950
 	1    0    0    -1  

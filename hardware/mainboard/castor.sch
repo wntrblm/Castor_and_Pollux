@@ -23,9 +23,9 @@ F 0 "C6" V 2098 1250 50  0000 C CNN
 F 1 "270pF" V 2189 1250 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2388 1100 50  0001 C CNN
 F 3 "~" H 2350 1250 50  0001 C CNN
-F 4 "C0G 1%" H 2350 1250 50  0001 C CNN "Reqs"
+F 4 "C0G 1%, 25v, ramp core" H 2350 1250 50  0001 C CNN "Reqs"
 F 5 "yes" H 2350 1250 50  0001 C CNN "finalized"
-F 6 "GRM1885C2A271JA01D" H 2350 1250 50  0001 C CNN "mpn"
+F 6 "VJ0603A271FXAPW1BC" H 2350 1250 50  0001 C CNN "mpn"
 F 7 "1%, 50v" H 2350 1250 50  0001 C CNN "mpn specs"
 F 8 "" H 2350 1250 50  0001 C CNN "mpn alt"
 	1    2350 1250
@@ -42,9 +42,9 @@ F 1 "1k" H 3232 1445 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3340 1390 50  0001 C CNN
 F 3 "~" H 3300 1400 50  0001 C CNN
 F 4 "yes" H 3300 1400 50  0001 C CNN "finalized"
-F 5 "RR0816P-102-D" H 3300 1400 50  0001 C CNN "mpn"
-F 6 "100mW" H 3300 1400 50  0001 C CNN "mpn specs"
-F 7 "5%, control path" H 3300 1400 50  0001 C CNN "Reqs"
+F 5 "MCT06030C1001FP500" H 3300 1400 50  0001 C CNN "mpn"
+F 6 "100mW, 1%" H 3300 1400 50  0001 C CNN "mpn specs"
+F 7 "5%, 12mW, control path" H 3300 1400 50  0001 C CNN "Reqs"
 F 8 "ERA-3AEB102V" H 3300 1400 50  0001 C CNN "mpn alt"
 	1    3300 1400
 	-1   0    0    1   
@@ -61,8 +61,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2540 1390 50  0
 F 3 "~" H 2500 1400 50  0001 C CNN
 F 4 "yes" H 2500 1400 50  0001 C CNN "finalized"
 F 5 "RR0816P-103-D" H 2500 1400 50  0001 C CNN "mpn"
-F 6 "1%, control path" H 2500 1400 50  0001 C CNN "Reqs"
-F 7 "100mW" H 2500 1400 50  0001 C CNN "mpn specs"
+F 6 "1%, 15mW, control path" H 2500 1400 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 2500 1400 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED103V" H 2500 1400 50  0001 C CNN "mpn alt"
 	1    2500 1400
 	-1   0    0    1   
@@ -92,7 +92,7 @@ F 0 "C9" V 3048 2500 50  0000 C CNN
 F 1 "1nF" V 3139 2500 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3338 2350 50  0001 C CNN
 F 3 "~" H 3300 2500 50  0001 C CNN
-F 4 "C0G 1%" H 3300 2500 50  0001 C CNN "Reqs"
+F 4 "C0G 1%, 25v, ramp core" H 3300 2500 50  0001 C CNN "Reqs"
 F 5 "yes" H 3300 2500 50  0001 C CNN "finalized"
 F 6 "GRM1885C1H102FA01J" H 3300 2500 50  0001 C CNN "mpn"
 F 7 "1%, 50v" H 3300 2500 50  0001 C CNN "mpn specs"
@@ -171,8 +171,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2590 2840 50  0
 F 3 "~" H 2550 2850 50  0001 C CNN
 F 4 "yes" H 2550 2850 50  0001 C CNN "finalized"
 F 5 "RR0816P-204-D" H 2550 2850 50  0001 C CNN "mpn"
-F 6 "5%, control path" H 2550 2850 50  0001 C CNN "Reqs"
-F 7 "100mW" H 2550 2850 50  0001 C CNN "mpn specs"
+F 6 "5%, 1mW, control path" H 2550 2850 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 2550 2850 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB204V" H 2550 2850 50  0001 C CNN "mpn alt"
 	1    2550 2850
 	0    -1   -1   0   
@@ -223,8 +223,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4890 2540 50  0
 F 3 "~" H 4850 2550 50  0001 C CNN
 F 4 "yes" H 4850 2550 50  0001 C CNN "finalized"
 F 5 "RR0816P-103-D" H 4850 2550 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 4850 2550 50  0001 C CNN "Reqs"
-F 7 "100mW" H 4850 2550 50  0001 C CNN "mpn specs"
+F 6 "1%, 15mW, audio path" H 4850 2550 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 4850 2550 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED103V" H 4850 2550 50  0001 C CNN "mpn alt"
 	1    4850 2550
 	0    -1   -1   0   
@@ -319,10 +319,10 @@ F 1 "10uF" V 7789 1550 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7988 1400 50  0001 C CNN
 F 3 "~" H 7950 1550 50  0001 C CNN
 F 4 "yes" H 7950 1550 50  0001 C CNN "finalized"
-F 5 "CL21A106KAYNNNG" H 7950 1550 50  0001 C CNN "mpn"
-F 6 "10% 16v" H 7950 1550 50  0001 C CNN "mpn specs"
-F 7 "GRM21BR61E106KA73K" H 7950 1550 50  0001 C CNN "mpn alt"
-F 8 "audio path" H 7950 1550 50  0001 C CNN "Reqs"
+F 5 "CL21A106KAYNNN" H 7950 1550 50  0001 C CNN "mpn"
+F 6 "10% 25v" H 7950 1550 50  0001 C CNN "mpn specs"
+F 7 "" H 7950 1550 50  0001 C CNN "mpn alt"
+F 8 "audio path, 25v" H 7950 1550 50  0001 C CNN "Reqs"
 	1    7950 1550
 	0    1    1    0   
 $EndComp
@@ -340,8 +340,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8390 1540 50  0
 F 3 "~" H 8350 1550 50  0001 C CNN
 F 4 "yes" H 8350 1550 50  0001 C CNN "finalized"
 F 5 "RR0816P-103-D" H 8350 1550 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8350 1550 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8350 1550 50  0001 C CNN "mpn specs"
+F 6 "1%, 15mW, audio path" H 8350 1550 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8350 1550 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED103V" H 8350 1550 50  0001 C CNN "mpn alt"
 	1    8350 1550
 	0    -1   -1   0   
@@ -375,8 +375,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8890 1240 50  0
 F 3 "~" H 8850 1250 50  0001 C CNN
 F 4 "yes" H 8850 1250 50  0001 C CNN "finalized"
 F 5 "RR0816P-3652-D-55C" H 8850 1250 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8850 1250 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8850 1250 50  0001 C CNN "mpn specs"
+F 6 "1%, 5mW, audio path" H 8850 1250 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8850 1250 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB3652V" H 8850 1250 50  0001 C CNN "mpn alt"
 	1    8850 1250
 	0    -1   -1   0   
@@ -392,9 +392,9 @@ F 1 "1k" V 9514 1650 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9440 1640 50  0001 C CNN
 F 3 "~" H 9400 1650 50  0001 C CNN
 F 4 "yes" H 9400 1650 50  0001 C CNN "finalized"
-F 5 "RR0816P-102-D" H 9400 1650 50  0001 C CNN "mpn"
-F 6 "5%, audio path" H 9400 1650 50  0001 C CNN "Reqs"
-F 7 "100mW" H 9400 1650 50  0001 C CNN "mpn specs"
+F 5 "MCT06030C1001FP500" H 9400 1650 50  0001 C CNN "mpn"
+F 6 "5%, 150mW, audio output" H 9400 1650 50  0001 C CNN "Reqs"
+F 7 "100mW, 1%" H 9400 1650 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB102V" H 9400 1650 50  0001 C CNN "mpn alt"
 	1    9400 1650
 	0    -1   -1   0   
@@ -442,9 +442,9 @@ F 1 "1k" V 9514 5600 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9440 5590 50  0001 C CNN
 F 3 "~" H 9400 5600 50  0001 C CNN
 F 4 "yes" H 9400 5600 50  0001 C CNN "finalized"
-F 5 "RR0816P-102-D" H 9400 5600 50  0001 C CNN "mpn"
-F 6 "5%, audio path" H 9400 5600 50  0001 C CNN "Reqs"
-F 7 "100mW" H 9400 5600 50  0001 C CNN "mpn specs"
+F 5 "MCT06030C1001FP500" H 9400 5600 50  0001 C CNN "mpn"
+F 6 "5%, 150mW, audio output" H 9400 5600 50  0001 C CNN "Reqs"
+F 7 "100mW, 1%" H 9400 5600 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB102V" H 9400 5600 50  0001 C CNN "mpn alt"
 	1    9400 5600
 	0    -1   -1   0   
@@ -463,8 +463,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8890 5190 50  0
 F 3 "~" H 8850 5200 50  0001 C CNN
 F 4 "yes" H 8850 5200 50  0001 C CNN "finalized"
 F 5 "RR0816P-104-D" H 8850 5200 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8850 5200 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8850 5200 50  0001 C CNN "mpn specs"
+F 6 "1%, 2mW, audio path" H 8850 5200 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8850 5200 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED104V" H 8850 5200 50  0001 C CNN "mpn alt"
 	1    8850 5200
 	0    -1   -1   0   
@@ -485,8 +485,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8040 4790 50  0
 F 3 "~" H 8000 4800 50  0001 C CNN
 F 4 "yes" H 8000 4800 50  0001 C CNN "finalized"
 F 5 "RR0816P-104-D" H 8000 4800 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8000 4800 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8000 4800 50  0001 C CNN "mpn specs"
+F 6 "1%, 2mW, audio path" H 8000 4800 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8000 4800 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED104V" H 8000 4800 50  0001 C CNN "mpn alt"
 	1    8000 4800
 	0    -1   -1   0   
@@ -503,8 +503,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8040 5490 50  0
 F 3 "~" H 8000 5500 50  0001 C CNN
 F 4 "yes" H 8000 5500 50  0001 C CNN "finalized"
 F 5 "RR0816P-104-D" H 8000 5500 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8000 5500 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8000 5500 50  0001 C CNN "mpn specs"
+F 6 "1%, 2mW, audio path" H 8000 5500 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8000 5500 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED104V" H 8000 5500 50  0001 C CNN "mpn alt"
 	1    8000 5500
 	0    -1   -1   0   
@@ -534,8 +534,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8040 6190 50  0
 F 3 "~" H 8000 6200 50  0001 C CNN
 F 4 "yes" H 8000 6200 50  0001 C CNN "finalized"
 F 5 "RR0816P-104-D" H 8000 6200 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8000 6200 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8000 6200 50  0001 C CNN "mpn specs"
+F 6 "1%, 2mW, audio path" H 8000 6200 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8000 6200 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED104V" H 8000 6200 50  0001 C CNN "mpn alt"
 	1    8000 6200
 	0    -1   -1   0   
@@ -606,8 +606,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8190 1690 50  0
 F 3 "~" H 8150 1700 50  0001 C CNN
 F 4 "yes" H 8150 1700 50  0001 C CNN "finalized"
 F 5 "RR0816P-473-D" H 8150 1700 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8150 1700 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8150 1700 50  0001 C CNN "mpn specs"
+F 6 "1%, 4mW, audio path" H 8150 1700 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8150 1700 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED473V" H 8150 1700 50  0001 C CNN "mpn alt"
 	1    8150 1700
 	1    0    0    -1  
@@ -648,9 +648,9 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 850 50  0
 F 3 "~" H 8850 1000 50  0001 C CNN
 F 4 "yes" H 8850 1000 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-22pF" H 8850 1000 50  0001 C CNN "mpn"
-F 6 "5% 100v" H 8850 1000 50  0001 C CNN "mpn specs"
+F 6 "5% 50v" H 8850 1000 50  0001 C CNN "mpn specs"
 F 7 "GCM1885C2A220JA16J" H 8850 1000 50  0001 C CNN "mpn alt"
-F 8 "audio filter" H 8850 1000 50  0001 C CNN "Reqs"
+F 8 "audio filter, 25v" H 8850 1000 50  0001 C CNN "Reqs"
 	1    8850 1000
 	0    1    1    0   
 $EndComp
@@ -694,10 +694,10 @@ F 1 "10uF" V 7789 2700 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7988 2550 50  0001 C CNN
 F 3 "~" H 7950 2700 50  0001 C CNN
 F 4 "yes" H 7950 2700 50  0001 C CNN "finalized"
-F 5 "CL21A106KAYNNNG" H 7950 2700 50  0001 C CNN "mpn"
-F 6 "10% 16v" H 7950 2700 50  0001 C CNN "mpn specs"
-F 7 "GRM21BR61E106KA73K" H 7950 2700 50  0001 C CNN "mpn alt"
-F 8 "audio path" H 7950 2700 50  0001 C CNN "Reqs"
+F 5 "CL21A106KAYNNN" H 7950 2700 50  0001 C CNN "mpn"
+F 6 "10% 25v" H 7950 2700 50  0001 C CNN "mpn specs"
+F 7 "" H 7950 2700 50  0001 C CNN "mpn alt"
+F 8 "audio path, 25v" H 7950 2700 50  0001 C CNN "Reqs"
 	1    7950 2700
 	0    1    1    0   
 $EndComp
@@ -715,8 +715,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8390 2690 50  0
 F 3 "~" H 8350 2700 50  0001 C CNN
 F 4 "yes" H 8350 2700 50  0001 C CNN "finalized"
 F 5 "RR0816P-103-D" H 8350 2700 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8350 2700 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8350 2700 50  0001 C CNN "mpn specs"
+F 6 "1%, 15mW, audio path" H 8350 2700 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8350 2700 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED103V" H 8350 2700 50  0001 C CNN "mpn alt"
 	1    8350 2700
 	0    -1   -1   0   
@@ -750,8 +750,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8890 2390 50  0
 F 3 "~" H 8850 2400 50  0001 C CNN
 F 4 "yes" H 8850 2400 50  0001 C CNN "finalized"
 F 5 "RR0816P-3652-D-55C" H 8850 2400 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8850 2400 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8850 2400 50  0001 C CNN "mpn specs"
+F 6 "1%, 5mW, audio path" H 8850 2400 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8850 2400 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB3652V" H 8850 2400 50  0001 C CNN "mpn alt"
 	1    8850 2400
 	0    -1   -1   0   
@@ -767,9 +767,9 @@ F 1 "1k" V 9514 2800 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9440 2790 50  0001 C CNN
 F 3 "~" H 9400 2800 50  0001 C CNN
 F 4 "yes" H 9400 2800 50  0001 C CNN "finalized"
-F 5 "RR0816P-102-D" H 9400 2800 50  0001 C CNN "mpn"
-F 6 "5%, audio path" H 9400 2800 50  0001 C CNN "Reqs"
-F 7 "100mW" H 9400 2800 50  0001 C CNN "mpn specs"
+F 5 "MCT06030C1001FP500" H 9400 2800 50  0001 C CNN "mpn"
+F 6 "5%, 150mW, audio output" H 9400 2800 50  0001 C CNN "Reqs"
+F 7 "100mW, 1%" H 9400 2800 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB102V" H 9400 2800 50  0001 C CNN "mpn alt"
 	1    9400 2800
 	0    -1   -1   0   
@@ -788,8 +788,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8190 2840 50  0
 F 3 "~" H 8150 2850 50  0001 C CNN
 F 4 "yes" H 8150 2850 50  0001 C CNN "finalized"
 F 5 "RR0816P-473-D" H 8150 2850 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8150 2850 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8150 2850 50  0001 C CNN "mpn specs"
+F 6 "1%, 4mW, audio path" H 8150 2850 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8150 2850 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED473V" H 8150 2850 50  0001 C CNN "mpn alt"
 	1    8150 2850
 	1    0    0    -1  
@@ -824,9 +824,9 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 2000 50  
 F 3 "~" H 8850 2150 50  0001 C CNN
 F 4 "yes" H 8850 2150 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-22pF" H 8850 2150 50  0001 C CNN "mpn"
-F 6 "5% 100v" H 8850 2150 50  0001 C CNN "mpn specs"
+F 6 "5% 50v" H 8850 2150 50  0001 C CNN "mpn specs"
 F 7 "GCM1885C2A220JA16J" H 8850 2150 50  0001 C CNN "mpn alt"
-F 8 "audio filter" H 8850 2150 50  0001 C CNN "Reqs"
+F 8 "audio filter, 25v" H 8850 2150 50  0001 C CNN "Reqs"
 	1    8850 2150
 	0    1    1    0   
 $EndComp
@@ -1163,10 +1163,10 @@ F 1 "8.2pF" V 8750 5100 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 4750 50  0001 C CNN
 F 3 "~" H 8850 4900 50  0001 C CNN
 F 4 "yes" H 8850 4900 50  0001 C CNN "finalized"
-F 5 "GRM1885C1H8R2WA01D" H 8850 4900 50  0001 C CNN "mpn"
-F 6 "" H 8850 4900 50  0001 C CNN "mpn specs"
-F 7 "audio filter" H 8850 4900 50  0001 C CNN "Reqs"
-F 8 "GCM1885C2A8R2DA16D" H 8850 4900 50  0001 C CNN "mpn alt"
+F 5 "VJ0603A8R2DXACW1BC" H 8850 4900 50  0001 C CNN "mpn"
+F 6 "25v" H 8850 4900 50  0001 C CNN "mpn specs"
+F 7 "audio filter, 25v" H 8850 4900 50  0001 C CNN "Reqs"
+F 8 "GRM1885C1H8R2WA01D" H 8850 4900 50  0001 C CNN "mpn alt"
 	1    8850 4900
 	0    1    1    0   
 $EndComp
@@ -1388,9 +1388,9 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 8888 3150 50  
 F 3 "~" H 8850 3300 50  0001 C CNN
 F 4 "yes" H 8850 3300 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-22pF" H 8850 3300 50  0001 C CNN "mpn"
-F 6 "5% 100v" H 8850 3300 50  0001 C CNN "mpn specs"
+F 6 "5% 50v" H 8850 3300 50  0001 C CNN "mpn specs"
 F 7 "GCM1885C2A220JA16J" H 8850 3300 50  0001 C CNN "mpn alt"
-F 8 "audio filter" H 8850 3300 50  0001 C CNN "Reqs"
+F 8 "audio filter, 25v" H 8850 3300 50  0001 C CNN "Reqs"
 	1    8850 3300
 	0    1    1    0   
 $EndComp
@@ -1424,8 +1424,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8190 3990 50  0
 F 3 "~" H 8150 4000 50  0001 C CNN
 F 4 "yes" H 8150 4000 50  0001 C CNN "finalized"
 F 5 "RR0816P-473-D" H 8150 4000 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8150 4000 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8150 4000 50  0001 C CNN "mpn specs"
+F 6 "1%, 4mW, audio path" H 8150 4000 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8150 4000 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED473V" H 8150 4000 50  0001 C CNN "mpn alt"
 	1    8150 4000
 	1    0    0    -1  
@@ -1443,9 +1443,9 @@ F 1 "1k" V 9514 3950 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 9440 3940 50  0001 C CNN
 F 3 "~" H 9400 3950 50  0001 C CNN
 F 4 "yes" H 9400 3950 50  0001 C CNN "finalized"
-F 5 "RR0816P-102-D" H 9400 3950 50  0001 C CNN "mpn"
-F 6 "5%, audio path" H 9400 3950 50  0001 C CNN "Reqs"
-F 7 "100mW" H 9400 3950 50  0001 C CNN "mpn specs"
+F 5 "MCT06030C1001FP500" H 9400 3950 50  0001 C CNN "mpn"
+F 6 "5%, 150mW, audio output" H 9400 3950 50  0001 C CNN "Reqs"
+F 7 "100mW, 1%" H 9400 3950 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB102V" H 9400 3950 50  0001 C CNN "mpn alt"
 	1    9400 3950
 	0    -1   -1   0   
@@ -1462,8 +1462,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8890 3540 50  0
 F 3 "~" H 8850 3550 50  0001 C CNN
 F 4 "yes" H 8850 3550 50  0001 C CNN "finalized"
 F 5 "RR0816P-3652-D-55C" H 8850 3550 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8850 3550 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8850 3550 50  0001 C CNN "mpn specs"
+F 6 "1%, 5mW, audio path" H 8850 3550 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8850 3550 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB3652V" H 8850 3550 50  0001 C CNN "mpn alt"
 	1    8850 3550
 	0    -1   -1   0   
@@ -1497,8 +1497,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 8390 3840 50  0
 F 3 "~" H 8350 3850 50  0001 C CNN
 F 4 "yes" H 8350 3850 50  0001 C CNN "finalized"
 F 5 "RR0816P-103-D" H 8350 3850 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 8350 3850 50  0001 C CNN "Reqs"
-F 7 "100mW" H 8350 3850 50  0001 C CNN "mpn specs"
+F 6 "1%, 15mW, audio path" H 8350 3850 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 8350 3850 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED103V" H 8350 3850 50  0001 C CNN "mpn alt"
 	1    8350 3850
 	0    -1   -1   0   
@@ -1516,10 +1516,10 @@ F 1 "10uF" V 7789 3850 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 7988 3700 50  0001 C CNN
 F 3 "~" H 7950 3850 50  0001 C CNN
 F 4 "yes" H 7950 3850 50  0001 C CNN "finalized"
-F 5 "CL21A106KAYNNNG" H 7950 3850 50  0001 C CNN "mpn"
-F 6 "10% 16v" H 7950 3850 50  0001 C CNN "mpn specs"
-F 7 "GRM21BR61E106KA73K" H 7950 3850 50  0001 C CNN "mpn alt"
-F 8 "audio path" H 7950 3850 50  0001 C CNN "Reqs"
+F 5 "CL21A106KAYNNN" H 7950 3850 50  0001 C CNN "mpn"
+F 6 "10% 25v" H 7950 3850 50  0001 C CNN "mpn specs"
+F 7 "" H 7950 3850 50  0001 C CNN "mpn alt"
+F 8 "audio path, 25v" H 7950 3850 50  0001 C CNN "Reqs"
 	1    7950 3850
 	0    1    1    0   
 $EndComp
@@ -1607,9 +1607,9 @@ F 1 "270" V 3725 2275 50  0000 R CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 3690 2165 50  0001 C CNN
 F 3 "~" H 3650 2175 50  0001 C CNN
 F 4 "yes" H 3650 2175 50  0001 C CNN "finalized"
-F 5 "RR0816P-271-D" H 3650 2175 50  0001 C CNN "mpn"
-F 6 "100mW" H 3650 2175 50  0001 C CNN "mpn specs"
-F 7 "1%" H 3650 2175 50  0001 C CNN "Reqs"
+F 5 "MCT06030C2700FP500" H 3650 2175 50  0001 C CNN "mpn"
+F 6 "100mW, 1%" H 3650 2175 50  0001 C CNN "mpn specs"
+F 7 "1%, >50mW, audio path" H 3650 2175 50  0001 C CNN "Reqs"
 	1    3650 2175
 	-1   0    0    1   
 $EndComp
@@ -1636,8 +1636,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4240 2940 50  0
 F 3 "~" H 4200 2950 50  0001 C CNN
 F 4 "yes" H 4200 2950 50  0001 C CNN "finalized"
 F 5 "RR0816P-303-D" H 4200 2950 50  0001 C CNN "mpn"
-F 6 "1%, audio path" H 4200 2950 50  0001 C CNN "Reqs"
-F 7 "100mW" H 4200 2950 50  0001 C CNN "mpn specs"
+F 6 "1%, 5mW, audio path" H 4200 2950 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 4200 2950 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AEB303V" H 4200 2950 50  0001 C CNN "mpn alt"
 	1    4200 2950
 	0    -1   -1   0   
