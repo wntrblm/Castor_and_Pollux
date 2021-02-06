@@ -1,4 +1,4 @@
-update=Monday, February 01, 2021 at 04:44:56 PM
+update=Friday, February 05, 2021 at 10:56:19 PM
 version=1
 last_client=kicad
 [general]
@@ -29,7 +29,10 @@ MinMicroViaDiameter=0.2
 MinMicroViaDrill=0.09999999999999999
 MinHoleToHole=0.25
 TrackWidth1=0.1778
-TrackWidth2=1
+TrackWidth2=0.1778
+TrackWidth3=0.254
+TrackWidth4=0.5
+TrackWidth5=1
 ViaDiameter1=0.6858
 ViaDrill1=0.3302
 dPairWidth1=0.2
@@ -238,7 +241,7 @@ dPairWidth=0.2
 dPairGap=0.25
 dPairViaGap=0.25
 [pcbnew/Netclasses/1]
-Name=Chonky
+Name=Extra chonk
 Clearance=0.1524
 TrackWidth=1
 ViaDiameter=0.6858
