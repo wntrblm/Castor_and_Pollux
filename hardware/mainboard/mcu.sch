@@ -404,7 +404,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 4840 5890 50  0
 F 3 "~" H 4800 5900 50  0001 C CNN
 F 4 "yes" H 4800 5900 50  0001 C CNN "finalized"
 F 5 "MF-RES-0603-4.7K" H 4800 5900 50  0001 C CNN "mpn"
-F 6 "100mW" H 4800 5900 50  0001 C CNN "mpn specs"
+F 6 "100mW, 5%" H 4800 5900 50  0001 C CNN "mpn specs"
 F 7 "ERA-3AED472V" H 4800 5900 50  0001 C CNN "mpn alt"
 F 8 "i2c pullup" H 4800 5900 50  0001 C CNN "Reqs"
 	1    4800 5900
@@ -420,7 +420,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 5240 5890 50  0
 F 3 "~" H 5200 5900 50  0001 C CNN
 F 4 "yes" H 5200 5900 50  0001 C CNN "finalized"
 F 5 "MF-RES-0603-4.7K" H 5200 5900 50  0001 C CNN "mpn"
-F 6 "100mW" H 5200 5900 50  0001 C CNN "mpn specs"
+F 6 "100mW, 5%" H 5200 5900 50  0001 C CNN "mpn specs"
 F 7 "ERA-3AED472V" H 5200 5900 50  0001 C CNN "mpn alt"
 F 8 "i2c pullup" H 5200 5900 50  0001 C CNN "Reqs"
 	1    5200 5900
@@ -495,10 +495,10 @@ F 1 "10uF" H 8415 5855 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8338 5750 50  0001 C CNN
 F 3 "~" H 8300 5900 50  0001 C CNN
 F 4 "yes" H 8300 5900 50  0001 C CNN "finalized"
-F 5 "CL21A106KAYNNNG" H 8300 5900 50  0001 C CNN "mpn"
-F 6 "10% 16v" H 8300 5900 50  0001 C CNN "mpn specs"
-F 7 "GRM21BR61E106KA73K" H 8300 5900 50  0001 C CNN "mpn alt"
-F 8 "audio path" H 8300 5900 50  0001 C CNN "Reqs"
+F 5 "CL21A106KAYNNN" H 8300 5900 50  0001 C CNN "mpn"
+F 6 "10% 25v" H 8300 5900 50  0001 C CNN "mpn specs"
+F 7 "" H 8300 5900 50  0001 C CNN "mpn alt"
+F 8 "audio path, 25v" H 8300 5900 50  0001 C CNN "Reqs"
 	1    8300 5900
 	1    0    0    -1  
 $EndComp
@@ -812,9 +812,6 @@ NoConn ~ 5500 3700
 Text Label 5500 3550 2    50   ~ 0
 AIN18(VDDIO)
 NoConn ~ 5500 3550
-Text Label 5500 3850 2    50   ~ 0
-TCC1WO1
-NoConn ~ 5500 3850
 Text Notes 6900 6400 0    50   ~ 0
 0.8mA (typ)\n1.4mA (max)
 Text Notes 3250 5850 0    50   ~ 0
@@ -870,4 +867,7 @@ Text Label 7850 1200 2    50   ~ 0
 TCC1WO1
 Text Notes 5575 3250 0    50   ~ 0
 unused
+Text Label 5500 3825 2    50   ~ 0
+TCC2WO0
+NoConn ~ 5500 3825
 $EndSCHEMATC

@@ -144,9 +144,8 @@ F14 "duty_a_pot" I R 2800 2350 50
 F15 "duty_b_pot" I R 2800 2450 50 
 F16 "duty_a_in" I R 2800 2550 50 
 F17 "duty_b_in" I R 2800 2650 50 
-F18 "jack_detection_probe" I R 2800 3150 50 
-F19 "hard_sync" I R 2800 2850 50 
-F20 "chorus_pot" I R 2800 2750 50 
+F18 "hard_sync" I R 2800 2850 50 
+F19 "chorus_pot" I R 2800 2750 50 
 $EndSheet
 $Sheet
 S 4850 1150 1350 1100

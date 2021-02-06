@@ -36,8 +36,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 1240 50  0
 F 3 "~" H 1500 1250 50  0001 C CNN
 F 4 "yes" H 1500 1250 50  0001 C CNN "finalized"
 F 5 "RR0816P-104-D" H 1500 1250 50  0001 C CNN "mpn"
-F 6 "0.5%, analog front end" H 1500 1250 50  0001 C CNN "Reqs"
-F 7 "100mW" H 1500 1250 50  0001 C CNN "mpn specs"
+F 6 "0.5%, 2mW, analog front end" H 1500 1250 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 1500 1250 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED104V" H 1500 1250 50  0001 C CNN "mpn alt"
 	1    1500 1250
 	0    1    1    0   
@@ -51,9 +51,9 @@ F 1 "169k" V 1386 1550 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 1540 50  0001 C CNN
 F 3 "~" H 1500 1550 50  0001 C CNN
 F 4 "yes" H 1500 1550 50  0001 C CNN "finalized"
-F 5 "RR0816P-1693-D-23D" H 1500 1550 50  0001 C CNN "mpn"
-F 6 "100mW" H 1500 1550 50  0001 C CNN "mpn specs"
-F 7 "1%, analog front end" H 1500 1550 50  0001 C CNN "Reqs"
+F 5 "RT0603DRD07169KL" H 1500 1550 50  0001 C CNN "mpn"
+F 6 "100mW, 0.5%" H 1500 1550 50  0001 C CNN "mpn specs"
+F 7 "1%, 1mW, analog front end" H 1500 1550 50  0001 C CNN "Reqs"
 F 8 "ERA-3AEB1693V" H 1500 1550 50  0001 C CNN "mpn alt"
 	1    1500 1550
 	0    1    1    0   
@@ -68,8 +68,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 1640 50  0
 F 3 "~" H 2400 1650 50  0001 C CNN
 F 4 "yes" H 2400 1650 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB563V" H 2400 1650 50  0001 C CNN "mpn"
-F 6 "100mW" H 2400 1650 50  0001 C CNN "mpn specs"
-F 7 "1%, analog front end" H 2400 1650 50  0001 C CNN "Reqs"
+F 6 "100mW, 0.1%" H 2400 1650 50  0001 C CNN "mpn specs"
+F 7 "1%, 3mW, analog front end" H 2400 1650 50  0001 C CNN "Reqs"
 	1    2400 1650
 	0    1    1    0   
 $EndComp
@@ -82,9 +82,10 @@ F 1 "2.2nF" V 2538 2000 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 2000 50  0001 C CNN
 F 3 "~" H 2400 2000 50  0001 C CNN
 F 4 "yes" H 2400 2000 50  0001 C CNN "finalized"
-F 5 "GRM1885C1H222JA01J" H 2400 2000 50  0001 C CNN "mpn"
-F 6 "5% 100v" H 2400 2000 50  0001 C CNN "mpn specs"
+F 5 "CL10B222KC8WPNC" H 2400 2000 50  0001 C CNN "mpn"
+F 6 "10% 100v" H 2400 2000 50  0001 C CNN "mpn specs"
 F 7 "cv filter" H 2400 2000 50  0001 C CNN "Reqs"
+F 8 "GRM1885C1H222JA01J" H 2400 2000 50  0001 C CNN "mpn alt"
 	1    2400 2000
 	0    -1   -1   0   
 $EndComp
@@ -163,8 +164,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 2740 50  0
 F 3 "~" H 1500 2750 50  0001 C CNN
 F 4 "yes" H 1500 2750 50  0001 C CNN "finalized"
 F 5 "RR0816P-104-D" H 1500 2750 50  0001 C CNN "mpn"
-F 6 "0.5%, analog front end" H 1500 2750 50  0001 C CNN "Reqs"
-F 7 "100mW" H 1500 2750 50  0001 C CNN "mpn specs"
+F 6 "0.5%, 2mW, analog front end" H 1500 2750 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 1500 2750 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED104V" H 1500 2750 50  0001 C CNN "mpn alt"
 	1    1500 2750
 	0    1    1    0   
@@ -178,9 +179,9 @@ F 1 "169k" V 1386 3050 50  0000 C CNN
 F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 3040 50  0001 C CNN
 F 3 "~" H 1500 3050 50  0001 C CNN
 F 4 "yes" H 1500 3050 50  0001 C CNN "finalized"
-F 5 "RR0816P-1693-D-23D" H 1500 3050 50  0001 C CNN "mpn"
-F 6 "100mW" H 1500 3050 50  0001 C CNN "mpn specs"
-F 7 "1%, analog front end" H 1500 3050 50  0001 C CNN "Reqs"
+F 5 "RT0603DRD07169KL" H 1500 3050 50  0001 C CNN "mpn"
+F 6 "100mW, 0.5%" H 1500 3050 50  0001 C CNN "mpn specs"
+F 7 "1%, 1mW, analog front end" H 1500 3050 50  0001 C CNN "Reqs"
 F 8 "ERA-3AEB1693V" H 1500 3050 50  0001 C CNN "mpn alt"
 	1    1500 3050
 	0    1    1    0   
@@ -195,8 +196,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 3140 50  0
 F 3 "~" H 2400 3150 50  0001 C CNN
 F 4 "yes" H 2400 3150 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB563V" H 2400 3150 50  0001 C CNN "mpn"
-F 6 "100mW" H 2400 3150 50  0001 C CNN "mpn specs"
-F 7 "1%, analog front end" H 2400 3150 50  0001 C CNN "Reqs"
+F 6 "100mW, 0.1%" H 2400 3150 50  0001 C CNN "mpn specs"
+F 7 "1%, 3mW, analog front end" H 2400 3150 50  0001 C CNN "Reqs"
 	1    2400 3150
 	0    1    1    0   
 $EndComp
@@ -209,9 +210,10 @@ F 1 "2.2nF" V 2538 3500 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 2400 3500 50  0001 C CNN
 F 3 "~" H 2400 3500 50  0001 C CNN
 F 4 "yes" H 2400 3500 50  0001 C CNN "finalized"
-F 5 "GRM1885C1H222JA01J" H 2400 3500 50  0001 C CNN "mpn"
-F 6 "5% 100v" H 2400 3500 50  0001 C CNN "mpn specs"
+F 5 "CL10B222KC8WPNC" H 2400 3500 50  0001 C CNN "mpn"
+F 6 "10% 100v" H 2400 3500 50  0001 C CNN "mpn specs"
 F 7 "cv filter" H 2400 3500 50  0001 C CNN "Reqs"
+F 8 "GRM1885C1H222JA01J" H 2400 3500 50  0001 C CNN "mpn alt"
 	1    2400 3500
 	0    -1   -1   0   
 $EndComp
@@ -288,8 +290,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 4190 50  0
 F 3 "~" H 1500 4200 50  0001 C CNN
 F 4 "yes" H 1500 4200 50  0001 C CNN "finalized"
 F 5 "RR0816P-104-D" H 1500 4200 50  0001 C CNN "mpn"
-F 6 "0.5%, analog front end" H 1500 4200 50  0001 C CNN "Reqs"
-F 7 "100mW" H 1500 4200 50  0001 C CNN "mpn specs"
+F 6 "0.5%, 2mW, analog front end" H 1500 4200 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 1500 4200 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED104V" H 1500 4200 50  0001 C CNN "mpn alt"
 	1    1500 4200
 	0    1    1    0   
@@ -304,8 +306,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 4490 50  0
 F 3 "~" H 1500 4500 50  0001 C CNN
 F 4 "yes" H 1500 4500 50  0001 C CNN "finalized"
 F 5 "RR0816P-204-D" H 1500 4500 50  0001 C CNN "mpn"
-F 6 "100mW" H 1500 4500 50  0001 C CNN "mpn specs"
-F 7 "1%, analog front end" H 1500 4500 50  0001 C CNN "Reqs"
+F 6 "62mW, 0.5%" H 1500 4500 50  0001 C CNN "mpn specs"
+F 7 "1%, 1mW, analog front end" H 1500 4500 50  0001 C CNN "Reqs"
 F 8 "ERA-3AEB204V" H 1500 4500 50  0001 C CNN "mpn alt"
 	1    1500 4500
 	0    1    1    0   
@@ -320,8 +322,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 4590 50  0
 F 3 "~" H 2400 4600 50  0001 C CNN
 F 4 "yes" H 2400 4600 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB6492V" H 2400 4600 50  0001 C CNN "mpn"
-F 6 "100mW" H 2400 4600 50  0001 C CNN "mpn specs"
-F 7 "1%, analog front end" H 2400 4600 50  0001 C CNN "Reqs"
+F 6 "100mW, 0.1%" H 2400 4600 50  0001 C CNN "mpn specs"
+F 7 "1%, 3mW, analog front end" H 2400 4600 50  0001 C CNN "Reqs"
 	1    2400 4600
 	0    1    1    0   
 $EndComp
@@ -418,8 +420,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 5640 50  0
 F 3 "~" H 1500 5650 50  0001 C CNN
 F 4 "yes" H 1500 5650 50  0001 C CNN "finalized"
 F 5 "RR0816P-104-D" H 1500 5650 50  0001 C CNN "mpn"
-F 6 "0.5%, analog front end" H 1500 5650 50  0001 C CNN "Reqs"
-F 7 "100mW" H 1500 5650 50  0001 C CNN "mpn specs"
+F 6 "0.5%, 2mW, analog front end" H 1500 5650 50  0001 C CNN "Reqs"
+F 7 "62mW, 0.5%" H 1500 5650 50  0001 C CNN "mpn specs"
 F 8 "ERA-3AED104V" H 1500 5650 50  0001 C CNN "mpn alt"
 	1    1500 5650
 	0    1    1    0   
@@ -434,8 +436,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 1540 5940 50  0
 F 3 "~" H 1500 5950 50  0001 C CNN
 F 4 "yes" H 1500 5950 50  0001 C CNN "finalized"
 F 5 "RR0816P-204-D" H 1500 5950 50  0001 C CNN "mpn"
-F 6 "100mW" H 1500 5950 50  0001 C CNN "mpn specs"
-F 7 "1%, analog front end" H 1500 5950 50  0001 C CNN "Reqs"
+F 6 "62mW, 0.5%" H 1500 5950 50  0001 C CNN "mpn specs"
+F 7 "1%, 1mW, analog front end" H 1500 5950 50  0001 C CNN "Reqs"
 F 8 "ERA-3AEB204V" H 1500 5950 50  0001 C CNN "mpn alt"
 	1    1500 5950
 	0    1    1    0   
@@ -450,8 +452,8 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2440 6040 50  0
 F 3 "~" H 2400 6050 50  0001 C CNN
 F 4 "yes" H 2400 6050 50  0001 C CNN "finalized"
 F 5 "ERA-3AEB6492V" H 2400 6050 50  0001 C CNN "mpn"
-F 6 "100mW" H 2400 6050 50  0001 C CNN "mpn specs"
-F 7 "1%, analog front end" H 2400 6050 50  0001 C CNN "Reqs"
+F 6 "100mW, 0.1%" H 2400 6050 50  0001 C CNN "mpn specs"
+F 7 "1%, 3mW, analog front end" H 2400 6050 50  0001 C CNN "Reqs"
 	1    2400 6050
 	0    1    1    0   
 $EndComp
