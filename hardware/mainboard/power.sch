@@ -5,7 +5,7 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 2 7
 Title "Castor & Pollux"
-Date "2021-02-01"
+Date "2021-02-05"
 Rev "v3"
 Comp "Winterbloom"
 Comment1 "CERN-OHL-P v2"
@@ -115,6 +115,7 @@ F 4 "yes" H 5600 1350 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 5600 1350 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 5600 1350 50  0001 C CNN "mpn specs"
 F 7 "GCM188R91E104KA37D" H 5600 1350 50  0001 C CNN "mpn alt"
+F 8 "bypass" H 5600 1350 50  0001 C CNN "Reqs"
 	1    5600 1350
 	1    0    0    -1  
 $EndComp
@@ -294,7 +295,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric_Pad1.05x0.95mm_HandSolder" V 2240 2790 50  0
 F 3 "~" H 2200 2800 50  0001 C CNN
 F 4 "yes" H 2200 2800 50  0001 C CNN "finalized"
 F 5 "ERA-3AED222V" H 2200 2800 50  0001 C CNN "mpn"
-F 6 "1%" H 2200 2800 50  0001 C CNN "Reqs"
+F 6 "1%, vref current control" H 2200 2800 50  0001 C CNN "Reqs"
 F 7 "100mW" H 2200 2800 50  0001 C CNN "mpn specs"
 	1    2200 2800
 	1    0    0    -1  
@@ -313,6 +314,7 @@ F 4 "yes" H 2550 3300 50  0001 C CNN "finalized"
 F 5 "MF-CAP-0603-0.1uF" H 2550 3300 50  0001 C CNN "mpn"
 F 6 "10%, 25v" H 2550 3300 50  0001 C CNN "mpn specs"
 F 7 "GCM188R91E104KA37D" H 2550 3300 50  0001 C CNN "mpn alt"
+F 8 "bypass" H 2550 3300 50  0001 C CNN "Reqs"
 	1    2550 3300
 	1    0    0    -1  
 $EndComp
@@ -382,9 +384,11 @@ F 0 "C48" H 4515 2996 50  0000 L CNN
 F 1 "22uF" H 4515 2905 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 4438 2800 50  0001 C CNN
 F 3 "~" H 4400 2950 50  0001 C CNN
-F 4 "GRM21BR61E226ME44K" H 4400 2950 50  0001 C CNN "mpn"
+F 4 "CL21A226MAQNNNE" H 4400 2950 50  0001 C CNN "mpn"
 F 5 "yes" H 4400 2950 50  0001 C CNN "finalized"
 F 6 "20% 25v" H 4400 2950 50  0001 C CNN "mpn specs"
+F 7 "power bypass" H 4400 2950 50  0001 C CNN "Reqs"
+F 8 "GRM21BR61E226ME44L" H 4400 2950 50  0001 C CNN "mpn alt"
 	1    4400 2950
 	1    0    0    -1  
 $EndComp
