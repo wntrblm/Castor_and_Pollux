@@ -94,8 +94,13 @@ def _calibrate_oscillator(gem, scope, oscillator):
         dac_channel = 2
 
     scope.set_trigger_level(scope_channel, 1)
+    scope.set_cursor_type("Y")
+    scope.set_vertical_cursor(scope_channel, "0V", "3.3V")
+    scope.set_vertical_division(scope_channel, "800mV")
+    scope.set_vertical_offset(scope_channel, "-1.65V")
     scope.show_measurement(scope_channel, "PKPK")
     scope.show_measurement(scope_channel, "MAX")
+
     scope.set_time_division("10ms")
 
     # Wait a moment for the scope to get ready.
@@ -112,12 +117,18 @@ def _calibrate_oscillator(gem, scope, oscillator):
         # Adjust the oscilloscope's time division as needed.
         frequency = oscillators.timer_period_to_frequency(period)
 
-        if frequency > 500:
+        if frequency > 1200:
+            scope.set_time_division("100us")
+        elif frequency > 700:
+            scope.set_time_division("200us")
+        elif frequency > 400:
             scope.set_time_division("250us")
-        elif frequency > 300:
+        elif frequency > 250:
             scope.set_time_division("500us")
-        elif frequency > 150:
+        elif frequency > 120:
             scope.set_time_division("1ms")
+        elif frequency > 80:
+            scope.set_time_division("2ms")
         elif frequency > 50:
             scope.set_time_division("5ms")
         else:
@@ -153,11 +164,18 @@ def run(save):
     log.info("Configuring oscilloscope...")
     resource_manager = visa.ResourceManager("@ivi")
     scope = oscilloscope.Oscilloscope(resource_manager)
-    scope.reset()
 
+    scope.reset()
     scope.enable_bandwidth_limit()
+    scope.set_intensity(50, 100)
+
+    # Enable both channels initially so that it's clear if the programming
+    # board isn't connecting to the POGO pins.
     scope.set_time_division("10ms")
+    scope.enable_channel("c1")
+    scope.enable_channel("c2")
     scope.set_vertical_cursor("c1", 0, 3.3)
+    scope.set_vertical_cursor("c2", 0, 3.3)
     scope.set_vertical_division("c1", "800mV")
     scope.set_vertical_division("c2", "800mV")
     scope.set_vertical_offset("c1", -1.65)
