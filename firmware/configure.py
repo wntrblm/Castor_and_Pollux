@@ -388,10 +388,10 @@ def generate_build(configuration, run_generators=True):
         "runcmd_arg_out",
         "",
         variables=dict(
-            cmd=f"python3 scripts/generate_build_info.py --config {configuration}",
+            cmd=f"python3 -m wintertools.build_info --config {configuration}",
             desc="Generate build info",
         ),
-        implicit=["scripts/generate_build_info.py", "always.phony"],
+        implicit=["always.phony"],
     )
     writer.newline()
 
