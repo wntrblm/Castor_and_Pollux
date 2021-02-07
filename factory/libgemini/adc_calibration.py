@@ -8,16 +8,16 @@ import pathlib
 import statistics
 import time
 
-from wintertools import log, tui
+from wintertools import log, sol, tui
 
-from libgemini import adc_errors, gemini, sol
+from libgemini import adc_errors, gemini
 
 
 def _color_for_diff(diff):
     return tui.rgb(tui.gradient((0.0, 1.0, 0.0), (1.0, 0.0, 0.0), abs(diff) / 300))
 
 
-def _measure_range(gem, sol_, channel, sample_count, calibration_points):
+def _measure_range(gem, sol_, strategy, sample_count, calibration_points):
     output = tui.Updateable()
     bar = tui.Bar()
     lowest_diff, highest_diff = 0, 0
@@ -41,9 +41,9 @@ def _measure_range(gem, sol_, channel, sample_count, calibration_points):
 
             samples = []
             for s in range(sample_count):
-                samples.append(gem.read_adc(channel))
+                samples.append(gem.read_adc(strategy.channel))
 
-            result = statistics.mean(samples)
+            result = strategy.post_measure(statistics.mean(samples))
 
             diff = result - expected_code
 
@@ -90,6 +90,9 @@ class DirectADCStrategy:
     def finish(self, gem):
         gem.enable_adc_error_correction()
 
+    def post_measure(self, value):
+        return value
+
 
 class ThroughAFEStrategy:
     channel = 0
@@ -97,15 +100,25 @@ class ThroughAFEStrategy:
     resolution = 2 ** 12
     invert = True
 
+    def __init__(self):
+        self._gain_error = None
+        self._offset_error = None
+
     def setup(self, gem):
         input("Connect Sol channel A to CV A input and press enter.")
         gem.enable_adc_error_correction()
 
     def save(self, gem, gain_error, offset_error):
         settings = gem.read_settings()
-        settings.cv_gain_error = gain_error
-        settings.cv_offset_error = offset_error
+        settings.cv_gain_error = self._gain_error = gain_error
+        settings.cv_offset_error = self._offset_error = offset_error
         gem.save_settings(settings)
+
+    def post_measure(self, value):
+        if self._gain_error is None:
+            return value
+
+        return adc_errors.apply_correction(value, self._gain_error, self._offset_error)
 
     def file_name(self, gem):
         return f"{gem.serial_number}.afe.json"
@@ -146,15 +159,14 @@ def run(
     gem = gemini.Gemini()
     sol_ = sol.Sol()
 
+    sol._setup()
     sol_.send_voltage(0)
 
     gem.enter_calibration_mode()
 
     strategy.setup(gem)
 
-    measured = _measure_range(
-        gem, sol_, strategy.channel, sample_count, calibration_points
-    )
+    measured = _measure_range(gem, sol_, strategy, sample_count, calibration_points)
 
     gain_error = adc_errors.calculate_avg_gain_error(
         expected_codes, list(measured.values())
@@ -188,9 +200,7 @@ def run(
 
     gem.enable_adc_error_correction()
 
-    measured = _measure_range(
-        gem, sol_, strategy.channel, sample_count, calibration_points
-    )
+    measured = _measure_range(gem, sol_, strategy, sample_count, calibration_points)
 
     gain_error = adc_errors.calculate_avg_gain_error(
         expected_codes, list(measured.values())
