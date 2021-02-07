@@ -8,17 +8,18 @@ import statistics
 
 
 def calculate_avg_gain_error(expected, measured):
-    low = int(len(expected) * 0.15)
-    high = int(len(expected) * 0.85)
-    iterations = int(len(expected) * 0.25)
+    low = int(len(expected) * 0.2)
+    high = int(len(expected) * 0.8)
     gain_errors = []
 
-    for n in range(iterations):
+    while True:
         gain_errors.append(
             (expected[high] - expected[low]) / (measured[high] - measured[low])
         )
         high -= 1
         low += 1
+        if high == low:
+            break
 
     return statistics.mean(gain_errors)
 
@@ -37,7 +38,6 @@ def calculate_avg_offset_error(expected, measured, gain_error):
 
 def apply_correction(value, gain_error, offset_error):
     return (value - offset_error) * gain_error
-
 
 
 def apply_correction_list(data, gain_error, offset_error):
