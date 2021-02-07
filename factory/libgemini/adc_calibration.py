@@ -36,7 +36,7 @@ def _measure_range(gem, sol_, strategy, sample_count, calibration_points):
             log.info(f"{tui.reset}Measuring   {voltage:.3f} volts")
             log.info(f"{tui.reset}expecting:  {expected_code}")
 
-            sol_.send_voltage(voltage)
+            sol_.send_voltage(voltage, channel=strategy.sol_channel)
             time.sleep(0.2)
 
             samples = []
@@ -72,13 +72,16 @@ def _measure_range(gem, sol_, strategy, sample_count, calibration_points):
 
 class DirectADCStrategy:
     channel = 8
+    sol_channel = 0
     range_ = 3.3
     resolution = 2 ** 12
     invert = False
 
     def setup(self, gem):
         gem.disable_adc_error_correction()
-        input("Connect Sol channel A to the LFO potentiometer channel and press enter.")
+        input(
+            "Connect Sol channel {tui.bold}A{tui.reset} to the LFO potentiometer channel and press enter."
+        )
 
     def save(self, gem, gain_error, offset_error):
         gem.set_adc_gain_error(gain_error)
@@ -96,6 +99,7 @@ class DirectADCStrategy:
 
 class ThroughAFEStrategy:
     channel = 0
+    sol_channel = 1
     range_ = 6.0
     resolution = 2 ** 12
     invert = True
@@ -105,7 +109,9 @@ class ThroughAFEStrategy:
         self._offset_error = None
 
     def setup(self, gem):
-        input("Connect Sol channel A to CV A input and press enter.")
+        input(
+            f"Connect Sol channel {tui.bold}B{tui.reset} to CV A input and press enter."
+        )
         gem.enable_adc_error_correction()
 
     def save(self, gem, gain_error, offset_error):
@@ -160,7 +166,7 @@ def run(
     sol_ = sol.Sol()
 
     sol._setup()
-    sol_.send_voltage(0)
+    sol_.send_voltage(0, channel=strategy.sol_channel)
 
     gem.enter_calibration_mode()
 
