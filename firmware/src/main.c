@@ -11,14 +11,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FLIP_ADC(value) (4095 - value)
-#define ADC_TO_F16(value) (fix16_div(fix16_from_int(value), F16(4095.0)))
+#define FLIP_ADC_CODE(value) (4095 - value)
+#define NORMALIZE_ADC(value) (fix16_div(value, F16(4095.0)))
+#define ADC_CODE_TO_F16(value) (NORMALIZE_ADC(fix16_from_int(value)))
 #define UINT12_CLAMP(value) value = value > 4095 ? 4095 : value
 #define IF_WAGGLED(variable, channel)                                                                                  \
     uint16_t variable = adc_results_live[channel];                                                                     \
     int32_t variable##_delta = variable - adc_results_snapshot[channel];                                               \
     if (labs(variable##_delta) > 50) {                                                                                 \
-        variable = FLIP_ADC(variable);
+        variable = FLIP_ADC_CODE(variable);
 #define IF_WAGGLED_END }
 
 static fix16_t knob_bezier_lut[GEM_KNOB_BEZIER_LUT_LEN];
@@ -140,7 +141,7 @@ static void init() {
     WntrPeriodicWaveform_init(&lfo, wntr_triangle, settings.lfo_frequency);
 
     /* Setup oscillators. */
-    cv_adc_errors = (struct GemADCErrors){.offset = settings.cv_gain_error, .gain = settings.cv_offset_error};
+    cv_adc_errors = (struct GemADCErrors){.offset = settings.cv_offset_error, .gain = settings.cv_gain_error};
 
     castor.knob_min = settings.castor_knob_min;
     castor.knob_range = fix16_sub(settings.castor_knob_max, settings.castor_knob_min);
@@ -161,7 +162,11 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
         1.0v + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
     */
 
-    uint16_t cv_adc_code = FLIP_ADC(adc_results[osc->pitch_cv_channel]);
+    uint16_t cv_adc_code = adc_results[osc->pitch_cv_channel];
+
+    /* Error correction must be applied *before* inverting the code because it's calibrated with the uninverted code. */
+    fix16_t cv_adc_code_adj = gem_adc_correct_errors(fix16_from_int(cv_adc_code), cv_adc_errors);
+    cv_adc_code_adj = fix16_sub(F16(4095), cv_adc_code_adj);
 
     /*
         This allows the second oscillator to follow the first. If the pitch cv
@@ -169,8 +174,8 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
         will be set to the first oscillator's pitch cv), otherwise, there's
         enough of an input to calculate the pitch cv from the input.
     */
-    if (follower_threshold == 0 || cv_adc_code > follower_threshold) {
-        fix16_t cv_adc = gem_adc_correct_errors(ADC_TO_F16(cv_adc_code), cv_adc_errors);
+    if (follower_threshold == 0 || cv_adc_code_adj > fix16_from_int(follower_threshold)) {
+        fix16_t cv_adc = NORMALIZE_ADC(cv_adc_code_adj);
         osc->pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, cv_adc));
     } else {
         osc->pitch_cv = osc->pitch;
@@ -187,11 +192,11 @@ static void calculate_pitch_cv(struct OscillatorState* osc, uint16_t follower_th
 }
 
 void calculate_pulse_width(struct OscillatorState* osc) {
-    osc->pulse_width_knob = FLIP_ADC(adc_results[osc->pulse_width_knob_channel]);
-    osc->pulse_width_cv = FLIP_ADC(adc_results[osc->pulse_width_cv_channel]);
+    osc->pulse_width_knob = FLIP_ADC_CODE(adc_results[osc->pulse_width_knob_channel]);
+    osc->pulse_width_cv = FLIP_ADC_CODE(adc_results[osc->pulse_width_cv_channel]);
 
     if (osc->lfo_pwm) {
-        fix16_t lfo_multiplier = ADC_TO_F16(osc->pulse_width_cv + osc->pulse_width_knob);
+        fix16_t lfo_multiplier = ADC_CODE_TO_F16(osc->pulse_width_cv + osc->pulse_width_knob);
         uint16_t duty_lfo = 2048 + fix16_to_int(fix16_mul(F16(2048), fix16_mul(lfo_multiplier, lfo.value)));
         osc->pulse_width = osc->pulse_width_cv + duty_lfo;
     } else {
@@ -219,7 +224,7 @@ static void loop() {
     /*
         Calculate chorusing and account for LFO in Pollux's pitch.
     */
-    fix16_t chorus_lfo_intensity = ADC_TO_F16(FLIP_ADC(adc_results[GEM_IN_CHORUS_POT]));
+    fix16_t chorus_lfo_intensity = ADC_CODE_TO_F16(FLIP_ADC_CODE(adc_results[GEM_IN_CHORUS_POT]));
     fix16_t chorus_lfo_mod = fix16_mul(settings.chorus_max_intensity, fix16_mul(chorus_lfo_intensity, lfo.value));
 
     pollux.pitch = fix16_add(pollux.pitch, chorus_lfo_mod);
@@ -320,7 +325,7 @@ void tweak_loop() {
 
         /* Chorus intensity knob controls lfo frequency in tweak mode. */
         IF_WAGGLED(chorus_pot_code, GEM_IN_CHORUS_POT)
-            fix16_t frequency_value = ADC_TO_F16(chorus_pot_code);
+            fix16_t frequency_value = ADC_CODE_TO_F16(chorus_pot_code);
             lfo.frequency = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
         IF_WAGGLED_END
 
