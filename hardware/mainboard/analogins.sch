@@ -135,7 +135,7 @@ Wire Wire Line
 Wire Wire Line
 	2700 1150 2900 1150
 Connection ~ 2700 1150
-Text HLabel 2900 1150 2    50   Input ~ 0
+Text HLabel 2900 1150 2    50   Output ~ 0
 cv_a_scaled
 Text Notes 2800 1300 0    50   ~ 0
 0.05v to 3.31v
@@ -261,7 +261,7 @@ Wire Wire Line
 Wire Wire Line
 	2700 2650 2900 2650
 Connection ~ 2700 2650
-Text HLabel 2900 2650 2    50   Input ~ 0
+Text HLabel 2900 2650 2    50   Output ~ 0
 cv_b_scaled
 Text Notes 2800 2800 0    50   ~ 0
 0.05v to 3.31v
@@ -387,7 +387,7 @@ Wire Wire Line
 Wire Wire Line
 	2700 4100 2900 4100
 Connection ~ 2700 4100
-Text HLabel 2900 4100 2    50   Input ~ 0
+Text HLabel 2900 4100 2    50   Output ~ 0
 duty_a_scaled
 Text Notes 2800 4250 0    50   ~ 0
 0v to +3.25v
@@ -517,7 +517,7 @@ Wire Wire Line
 Wire Wire Line
 	2700 5550 2900 5550
 Connection ~ 2700 5550
-Text HLabel 2900 5550 2    50   Input ~ 0
+Text HLabel 2900 5550 2    50   Output ~ 0
 duty_b_scaled
 Text Notes 2800 5700 0    50   ~ 0
 0v to +3.25v
