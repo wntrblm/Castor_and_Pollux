@@ -33,6 +33,7 @@ void gem_oscillator_init(struct GemADCErrors pitch_cv_adc_errors, fix16_t pitch_
 
 void GemOscillator_init(
     struct GemOscillator* osc,
+    uint8_t number,
     enum GemADCChannels pitch_cv_channel,
     enum GemADCChannels pitch_knob_channel,
     enum GemADCChannels pulse_width_cv_channel,
@@ -43,6 +44,7 @@ void GemOscillator_init(
     fix16_t knob_max,
     bool lfo_pwm) {
 
+    osc->number = number;
     osc->pitch_cv_channel = pitch_cv_channel;
     osc->pitch_knob_channel = pitch_knob_channel;
     osc->pulse_width_cv_channel = pulse_width_cv_channel;
@@ -88,7 +90,7 @@ void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorIn
         Use the note and charge look-up tables to calculate the outputs for the
         oscillator.
     */
-    GemOscillatorOutputs_calculate(osc->pitch, &osc->outputs);
+    GemOscillatorOutputs_calculate(osc->number, osc->pitch, &osc->outputs);
 }
 
 /* Private functions */

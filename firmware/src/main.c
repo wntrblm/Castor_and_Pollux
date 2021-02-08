@@ -160,6 +160,7 @@ static void init_() {
 
     GemOscillator_init(
         &castor_,
+        0,
         GEM_IN_CV_A,
         GEM_IN_CV_A_POT,
         GEM_IN_DUTY_A,
@@ -172,6 +173,7 @@ static void init_() {
 
     GemOscillator_init(
         &pollux_,
+        1,
         GEM_IN_CV_B,
         GEM_IN_CV_B_POT,
         GEM_IN_DUTY_B,
@@ -278,9 +280,9 @@ static void oscillator_task_() {
         ramp waveform to generate a pulse.
     */
     gem_mcp_4728_write_channels(
-        (struct GemMCP4278Channel){.value = castor_.outputs.castor_ramp_cv},
+        (struct GemMCP4278Channel){.value = castor_.outputs.ramp_cv},
         (struct GemMCP4278Channel){.value = castor_.pulse_width},
-        (struct GemMCP4278Channel){.value = pollux_.outputs.pollux_ramp_cv},
+        (struct GemMCP4278Channel){.value = pollux_.outputs.ramp_cv},
         (struct GemMCP4278Channel){.value = pollux_.pulse_width});
 
     /*

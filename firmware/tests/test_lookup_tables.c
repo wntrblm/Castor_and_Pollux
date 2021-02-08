@@ -8,24 +8,30 @@
 
 #include "fix16.h"
 #include "gem_test.h"
-#include "gem_voice_param_table.h"
-#include "gem_voice_params.h"
+#include "gem_config.h"
+#include "gem_lookup_tables.h"
+#include "gem_oscillator.h"
 
 TEST_CASE_BEGIN(lowest)
     struct GemOscillatorOutputs vp = {};
 
-    GemOscillatorOutputs_calculate(F16(0.0), &vp);
+    GemOscillatorOutputs_calculate(0, F16(0.0), &vp);
 
     munit_assert_int32(vp.pitch_cv, ==, gem_pitch_table[0].pitch_cv);
     munit_assert_uint32(vp.period, ==, gem_pitch_table[0].period);
-    munit_assert_uint16(vp.castor_ramp_cv, ==, gem_ramp_table[0].castor_ramp_cv);
-    munit_assert_uint16(vp.pollux_ramp_cv, ==, gem_ramp_table[0].pollux_ramp_cv);
+    munit_assert_uint16(vp.ramp_cv, ==, gem_ramp_table[0].castor_ramp_cv);
+
+    GemOscillatorOutputs_calculate(1, F16(0.0), &vp);
+
+    munit_assert_int32(vp.pitch_cv, ==, gem_pitch_table[0].pitch_cv);
+    munit_assert_uint32(vp.period, ==, gem_pitch_table[0].period);
+    munit_assert_uint16(vp.ramp_cv, ==, gem_ramp_table[0].pollux_ramp_cv);
 TEST_CASE_END
 
 TEST_CASE_BEGIN(lerp_between_2_and_3)
     struct GemOscillatorOutputs vp = {};
 
-    GemOscillatorOutputs_calculate(F16(2.2), &vp);
+    GemOscillatorOutputs_calculate(0, F16(2.2), &vp);
 
     munit_assert_int32(vp.pitch_cv, ==, F16(2.2));
 
@@ -38,10 +44,8 @@ TEST_CASE_BEGIN(lerp_between_2_and_3)
     munit_assert_uint32(vp.period, <, gem_pitch_table[26].period);
     munit_assert_uint32(vp.period, >, gem_pitch_table[27].period);
 
-    munit_assert_uint16(vp.castor_ramp_cv, >, gem_ramp_table[4].castor_ramp_cv);
-    munit_assert_uint16(vp.castor_ramp_cv, <, gem_ramp_table[5].castor_ramp_cv);
-    munit_assert_uint16(vp.pollux_ramp_cv, >, gem_ramp_table[4].pollux_ramp_cv);
-    munit_assert_uint16(vp.pollux_ramp_cv, <, gem_ramp_table[5].pollux_ramp_cv);
+    munit_assert_uint16(vp.ramp_cv, >, gem_ramp_table[4].castor_ramp_cv);
+    munit_assert_uint16(vp.ramp_cv, <, gem_ramp_table[5].castor_ramp_cv);
 TEST_CASE_END
 
 TEST_CASE_BEGIN(sweep)
@@ -49,18 +53,16 @@ TEST_CASE_BEGIN(sweep)
     struct GemOscillatorOutputs current_p = {};
 
     for (fix16_t i = F16(0); i < F16(7.0); i = fix16_add(i, F16(0.02))) {
-        GemOscillatorOutputs_calculate(i, &current_p);
+        GemOscillatorOutputs_calculate(0, i, &current_p);
         printf(
-            "Sweep: %f yields %u with dac %u & %u\n",
+            "Sweep: %f yields %u with dac %u\n",
             fix16_to_dbl(i),
             current_p.period,
-            current_p.castor_ramp_cv,
-            current_p.pollux_ramp_cv);
+            current_p.ramp_cv);
 
         munit_assert_int32(current_p.pitch_cv, ==, i);
         munit_assert_uint32(current_p.period, <, last_p.period);
-        munit_assert_uint32(current_p.castor_ramp_cv, >=, last_p.castor_ramp_cv);
-        munit_assert_uint32(current_p.pollux_ramp_cv, >=, last_p.pollux_ramp_cv);
+        munit_assert_uint32(current_p.ramp_cv, >=, last_p.ramp_cv);
 
         last_p = current_p;
     }

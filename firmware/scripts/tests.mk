@@ -35,6 +35,8 @@ INCLUDES += \
   -I./third_party/libwinter \
   -I./third_party/libfixmath \
   -I./third_party/tinyusb/src \
+  -I./third_party/cmsis/include \
+  -I./third_party/samd21/include \
   -I./third_party/munit
 
 # Linker configuration
@@ -47,9 +49,9 @@ LIBS += -lm
 # Sources from the firmware
 
 SRCS += \
+	src/gem_oscillator_outputs.c \
 	src/lib/gem_sysex_dispatcher.c \
-	src/generated/gem_voice_param_table.c \
-	src/gem_voice_params.c \
+	src/generated/gem_lookup_tables.c \
 	third_party/libwinter/wntr_midi_core.c \
 	third_party/libwinter/wntr_assert.c \
 	third_party/libfixmath/fix16.c \
@@ -58,7 +60,7 @@ SRCS += \
 ##############################################################################
 
 # Combine final flags and determine all object files.
-DEFINES += -DDEBUG
+DEFINES += -DDEBUG -D__SAMD21G18A__
 
 CFLAGS += $(INCLUDES) $(DEFINES)
 SRCS += $(wildcard tests/*.c) $(wildcard tests/stubs/*.c)
