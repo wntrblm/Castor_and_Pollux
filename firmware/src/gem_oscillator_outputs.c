@@ -8,7 +8,12 @@
 #include <stdbool.h>
 
 #include "gem_lookup_tables.h"
-#include "gem_oscillator_outputs.h"
+#include "gem_oscillator.h"
+
+/*
+    Uses the look-up tables to calculate the timer period and ramp control
+    voltage for a given pitch control voltage input.
+*/
 
 /* Forward declarations. */
 
