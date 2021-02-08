@@ -5,7 +5,7 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 1 7
 Title "Castor & Pollux"
-Date "2021-02-05"
+Date "2021-02-07"
 Rev "v3"
 Comp "Winterbloom"
 Comment1 "CERN-OHL-P v2"
@@ -43,9 +43,9 @@ F0 "Output Mixer" 50
 F1 "outputmixer.sch" 50
 F2 "castor_in" I L 7600 1950 50 
 F3 "pollux_in" I L 7600 2700 50 
-F4 "mix_pot_out" I R 8950 2200 50 
+F4 "mix_pot_out" O R 8950 2200 50 
 F5 "mix_pot_in" I R 8950 2350 50 
-F6 "mix_out" I R 8950 2500 50 
+F6 "mix_out" O R 8950 2500 50 
 $EndSheet
 $Sheet
 S 4850 2550 1350 1050
@@ -55,10 +55,10 @@ F1 "castor.sch" 50
 F2 "square_in" I L 4850 2650 50 
 F3 "charge_cv_in" I L 4850 2800 50 
 F4 "pwm_cv_in" I L 4850 2950 50 
-F5 "ramp_out" I R 6200 2650 50 
-F6 "pwm_out" I R 6200 2800 50 
-F7 "sub_out" I R 6200 2950 50 
-F8 "mix_out" I R 6200 3100 50 
+F5 "ramp_out" O R 6200 2650 50 
+F6 "pwm_out" O R 6200 2800 50 
+F7 "sub_out" O R 6200 2950 50 
+F8 "mix_out" O R 6200 3100 50 
 F9 "ramp_mix_in" I L 4850 3200 50 
 F10 "pwm_mix_in" I L 4850 3350 50 
 F11 "sub_mix_in" I L 4850 3500 50 
@@ -83,12 +83,12 @@ U 5F3674A8
 F0 "Analog Ins" 50
 F1 "analogins.sch" 50
 F2 "cv_a_jack" I L 1300 4000 50 
-F3 "cv_a_scaled" I R 2950 3900 50 
-F4 "cv_b_scaled" I R 2950 4000 50 
-F5 "duty_a_scaled" I R 2950 4100 50 
+F3 "cv_a_scaled" O R 2950 3900 50 
+F4 "cv_b_scaled" O R 2950 4000 50 
+F5 "duty_a_scaled" O R 2950 4100 50 
 F6 "duty_a_jack" I L 1300 4100 50 
 F7 "cv_b_jack" I L 1300 3900 50 
-F8 "duty_b_scaled" I R 2950 4200 50 
+F8 "duty_b_scaled" O R 2950 4200 50 
 F9 "duty_b_jack" I L 1300 4200 50 
 $EndSheet
 Wire Wire Line
@@ -128,14 +128,14 @@ S 1250 750  1550 2500
 U 5F09EAA6
 F0 "MCU" 50
 F1 "mcu.sch" 50
-F2 "CV_A" I R 2800 1450 50 
-F3 "CV_B" I R 2800 1550 50 
-F4 "CV_C" I R 2800 1650 50 
-F5 "CV_D" I R 2800 1750 50 
+F2 "CV_A" O R 2800 1450 50 
+F3 "CV_B" O R 2800 1550 50 
+F4 "CV_C" O R 2800 1650 50 
+F5 "CV_D" O R 2800 1750 50 
 F6 "square_out_a" O R 2800 1250 50 
-F7 "square_out_b" I R 2800 1350 50 
-F8 "dotstar_data" I R 2800 850 50 
-F9 "dotstar_clk" I R 2800 950 50 
+F7 "square_out_b" O R 2800 1350 50 
+F8 "dotstar_data" O R 2800 850 50 
+F9 "dotstar_clk" O R 2800 950 50 
 F10 "cv_a_in" I R 2800 1950 50 
 F11 "cv_b_in" I R 2800 2050 50 
 F12 "cv_a_pot" I R 2800 2150 50 
@@ -155,10 +155,10 @@ F1 "castor.sch" 50
 F2 "square_in" I L 4850 1250 50 
 F3 "charge_cv_in" I L 4850 1400 50 
 F4 "pwm_cv_in" I L 4850 1550 50 
-F5 "ramp_out" I R 6200 1250 50 
-F6 "pwm_out" I R 6200 1400 50 
-F7 "sub_out" I R 6200 1550 50 
-F8 "mix_out" I R 6200 1700 50 
+F5 "ramp_out" O R 6200 1250 50 
+F6 "pwm_out" O R 6200 1400 50 
+F7 "sub_out" O R 6200 1550 50 
+F8 "mix_out" O R 6200 1700 50 
 F9 "ramp_mix_in" I L 4850 1850 50 
 F10 "pwm_mix_in" I L 4850 2000 50 
 F11 "sub_mix_in" I L 4850 2150 50 

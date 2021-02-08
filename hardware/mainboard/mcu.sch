@@ -384,13 +384,13 @@ F 3 "" H 6650 6250 50  0001 C CNN
 	1    6650 6250
 	1    0    0    -1  
 $EndComp
-Text HLabel 7250 5750 2    50   Input ~ 0
+Text HLabel 7250 5750 2    50   Output ~ 0
 CV_A
-Text HLabel 7250 5850 2    50   Input ~ 0
+Text HLabel 7250 5850 2    50   Output ~ 0
 CV_B
-Text HLabel 7250 5950 2    50   Input ~ 0
+Text HLabel 7250 5950 2    50   Output ~ 0
 CV_C
-Text HLabel 7250 6050 2    50   Input ~ 0
+Text HLabel 7250 6050 2    50   Output ~ 0
 CV_D
 Text Notes 1100 2100 0    50   ~ 0
 i2c on SERCOM1
@@ -517,9 +517,9 @@ Text HLabel 5900 1000 2    50   Output ~ 0
 square_out_a
 Text HLabel 5900 1150 2    50   Output ~ 0
 square_out_b
-Text HLabel 5900 1450 2    50   Input ~ 0
+Text HLabel 5900 1450 2    50   Output ~ 0
 dotstar_data
-Text HLabel 5900 1300 2    50   Input ~ 0
+Text HLabel 5900 1300 2    50   Output ~ 0
 dotstar_clk
 Text HLabel 5900 1600 2    50   Input ~ 0
 cv_a_in

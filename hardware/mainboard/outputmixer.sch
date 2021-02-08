@@ -184,7 +184,7 @@ Wire Wire Line
 Connection ~ 3700 2050
 Text HLabel 2250 3750 0    50   Input ~ 0
 castor_in
-Text HLabel 3950 2400 2    50   Input ~ 0
+Text HLabel 3950 2400 2    50   Output ~ 0
 mix_pot_out
 Wire Wire Line
 	3700 2400 3950 2400
@@ -238,7 +238,7 @@ F 3 "" H 3100 2950 50  0001 C CNN
 	1    3100 2950
 	1    0    0    -1  
 $EndComp
-Text HLabel 4350 4150 2    50   Input ~ 0
+Text HLabel 4350 4150 2    50   Output ~ 0
 mix_out
 $Comp
 L Device:R_US R68

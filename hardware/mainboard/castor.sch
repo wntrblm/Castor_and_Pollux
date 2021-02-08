@@ -1208,11 +1208,11 @@ Text Label 7650 1550 2    50   ~ 0
 ramp_pre
 Text Label 7650 2700 2    50   ~ 0
 pwm_pre
-Text HLabel 9800 1650 2    50   Input ~ 0
+Text HLabel 9800 1650 2    50   Output ~ 0
 ramp_out
-Text HLabel 9800 2800 2    50   Input ~ 0
+Text HLabel 9800 2800 2    50   Output ~ 0
 pwm_out
-Text HLabel 9800 5600 2    50   Input ~ 0
+Text HLabel 9800 5600 2    50   Output ~ 0
 mix_out
 Text HLabel 7150 4800 0    50   Input ~ 0
 ramp_mix_in
@@ -1335,7 +1335,7 @@ F 3 "" H 1900 4150 50  0001 C CNN
 	1    1900 4150
 	1    0    0    -1  
 $EndComp
-Text HLabel 9800 3950 2    50   Input ~ 0
+Text HLabel 9800 3950 2    50   Output ~ 0
 sub_out
 Text Label 7650 3850 2    50   ~ 0
 sub_pre
