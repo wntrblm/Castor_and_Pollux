@@ -16,6 +16,7 @@
 #include "gem_mcp4728.h"
 #include "gem_monitor_update.h"
 #include "gem_nvm.h"
+#include "gem_oscillator.h"
 #include "gem_pulseout.h"
 #include "gem_serial_number.h"
 #include "gem_settings.h"

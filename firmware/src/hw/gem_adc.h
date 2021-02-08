@@ -14,6 +14,14 @@
 #include <stdint.h>
 
 /*
+    Macros & constants.
+*/
+#define ADC_INVERT(value) (4095 - value)
+#define ADC_NORMALIZE_F16(value) (fix16_div(value, F16(4095.0)))
+#define ADC_NORMALIZE_CODE(value) (ADC_NORMALIZE_F16(fix16_from_int(value)))
+#define ADC_UINT12_CLAMP(value) value = value > 4095 ? 4095 : value
+
+/*
     Input channel descriptor. These settings should be derived from the
     pin multiplexing table in the datasheet.
 */
