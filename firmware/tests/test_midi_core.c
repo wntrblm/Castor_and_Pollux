@@ -17,7 +17,9 @@ static size_t usb_midi_out_packets_idx = 0;
 static uint8_t captured_sysex[128];
 static size_t captured_sysex_len = 0;
 
-bool gem_usb_midi_receive(uint8_t packet[4]) {
+bool tud_midi_n_receive(uint8_t idx, uint8_t packet[4]) {
+    (void)(idx);
+
     if (usb_midi_in_packets[usb_midi_in_packets_idx] == 0) {
         return false;
     }
@@ -30,7 +32,8 @@ bool gem_usb_midi_receive(uint8_t packet[4]) {
     return true;
 }
 
-bool gem_usb_midi_send(const uint8_t packet[4]) {
+bool tud_midi_n_send(uint8_t idx, const uint8_t packet[4]) {
+    (void)(idx);
     usb_midi_out_packets[usb_midi_out_packets_idx] = packet[0];
     usb_midi_out_packets[usb_midi_out_packets_idx + 1] = packet[1];
     usb_midi_out_packets[usb_midi_out_packets_idx + 2] = packet[2];

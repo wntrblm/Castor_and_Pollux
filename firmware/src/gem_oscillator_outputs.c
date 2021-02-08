@@ -7,24 +7,24 @@
 #include <math.h>
 #include <stdbool.h>
 
-#include "gem_voice_param_table.h"
-#include "gem_voice_params.h"
+#include "gem_lookup_tables.h"
+#include "gem_oscillator_outputs.h"
 
-/* Private function forward declarations. */
+/* Forward declarations. */
 
 static int32_t fix16_lerp_int64_(int64_t a, int64_t b, uint16_t frac);
 
-static void find_nearest_pair_with_voltage_(
-    fix16_t input, struct GemVoltageAndPeriod* low_out, struct GemVoltageAndPeriod* high_out);
+static void find_nearest_pair_with_pitch_cv_(
+    fix16_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out);
 
-static void
-find_nearest_pair_with_period_(uint32_t input, struct GemDACCodePair* low_out, struct GemDACCodePair* high_out);
+static void find_nearest_pair_with_period_(
+    uint32_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out);
 
 /* Public functions. */
 
-void GemVoiceParams_from_cv(fix16_t pitch_control_voltage, struct GemVoiceParams* out) {
-    struct GemVoiceParams low = {};
-    struct GemVoiceParams high = {};
+void GemOscillatorOutputs_calculate(fix16_t pitch_cv, struct GemOscillatorOutputs* out) {
+    struct GemOscillatorOutputs low = {};
+    struct GemOscillatorOutputs high = {};
 
     /*
         First step is to figure out the timer period needed for the given
@@ -35,7 +35,7 @@ void GemVoiceParams_from_cv(fix16_t pitch_control_voltage, struct GemVoiceParams
         a power function (see oscillators.py).
     */
 
-    find_nearest_pair_with_voltage_(pitch_control_voltage, &low.voltage_and_period, &high.voltage_and_period);
+    find_nearest_pair_with_pitch_cv_(pitch_cv, &low, &high);
 
     /*
         Before using lerp you have to figure out where the real value is in relation to
@@ -57,18 +57,17 @@ void GemVoiceParams_from_cv(fix16_t pitch_control_voltage, struct GemVoiceParams
         use integer division which is a bit faster.
     */
     uint16_t voltage_frac_int;
-    if (low.voltage_and_period.voltage == high.voltage_and_period.voltage) {
+    if (low.pitch_cv == high.pitch_cv) {
         voltage_frac_int = 65535;
     } else {
-        uint32_t dividend = (uint32_t)(pitch_control_voltage - low.voltage_and_period.voltage);
+        uint32_t dividend = (uint32_t)(pitch_cv - low.pitch_cv);
         dividend <<= 16;
-        uint32_t divisor = (uint32_t)(high.voltage_and_period.voltage - low.voltage_and_period.voltage);
+        uint32_t divisor = (uint32_t)(high.pitch_cv - low.pitch_cv);
         voltage_frac_int = (uint16_t)(dividend / divisor);
     }
 
-    out->voltage_and_period.voltage = pitch_control_voltage;
-    out->voltage_and_period.period =
-        fix16_lerp_int64_(low.voltage_and_period.period, high.voltage_and_period.period, voltage_frac_int);
+    out->pitch_cv = pitch_cv;
+    out->period = fix16_lerp_int64_(low.period, high.period, voltage_frac_int);
 
     /*
         Now figure out the DAC charge code.
@@ -81,25 +80,24 @@ void GemVoiceParams_from_cv(fix16_t pitch_control_voltage, struct GemVoiceParams
         Also of note is that since this uses the period register instead of the
         frequency it isn't *quite* linear with frequency, but it's close enough.
     */
-    find_nearest_pair_with_period_(out->voltage_and_period.period, &low.dac_codes, &high.dac_codes);
+    find_nearest_pair_with_period_(out->period, &low, &high);
 
     uint16_t dac_frac_int;
-    if (low.dac_codes.period == high.dac_codes.period) {
+    if (low.period == high.period) {
         dac_frac_int = 65535;
     } else {
         /*
             Throw away some LSBs to avoid 64-bit division. There's still plenty
             of resolution to work with.
         */
-        uint32_t dividend = ((uint32_t)(low.dac_codes.period - out->voltage_and_period.period)) >> 2;
+        uint32_t dividend = ((uint32_t)(low.period - out->period)) >> 2;
         dividend <<= 16;
-        uint32_t divisor = ((uint32_t)(low.dac_codes.period - high.dac_codes.period)) >> 2;
+        uint32_t divisor = ((uint32_t)(low.period - high.period)) >> 2;
         dac_frac_int = (uint16_t)(dividend / divisor);
     }
 
-    out->dac_codes.period = out->voltage_and_period.period;
-    out->dac_codes.castor = fix16_lerp16(low.dac_codes.castor, high.dac_codes.castor, dac_frac_int);
-    out->dac_codes.pollux = fix16_lerp16(low.dac_codes.pollux, high.dac_codes.pollux, dac_frac_int);
+    out->castor_ramp_cv = fix16_lerp16(low.castor_ramp_cv, high.castor_ramp_cv, dac_frac_int);
+    out->pollux_ramp_cv = fix16_lerp16(low.pollux_ramp_cv, high.pollux_ramp_cv, dac_frac_int);
 };
 
 /* Private functions. */
@@ -113,9 +111,9 @@ static int32_t fix16_lerp_int64_(int64_t a, int64_t b, uint16_t frac) {
     return (int32_t)result;
 }
 
-#define FIND_NEAREST_PAIR(name, table, input_typename, entry_typename, compare_low, compare_high)                      \
+#define FIND_NEAREST_PAIR(name, table, input_typename, entry_typename, compare_low, compare_high, assign)              \
     static void find_nearest_pair_with_##name##_(                                                                      \
-        input_typename input, entry_typename* low_out, entry_typename* high_out) {                                     \
+        input_typename input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out) {           \
         const entry_typename* low = &table[0];                                                                         \
         const entry_typename* high = &table[0];                                                                        \
         const entry_typename* current;                                                                                 \
@@ -135,22 +133,35 @@ static int32_t fix16_lerp_int64_(int64_t a, int64_t b, uint16_t frac) {
         if (!found) {                                                                                                  \
             high = low;                                                                                                \
         }                                                                                                              \
-        (*low_out) = (*low);                                                                                           \
-        (*high_out) = (*high);                                                                                         \
+        assign(low_out, low);                                                                                          \
+        assign(high_out, high);                                                                                        \
     }
 
+static void assign_pitch_cv_(struct GemOscillatorOutputs* out, const struct GemPitchTableEntry* in) {
+    out->pitch_cv = in->pitch_cv;
+    out->period = in->period;
+}
+
 FIND_NEAREST_PAIR(
-    voltage,
-    gem_voice_voltage_and_period_table,
+    pitch_cv,
+    gem_pitch_table,
     fix16_t,
-    struct GemVoltageAndPeriod,
-    (current->voltage <= input && current->voltage >= low->voltage),
-    (current->voltage > input));
+    struct GemPitchTableEntry,
+    (current->pitch_cv <= input && current->pitch_cv >= low->pitch_cv),
+    (current->pitch_cv > input),
+    assign_pitch_cv_);
+
+static void assign_ramp_cv_(struct GemOscillatorOutputs* out, const struct GemRampTableEntry* in) {
+    out->castor_ramp_cv = in->castor_ramp_cv;
+    out->pollux_ramp_cv = in->pollux_ramp_cv;
+    out->period = in->period;
+}
 
 FIND_NEAREST_PAIR(
     period,
-    gem_voice_dac_codes_table,
+    gem_ramp_table,
     uint32_t,
-    struct GemDACCodePair,
+    struct GemRampTableEntry,
     (current->period >= input),
-    (current->period < input && current->period <= low->period));
+    (current->period < input && current->period <= low->period),
+    assign_ramp_cv_);
