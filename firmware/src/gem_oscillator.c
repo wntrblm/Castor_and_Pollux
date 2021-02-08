@@ -53,7 +53,7 @@ void GemOscillator_init(
     osc->lfo_pwm = lfo_pwm;
     osc->lfo_pitch = false;
 
-    osc->params = (struct GemVoiceParams){};
+    osc->outputs = (struct GemOscillatorOutputs){};
     osc->smooth.initial_gain = smooth_initial_gain;
     osc->smooth.sensitivity = smooth_sensitivity;
     osc->smooth._lowpass1 = F16(0);
@@ -88,7 +88,7 @@ void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorIn
         Use the note and charge look-up tables to calculate the outputs for the
         oscillator.
     */
-    GemVoiceParams_from_cv(osc->pitch, &osc->params);
+    GemOscillatorOutputs_calculate(osc->pitch, &osc->outputs);
 }
 
 /* Private functions */

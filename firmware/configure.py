@@ -417,14 +417,14 @@ def generate_build(configuration, run_generators=True):
 
         # Parameter table
         writer.build(
-            "src/generated/gem_voice_param_table.c",
+            "src/generated/gem_lookup_tables.c",
             "runcmd_arg_out",
             "",
             variables=dict(
-                cmd="python3 scripts/generate_voice_param_table.py",
-                desc="Generate voice parameter table",
+                cmd="python3 scripts/generate_lookup_tables.py",
+                desc="Generate lookup tables",
             ),
-            implicit=["scripts/generate_voice_param_table.py"],
+            implicit=["scripts/generate_lookup_tables.py"],
         )
         writer.newline()
 

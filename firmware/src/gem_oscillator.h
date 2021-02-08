@@ -8,7 +8,7 @@
 
 #include "fix16.h"
 #include "gem_config.h"
-#include "gem_voice_params.h"
+#include "gem_oscillator_outputs.h"
 #include "wntr_smoothie.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -28,7 +28,7 @@ struct GemOscillator {
     bool lfo_pwm;
 
     /* State */
-    struct GemVoiceParams params;
+    struct GemOscillatorOutputs outputs;
     struct WntrSmoothie smooth;
     fix16_t pitch_knob;
     fix16_t pitch_cv;

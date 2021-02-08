@@ -8,6 +8,7 @@
 #include "gem_adc.h"
 #include "gem_config.h"
 #include "gem_led_animation.h"
+#include "gem_lookup_tables.h"
 #include "gem_mcp4728.h"
 #include "gem_pulseout.h"
 #include "gem_serial_number.h"
@@ -15,7 +16,6 @@
 #include "gem_settings_load_save.h"
 #include "gem_sysex_dispatcher.h"
 #include "gem_usb.h"
-#include "gem_voice_param_table.h"
 #include "printf.h"
 #include "teeth.h"
 #include "wntr_assert.h"
@@ -281,15 +281,20 @@ static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
     uint16_t castor_code = WNTR_UNPACK_16(request, 5);
     uint16_t pollux_code = WNTR_UNPACK_16(request, 7);
 
-    if (entry >= gem_voice_dac_codes_table_len) {
+    if (entry >= gem_ramp_table_len) {
         return;
     }
 
-    printf("Set LUT entry %u to period=%u, castor=%u, pollux=%u\r\n", entry, period, castor_code, pollux_code);
+    printf(
+        "Set LUT entry %u to period=%u, castor_ramp_cv=%u, pollux_ramp_cv=%u\r\n",
+        entry,
+        period,
+        castor_code,
+        pollux_code);
 
-    gem_voice_dac_codes_table[entry].period = period;
-    gem_voice_dac_codes_table[entry].castor = castor_code;
-    gem_voice_dac_codes_table[entry].pollux = pollux_code;
+    gem_ramp_table[entry].period = period;
+    gem_ramp_table[entry].castor_ramp_cv = castor_code;
+    gem_ramp_table[entry].pollux_ramp_cv = pollux_code;
 
     /* Acknowledge the message. */
     RESPONSE_0(0x0A);
@@ -299,14 +304,14 @@ static void cmd_0x0B_write_lut(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    gem_save_dac_codes_table();
+    gem_save_ramp_table();
 }
 
 static void cmd_0x0C_erase_lut(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    gem_erase_dac_codes_table();
+    gem_erase_ramp_table();
 }
 
 static void cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len) {

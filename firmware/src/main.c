@@ -96,7 +96,7 @@ static void init_() {
         compensate for amplitude loss in the ramp waveform as frequency
         increases.
     */
-    gem_load_dac_codes_table();
+    gem_load_ramp_table();
 
     /*
         Driver configuration.
@@ -258,8 +258,8 @@ static void oscillator_task_() {
         disabled while Gemini modifies the timer configuration.
     */
     __disable_irq();
-    gem_pulseout_set_period(0, castor_.params.voltage_and_period.period);
-    gem_pulseout_set_period(1, pollux_.params.voltage_and_period.period);
+    gem_pulseout_set_period(0, castor_.outputs.period);
+    gem_pulseout_set_period(1, pollux_.outputs.period);
     __enable_irq();
 
     /*
@@ -278,9 +278,9 @@ static void oscillator_task_() {
         ramp waveform to generate a pulse.
     */
     gem_mcp_4728_write_channels(
-        (struct GemMCP4278Channel){.value = castor_.params.dac_codes.castor},
+        (struct GemMCP4278Channel){.value = castor_.outputs.castor_ramp_cv},
         (struct GemMCP4278Channel){.value = castor_.pulse_width},
-        (struct GemMCP4278Channel){.value = pollux_.params.dac_codes.pollux},
+        (struct GemMCP4278Channel){.value = pollux_.outputs.pollux_ramp_cv},
         (struct GemMCP4278Channel){.value = pollux_.pulse_width});
 
     /*

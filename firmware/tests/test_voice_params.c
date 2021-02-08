@@ -12,55 +12,55 @@
 #include "gem_voice_params.h"
 
 TEST_CASE_BEGIN(lowest)
-    struct GemVoiceParams vp = {};
+    struct GemOscillatorOutputs vp = {};
 
-    GemVoiceParams_from_cv(F16(0.0), &vp);
+    GemOscillatorOutputs_calculate(F16(0.0), &vp);
 
-    munit_assert_int32(vp.voltage_and_period.voltage, ==, gem_voice_voltage_and_period_table[0].voltage);
-    munit_assert_uint32(vp.voltage_and_period.period, ==, gem_voice_voltage_and_period_table[0].period);
-    munit_assert_uint16(vp.dac_codes.castor, ==, gem_voice_dac_codes_table[0].castor);
-    munit_assert_uint16(vp.dac_codes.pollux, ==, gem_voice_dac_codes_table[0].pollux);
+    munit_assert_int32(vp.pitch_cv, ==, gem_pitch_table[0].pitch_cv);
+    munit_assert_uint32(vp.period, ==, gem_pitch_table[0].period);
+    munit_assert_uint16(vp.castor_ramp_cv, ==, gem_ramp_table[0].castor_ramp_cv);
+    munit_assert_uint16(vp.pollux_ramp_cv, ==, gem_ramp_table[0].pollux_ramp_cv);
 TEST_CASE_END
 
 TEST_CASE_BEGIN(lerp_between_2_and_3)
-    struct GemVoiceParams vp = {};
+    struct GemOscillatorOutputs vp = {};
 
-    GemVoiceParams_from_cv(F16(2.2), &vp);
+    GemOscillatorOutputs_calculate(F16(2.2), &vp);
 
-    munit_assert_int32(vp.voltage_and_period.voltage, ==, F16(2.2));
+    munit_assert_int32(vp.pitch_cv, ==, F16(2.2));
 
     // This test currently depends on the tables having specific values.
 
     // Voltage is increasing as table indexes increase
-    munit_assert_int32(vp.voltage_and_period.voltage, >, gem_voice_voltage_and_period_table[26].voltage);
-    munit_assert_int32(vp.voltage_and_period.voltage, <, gem_voice_voltage_and_period_table[27].voltage);
+    munit_assert_int32(vp.pitch_cv, >, gem_pitch_table[26].pitch_cv);
+    munit_assert_int32(vp.pitch_cv, <, gem_pitch_table[27].pitch_cv);
     // Period is decreasing as table indexes increase
-    munit_assert_uint32(vp.voltage_and_period.period, <, gem_voice_voltage_and_period_table[26].period);
-    munit_assert_uint32(vp.voltage_and_period.period, >, gem_voice_voltage_and_period_table[27].period);
+    munit_assert_uint32(vp.period, <, gem_pitch_table[26].period);
+    munit_assert_uint32(vp.period, >, gem_pitch_table[27].period);
 
-    munit_assert_uint16(vp.dac_codes.castor, >, gem_voice_dac_codes_table[4].castor);
-    munit_assert_uint16(vp.dac_codes.castor, <, gem_voice_dac_codes_table[5].castor);
-    munit_assert_uint16(vp.dac_codes.pollux, >, gem_voice_dac_codes_table[4].pollux);
-    munit_assert_uint16(vp.dac_codes.pollux, <, gem_voice_dac_codes_table[5].pollux);
+    munit_assert_uint16(vp.castor_ramp_cv, >, gem_ramp_table[4].castor_ramp_cv);
+    munit_assert_uint16(vp.castor_ramp_cv, <, gem_ramp_table[5].castor_ramp_cv);
+    munit_assert_uint16(vp.pollux_ramp_cv, >, gem_ramp_table[4].pollux_ramp_cv);
+    munit_assert_uint16(vp.pollux_ramp_cv, <, gem_ramp_table[5].pollux_ramp_cv);
 TEST_CASE_END
 
 TEST_CASE_BEGIN(sweep)
-    struct GemVoiceParams last_p = {.voltage_and_period = {.voltage = F16(0), .period = (2 << 24) - 1}};
-    struct GemVoiceParams current_p = {};
+    struct GemOscillatorOutputs last_p = {.pitch_cv = F16(0), .period = (2 << 24) - 1};
+    struct GemOscillatorOutputs current_p = {};
 
     for (fix16_t i = F16(0); i < F16(7.0); i = fix16_add(i, F16(0.02))) {
-        GemVoiceParams_from_cv(i, &current_p);
+        GemOscillatorOutputs_calculate(i, &current_p);
         printf(
             "Sweep: %f yields %u with dac %u & %u\n",
             fix16_to_dbl(i),
-            current_p.voltage_and_period.period,
-            current_p.dac_codes.castor,
-            current_p.dac_codes.pollux);
+            current_p.period,
+            current_p.castor_ramp_cv,
+            current_p.pollux_ramp_cv);
 
-        munit_assert_int32(current_p.voltage_and_period.voltage, ==, i);
-        munit_assert_uint32(current_p.voltage_and_period.period, <, last_p.voltage_and_period.period);
-        munit_assert_uint32(current_p.dac_codes.castor, >=, last_p.dac_codes.castor);
-        munit_assert_uint32(current_p.dac_codes.pollux, >=, last_p.dac_codes.pollux);
+        munit_assert_int32(current_p.pitch_cv, ==, i);
+        munit_assert_uint32(current_p.period, <, last_p.period);
+        munit_assert_uint32(current_p.castor_ramp_cv, >=, last_p.castor_ramp_cv);
+        munit_assert_uint32(current_p.pollux_ramp_cv, >=, last_p.pollux_ramp_cv);
 
         last_p = current_p;
     }
@@ -74,7 +74,7 @@ static MunitTest test_suite_tests[] = {
 };
 
 MunitSuite test_voice_params_suite = {
-    .prefix = "voice params: ",
+    .prefix = "voice outputs: ",
     .tests = test_suite_tests,
     .iterations = 1,
 };
