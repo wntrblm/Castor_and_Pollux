@@ -23,12 +23,12 @@ struct GemOscillatorInputs {
 struct GemOscillatorOutputs {
     fix16_t pitch_cv;
     uint32_t period;
-    uint16_t castor_ramp_cv;
-    uint16_t pollux_ramp_cv;
+    uint16_t ramp_cv;
 };
 
 struct GemOscillator {
     /* Configuration */
+    uint8_t number;
     enum GemADCChannels pitch_cv_channel;
     enum GemADCChannels pitch_knob_channel;
     enum GemADCChannels pulse_width_cv_channel;
@@ -54,6 +54,7 @@ void gem_oscillator_init(struct GemADCErrors pitch_cv_adc_errors, fix16_t pitch_
 
 void GemOscillator_init(
     struct GemOscillator* osc,
+    uint8_t number,
     enum GemADCChannels pitch_cv_channel,
     enum GemADCChannels pitch_knob_channel,
     enum GemADCChannels pulse_width_cv_channel,
@@ -68,4 +69,4 @@ void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs 
 
 void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs);
 
-void GemOscillatorOutputs_calculate(fix16_t pitch_cv, struct GemOscillatorOutputs* out);
+void GemOscillatorOutputs_calculate(uint8_t osc, fix16_t pitch_cv, struct GemOscillatorOutputs* out);

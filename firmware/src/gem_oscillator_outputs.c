@@ -20,14 +20,14 @@
 static int32_t fix16_lerp_int64_(int64_t a, int64_t b, uint16_t frac);
 
 static void find_nearest_pair_with_pitch_cv_(
-    fix16_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out);
+    uint8_t osc, fix16_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out);
 
 static void find_nearest_pair_with_period_(
-    uint32_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out);
+    uint8_t osc, uint32_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out);
 
 /* Public functions. */
 
-void GemOscillatorOutputs_calculate(fix16_t pitch_cv, struct GemOscillatorOutputs* out) {
+void GemOscillatorOutputs_calculate(uint8_t osc, fix16_t pitch_cv, struct GemOscillatorOutputs* out) {
     struct GemOscillatorOutputs low = {};
     struct GemOscillatorOutputs high = {};
 
@@ -40,7 +40,7 @@ void GemOscillatorOutputs_calculate(fix16_t pitch_cv, struct GemOscillatorOutput
         a power function (see oscillators.py).
     */
 
-    find_nearest_pair_with_pitch_cv_(pitch_cv, &low, &high);
+    find_nearest_pair_with_pitch_cv_(osc, pitch_cv, &low, &high);
 
     /*
         Before using lerp you have to figure out where the real value is in relation to
@@ -85,7 +85,7 @@ void GemOscillatorOutputs_calculate(fix16_t pitch_cv, struct GemOscillatorOutput
         Also of note is that since this uses the period register instead of the
         frequency it isn't *quite* linear with frequency, but it's close enough.
     */
-    find_nearest_pair_with_period_(out->period, &low, &high);
+    find_nearest_pair_with_period_(osc, out->period, &low, &high);
 
     uint16_t dac_frac_int;
     if (low.period == high.period) {
@@ -101,8 +101,7 @@ void GemOscillatorOutputs_calculate(fix16_t pitch_cv, struct GemOscillatorOutput
         dac_frac_int = (uint16_t)(dividend / divisor);
     }
 
-    out->castor_ramp_cv = fix16_lerp16(low.castor_ramp_cv, high.castor_ramp_cv, dac_frac_int);
-    out->pollux_ramp_cv = fix16_lerp16(low.pollux_ramp_cv, high.pollux_ramp_cv, dac_frac_int);
+    out->ramp_cv = fix16_lerp16(low.ramp_cv, high.ramp_cv, dac_frac_int);
 };
 
 /* Private functions. */
@@ -118,7 +117,10 @@ static int32_t fix16_lerp_int64_(int64_t a, int64_t b, uint16_t frac) {
 
 #define FIND_NEAREST_PAIR(name, table, input_typename, entry_typename, compare_low, compare_high, assign)              \
     static void find_nearest_pair_with_##name##_(                                                                      \
-        input_typename input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out) {           \
+        uint8_t osc,                                                                                                   \
+        input_typename input,                                                                                          \
+        struct GemOscillatorOutputs* low_out,                                                                          \
+        struct GemOscillatorOutputs* high_out) {                                                                       \
         const entry_typename* low = &table[0];                                                                         \
         const entry_typename* high = &table[0];                                                                        \
         const entry_typename* current;                                                                                 \
@@ -138,11 +140,12 @@ static int32_t fix16_lerp_int64_(int64_t a, int64_t b, uint16_t frac) {
         if (!found) {                                                                                                  \
             high = low;                                                                                                \
         }                                                                                                              \
-        assign(low_out, low);                                                                                          \
-        assign(high_out, high);                                                                                        \
+        assign(osc, low_out, low);                                                                                     \
+        assign(osc, high_out, high);                                                                                   \
     }
 
-static void assign_pitch_cv_(struct GemOscillatorOutputs* out, const struct GemPitchTableEntry* in) {
+static void assign_pitch_cv_(uint8_t osc, struct GemOscillatorOutputs* out, const struct GemPitchTableEntry* in) {
+    (void)(osc);
     out->pitch_cv = in->pitch_cv;
     out->period = in->period;
 }
@@ -156,10 +159,13 @@ FIND_NEAREST_PAIR(
     (current->pitch_cv > input),
     assign_pitch_cv_);
 
-static void assign_ramp_cv_(struct GemOscillatorOutputs* out, const struct GemRampTableEntry* in) {
-    out->castor_ramp_cv = in->castor_ramp_cv;
-    out->pollux_ramp_cv = in->pollux_ramp_cv;
+static void assign_ramp_cv_(uint8_t osc, struct GemOscillatorOutputs* out, const struct GemRampTableEntry* in) {
     out->period = in->period;
+    if (osc == 0) {
+        out->ramp_cv = in->castor_ramp_cv;
+    } else {
+        out->ramp_cv = in->pollux_ramp_cv;
+    }
 }
 
 FIND_NEAREST_PAIR(
