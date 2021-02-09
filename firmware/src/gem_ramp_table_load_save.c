@@ -12,6 +12,11 @@
 #include <stdbool.h>
 #include <string.h>
 
+/*
+    Routines for loading/saving the ramp amplitude compensation table to/from
+    NVM
+*/
+
 #define VALID_TABLE_MARKER 0x43
 #define BUFFER_LEN 512
 #define ENTRY_SIZE 8
