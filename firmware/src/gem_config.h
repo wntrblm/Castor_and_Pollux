@@ -18,19 +18,60 @@
 /* Analog to Digital Converter Configuration */
 
 /*
-    GCLK1: 8MHz Clock / DIV8 = 1 kHz ADC clock
-    GCLK0: 48Mhz Clock / DIV32 = 1.5 kHz ADC clock
+    ADC clock can be *at most* 2,100 kHz.
+    Gemini has GCLK0 @ 48Mhz so 48MHz / 32 = 1,500 kHz ADC clock.
 */
 #define GEM_ADC_GCLK GCLK_CLKCTRL_GEN_GCLK0
 #define GEM_ADC_PRESCALER ADC_CTRLB_PRESCALER_DIV32
 
-/* Max impedance is 500 kOhms */
+/* Max impedance is 59,851 kOhms */
 #define GEM_ADC_SAMPLE_TIME 5
 
+/* Record and average 32 samples for each measurement. */
 #define GEM_ADC_SAMPLE_NUM ADC_AVGCTRL_SAMPLENUM_32
 #define GEM_ADC_SAMPLE_ADJRES ADC_AVGCTRL_ADJRES(4)
 
-extern const struct GemADCInput gem_adc_inputs[];
+/*
+    With the above settings the total time per ADC conversion is
+    78 microseconds.
+
+    With Gemini's 9 channels it takes at least 702 microseconds to measure all
+    channels. There's a bit of added overhead because the CPU has to switch
+    channels between each measurement. This means that the effective sample
+    rate for Gemini is about 1.4 kHz.
+
+    See: https://blog.thea.codes/getting-the-most-out-of-the-samd21-adc/
+*/
+
+/*
+    A list of physical input pins for the ADC to measure during each
+    scan.
+*/
+static const struct GemADCInput gem_adc_inputs[] = {
+    {0, 6, ADC_INPUTCTRL_MUXPOS_PIN6},   // CV A
+    {1, 3, ADC_INPUTCTRL_MUXPOS_PIN11},  // CV A Pot
+    {0, 7, ADC_INPUTCTRL_MUXPOS_PIN7},   // CV B
+    {1, 2, ADC_INPUTCTRL_MUXPOS_PIN10},  // CV B Pot
+    {0, 5, ADC_INPUTCTRL_MUXPOS_PIN5},   // Duty A
+    {0, 8, ADC_INPUTCTRL_MUXPOS_PIN16},  // Duty A Pot
+    {1, 9, ADC_INPUTCTRL_MUXPOS_PIN3},   // Duty B
+    {0, 9, ADC_INPUTCTRL_MUXPOS_PIN17},  // Duty B Pot
+    {0, 2, ADC_INPUTCTRL_MUXPOS_PIN0},   // Chorus pot
+};
+
+/* Gives useful names to the inputs above. */
+enum GemADCChannel {
+    GEM_IN_CV_A,
+    GEM_IN_CV_A_POT,
+    GEM_IN_CV_B,
+    GEM_IN_CV_B_POT,
+    GEM_IN_DUTY_A,
+    GEM_IN_DUTY_A_POT,
+    GEM_IN_DUTY_B,
+    GEM_IN_DUTY_B_POT,
+    GEM_IN_CHORUS_POT,
+    GEM_IN_COUNT,
+};
 
 /* Pulse out/TCC configuration. */
 
@@ -103,19 +144,6 @@ extern const struct GemADCInput gem_adc_inputs[];
 #define GEM_HARD_SYNC_BUTTON_PIN 8
 
 /* Behavioral configuration. */
-
-enum GemADCChannels {
-    GEM_IN_CV_A,
-    GEM_IN_CV_A_POT,
-    GEM_IN_CV_B,
-    GEM_IN_CV_B_POT,
-    GEM_IN_DUTY_A,
-    GEM_IN_DUTY_A_POT,
-    GEM_IN_DUTY_B,
-    GEM_IN_DUTY_B_POT,
-    GEM_IN_CHORUS_POT,
-    GEM_IN_COUNT,
-};
 
 #define GEM_CV_INPUT_RANGE F16(6.0)
 #define GEM_CV_BASE_OFFSET F16(1.0)

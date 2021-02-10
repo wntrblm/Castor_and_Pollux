@@ -29,10 +29,10 @@ struct GemOscillatorOutputs {
 struct GemOscillator {
     /* Configuration */
     uint8_t number;
-    enum GemADCChannels pitch_cv_channel;
-    enum GemADCChannels pitch_knob_channel;
-    enum GemADCChannels pulse_width_cv_channel;
-    enum GemADCChannels pulse_width_knob_channel;
+    enum GemADCChannel pitch_cv_channel;
+    enum GemADCChannel pitch_knob_channel;
+    enum GemADCChannel pulse_width_cv_channel;
+    enum GemADCChannel pulse_width_knob_channel;
     fix16_t knob_min;
     fix16_t knob_range;
     uint16_t follower_threshold;
@@ -55,10 +55,10 @@ void gem_oscillator_init(struct GemADCErrors pitch_cv_adc_errors, fix16_t pitch_
 void GemOscillator_init(
     struct GemOscillator* osc,
     uint8_t number,
-    enum GemADCChannels pitch_cv_channel,
-    enum GemADCChannels pitch_knob_channel,
-    enum GemADCChannels pulse_width_cv_channel,
-    enum GemADCChannels pulse_width_knob_channel,
+    enum GemADCChannel pitch_cv_channel,
+    enum GemADCChannel pitch_knob_channel,
+    enum GemADCChannel pulse_width_cv_channel,
+    enum GemADCChannel pulse_width_knob_channel,
     fix16_t smooth_initial_gain,
     fix16_t smooth_sensitivity,
     fix16_t knob_min,
