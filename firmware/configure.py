@@ -345,6 +345,7 @@ def generate_build(configuration, run_generators=True):
         command="python3 -m wintertools.bin_to_uf2 $in $out",
         description="Create $out",
     )
+    writer.newline()
 
     # Rules for structy generation
     writer.rule(
@@ -357,6 +358,10 @@ def generate_build(configuration, run_generators=True):
     writer.newline()
     writer.rule(
         name="runcmd_arg_in", command="$cmd $in $append", description="$desc $in"
+    )
+    writer.newline()
+    writer.rule(
+        name="runcmd_arg_in_shh", command="$cmd $in $append", description="$desc"
     )
     writer.newline()
     writer.rule(
@@ -461,11 +466,11 @@ def generate_build(configuration, run_generators=True):
     format_files = list(pathlib.Path(".").glob("src/**/*.[c,h]"))
     writer.build(
         "format.phony",
-        "runcmd_arg_in",
+        "runcmd_arg_in_shh",
         [str(path) for path in format_files],
         variables=dict(
             cmd="clang-format -i",
-            desc="Format",
+            desc="Format source files",
         ),
     )
     writer.newline()
