@@ -24,7 +24,6 @@ def run_ramp_calibration():
 
 def run_adc_calibration():
     log.section("Calibrating ADC")
-    # TODO: copy over Sol's code.
 
     adc_calibration.run(
         num_calibration_points=50,

@@ -160,6 +160,11 @@ def _calibrate_oscillator(gem, scope, oscillator):
 
 
 def run(save):
+    # Gemini setup
+    log.info("Connecting to Gemini...")
+    gem = gemini.Gemini()
+    gem.enter_calibration_mode()
+
     # Oscilloscope setup.
     log.info("Configuring oscilloscope...")
     resource_manager = visa.ResourceManager("@ivi")
@@ -180,11 +185,6 @@ def run(save):
     scope.set_vertical_division("c2", "800mV")
     scope.set_vertical_offset("c1", -1.65)
     scope.set_vertical_offset("c2", -1.65)
-
-    # Gemini setup
-    log.info("Connecting to Gemini...")
-    gem = gemini.Gemini()
-    gem.enter_calibration_mode()
 
     input(
         "Connect PROBE ONE to RAMP A\nConnect PROBE TWO to RAMP B\n> press enter to start."

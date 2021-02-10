@@ -36,7 +36,7 @@ def _measure_range(gem, sol_, strategy, sample_count, calibration_points):
             log.info(f"{tui.reset}Measuring   {voltage:.3f} volts")
             log.info(f"{tui.reset}expecting:  {expected_code}")
 
-            sol_.send_voltage(voltage, channel=strategy.sol_channel)
+            sol_.set_voltage(voltage, channel=strategy.sol_channel)
             time.sleep(0.2)
 
             samples = []
@@ -72,7 +72,7 @@ def _measure_range(gem, sol_, strategy, sample_count, calibration_points):
 
 class DirectADCStrategy:
     channel = 3  # CV B pot
-    sol_channel = 0
+    sol_channel = 1
     range_ = 3.3
     resolution = 2 ** 12
     invert = False
@@ -80,7 +80,7 @@ class DirectADCStrategy:
     def setup(self, gem):
         gem.disable_adc_error_correction()
         input(
-            "Connect Sol channel {tui.bold}A{tui.reset} to the LFO potentiometer channel and press enter."
+            f"Connect Sol channel {tui.bold}A{tui.reset} to the Osc B pitch knob channel and press enter."
         )
 
     def save(self, gem, gain_error, offset_error):
@@ -99,7 +99,7 @@ class DirectADCStrategy:
 
 class ThroughAFEStrategy:
     channel = 0  # CV A input
-    sol_channel = 1
+    sol_channel = 0
     range_ = 6.0
     resolution = 2 ** 12
     invert = True
@@ -165,8 +165,8 @@ def run(
     gem = gemini.Gemini()
     sol_ = sol.Sol()
 
-    sol._setup()
-    sol_.send_voltage(0, channel=strategy.sol_channel)
+    sol_.setup()
+    sol_.set_voltage(0, channel=strategy.sol_channel)
 
     gem.enter_calibration_mode()
 
