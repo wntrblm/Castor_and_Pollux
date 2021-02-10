@@ -71,7 +71,7 @@ def _measure_range(gem, sol_, strategy, sample_count, calibration_points):
 
 
 class DirectADCStrategy:
-    channel = 8
+    channel = 3  # CV B pot
     sol_channel = 0
     range_ = 3.3
     resolution = 2 ** 12
@@ -98,7 +98,7 @@ class DirectADCStrategy:
 
 
 class ThroughAFEStrategy:
-    channel = 0
+    channel = 0  # CV A input
     sol_channel = 1
     range_ = 6.0
     resolution = 2 ** 12
