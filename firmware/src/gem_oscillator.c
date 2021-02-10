@@ -50,7 +50,7 @@ void GemOscillator_init(
     osc->pulse_width_cv_channel = pulse_width_cv_channel;
     osc->pulse_width_knob_channel = pulse_width_knob_channel;
     osc->knob_min = knob_min;
-    osc->knob_range = fix16_sub(knob_max, knob_min);
+    osc->knob_range = fix16_mul(fix16_sub(knob_max, knob_min), GEM_PITCH_KNOB_RANGE_MULTIPLIER);
     osc->follower_threshold = 0;
     osc->lfo_pwm = lfo_pwm;
     osc->lfo_pitch = false;
