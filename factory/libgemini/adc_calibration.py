@@ -71,8 +71,8 @@ def _measure_range(gem, sol_, strategy, sample_count, calibration_points):
 
 
 class DirectADCStrategy:
-    channel = 3  # CV B pot
-    sol_channel = 1
+    channel = 8  # LFO pot
+    sol_channel = 0
     range_ = 3.3
     resolution = 2 ** 12
     invert = False
@@ -80,7 +80,7 @@ class DirectADCStrategy:
     def setup(self, gem):
         gem.disable_adc_error_correction()
         input(
-            f"Connect Sol channel {tui.bold}A{tui.reset} to the Osc B pitch knob channel and press enter."
+            f"Connect Sol channel {tui.bold}A{tui.reset} to the LFO knob channel and press enter."
         )
 
     def save(self, gem, gain_error, offset_error):
@@ -110,7 +110,7 @@ class ThroughAFEStrategy:
 
     def setup(self, gem):
         input(
-            f"Connect Sol channel {tui.bold}B{tui.reset} to CV A input and press enter."
+            f"Connect Sol channel {tui.bold}A{tui.reset} to CV A input and press enter."
         )
         gem.enable_adc_error_correction()
 
@@ -216,6 +216,7 @@ def run(
     )
     log.info(f"Remeasured gain={gain_error:.3f}, offset={offset_error:.1f}")
 
+    sol_.set_voltage(strategy.sol_channel, 0)
     log.success("Done")
     gem.close()
 
