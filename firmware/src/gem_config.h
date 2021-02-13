@@ -156,7 +156,7 @@ enum GemADCChannel {
     that by multiplying the knob range by a few percent to give it just a little
     more headroom.
 */
-#define GEM_PITCH_KNOB_RANGE_MULTIPLIER F16(1.03)
+#define GEM_PITCH_KNOB_RANGE_MULTIPLIER F16(1.05)
 
 /* The size of the look-up table used for making the tuning knobs non-linear. */
 #define GEM_KNOB_BEZIER_LUT_LEN 50
