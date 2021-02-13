@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -24,8 +24,8 @@
   <body>
     <div class="container">
 			<nav class="navbar navbar-expand-lg navbar-light">
-				<a class="navbar-brand" href="..">
-					<img src="../winterbloom-logo.png" height="30" class="d-inline-block align-middle" alt="" loading="lazy">
+				<a class="navbar-brand" href=".." title="Home">
+					<img src="../winterbloom-logo.png" height="30" class="d-inline-block align-middle" alt="Winterbloom" loading="lazy">
 				</a>
 				
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,7 +48,7 @@
 <p class="admonition-title">Nothing to see here, move along</p>
 <p>Whoa there, no one has a Castor &amp; Pollux yet, so you shouldn't be here! Don't worry - it'll be ready to use before we start shipping units!</p>
 </div>
-<p>This page uses <a href="https://www.midi.org/17-the-mma/99-web-midi">WebMIDI</a> to communicate with Castor &amp; Pollux and modify internal settings. This works in <a href="https://www.google.com/chrome/">Google Chrome</a>, <a href="https://www.microsoft.com/en-us/edge">Microsoft Edge</a>, and <a href="https://www.opera.com/">Opera</a> (<a href="https://caniuse.com/midi">full list of supported browsers</a>).</p>
+<p>This page uses <a href="https://www.midi.org/17-the-mma/99-web-midi" referrerpolicy="origin" rel="noopener" target="_blank">WebMIDI</a> to communicate with Castor &amp; Pollux and modify internal settings. This works in <a href="https://www.google.com/chrome/" referrerpolicy="origin" rel="noopener" target="_blank">Google Chrome</a>, <a href="https://www.microsoft.com/en-us/edge" referrerpolicy="origin" rel="noopener" target="_blank">Microsoft Edge</a>, and <a href="https://www.opera.com/" referrerpolicy="origin" rel="noopener" target="_blank">Opera</a> (<a href="https://caniuse.com/midi" referrerpolicy="origin" rel="noopener" target="_blank">full list of supported browsers</a>).</p>
 <p>To use this editor:</p>
 <ol>
 <li>Connect your Castor &amp; Pollux to your Eurorack power supply. The module <strong>must</strong> be powered by the Eurorack power supply.</li>
@@ -150,14 +150,14 @@
         </div>
         <span class="form-message">The following settings determine how the module corrects for gain and offset errors in its ADC.</span>
         <div class="form-group">
-            <label for="adc_gain_corr">Knob gain correction</label>
-            <input type="number" name="knob_gain_corr" class="form-control" value="1" min="0.5" max="2.0" readonly />
-            <span class="form-unit"><span id="knob_gain_corr_display_value"></span>x multiplier</span>
+            <label for="cv_gain_error">CV input gain correction</label>
+            <input type="number" name="cv_gain_error" class="form-control" value="1" min="0.5" max="2.0" readonly />
+            <span class="form-unit"><span id="cv_gain_error_display_value"></span>x multiplier</span>
         </div>
         <div class="form-group">
-            <label for="knob_gain_corr">Knob offset correction</label>
-            <input type="number" name="knob_offset_corr" class="form-control" value="0" readonly />
-            <span class="form-unit"><span id="knob_offset_corr_display_value"></span> code points</span>
+            <label for="cv_offset_error">CV input error correction</label>
+            <input type="number" name="cv_offset_error" class="form-control" value="0" readonly />
+            <span class="form-unit"><span id="cv_offset_error_display_value"></span> code points</span>
         </div>
         <div class="form-group">
             <label for="adc_gain_corr">ADC gain correction</label>
@@ -187,11 +187,11 @@
 					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/master/user_guide/docs/settings.md">Edit this page on GitHub</a>.
 				</p>
 				<p class="updated">
-					Last updated on January 30, 2021
+					Last updated on February 13, 2021
 				</p>
 			</footer>
 		</div>
 	</body>
-	
+
 	<script type="text/javascript" src="../script.js"></script>
 </html>
