@@ -86,7 +86,6 @@ Castor & Pollux is an analog oscillator with a digital brain. It's calibrated du
 
 In order to make tuning easier, the pitch knobs have a **non-linear** response: they are less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out this little demonstration:
 
-
 <div class="output">
     <label for="linear_tune">Linear response</label>
     <canvas id="linear_tune_canvas" width="640" height="50" class=""></canvas>
