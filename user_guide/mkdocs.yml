@@ -16,6 +16,11 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.magiclink
   - md_in_html
+  - markdown_link_attr_modifier:
+      external_only: True
+      custom_attrs:
+        rel: "noopener"
+        referrerpolicy: "origin"
 nav:
   - "User Guide": index.md
   - "Settings Editor": settings.md
