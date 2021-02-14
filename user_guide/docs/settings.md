@@ -98,32 +98,36 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             <label for="allow_danger">
             <input type="checkbox" id="allow_danger" /> Let me edit dangerous settings</label>
         </div>
-        <span class="form-message">The following setting controls how Pollux determines when to follow Castor. The intended behavior is that when no cable is attached to Pollux's pitch CV jack, it will follow Castor's pitch. The module detects this condition by seeing if the input jack is reading 0 volts. Sometimes due to ADC errors this threshold needs to be adjusted. Lower thresholds may lead to glitchy behavior as the ADC noise measures above and below the threshold, and higher settings may lead to Pollux ignoring the pitch CV input on lower notes.</span>
+        <div id="danger_zone_form_controls" class="hidden">
+        <span class="form-message">The following setting controls how Pollux determines when to follow Castor. The intended behavior is that when no cable is attached to Pollux's pitch CV jack, it will follow Castor's pitch. The module detects this condition by seeing if the input jack is reading 0 volts. Sometimes due to analog conversion errors this threshold needs to be adjusted. Lower thresholds may lead to glitchy behavior as the noise measures above and below the threshold, and higher settings may lead to Pollux ignoring the pitch CV input on lower notes.</span>
         <div class="form-group">
             <label for="pollux_follower_threshold">Pollux follower threshold</label>
             <input type="number" name="pollux_follower_threshold" class="form-control" min="0" max="500" value="56" readonly />
             <span class="form-unit"><span id="pollux_follower_threshold_display_value"></span> code points, <span id="pollux_follower_threshold_display_value_volts"></span> volts</span>
         </div>
-        <span class="form-message">The following settings determine how the module corrects for gain and offset errors in its ADC.</span>
+        <span class="form-message">The following settings determine how the module corrects for gain and offset errors in its analog-to-digital converter (ADC). During manufacturing, we measure the ADC's response to determine its gain and offset error. We save the calibration data to the device but we also keep a copy of it- if the settings below get lost, corrupted, or otherwise messed up, you can use the restore button below to load the values that were originally on your device. If the button is greyed out, then we don't have a copy of your module's calibration data ☹️.</span>
+        <div class="form-group">
+            <button type="button" id="restore_adc_calibration" class="btn btn-warning">Restore to factory values</button>
+        </div>
         <div class="form-group">
             <label for="cv_gain_error">CV input gain correction</label>
-            <input type="number" name="cv_gain_error" class="form-control" value="1" min="0.5" max="2.0" readonly />
-            <span class="form-unit"><span id="cv_gain_error_display_value"></span>x multiplier</span>
+            <input type="number" name="cv_gain_error" class="form-control" value="1" min="0.5" max="2.0" step="0.0001" readonly />
         </div>
         <div class="form-group">
             <label for="cv_offset_error">CV input error correction</label>
             <input type="number" name="cv_offset_error" class="form-control" value="0" readonly />
-            <span class="form-unit"><span id="cv_offset_error_display_value"></span> code points</span>
+            <span class="form-unit">code points</span>
         </div>
         <div class="form-group">
             <label for="adc_gain_corr">ADC gain correction</label>
             <input type="number" name="adc_gain_corr" class="form-control" value="2048" min="1024" max="3072" readonly />
-            <span class="form-unit"><span id="adc_gain_corr_display_value"></span>x multiplier</span>
+            <span class="form-unit"><span id="adc_gain_corr_display_value"></span>x</span>
         </div>
         <div class="form-group">
             <label for="adc_offset_corr">ADC offset correction</label>
             <input type="number" name="adc_offset_corr" class="form-control" value="0" min="-100" max="100" readonly />
             <span class="form-unit"><span id="adc_offset_corr_display_value"></span> code points</span>
+        </div>
         </div>
         <div class="form-group">
             <button type="button" id="save_button" class="btn btn-primary btn-lg btn-block">Save</button>

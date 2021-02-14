@@ -9,9 +9,16 @@ const dangerous_fields = [
   ...settings_form.querySelectorAll("input[disabled]"),
 ];
 const allow_danger_input = document.getElementById("allow_danger");
+const danger_zone_form_controls = document.getElementById("danger_zone_form_controls");
 const connect_button = document.getElementById("connect");
 const connect_info = document.getElementById("connect_info");
+const restore_adc_calibration_button = document.getElementById("restore_adc_calibration");
 let gemini_firmware_version = null;
+let gemini_serial_number = null;
+
+/*
+  Form loading/saving
+*/
 
 function settings_from_form() {
   const form_data = new FormData(settings_form);
@@ -53,12 +60,12 @@ function form_from_settings(settings) {
   );
   settings_form.lfo_frequency.value = settings.lfo_frequency.toFixed(2);
   settings_form.cv_offset_error.value = settings.cv_offset_error.toFixed(2);
-  settings_form.cv_gain_error.value = settings.cv_gain_error.toFixed(2);
+  settings_form.cv_gain_error.value = settings.cv_gain_error.toFixed(4);
   settings_form.smooth_initial_gain.value = settings.smooth_initial_gain.toFixed(
     2
   );
   settings_form.smooth_sensitivity.value = settings.smooth_sensitivity.toFixed(
-    2
+    4
   );
   settings_form.pollux_follower_threshold.value =
     settings.pollux_follower_threshold;
@@ -71,6 +78,35 @@ function form_from_settings(settings) {
   for (const elem of settings_form.getElementsByTagName("input")) {
     elem.dispatchEvent(new Event("input"));
   }
+}
+
+/*
+  Factory calibrations are stored on GCS. This allows retrieving it.
+*/
+
+async function fetch_calibration(serial_no, type)  {
+  let response = await fetch(`https://storage.googleapis.com/files.winterbloom.com/calibrations/gemini/${serial_no}.${type}.json`);
+
+  if(!response.ok) {
+    throw `Could not find ${type} calibration data for CPU ID ${serial_no}`;
+  }
+
+  let calibration_data = await response.json();
+
+  return calibration_data;
+}
+
+async function restore_adc_calibration() {
+  let settings = settings_from_form();
+  let adc_calibration = await fetch_calibration(gemini_serial_number, "adc");
+  let afe_calibration = await fetch_calibration(gemini_serial_number, "afe");
+
+  settings.adc_gain_corr = Math.round(adc_calibration.gain_error * 2048);
+  settings.adc_offset_corr = Math.round(adc_calibration.offset_error);
+  settings.cv_gain_error = afe_calibration.gain_error;
+  settings.cv_offset_error = afe_calibration.offset_error;
+
+  form_from_settings(settings);
 }
 
 /*
@@ -103,6 +139,13 @@ async function load_settings_from_device() {
   connect_info.innerText = `Firmware version ${gemini_firmware_version}`;
   connect_info.classList.add("text-info");
 
+  /* Get the CPU ID/Serial number. (command 0x0F) */
+  response = await midi_send_and_receive(
+    new Uint8Array([0xf0, 0x77, 0x0f, 0xf7])
+  );
+  console.log("Serial number response:", response)
+  gemini_serial_number = teeth_decode(response.slice(2));
+
   /* Now load settings. (command 0x08) */
   let settings_data = new Uint8Array(128);
   for (let n = 0; n < 4; n++) {
@@ -119,6 +162,15 @@ async function load_settings_from_device() {
   const settings = GemSettings.unpack(decoded);
   console.log("Loaded settings", settings);
   form_from_settings(settings);
+
+  /* Check and see if there's a backup for the ADC data. */
+  try {
+    await fetch_calibration(gemini_serial_number, "adc");
+  } catch {
+    restore_adc_calibration_button.disabled = true;
+    restore_adc_calibration_button.classList.remove("btn-warning");
+    restore_adc_calibration_button.classList.add("btn-secondary");
+  };
 }
 
 async function save_settings_to_device() {
@@ -194,6 +246,10 @@ save_button.addEventListener("click", async function () {
   save_button.disabled = false;
 });
 
+restore_adc_calibration_button.addEventListener("click", async function() {
+  await restore_adc_calibration();
+});
+
 /*
     Validation logic. Hard limit all input[type="numbers"]
 */
@@ -234,6 +290,7 @@ allow_danger_input.addEventListener("change", function () {
       elem.readOnly = !allow_danger_input.checked;
     }
   }
+  danger_zone_form_controls.classList.toggle("hidden");
 });
 
 /*
@@ -277,7 +334,5 @@ range_input_with_formatter(
   (input) => ((input.valueAsNumber / 4096) * 6.0).toFixed(2),
   "_display_value_volts"
 );
-range_input_with_passthrough("cv_gain_error");
-range_input_with_passthrough("cv_offset_error");
-range_input_with_passthrough("adc_gain_corr");
+range_input_with_formatter("adc_gain_corr", (input) => ((input.valueAsNumber / 2048).toFixed(3)));
 range_input_with_passthrough("adc_offset_corr");
