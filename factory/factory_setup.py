@@ -2,7 +2,7 @@ import argparse
 
 from wintertools import fw_fetch, jlink, log
 
-from libgemini import adc_calibration, ramp_calibration
+from libgemini import adc_calibration, gemini, ramp_calibration
 
 DEVICE_NAME = "winterbloom_gemini"
 JLINK_DEVICE = "ATSAMD21G18"
@@ -15,6 +15,16 @@ def program_firmware():
     fw_fetch.latest_bootloader(DEVICE_NAME)
 
     jlink.run(JLINK_DEVICE, JLINK_SCRIPT)
+
+
+def erase_nvm():
+    log.section("Erasing NVM")
+    gem = gemini.Gemini()
+    gem.erase_lut()
+    log.success("Erased ramp look-up-table.")
+    gem.reset_settings()
+    log.success("Erased user settings.")
+    gem.close()
 
 
 def run_ramp_calibration():
@@ -60,6 +70,9 @@ def main():
 
     if "firmware" in args.stages:
         program_firmware()
+
+    if "erase_nvm" in args.stages:
+        erase_nvm()
 
     if "ramp" in args.stages:
         run_ramp_calibration()
