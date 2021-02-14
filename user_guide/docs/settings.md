@@ -22,25 +22,25 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             <label for="led_brightness">LED brightness</label>
             <input type="range" name="led_brightness" class="form-control" min="0" max="254" value="127" />
         </div>
-        <span class="form-message">The following settings set the range of the pitch knobs for each oscillator. By default, they have a range of -1.01 to 1.01 octaves (volts). The value of the pitch knob is added to the pitch CV input</span>
+        <span class="form-message">The following settings set the range of the pitch knobs for each oscillator. By default, they have a range of about -1 to +1 octaves (volts). The value of the pitch knob is added to the pitch CV input. Note that because the module's analog-to-digital converter (ADC) isn't perfect, the knobs don't quite reach 100% of their range. You may need to nudge these to give the knob some headroom.</span>
         <div class="form-group">
             <label for="castor_knob_min">Castor pitch knob minimum</label>
-            <input type="number" name="castor_knob_min" class="form-control" value="-1.01" step="0.1" min="-3.0" max="0" />
+            <input type="number" name="castor_knob_min" class="form-control" value="-1.02" step="0.1" min="-3.3" max="0" />
             <span class="form-unit">octaves (volts)</span>
         </div>
         <div class="form-group">
             <label for="castor_knob_max">Castor pitch knob maximum</label>
-            <input type="number" name="castor_knob_max" class="form-control" value="1.01" step="0.1" min="0" max="3.0" />
+            <input type="number" name="castor_knob_max" class="form-control" value="1.10" step="0.1" min="0" max="3.3" />
             <span class="form-unit">octaves (volts)</span>
         </div>
         <div class="form-group">
             <label for="pollux_knob_min">Pollux pitch knob minimum</label>
-            <input type="number" name="pollux_knob_min" class="form-control" value="-1.01" step="0.1" min="-3.0" max="0" />
+            <input type="number" name="pollux_knob_min" class="form-control" value="-1.02" step="0.1" min="-3.3" max="0" />
             <span class="form-unit">octaves (volts)</span>
         </div>
         <div class="form-group">
             <label for="pollux_knob_max">Pollux pitch knob maximum</label>
-            <input type="number" name="pollux_knob_max" class="form-control" value="1.01" step="0.1" min="0" max="3.0" />
+            <input type="number" name="pollux_knob_max" class="form-control" value="1.10" step="0.1" min="0" max="3.0" />
             <span class="form-unit">octaves (volts)</span>
         </div>
         <span class="form-message">
