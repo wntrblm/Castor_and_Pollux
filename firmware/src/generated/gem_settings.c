@@ -11,10 +11,10 @@ void GemSettings_init(struct GemSettings* inst) {
     inst->adc_gain_corr = 2048;
     inst->adc_offset_corr = 0;
     inst->led_brightness = 127;
-    inst->castor_knob_min = F16(-1.01);
-    inst->castor_knob_max = F16(1.01);
-    inst->pollux_knob_min = F16(-1.01);
-    inst->pollux_knob_max = F16(1.01);
+    inst->castor_knob_min = F16(-1.02);
+    inst->castor_knob_max = F16(1.1);
+    inst->pollux_knob_min = F16(-1.02);
+    inst->pollux_knob_max = F16(1.1);
     inst->chorus_max_intensity = F16(0.05);
     inst->lfo_frequency = F16(0.2);
     inst->cv_offset_error = F16(0.0);

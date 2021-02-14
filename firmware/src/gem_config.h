@@ -149,14 +149,5 @@ enum GemADCChannel {
 #define GEM_CV_BASE_OFFSET F16(1.0)
 #define GEM_TWEAK_MAX_LFO_FREQUENCY F16(5)
 
-/*
-    Due to the ADC calibration favoring accuracy through the middle 80% of the
-    ADC range *and* the non-linear bezier transformation on the pitch knobs,
-    the pitch knobs can't *quite* get to 100% of their range. This works around
-    that by multiplying the knob range by a few percent to give it just a little
-    more headroom.
-*/
-#define GEM_PITCH_KNOB_RANGE_MULTIPLIER F16(1.05)
-
 /* The size of the look-up table used for making the tuning knobs non-linear. */
 #define GEM_KNOB_BEZIER_LUT_LEN 50
