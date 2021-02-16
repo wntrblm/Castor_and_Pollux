@@ -10,6 +10,7 @@
 #include "gem_gpio.h"
 #include "sam.h"
 #include "wntr_assert.h"
+#include "wntr_ramfunc.h"
 
 /* Inputs to scan_next_channel. */
 static const struct GemADCInput* inputs_;
@@ -23,7 +24,7 @@ static volatile size_t current_input_idx_ = 0;
 static volatile bool results_ready_ = false;
 
 /* Private forward declarations. */
-static void scan_next_channel();
+static void scan_next_channel() RAMFUNC;
 
 /* Public methods. */
 
@@ -225,6 +226,8 @@ static void scan_next_channel() {
     /* Start the ADC using a software trigger. */
     ADC->SWTRIG.bit.START = 1;
 }
+
+void ADC_Handler(void) RAMFUNC;
 
 void ADC_Handler(void) {
     /*
