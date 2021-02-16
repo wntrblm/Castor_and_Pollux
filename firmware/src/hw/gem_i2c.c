@@ -6,8 +6,8 @@
 
 #include "gem_i2c.h"
 #include "gem_config.h"
-#include "gem_gpio.h"
 #include "printf.h"
+#include "wntr_gpio.h"
 
 #define BUSSTATE_UNKNOWN 0
 #define BUSSTATE_IDLE 1

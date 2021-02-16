@@ -6,8 +6,8 @@
 
 #include "gem_spi.h"
 #include "gem_config.h"
-#include "gem_gpio.h"
 #include "sam.h"
+#include "wntr_gpio.h"
 
 void gem_spi_init() { /* Enable the APB clock for SERCOM. */
     PM->APBCMASK.reg |= GEM_SPI_SERCOM_APBCMASK;
