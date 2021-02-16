@@ -6,9 +6,9 @@
 
 #include "class/midi/midi_device.h"
 #include "device/usbd.h"
-#include "gem_gpio.h"
 #include "sam.h"
 #include "tusb.h"
+#include "wntr_gpio.h"
 
 void gem_usb_init() {
     /* Enable the APB clock for USB. */
@@ -24,8 +24,8 @@ void gem_usb_init() {
     /* Configure pins for USB. */
     wntr_gpio_set_as_output(0, 24);
     wntr_gpio_set_as_output(0, 25);
-    wntr_gpio_configure_alt(0, 24, GEM_PMUX_G);
-    wntr_gpio_configure_alt(0, 25, GEM_PMUX_G);
+    wntr_gpio_configure_alt(0, 24, WNTR_PMUX_G);
+    wntr_gpio_configure_alt(0, 25, WNTR_PMUX_G);
 
     /* Set the priority for the USB interrupt. */
     NVIC_SetPriority(USB_IRQn, 1);

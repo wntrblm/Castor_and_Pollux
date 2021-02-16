@@ -17,6 +17,7 @@ SRCS = [
     "build/generated_build_info.c",
     # libwinter is common winterbloom code.
     "third_party/libwinter/*.c",
+    "third_party/libwinter/samd21/*.c",
     # Contains the main entrypoint for the processor and the ARM exception
     # table. TODO: this should be pulled into the application.
     "third_party/samd21/gcc/gcc/startup_samd21.c",
@@ -101,6 +102,9 @@ LINKER_SCRIPT = f"scripts/{MCU.lower()}.ld"
 
 # Used in CMSIS device support header. See sam.h.
 DEFINES[f"__{MCU}__"] = 1
+
+# Used in some third_party code, like libwinter, to detect SAM D variants.
+DEFINES[f"{MCU[:6]}"] = 1
 
 # Used in CMSIS math headers.
 # see https://github.com/ARM-software/CMSIS/blob/master/CMSIS/Include/arm_math.h#L84-L88

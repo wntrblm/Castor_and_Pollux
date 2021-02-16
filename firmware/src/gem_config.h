@@ -10,6 +10,7 @@
 
 #include "gem_adc.h"
 #include "sam.h"
+#include "wntr_gpio.h"
 #include <stdint.h>
 
 /* MIDI configuration. */
@@ -108,10 +109,10 @@ enum GemADCChannel {
 #define GEM_I2C_GCLK_CLKCTRL_ID GCLK_CLKCTRL_ID_SERCOM1_CORE
 #define GEM_I2C_PAD_0_PORT 0
 #define GEM_I2C_PAD_0_PIN 0
-#define GEM_I2C_PAD_0_PIN_FUNC GEM_PMUX_D
+#define GEM_I2C_PAD_0_PIN_FUNC WNTR_PMUX_D
 #define GEM_I2C_PAD_1_PORT 0
 #define GEM_I2C_PAD_1_PIN 1
-#define GEM_I2C_PAD_1_PIN_FUNC GEM_PMUX_D
+#define GEM_I2C_PAD_1_PIN_FUNC WNTR_PMUX_D
 #define GEM_I2C_WAIT_TIMEOUT 100000
 
 /* SPI configuration for the Dotstars. */
@@ -128,10 +129,10 @@ enum GemADCChannel {
 #define GEM_SPI_DOPO 0x1
 #define GEM_SPI_SCK_PORT 1
 #define GEM_SPI_SCK_PIN 23
-#define GEM_SPI_SCK_PIN_FUNC GEM_PMUX_D
+#define GEM_SPI_SCK_PIN_FUNC WNTR_PMUX_D
 #define GEM_SPI_SDO_PORT 1
 #define GEM_SPI_SDO_PIN 22
-#define GEM_SPI_SDO_PIN_FUNC GEM_PMUX_D
+#define GEM_SPI_SDO_PIN_FUNC WNTR_PMUX_D
 
 /* Dotstar configuration */
 

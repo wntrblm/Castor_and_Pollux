@@ -8,12 +8,14 @@
 
 /*
     Generic functions for interacting with a device's GPIO.
-
-    The project must provide implementations of these functions.
 */
 
 #include <stdbool.h>
 #include <stdint.h>
+
+#ifdef SAMD21
+#include "wntr_gpio_samd21.h"
+#endif
 
 void wntr_gpio_set_as_output(uint8_t port, uint8_t pin);
 

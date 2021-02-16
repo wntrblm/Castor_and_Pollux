@@ -7,9 +7,9 @@
 #include "gem_adc.h"
 #include "fix16.h"
 #include "gem_config.h"
-#include "gem_gpio.h"
 #include "sam.h"
 #include "wntr_assert.h"
+#include "wntr_gpio.h"
 #include "wntr_ramfunc.h"
 
 /* Inputs to scan_next_channel. */
@@ -124,7 +124,7 @@ void gem_adc_set_error_correction(uint16_t gain, uint16_t offset) {
 
 void gem_adc_init_input(const struct GemADCInput* input) {
     wntr_gpio_set_as_input(input->port, input->pin, false);
-    wntr_gpio_configure_alt(input->port, input->pin, GEM_PMUX_B);
+    wntr_gpio_configure_alt(input->port, input->pin, WNTR_PMUX_B);
 }
 
 uint16_t gem_adc_read_sync(const struct GemADCInput* input) {
