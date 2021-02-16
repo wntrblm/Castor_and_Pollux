@@ -4,9 +4,9 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_serial_number.h"
 #include "printf.h"
 #include "tusb.h"
+#include "wntr_serial_number.h"
 
 tusb_desc_device_t const desc_device = {
     .bLength = sizeof(tusb_desc_device_t),
@@ -68,9 +68,20 @@ uint16_t const* tud_descriptor_string_cb(uint8_t index, uint16_t langid) {
         chr_count = 1;
     } else if (index == 3) {
         // Serial number.
-        uint32_t serial_high = gem_serial_number_high();
-        uint32_t serial_low = gem_serial_number_low();
-        snprintf(serial_number_str_, 16 + 1, "%lx%lx", serial_high, serial_low);
+        uint8_t serial_number[WNTR_SERIAL_NUMBER_LEN];
+        wntr_serial_number(serial_number);
+        snprintf(
+            serial_number_str_,
+            16 + 1,
+            "%2x%2x%2x%2x%2x%2x%2x%2x",
+            serial_number[0],
+            serial_number[1],
+            serial_number[2],
+            serial_number[3],
+            serial_number[4],
+            serial_number[5],
+            serial_number[6],
+            serial_number[7]);
         for (uint8_t i = 0; i < 16; i++) { desc_str_[1 + i] = serial_number_str_[i]; }
         chr_count = 16;
     } else {
