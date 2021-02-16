@@ -6,6 +6,7 @@
 
 #include "gem_pulseout.h"
 #include "gem_config.h"
+#include "wntr_ramfunc.h"
 
 static uint32_t timer_2_period_ = 0;
 static bool hard_sync_ = false;
@@ -99,6 +100,8 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
 }
 
 void gem_pulseout_hard_sync(bool state) { hard_sync_ = state; }
+
+void TCC0_Handler(void) RAMFUNC;
 
 void TCC0_Handler(void) {
     TCC0->INTFLAG.reg = TCC_INTFLAG_OVF;
