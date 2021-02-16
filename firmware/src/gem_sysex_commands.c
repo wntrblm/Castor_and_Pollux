@@ -11,7 +11,6 @@
 #include "gem_lookup_tables.h"
 #include "gem_mcp4728.h"
 #include "gem_pulseout.h"
-#include "gem_serial_number.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
 #include "gem_sysex_dispatcher.h"
@@ -22,6 +21,7 @@
 #include "wntr_build_info.h"
 #include "wntr_midi_core.h"
 #include "wntr_pack.h"
+#include "wntr_serial_number.h"
 #include "wntr_ticks.h"
 #include <string.h>
 
@@ -335,12 +335,12 @@ static void cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    PREPARE_RESPONSE(0x0F, TEETH_ENCODED_LENGTH(GEM_SERIAL_NUMBER_LEN));
+    PREPARE_RESPONSE(0x0F, TEETH_ENCODED_LENGTH(WNTR_SERIAL_NUMBER_LEN));
 
-    uint8_t serial_no[GEM_SERIAL_NUMBER_LEN];
-    gem_get_serial_number(serial_no);
+    uint8_t serial_no[WNTR_SERIAL_NUMBER_LEN];
+    wntr_serial_number(serial_no);
 
-    teeth_encode(serial_no, GEM_SERIAL_NUMBER_LEN, response);
+    teeth_encode(serial_no, WNTR_SERIAL_NUMBER_LEN, response);
 
     SEND_RESPONSE();
 }

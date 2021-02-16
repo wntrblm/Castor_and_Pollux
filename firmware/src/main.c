@@ -82,7 +82,9 @@ static void init_() {
         If it needs to be more fancy in the future it could be changed to read
         the a floating ADC input and use that as the seed.
     */
-    wntr_random_init(gem_serial_number_low());
+    uint8_t serial_number[WNTR_SERIAL_NUMBER_LEN];
+    wntr_serial_number(serial_number);
+    wntr_random_init(*((uint32_t*)(serial_number)));
 
     /*
         Gemini stores the user's settings in NVM so they have to be explicitly
