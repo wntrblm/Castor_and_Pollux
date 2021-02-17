@@ -17,13 +17,18 @@
 
 /* Forward declarations. */
 
-static int32_t fix16_lerp_int64_(int64_t a, int64_t b, uint16_t frac);
+static int32_t fix16_lerp_int64_(int64_t a, int64_t b, uint16_t frac) RAMFUNC;
+
+static void
+assign_pitch_cv_(uint8_t osc, struct GemOscillatorOutputs* out, const struct GemPitchTableEntry* in) RAMFUNC;
 
 static void find_nearest_pair_with_pitch_cv_(
-    uint8_t osc, fix16_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out);
+    uint8_t osc, fix16_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out) RAMFUNC;
+
+static void assign_ramp_cv_(uint8_t osc, struct GemOscillatorOutputs* out, const struct GemRampTableEntry* in) RAMFUNC;
 
 static void find_nearest_pair_with_period_(
-    uint8_t osc, uint32_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out);
+    uint8_t osc, uint32_t input, struct GemOscillatorOutputs* low_out, struct GemOscillatorOutputs* high_out) RAMFUNC;
 
 /* Public functions. */
 

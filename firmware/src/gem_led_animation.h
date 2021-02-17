@@ -7,6 +7,7 @@
 #pragma once
 
 #include "fix16.h"
+#include "wntr_ramfunc.h"
 #include <stdbool.h>
 
 /* Routines for animating the LEDs on Gemini's front panel. */
@@ -21,6 +22,6 @@ extern struct GemLEDTweakData {
 
 void gem_led_animation_init();
 
-bool gem_led_animation_step();
+bool gem_led_animation_step() RAMFUNC;
 
 void gem_led_animation_set_mode(enum GemLEDAnimationMode mode);
