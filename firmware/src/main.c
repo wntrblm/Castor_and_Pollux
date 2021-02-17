@@ -205,6 +205,8 @@ static void init_() {
     updating the oscillators, recalculating their outputs, and applying the
     outputs to the pulse generators and DACs.
 */
+static void oscillator_task_() RAMFUNC;
+
 static void oscillator_task_() {
     uint32_t loop_start_time = wntr_ticks();
 

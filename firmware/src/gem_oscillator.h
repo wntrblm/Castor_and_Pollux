@@ -8,6 +8,7 @@
 
 #include "fix16.h"
 #include "gem_config.h"
+#include "wntr_ramfunc.h"
 #include "wntr_smoothie.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -65,8 +66,8 @@ void GemOscillator_init(
     fix16_t knob_max,
     bool lfo_pwm);
 
-void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs);
+void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) RAMFUNC;
 
-void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs);
+void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) RAMFUNC;
 
-void GemOscillatorOutputs_calculate(uint8_t osc, fix16_t pitch_cv, struct GemOscillatorOutputs* out);
+void GemOscillatorOutputs_calculate(uint8_t osc, fix16_t pitch_cv, struct GemOscillatorOutputs* out) RAMFUNC;

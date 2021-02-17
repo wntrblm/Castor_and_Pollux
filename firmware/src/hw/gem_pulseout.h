@@ -14,6 +14,7 @@
     be extended using the same channel descriptor model as gem_adc.h
 */
 
+#include "wntr_ramfunc.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -21,6 +22,6 @@
 
 void gem_pulseout_init();
 
-void gem_pulseout_set_period(uint8_t channel, uint32_t period);
+void gem_pulseout_set_period(uint8_t channel, uint32_t period) RAMFUNC;
 
-void gem_pulseout_hard_sync(bool state);
+void gem_pulseout_hard_sync(bool state) RAMFUNC;
