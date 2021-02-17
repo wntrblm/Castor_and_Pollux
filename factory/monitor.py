@@ -35,7 +35,7 @@ def main():
     gem = gemini.Gemini()
     gem.enable_monitor()
 
-    column_size = max(tui.width() / 10, 12)
+    column_size = 15
     columns = tui.Columns(*[f">{column_size}"] * 4)
 
     output = tui.Updateable(clear_all=False)

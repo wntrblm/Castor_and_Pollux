@@ -177,10 +177,10 @@ def run(save):
     # Enable both channels initially so that it's clear if the programming
     # board isn't connecting to the POGO pins.
     scope.set_time_division("10ms")
-    scope.enable_channel("c1")
-    scope.enable_channel("c2")
     scope.set_vertical_cursor("c1", 0, 3.3)
     scope.set_vertical_cursor("c2", 0, 3.3)
+    scope.enable_channel("c1")
+    scope.enable_channel("c2")
     scope.set_vertical_division("c1", "800mV")
     scope.set_vertical_division("c2", "800mV")
     scope.set_vertical_offset("c1", -1.65)
