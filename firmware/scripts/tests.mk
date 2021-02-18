@@ -54,7 +54,9 @@ SRCS += \
 	src/generated/gem_lookup_tables.c \
 	third_party/libwinter/wntr_midi_core.c \
 	third_party/libwinter/wntr_assert.c \
+	third_party/libwinter/wntr_bezier.c \
 	third_party/libfixmath/fix16.c \
+	third_party/libfixmath/fix16_str.c \
 	third_party/munit/munit.c
 
 ##############################################################################
