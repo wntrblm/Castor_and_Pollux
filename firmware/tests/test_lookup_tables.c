@@ -7,10 +7,10 @@
 /* Tests for src/gem_voice_params.c */
 
 #include "fix16.h"
-#include "gem_test.h"
 #include "gem_config.h"
 #include "gem_lookup_tables.h"
 #include "gem_oscillator.h"
+#include "gem_test.h"
 
 TEST_CASE_BEGIN(lowest)
     struct GemOscillatorOutputs vp = {};
@@ -54,11 +54,11 @@ TEST_CASE_BEGIN(sweep)
 
     for (fix16_t i = F16(0); i < F16(7.0); i = fix16_add(i, F16(0.02))) {
         GemOscillatorOutputs_calculate(0, i, &current_p);
-        printf(
-            "Sweep: %f yields %u with dac %u\n",
-            fix16_to_dbl(i),
-            current_p.period,
-            current_p.ramp_cv);
+        // printf(
+        //     "Sweep: %f yields %u with dac %u\n",
+        //     fix16_to_dbl(i),
+        //     current_p.period,
+        //     current_p.ramp_cv);
 
         munit_assert_int32(current_p.pitch_cv, ==, i);
         munit_assert_uint32(current_p.period, <, last_p.period);

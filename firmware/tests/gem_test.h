@@ -23,6 +23,7 @@
 
 /* Common includes */
 
+#include "fix16.h"
 #include "munit.h"
 #include <assert.h>
 #include <stdbool.h>
@@ -42,7 +43,14 @@ inline static void print_hex(const uint8_t* buf, size_t len) {
     fprintf(stderr, "]\n");
 }
 
+inline static void print_f16(const fix16_t val) {
+    char result[16];
+    fix16_to_str(val, result, 4);
+    printf("%s", result);
+}
+
 /* Suites */
 
 MunitSuite test_midi_core_suite;
 MunitSuite test_voice_params_suite;
+MunitSuite test_bezier_suite;
