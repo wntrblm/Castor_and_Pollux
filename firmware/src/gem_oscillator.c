@@ -24,9 +24,11 @@ void gem_oscillator_init(struct GemADCErrors pitch_cv_adc_errors, fix16_t pitch_
     pitch_cv_adc_errors_ = pitch_cv_adc_errors;
 
     /* Generate the LUT table for the pitch knobs' non-linear response. */
-    wntr_bezier_1d_2c_generate_lut(
+    wntr_bezier_cubic_1d_generate_lut(
+        F16(0),
         pitch_knob_nonlinearity,
         fix16_sub(F16(1.0), pitch_knob_nonlinearity),
+        F16(1.0),
         knob_bezier_lut_,
         GEM_KNOB_BEZIER_LUT_LEN);
 }
