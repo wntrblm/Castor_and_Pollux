@@ -206,9 +206,7 @@ def run(
 
     gem.enable_adc_error_correction()
 
-    measured = _measure_range(
-        gem, sol_, strategy, sample_count, calibration_points // 2
-    )
+    measured = _measure_range(gem, sol_, strategy, sample_count, calibration_points)
 
     gain_error = adc_errors.calculate_avg_gain_error(
         expected_codes, list(measured.values())
