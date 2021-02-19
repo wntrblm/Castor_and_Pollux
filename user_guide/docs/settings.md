@@ -15,6 +15,8 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
 
 <button id="connect" class="btn btn-primary btn-lg">Connect</button><span id="connect_info" class="connect-info"></span>
 
+<div id="firmware_version" class="text-info"></div>
+
 <form id="settings_editor" class="settings-editor hidden">
     <fieldset>
         <legend>Settings editor</legend>
@@ -48,16 +50,16 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         the oscillators. It does this by spreading the values near the center
         of the knob out so that the range at the center is more fine. This
         makes the knobs non-linear. This setting controls how "intense"
-        this non-linearity is. A value of <code>0.33</code> is equivalent to a linear
+        this non-linearity is. <code>0.33%</code> is equivalent to a linear
         response. Higher values make it easier and easier to tune the
-        oscillator but sacrifice the range, values lower than <code>0.33</code> will
-        make it harder to tune and aren't recommended. This is <code>0.6</code> by
+        oscillator but sacrifices the range, values lower than <code>33%</code> will
+        make it harder to tune and aren't recommended. This is <code>60%</code> by
         default.
         </span>
         <div class="form-group">
             <label for="pitch_knob_nonlinearity">Pitch knob non-linearity</label>
-            <input type="number" name="pitch_knob_nonlinearity" class="form-control" value="0.6" step="0.01" min="0.33" max="1.0" />
-            <span class="form-unit"></span>
+            <input type="range" name="pitch_knob_nonlinearity" class="form-control" value="0.6" step="0.01" min="0.33" max="1.0" />
+            <span class="form-unit"><span id="pitch_knob_nonlinearity_display_value"></span> percent</span>
         </div>
         <span class="form-message">The following setting controls the <strong>maximum</strong> intensity of the chorusing feature. The intensity is the amount that the internal LFO effects the pitch of the second oscillator (Pollux).</span>
         <div class="form-group">

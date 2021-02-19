@@ -1,7 +1,10 @@
 import GemSettings from "./gem_settings.js";
-import { teeth_decode, teeth_encode } from "./teeth.js";
+import { teeth_decode, teeth_encode, teeth_encoded_length } from "./teeth.js";
 
 const midi_port_name = "Gemini";
+const settings_chunk_size = 10;
+const settings_chunk_count =
+  teeth_encoded_length(GemSettings.packed_size) / settings_chunk_size;
 const settings_form = document.getElementById("settings_editor");
 const save_button = document.getElementById("save_button");
 const dangerous_fields = [
@@ -9,12 +12,27 @@ const dangerous_fields = [
   ...settings_form.querySelectorAll("input[disabled]"),
 ];
 const allow_danger_input = document.getElementById("allow_danger");
-const danger_zone_form_controls = document.getElementById("danger_zone_form_controls");
+const danger_zone_form_controls = document.getElementById(
+  "danger_zone_form_controls"
+);
 const connect_button = document.getElementById("connect");
 const connect_info = document.getElementById("connect_info");
-const restore_adc_calibration_button = document.getElementById("restore_adc_calibration");
+const firmware_version_info = document.getElementById("firmware_version");
+const restore_adc_calibration_button = document.getElementById(
+  "restore_adc_calibration"
+);
 let gemini_firmware_version = null;
 let gemini_serial_number = null;
+
+/*
+  Helper functions
+*/
+
+function Uint8Array_to_hex(buf) {
+  return Array.prototype.map
+    .call(buf, (x) => ("00" + x.toString(16)).slice(-2))
+    .join("");
+}
 
 /*
   Form loading/saving
@@ -84,10 +102,12 @@ function form_from_settings(settings) {
   Factory calibrations are stored on GCS. This allows retrieving it.
 */
 
-async function fetch_calibration(serial_no, type)  {
-  let response = await fetch(`https://storage.googleapis.com/files.winterbloom.com/calibrations/gemini/${serial_no}.${type}.json`);
+async function fetch_calibration(serial_no, type) {
+  let response = await fetch(
+    `https://storage.googleapis.com/files.winterbloom.com/calibrations/gemini/${serial_no}.${type}.json`
+  );
 
-  if(!response.ok) {
+  if (!response.ok) {
     throw `Could not find ${type} calibration data for CPU ID ${serial_no}`;
   }
 
@@ -133,27 +153,37 @@ async function load_settings_from_device() {
     new Uint8Array([0xf0, 0x77, 0x01, 0xf7])
   );
   console.log("Firmware version response:", response);
-  gemini_firmware_version = response.data[3];
+  gemini_firmware_version = new TextDecoder("ascii").decode(
+    response.data.slice(3, -1)
+  );
 
   /* Update the info box with the firmware version. */
-  connect_info.innerText = `Firmware version ${gemini_firmware_version}`;
-  connect_info.classList.add("text-info");
+  firmware_version_info.innerText = `Firmware version ${gemini_firmware_version}`;
 
   /* Get the CPU ID/Serial number. (command 0x0F) */
   response = await midi_send_and_receive(
     new Uint8Array([0xf0, 0x77, 0x0f, 0xf7])
   );
-  console.log("Serial number response:", response)
-  gemini_serial_number = teeth_decode(response.slice(2));
+  gemini_serial_number = Uint8Array_to_hex(
+    teeth_decode(response.data.slice(3, -1))
+  );
+  console.log("Serial number:", gemini_serial_number);
 
   /* Now load settings. (command 0x08) */
-  let settings_data = new Uint8Array(128);
-  for (let n = 0; n < 4; n++) {
+  let settings_data = new Uint8Array(
+    teeth_encoded_length(GemSettings.packed_size)
+  );
+  for (let n = 0; n < settings_chunk_count; n++) {
     let response = await midi_send_and_receive(
       new Uint8Array([0xf0, 0x77, 0x08, n, 0xf7])
     );
-    for (let x = 0; x < 20; x++) {
-      settings_data[20 * n + x] = response.data[3 + x];
+
+    if (response.data.length != settings_chunk_size + 4) {
+      throw `Invalid settings chunk data! ${response.data}`;
+    }
+
+    for (let x = 0; x < settings_chunk_size; x++) {
+      settings_data[settings_chunk_size * n + x] = response.data[3 + x];
     }
   }
 
@@ -170,7 +200,7 @@ async function load_settings_from_device() {
     restore_adc_calibration_button.disabled = true;
     restore_adc_calibration_button.classList.remove("btn-warning");
     restore_adc_calibration_button.classList.add("btn-secondary");
-  };
+  }
 }
 
 async function save_settings_to_device() {
@@ -179,17 +209,19 @@ async function save_settings_to_device() {
 
   const settings_data = settings.pack();
   /* Always send 128 bytes. */
-  let encoded_data = new Uint8Array(128);
+  let encoded_data = new Uint8Array(
+    teeth_encoded_length(GemSettings.packed_size)
+  );
   encoded_data.set(teeth_encode(settings_data));
 
-  /* Send 20 bytes at a time. */
-  for (let n = 0; n < 4; n++) {
-    let midi_message = new Uint8Array(5 + 20);
+  /* Send one chunk at a time. */
+  for (let n = 0; n < settings_chunk_count; n++) {
+    let midi_message = new Uint8Array(5 + settings_chunk_size);
     midi_message.set([0xf0, 0x77, 0x09, n]);
-    for (let x = 0; x < 20; x++) {
-      midi_message[4 + x] = encoded_data[20 * n + x];
+    for (let x = 0; x < settings_chunk_size; x++) {
+      midi_message[4 + x] = encoded_data[settings_chunk_size * n + x];
     }
-    midi_message[5 + 20 - 1] = 0xf7;
+    midi_message[5 + settings_chunk_size - 1] = 0xf7;
     await midi_send_and_receive(midi_message);
   }
 }
@@ -246,7 +278,7 @@ save_button.addEventListener("click", async function () {
   save_button.disabled = false;
 });
 
-restore_adc_calibration_button.addEventListener("click", async function() {
+restore_adc_calibration_button.addEventListener("click", async function () {
   await restore_adc_calibration();
 });
 
@@ -326,6 +358,7 @@ range_input_with_percentage("chorus_max_intensity");
 range_input_with_formatter("lfo_frequency", (input) =>
   input.valueAsNumber.toFixed(1)
 );
+range_input_with_percentage("pitch_knob_nonlinearity");
 range_input_with_percentage("smooth_initial_gain");
 range_input_with_passthrough("smooth_sensitivity");
 range_input_with_passthrough("pollux_follower_threshold");
@@ -334,5 +367,7 @@ range_input_with_formatter(
   (input) => ((input.valueAsNumber / 4096) * 6.0).toFixed(2),
   "_display_value_volts"
 );
-range_input_with_formatter("adc_gain_corr", (input) => ((input.valueAsNumber / 2048).toFixed(3)));
+range_input_with_formatter("adc_gain_corr", (input) =>
+  (input.valueAsNumber / 2048).toFixed(3)
+);
 range_input_with_passthrough("adc_offset_corr");
