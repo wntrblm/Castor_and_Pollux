@@ -50,6 +50,8 @@ LIBS += -lm
 
 SRCS += \
 	src/gem_oscillator_outputs.c \
+	src/gem_oscillator.c \
+	src/lib/gem_error_correction.c \
 	src/lib/gem_sysex_dispatcher.c \
 	src/generated/gem_lookup_tables.c \
 	third_party/libwinter/wntr_midi_core.c \

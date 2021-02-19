@@ -49,8 +49,15 @@ inline static void print_f16(const fix16_t val) {
     printf("%s", result);
 }
 
+#define ASSERT_FIX16_CLOSE(val, target, epsilon)                                                                       \
+    munit_assert_int32(fix16_abs(fix16_sub(val, target)), <=, F16(epsilon));
+
+#define ASSERT_FIX16_GT(val, target) munit_assert_int32(val, >, F16(target));
+#define ASSERT_FIX16_LT(val, target) munit_assert_int32(val, <, F16(target));
+
 /* Suites */
 
 MunitSuite test_midi_core_suite;
 MunitSuite test_voice_params_suite;
 MunitSuite test_bezier_suite;
+MunitSuite test_oscillator_suite;
