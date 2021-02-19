@@ -191,27 +191,6 @@ bool gem_adc_results_ready() {
     }
 }
 
-struct GemADCErrors
-gem_adc_calculate_errors(uint32_t low_measured, uint32_t low_expected, uint32_t high_measured, uint32_t high_expected) {
-    struct GemADCErrors result;
-    result.gain = fix16_div(fix16_from_int(high_expected - low_expected), fix16_from_int(high_measured - low_measured));
-    result.offset = fix16_sub(fix16_mul(result.gain, fix16_from_int(low_measured)), fix16_from_int(low_expected));
-    return result;
-};
-
-fix16_t gem_adc_correct_errors(const fix16_t value, const struct GemADCErrors errors) {
-    return fix16_mul(fix16_sub(value, errors.offset), errors.gain);
-}
-
-uint16_t gem_adc_correct_errors_u_int16(const uint16_t value, const struct GemADCErrors errors) {
-    int32_t result = fix16_to_int(gem_adc_correct_errors(fix16_from_int(value), errors));
-    if (result < 0)
-        result = 0;
-    if (result > UINT16_MAX)
-        result = UINT16_MAX;
-    return (uint16_t)(result);
-}
-
 /* Private methods & interrupt handlers. */
 
 static void scan_next_channel() {

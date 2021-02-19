@@ -5,13 +5,14 @@
 */
 
 #include "gem_oscillator.h"
-#include "gem_adc.h"
+#include "gem_adc_helpers.h"
+#include "gem_config.h"
 #include "wntr_bezier.h"
 
 /* Static variables */
 
 static fix16_t knob_bezier_lut_[GEM_KNOB_BEZIER_LUT_LEN];
-static struct GemADCErrors pitch_cv_adc_errors_;
+static struct GemErrorCorrection pitch_cv_adc_errors_;
 
 /* Forward declarations */
 
@@ -20,8 +21,8 @@ static void calculate_pulse_width_(struct GemOscillator* osc, struct GemOscillat
 
 /* Public functions */
 
-void gem_oscillator_init(struct GemADCErrors pitch_cv_adc_errors, fix16_t pitch_knob_nonlinearity) {
-    pitch_cv_adc_errors_ = pitch_cv_adc_errors;
+void gem_oscillator_init(struct GemErrorCorrection pitch_cv_adc_error_correction, fix16_t pitch_knob_nonlinearity) {
+    pitch_cv_adc_errors_ = pitch_cv_adc_error_correction;
 
     /* Generate the LUT table for the pitch knobs' non-linear response. */
     wntr_bezier_cubic_1d_generate_lut(
@@ -110,7 +111,7 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
         it's calibrated with the uninverted code. See
         ./factory/libgemini/adc_calibration.py
     */
-    fix16_t cv_adc_code_adj = gem_adc_correct_errors(fix16_from_int(cv_adc_code), pitch_cv_adc_errors_);
+    fix16_t cv_adc_code_adj = gem_apply_error_correction_fix16(fix16_from_int(cv_adc_code), pitch_cv_adc_errors_);
     cv_adc_code_adj = fix16_sub(F16(4095), cv_adc_code_adj);
 
     /*
@@ -125,32 +126,40 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
         Otherwise, calculate the pitch CV from the input.
     */
     else {
-        fix16_t cv_adc = ADC_NORMALIZE_F16(cv_adc_code_adj);
+        fix16_t cv_adc = GEM_ADC_NORMALIZE_F16(cv_adc_code_adj);
         osc->pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, cv_adc));
     }
 
+    /* Read the pitch knob and normalize (0.0 -> 1.0) its value. */
     uint16_t knob_adc_code = inputs.adc[osc->pitch_knob_channel];
     fix16_t knob_value = fix16_sub(F16(1.0), fix16_div(fix16_from_int(knob_adc_code), F16(4095.0)));
 
-    /* Adjust the knob value using the non-linear lookup table. */
-    knob_value = wntr_bezier_1d_lut_lookup(knob_bezier_lut_, GEM_KNOB_BEZIER_LUT_LEN, knob_value);
-
-    /* Finally, multiply the normalized value by the range. */
+    /* Use the range and the normalized value to determine the knob's CV value. */
     osc->pitch_knob = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
+
+    /*
+        Now to get fancy: if the knob's CV value is between -1.0 and +1.0, apply
+        the bezier input transformation to make it easier to tune the oscillator
+        to values near 0.0.
+    */
+    if (knob_value > F16(-1.0) && knob_value < F16(1.0)) {
+        fix16_t knob_bezier_input = fix16_div(fix16_add(knob_value, F16(1)), F16(2));
+        knob_value = wntr_bezier_1d_lut_lookup(knob_bezier_lut_, GEM_KNOB_BEZIER_LUT_LEN, knob_bezier_input);
+    }
 
     osc->pitch = fix16_add(osc->pitch_cv, osc->pitch_knob);
 }
 
 void calculate_pulse_width_(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
-    osc->pulse_width_knob = ADC_INVERT(inputs.adc[osc->pulse_width_knob_channel]);
-    osc->pulse_width_cv = ADC_INVERT(inputs.adc[osc->pulse_width_cv_channel]);
+    osc->pulse_width_knob = GEM_ADC_INVERT(inputs.adc[osc->pulse_width_knob_channel]);
+    osc->pulse_width_cv = GEM_ADC_INVERT(inputs.adc[osc->pulse_width_cv_channel]);
 
     /*
         The user can configure the LFO to modulate the pulse width. If it's
         enabled, the CV & knob determines the *intensity* of the modulation.
     */
     if (osc->lfo_pwm) {
-        fix16_t lfo_multiplier = ADC_NORMALIZE_CODE(osc->pulse_width_cv + osc->pulse_width_knob);
+        fix16_t lfo_multiplier = GEM_ADC_NORMALIZE_CODE(osc->pulse_width_cv + osc->pulse_width_knob);
         uint16_t duty_lfo =
             2048 + fix16_to_int(fix16_mul(F16(2048), fix16_mul(lfo_multiplier, inputs.lfo_pulse_width)));
         osc->pulse_width = osc->pulse_width_cv + duty_lfo;
@@ -163,5 +172,5 @@ void calculate_pulse_width_(struct GemOscillator* osc, struct GemOscillatorInput
         osc->pulse_width = osc->pulse_width_cv + osc->pulse_width_knob;
     }
 
-    ADC_UINT12_CLAMP(osc->pulse_width);
+    GEM_UINT12_CLAMP(osc->pulse_width);
 }
