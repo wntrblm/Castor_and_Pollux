@@ -10,11 +10,11 @@ class GemSettings:
     """The front-plate LED brightness."""
     led_brightness: uint16 = 127
 
-    """Configuration for the CV knob mins and maxs in volts, defaults to -1.02 to +1.10."""
-    castor_knob_min: fix16 = -1.02
-    castor_knob_max: fix16 = 1.10
-    pollux_knob_min: fix16 = -1.02
-    pollux_knob_max: fix16 = 1.10
+    """Configuration for the CV knob mins and maxs in volts, defaults to -1.2 to +1.2."""
+    castor_knob_min: fix16 = -1.2
+    castor_knob_max: fix16 = 1.2
+    pollux_knob_min: fix16 = -1.2
+    pollux_knob_max: fix16 = 1.2
 
     """Maximum amount that the chorus can impact Pollux's frequency."""
     chorus_max_intensity: fix16 = 0.05

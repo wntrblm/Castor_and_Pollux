@@ -18,7 +18,7 @@ struct GemSettings {
     int16_t adc_offset_corr;
     /* The front-plate LED brightness. */
     uint16_t led_brightness;
-    /* Configuration for the CV knob mins and maxs in volts, defaults to -1.02 to +1.10. */
+    /* Configuration for the CV knob mins and maxs in volts, defaults to -1.2 to +1.2. */
     fix16_t castor_knob_min;
     fix16_t castor_knob_max;
     fix16_t pollux_knob_min;
