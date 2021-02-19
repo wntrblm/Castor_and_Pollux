@@ -7,9 +7,11 @@
 #pragma once
 
 #include "gem_adc.h"
+#include "gem_adc_helpers.h"
 #include "gem_clocks.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
+#include "gem_error_correction.h"
 #include "gem_i2c.h"
 #include "gem_led_animation.h"
 #include "gem_lookup_tables.h"

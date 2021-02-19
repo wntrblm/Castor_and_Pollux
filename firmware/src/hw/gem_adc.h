@@ -14,14 +14,6 @@
 #include <stdint.h>
 
 /*
-    Macros & constants.
-*/
-#define ADC_INVERT(value) (4095 - value)
-#define ADC_NORMALIZE_F16(value) (fix16_div(value, F16(4095.0)))
-#define ADC_NORMALIZE_CODE(value) (ADC_NORMALIZE_F16(fix16_from_int(value)))
-#define ADC_UINT12_CLAMP(value) value = value > 4095 ? 4095 : value
-
-/*
     Input channel descriptor. These settings should be derived from the
     pin multiplexing table in the datasheet.
 */
@@ -57,22 +49,3 @@ void gem_adc_resume_scanning();
 
 /* Check if the channel scanning has finished scanning all channels. */
 bool gem_adc_results_ready();
-
-/* The SAMD series has harware correction, which we do use, however, since there are multiple types of
-    inputs in play (unbuffered, buffered, some using potentiometers), these functions can apply further
-    refinement after hardware adjustment.
-*/
-
-#define GEM_CALCULATE_EXPECTED_ADC_CODE(value, range, resolution) ((uint32_t)((value / range) * (resolution - 1)))
-
-struct GemADCErrors {
-    /* Offset correction in code points */
-    fix16_t offset;
-    /* Gain correction as a multiplication factor, generally between 0.5 and 1.5 */
-    fix16_t gain;
-};
-
-struct GemADCErrors
-gem_adc_calculate_errors(uint32_t low_measured, uint32_t low_expected, uint32_t high_measured, uint32_t high_expected);
-fix16_t gem_adc_correct_errors(const fix16_t value, const struct GemADCErrors errors);
-uint16_t gem_adc_correct_errors_u_int16(const uint16_t value, const struct GemADCErrors errors);
