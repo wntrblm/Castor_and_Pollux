@@ -23,14 +23,14 @@ class GemSettings(structy.Struct):
     led_brightness: int = 127
     """The front-plate LED brightness."""
 
-    castor_knob_min: structy.Fix16 = -1.02
-    """Configuration for the CV knob mins and maxs in volts, defaults to -1.02 to +1.10."""
+    castor_knob_min: structy.Fix16 = -1.2
+    """Configuration for the CV knob mins and maxs in volts, defaults to -1.2 to +1.2."""
 
-    castor_knob_max: structy.Fix16 = 1.1
+    castor_knob_max: structy.Fix16 = 1.2
 
-    pollux_knob_min: structy.Fix16 = -1.02
+    pollux_knob_min: structy.Fix16 = -1.2
 
-    pollux_knob_max: structy.Fix16 = 1.1
+    pollux_knob_max: structy.Fix16 = 1.2
 
     chorus_max_intensity: structy.Fix16 = 0.05
     """Maximum amount that the chorus can impact Pollux's frequency."""
