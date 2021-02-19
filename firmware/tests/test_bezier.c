@@ -10,12 +10,6 @@
 #include "gem_test.h"
 #include "wntr_bezier.h"
 
-#define ASSERT_FIX16_CLOSE(val, target, epsilon)                                                                       \
-    munit_assert_int32(fix16_abs(fix16_sub(val, target)), <=, F16(epsilon));
-
-#define ASSERT_FIX16_GT(val, target) munit_assert_int32(val, >, F16(target));
-#define ASSERT_FIX16_LT(val, target) munit_assert_int32(val, <, F16(target));
-
 TEST_CASE_BEGIN(bezier_1d_mostly_linear)
     fix16_t result = wntr_bezier_cubic_1d(F16(0), F16(0.4), F16(0.6), F16(1.0), F16(0.5));
     ASSERT_FIX16_CLOSE(result, F16(0.5), 0.001);
