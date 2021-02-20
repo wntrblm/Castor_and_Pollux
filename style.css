@@ -102,9 +102,12 @@ h1, h2, h3, h4, h5, h6 {
 
 code {
   font-size: 100%;
-  background-color: #27787F;
   color: white;
   font-family: 'IBM Plex Mono', monospace;
+}
+
+code:not(pre code) {
+  background-color: #27787F;
   padding: 0px 4px;
   border-radius: 5px;
 }
@@ -156,12 +159,19 @@ article .admonition .admonition-title {
   font-weight: bold;
   font-size: 120%;
 }
+
 article .admonition {
-  padding: 2em 1em 2em 1em;
+  padding: 1.5em 1em 1.2em 1em;
   border-left:  8px solid #999;
   color: white;
   margin: 2em 0;
   font-weight: normal;
+}
+
+article .admonition a {
+  color: white;
+  text-decoration-color: white;
+  font-weight: bold;
 }
 
 article .admonition.note {

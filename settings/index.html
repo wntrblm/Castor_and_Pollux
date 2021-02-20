@@ -59,6 +59,8 @@
 </ol>
 <p>If you run into issues, feel free to <a href="mailto:support@winterbloom.com">reach out</a>.</p>
 <p><button id="connect" class="btn btn-primary btn-lg">Connect</button><span id="connect_info" class="connect-info"></span></p>
+<div id="firmware_version" class="text-info"></div>
+
 <form id="settings_editor" class="settings-editor hidden">
     <fieldset>
         <legend>Settings editor</legend>
@@ -66,25 +68,25 @@
             <label for="led_brightness">LED brightness</label>
             <input type="range" name="led_brightness" class="form-control" min="0" max="254" value="127" />
         </div>
-        <span class="form-message">The following settings set the range of the pitch knobs for each oscillator. By default, they have a range of -1.01 to 1.01 octaves (volts). The value of the pitch knob is added to the pitch CV input</span>
+        <span class="form-message">The following settings set the range of the pitch knobs for each oscillator. By default, they have a range of about -1 to +1 octaves (volts). The value of the pitch knob is added to the pitch CV input. Note that because the module's analog-to-digital converter (ADC) isn't perfect, the knobs don't quite reach 100% of their range. You may need to nudge these to give the knob some headroom.</span>
         <div class="form-group">
             <label for="castor_knob_min">Castor pitch knob minimum</label>
-            <input type="number" name="castor_knob_min" class="form-control" value="-1.01" step="0.1" min="-3.0" max="0" />
+            <input type="number" name="castor_knob_min" class="form-control" value="-1.02" step="0.1" min="-3.3" max="0" />
             <span class="form-unit">octaves (volts)</span>
         </div>
         <div class="form-group">
             <label for="castor_knob_max">Castor pitch knob maximum</label>
-            <input type="number" name="castor_knob_max" class="form-control" value="1.01" step="0.1" min="0" max="3.0" />
+            <input type="number" name="castor_knob_max" class="form-control" value="1.10" step="0.1" min="0" max="3.3" />
             <span class="form-unit">octaves (volts)</span>
         </div>
         <div class="form-group">
             <label for="pollux_knob_min">Pollux pitch knob minimum</label>
-            <input type="number" name="pollux_knob_min" class="form-control" value="-1.01" step="0.1" min="-3.0" max="0" />
+            <input type="number" name="pollux_knob_min" class="form-control" value="-1.02" step="0.1" min="-3.3" max="0" />
             <span class="form-unit">octaves (volts)</span>
         </div>
         <div class="form-group">
             <label for="pollux_knob_max">Pollux pitch knob maximum</label>
-            <input type="number" name="pollux_knob_max" class="form-control" value="1.01" step="0.1" min="0" max="3.0" />
+            <input type="number" name="pollux_knob_max" class="form-control" value="1.10" step="0.1" min="0" max="3.0" />
             <span class="form-unit">octaves (volts)</span>
         </div>
         <span class="form-message">
@@ -92,16 +94,16 @@
         the oscillators. It does this by spreading the values near the center
         of the knob out so that the range at the center is more fine. This
         makes the knobs non-linear. This setting controls how "intense"
-        this non-linearity is. A value of <code>0.33</code> is equivalent to a linear
+        this non-linearity is. <code>0.33%</code> is equivalent to a linear
         response. Higher values make it easier and easier to tune the
-        oscillator but sacrifice the range, values lower than <code>0.33</code> will
-        make it harder to tune and aren't recommended. This is <code>0.6</code> by
+        oscillator but sacrifices the range, values lower than <code>33%</code> will
+        make it harder to tune and aren't recommended. This is <code>60%</code> by
         default.
         </span>
         <div class="form-group">
             <label for="pitch_knob_nonlinearity">Pitch knob non-linearity</label>
-            <input type="number" name="pitch_knob_nonlinearity" class="form-control" value="0.6" step="0.01" min="0.33" max="1.0" />
-            <span class="form-unit"></span>
+            <input type="range" name="pitch_knob_nonlinearity" class="form-control" value="0.6" step="0.01" min="0.33" max="1.0" />
+            <span class="form-unit"><span id="pitch_knob_nonlinearity_display_value"></span> percent</span>
         </div>
         <span class="form-message">The following setting controls the <strong>maximum</strong> intensity of the chorusing feature. The intensity is the amount that the internal LFO effects the pitch of the second oscillator (Pollux).</span>
         <div class="form-group">
@@ -142,32 +144,36 @@
             <label for="allow_danger">
             <input type="checkbox" id="allow_danger" /> Let me edit dangerous settings</label>
         </div>
-        <span class="form-message">The following setting controls how Pollux determines when to follow Castor. The intended behavior is that when no cable is attached to Pollux's pitch CV jack, it will follow Castor's pitch. The module detects this condition by seeing if the input jack is reading 0 volts. Sometimes due to ADC errors this threshold needs to be adjusted. Lower thresholds may lead to glitchy behavior as the ADC noise measures above and below the threshold, and higher settings may lead to Pollux ignoring the pitch CV input on lower notes.</span>
+        <div id="danger_zone_form_controls" class="hidden">
+        <span class="form-message">The following setting controls how Pollux determines when to follow Castor. The intended behavior is that when no cable is attached to Pollux's pitch CV jack, it will follow Castor's pitch. The module detects this condition by seeing if the input jack is reading 0 volts. Sometimes due to analog conversion errors this threshold needs to be adjusted. Lower thresholds may lead to glitchy behavior as the noise measures above and below the threshold, and higher settings may lead to Pollux ignoring the pitch CV input on lower notes.</span>
         <div class="form-group">
             <label for="pollux_follower_threshold">Pollux follower threshold</label>
             <input type="number" name="pollux_follower_threshold" class="form-control" min="0" max="500" value="56" readonly />
             <span class="form-unit"><span id="pollux_follower_threshold_display_value"></span> code points, <span id="pollux_follower_threshold_display_value_volts"></span> volts</span>
         </div>
-        <span class="form-message">The following settings determine how the module corrects for gain and offset errors in its ADC.</span>
+        <span class="form-message">The following settings determine how the module corrects for gain and offset errors in its analog-to-digital converter (ADC). During manufacturing, we measure the ADC's response to determine its gain and offset error. We save the calibration data to the device but we also keep a copy of it- if the settings below get lost, corrupted, or otherwise messed up, you can use the restore button below to load the values that were originally on your device. If the button is greyed out, then we don't have a copy of your module's calibration data ☹️.</span>
+        <div class="form-group">
+            <button type="button" id="restore_adc_calibration" class="btn btn-warning">Restore to factory values</button>
+        </div>
         <div class="form-group">
             <label for="cv_gain_error">CV input gain correction</label>
-            <input type="number" name="cv_gain_error" class="form-control" value="1" min="0.5" max="2.0" readonly />
-            <span class="form-unit"><span id="cv_gain_error_display_value"></span>x multiplier</span>
+            <input type="number" name="cv_gain_error" class="form-control" value="1" min="0.5" max="2.0" step="0.0001" readonly />
         </div>
         <div class="form-group">
             <label for="cv_offset_error">CV input error correction</label>
             <input type="number" name="cv_offset_error" class="form-control" value="0" readonly />
-            <span class="form-unit"><span id="cv_offset_error_display_value"></span> code points</span>
+            <span class="form-unit">code points</span>
         </div>
         <div class="form-group">
             <label for="adc_gain_corr">ADC gain correction</label>
             <input type="number" name="adc_gain_corr" class="form-control" value="2048" min="1024" max="3072" readonly />
-            <span class="form-unit"><span id="adc_gain_corr_display_value"></span>x multiplier</span>
+            <span class="form-unit"><span id="adc_gain_corr_display_value"></span>x</span>
         </div>
         <div class="form-group">
             <label for="adc_offset_corr">ADC offset correction</label>
             <input type="number" name="adc_offset_corr" class="form-control" value="0" min="-100" max="100" readonly />
             <span class="form-unit"><span id="adc_offset_corr_display_value"></span> code points</span>
+        </div>
         </div>
         <div class="form-group">
             <button type="button" id="save_button" class="btn btn-primary btn-lg btn-block">Save</button>
@@ -184,10 +190,10 @@
 					© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0
 				</p>
 				<p class="edit-me">
-					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/master/user_guide/docs/settings.md">Edit this page on GitHub</a>.
+					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/main/user_guide/docs/settings.md">Edit this page on GitHub</a>.
 				</p>
 				<p class="updated">
-					Last updated on February 13, 2021
+					Last updated on February 20, 2021
 				</p>
 			</footer>
 		</div>
