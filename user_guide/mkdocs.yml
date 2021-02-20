@@ -1,7 +1,7 @@
 site_name: Winterbloom Castor & Pollux User Guide
 copyright: "© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0"
 repo_url: "https://github.com/theacodes/Winterbloom_Castor_and_Pollux"
-edit_uri: edit/master/user_guide/docs
+edit_uri: edit/main/user_guide/docs
 theme:
   name: winterbloom
 markdown_extensions:
