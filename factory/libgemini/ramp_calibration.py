@@ -142,7 +142,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
 
         gem.set_period(oscillator, period)
 
-        _wait_for_frequency(scope, frequency)
+        # _wait_for_frequency(scope, frequency)
 
         calibrated_code = _manual_seek(gem, dac_channel, dac_code)
 
