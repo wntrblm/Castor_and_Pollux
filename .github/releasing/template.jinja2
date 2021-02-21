@@ -1,0 +1,29 @@
+This is a bugfix & maintenance release for Castor & Pollux's firmware, Gemini ♊️.
+
+👉 **Most users should download [gemini-firmware-{{tag}}-release.uf2](https://github.com/{{repo}}/releases/download/{{tag}}/gemini-firmware-{{tag}}-release.uf2)**  👈
+
+Please follow the [firmware upgrade instructions](https://theacodes.github.io/Winterbloom_Castor_and_Pollux/#updating-the-firmware) in the user's guide to upgrade your device's firmware.
+
+## About the files
+
+* The `uf2` files can be installed using the firmware upgrade instructions in the user's guide.
+* The `elf` files and  are for testing & debugging and can be programmed using an appropriate debug probe.
+* The `release` builds are built without debugging information.
+* The `debug` builds are built with debugging information.
+
+## Build identifier
+
+Each release of the firmware has a unique build ID. This ID can be seen when using the [online settings editor](https://gemini.wntr.dev/settings) and allows finding the *exact* firmware version on your device. The build IDs for this version are:
+
+* Release: `{{release_build_id}}`
+* Debug: `{{debug_build_id}}`
+
+## Changes from {{last_release}}
+
+{%- for category, category_changes in changes.items() %}
+
+{{category}}:
+{% for change in category_changes %}
+* {{change.capitalize()}}
+{%- endfor %}
+{%- endfor %}
