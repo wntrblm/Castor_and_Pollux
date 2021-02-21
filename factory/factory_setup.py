@@ -1,4 +1,5 @@
 import argparse
+import time
 
 from wintertools import fw_fetch, jlink, log
 
@@ -36,7 +37,7 @@ def run_adc_calibration():
     log.section("Calibrating ADC")
 
     adc_calibration.run(
-        num_calibration_points=50,
+        num_calibration_points=20,
         sample_count=128,
         strategy="adc",
         save=True,
@@ -70,6 +71,7 @@ def main():
 
     if "firmware" in args.stages:
         program_firmware()
+        input("Press enter to continue")
 
     if "erase_nvm" in args.stages:
         erase_nvm()
