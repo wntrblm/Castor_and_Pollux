@@ -27,6 +27,7 @@ static bool hard_sync_ = false;
 /* Timekeeping */
 static uint32_t animation_time_ = 0;
 static uint32_t sample_time_ = 0;
+static uint32_t idle_cycles_ = 0;
 
 /*
     Initializes the core processor, clocks, peripherals, drivers, settings,
@@ -311,7 +312,7 @@ static void oscillator_task_() {
         .lfo_intensity = pitch_lfo_intensity,
         .loop_time = loop_time,
         .animation_time = (uint16_t)(animation_time_),
-        .sample_time = (uint16_t)(sample_time_)};
+        .sample_time = (uint16_t)(idle_cycles_)};
 
     gem_sysex_send_monitor_update(&monitor_update);
 }
@@ -419,6 +420,9 @@ int main(void) {
             last_sample_time = wntr_ticks();
             oscillator_task_();
             tweak_task_();
+            idle_cycles_ = 0;
+        } else {
+            idle_cycles_++;
         }
     }
 
