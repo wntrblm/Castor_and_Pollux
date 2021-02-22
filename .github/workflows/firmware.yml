@@ -33,19 +33,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install firmware/requirements.txt
+        run: |
+          python3 -m pip install -r firmware/requirements.txt
+
       - name: Run format and error if anything changes
         run: |
           cd firmware
-          python3 configure.py --skip-checks --no-generators
+          python3 configure.py --skip-checks --no-generators --enable-tidy
           ninja format
           git diff --color --exit-code src
 
-      # TODO: Re-enable this
-      # - name: Run tidy
-      #   run: |
-      #     cd firmware
-      #     clang-tidy -dump-config
-      #     make tidy
+      - name: Run tidy
+        run: |
+          cd firmware
+          clang-tidy -dump-config
+          make tidy
 
   build:
     name: Build firmware code
@@ -69,10 +72,6 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Install python dependencies
-        run: |
-          python3 -m pip -q install structy_generator git+https://github.com/theacodes/wintertools
-
       - name: Versions
         run: |
           ninja --version
@@ -85,6 +84,10 @@ jobs:
         # string.
         with:
           fetch-depth: 0
+
+      - name: Install firmware/requirements.txt
+        run: |
+          python3 -m pip install -r firmware/requirements.txt
 
       - name: Run build
         run: |
