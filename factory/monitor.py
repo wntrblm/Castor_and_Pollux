@@ -33,7 +33,7 @@ def main():
     start = time.monotonic()
 
     gem = gemini.Gemini()
-    print(gem.get_firmware_version)
+    print(gem.get_firmware_version())
     print(gem.read_settings())
     gem.enable_monitor()
 
