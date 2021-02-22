@@ -26,9 +26,9 @@ void gem_oscillator_init(struct GemErrorCorrection pitch_cv_adc_error_correction
 
     /* Generate the LUT table for the pitch knobs' non-linear response. */
     wntr_bezier_cubic_1d_generate_lut(
-        F16(0),
-        pitch_knob_nonlinearity,
-        fix16_sub(F16(1.0), pitch_knob_nonlinearity),
+        F16(-1.0),
+        fix16_add(F16(0.0), pitch_knob_nonlinearity),
+        fix16_sub(F16(0.0), pitch_knob_nonlinearity),
         F16(1.0),
         knob_bezier_lut_,
         GEM_KNOB_BEZIER_LUT_LEN);
@@ -135,7 +135,7 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
     fix16_t knob_value = fix16_sub(F16(1.0), fix16_div(fix16_from_int(knob_adc_code), F16(4095.0)));
 
     /* Use the range and the normalized value to determine the knob's CV value. */
-    osc->pitch_knob = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
+    knob_value = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
 
     /*
         Now to get fancy: if the knob's CV value is between -1.0 and +1.0, apply
@@ -144,8 +144,12 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
     */
     if (knob_value > F16(-1.0) && knob_value < F16(1.0)) {
         fix16_t knob_bezier_input = fix16_div(fix16_add(knob_value, F16(1)), F16(2));
+        // knob_value = wntr_bezier_cubic_1d(
+        //     F16(-1.0), fix16_add(F16(0.0), F16(0.6)), fix16_sub(F16(0.0), F16(0.6)), F16(1.0), knob_bezier_input);
         knob_value = wntr_bezier_1d_lut_lookup(knob_bezier_lut_, GEM_KNOB_BEZIER_LUT_LEN, knob_bezier_input);
     }
+
+    osc->pitch_knob = knob_value;
 
     osc->pitch = fix16_add(osc->pitch_cv, osc->pitch_knob);
 }

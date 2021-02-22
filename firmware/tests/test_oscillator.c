@@ -14,7 +14,7 @@
 const struct GemErrorCorrection error_correction = {.offset = F16(0), .gain = F16(1)};
 
 TEST_CASE_BEGIN(update)
-    gem_oscillator_init(error_correction, F16(0.4));
+    gem_oscillator_init(error_correction, F16(0.6));
 
     struct GemOscillator osc = {};
     GemOscillator_init(&osc, 0, 0, 1, 2, 3, F16(1.0), F16(1.0), F16(-1.5), F16(1.5), false);
