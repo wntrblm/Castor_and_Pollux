@@ -48,7 +48,7 @@ jobs:
         run: |
           cd firmware
           clang-tidy -dump-config
-          make tidy
+          ninja tidy
 
   build:
     name: Build firmware code
