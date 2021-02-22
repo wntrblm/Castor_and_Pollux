@@ -37,6 +37,7 @@ class SysExCommands(enum.IntEnum):
     GET_SERIAL_NUMBER = 0x0F
     MONITOR = 0x10
     SOFT_RESET = 0x11
+    ENTER_CALIBRATION = 0x12
 
 
 class Gemini(midi.MIDIDevice):
@@ -48,14 +49,22 @@ class Gemini(midi.MIDIDevice):
         self.version = None
         self.serial_number = None
 
-    def enter_calibration_mode(self):
+    def get_firmware_version(self):
         resp = self.sysex(SysExCommands.HELLO, response=True)
         self.version = bytearray(resp[3:-1]).decode("ascii")
-        log.info(f"Gemini version: {self.version}")
+        return self.version
 
+    def get_serial_number(self):
         resp = self.sysex(SysExCommands.GET_SERIAL_NUMBER, response=True)
         self.serial_number = teeth.teeth_decode(resp[3:-1]).hex()
+
+    def enter_calibration_mode(self):
+        self.get_firmware_version()
+        log.info(f"Gemini version: {self.version}")
+        self.get_serial_number()
         log.info(f"Serial number: {self.serial_number}")
+
+        self.sysex(SysExCommands.ENTER_CALIBRATION)
 
     def read_adc(self, ch):
         resp = self.sysex(SysExCommands.READ_ADC, data=[ch], response=True, decode=True)
