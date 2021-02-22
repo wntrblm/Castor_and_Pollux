@@ -14,3 +14,5 @@ settings.pollux_knob_max = default_settings.pollux_knob_max
 gem.save_settings(settings)
 
 print(gem.read_settings())
+
+gem.soft_reset()

@@ -36,6 +36,7 @@ class SysExCommands(enum.IntEnum):
     ENABLE_ADC_CORR = 0x0E
     GET_SERIAL_NUMBER = 0x0F
     MONITOR = 0x10
+    SOFT_RESET = 0x11
 
 
 class Gemini(midi.MIDIDevice):
@@ -148,3 +149,6 @@ class Gemini(midi.MIDIDevice):
         except Exception as e:
             self.disable_monitor()
             raise e
+
+    def soft_reset(self):
+        self.sysex(SysExCommands.SOFT_RESET)

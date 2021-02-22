@@ -85,6 +85,10 @@ def main():
     if "afe" in args.stages:
         run_afe_calibration()
 
+    print("Soft-resetting...")
+    gem = gemini.Gemini()
+    gem.soft_reset()
+
 
 if __name__ == "__main__":
     main()
