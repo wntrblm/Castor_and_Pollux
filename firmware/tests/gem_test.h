@@ -50,7 +50,11 @@ inline static void print_f16(const fix16_t val) {
 }
 
 #define ASSERT_FIX16_CLOSE(val, target, epsilon)                                                                       \
-    munit_assert_int32(fix16_abs(fix16_sub(val, target)), <=, F16(epsilon));
+    {                                                                                                                  \
+        fix16_t abs_ = fix16_abs(fix16_sub(val, target));                                                              \
+        fix16_t eps_ = F16(epsilon);                                                                                   \
+        munit_assert_int32(abs_, <=, eps_);                                                                            \
+    }
 
 #define ASSERT_FIX16_GT(val, target) munit_assert_int32(val, >, F16(target));
 #define ASSERT_FIX16_LT(val, target) munit_assert_int32(val, <, F16(target));
