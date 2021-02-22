@@ -129,7 +129,7 @@ RELEASE_DEFINES = dict(NDEBUG=1)
 # Buildfile generation
 
 
-def generate_build(configuration, run_generators, enable_tidy):
+def generate_build(configuration, run_generators, enable_tidy, enable_format):
     srcs = buildgen.expand_srcs(SRCS)
     INCLUDES.extend(buildgen.includes_from_srcs(srcs))
 
@@ -200,8 +200,9 @@ def generate_build(configuration, run_generators, enable_tidy):
         )
 
     # Formatting and linting
-    format_files = list(pathlib.Path(".").glob("src/**/*.[c,h]"))
-    buildgen.clang_format_build(writer, format_files)
+    if enable_format:
+        format_files = list(pathlib.Path(".").glob("src/**/*.[c,h]"))
+        buildgen.clang_format_build(writer, format_files)
 
     if enable_tidy:
         tidy_files = list(pathlib.Path(".").glob("src/**/*.c"))
@@ -222,13 +223,16 @@ def main():
     parser.add_argument("--skip-checks", action="store_true", default=False)
     parser.add_argument("--no-generators", action="store_true", default=False)
     parser.add_argument("--enable-tidy", action="store_true", default=False)
+    parser.add_argument("--no-format", action="store_true", default=False)
 
     args = parser.parse_args()
 
     if not args.skip_checks:
         buildgen.check_gcc_version()
 
-    generate_build(args.config, not args.no_generators, args.enable_tidy)
+    generate_build(
+        args.config, not args.no_generators, args.enable_tidy, not args.no_format
+    )
 
 
 if __name__ == "__main__":
