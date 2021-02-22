@@ -92,7 +92,7 @@ jobs:
       - name: Run build
         run: |
           cd firmware
-          python3 configure.py
+          python3 configure.py --no-format
           ninja
 
       - uses: actions/upload-artifact@v2
