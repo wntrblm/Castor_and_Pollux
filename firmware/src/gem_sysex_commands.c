@@ -63,42 +63,44 @@ static uint32_t last_monitor_update_ = 0;
 
 /* Forward declarations. */
 
-static void cmd_0x01_hello(const uint8_t* data, size_t len);
-static void cmd_0x02_write_adc_gain(const uint8_t* data, size_t len);
-static void cmd_0x03_write_adc_offset(const uint8_t* data, size_t len);
-static void cmd_0x04_read_adc(const uint8_t* data, size_t len);
-static void cmd_0x05_set_dac(const uint8_t* data, size_t len);
-static void cmd_0x06_set_period(const uint8_t* data, size_t len);
-static void cmd_0x07_erase_settings(const uint8_t* data, size_t len);
-static void cmd_0x08_read_settings(const uint8_t* data, size_t len);
-static void cmd_0x09_write_settings(const uint8_t* data, size_t len);
-static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len);
-static void cmd_0x0B_write_lut(const uint8_t* data, size_t len);
-static void cmd_0x0C_erase_lut(const uint8_t* data, size_t len);
-static void cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len);
-static void cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len);
-static void cmd_0x0F_get_serial_no(const uint8_t* data, size_t len);
-static void cmd_0x10_monitor(const uint8_t* data, size_t len);
+static void cmd_0x01_hello_(const uint8_t* data, size_t len);
+static void cmd_0x02_write_adc_gain_(const uint8_t* data, size_t len);
+static void cmd_0x03_write_adc_offset_(const uint8_t* data, size_t len);
+static void cmd_0x04_read_adc_(const uint8_t* data, size_t len);
+static void cmd_0x05_set_dac_(const uint8_t* data, size_t len);
+static void cmd_0x06_set_period_(const uint8_t* data, size_t len);
+static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len);
+static void cmd_0x08_read_settings_(const uint8_t* data, size_t len);
+static void cmd_0x09_write_settings_(const uint8_t* data, size_t len);
+static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len);
+static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len);
+static void cmd_0x0C_erase_lut_(const uint8_t* data, size_t len);
+static void cmd_0x0D_disable_adc_corr_(const uint8_t* data, size_t len);
+static void cmd_0x0E_enable_adc_corr_(const uint8_t* data, size_t len);
+static void cmd_0x0F_get_serial_no_(const uint8_t* data, size_t len);
+static void cmd_0x10_monitor_(const uint8_t* data, size_t len);
+static void cmd_0x11_soft_reset_(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
 void gem_register_sysex_commands() {
-    gem_sysex_register_command(0x01, cmd_0x01_hello);
-    gem_sysex_register_command(0x02, cmd_0x02_write_adc_gain);
-    gem_sysex_register_command(0x03, cmd_0x03_write_adc_offset);
-    gem_sysex_register_command(0x04, cmd_0x04_read_adc);
-    gem_sysex_register_command(0x05, cmd_0x05_set_dac);
-    gem_sysex_register_command(0x06, cmd_0x06_set_period);
-    gem_sysex_register_command(0x07, cmd_0x07_erase_settings);
-    gem_sysex_register_command(0x08, cmd_0x08_read_settings);
-    gem_sysex_register_command(0x09, cmd_0x09_write_settings);
-    gem_sysex_register_command(0x0A, cmd_0x0A_write_lut_entry);
-    gem_sysex_register_command(0x0B, cmd_0x0B_write_lut);
-    gem_sysex_register_command(0x0C, cmd_0x0C_erase_lut);
-    gem_sysex_register_command(0x0D, cmd_0x0D_disable_adc_corr);
-    gem_sysex_register_command(0x0E, cmd_0x0E_enable_adc_corr);
-    gem_sysex_register_command(0x0F, cmd_0x0F_get_serial_no);
-    gem_sysex_register_command(0x10, cmd_0x10_monitor);
+    gem_sysex_register_command(0x01, cmd_0x01_hello_);
+    gem_sysex_register_command(0x02, cmd_0x02_write_adc_gain_);
+    gem_sysex_register_command(0x03, cmd_0x03_write_adc_offset_);
+    gem_sysex_register_command(0x04, cmd_0x04_read_adc_);
+    gem_sysex_register_command(0x05, cmd_0x05_set_dac_);
+    gem_sysex_register_command(0x06, cmd_0x06_set_period_);
+    gem_sysex_register_command(0x07, cmd_0x07_erase_settings_);
+    gem_sysex_register_command(0x08, cmd_0x08_read_settings_);
+    gem_sysex_register_command(0x09, cmd_0x09_write_settings_);
+    gem_sysex_register_command(0x0A, cmd_0x0A_write_lut_entry_);
+    gem_sysex_register_command(0x0B, cmd_0x0B_write_lut_);
+    gem_sysex_register_command(0x0C, cmd_0x0C_erase_lut_);
+    gem_sysex_register_command(0x0D, cmd_0x0D_disable_adc_corr_);
+    gem_sysex_register_command(0x0E, cmd_0x0E_enable_adc_corr_);
+    gem_sysex_register_command(0x0F, cmd_0x0F_get_serial_no_);
+    gem_sysex_register_command(0x10, cmd_0x10_monitor_);
+    gem_sysex_register_command(0x11, cmd_0x11_soft_reset_);
     wntr_midi_set_sysex_callback(gem_sysex_dispatcher);
 };
 
@@ -124,7 +126,7 @@ void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
 
 /* Private functions. */
 
-static void cmd_0x01_hello(const uint8_t* data, size_t len) {
+static void cmd_0x01_hello_(const uint8_t* data, size_t len) {
     /*
         Response: 0x01 and the build info string, for example:
         "12.24.2020 on 20/01/2021 23:38 UTC with arm-none-eabi-gcc 10.2.1 20201103 (release) by
@@ -148,7 +150,7 @@ static void cmd_0x01_hello(const uint8_t* data, size_t len) {
     SEND_RESPONSE_LEN(build_info_len);
 }
 
-static void cmd_0x02_write_adc_gain(const uint8_t* data, size_t len) {
+static void cmd_0x02_write_adc_gain_(const uint8_t* data, size_t len) {
     /* Request (teeth): GAIN(2) */
     DECODE_TEETH_REQUEST(2);
 
@@ -160,7 +162,7 @@ static void cmd_0x02_write_adc_gain(const uint8_t* data, size_t len) {
     GemSettings_save(&settings);
 }
 
-static void cmd_0x03_write_adc_offset(const uint8_t* data, size_t len) {
+static void cmd_0x03_write_adc_offset_(const uint8_t* data, size_t len) {
     /* Request (teeth): OFFSET(2) */
     DECODE_TEETH_REQUEST(2);
 
@@ -172,7 +174,7 @@ static void cmd_0x03_write_adc_offset(const uint8_t* data, size_t len) {
     GemSettings_save(&settings);
 }
 
-static void cmd_0x04_read_adc(const uint8_t* data, size_t len) {
+static void cmd_0x04_read_adc_(const uint8_t* data, size_t len) {
     /* Request: CHANNEL(1) */
     /* Response (teeth): VALUE(2) */
     (void)(len);
@@ -188,7 +190,7 @@ static void cmd_0x04_read_adc(const uint8_t* data, size_t len) {
     SEND_RESPONSE();
 }
 
-static void cmd_0x05_set_dac(const uint8_t* data, size_t len) {
+static void cmd_0x05_set_dac_(const uint8_t* data, size_t len) {
     /* Request: CHANNEL(1) VALUE(2) VREF(1)*/
     DECODE_TEETH_REQUEST(4);
 
@@ -198,7 +200,7 @@ static void cmd_0x05_set_dac(const uint8_t* data, size_t len) {
     gem_mcp_4728_write_channel(request[0], dac_settings);
 }
 
-static void cmd_0x06_set_period(const uint8_t* data, size_t len) {
+static void cmd_0x06_set_period_(const uint8_t* data, size_t len) {
     /* Request (teeth): CHANNEL(1) PERIOD(4) */
     (void)(len);
     DECODE_TEETH_REQUEST(5);
@@ -206,14 +208,14 @@ static void cmd_0x06_set_period(const uint8_t* data, size_t len) {
     gem_pulseout_set_period(request[0], WNTR_UNPACK_32(request, 1));
 }
 
-static void cmd_0x07_erase_settings(const uint8_t* data, size_t len) {
+static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     GemSettings_erase();
 }
 
-static void cmd_0x08_read_settings(const uint8_t* data, size_t len) {
+static void cmd_0x08_read_settings_(const uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) */
     /* Response: SETTINGS_CHUNK(CHUNK_SIZE) */
@@ -237,7 +239,7 @@ static void cmd_0x08_read_settings(const uint8_t* data, size_t len) {
     SEND_RESPONSE();
 }
 
-static void cmd_0x09_write_settings(const uint8_t* data, size_t len) {
+static void cmd_0x09_write_settings_(const uint8_t* data, size_t len) {
     /* Settings are sent in chunks to avoid overflowing midi buffers. */
     /* Request: CHUNK_NUM(1) SETTINGS_CHUNK(CHUNK_SIZE) */
     (void)(len);
@@ -272,7 +274,7 @@ static void cmd_0x09_write_settings(const uint8_t* data, size_t len) {
     RESPONSE_0(0x09);
 }
 
-static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
+static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
     /* Request (teeth): ENTRY(1) PERIOD(4) CASTOR_CODE(2) POLLUX_CODE(2) */
     DECODE_TEETH_REQUEST(9);
 
@@ -300,28 +302,28 @@ static void cmd_0x0A_write_lut_entry(const uint8_t* data, size_t len) {
     RESPONSE_0(0x0A);
 }
 
-static void cmd_0x0B_write_lut(const uint8_t* data, size_t len) {
+static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_save_ramp_table();
 }
 
-static void cmd_0x0C_erase_lut(const uint8_t* data, size_t len) {
+static void cmd_0x0C_erase_lut_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_erase_ramp_table();
 }
 
-static void cmd_0x0D_disable_adc_corr(const uint8_t* data, size_t len) {
+static void cmd_0x0D_disable_adc_corr_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
     gem_adc_set_error_correction(2048, 0);
 }
 
-static void cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len) {
+static void cmd_0x0E_enable_adc_corr_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
@@ -330,7 +332,7 @@ static void cmd_0x0E_enable_adc_corr(const uint8_t* data, size_t len) {
     gem_adc_set_error_correction(settings.adc_gain_corr, settings.adc_offset_corr);
 }
 
-static void cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
+static void cmd_0x0F_get_serial_no_(const uint8_t* data, size_t len) {
     /* Response (teeth): SERIAL_NO(24) */
     (void)(data);
     (void)(len);
@@ -345,7 +347,7 @@ static void cmd_0x0F_get_serial_no(const uint8_t* data, size_t len) {
     SEND_RESPONSE();
 }
 
-static void cmd_0x10_monitor(const uint8_t* data, size_t len) {
+static void cmd_0x10_monitor_(const uint8_t* data, size_t len) {
     (void)len;
 
     if (data[0] > 0) {
@@ -355,4 +357,11 @@ static void cmd_0x10_monitor(const uint8_t* data, size_t len) {
     } else {
         monitor_enabled_ = false;
     }
+}
+
+static void cmd_0x11_soft_reset_(const uint8_t* data, size_t len) {
+    (void)data;
+    (void)len;
+
+    NVIC_SystemReset();
 }
