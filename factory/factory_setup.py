@@ -1,5 +1,4 @@
 import argparse
-import time
 
 from wintertools import fw_fetch, jlink, log
 
@@ -85,9 +84,10 @@ def main():
     if "afe" in args.stages:
         run_afe_calibration()
 
-    print("Soft-resetting...")
+    log.section("Soft-resetting")
     gem = gemini.Gemini()
     gem.soft_reset()
+    log.success("Finished")
 
 
 if __name__ == "__main__":
