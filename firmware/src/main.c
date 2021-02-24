@@ -158,7 +158,7 @@ static void init_() {
         knob non-linearity, and smoothie settings.
     */
     gem_oscillator_init(
-        (struct GemErrorCorrection){.offset = settings_.cv_offset_error, .gain = settings_.cv_gain_error},
+        (struct WntrErrorCorrection){.offset = settings_.cv_offset_error, .gain = settings_.cv_gain_error},
         settings_.pitch_knob_nonlinearity);
 
     GemOscillator_init(

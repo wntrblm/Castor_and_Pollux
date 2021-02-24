@@ -11,7 +11,7 @@
 #include "gem_oscillator.h"
 #include "gem_test.h"
 
-const struct GemErrorCorrection error_correction = {.offset = F16(0), .gain = F16(1)};
+const struct WntrErrorCorrection error_correction = {.offset = F16(0), .gain = F16(1)};
 
 TEST_CASE_BEGIN(update)
     gem_oscillator_init(error_correction, F16(0.6));

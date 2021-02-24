@@ -12,7 +12,7 @@
 /* Static variables */
 
 static fix16_t pitch_knob_nonlinearity_;
-static struct GemErrorCorrection pitch_cv_adc_errors_;
+static struct WntrErrorCorrection pitch_cv_adc_errors_;
 
 /* Forward declarations */
 
@@ -21,7 +21,7 @@ static void calculate_pulse_width_(struct GemOscillator* osc, struct GemOscillat
 
 /* Public functions */
 
-void gem_oscillator_init(struct GemErrorCorrection pitch_cv_adc_error_correction, fix16_t pitch_knob_nonlinearity) {
+void gem_oscillator_init(struct WntrErrorCorrection pitch_cv_adc_error_correction, fix16_t pitch_knob_nonlinearity) {
     pitch_cv_adc_errors_ = pitch_cv_adc_error_correction;
     pitch_knob_nonlinearity_ = pitch_knob_nonlinearity;
 }
@@ -104,7 +104,7 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
         ./factory/libgemini/adc_calibration.py
     */
     fix16_t cv_adc_code_f16 =
-        UINT12_INVERT_F(gem_apply_error_correction_fix16(fix16_from_int(cv_adc_code), pitch_cv_adc_errors_));
+        UINT12_INVERT_F(wntr_apply_error_correction_fix16(fix16_from_int(cv_adc_code), pitch_cv_adc_errors_));
 
     /*
         This allows the second oscillator to follow the first. If the pitch CV
