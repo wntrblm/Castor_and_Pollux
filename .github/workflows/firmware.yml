@@ -100,3 +100,43 @@ jobs:
           name: gemini-firmware.elf
           path: firmware/build/gemini-firmware.elf
           if-no-files-found: error
+
+  test:
+    name: Run tests
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -qq eatmydata
+          sudo eatmydata apt-get install -qq ninja-build wget clang clang-tools
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Versions
+        run: |
+          ninja --version
+          python3 --version
+          gcc --version
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install firmware/requirements.txt
+        run: |
+          python3 -m pip install -r firmware/requirements.txt
+
+      - name: Build test runner
+        run: |
+          cd firmware/tests
+          python3 configure.py
+          ninja
+
+      - name: Run tests
+        run: |
+          cd firmware/tests
+          build/gemini-firmware-test
