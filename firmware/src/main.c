@@ -229,7 +229,7 @@ static void oscillator_task_() {
         Update the internal LFO used for modulating pitch and pulse width.
     */
     WntrPeriodicWaveform_step(&lfo_);
-    fix16_t pitch_lfo_intensity = GEM_ADC_NORMALIZE_CODE(GEM_ADC_INVERT(adc_results_[GEM_IN_CHORUS_POT]));
+    fix16_t pitch_lfo_intensity = UINT12_NORMALIZE(UINT12_INVERT(adc_results_[GEM_IN_CHORUS_POT]));
     fix16_t pitch_lfo_value = fix16_mul(settings_.chorus_max_intensity, fix16_mul(pitch_lfo_intensity, lfo_.value));
 
     /*
@@ -327,7 +327,7 @@ static void oscillator_task_() {
     uint16_t variable = adc_results_live_[channel];                                                                    \
     int32_t variable##_delta = variable - adc_results_snapshot_[channel];                                              \
     if (labs(variable##_delta) > 50) {                                                                                 \
-        variable = GEM_ADC_INVERT(variable);
+        variable = UINT12_INVERT(variable);
 #define IF_WAGGLED_END }
 
 static void tweak_task_() {
@@ -350,7 +350,7 @@ static void tweak_task_() {
 
         /* Chorus intensity knob controls the LFO frequency in tweak mode. */
         IF_WAGGLED(chorus_pot_code, GEM_IN_CHORUS_POT)
-            fix16_t frequency_value = GEM_ADC_NORMALIZE_CODE(chorus_pot_code);
+            fix16_t frequency_value = UINT12_NORMALIZE(chorus_pot_code);
             lfo_.frequency = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
         IF_WAGGLED_END
 

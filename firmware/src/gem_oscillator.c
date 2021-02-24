@@ -5,9 +5,9 @@
 */
 
 #include "gem_oscillator.h"
-#include "gem_adc_helpers.h"
 #include "gem_config.h"
 #include "wntr_bezier.h"
+#include "wntr_uint12.h"
 
 /* Static variables */
 
@@ -103,23 +103,23 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
         it's calibrated with the uninverted code. See
         ./factory/libgemini/adc_calibration.py
     */
-    fix16_t cv_adc_code_adj = gem_apply_error_correction_fix16(fix16_from_int(cv_adc_code), pitch_cv_adc_errors_);
-    cv_adc_code_adj = fix16_sub(F16(4095), cv_adc_code_adj);
+    fix16_t cv_adc_code_f16 =
+        UINT12_INVERT_F(gem_apply_error_correction_fix16(fix16_from_int(cv_adc_code), pitch_cv_adc_errors_));
 
     /*
         This allows the second oscillator to follow the first. If the pitch CV
         in is below a certain threshold, then just use "osc->pitch_cv" (which
         will be set to the first oscillator's pitch CV).
     */
-    if (osc->follower_threshold > 0 && cv_adc_code_adj < fix16_from_int(osc->follower_threshold)) {
+    if (osc->follower_threshold > 0 && cv_adc_code_f16 < fix16_from_int(osc->follower_threshold)) {
         osc->pitch_cv = osc->pitch;
     }
     /*
         Otherwise, calculate the pitch CV from the input.
     */
     else {
-        fix16_t cv_adc = GEM_ADC_NORMALIZE_F16(cv_adc_code_adj);
-        osc->pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, cv_adc));
+        fix16_t cv = UINT12_NORMALIZE_F(cv_adc_code_f16);
+        osc->pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, cv));
     }
 
     /* Read the pitch knob and normalize (0.0 -> 1.0) its value. */
@@ -150,15 +150,15 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
 }
 
 void calculate_pulse_width_(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
-    osc->pulse_width_knob = GEM_ADC_INVERT(inputs.adc[osc->pulse_width_knob_channel]);
-    osc->pulse_width_cv = GEM_ADC_INVERT(inputs.adc[osc->pulse_width_cv_channel]);
+    osc->pulse_width_knob = UINT12_INVERT(inputs.adc[osc->pulse_width_knob_channel]);
+    osc->pulse_width_cv = UINT12_INVERT(inputs.adc[osc->pulse_width_cv_channel]);
 
     /*
         The user can configure the LFO to modulate the pulse width. If it's
         enabled, the CV & knob determines the *intensity* of the modulation.
     */
     if (osc->lfo_pwm) {
-        fix16_t lfo_multiplier = GEM_ADC_NORMALIZE_CODE(osc->pulse_width_cv + osc->pulse_width_knob);
+        fix16_t lfo_multiplier = UINT12_NORMALIZE(osc->pulse_width_cv + osc->pulse_width_knob);
         uint16_t duty_lfo =
             2048 + fix16_to_int(fix16_mul(F16(2048), fix16_mul(lfo_multiplier, inputs.lfo_pulse_width)));
         osc->pulse_width = osc->pulse_width_cv + duty_lfo;
@@ -171,5 +171,5 @@ void calculate_pulse_width_(struct GemOscillator* osc, struct GemOscillatorInput
         osc->pulse_width = osc->pulse_width_cv + osc->pulse_width_knob;
     }
 
-    GEM_UINT12_CLAMP(osc->pulse_width);
+    UINT12_CLAMP(osc->pulse_width);
 }

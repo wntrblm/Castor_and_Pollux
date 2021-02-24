@@ -7,7 +7,6 @@
 #pragma once
 
 #include "gem_adc.h"
-#include "gem_adc_helpers.h"
 #include "gem_clocks.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
@@ -37,4 +36,5 @@
 #include "wntr_serial_number.h"
 #include "wntr_smoothie.h"
 #include "wntr_ticks.h"
+#include "wntr_uint12.h"
 #include "wntr_waveforms.h"
