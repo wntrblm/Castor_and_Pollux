@@ -32,6 +32,7 @@ SRCS = [
 ]
 
 INCLUDES = [
+    "../tests/stubs",
     "../src/hw",
     "../third_party/samd21/include",
     "../third_party/cmsis/include",
@@ -50,9 +51,8 @@ DEFINES.update(
 
 # Toolchain configuration. Wintertools does most of the work here.
 
-# Switch to regular gcc since buildgen defaults to ARM gcc.
-buildgen.GCC = "gcc"
-buildgen.OBJCOPY = "objcopy"
+# Switch to clang since buildgen defaults to ARM gcc.
+buildgen.GCC = "clang"
 
 COMMON_FLAGS = buildgen.Desktop.common_flags()
 
