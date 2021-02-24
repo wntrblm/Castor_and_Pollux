@@ -8,7 +8,7 @@
 
 #include "fix16.h"
 #include "gem_config.h"
-#include "gem_error_correction.h"
+#include "wntr_error_correction.h"
 #include "wntr_ramfunc.h"
 #include "wntr_smoothie.h"
 #include <stdbool.h>
@@ -52,7 +52,7 @@ struct GemOscillator {
     uint16_t pulse_width;
 };
 
-void gem_oscillator_init(struct GemErrorCorrection pitch_cv_adc_error_correction, fix16_t pitch_knob_nonlinearity);
+void gem_oscillator_init(struct WntrErrorCorrection pitch_cv_adc_error_correction, fix16_t pitch_knob_nonlinearity);
 
 void GemOscillator_init(
     struct GemOscillator* osc,
