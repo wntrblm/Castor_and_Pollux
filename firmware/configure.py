@@ -9,6 +9,9 @@ from wintertools.third_party import ninja_syntax
 # Check the python version before doing anything else.
 buildgen.check_python_version()
 
+# Make sure we're in the right directory.
+buildgen.ensure_directory()
+
 
 # MCU configuration
 
@@ -233,6 +236,8 @@ def main():
     generate_build(
         args.config, not args.no_generators, args.enable_tidy, not args.no_format
     )
+
+    print("Created build.ninja")
 
 
 if __name__ == "__main__":
