@@ -23,7 +23,9 @@ def prepare_artifacts(info):
     os.chdir(firmware_dir)
     subprocess.run(["python3", "configure.py", "--config", "debug"])
     subprocess.run(["ninja"])
-    build_id = build_info.extract_compiled_build_info("build/generated_build_info.o")
+    build_id = build_info.extract_compiled_build_info(
+        "build/build/generated_build_info.o"
+    )
     info["debug_build_id"] = build_id
 
     add_artifact(
@@ -39,7 +41,9 @@ def prepare_artifacts(info):
 
     subprocess.run(["python3", "configure.py", "--config", "release"])
     subprocess.run(["ninja"])
-    build_id = build_info.extract_compiled_build_info("build/generated_build_info.o")
+    build_id = build_info.extract_compiled_build_info(
+        "build/build/generated_build_info.o"
+    )
     info["release_build_id"] = build_id
 
     add_artifact(
