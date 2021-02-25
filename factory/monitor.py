@@ -4,8 +4,6 @@
 
 """Monitor Gemini's inputs."""
 
-import time
-
 from wintertools import tui
 
 from libgemini import gem_monitor_update, gemini
@@ -76,7 +74,7 @@ def track_states(update, seen_states):
         seen_states.lfo_intensity = True
 
 
-def draw(update, stats=False):
+def draw(update, seen_states, stats=False):
     global spinner_index
 
     spinner_index = (spinner_index + 1) % SPINNER_FRAME_COUNT
