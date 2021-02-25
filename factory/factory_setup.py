@@ -70,7 +70,6 @@ def main():
 
     if "firmware" in args.stages:
         program_firmware()
-        input("Press enter to continue")
 
     if "erase_nvm" in args.stages:
         erase_nvm()
