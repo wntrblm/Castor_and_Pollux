@@ -4,7 +4,7 @@
 
 """Monitor Gemini's inputs."""
 
-from wintertools import tui
+from wintertools import git, log, tui
 
 from libgemini import gem_monitor_update, gemini
 
@@ -183,7 +183,7 @@ def draw(update, seen_states, stats=False):
     print("║                                         ║")
 
     COLUMNS2.draw("║", lfo_color, f"{update.lfo_intensity * 100:.0f}%", tui.reset, "║")
-    COLUMNS2.draw(f"║", lfo_label_color, "LFO", tui.reset, "║")
+    COLUMNS2.draw("║", lfo_label_color, "LFO", tui.reset, "║")
     print("╚═════════════════════════════════════════╝")
 
     if stats:
@@ -193,9 +193,17 @@ def draw(update, seen_states, stats=False):
 
 
 def main(stats=False):
+    latest_release = git.latest_tag()
     gem = gemini.Gemini()
-    print(gem.get_firmware_version())
-    print(gem.read_settings())
+    build_id = gem.get_firmware_version()
+    settings = gem.read_settings()
+
+    log.info(f"Firmware build ID: {build_id}")
+    if latest_release not in build_id:
+        log.warning("Firmware is out of date!")
+
+    log.info(settings)
+
     gem.enable_monitor()
 
     output = tui.Updateable(clear_all=False)
