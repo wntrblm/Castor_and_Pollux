@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Castor & Pollux: Progboard"
-Date "2021-02-05"
-Rev "v2"
+Date "2021-02-27"
+Rev "v3"
 Comp "Winterbloom"
 Comment1 "gemini.wntr.dev"
 Comment2 "CERN-OHL-P v2"
@@ -455,7 +455,7 @@ Text Label 1700 1350 2    50   ~ 0
 dotstar_data
 Text Label 1700 1450 2    50   ~ 0
 dotstar_clk
-Text Label 7375 1675 0    50   ~ 0
+Text Label 6000 1600 2    50   ~ 0
 cv_a_pot
 $Comp
 L Connector:AudioJack2_SwitchT J4
@@ -939,74 +939,61 @@ F 3 "~" H 10850 2550 50  0001 C CNN
 	1    10850 2550
 	-1   0    0    1   
 $EndComp
-Text Label 7375 1900 0    50   ~ 0
+Text Label 6000 1375 2    50   ~ 0
 cv_b_pot
-Text Label 7375 2100 0    50   ~ 0
+Text Label 6000 1175 2    50   ~ 0
 duty_a_pot
-Text Label 7375 2300 0    50   ~ 0
+Text Label 6000 975  2    50   ~ 0
 duty_b_pot
 $Comp
 L Jumper:Jumper_2_Open JP7
 U 1 1 601D075E
-P 7175 1675
-F 0 "JP7" H 7175 1625 50  0000 C CNN
-F 1 "A" H 7050 1750 50  0000 C CNN
-F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 7175 1675 50  0001 C CNN
-F 3 "~" H 7175 1675 50  0001 C CNN
-	1    7175 1675
-	1    0    0    -1  
-$EndComp
-$Comp
-L Jumper:Jumper_2_Open JP8
-U 1 1 601D2B6E
-P 7175 1900
-F 0 "JP8" H 7175 1850 50  0000 C CNN
-F 1 "B" H 7050 1975 50  0000 C CNN
-F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 7175 1900 50  0001 C CNN
-F 3 "~" H 7175 1900 50  0001 C CNN
-	1    7175 1900
+P 6200 1600
+F 0 "JP7" H 6200 1550 50  0000 C CNN
+F 1 "A" H 6075 1675 50  0000 C CNN
+F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 6200 1600 50  0001 C CNN
+F 3 "~" H 6200 1600 50  0001 C CNN
+	1    6200 1600
 	1    0    0    -1  
 $EndComp
 $Comp
 L Jumper:Jumper_2_Open JP9
 U 1 1 601D3532
-P 7175 2100
-F 0 "JP9" H 7175 2050 50  0000 C CNN
-F 1 "PWA" H 7000 2175 50  0000 C CNN
-F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 7175 2100 50  0001 C CNN
-F 3 "~" H 7175 2100 50  0001 C CNN
-	1    7175 2100
+P 6200 1175
+F 0 "JP9" H 6200 1125 50  0000 C CNN
+F 1 "PWA" H 6025 1250 50  0000 C CNN
+F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 6200 1175 50  0001 C CNN
+F 3 "~" H 6200 1175 50  0001 C CNN
+	1    6200 1175
 	1    0    0    -1  
 $EndComp
 $Comp
 L Jumper:Jumper_2_Open JP10
 U 1 1 601D3A98
-P 7175 2300
-F 0 "JP10" H 7175 2250 50  0000 C CNN
-F 1 "PWB" H 7000 2375 50  0000 C CNN
-F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 7175 2300 50  0001 C CNN
-F 3 "~" H 7175 2300 50  0001 C CNN
-	1    7175 2300
+P 6200 975
+F 0 "JP10" H 6200 925 50  0000 C CNN
+F 1 "PWB" H 6025 1050 50  0000 C CNN
+F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 6200 975 50  0001 C CNN
+F 3 "~" H 6200 975 50  0001 C CNN
+	1    6200 975 
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	6975 1900 6700 1900
+	6400 1375 6675 1375
 Wire Wire Line
-	6975 1675 6700 1675
+	6400 1600 6675 1600
 Wire Wire Line
-	6700 1675 6700 1900
-Connection ~ 6700 1900
+	6675 1600 6675 1375
+Connection ~ 6675 1375
 Wire Wire Line
-	6700 1900 6475 1900
+	6675 1375 6675 1175
 Wire Wire Line
-	6700 1900 6700 2100
+	6675 1175 6400 1175
 Wire Wire Line
-	6700 2100 6975 2100
+	6400 975  6675 975 
 Wire Wire Line
-	6975 2300 6700 2300
-Wire Wire Line
-	6700 2300 6700 2100
-Connection ~ 6700 2100
+	6675 975  6675 1175
+Connection ~ 6675 1175
 $Comp
 L Jumper:Jumper_2_Open JP19
 U 1 1 601DB078
@@ -1401,35 +1388,35 @@ $EndComp
 $Comp
 L power:GND #PWR0120
 U 1 1 5F7D1219
-P 6325 2050
-F 0 "#PWR0120" H 6325 1800 50  0001 C CNN
-F 1 "GND" H 6330 1877 50  0000 C CNN
-F 2 "" H 6325 2050 50  0001 C CNN
-F 3 "" H 6325 2050 50  0001 C CNN
-	1    6325 2050
-	1    0    0    -1  
+P 7950 1525
+F 0 "#PWR0120" H 7950 1275 50  0001 C CNN
+F 1 "GND" H 7955 1352 50  0000 C CNN
+F 2 "" H 7950 1525 50  0001 C CNN
+F 3 "" H 7950 1525 50  0001 C CNN
+	1    7950 1525
+	-1   0    0    1   
 $EndComp
 $Comp
 L power:+3.3VA #PWR0121
 U 1 1 5F7D1701
-P 6325 1750
-F 0 "#PWR0121" H 6325 1600 50  0001 C CNN
-F 1 "+3.3VA" H 6340 1923 50  0000 C CNN
-F 2 "" H 6325 1750 50  0001 C CNN
-F 3 "" H 6325 1750 50  0001 C CNN
-	1    6325 1750
-	1    0    0    -1  
+P 7950 1825
+F 0 "#PWR0121" H 7950 1675 50  0001 C CNN
+F 1 "+3.3VA" H 7965 1998 50  0000 C CNN
+F 2 "" H 7950 1825 50  0001 C CNN
+F 3 "" H 7950 1825 50  0001 C CNN
+	1    7950 1825
+	-1   0    0    1   
 $EndComp
 $Comp
 L Device:R_POT_US RV1
 U 1 1 5F7D0A57
-P 6325 1900
-F 0 "RV1" H 6257 1946 50  0000 R CNN
-F 1 "POTS" H 6257 1855 50  0000 R CNN
-F 2 "progboard:Alpha_Pot" H 6325 1900 50  0001 C CNN
-F 3 "~" H 6325 1900 50  0001 C CNN
-	1    6325 1900
-	1    0    0    -1  
+P 7950 1675
+F 0 "RV1" H 7882 1721 50  0000 R CNN
+F 1 "POTS" H 7882 1630 50  0000 R CNN
+F 2 "progboard:Alpha_Pot" H 7950 1675 50  0001 C CNN
+F 3 "~" H 7950 1675 50  0001 C CNN
+	1    7950 1675
+	-1   0    0    1   
 $EndComp
 $Comp
 L Jumper:Jumper_2_Open JP6
@@ -1548,22 +1535,61 @@ Wire Wire Line
 Wire Wire Line
 	6225 6850 6550 6850
 Connection ~ 6225 6850
-Text Label 9600 4625 2    50   ~ 0
+Text Label 6000 1825 2    50   ~ 0
 chorus_pot
 $Comp
 L Jumper:Jumper_2_Open JP23
 U 1 1 603D8CAC
-P 9800 4625
-F 0 "JP23" H 9800 4575 50  0000 C CNN
-F 1 "LFO" H 9625 4700 50  0000 C CNN
-F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 9800 4625 50  0001 C CNN
-F 3 "~" H 9800 4625 50  0001 C CNN
-	1    9800 4625
+P 6200 1825
+F 0 "JP23" H 6200 1775 50  0000 C CNN
+F 1 "LFO" H 6025 1900 50  0000 C CNN
+F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 6200 1825 50  0001 C CNN
+F 3 "~" H 6200 1825 50  0001 C CNN
+	1    6200 1825
 	-1   0    0    -1  
 $EndComp
 Wire Wire Line
-	10000 4625 10275 4625
+	6400 1825 6675 1825
 Wire Wire Line
-	10275 4625 10275 4400
-Connection ~ 10275 4400
+	6675 1825 6675 1600
+$Comp
+L Connector:AudioJack2_SwitchT J9
+U 1 1 603A78E3
+P 7425 1375
+F 0 "J9" H 7457 1700 50  0000 C CNN
+F 1 "POTS" H 7457 1609 50  0000 C CNN
+F 2 "progboard:WQP-PJ301M-12_JACK" H 7425 1375 50  0001 C CNN
+F 3 "~" H 7425 1375 50  0001 C CNN
+	1    7425 1375
+	-1   0    0    -1  
+$EndComp
+Connection ~ 6675 1600
+Wire Wire Line
+	6675 1375 7225 1375
+$Comp
+L power:GND #PWR0145
+U 1 1 603B9E8C
+P 7225 1275
+F 0 "#PWR0145" H 7225 1025 50  0001 C CNN
+F 1 "GND" V 7225 1100 50  0000 C CNN
+F 2 "" H 7225 1275 50  0001 C CNN
+F 3 "" H 7225 1275 50  0001 C CNN
+	1    7225 1275
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	7800 1675 7225 1675
+Wire Wire Line
+	7225 1675 7225 1475
+$Comp
+L Jumper:Jumper_2_Open JP8
+U 1 1 601D2B6E
+P 6200 1375
+F 0 "JP8" H 6200 1325 50  0000 C CNN
+F 1 "B" H 6075 1450 50  0000 C CNN
+F 2 "TestPoint:TestPoint_2Pads_Pitch2.54mm_Drill0.8mm" H 6200 1375 50  0001 C CNN
+F 3 "~" H 6200 1375 50  0001 C CNN
+	1    6200 1375
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
