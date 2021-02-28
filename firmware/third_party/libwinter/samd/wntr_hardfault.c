@@ -1,5 +1,8 @@
 #include "sam.h"
+
+#ifdef SAMD21
 #include "wntr_mtb.h"
+#endif
 
 /*
     Unfortunately, the Cortex M0+ doesn't provide a lot of information about hardfaults.
@@ -11,8 +14,10 @@ void HardFault_Handler(void) {
     /* Nothing should interrupt this. */
     __disable_irq();
 
+#ifdef SAMD21
     /* Disable the Microtrace Buffer so that it's state is frozen. */
     wntr_mtb_disable();
+#endif
 
     /*
         Is a debugger present? if so, break. This register is specific to

@@ -47,7 +47,7 @@ SRCS = [
     "build/generated_build_info.c",
     # libwinter is common winterbloom code.
     "third_party/libwinter/*.c",
-    "third_party/libwinter/samd21/*.c",
+    "third_party/libwinter/samd/*.c",
     # Contains the main entrypoint for the processor and the ARM exception
     # table. TODO: this should be pulled into the application.
     "third_party/samd21/gcc/gcc/startup_samd21.c",
