@@ -7,6 +7,7 @@
 #include "wntr_serial_number.h"
 
 /* From section 10.3.3 of the SAM D21 datasheet */
+/* TODO: SAM D51 configuration. */
 #define SERIAL_NO_WORD_0 (*((uint32_t*)0x0080A00C))
 #define SERIAL_NO_WORD_1 (*((uint32_t*)0x0080A040))
 #define SERIAL_NO_WORD_2 (*((uint32_t*)0x0080A044))

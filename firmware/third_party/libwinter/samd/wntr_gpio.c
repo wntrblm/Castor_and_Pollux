@@ -4,7 +4,7 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 /*
-    Implementation of wntr_gpio for the SAM D21.
+    Implementation of wntr_gpio for the SAM D21/D51.
 */
 
 #include "sam.h"

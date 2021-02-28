@@ -13,8 +13,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#ifdef SAMD21
-#include "wntr_gpio_samd21.h"
+#if defined(SAMD21) || defined(SAMD51)
+#include "wntr_gpio_samd.h"
 #endif
 
 void wntr_gpio_set_as_output(uint8_t port, uint8_t pin);
