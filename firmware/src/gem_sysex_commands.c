@@ -18,6 +18,7 @@
 #include "printf.h"
 #include "teeth.h"
 #include "wntr_assert.h"
+#include "wntr_bootloader.h"
 #include "wntr_build_info.h"
 #include "wntr_midi_core.h"
 #include "wntr_pack.h"
@@ -81,6 +82,7 @@ static void cmd_0x0F_get_serial_no_(const uint8_t* data, size_t len);
 static void cmd_0x10_monitor_(const uint8_t* data, size_t len);
 static void cmd_0x11_soft_reset_(const uint8_t* data, size_t len);
 static void cmd_0x12_enter_calibration_mode_(const uint8_t* data, size_t len);
+static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -103,6 +105,7 @@ void gem_register_sysex_commands() {
     gem_sysex_register_command(0x10, cmd_0x10_monitor_);
     gem_sysex_register_command(0x11, cmd_0x11_soft_reset_);
     gem_sysex_register_command(0x12, cmd_0x12_enter_calibration_mode_);
+    gem_sysex_register_command(0x13, cmd_0x13_reset_into_bootloader_);
     wntr_midi_set_sysex_callback(gem_sysex_dispatcher);
 };
 
@@ -371,4 +374,11 @@ static void cmd_0x12_enter_calibration_mode_(const uint8_t* data, size_t len) {
 
     gem_adc_stop_scanning();
     gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
+}
+
+static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len) {
+    (void)data;
+    (void)len;
+
+    wntr_reset_into_bootloader();
 }
