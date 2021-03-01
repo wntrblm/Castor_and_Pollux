@@ -550,7 +550,7 @@ _nvm_settings_length = LENGTH(nvm) / 2;
    calibrated look-up table for translating ADC -> frequency/DAC codes.
 
    References:
-   * ../src/gem_voice_param_table_load_save.c
+   * ../src/gem_ramp_table_load_save.c
 */
 _nvm_lut_base_address = ORIGIN(nvm) + LENGTH(nvm) / 2;
 _nvm_lut_length = LENGTH(nvm) / 2;
