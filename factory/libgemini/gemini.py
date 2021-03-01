@@ -38,6 +38,7 @@ class SysExCommands(enum.IntEnum):
     MONITOR = 0x10
     SOFT_RESET = 0x11
     ENTER_CALIBRATION = 0x12
+    RESET_INTO_BOOTLOADER = 0x13
 
 
 class Gemini(midi.MIDIDevice):
@@ -161,3 +162,6 @@ class Gemini(midi.MIDIDevice):
 
     def soft_reset(self):
         self.sysex(SysExCommands.SOFT_RESET)
+
+    def reset_into_bootloader(self):
+        self.sysex(SysExCommands.RESET_INTO_BOOTLOADER)

@@ -4,7 +4,10 @@
 
 """Monitor Gemini's inputs."""
 
-from wintertools import git, log, tui
+import pathlib
+import time
+
+from wintertools import fs, git, log, tui
 
 from libgemini import gem_monitor_update, gemini
 
@@ -192,15 +195,37 @@ def draw(update, seen_states, stats=False):
         )
 
 
-def main(stats=False):
+def _check_firmware_version(gem):
     latest_release = git.latest_tag()
-    gem = gemini.Gemini()
     build_id = gem.get_firmware_version()
-    settings = gem.read_settings()
-
     log.info(f"Firmware build ID: {build_id}")
-    if latest_release not in build_id:
-        log.warning("Firmware is out of date!")
+
+    # if latest_release in build_id:
+    #     return
+
+    log.warning("Firmware is out of date, wanna update? y/n: ")
+    result = input()
+
+    if result.lower().strip() != "y":
+        return
+
+    gem.reset_into_bootloader()
+
+    path = pathlib.Path(fs.wait_for_drive("GEMINIBOOT"))
+
+    fs.copyfile("../firmware/build/gemini-firmware.uf2", path / "firmware.uf2")
+    fs.flush(path)
+
+    time.sleep(3)
+
+    log.success("Firmware updated!")
+
+
+def main(stats=False):
+    gem = gemini.Gemini()
+    _check_firmware_version(gem)
+
+    settings = gem.read_settings()
 
     log.info(settings)
 
