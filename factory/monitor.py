@@ -200,8 +200,8 @@ def _check_firmware_version(gem):
     build_id = gem.get_firmware_version()
     log.info(f"Firmware build ID: {build_id}")
 
-    # if latest_release in build_id:
-    #     return
+    if latest_release in build_id:
+        return
 
     log.warning("Firmware is out of date, wanna update? y/n: ")
     result = input()
