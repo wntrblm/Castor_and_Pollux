@@ -1,15 +1,14 @@
-!!! warning "Nothing to see here, move along"
-    Whoa there, no one has a Castor & Pollux yet, so you shouldn't be here! Don't worry - it'll be ready to use before we start shipping units!
-
-This page uses [WebMIDI](https://www.midi.org/17-the-mma/99-web-midi) to communicate with Castor & Pollux and modify internal settings. This works in [Google Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/en-us/edge), and [Opera](https://www.opera.com/) ([full list of supported browsers](https://caniuse.com/midi)).
-
 To use this editor:
 
 1. Connect your Castor & Pollux to your Eurorack power supply. The module **must** be powered by the Eurorack power supply.
 1. Connect a USB cable from your computer to Castor & Pollux's USB port. It's located on the right side of the module on the bottom circuit board.
 1. Click the connect button, and when prompted, allow the page access to your MIDI devices.
 1. Once connected the editor will appear and load the current settings from your device.
-1. Once you're done editing, click the save button at the bottom of the editor. You'll need to restart your module for the changes to take effect.
+1. Once you're done editing, click the save button at the bottom of the editor.
+1. **Re-start your module for the changes to take effect**. You can do this by turning it off and back or on by pressing the small reset button that's right beside the USB port.
+
+!!! Note
+    This editor uses [WebMIDI](https://www.midi.org/17-the-mma/99-web-midi) to communicate with Castor & Pollux. It works in [Google Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/en-us/edge), and [Opera](https://www.opera.com/) ([full list of supported browsers](https://caniuse.com/midi)).
 
 If you run into issues, feel free to [reach out](mailto:support@winterbloom.com).
 
