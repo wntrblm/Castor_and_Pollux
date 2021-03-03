@@ -55,6 +55,9 @@ function settings_from_form() {
     cv_gain_error: parseFloat(form_data.get("cv_gain_error")),
     smooth_initial_gain: parseFloat(form_data.get("smooth_initial_gain")),
     smooth_sensitivity: parseFloat(form_data.get("smooth_sensitivity")),
+    pollux_follower_threshold: parseInt(
+      form_data.get("pollux_follower_threshold")
+    ),
     castor_lfo_pwm: form_data.get("castor_lfo_pwm") === "on" ? true : false,
     pollux_lfo_pwm: form_data.get("pollux_lfo_pwm") === "on" ? true : false,
     pitch_knob_nonlinearity: parseFloat(
