@@ -35,7 +35,7 @@ struct GemSettings {
     fix16_t smooth_sensitivity;
     /* This is the "deadzone" for Pollux's pitch CV input, basically, it
         should be around 0v and it's the point where Pollux starts following
-        Castor's pitch CV. By default this is 56 code points to allow some
+        Castor's pitch CV. By default this is 100 code points to allow some
         variance in time and temperature. */
     uint16_t pollux_follower_threshold;
     /* Route LFO to PWM for oscillators */

@@ -19,7 +19,7 @@ class GemSettings extends Struct {
     { name: "cv_gain_error", kind: "fix16", default: 1.0 },
     { name: "smooth_initial_gain", kind: "fix16", default: 0.1 },
     { name: "smooth_sensitivity", kind: "fix16", default: 30.0 },
-    { name: "pollux_follower_threshold", kind: "uint16", default: 56 },
+    { name: "pollux_follower_threshold", kind: "uint16", default: 100 },
     { name: "castor_lfo_pwm", kind: "bool", default: false },
     { name: "pollux_lfo_pwm", kind: "bool", default: false },
     { name: "pitch_knob_nonlinearity", kind: "fix16", default: 0.6 },
