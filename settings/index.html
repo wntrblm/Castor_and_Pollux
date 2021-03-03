@@ -44,19 +44,19 @@
 			</nav>
 
 			<article>
-				<div class="admonition warning">
-<p class="admonition-title">Nothing to see here, move along</p>
-<p>Whoa there, no one has a Castor &amp; Pollux yet, so you shouldn't be here! Don't worry - it'll be ready to use before we start shipping units!</p>
-</div>
-<p>This page uses <a href="https://www.midi.org/17-the-mma/99-web-midi" referrerpolicy="origin" rel="noopener" target="_blank">WebMIDI</a> to communicate with Castor &amp; Pollux and modify internal settings. This works in <a href="https://www.google.com/chrome/" referrerpolicy="origin" rel="noopener" target="_blank">Google Chrome</a>, <a href="https://www.microsoft.com/en-us/edge" referrerpolicy="origin" rel="noopener" target="_blank">Microsoft Edge</a>, and <a href="https://www.opera.com/" referrerpolicy="origin" rel="noopener" target="_blank">Opera</a> (<a href="https://caniuse.com/midi" referrerpolicy="origin" rel="noopener" target="_blank">full list of supported browsers</a>).</p>
-<p>To use this editor:</p>
+				<p>To use this editor:</p>
 <ol>
 <li>Connect your Castor &amp; Pollux to your Eurorack power supply. The module <strong>must</strong> be powered by the Eurorack power supply.</li>
 <li>Connect a USB cable from your computer to Castor &amp; Pollux's USB port. It's located on the right side of the module on the bottom circuit board.</li>
 <li>Click the connect button, and when prompted, allow the page access to your MIDI devices.</li>
 <li>Once connected the editor will appear and load the current settings from your device.</li>
-<li>Once you're done editing, click the save button at the bottom of the editor. You'll need to restart your module for the changes to take effect.</li>
+<li>Once you're done editing, click the save button at the bottom of the editor.</li>
+<li><strong>Re-start your module for the changes to take effect</strong>. You can do this by turning it off and back or on by pressing the small reset button that's right beside the USB port.</li>
 </ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This editor uses <a href="https://www.midi.org/17-the-mma/99-web-midi" referrerpolicy="origin" rel="noopener" target="_blank">WebMIDI</a> to communicate with Castor &amp; Pollux. It works in <a href="https://www.google.com/chrome/" referrerpolicy="origin" rel="noopener" target="_blank">Google Chrome</a>, <a href="https://www.microsoft.com/en-us/edge" referrerpolicy="origin" rel="noopener" target="_blank">Microsoft Edge</a>, and <a href="https://www.opera.com/" referrerpolicy="origin" rel="noopener" target="_blank">Opera</a> (<a href="https://caniuse.com/midi" referrerpolicy="origin" rel="noopener" target="_blank">full list of supported browsers</a>).</p>
+</div>
 <p>If you run into issues, feel free to <a href="mailto:support@winterbloom.com">reach out</a>.</p>
 <p><button id="connect" class="btn btn-primary btn-lg">Connect</button><span id="connect_info" class="connect-info"></span></p>
 <div id="firmware_version" class="text-info"></div>
@@ -148,7 +148,7 @@
         <span class="form-message">The following setting controls how Pollux determines when to follow Castor. The intended behavior is that when no cable is attached to Pollux's pitch CV jack, it will follow Castor's pitch. The module detects this condition by seeing if the input jack is reading 0 volts. Sometimes due to analog conversion errors this threshold needs to be adjusted. Lower thresholds may lead to glitchy behavior as the noise measures above and below the threshold, and higher settings may lead to Pollux ignoring the pitch CV input on lower notes.</span>
         <div class="form-group">
             <label for="pollux_follower_threshold">Pollux follower threshold</label>
-            <input type="number" name="pollux_follower_threshold" class="form-control" min="0" max="500" value="56" readonly />
+            <input type="number" name="pollux_follower_threshold" class="form-control" min="0" max="500" value="100" readonly />
             <span class="form-unit"><span id="pollux_follower_threshold_display_value"></span> code points, <span id="pollux_follower_threshold_display_value_volts"></span> volts</span>
         </div>
         <span class="form-message">The following settings determine how the module corrects for gain and offset errors in its analog-to-digital converter (ADC). During manufacturing, we measure the ADC's response to determine its gain and offset error. We save the calibration data to the device but we also keep a copy of it- if the settings below get lost, corrupted, or otherwise messed up, you can use the restore button below to load the values that were originally on your device. If the button is greyed out, then we don't have a copy of your module's calibration data ☹️.</span>
@@ -193,7 +193,7 @@
 					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/main/user_guide/docs/settings.md">Edit this page on GitHub</a>.
 				</p>
 				<p class="updated">
-					Last updated on March 02, 2021
+					Last updated on March 03, 2021
 				</p>
 			</footer>
 		</div>
