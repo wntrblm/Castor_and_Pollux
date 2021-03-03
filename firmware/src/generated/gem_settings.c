@@ -21,7 +21,7 @@ void GemSettings_init(struct GemSettings* inst) {
     inst->cv_gain_error = F16(1.0);
     inst->smooth_initial_gain = F16(0.1);
     inst->smooth_sensitivity = F16(30.0);
-    inst->pollux_follower_threshold = 56;
+    inst->pollux_follower_threshold = 100;
     inst->castor_lfo_pwm = false;
     inst->pollux_lfo_pwm = false;
     inst->pitch_knob_nonlinearity = F16(0.6);

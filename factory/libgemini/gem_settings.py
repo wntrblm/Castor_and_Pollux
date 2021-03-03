@@ -48,10 +48,10 @@ class GemSettings(structy.Struct):
 
     smooth_sensitivity: structy.Fix16 = 30.0
 
-    pollux_follower_threshold: int = 56
+    pollux_follower_threshold: int = 100
     """This is the "deadzone" for Pollux's pitch CV input, basically, it
             should be around 0v and it's the point where Pollux starts following
-            Castor's pitch CV. By default this is 56 code points to allow some
+            Castor's pitch CV. By default this is 100 code points to allow some
             variance in time and temperature."""
 
     castor_lfo_pwm: bool = False
