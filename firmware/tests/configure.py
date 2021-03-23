@@ -22,7 +22,6 @@ SRCS = [
     "../src/gem_oscillator.c",
     "../src/lib/gem_sysex_dispatcher.c",
     "../src/generated/gem_lookup_tables.c",
-    "../third_party/libwinter/wntr_midi_core.c",
     "../third_party/libwinter/wntr_assert.c",
     "../third_party/libwinter/wntr_bezier.c",
     "../third_party/libwinter/wntr_error_correction.c",
@@ -34,6 +33,7 @@ SRCS = [
 INCLUDES = [
     "../tests/stubs",
     "../src/hw",
+    "../third_party/libwinter/samd",
     "../third_party/samd21/include",
     "../third_party/cmsis/include",
     "../third_party/tinyusb/src",
