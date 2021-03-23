@@ -100,7 +100,7 @@ In order to make tuning easier, the pitch knobs have a **non-linear** response: 
     <label for="tuning_slider">pitch knob</label>
 </div>
 
-Notice that with the non-linear response it's much easier to tune to frequencies around `440 Hz`. This is how Castor & Pollux's pitch knobs work. You can configure how strong this effect is using the [settings editor](#settings-editor).
+Notice that with the non-linear response it's much easier to tune to frequencies around `440 Hz`. This is how Castor & Pollux's pitch knobs work. You can configure how strong this effect is using the [settings editor](#editing-module-settings).
 
 
 ## Waveshapes
