@@ -203,15 +203,11 @@ def _check_firmware_version(gem):
     if latest_release in build_id:
         return
 
-    log.warning("Firmware is out of date, wanna update? y/n: ")
-    result = input()
+    log.warning(
+        "Firmware is out of date, double-tap reset button and this script will automatically update it."
+    )
 
-    if result.lower().strip() != "y":
-        return
-
-    gem.reset_into_bootloader()
-
-    path = pathlib.Path(fs.wait_for_drive("GEMINIBOOT"))
+    path = pathlib.Path(fs.wait_for_drive("GEMINIBOOT", timeout=60 * 5))
 
     fs.copyfile("../firmware/build/gemini-firmware.uf2", path / "firmware.uf2")
     fs.flush(path)
@@ -246,4 +242,10 @@ def main(stats=False):
 
 
 if __name__ == "__main__":
-    main()
+    while True:
+        try:
+            main()
+        except Exception as e:
+            if isinstance(e, KeyboardInterrupt):
+                raise e
+            continue
