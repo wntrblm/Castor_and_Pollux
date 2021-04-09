@@ -165,6 +165,14 @@ def run(save):
     gem = gemini.Gemini()
     gem.enter_calibration_mode()
 
+    initial_period, initial_dac_code = next(iter(period_to_dac_code.items()))
+    time.sleep(0.1)
+    gem.set_period(0, initial_period)
+    gem.set_dac(0, initial_dac_code, 0)
+    time.sleep(0.1)
+    gem.set_period(1, initial_period)
+    gem.set_dac(2, initial_dac_code, 0)
+
     # Oscilloscope setup.
     log.info("Configuring oscilloscope...")
     resource_manager = visa.ResourceManager("@ivi")

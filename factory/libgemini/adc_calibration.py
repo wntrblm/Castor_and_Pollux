@@ -79,9 +79,9 @@ class DirectADCStrategy:
 
     def setup(self, gem):
         gem.disable_adc_error_correction()
-        input(
-            f"Connect Sol channel {tui.bold}A{tui.reset} to the LFO knob channel and press enter."
-        )
+        # input(
+        #     f"Connect Sol channel {tui.bold}A{tui.reset} to the LFO knob channel and press enter."
+        # )
 
     def save(self, gem, gain_error, offset_error):
         gem.set_adc_gain_error(gain_error)
@@ -99,7 +99,7 @@ class DirectADCStrategy:
 
 class ThroughAFEStrategy:
     channel = 0  # CV A input
-    sol_channel = 0
+    sol_channel = 1
     range_ = 6.0
     resolution = 2 ** 12
     invert = True
@@ -109,9 +109,9 @@ class ThroughAFEStrategy:
         self._offset_error = None
 
     def setup(self, gem):
-        input(
-            f"Connect Sol channel {tui.bold}A{tui.reset} to CV A input and press enter."
-        )
+        # input(
+        #     f"Connect Sol channel {tui.bold}B{tui.reset} to CV A input and press enter."
+        # )
         gem.enable_adc_error_correction()
 
     def save(self, gem, gain_error, offset_error):
