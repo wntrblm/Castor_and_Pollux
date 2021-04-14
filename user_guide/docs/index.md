@@ -312,6 +312,26 @@ Castor & Pollux is completely open source and hacking is encouraged.
 ![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/US001060.html)
 
 
+## Warranty, disclaimers, and limits
+
+Modules purchased from Winterbloom have a warranty of six months from the date of purchase. This warranty covers any manufacturing defects in the module. It does not cover damage from due to incorrect handling, storage, or power, overvoltage events, or modifications.
+
+Please [contact us](mailto:support@winterbloom.com) if you are experiencing issues with your module. Modules returned under warranty will either be refunded, replaced, or repaired at our discretion. You will be responsible for the cost of returning the module to Winterbloom.
+
+Because Eurorack has a vast number of possible combinations of power supplies, modules, cases, and accessories, it is impossible for us to guarantee compatibility with every possible configuation. We make a reasonable effort to test modules with several power supplies, cases, and other modules.
+
+We encourage tinkering, however, we will not refund, repair, or replace any products that have been modified.
+
+We have stress tested Castor & Pollux under the following conditions. These are provided for reference only; we do not guarentee that that the module will function under these conditions.
+
+* Overvoltage from power supply: ±18 volts
+* Reverse voltage from power supply: ±18 volts
+* Undervoltage from power supply: ±10 volts
+* Over and under voltage on inputs: ±8 volts
+* Output connected to another output: ±8 volts
+* Ouput shorted to ground: 60 minutes
+
+
 ## Acknowledgments and thanks
 
 Castor & Pollux would not be possible without the help of the Adafruit, support from Microchip, and the volumes of literature documenting and analyzing the Juno's DCO design.
