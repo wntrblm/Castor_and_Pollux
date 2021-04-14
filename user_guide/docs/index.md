@@ -318,7 +318,7 @@ Modules purchased from Winterbloom have a warranty of six months from the date o
 
 Please [contact us](mailto:support@winterbloom.com) if you are experiencing issues with your module. Modules returned under warranty will either be refunded, replaced, or repaired at our discretion. You will be responsible for the cost of returning the module to Winterbloom.
 
-Because Eurorack has a vast number of possible combinations of power supplies, modules, cases, and accessories, it is impossible for us to guarantee compatibility with every possible configuation. We make a reasonable effort to test modules with several power supplies, cases, and other modules.
+Because Eurorack has a vast number of possible combinations of power supplies, modules, cases, and accessories, it is impossible for us to guarantee compatibility with every possible configuration. We make a reasonable effort to test modules with several power supplies, cases, and other modules.
 
 We encourage tinkering, however, we will not refund, repair, or replace any products that have been modified.
 
