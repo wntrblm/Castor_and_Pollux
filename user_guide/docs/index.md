@@ -94,11 +94,13 @@ In order to make tuning easier, the pitch knobs have a **non-linear** response: 
     <canvas id="nonlinear_tune_canvas" width="640" height="50" class=""></canvas>
     <output id="non_linear_tune" name="non_linear_tune" class="teal">440 Hz</output>
 </div>
-<div class="slider">
-    <input type="range" id="tuning_slider" name="tuning_slider"
-            min="-1.0" max="1.0" step="0.001" value="0.0">
-    <label for="tuning_slider">pitch knob</label>
-</div>
+<form id="tuning-form">
+    <div class="slider">
+        <input type="range" id="tuning_slider" name="tuning_slider"
+                min="-1.0" max="1.0" step="0.001" value="0.0">
+        <label for="tuning_slider">pitch knob</label>
+    </div>
+</form>
 
 Notice that with the non-linear response it's much easier to tune to frequencies around `440 Hz`. This is how Castor & Pollux's pitch knobs work. You can configure how strong this effect is using the [settings editor](#editing-module-settings).
 
@@ -130,11 +132,13 @@ The pulse wave depends on the pulse width CV and knob. You can vary the pulse wi
 
 <canvas id="pulse" width="640" height="480" class="waveform purple"></canvas>
 
-<div class="slider">
-    <input type="range" id="pulse_width" name="pulse_width"
-            min="0" max="1.0" step="0.01" value="0.5">
-    <label for="pulse_width">pulse width</label>
-</div>
+<form id="pulse-form">
+    <div class="slider">
+        <input type="range" id="pulse-width" name="width"
+                min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+        <label for="pulse-width">pulse width</label>
+    </div>
+</form>
 
 You can also configure the [internal low-frequency oscillator](#internal-low-frequency-oscillator) to modulate the pulse width.
 
@@ -169,26 +173,28 @@ And here's some sound samples of the sub waveshape:
 These these waveshapes can be mixed together to produce much more complex and interesting waveshapes - try playing with the sliders under this animation and seeing how it affects the waveshape:
 
 <canvas id="mix" width="640" height="480" class="waveform teal2"></canvas>
-<div class="slider">
-    <input type="range" id="ramp_mix" name="ramp_mix"
-            min="0" max="0.5" step="0.01" value="0.5">
-    <label for="ramp_mix">ramp volume</label>
-</div>
-<div class="slider">
-    <input type="range" id="pulse_mix" name="pulse_mix"
-            min="0" max="0.5" step="0.01" value="0.25">
-    <label for="pulse_mix">pulse volume</label>
-</div>
-<div class="slider">
-    <input type="range" id="pulse_width_mix" name="pulse_width_mix"
-            min="0" max="1.0" step="0.01" value="0.5">
-    <label for="pulse_width_mix">pulse width</label>
-</div>
-<div class="slider">
-    <input type="range" id="sub_mix" name="sub_mix"
-            min="0" max="0.5" step="0.01" value="0.25">
-    <label for="sub_mix">sub volume</label>
-</div>
+<form id="mix-form">
+    <div class="slider">
+        <input type="range" id="ramp_mix" name="ramp_mix"
+                min="0" max="0.5" step="0.01" value="0.5" data-binding-type="float">
+        <label for="ramp_mix">ramp volume</label>
+    </div>
+    <div class="slider">
+        <input type="range" id="pulse_mix" name="pulse_mix"
+                min="0" max="0.5" step="0.01" value="0.25" data-binding-type="float">
+        <label for="pulse_mix">pulse volume</label>
+    </div>
+    <div class="slider">
+        <input type="range" id="pulse_width_mix" name="pulse_width"
+                min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+        <label for="pulse_width_mix">pulse width</label>
+    </div>
+    <div class="slider">
+        <input type="range" id="sub_mix" name="sub_mix"
+                min="0" max="0.5" step="0.01" value="0.25" data-binding-type="float">
+        <label for="sub_mix">sub volume</label>
+    </div>
+</form>
 
 Here's some sound samples of various mixes:
 
@@ -212,16 +218,18 @@ Because Castor & Pollux has two oscillators, you can combine them together to bu
 You can play around with this interactive animation to see how detuning and mixing changes the final waveshape:
 
 <canvas id="stacked" width="640" height="480" class="waveform purple2"></canvas>
-<div class="slider">
-    <input type="range" id="stacked_detune" name="stacked_detune"
-            min="-1" max="1" step="0.01" value="0.25">
-    <label for="stacked_detune">detuning</label>
-</div>
-<div class="slider">
-    <input type="range" id="stacked_mix" name="stacked_mix"
-            min="0" max="1.0" step="0.01" value="0.5">
-    <label for="stacked_mix">crossfader (Σ)</label>
-</div>
+<form id="stacked-form">
+    <div class="slider">
+        <input type="range" id="stacked_detune" name="detune"
+                min="-1" max="1" step="0.01" value="0.25" data-binding-type="float">
+        <label for="stacked_detune">detuning</label>
+    </div>
+    <div class="slider">
+        <input type="range" id="stacked_mix" name="mix"
+                min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+        <label for="stacked_mix">crossfader (Σ)</label>
+    </div>
+</form>
 
 This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here's some sound samples of oscillator stacking:
 
@@ -245,11 +253,13 @@ Inspired by the original Juno's analog chorus circuit, Castor & Pollux contains 
 You can play around with this interactive animation to see how the chorusing amount changes the final waveshape. You'll need to click on the animation to start it otherwise you won't really be able to see the chorusing effect.
 
 <canvas id="chorusing_" width="640" height="480" class="waveform red2"></canvas>
-<div class="slider">
-    <input type="range" id="chorusing_amount" name="chorusing_amount"
-            min="0" max="1" step="0.01" value="0.25">
-    <label for="chorusing_amount">chorusing amount (φ)</label>
-</div>
+<form id="chorusing-form">
+    <div class="slider">
+        <input type="range" id="chorusing_amount" name="amount"
+                min="0" max="1" step="0.01" value="0.25" data-binding-type="float">
+        <label for="chorusing_amount">chorusing amount (φ)</label>
+    </div>
+</form>
 
 Here's some sound samples of chorusing:
 
@@ -341,7 +351,7 @@ Castor & Pollux would not be possible without the help of the Adafruit, support 
 
 
 <link rel="stylesheet" href="styles/waveforms.css">
-<script type="text/javascript" src="scripts/waveforms.js"></script>
+<script type="module" src="scripts/waveforms.js"></script>
 
-<link rel="stylesheet" href="styles/winter_oscilloscope.css">
-<script type="text/javascript" src="scripts/winter_oscilloscope.js"></script>
+<link rel="stylesheet" href="scripts/winterjs/oscilloscope.css">
+<script type="module" src="scripts/winterjs/oscilloscope.js"></script>
