@@ -38,6 +38,9 @@ static void init_() {
         Core system initialization.
     */
 
+    /* Before doing *anything*, check the fuses. */
+    gem_fuses_check();
+
     /* Enable the Micro Trace Buffer for better debug stacktraces. */
     wntr_mtb_init();
 
@@ -52,7 +55,7 @@ static void init_() {
     gem_nvm_init();
 
     /* Tell the world who we are and how we got here. :) */
-    printf(wntr_build_info_string());
+    printf("%s\n", wntr_build_info_string());
 
     /*
         Peripheral setup
