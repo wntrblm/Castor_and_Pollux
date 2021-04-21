@@ -34,7 +34,12 @@ void gem_clocks_init() {
     /* Enable USB clock recovery mode. */
     SYSCTRL->DFLLCTRL.reg = SYSCTRL_DFLLCTRL_USBCRM | SYSCTRL_DFLLCTRL_CCDIS;
 
-    SYSCTRL->DFLLMUL.reg = SYSCTRL_DFLLMUL_MUL(48000) | SYSCTRL_DFLLMUL_CSTEP(1) | SYSCTRL_DFLLMUL_FSTEP(1);
+    /*
+        From datasheet section 37.15, Note 1: When using DFLL48M in USB recovery mode,
+        the Fine Step value must be Ah to guarantee a USB clock at
+        +/-0.25% before 11ms after a resume.
+    */
+    SYSCTRL->DFLLMUL.reg = SYSCTRL_DFLLMUL_MUL(48000) | SYSCTRL_DFLLMUL_CSTEP(1) | SYSCTRL_DFLLMUL_FSTEP(0xA);
 
     /* Setting to closed loop mode with USBCRM means that
        the DFLL will operate in closed loop when USB is
