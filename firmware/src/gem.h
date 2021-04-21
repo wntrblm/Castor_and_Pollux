@@ -10,6 +10,7 @@
 #include "gem_clocks.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
+#include "gem_fuses.h"
 #include "gem_i2c.h"
 #include "gem_led_animation.h"
 #include "gem_lookup_tables.h"
