@@ -38,7 +38,11 @@ static void init_() {
         Core system initialization.
     */
 
-    /* Before doing *anything*, check the fuses. */
+    /*
+        Before doing *anything*, wait for the voltage to stabilize and ensure
+        the fuses are set correctly.
+    */
+    gem_wait_for_stable_voltage();
     gem_fuses_check();
 
     /* Enable the Micro Trace Buffer for better debug stacktraces. */
