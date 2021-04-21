@@ -16,10 +16,7 @@ static void write_page(uint32_t dst, uint8_t* buf, size_t len);
 
 /* Public functions. */
 
-void gem_nvm_init() {
-    /* Enable manual write, so that we must send a WP command to write a page. */
-    NVMCTRL->CTRLB.bit.MANW = 1;
-}
+void gem_nvm_init() {}
 
 /* These routines are largely adapted from ASF4's hal_nvmctrl.c. */
 
