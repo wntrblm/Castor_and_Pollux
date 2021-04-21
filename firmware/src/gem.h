@@ -7,6 +7,7 @@
 #pragma once
 
 #include "gem_adc.h"
+#include "gem_bod.h"
 #include "gem_clocks.h"
 #include "gem_config.h"
 #include "gem_dotstar.h"
