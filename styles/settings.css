@@ -9,29 +9,37 @@
     font-size: 90%;
 }
 .settings-editor legend {
-    color: #5F419F;
-    border-bottom: 1px solid #5F419F;
+    color: #5f419f;
+    border-bottom: 1px solid #5f419f;
 }
 .settings-editor .form-group {
     margin: 1.5em auto;
 }
+.settings-editor .form-control-plaintext {
+    background-color: #408d94;
+    color: white;
+    border-radius: 0.3em;
+    padding-left: 1em;
+    font-weight: normal;
+    font-size: 80%;
+}
 .settings-editor .form-message {
-    border-left: 4px solid #408D94;
+    border-left: 4px solid #408d94;
     padding-left: 1em;
     margin-top: 1em;
     margin-bottom: 1em;
-    color: #408D94;
+    color: #408d94;
     font-size: 80%;
     display: block;
 }
 .settings-editor .form-unit {
     font-size: 80%;
-    color: #A28AD6;
+    color: #a28ad6;
     font-style: italic;
 }
 .settings-editor label {
     font-size: 90%;
 }
 .settings-editor .form-group.danger-zone label {
-    color: #D94A5B;
+    color: #d94a5b;
 }
