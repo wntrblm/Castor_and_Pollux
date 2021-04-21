@@ -426,9 +426,10 @@ L Device:R_POT_US RV1
 U 1 1 5F0A000C
 P 4300 4050
 F 0 "RV1" H 4233 4096 50  0000 R CNN
-F 1 "CV A" H 4233 4005 50  0000 R CNN
+F 1 "B10k" H 4233 4005 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 4050 50  0001 C CNN
-F 3 "~" H 4300 4050 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 4050 50  0001 C CNN
+F 4 "CV A" H 4125 3925 50  0000 C CNN "Comment"
 	1    4300 4050
 	1    0    0    -1  
 $EndComp
@@ -459,9 +460,10 @@ L Device:R_POT_US RV2
 U 1 1 5F0ABF2C
 P 4300 4850
 F 0 "RV2" H 4233 4896 50  0000 R CNN
-F 1 "Duty A" H 4233 4805 50  0000 R CNN
+F 1 "B10k" H 4233 4805 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 4850 50  0001 C CNN
-F 3 "~" H 4300 4850 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 4850 50  0001 C CNN
+F 4 "Duty A" H 4225 4725 50  0000 R CNN "Comment"
 	1    4300 4850
 	1    0    0    -1  
 $EndComp
@@ -492,9 +494,10 @@ L Device:R_POT_US RV3
 U 1 1 5F0AD94F
 P 4300 5650
 F 0 "RV3" H 4233 5696 50  0000 R CNN
-F 1 "Ramp A" H 4233 5605 50  0000 R CNN
+F 1 "B10k" H 4233 5605 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 5650 50  0001 C CNN
-F 3 "~" H 4300 5650 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 5650 50  0001 C CNN
+F 4 "Ramp A" H 4225 5525 50  0000 R CNN "Comment"
 	1    4300 5650
 	1    0    0    -1  
 $EndComp
@@ -514,9 +517,10 @@ L Device:R_POT_US RV4
 U 1 1 5F0AF0F6
 P 4300 6450
 F 0 "RV4" H 4233 6496 50  0000 R CNN
-F 1 "PWM A" H 4233 6405 50  0000 R CNN
+F 1 "B10k" H 4233 6405 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 6450 50  0001 C CNN
-F 3 "~" H 4300 6450 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 6450 50  0001 C CNN
+F 4 "PWM A" H 4225 6325 50  0000 R CNN "Comment"
 	1    4300 6450
 	1    0    0    -1  
 $EndComp
@@ -536,9 +540,10 @@ L Device:R_POT_US RV5
 U 1 1 5F0B0BD3
 P 4300 7250
 F 0 "RV5" H 4233 7296 50  0000 R CNN
-F 1 "Sub A" H 4233 7205 50  0000 R CNN
+F 1 "B10k" H 4233 7205 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 7250 50  0001 C CNN
-F 3 "~" H 4300 7250 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 7250 50  0001 C CNN
+F 4 "Sub A" H 4225 7125 50  0000 R CNN "Comment"
 	1    4300 7250
 	1    0    0    -1  
 $EndComp
@@ -558,9 +563,10 @@ L Device:R_POT_US RV6
 U 1 1 5F0B8A89
 P 5900 4050
 F 0 "RV6" H 5833 4096 50  0000 R CNN
-F 1 "CV B" H 5833 4005 50  0000 R CNN
+F 1 "B10k" H 5833 4005 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 4050 50  0001 C CNN
-F 3 "~" H 5900 4050 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 4050 50  0001 C CNN
+F 4 "CV B" H 5825 3925 50  0000 R CNN "Comment"
 	1    5900 4050
 	1    0    0    -1  
 $EndComp
@@ -591,9 +597,10 @@ L Device:R_POT_US RV7
 U 1 1 5F0B8A9B
 P 5900 4850
 F 0 "RV7" H 5833 4896 50  0000 R CNN
-F 1 "Duty B" H 5833 4805 50  0000 R CNN
+F 1 "B10k" H 5833 4805 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 4850 50  0001 C CNN
-F 3 "~" H 5900 4850 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 4850 50  0001 C CNN
+F 4 "Duty B" H 5825 4725 50  0000 R CNN "Comment"
 	1    5900 4850
 	1    0    0    -1  
 $EndComp
@@ -624,9 +631,10 @@ L Device:R_POT_US RV8
 U 1 1 5F0B8AAD
 P 5900 5650
 F 0 "RV8" H 5833 5696 50  0000 R CNN
-F 1 "Ramp B" H 5833 5605 50  0000 R CNN
+F 1 "B10k" H 5833 5605 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 5650 50  0001 C CNN
-F 3 "~" H 5900 5650 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 5650 50  0001 C CNN
+F 4 "Ramp B" H 5825 5525 50  0000 R CNN "Comment"
 	1    5900 5650
 	1    0    0    -1  
 $EndComp
@@ -646,9 +654,10 @@ L Device:R_POT_US RV9
 U 1 1 5F0B8ABF
 P 5900 6450
 F 0 "RV9" H 5833 6496 50  0000 R CNN
-F 1 "PWM B" H 5833 6405 50  0000 R CNN
+F 1 "B10k" H 5833 6405 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 6450 50  0001 C CNN
-F 3 "~" H 5900 6450 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 6450 50  0001 C CNN
+F 4 "PWM B" H 5825 6325 50  0000 R CNN "Comment"
 	1    5900 6450
 	1    0    0    -1  
 $EndComp
@@ -668,9 +677,10 @@ L Device:R_POT_US RV10
 U 1 1 5F0B8AD1
 P 5900 7250
 F 0 "RV10" H 5833 7296 50  0000 R CNN
-F 1 "Sub B" H 5833 7205 50  0000 R CNN
+F 1 "B10k" H 5833 7205 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 7250 50  0001 C CNN
-F 3 "~" H 5900 7250 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 7250 50  0001 C CNN
+F 4 "Sub B" H 5825 7125 50  0000 R CNN "Comment"
 	1    5900 7250
 	1    0    0    -1  
 $EndComp
@@ -742,9 +752,10 @@ L Device:R_POT_US RV11
 U 1 1 5F0EA75D
 P 7650 4850
 F 0 "RV11" H 7583 4896 50  0000 R CNN
-F 1 "Mix" H 7583 4805 50  0000 R CNN
+F 1 "B10k" H 7583 4805 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 7650 4850 50  0001 C CNN
-F 3 "~" H 7650 4850 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 7650 4850 50  0001 C CNN
+F 4 "Mix" H 7575 4725 50  0000 R CNN "Comment"
 	1    7650 4850
 	1    0    0    -1  
 $EndComp
@@ -753,9 +764,10 @@ L Device:R_POT_US RV12
 U 1 1 5F0EBD75
 P 7650 5650
 F 0 "RV12" H 7583 5696 50  0000 R CNN
-F 1 "Phase" H 7583 5605 50  0000 R CNN
+F 1 "B10k" H 7583 5605 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 7650 5650 50  0001 C CNN
-F 3 "~" H 7650 5650 50  0001 C CNN
+F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 7650 5650 50  0001 C CNN
+F 4 "Phase" H 7575 5525 50  0000 R CNN "Comment"
 	1    7650 5650
 	1    0    0    -1  
 $EndComp
