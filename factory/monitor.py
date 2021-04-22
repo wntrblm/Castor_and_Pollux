@@ -204,8 +204,10 @@ def _check_firmware_version(gem):
         return
 
     log.warning(
-        "Firmware is out of date, double-tap reset button and this script will automatically update it."
+        "Firmware is out of date, updating it.."
     )
+
+    gem.reset_into_bootloader()
 
     path = pathlib.Path(fs.wait_for_drive("GEMINIBOOT", timeout=60 * 5))
 
