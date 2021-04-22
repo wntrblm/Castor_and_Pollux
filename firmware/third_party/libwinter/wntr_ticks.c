@@ -5,7 +5,7 @@
 */
 
 #include "wntr_ticks.h"
-#include <sam.h>
+#include "wntr_platform.h"
 
 /*
     This gives just under 50 days before the timer overflows. I currently don't
