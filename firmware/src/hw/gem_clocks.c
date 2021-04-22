@@ -6,6 +6,7 @@
 
 #include "gem_clocks.h"
 #include "sam.h"
+#include "wntr_fuses.h"
 
 void gem_clocks_init() {
     /* Switch CPU to 8Mhz for now by disabling the prescaler */
@@ -23,10 +24,8 @@ void gem_clocks_init() {
     while (!SYSCTRL->PCLKSR.bit.DFLLRDY) {};
 
     /* Write the coarse and fine calibration from NVM. */
-    uint32_t coarse_cal =
-        ((*(uint32_t*)FUSES_DFLL48M_COARSE_CAL_ADDR) & FUSES_DFLL48M_COARSE_CAL_Msk) >> FUSES_DFLL48M_COARSE_CAL_Pos;
-    uint32_t fine_cal =
-        ((*(uint32_t*)FUSES_DFLL48M_FINE_CAL_ADDR) & FUSES_DFLL48M_FINE_CAL_Msk) >> FUSES_DFLL48M_FINE_CAL_Pos;
+    uint32_t coarse_cal = OTP4_FUSES->FUSES0.bit.DFLL48M_COARSE_CAL;
+    uint32_t fine_cal = OTP4_FUSES->FUSES1.bit.DFLL48M_FINE_CAL;
 
     SYSCTRL->DFLLVAL.reg = SYSCTRL_DFLLVAL_COARSE(coarse_cal) | SYSCTRL_DFLLVAL_FINE(fine_cal);
     while (!SYSCTRL->PCLKSR.bit.DFLLRDY) {};
