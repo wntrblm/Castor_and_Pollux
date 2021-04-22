@@ -21,7 +21,7 @@ void HardFault_Handler(void) {
 
     /*
         Is a debugger present? if so, break. This register is specific to
-        the SAMD21
+        the SAMD21/SAMD51.
     */
     if (DSU->STATUSB.bit.DBGPRES == 1) {
         __BKPT(0);

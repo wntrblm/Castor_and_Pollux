@@ -43,7 +43,7 @@ static void init_() {
         the fuses are set correctly.
     */
     gem_wait_for_stable_voltage();
-    gem_fuses_check();
+    wntr_fuses_check();
 
     /* Enable the Micro Trace Buffer for better debug stacktraces. */
     wntr_mtb_init();
