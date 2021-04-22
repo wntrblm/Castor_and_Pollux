@@ -9,6 +9,7 @@
 #include "gem_config.h"
 #include "sam.h"
 #include "wntr_assert.h"
+#include "wntr_fuses.h"
 #include "wntr_gpio.h"
 #include "wntr_ramfunc.h"
 
@@ -44,11 +45,8 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     ADC->CTRLA.bit.SWRST = 1;
     while (ADC->CTRLA.bit.SWRST || ADC->STATUS.bit.SYNCBUSY) {};
 
-    uint32_t bias = (*((uint32_t*)ADC_FUSES_BIASCAL_ADDR) & ADC_FUSES_BIASCAL_Msk) >> ADC_FUSES_BIASCAL_Pos;
-    uint32_t linearity =
-        (*((uint32_t*)ADC_FUSES_LINEARITY_0_ADDR) & ADC_FUSES_LINEARITY_0_Msk) >> ADC_FUSES_LINEARITY_0_Pos;
-    linearity |= ((*((uint32_t*)ADC_FUSES_LINEARITY_1_ADDR) & ADC_FUSES_LINEARITY_1_Msk) >> ADC_FUSES_LINEARITY_1_Pos)
-                 << 5;
+    uint32_t bias = OTP4_FUSES->FUSES0.bit.ADC_BIASCAL;
+    uint32_t linearity = OTP4_FUSES->FUSES0.bit.ADC_LINEARITY;
 
     /* Wait for bus synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
