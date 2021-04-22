@@ -83,6 +83,8 @@ DEFINES.update(
         # Defines for wntr:
         # - Enable the ARM Microtrace Buffer which can help with debugging.
         WNTR_ENABLE_MTB=1,
+        # Set the MIDI SysEx identifier
+        WNTR_MIDI_SYSEX_IDENTIFIER=0x77,
         # Defines for libfixmath:
         # - Use a faster, less accurate sin() function.
         FIXMATH_FAST_SIN=1,

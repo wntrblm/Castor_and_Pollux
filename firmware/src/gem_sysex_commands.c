@@ -13,7 +13,6 @@
 #include "gem_pulseout.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
-#include "gem_sysex_dispatcher.h"
 #include "gem_usb.h"
 #include "printf.h"
 #include "teeth.h"
@@ -21,6 +20,7 @@
 #include "wntr_bootloader.h"
 #include "wntr_build_info.h"
 #include "wntr_midi_core.h"
+#include "wntr_midi_sysex_dispatcher.h"
 #include "wntr_pack.h"
 #include "wntr_serial_number.h"
 #include "wntr_ticks.h"
@@ -40,14 +40,14 @@ static_assert(
     uint8_t request[size];                                                                                             \
     teeth_decode(data, TEETH_ENCODED_LENGTH(size), request);
 
-#define RESPONSE_0(command) wntr_midi_send_sysex((uint8_t[2]){GEM_SYSEX_IDENTIFIER, command}, 2);
-#define RESPONSE_1(command, val1) wntr_midi_send_sysex((uint8_t[3]){GEM_SYSEX_IDENTIFIER, command, val1}, 3);
+#define RESPONSE_0(command) wntr_midi_send_sysex((uint8_t[2]){WNTR_MIDI_SYSEX_IDENTIFIER, command}, 2);
+#define RESPONSE_1(command, val1) wntr_midi_send_sysex((uint8_t[3]){WNTR_MIDI_SYSEX_IDENTIFIER, command, val1}, 3);
 
 #define PREPARE_RESPONSE(command, size)                                                                                \
     uint8_t _full_response[2 + size];                                                                                  \
     uint8_t* response = _full_response + 2;                                                                            \
     const size_t response_len __attribute__((unused)) = size;                                                          \
-    _full_response[0] = GEM_SYSEX_IDENTIFIER;                                                                          \
+    _full_response[0] = WNTR_MIDI_SYSEX_IDENTIFIER;                                                                    \
     _full_response[1] = command;
 
 #define SEND_RESPONSE() wntr_midi_send_sysex(_full_response, ARRAY_LEN(_full_response));
@@ -87,26 +87,25 @@ static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len);
 /* Public functions. */
 
 void gem_register_sysex_commands() {
-    gem_sysex_register_command(0x01, cmd_0x01_hello_);
-    gem_sysex_register_command(0x02, cmd_0x02_write_adc_gain_);
-    gem_sysex_register_command(0x03, cmd_0x03_write_adc_offset_);
-    gem_sysex_register_command(0x04, cmd_0x04_read_adc_);
-    gem_sysex_register_command(0x05, cmd_0x05_set_dac_);
-    gem_sysex_register_command(0x06, cmd_0x06_set_period_);
-    gem_sysex_register_command(0x07, cmd_0x07_erase_settings_);
-    gem_sysex_register_command(0x08, cmd_0x08_read_settings_);
-    gem_sysex_register_command(0x09, cmd_0x09_write_settings_);
-    gem_sysex_register_command(0x0A, cmd_0x0A_write_lut_entry_);
-    gem_sysex_register_command(0x0B, cmd_0x0B_write_lut_);
-    gem_sysex_register_command(0x0C, cmd_0x0C_erase_lut_);
-    gem_sysex_register_command(0x0D, cmd_0x0D_disable_adc_corr_);
-    gem_sysex_register_command(0x0E, cmd_0x0E_enable_adc_corr_);
-    gem_sysex_register_command(0x0F, cmd_0x0F_get_serial_no_);
-    gem_sysex_register_command(0x10, cmd_0x10_monitor_);
-    gem_sysex_register_command(0x11, cmd_0x11_soft_reset_);
-    gem_sysex_register_command(0x12, cmd_0x12_enter_calibration_mode_);
-    gem_sysex_register_command(0x13, cmd_0x13_reset_into_bootloader_);
-    wntr_midi_set_sysex_callback(gem_sysex_dispatcher);
+    wntr_midi_register_sysex_command(0x01, cmd_0x01_hello_);
+    wntr_midi_register_sysex_command(0x02, cmd_0x02_write_adc_gain_);
+    wntr_midi_register_sysex_command(0x03, cmd_0x03_write_adc_offset_);
+    wntr_midi_register_sysex_command(0x04, cmd_0x04_read_adc_);
+    wntr_midi_register_sysex_command(0x05, cmd_0x05_set_dac_);
+    wntr_midi_register_sysex_command(0x06, cmd_0x06_set_period_);
+    wntr_midi_register_sysex_command(0x07, cmd_0x07_erase_settings_);
+    wntr_midi_register_sysex_command(0x08, cmd_0x08_read_settings_);
+    wntr_midi_register_sysex_command(0x09, cmd_0x09_write_settings_);
+    wntr_midi_register_sysex_command(0x0A, cmd_0x0A_write_lut_entry_);
+    wntr_midi_register_sysex_command(0x0B, cmd_0x0B_write_lut_);
+    wntr_midi_register_sysex_command(0x0C, cmd_0x0C_erase_lut_);
+    wntr_midi_register_sysex_command(0x0D, cmd_0x0D_disable_adc_corr_);
+    wntr_midi_register_sysex_command(0x0E, cmd_0x0E_enable_adc_corr_);
+    wntr_midi_register_sysex_command(0x0F, cmd_0x0F_get_serial_no_);
+    wntr_midi_register_sysex_command(0x10, cmd_0x10_monitor_);
+    wntr_midi_register_sysex_command(0x11, cmd_0x11_soft_reset_);
+    wntr_midi_register_sysex_command(0x12, cmd_0x12_enter_calibration_mode_);
+    wntr_midi_register_sysex_command(0x13, cmd_0x13_reset_into_bootloader_);
 };
 
 void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {

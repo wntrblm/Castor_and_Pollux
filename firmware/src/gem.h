@@ -31,7 +31,7 @@
 #include "wntr_colorspace.h"
 #include "wntr_error_correction.h"
 #include "wntr_gpio.h"
-#include "wntr_midi_core.h"
+#include "wntr_midi.h"
 #include "wntr_mtb.h"
 #include "wntr_periodic_waveform.h"
 #include "wntr_random.h"
