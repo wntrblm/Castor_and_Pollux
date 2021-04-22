@@ -13,9 +13,6 @@
 #include "wntr_gpio.h"
 #include <stdint.h>
 
-/* MIDI configuration. */
-#define GEM_SYSEX_IDENTIFIER 0x77
-
 /* Analog to Digital Converter Configuration */
 
 /*

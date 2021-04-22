@@ -394,6 +394,17 @@ static void tweak_task_() {
     }
 }
 
+/* Gemini uses MIDI for factory setup and for the settings editor. */
+static void midi_task_() {
+    struct WntrMIDIMessage msg = {};
+    if (!wntr_midi_receive(&msg)) {
+        return;
+    }
+    if (msg.code_index == MIDI_CODE_INDEX_SYSEX_START_OR_CONTINUE) {
+        wntr_midi_dispatch_sysex();
+    }
+}
+
 int main(void) {
     init_();
 
@@ -405,7 +416,7 @@ int main(void) {
             are expected to be behave and yield time to other tasks.
         */
         gem_usb_task();
-        wntr_midi_task();
+        midi_task_();
 
         /*
             The LED animation task internally ensures that it only runs once
