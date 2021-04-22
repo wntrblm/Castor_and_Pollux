@@ -9,7 +9,7 @@
 
 #ifdef __arm__
 #include "printf.h"
-#include "sam.h"
+#include "wntr_platform.h"
 #else
 #include <assert.h>
 #include <stdio.h>
