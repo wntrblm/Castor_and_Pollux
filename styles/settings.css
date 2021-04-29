@@ -32,6 +32,13 @@
     font-size: 80%;
     display: block;
 }
+.settings-editor .form-message.hidden {
+    display: none;
+}
+.settings-editor .form-message.warning {
+    border-color: #d94a5b;
+    color: #d94a5b;
+}
 .settings-editor .form-unit {
     font-size: 80%;
     color: #a28ad6;

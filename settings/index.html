@@ -59,13 +59,14 @@
 </div>
 <p>If you run into issues, feel free to <a href="mailto:support@winterbloom.com">reach out</a>.</p>
 <p><button id="connect" class="btn btn-primary btn-lg">Connect</button><span id="connect_info" class="connect-info"></span></p>
-<form id="settings_editor" class="settings-editor">
+<form id="settings_editor" class="settings-editor hidden">
     <fieldset>
         <legend>Device info</legend>
         <div class="form-group">
             <label for="firmware_version">Firmware version</label>
             <input id="firmware_version" type="text" name="firmware_version" class="form-control-plaintext" readonly />
         </div>
+        <span id="firmware_version_update" class="form-message warning hidden">A new firmware version is available: <a href="" target="_blank"></a> 🧚‍♀️</span>
         <div class="form-group">
             <label for="serial_number">Serial number</label>
             <input id="serial_number" type="text" name="serial_number" class="form-control-plaintext" readonly />
@@ -201,7 +202,7 @@
 					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/main/user_guide/docs/settings.md">Edit this page on GitHub</a>.
 				</p>
 				<p class="updated">
-					Last updated on April 21, 2021
+					Last updated on April 29, 2021
 				</p>
 			</footer>
 		</div>
