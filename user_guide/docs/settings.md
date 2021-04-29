@@ -14,13 +14,14 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
 
 <button id="connect" class="btn btn-primary btn-lg">Connect</button><span id="connect_info" class="connect-info"></span>
 
-<form id="settings_editor" class="settings-editor">
+<form id="settings_editor" class="settings-editor hidden">
     <fieldset>
         <legend>Device info</legend>
         <div class="form-group">
             <label for="firmware_version">Firmware version</label>
             <input id="firmware_version" type="text" name="firmware_version" class="form-control-plaintext" readonly />
         </div>
+        <span id="firmware_version_update" class="form-message warning hidden">A new firmware version is available: <a href="" target="_blank"></a> 🧚‍♀️</span>
         <div class="form-group">
             <label for="serial_number">Serial number</label>
             <input id="serial_number" type="text" name="serial_number" class="form-control-plaintext" readonly />

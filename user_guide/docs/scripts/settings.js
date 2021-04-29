@@ -9,6 +9,7 @@ import * as forms from "./winterjs/forms.js";
 import MIDI from "./winterjs/midi.js";
 import GemSettings from "./gem_settings.js";
 import Gemini from "./gemini.js";
+import GitHub from "./github.js";
 
 const ui = {
     settings_form: $e("settings_editor"),
@@ -22,6 +23,7 @@ const ui = {
     connect_btn: $e("connect"),
     connect_info: $e("connect_info"),
     firmware_version: $e("firmware_version"),
+    firmware_version_update: $e("firmware_version_update"),
     serial_number: $e("serial_number"),
     restore_adc_calibration_btn: $e("restore_adc_calibration"),
 };
@@ -73,6 +75,27 @@ async function restore_adc_calibration() {
     forms.update_values(ui.settings_form);
 }
 
+async function check_for_new_firmware() {
+    let gh = new GitHub();
+    let release_info = null;
+    try {
+        release_info = await gh.get_latest_release("wntrblm", "Castor_and_Pollux");
+    } catch(e) {
+        console.log("Error while fetching latest firmware: ", e);
+        return;
+    }
+    console.log(release_info);
+
+    if(gemini_firmware_version.includes(release_info.tag_name)) {
+        return;
+    }
+
+    let link = ui.firmware_version_update.querySelector("a");
+    link.href = release_info.html_url;
+    link.innerText = `${release_info.name} (${release_info.tag_name})`;
+    ui.firmware_version_update.classList.remove("hidden");
+}
+
 $on(ui.connect_btn, "click", async function () {
     ui.connect_info.classList.remove("text-danger", "text-success");
     ui.connect_info.innerText = "Connecting";
@@ -89,6 +112,7 @@ $on(ui.connect_btn, "click", async function () {
 
     gemini_firmware_version = await gemini.get_version();
     ui.firmware_version.value = `${gemini_firmware_version}`;
+    check_for_new_firmware();
 
     gemini_serial_number = await gemini.get_serial_number();
     ui.serial_number.value = `${gemini_serial_number}`;
