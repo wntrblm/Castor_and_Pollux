@@ -185,7 +185,7 @@ The pins used for debugging/programming are located on the bottom of the module:
 
 ![Location of debug pins](user_guide/docs/images/swd.jpg)
 
-Castor & Pollux uses the [Tag-Connect TC2030](https://www.tag-connect.com/wp-content/uploads/bsk-pdf-manager/ARM20-CTX_19.pdf) for programming. If you have a [Tag-Connect TC2030-IDC-NL](https://www.tag-connect.com/product/tc2030-idc-nl) cable just connect it to your debugging and Castor & Pollux and you're good to go. If you don't have one, you can solder to the individual pads. The pads are numbered like this:
+Castor & Pollux uses the [Tag-Connect TC2030](https://www.tag-connect.com/wp-content/uploads/bsk-pdf-manager/ARM20-CTX_19.pdf) for programming. If you have a [Tag-Connect TC2030-CTX-NL](https://www.tag-connect.com/product/tc2030-ctx-nl-6-pin-no-legs-cable-with-10-pin-micro-connector-for-cortex-processors) cable just connect it to your debugging and Castor & Pollux and you're good to go. If you don't have one, you can solder to the individual pads. The pads are numbered like this:
 
 ![Tag-Connect footprint pin numbers](user_guide/docs/images/tagconnect.png)
 
