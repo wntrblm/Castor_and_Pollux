@@ -1,50 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-		
-		<link rel="shortcut icon" href="/favicon.ico">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+         
 
-    <title>User Guide - Winterbloom Castor & Pollux User Guide</title>
+		<link rel="shortcut icon" sizes="192x192" href="/icon.png" />
+		<link rel="apple-touch-icon" sizes="192x192" href="/icon.png" />
 
-    <!-- Bootstrap core CSS -->
-    <link href="bootstrap.min.css" rel="stylesheet">
+        <title>
+            User Guide - Winterbloom Castor & Pollux User Guide
+        </title>
 
-    <!-- Custom styles for this template -->
-    <link href="style.css" rel="stylesheet">
+        <!-- Bulma CSS framework -->
+        <link href="bulma.min.css" rel="stylesheet" />
 
-    <!-- Syntax highlighting css -->
-		<link href="pygments.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="style.css" rel="stylesheet" />
 
-  </head>
-  <body>
-    <div class="container">
-			<nav class="navbar navbar-expand-lg navbar-light">
-				<a class="navbar-brand" href="." title="Home">
-					<img src="winterbloom-logo.png" height="30" class="d-inline-block align-middle" alt="Winterbloom" loading="lazy">
-				</a>
-				
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
-					<div class="navbar-nav">
-						
-							<a class="nav-link" href=".">User Guide</a>
-						
-							<a class="nav-link" href="settings/">Settings Editor</a>
-						
+        <!-- Syntax highlighting css -->
+        <link href="pygments.css" rel="stylesheet" />
+    </head>
+    <body>
+		<header>
+			<nav class="navbar" role="navigation" aria-label="main navigation">
+				<div class="container is-max-desktop">
+					<div class="navbar-brand">
+						<a class="navbar-item" href="." title="Home">
+							<img src="winterbloom-logo.png" alt="Winterbloom logo" height="28">
+						</a>
+
+						<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar_menu">
+							<span aria-hidden="true"></span>
+							<span aria-hidden="true"></span>
+							<span aria-hidden="true"></span>
+						</a>
+					</div>
+
+					<div class="navbar-menu" id="navbar_menu">
+						<div class="navbar-end">
+							
+							
+							<a class="navbar-item active" href=".">User Guide</a>
+							
+							<a class="navbar-item " href="settings/">Settings Editor</a>
+							
+							
+						</div>
 					</div>
 				</div>
-				
 			</nav>
+		</header>
 
-			<article>
-				<h1>Castor &amp; Pollux User Guide</h1>
+        <section class="section">
+            <div class="container is-max-desktop">
+                <article class="content"><h1>Castor &amp; Pollux User Guide</h1>
 <p><a href="https://winterbloom.com/store/winterbloom-castor-and-pollux" referrerpolicy="origin" rel="noopener" target="_blank">Castor &amp; Pollux</a> is a Roland Juno-inspired oscillator. It contains two digitally-controlled analog oscillators implemented using a faithfully modernized version of the original Juno 106 design. Like its inspiration, it can give you that wonderful 80s sound with independent and mixed ramp, pulse, and sub outputs. But the twins do not stop there- the second oscillator can be used to layer in thick detuned sounds, harmonically complex hard synced waveshapes, or as a fully independent second oscillator.</p>
 <div class="toc">
 <ul>
@@ -124,27 +139,31 @@
 <h2 id="tuning">Tuning<a class="headerlink" href="#tuning" title="Permanent link">#</a></h2>
 <p>Castor &amp; Pollux is an analog oscillator with a digital brain. It's calibrated during assembled to accurately track 1 volt/octave on the <em>CV inputs</em> and you can use the <em>pitch knobs</em> to adjust the tuning of each oscillator.</p>
 <p>In order to make tuning easier, the pitch knobs have a <strong>non-linear</strong> response: they are less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out this little demonstration:</p>
-<div class="output">
-    <label for="linear_tune">Linear response</label>
-    <canvas id="linear_tune_canvas" width="640" height="50" class=""></canvas>
-    <output id="linear_tune" name="linear_tune">440 Hz</output>
-    <label for="non_linear_tune">Non-linear response</label>
-    <canvas id="nonlinear_tune_canvas" width="640" height="50" class=""></canvas>
-    <output id="non_linear_tune" name="non_linear_tune" class="teal">440 Hz</output>
-</div>
-<form id="tuning-form">
-    <div class="slider">
-        <input type="range" id="tuning_slider" name="tuning_slider"
-                min="-1.0" max="1.0" step="0.001" value="0.0">
-        <label for="tuning_slider">pitch knob</label>
+<div class="card interactive">
+    <div class="output">
+        <label for="linear_tune">Linear response</label>
+        <canvas id="linear_tune_canvas" width="640" height="50" class=""></canvas>
+        <output id="linear_tune" name="linear_tune">440 Hz</output>
+        <label for="non_linear_tune">Non-linear response</label>
+        <canvas id="nonlinear_tune_canvas" width="640" height="50" class=""></canvas>
+        <output id="non_linear_tune" name="non_linear_tune" class="teal">440 Hz</output>
     </div>
-</form>
+    <form id="tuning-form">
+        <div class="slider">
+            <input type="range" id="tuning_slider" name="tuning_slider"
+                    min="-1.0" max="1.0" step="0.001" value="0.0">
+            <label for="tuning_slider">pitch knob</label>
+        </div>
+    </form>
+</div>
 
 <p>Notice that with the non-linear response it's much easier to tune to frequencies around <code>440 Hz</code>. This is how Castor &amp; Pollux's pitch knobs work. You can configure how strong this effect is using the <a href="#editing-module-settings">settings editor</a>.</p>
 <h2 id="waveshapes">Waveshapes<a class="headerlink" href="#waveshapes" title="Permanent link">#</a></h2>
 <p>Just like the Juno, Castor &amp; Pollux has three waveshape outputs: ramp, pulse, and sub.</p>
 <p>The ramp wave looks like this (click the image to start and stop the animation):</p>
-<canvas id="ramp" width="640" height="480" class="waveform teal"></canvas>
+<div class="interactive">
+    <canvas id="ramp" width="640" height="480" class="waveform teal"></canvas>
+</div>
 
 <div class="admonition note">
 <p class="admonition-title">Simulation vs reality</p>
@@ -162,15 +181,16 @@ the module.</p>
 </div>
 
 <p>The pulse wave depends on the pulse width CV and knob. You can vary the pulse width in this animation to see how it affects the waveshape:</p>
-<canvas id="pulse" width="640" height="480" class="waveform purple"></canvas>
-
-<form id="pulse-form">
-    <div class="slider">
-        <input type="range" id="pulse-width" name="width"
-                min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
-        <label for="pulse-width">pulse width</label>
-    </div>
-</form>
+<div class="interactive">
+    <canvas id="pulse" width="640" height="480" class="waveform purple"></canvas>
+    <form id="pulse-form">
+        <div class="slider">
+            <input type="range" id="pulse-width" name="width"
+                    min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+            <label for="pulse-width">pulse width</label>
+        </div>
+    </form>
+</div>
 
 <p>You can also configure the <a href="#internal-low-frequency-oscillator">internal low-frequency oscillator</a> to modulate the pulse width.</p>
 <p>Here's some examples of the pulse wave's sound:</p>
@@ -187,7 +207,9 @@ the module.</p>
 </div>
 
 <p>Finally, there's the sub waveshape. It's a square wave that's one octave lower. Here's what it looks like:</p>
-<canvas id="sub" width="640" height="480" class="waveform red"></canvas>
+<div class="interactive">
+    <canvas id="sub" width="640" height="480" class="waveform red"></canvas>
+</div>
 
 <p>And here's some sound samples of the sub waveshape:</p>
 <div class="winter-oscilloscope">
@@ -199,29 +221,31 @@ the module.</p>
 </div>
 
 <p>These these waveshapes can be mixed together to produce much more complex and interesting waveshapes - try playing with the sliders under this animation and seeing how it affects the waveshape:</p>
-<canvas id="mix" width="640" height="480" class="waveform teal2"></canvas>
-<form id="mix-form">
-    <div class="slider">
-        <input type="range" id="ramp_mix" name="ramp_mix"
-                min="0" max="0.5" step="0.01" value="0.5" data-binding-type="float">
-        <label for="ramp_mix">ramp volume</label>
-    </div>
-    <div class="slider">
-        <input type="range" id="pulse_mix" name="pulse_mix"
-                min="0" max="0.5" step="0.01" value="0.25" data-binding-type="float">
-        <label for="pulse_mix">pulse volume</label>
-    </div>
-    <div class="slider">
-        <input type="range" id="pulse_width_mix" name="pulse_width"
-                min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
-        <label for="pulse_width_mix">pulse width</label>
-    </div>
-    <div class="slider">
-        <input type="range" id="sub_mix" name="sub_mix"
-                min="0" max="0.5" step="0.01" value="0.25" data-binding-type="float">
-        <label for="sub_mix">sub volume</label>
-    </div>
-</form>
+<div class="interactive">
+    <canvas id="mix" width="640" height="480" class="waveform teal2"></canvas>
+    <form id="mix-form">
+        <div class="slider">
+            <input type="range" id="ramp_mix" name="ramp_mix"
+                    min="0" max="0.5" step="0.01" value="0.5" data-binding-type="float">
+            <label for="ramp_mix">ramp volume</label>
+        </div>
+        <div class="slider">
+            <input type="range" id="pulse_mix" name="pulse_mix"
+                    min="0" max="0.5" step="0.01" value="0.25" data-binding-type="float">
+            <label for="pulse_mix">pulse volume</label>
+        </div>
+        <div class="slider">
+            <input type="range" id="pulse_width_mix" name="pulse_width"
+                    min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+            <label for="pulse_width_mix">pulse width</label>
+        </div>
+        <div class="slider">
+            <input type="range" id="sub_mix" name="sub_mix"
+                    min="0" max="0.5" step="0.01" value="0.25" data-binding-type="float">
+            <label for="sub_mix">sub volume</label>
+        </div>
+    </form>
+</div>
 
 <p>Here's some sound samples of various mixes:</p>
 <div class="winter-oscilloscope">
@@ -239,19 +263,21 @@ the module.</p>
 <h2 id="oscillator-stacking">Oscillator stacking<a class="headerlink" href="#oscillator-stacking" title="Permanent link">#</a></h2>
 <p>Because Castor &amp; Pollux has two oscillators, you can combine them together to build much more complex sounds. When there is no input into the second oscillator's pitch CV jack, it will follow the pitch of the the first oscillator. You can use the pitch knob of the second oscillator to <em>detune</em> the second oscillator and cause interesting interactions with the first oscillator. You'll take your output from the <strong>combined output</strong> (marked by the symbol ♊︎) and you can control the relative volume of the two oscillators using the <strong>crossfader</strong> (marked by the symbol Σ).</p>
 <p>You can play around with this interactive animation to see how detuning and mixing changes the final waveshape:</p>
-<canvas id="stacked" width="640" height="480" class="waveform purple2"></canvas>
-<form id="stacked-form">
-    <div class="slider">
-        <input type="range" id="stacked_detune" name="detune"
-                min="-1" max="1" step="0.01" value="0.25" data-binding-type="float">
-        <label for="stacked_detune">detuning</label>
-    </div>
-    <div class="slider">
-        <input type="range" id="stacked_mix" name="mix"
-                min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
-        <label for="stacked_mix">crossfader (Σ)</label>
-    </div>
-</form>
+<div class="interactive">
+    <canvas id="stacked" width="640" height="480" class="waveform purple2"></canvas>
+    <form id="stacked-form">
+        <div class="slider">
+            <input type="range" id="stacked_detune" name="detune"
+                    min="-1" max="1" step="0.01" value="0.25" data-binding-type="float">
+            <label for="stacked_detune">detuning</label>
+        </div>
+        <div class="slider">
+            <input type="range" id="stacked_mix" name="mix"
+                    min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+            <label for="stacked_mix">crossfader (Σ)</label>
+        </div>
+    </form>
+</div>
 
 <p>This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here's some sound samples of oscillator stacking:</p>
 <div class="winter-oscilloscope">
@@ -269,14 +295,16 @@ the module.</p>
 <h2 id="chorusing">Chorusing<a class="headerlink" href="#chorusing" title="Permanent link">#</a></h2>
 <p>Inspired by the original Juno's analog chorus circuit, Castor &amp; Pollux contains an adaptation of chorusing that works well for a monophonic voice. Instead of applying the chorus affect <em>after</em> sound generation, Castor &amp; Pollux's chorusing works by varying the frequency of the second oscillator using an <a href="#internal-low-frequency-oscillator">internal low-frequency oscillator</a>. This means that you have to <a href="#oscillator-stacking">use both oscillators</a> in order to hear this effect. The <strong>chorus knob</strong> (marked by the symbol φ) determines the intensity of chorusing from none when fully counter-clockwise to its maximum at fully clockwise. The <strong>crossfader</strong> (marked by the symbol Σ) also has an impact on the intensity of the chorus. Finally, you can modify the speed of the chorus by changing the <a href="#internal-low-frequency-oscillator">internal low-frequency oscillator's frequency</a>.</p>
 <p>You can play around with this interactive animation to see how the chorusing amount changes the final waveshape. You'll need to click on the animation to start it otherwise you won't really be able to see the chorusing effect.</p>
-<canvas id="chorusing_" width="640" height="480" class="waveform red2"></canvas>
-<form id="chorusing-form">
-    <div class="slider">
-        <input type="range" id="chorusing_amount" name="amount"
-                min="0" max="1" step="0.01" value="0.25" data-binding-type="float">
-        <label for="chorusing_amount">chorusing amount (φ)</label>
-    </div>
-</form>
+<div class="interactive">
+    <canvas id="chorusing_" width="640" height="480" class="waveform red2"></canvas>
+    <form id="chorusing-form">
+        <div class="slider">
+            <input type="range" id="chorusing_amount" name="amount"
+                    min="0" max="1" step="0.01" value="0.25" data-binding-type="float">
+            <label for="chorusing_amount">chorusing amount (φ)</label>
+        </div>
+    </form>
+</div>
 
 <p>Here's some sound samples of chorusing:</p>
 <div class="winter-oscilloscope">
@@ -311,7 +339,7 @@ the module.</p>
 <li>Download the latest firmware <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/releases" referrerpolicy="origin" rel="noopener" target="_blank">from GitHub</a>. It will be a <code>.uf2</code> file.</li>
 <li>Connect Castor &amp; Pollux to your computer via USB. The USB port is located underneath the panel. Note that you still have to power the module from a Eurorack power supply.</li>
 <li>Place Castor &amp; Pollux in bootloader mode by pressing the reset button twice quickly. The reset button is located just below the USB port. Once in bootloader mode, you should see a drive on your computer named <code>GEMINIBOOT</code>.</li>
-<li>Copy the <code>uf2</code> file from step 1 to the <code>GEMINIBOOT</code> drive. The module should restart by itself.</li>
+<li>Copy the <code>.uf2</code> file from step 1 to the <code>GEMINIBOOT</code> drive. The module should restart by itself.</li>
 </ol>
 <h2 id="open-source-hardware-software">Open source hardware &amp; software<a class="headerlink" href="#open-source-hardware-software" title="Permanent link">#</a></h2>
 <p>Castor &amp; Pollux is completely open source and hacking is encouraged.</p>
@@ -328,11 +356,11 @@ the module.</p>
 <p>We have stress tested Castor &amp; Pollux under the following conditions. These are provided for reference only; we do not guarentee that that the module will function under these conditions.</p>
 <ul>
 <li>Continuous run time: at least 48 hours</li>
-<li>Overvoltage from power supply: at least ±18 volts</li>
-<li>Reverse voltage from power supply: at least ±18 volts</li>
-<li>Undervoltage from power supply: as low as ±10 volts</li>
-<li>Over and under voltage on inputs: at least ±8 volts</li>
-<li>Output connected to another output: at least ±8 volts</li>
+<li>Overvoltage from power supply: at least <code>±18 volts</code></li>
+<li>Reverse voltage from power supply: at least <code>±18 volts</code></li>
+<li>Undervoltage from power supply: as low as <code>±10 volts</code></li>
+<li>Over and under voltage on inputs: at least <code>±8 volts</code></li>
+<li>Output connected to another output: at least <code>±8 volts</code></li>
 <li>Output shorted to ground: at least 60 minutes</li>
 </ul>
 <h2 id="acknowledgments-and-thanks">Acknowledgments and thanks<a class="headerlink" href="#acknowledgments-and-thanks" title="Permanent link">#</a></h2>
@@ -341,22 +369,29 @@ the module.</p>
 <script type="module" src="scripts/waveforms.js"></script>
 
 <p><link rel="stylesheet" href="scripts/winterjs/oscilloscope.css"></p>
-<script type="module" src="scripts/winterjs/oscilloscope.js"></script>
-			</article>
+<script type="module" src="scripts/winterjs/oscilloscope.js"></script></article>
+            </div>
+        </section>
 
-			<footer>
-				<p class="copyright">
-					© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0
-				</p>
+
+		<footer class="footer">
+			<div class="container is-max-desktop">
+				<p class="copyright">© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0</p>
 				<p class="edit-me">
-					Found an issue? <a href="mailto:support@winterbloom.com">Send us a message</a> or <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/main/user_guide/docs/index.md">Edit this page on GitHub</a>.
+					Found an issue?
+					<a href="mailto:support@winterbloom.com"
+						>Send us a message</a
+					>
+					or
+					<a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/main/user_guide/docs/index.md">Edit this page on GitHub</a
+					>.
 				</p>
 				<p class="updated">
-					Last updated on April 29, 2021
+					Last updated on May 08, 2021
 				</p>
-			</footer>
-		</div>
-	</body>
+			</div>
+		</footer>
+    </body>
 
-	<script type="text/javascript" src="script.js"></script>
+    <script type="text/javascript" src="script.js"></script>
 </html>
