@@ -15,10 +15,8 @@ const ui = {
     settings_form: $e("settings_editor"),
     save_btn: $e("save_button"),
     dangerous_fields: [
-        ...document.querySelectorAll("#settings_editor input[readonly]"),
-        ...document.querySelectorAll("#settings_editor input[disabled]"),
+        ...document.querySelectorAll("#settings_editor .is-dangerous"),
     ],
-    dangerous_fields_container: $e("danger_zone_form_controls"),
     allow_danger: $e("allow_danger"),
     connect_btn: $e("connect"),
     connect_info: $e("connect_info"),
@@ -58,8 +56,8 @@ async function check_for_backups() {
         await fetch_calibration(gemini_serial_number, "adc");
     } catch {
         ui.restore_adc_calibration_btn.disabled = true;
-        ui.restore_adc_calibration_btn.classList.remove("btn-warning");
-        ui.restore_adc_calibration_btn.classList.add("btn-secondary");
+        ui.restore_adc_calibration_btn.classList.remove("is-warning");
+        ui.restore_adc_calibration_btn.classList.add("is-dark");
     }
 }
 
@@ -79,14 +77,16 @@ async function check_for_new_firmware() {
     let gh = new GitHub();
     let release_info = null;
     try {
-        release_info = await gh.get_latest_release("wntrblm", "Castor_and_Pollux");
-    } catch(e) {
+        release_info = await gh.get_latest_release(
+            "wntrblm",
+            "Castor_and_Pollux"
+        );
+    } catch (e) {
         console.log("Error while fetching latest firmware: ", e);
         return;
     }
-    console.log(release_info);
 
-    if(gemini_firmware_version.includes(release_info.tag_name)) {
+    if (gemini_firmware_version.includes(release_info.tag_name)) {
         return;
     }
 
@@ -97,14 +97,14 @@ async function check_for_new_firmware() {
 }
 
 $on(ui.connect_btn, "click", async function () {
-    ui.connect_info.classList.remove("text-danger", "text-success");
+    ui.connect_info.classList.remove("is-danger", "hidden");
     ui.connect_info.innerText = "Connecting";
 
     try {
         await midi.connect();
     } catch (err) {
         console.log(err);
-        ui.connect_info.classList.add("text-danger");
+        ui.connect_info.classList.add("is-danger");
         ui.connect_info.innerText =
             "Couldn't connect, check connection and power and try again?";
         return;
@@ -123,10 +123,10 @@ $on(ui.connect_btn, "click", async function () {
 
     forms.update_values(ui.settings_form);
 
-    ui.connect_btn.disabled = true;
-    ui.connect_btn.classList.remove("btn-primary");
-    ui.connect_btn.classList.add("btn-success");
+    ui.connect_btn.classList.remove("is-primary");
+    ui.connect_btn.classList.add("is-success");
     ui.connect_btn.innerText = "Connected";
+    ui.connect_info.classList.add("hidden");
     ui.connect_info.innerText = "";
     ui.settings_form.classList.remove("hidden");
 
@@ -140,14 +140,14 @@ $on(ui.save_btn, "click", async function () {
 
     await gemini.save_settings(settings);
 
-    ui.save_btn.classList.remove("btn-primary");
-    ui.save_btn.classList.add("btn-success");
+    ui.save_btn.classList.remove("is-primary");
+    ui.save_btn.classList.add("is-success");
     ui.save_btn.innerText = "Saved!";
 
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    ui.save_btn.classList.add("btn-primary");
-    ui.save_btn.classList.remove("btn-success");
+    ui.save_btn.classList.add("is-primary");
+    ui.save_btn.classList.remove("is-success");
     ui.save_btn.innerText = "Save";
     ui.save_btn.disabled = false;
 });
@@ -167,7 +167,6 @@ $on(ui.allow_danger, "change", function () {
             elem.readOnly = !ui.allow_danger.checked;
         }
     }
-    ui.dangerous_fields_container.classList.toggle("hidden");
 });
 
 /*
