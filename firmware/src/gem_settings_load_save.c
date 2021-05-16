@@ -57,6 +57,8 @@ fail:
 
 bool GemSettings_load(struct GemSettings* settings) {
     uint8_t data[GEMSETTINGS_PACKED_SIZE + 1];
+
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
     gem_nvm_read((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
 
     if (data[0] != SETTINGS_MARKER) {
@@ -89,6 +91,7 @@ void GemSettings_save(struct GemSettings* settings) {
     /* This should basically never happen with structy, but assert it anyway. */
     WNTR_ASSERT(result.status == STRUCTY_RESULT_OKAY);
 
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
     gem_nvm_write((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
 
     printf("Saved settings: \n");
@@ -98,5 +101,6 @@ void GemSettings_save(struct GemSettings* settings) {
 void GemSettings_erase() {
     /* Just erase the marker byte. */
     uint8_t data[1] = {0xFF};
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
     gem_nvm_write((uint32_t)(&_nvm_settings_base_address), data, 1);
 }

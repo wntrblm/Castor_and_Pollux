@@ -20,7 +20,6 @@ SRCS = [
     "../tests/**/*.c",
     "../src/gem_oscillator_outputs.c",
     "../src/gem_oscillator.c",
-    "../src/lib/gem_sysex_dispatcher.c",
     "../src/generated/gem_lookup_tables.c",
     "../third_party/libwinter/wntr_assert.c",
     "../third_party/libwinter/wntr_bezier.c",
@@ -34,6 +33,7 @@ INCLUDES = [
     "../tests/stubs",
     "../src/hw",
     "../third_party/libwinter/samd",
+    "../third_party/libwinter/samd/samd21",
     "../third_party/samd21/include",
     "../third_party/cmsis/include",
     "../third_party/tinyusb/src",
@@ -44,6 +44,7 @@ DEFINES = buildgen.Desktop.defines()
 DEFINES.update(
     dict(
         DEBUG=1,
+        SAMD21=1,
         __SAMD21G18A__=1,
     )
 )

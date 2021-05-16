@@ -34,11 +34,14 @@ static uint8_t param_table_load_buf_[BUFFER_LEN];
 
 void gem_load_ramp_table() {
     /* Make sure these are equivalent - otherwise bail. */
+
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
     if ((uint32_t)(&_nvm_lut_length) != sizeof(param_table_load_buf_) / sizeof(param_table_load_buf_[0])) {
         printf("NVM LUT length is not equal to the NVM LUT buffer!\r\n");
         return;
     }
 
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
     gem_nvm_read((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
 
     if (param_table_load_buf_[BUFFER_LEN - 1] != VALID_TABLE_MARKER) {
@@ -69,10 +72,13 @@ void gem_save_ramp_table() {
 
     param_table_load_buf_[BUFFER_LEN - 1] = VALID_TABLE_MARKER;
 
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
     gem_nvm_write((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
 }
 
 void gem_erase_ramp_table() {
     memset(param_table_load_buf_, 0xFF, BUFFER_LEN);
+
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
     gem_nvm_write((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
 }
