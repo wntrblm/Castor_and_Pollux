@@ -332,7 +332,7 @@ Castor & Pollux is completely open source and hacking is encouraged.
 * The [hardware designs](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/main/hardware) is available under the permissive [CERN-OHL-P v2](https://cern-ohl.web.cern.ch/) and is designed using [KiCAD](https://kicad.org/) which is free and open-source. You can open the hardware files using KiCAD or you can check out a PDF of the schematics for the [mainboard](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/main/hardware/mainboard/mainboard.pdf) and the [jackboard](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/main/hardware/jackboard/jackboard.pdf).
 
 
-![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/US001060.html)
+![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/us001060.html)
 
 
 ## Warranty, disclaimers, and limits
