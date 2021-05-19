@@ -82,7 +82,7 @@ The [chorusing](#chorusing) section goes into more detail and has some sound sam
 
 ## Tuning
 
-Castor & Pollux is an analog oscillator with a digital brain. It's calibrated during assembled to accurately track 1 volt/octave on the *CV inputs* and you can use the *pitch knobs* to adjust the tuning of each oscillator.
+Castor & Pollux is an analog oscillator with a digital brain. It's calibrated during assembly to accurately track 1 volt/octave on the *CV inputs* and you can use the *pitch knobs* to adjust the tuning of each oscillator.
 
 In order to make tuning easier, the pitch knobs have a **non-linear** response: they are less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out this little demonstration:
 
