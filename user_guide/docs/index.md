@@ -34,7 +34,7 @@ We want you to have a wonderful experience with your module. If you need help or
 
 To install this into your Eurorack setup:
 
-1. Connect a Eurorack power cable to your power supply and the back of the module. **Note that even though the power connector on the module is keyed, double check that the red stripe is on the side labeled `red stripe`!**
+1. Connect a Eurorack power cable from your power supply to the back of the module. **Note that even though the power connector on the module is keyed, double check that the red stripe is on the side labeled `red stripe`!**
 1. Screw the module to your rack's rails.
 
 
