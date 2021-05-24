@@ -6,6 +6,7 @@
 
 import enum
 import struct
+import time
 
 from wintertools import log, midi, teeth
 
