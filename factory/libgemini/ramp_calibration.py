@@ -10,7 +10,7 @@ import statistics
 import time
 
 import pyvisa as visa
-from wintertools import keyboard, log, oscilloscope, tui
+from wintertools import interactive, log, oscilloscope, tui
 
 from libgemini import gemini, oscillators, reference_calibration
 
@@ -29,54 +29,36 @@ def _measure_max(scope, scope_channel):
     )
 
 
-def _set_code_and_measure_max(gem, scope, dac_channel, scope_channel, code):
-    gem.set_dac(dac_channel, code, vref=0)
-    time.sleep(0.005)
-    return _measure_max(scope, scope_channel)
-
-
-def _wait_for_frequency(scope, frequency):
-    output = tui.Updateable(clear_all=True)
-    with output:
-        while True:
-            measured_frequency = scope.get_frequency()
-
-            freq_diff = abs(measured_frequency / frequency) - 1.0
-
-            if freq_diff > 0.3:
-                print(
-                    f"Waiting for {frequency}, currently measuring {measured_frequency}"
-                )
-                output.update()
-                time.sleep(0.2)
-                continue
-            break
-
-
 def _manual_seek(gem, dac_channel, charge_code):
+    gem.set_dac(dac_channel, charge_code, 0)
+    adjuster = interactive.adjust_value(charge_code, min=0, max=4095)
     output = tui.Updateable()
 
     with output:
-        while True:
+        for value in adjuster:
+            charge_code = value
             gem.set_dac(dac_channel, charge_code, 0)
             print(
-                f"code: {charge_code}, voltage: {oscillators.charge_code_to_volts(charge_code)}. up/down to adjust, enter to accept."
+                f"code: {charge_code}, voltage: {oscillators.charge_code_to_volts(charge_code):03f}"
             )
             output.update()
-            key = keyboard.read()
-            if key == keyboard.UP:
-                charge_code += 1
-            elif key == keyboard.DOWN:
-                charge_code -= 1
-            elif key == keyboard.ENTER:
-                break
-
-            if charge_code > 4095:
-                charge_code = 4095
-            if charge_code < 0:
-                charge_code = 0
 
     return charge_code
+
+
+def _set_scope_time_division(scope, frequency):
+    if frequency > 1200:
+        scope.set_time_division("100us")
+    elif frequency > 700:
+        scope.set_time_division("200us")
+    elif frequency > 180:
+        scope.set_time_division("500us")
+    elif frequency > 90:
+        scope.set_time_division("1ms")
+    elif frequency > 46:
+        scope.set_time_division("2ms")
+    else:
+        scope.set_time_division("5ms")
 
 
 def _calibrate_oscillator(gem, scope, oscillator):
@@ -93,9 +75,9 @@ def _calibrate_oscillator(gem, scope, oscillator):
         scope.disable_channel("c1")
         dac_channel = 2
 
-    scope.set_trigger_level(scope_channel, 1)
+    scope.set_trigger_level(scope_channel, "1.65V")
     scope.set_cursor_type("Y")
-    scope.set_vertical_cursor(scope_channel, "0V", "3.3V")
+    scope.set_vertical_cursor(scope_channel, "-3.3V", "0V")
     scope.set_vertical_division(scope_channel, "800mV")
     scope.set_vertical_offset(scope_channel, "-1.65V")
     scope.show_measurement(scope_channel, "PKPK")
@@ -116,23 +98,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
 
         # Adjust the oscilloscope's time division as needed.
         frequency = oscillators.timer_period_to_frequency(period)
-
-        if frequency > 1200:
-            scope.set_time_division("100us")
-        elif frequency > 700:
-            scope.set_time_division("200us")
-        elif frequency > 400:
-            scope.set_time_division("250us")
-        elif frequency > 250:
-            scope.set_time_division("500us")
-        elif frequency > 120:
-            scope.set_time_division("1ms")
-        elif frequency > 80:
-            scope.set_time_division("2ms")
-        elif frequency > 50:
-            scope.set_time_division("5ms")
-        else:
-            scope.set_time_division("10ms")
+        _set_scope_time_division(scope, frequency)
 
         bar.draw(
             tui.Segment(progress, color=tui.gradient(start_color, end_color, progress)),
@@ -140,9 +106,20 @@ def _calibrate_oscillator(gem, scope, oscillator):
 
         log.info(f"Calibrating ramp for {frequency=:.2f} Hz {period=}")
 
-        gem.set_period(oscillator, period)
+        # If we've measured more than twice, we have enough info to determine
+        # the slope of the charge voltage - it should be pretty much linear, so
+        # we can guess a code very close to the right one.
+        if n > 2:
+            x_1, y_1 = list(period_to_dac_code.items())[n - 1]
+            x_2, y_2 = list(period_to_dac_code.items())[0]
+            x_1 = oscillators.timer_period_to_frequency(x_1)
+            x_2 = oscillators.timer_period_to_frequency(x_2)
+            slope = (y_2 - y_1) / (x_2 - x_1)
+            y_intercept = y_2 - (slope * x_2)
+            dac_code = min(4095, round(y_intercept + (slope * frequency)))
+            log.info(f"Guessed DAC code as {dac_code} from slope {slope:02f}")
 
-        # _wait_for_frequency(scope, frequency)
+        gem.set_period(oscillator, period)
 
         calibrated_code = _manual_seek(gem, dac_channel, dac_code)
 
@@ -151,7 +128,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
         magnitude = _measure_max(scope, scope_channel)
 
         log.success(
-            f"Calibrated to {calibrated_code} ({oscillators.charge_code_to_volts(calibrated_code)} volts), magnitude: {magnitude:.2f} volts"
+            f"Calibrated to {calibrated_code} ({oscillators.charge_code_to_volts(calibrated_code):.03f} volts), magnitude: {magnitude:.2f} volts"
         )
 
         last_dac_code = calibrated_code
@@ -178,25 +155,24 @@ def run(save):
     resource_manager = visa.ResourceManager("@ivi")
     scope = oscilloscope.Oscilloscope(resource_manager)
 
-    scope.reset()
+    # scope.reset()
     scope.enable_bandwidth_limit()
     scope.set_intensity(50, 100)
 
     # Enable both channels initially so that it's clear if the programming
     # board isn't connecting to the POGO pins.
     scope.set_time_division("10ms")
-    scope.set_vertical_cursor("c1", 0, 3.3)
-    scope.set_vertical_cursor("c2", 0, 3.3)
     scope.enable_channel("c1")
     scope.enable_channel("c2")
     scope.set_vertical_division("c1", "800mV")
     scope.set_vertical_division("c2", "800mV")
-    scope.set_vertical_offset("c1", -1.65)
-    scope.set_vertical_offset("c2", -1.65)
+    scope.set_vertical_offset("c1", "-1.65V")
+    scope.set_vertical_offset("c2", "-1.65V")
 
-    input(
-        "Connect PROBE ONE to RAMP A\nConnect PROBE TWO to RAMP B\n> press enter to start."
-    )
+    log.warning("Connect PROBE ONE to RAMP A")
+    log.warning("Connect PROBE TWO to RAMP B")
+    log.warning("Confirm sawtooth waveforms are visible before continuing!")
+    interactive.continue_when_ready()
 
     # Calibrate both oscillators
     log.section("Calibrating Castor...", depth=2)
