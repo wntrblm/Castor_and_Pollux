@@ -6,15 +6,17 @@
 
 const fft_size = 1024;
 
+/* Safari's web audio implementation is absolutely broken trash. */
+const is_safari = /apple/i.test(navigator.vendor);
+const has_audio_context = is_safari ? false : window.AudioContext !== undefined;
+
 /*
     Manages the single audio context shared across all instances of the
     oscilloscope.
 */
 class AudioContextManager {
     constructor() {
-        this.has_audio_context = window.AudioContext !== undefined;
-
-        if(this.has_audio_context) {
+        if (has_audio_context) {
             this.create_context();
         }
     }
@@ -31,12 +33,12 @@ class AudioContextManager {
     }
 
     create_source(audio) {
-        if(!this.has_audio_context) return null;
+        if (!has_audio_context) return null;
         return this.context.createMediaElementSource(audio);
     }
 
     connect_source(src) {
-        if(!this.has_audio_context) return;
+        if (!has_audio_context) return;
 
         if (this.current_source !== null) {
             this.current_source.disconnect();
@@ -56,7 +58,6 @@ class AudioContextManager {
 }
 
 const manager = new AudioContextManager();
-
 
 class Oscilloscope {
     constructor(container) {
@@ -108,7 +109,7 @@ class Oscilloscope {
     }
 
     draw() {
-        if (manager.has_audio_context) {
+        if (has_audio_context) {
             this.draw_analyzer();
         } else {
             this.draw_sine();
