@@ -6,7 +6,7 @@
 
 ## Specifications
 
-* [$249 MSRP](https://winterbloom.com/store/winterbloom-castor-and-pollux)
+* [$279 MSRP](https://winterbloom.com/store/winterbloom-castor-and-pollux)
 * 14 HP
 * +12v @ 100mA, -12v @ 35mA
 * 25mm deep
