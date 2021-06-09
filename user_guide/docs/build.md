@@ -143,7 +143,7 @@ Once you're done, remove the rubber bands and the panel. You won't need the rubb
 
 The mainboard and jackboard connect to each other through the 20-pin headers and sockets. To make sure everything is aligned correctly and stays in place, there's also a screw that fastens them together.
 
-First, take the M3x18 screw and place it through the mounting hole in the mainboard. It should be facing the same was as the pin headers.
+First, take the M3x18 screw and place it through the mounting hole in the mainboard. It should be facing the same way as the pin headers.
 
 ![Placing the screw](images/placing-screw.jpg)
 ![Screw in place](images/screw-placed.jpg)
@@ -160,7 +160,7 @@ Now take the jackboard and connect it to the mainboard using the pin headers and
 ![Connecting the jackboard and mainboard](images/connected.jpg)
 ![Jackboard placed on mainboard](images/screw-through-jackboard.jpg)
 
-Finally, take the M3 nut and place it onto the screw.
+Finally, take the M3 nut and place it onto the exposed end of the screw and tighten it with your fingers.
 
 ![Placing the nut](images/nut-placing.jpg)
 ![Nut placed on screw](images/nut-placed.jpg)
