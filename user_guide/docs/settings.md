@@ -18,9 +18,16 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <p id="connect_info" class="notification hidden"></p>
 </div>
 
-<form class="form hidden" id="settings_editor">
+<form class="form" id="settings_editor">
     <!-- Device information -->
+    <div id="info_section" class="hidden">
     <div class="section-divider">Device info</div>
+    <div id="firmware_incompatible" class="mb-5 hidden">
+        <p id="firmware_version_update" class="notification is-danger">
+            <span class="fairy" title="Hey, Listen!">🧚‍♀️</span>
+            You'll need to update your module's firmware to use this editor. Don't worry, it's really easy! <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/releases/latest" target="_blank">Get the newest firmware</a>
+        </p>
+    </div>
     <div class="columns">
         <div class="column">
             <div class="field device-info">
@@ -55,12 +62,14 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
                 This is your Castor & Pollux's current firmware version and serial number. We might ask you for this information if you reach out for help.
             </p>
             <p id="firmware_version_update" class="notification is-danger hidden">
-                <span class="fairy">🧚‍♀️</span>
+                <span class="fairy" title="Hey, Listen!">🧚‍♀️</span>
                 A new firmware version is available: <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/releases/latest" target="_blank"></a>
             </p>
         </div>
     </div>
+    </div>
     <!-- Settings controls -->
+    <div id="settings_section" class="hidden">
     <div class="section-divider">Settings</div>
     <div class="columns">
         <div class="column field">
@@ -75,8 +84,20 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column">
             <div class="field">
+                <label class="label" for="base_cv_offset">Base pitch CV offset</label>
+                <input class="input" type="number" name="base_cv_offset" value="1.0" step="0.083" min="0" max="5" data-binding-type="float" data-binding-precision="2" />
+                <span class="units">octaves (volts)</span>
+            </div>
+        </div>
+        <div class="column">
+            <p class="notification help-text">This setting effectively determines the starting note for the module since the pitch CV input and offset knobs are added to this value to determine the final pitch CV. By default, it's <code>1.0</code>.</p>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="field">
                 <label class="label" for="castor_knob_min">Castor pitch knob minimum</label>
-                <input class="input" type="number" name="castor_knob_min" cvalue="-1.02" step="0.1" min="-3.3" max="0" data-binding-type="float" data-binding-precision="2" />
+                <input class="input" type="number" name="castor_knob_min" value="-1.02" step="0.1" min="-3.3" max="0" data-binding-type="float" data-binding-precision="2" />
                 <span class="units">octaves (volts)</span>
             </div>
             <div class="field">
@@ -96,7 +117,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             </div>
         </div>
         <div class="column">
-            <p class="notification help-text">These settings set the range of the pitch knobs for each oscillator. By default, they have a range of about -1 to +1 octaves (volts). The value of the pitch knob is added to the pitch CV input. Note that because the module's analog-to-digital converter (ADC) isn't perfect, the knobs don't quite reach 100% of their range. You may need to nudge these to give the knob some headroom.</p>
+            <p class="notification help-text">These settings determine the pitch offset knob's range for each oscillator. By default, they have a range of about <code>-1</code> to <code>+1</code> octaves (volts). The value of the pitch offset knob is added to the pitch CV input. Note that because the module's analog-to-digital converter (ADC) isn't perfect, the knobs don't quite reach 100% of their range. You may need to nudge these to give the knob some headroom.</p>
         </div>
     </div>
     <div class="columns">
@@ -241,7 +262,8 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="section-divider">Save & restart</div>
     <div class="field">
         <button class="button is-primary is-large is-fullwidth" type="button" id="save_button">Save</button>
-        <p>Remember to save and <strong>restart your module</strong> to have these settings take effect!</p>
+        <p class="has-text-centered">Remember to save and <strong>restart your module</strong> to have these settings take effect!</p>
+    </div>
     </div>
 </form>
 

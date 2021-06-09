@@ -9,9 +9,9 @@ import structy
 
 @dataclass
 class GemSettings(structy.Struct):
-    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??i"
+    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??ii"
 
-    PACKED_SIZE : ClassVar[int] = 54
+    PACKED_SIZE : ClassVar[int] = 58
     """The total size of the struct once packed."""
 
     adc_gain_corr: int = 2048
@@ -68,3 +68,6 @@ class GemSettings(structy.Struct):
             response. Higher values make it easier and easier to tune the
             oscillator but sacrifice the range, values lower than 0.33 will
             make it harder to tune and aren't recommended."""
+
+    base_cv_offset: structy.Fix16 = 1.0
+    """The base CV offset applied to the pitch inputs."""

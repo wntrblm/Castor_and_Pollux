@@ -35,6 +35,7 @@ void GemOscillator_init(
     enum GemADCChannel pulse_width_knob_channel,
     fix16_t smooth_initial_gain,
     fix16_t smooth_sensitivity,
+    fix16_t base_offset,
     fix16_t knob_min,
     fix16_t knob_max,
     bool lfo_pwm) {
@@ -44,6 +45,7 @@ void GemOscillator_init(
     osc->pitch_knob_channel = pitch_knob_channel;
     osc->pulse_width_cv_channel = pulse_width_cv_channel;
     osc->pulse_width_knob_channel = pulse_width_knob_channel;
+    osc->base_offset = base_offset;
     osc->knob_min = knob_min;
     osc->knob_range = fix16_sub(knob_max, knob_min);
     osc->follower_threshold = 0;
@@ -93,7 +95,7 @@ void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorIn
 static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
     /*
         The basic pitch CV determination formula is:
-        1.0v + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
+        (base offset) + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
     */
 
     uint16_t cv_adc_code = inputs.adc[osc->pitch_cv_channel];
@@ -119,7 +121,7 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
     */
     else {
         fix16_t cv = UINT12_NORMALIZE_F(cv_adc_code_f16);
-        osc->pitch_cv = fix16_add(GEM_CV_BASE_OFFSET, fix16_mul(GEM_CV_INPUT_RANGE, cv));
+        osc->pitch_cv = fix16_add(osc->base_offset, fix16_mul(GEM_CV_INPUT_RANGE, cv));
     }
 
     /* Read the pitch knob and normalize (0.0 -> 1.0) its value. */

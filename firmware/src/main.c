@@ -177,6 +177,7 @@ static void init_() {
         GEM_IN_DUTY_A_POT,
         settings_.smooth_initial_gain,
         settings_.smooth_sensitivity,
+        settings_.base_cv_offset,
         settings_.castor_knob_min,
         settings_.castor_knob_max,
         settings_.castor_lfo_pwm);
@@ -190,9 +191,10 @@ static void init_() {
         GEM_IN_DUTY_B_POT,
         settings_.smooth_initial_gain,
         settings_.smooth_sensitivity,
+        settings_.base_cv_offset,
         settings_.pollux_knob_min,
         settings_.pollux_knob_max,
-        settings_.castor_lfo_pwm);
+        settings_.pollux_lfo_pwm);
 
     /*
         The oscillators aren't completely independent: Pollux is special.

@@ -28,8 +28,8 @@ class SysExCommands(enum.IntEnum):
     SET_DAC = 0x05
     SET_FREQ = 0x06
     RESET_SETTINGS = 0x07
-    READ_SETTINGS = 0x08
-    WRITE_SETTINGS = 0x09
+    READ_SETTINGS = 0x18
+    WRITE_SETTINGS = 0x19
     WRITE_LUT_ENTRY = 0x0A
     WRITE_LUT = 0x0B
     ERASE_LUT = 0x0C
@@ -57,8 +57,9 @@ class Gemini(midi.MIDIDevice):
         return self.version
 
     def get_serial_number(self):
-        resp = self.sysex(SysExCommands.GET_SERIAL_NUMBER, response=True)
-        self.serial_number = teeth.teeth_decode(resp[3:-1]).hex()
+        resp = self.sysex(SysExCommands.GET_SERIAL_NUMBER, response=True, decode=True)
+        self.serial_number = resp.hex()
+        return self.serial_number
 
     def enter_calibration_mode(self):
         self.get_firmware_version()
@@ -102,38 +103,18 @@ class Gemini(midi.MIDIDevice):
     def reset_settings(self):
         self.sysex(SysExCommands.RESET_SETTINGS)
 
-    CHUNK_SIZE = 10
-    SETTINGS_ENCODED_LEN = teeth.teeth_encoded_length(
-        gem_settings.GemSettings.PACKED_SIZE
-    )
-    SETTINGS_CHUNKS = SETTINGS_ENCODED_LEN // CHUNK_SIZE
-
     def read_settings(self):
-        settings_encoded = bytearray(self.SETTINGS_ENCODED_LEN)
-
-        for n in range(self.SETTINGS_CHUNKS):
-            data = self.sysex(SysExCommands.READ_SETTINGS, data=[n], response=True)
-            assert len(data) == self.CHUNK_SIZE + 4
-            settings_encoded[
-                self.CHUNK_SIZE * n : self.CHUNK_SIZE * n + self.CHUNK_SIZE
-            ] = data[3:-1]
-
-        settings_buf = teeth.teeth_decode(settings_encoded)
+        settings_buf = self.sysex(
+            SysExCommands.READ_SETTINGS, response=True, decode=True
+        )
         settings = gem_settings.GemSettings.unpack(settings_buf)
         return settings
 
     def save_settings(self, settings):
         settings_buf = settings.pack()
-
-        settings_encoded = teeth.teeth_encode(settings_buf)
-
-        for n in range(self.SETTINGS_CHUNKS):
-            chunk = list(
-                settings_encoded[
-                    self.CHUNK_SIZE * n : self.CHUNK_SIZE * n + self.CHUNK_SIZE
-                ]
-            )
-            self.sysex(SysExCommands.WRITE_SETTINGS, data=[n] + chunk, response=True)
+        self.sysex(
+            SysExCommands.WRITE_SETTINGS, settings_buf, encode=True, response=True
+        )
 
     def write_lut_entry(self, entry, period, castor, pollux):
         data = struct.pack(">BIHH", entry, period, castor, pollux)

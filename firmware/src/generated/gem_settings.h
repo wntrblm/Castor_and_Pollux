@@ -9,7 +9,7 @@
 
 #include "fix16.h"
 
-#define GEMSETTINGS_PACKED_SIZE 54
+#define GEMSETTINGS_PACKED_SIZE 58
 
 struct GemSettings {
     /* The ADC's internal gain correction register. */
@@ -50,6 +50,8 @@ struct GemSettings {
         oscillator but sacrifice the range, values lower than 0.33 will
         make it harder to tune and aren't recommended. */
     fix16_t pitch_knob_nonlinearity;
+    /* The base CV offset applied to the pitch inputs. */
+    fix16_t base_cv_offset;
 };
 
 void GemSettings_init(struct GemSettings* inst);

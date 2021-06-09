@@ -5,7 +5,7 @@
 
 #include "gem_settings.h"
 
-#define _PACK_STRING "HhHiiiiiiiiiiH??i"
+#define _PACK_STRING "HhHiiiiiiiiiiH??ii"
 
 void GemSettings_init(struct GemSettings* inst) {
     inst->adc_gain_corr = 2048;
@@ -25,6 +25,7 @@ void GemSettings_init(struct GemSettings* inst) {
     inst->castor_lfo_pwm = false;
     inst->pollux_lfo_pwm = false;
     inst->pitch_knob_nonlinearity = F16(0.6);
+    inst->base_cv_offset = F16(1.0);
 }
 
 struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* buf) {
@@ -48,7 +49,8 @@ struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* b
         inst->pollux_follower_threshold,
         inst->castor_lfo_pwm,
         inst->pollux_lfo_pwm,
-        inst->pitch_knob_nonlinearity);
+        inst->pitch_knob_nonlinearity,
+        inst->base_cv_offset);
 }
 
 struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t* buf) {
@@ -72,7 +74,8 @@ struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t*
         &inst->pollux_follower_threshold,
         &inst->castor_lfo_pwm,
         &inst->pollux_lfo_pwm,
-        &inst->pitch_knob_nonlinearity);
+        &inst->pitch_knob_nonlinearity,
+        &inst->base_cv_offset);
 }
 
 void GemSettings_print(const struct GemSettings* inst) {
@@ -138,5 +141,10 @@ void GemSettings_print(const struct GemSettings* inst) {
         char fix16buf[13];
         fix16_to_str(inst->pitch_knob_nonlinearity, fix16buf, 2);
         STRUCTY_PRINTF("- pitch_knob_nonlinearity: %s\n", fix16buf);
+    }
+    {
+        char fix16buf[13];
+        fix16_to_str(inst->base_cv_offset, fix16buf, 2);
+        STRUCTY_PRINTF("- base_cv_offset: %s\n", fix16buf);
     }
 }
