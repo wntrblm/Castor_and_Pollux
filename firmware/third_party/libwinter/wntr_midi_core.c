@@ -7,13 +7,14 @@
 #include "wntr_midi_core.h"
 #include "class/midi/midi_device.h"
 #include "printf.h"
+#include "wntr_ticks.h"
 #include <stdbool.h>
 #include <stdint.h>
 
 /* Macros & definitions */
 
-#define SYSEX_BUF_SIZE 64
-#define SYSEX_TIMEOUT 100000
+#define SYSEX_BUF_SIZE 128
+#define SYSEX_TIMEOUT 100 /* Milliseconds */
 #define SYSEX_START_BYTE 0xF0
 #define SYSEX_END_BYTE 0xF7
 
@@ -119,14 +120,22 @@ static void consume_sysex(struct WntrMIDIMessage* msg) {
 
     while (true) {
         /* Wait until we get a message, but fail out if it doesn't arrive in time. */
-        size_t m = 0;
-        for (; m < SYSEX_TIMEOUT; m++) {
+        uint32_t start_ticks = wntr_ticks();
+        bool timeout = true;
+        while (wntr_ticks() < start_ticks + SYSEX_TIMEOUT) {
+            /*
+                Call tud_task() to keep USB data flowing, otherwise, this
+                won't recieve any data that isn't already in the USB buffer
+                before the loop started.
+            */
+            tud_task();
             if (midi_read(msg)) {
+                timeout = false;
                 break;
             }
         }
 
-        if (m == SYSEX_TIMEOUT) {
+        if (timeout) {
             goto timeout_fail;
         }
 
@@ -162,8 +171,17 @@ exit:
     return;
 
 timeout_fail:
+    printf("Timed out while waiting for SysEx.\n");
     sysex_data_len_ = 0;
-    printf("Timed out while waiting for SysEx.");
+    printf("Received %u bytes before timeout:\n", data_index);
+    for (size_t i = 0; i < data_index; i++) {
+        printf("0x%02x ", sysex_data_[i]);
+        if (i > 16) {
+            printf("... (%u more)", data_index - i);
+            break;
+        }
+    }
+    printf("\n");
     return;
 }
 

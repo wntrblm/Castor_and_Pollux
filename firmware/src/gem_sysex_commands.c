@@ -29,11 +29,7 @@
 /* Macros & defs */
 
 #define SETTINGS_ENCODED_LEN TEETH_ENCODED_LENGTH(GEMSETTINGS_PACKED_SIZE)
-#define CHUNK_SIZE 10
-#define TOTAL_CHUNKS (SETTINGS_ENCODED_LEN / CHUNK_SIZE)
 #define ARRAY_LEN(array) (sizeof(array) / sizeof(array[0]))
-static_assert(
-    SETTINGS_ENCODED_LEN % CHUNK_SIZE == 0, "Total settings encoded length must be a multiple of the chunk size");
 
 #define DECODE_TEETH_REQUEST(size)                                                                                     \
     WNTR_ASSERT(len == TEETH_ENCODED_LENGTH(size));                                                                    \
@@ -58,7 +54,6 @@ static_assert(
 
 /* Static variables. */
 
-static uint8_t chunk_buf_[SETTINGS_ENCODED_LEN];
 static bool monitor_enabled_ = false;
 static uint32_t last_monitor_update_ = 0;
 
@@ -71,8 +66,6 @@ static void cmd_0x04_read_adc_(const uint8_t* data, size_t len);
 static void cmd_0x05_set_dac_(const uint8_t* data, size_t len);
 static void cmd_0x06_set_period_(const uint8_t* data, size_t len);
 static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len);
-static void cmd_0x08_read_settings_(const uint8_t* data, size_t len);
-static void cmd_0x09_write_settings_(const uint8_t* data, size_t len);
 static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len);
 static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len);
 static void cmd_0x0C_erase_lut_(const uint8_t* data, size_t len);
@@ -83,6 +76,8 @@ static void cmd_0x10_monitor_(const uint8_t* data, size_t len);
 static void cmd_0x11_soft_reset_(const uint8_t* data, size_t len);
 static void cmd_0x12_enter_calibration_mode_(const uint8_t* data, size_t len);
 static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len);
+static void cmd_0x18_read_settings_(const uint8_t* data, size_t len);
+static void cmd_0x19_write_settings_(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -94,8 +89,6 @@ void gem_register_sysex_commands() {
     wntr_midi_register_sysex_command(0x05, cmd_0x05_set_dac_);
     wntr_midi_register_sysex_command(0x06, cmd_0x06_set_period_);
     wntr_midi_register_sysex_command(0x07, cmd_0x07_erase_settings_);
-    wntr_midi_register_sysex_command(0x08, cmd_0x08_read_settings_);
-    wntr_midi_register_sysex_command(0x09, cmd_0x09_write_settings_);
     wntr_midi_register_sysex_command(0x0A, cmd_0x0A_write_lut_entry_);
     wntr_midi_register_sysex_command(0x0B, cmd_0x0B_write_lut_);
     wntr_midi_register_sysex_command(0x0C, cmd_0x0C_erase_lut_);
@@ -106,6 +99,8 @@ void gem_register_sysex_commands() {
     wntr_midi_register_sysex_command(0x11, cmd_0x11_soft_reset_);
     wntr_midi_register_sysex_command(0x12, cmd_0x12_enter_calibration_mode_);
     wntr_midi_register_sysex_command(0x13, cmd_0x13_reset_into_bootloader_);
+    wntr_midi_register_sysex_command(0x18, cmd_0x18_read_settings_);
+    wntr_midi_register_sysex_command(0x19, cmd_0x19_write_settings_);
 };
 
 void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
@@ -216,63 +211,35 @@ static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len) {
     GemSettings_erase();
 }
 
-static void cmd_0x08_read_settings_(const uint8_t* data, size_t len) {
-    /* Settings are sent in chunks to avoid overflowing midi buffers. */
-    /* Request: CHUNK_NUM(1) */
-    /* Response: SETTINGS_CHUNK(CHUNK_SIZE) */
+static void cmd_0x18_read_settings_(const uint8_t* data, size_t len) {
+    /* Response (teeth): serialized settings */
+    (void)(data);
     (void)(len);
-
-    const uint8_t chunk_num = data[0];
-    if (chunk_num > TOTAL_CHUNKS) {
-        printf("Invalid chunk %u.\r\n", chunk_num);
-        return;
-    }
 
     struct GemSettings settings;
     uint8_t settings_buf[GEMSETTINGS_PACKED_SIZE];
     GemSettings_load(&settings);
     GemSettings_pack(&settings, settings_buf);
 
-    teeth_encode(settings_buf, GEMSETTINGS_PACKED_SIZE, chunk_buf_);
-
-    PREPARE_RESPONSE(0x08, CHUNK_SIZE);
-    memcpy(response, chunk_buf_ + (CHUNK_SIZE * chunk_num), CHUNK_SIZE);
+    PREPARE_RESPONSE(0x18, TEETH_ENCODED_LENGTH(GEMSETTINGS_PACKED_SIZE));
+    teeth_encode(settings_buf, GEMSETTINGS_PACKED_SIZE, response);
     SEND_RESPONSE();
 }
 
-static void cmd_0x09_write_settings_(const uint8_t* data, size_t len) {
-    /* Settings are sent in chunks to avoid overflowing midi buffers. */
-    /* Request: CHUNK_NUM(1) SETTINGS_CHUNK(CHUNK_SIZE) */
-    (void)(len);
+static void cmd_0x19_write_settings_(const uint8_t* data, size_t len) {
+    /* Request (teeth): serialized settings */
+    DECODE_TEETH_REQUEST(GEMSETTINGS_PACKED_SIZE);
 
-    const uint8_t chunk_num = data[0];
-    if (chunk_num > TOTAL_CHUNKS) {
-        printf("Invalid chunk %u.\r\n", chunk_num);
-        return;
-    }
+    struct GemSettings settings;
 
-    if (chunk_num == 0) {
-        memset(chunk_buf_, 0xFF, ARRAY_LEN(chunk_buf_));
-    }
-
-    memcpy(chunk_buf_ + (CHUNK_SIZE * chunk_num), data + 1, CHUNK_SIZE);
-
-    /* All data received, decode and save the settings. */
-    if (chunk_num == TOTAL_CHUNKS - 1) {
-        struct GemSettings settings;
-        uint8_t settings_buf[GEMSETTINGS_PACKED_SIZE];
-
-        teeth_decode(chunk_buf_, ARRAY_LEN(chunk_buf_), settings_buf);
-
-        if (GemSettings_unpack(&settings, settings_buf).status == STRUCTY_RESULT_OKAY) {
-            GemSettings_save(&settings);
-        } else {
-            printf("Failed to save settings, unable to deserialize.\n");
-        }
+    if (GemSettings_unpack(&settings, request).status == STRUCTY_RESULT_OKAY) {
+        GemSettings_save(&settings);
+    } else {
+        printf("Failed to save settings, unable to deserialize.\n");
     }
 
     /* Ack the data. */
-    RESPONSE_0(0x09);
+    RESPONSE_0(0x19);
 }
 
 static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {

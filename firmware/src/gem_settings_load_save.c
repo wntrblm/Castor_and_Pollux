@@ -12,11 +12,17 @@
 #include "wntr_assert.h"
 #include <stdarg.h>
 
-#define SETTINGS_MARKER 0x65
+#define SETTINGS_MARKER_V1 0x65
+#define SETTINGS_MARKER_V2 0x66
+
+#define LIMIT_F16_FIELD(field, min, max)                                                                               \
+    if (settings->field < F16(min) || settings->field > F16(max)) {                                                    \
+        settings->field = defaults.field;                                                                              \
+    }
 
 extern uint8_t _nvm_settings_base_address;
 
-bool GemSettings_check(struct GemSettings* settings) {
+bool GemSettings_check(uint8_t marker, struct GemSettings* settings) {
     /* This can't be fixed. If the ADC stuff is out of whack we gotta fail. */
     if (settings->adc_gain_corr < 512 || settings->adc_gain_corr > 4096) {
         goto fail;
@@ -30,11 +36,6 @@ bool GemSettings_check(struct GemSettings* settings) {
         settings->led_brightness = defaults.led_brightness;
     }
 
-#define LIMIT_F16_FIELD(field, min, max)                                                                               \
-    if (settings->field < F16(min) || settings->field > F16(max)) {                                                    \
-        settings->field = defaults.field;                                                                              \
-    }
-
     LIMIT_F16_FIELD(castor_knob_max, 0.0, 10.0);
     LIMIT_F16_FIELD(castor_knob_min, -10.0, 0.0);
     LIMIT_F16_FIELD(pollux_knob_max, 0.0, 10.0);
@@ -44,6 +45,13 @@ bool GemSettings_check(struct GemSettings* settings) {
     LIMIT_F16_FIELD(smooth_initial_gain, 0.0, 1.0);
     LIMIT_F16_FIELD(smooth_sensitivity, 0.0, 100.0);
     LIMIT_F16_FIELD(pitch_knob_nonlinearity, 0.3, 1.0);
+
+    /* V2 added base_cv_offset field. */
+    if (marker == SETTINGS_MARKER_V1) {
+        printf("Upgrading setings from v1 to v2.\n");
+        settings->base_cv_offset = defaults.base_cv_offset;
+    }
+    LIMIT_F16_FIELD(base_cv_offset, 0.0, 5.0);
 
     return true;
 
@@ -61,7 +69,9 @@ bool GemSettings_load(struct GemSettings* settings) {
     // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
     gem_nvm_read((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
 
-    if (data[0] != SETTINGS_MARKER) {
+    uint8_t marker = data[0];
+
+    if (marker != SETTINGS_MARKER_V1 && marker != SETTINGS_MARKER_V2) {
         printf("Invalid settings marker.\n");
         goto fail;
     }
@@ -69,7 +79,7 @@ bool GemSettings_load(struct GemSettings* settings) {
     struct StructyResult result = GemSettings_unpack(settings, data + 1);
 
     if (result.status == STRUCTY_RESULT_OKAY) {
-        return GemSettings_check(settings);
+        return GemSettings_check(marker, settings);
     }
 
     printf("Failed to load settings.\n");
@@ -82,9 +92,9 @@ fail:
 
 void GemSettings_save(struct GemSettings* settings) {
     uint8_t data[GEMSETTINGS_PACKED_SIZE + 1];
-    data[0] = SETTINGS_MARKER;
+    data[0] = SETTINGS_MARKER_V2;
 
-    GemSettings_check(settings);
+    GemSettings_check(data[0], settings);
 
     struct StructyResult result = GemSettings_pack(settings, data + 1);
 

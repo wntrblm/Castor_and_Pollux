@@ -49,3 +49,6 @@ class GemSettings:
         oscillator but sacrifice the range, values lower than 0.33 will
         make it harder to tune and aren't recommended."""
     pitch_knob_nonlinearity: fix16 = 0.6
+
+    """The base CV offset applied to the pitch inputs."""
+    base_cv_offset: fix16 = 1.0
