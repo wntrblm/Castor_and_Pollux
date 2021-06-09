@@ -3,24 +3,25 @@ copyright: "© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0"
 repo_url: "https://github.com/theacodes/Winterbloom_Castor_and_Pollux"
 edit_uri: edit/main/user_guide/docs
 theme:
-  name: winterbloom
+    name: winterbloom
 markdown_extensions:
-  - admonition
-  - def_list
-  - attr_list
-  - toc:
-      permalink: "#"
-      toc_depth: 2-3
-  - pymdownx.highlight:
-      use_pygments: True
-  - pymdownx.superfences
-  - pymdownx.magiclink
-  - md_in_html
-  - markdown_link_attr_modifier:
-      external_only: True
-      custom_attrs:
-        rel: "noopener"
-        referrerpolicy: "origin"
+    - admonition
+    - def_list
+    - attr_list
+    - toc:
+          permalink: "#"
+          toc_depth: 2-3
+    - pymdownx.highlight:
+          use_pygments: True
+    - pymdownx.superfences
+    - pymdownx.magiclink
+    - md_in_html
+    - markdown_link_attr_modifier:
+          external_only: True
+          custom_attrs:
+              rel: "noopener"
+              referrerpolicy: "origin"
 nav:
-  - "User Guide": index.md
-  - "Settings Editor": settings.md
+    - "User Guide": index.md
+    - "Kit Build Instructions": build.md
+    - "Settings Editor": settings.md
