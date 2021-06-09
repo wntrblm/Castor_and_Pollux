@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+         
+
+		<link rel="shortcut icon" sizes="192x192" href="/icon.png" />
+		<link rel="apple-touch-icon" sizes="192x192" href="/icon.png" />
+
+        <title>
+            Kit Build Instructions - Winterbloom Castor & Pollux User Guide
+        </title>
+
+        <!-- Bulma CSS framework -->
+        <link href="../bulma.min.css" rel="stylesheet" />
+
+        <!-- Custom styles for this template -->
+        <link href="../style.css" rel="stylesheet" />
+
+        <!-- Syntax highlighting css -->
+        <link href="../pygments.css" rel="stylesheet" />
+    </head>
+    <body>
+		<header>
+			<nav class="navbar" role="navigation" aria-label="main navigation">
+				<div class="container is-max-desktop">
+					<div class="navbar-brand">
+						<a class="navbar-item" href=".." title="Home">
+							<img src="../winterbloom-logo.png" alt="Winterbloom logo" height="28">
+						</a>
+
+						<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar_menu">
+							<span aria-hidden="true"></span>
+							<span aria-hidden="true"></span>
+							<span aria-hidden="true"></span>
+						</a>
+					</div>
+
+					<div class="navbar-menu" id="navbar_menu">
+						<div class="navbar-end">
+							
+							
+							<a class="navbar-item " href="..">User Guide</a>
+							
+							<a class="navbar-item active" href="./">Kit Build Instructions</a>
+							
+							<a class="navbar-item " href="../settings/">Settings Editor</a>
+							
+							
+						</div>
+					</div>
+				</div>
+			</nav>
+		</header>
+
+        <section class="section">
+            <div class="container is-max-desktop">
+                <article class="content"><h1>Castor &amp; Pollux Kit Build Guide</h1>
+<p>Welcome to the build guide for Castor &amp; Pollux's DIY kit. We hope you have a great time putting this module together and a wonderful time using it.</p>
+<p>Please <strong>read all instructions</strong> thoroughly before starting. If you have questions or run into trouble please reach out to us on <a href="https://discord.gg/UpfqghQ" referrerpolicy="origin" rel="noopener" target="_blank">discord</a> or drop us an email at <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#119;&#105;&#110;&#116;&#101;&#114;&#98;&#108;&#111;&#111;&#109;&#46;&#99;&#111;&#109;">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#119;&#105;&#110;&#116;&#101;&#114;&#98;&#108;&#111;&#111;&#109;&#46;&#99;&#111;&#109;</a></p>
+<p>This build is a <strong>intermediate level</strong> kit. You should be comfortable soldering through-hole components and working with <a href="https://www.adafruit.com/category/154" referrerpolicy="origin" rel="noopener" target="_blank">pin headers</a>. If you're not, we encourage you to try out some other kits first, like our <a href="https://winterbloom.com/store/winterbloom-big-honking-button-kit" referrerpolicy="origin" rel="noopener" target="_blank">Big Honking Button kit</a>. Even if you've got some experience, we recommend taking a look at <a href="https://learn.adafruit.com/adafruit-guide-excellent-soldering" referrerpolicy="origin" rel="noopener" target="_blank">Adafruit's guide to excellent soldering</a> to refresh your knowledge.</p>
+<p>This build takes around <strong>three hours</strong> to complete.</p>
+<h2 id="tools-and-materials-required">Tools and materials required<a class="headerlink" href="#tools-and-materials-required" title="Permanent link">#</a></h2>
+<p>Before jumping in, make sure you have:</p>
+<ul>
+<li>A soldering iron, like <a href="https://www.adafruit.com/product/180" referrerpolicy="origin" rel="noopener" target="_blank">this one</a>.</li>
+<li>Solder, we can recommend <a href="https://www.adafruit.com/product/145" referrerpolicy="origin" rel="noopener" target="_blank">Adafruit's 60/40 rosin core solder</a>.</li>
+</ul>
+<h2 id="kit-contents">Kit contents<a class="headerlink" href="#kit-contents" title="Permanent link">#</a></h2>
+<p>Your kit should contain the following items. If any are missing please email us at <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#119;&#105;&#110;&#116;&#101;&#114;&#98;&#108;&#111;&#111;&#109;&#46;&#99;&#111;&#109;">&#115;&#117;&#112;&#112;&#111;&#114;&#116;&#64;&#119;&#105;&#110;&#116;&#101;&#114;&#98;&#108;&#111;&#111;&#109;&#46;&#99;&#111;&#109;</a>.</p>
+<object data="../images/kitted-2.svg" type="image/svg+xml" id="kitsvg" width="100%" height="100%" alt="Kit contents"></object>
+<p id="kitsvg-hover-text" class="hidden" style="text-align: center; font-style: italic; font-size: 80%">Hover an item to see its name</p>
+<script type="module" src="/scripts/svgmap.js"></script>
+
+<ul>
+<li>(1) Castor &amp; Pollux mainboard</li>
+<li>(1) Castor &amp; Pollux jackboard printed circuit board (PCB)</li>
+<li>(1) Castor &amp; Pollux front panel</li>
+<li>(2) 20-pin 2.54" pin sockets</li>
+<li>(12) 1/8" jacks</li>
+<li>(12) Hex nuts for the 1/8" jacks</li>
+<li>(13) Potentiometers</li>
+<li>(1) Tactile switch</li>
+<li>(1) Tactile switch cap</li>
+<li>(1) Eurorack power header</li>
+<li>(1) Eurorack power cable</li>
+<li>(1) M3x18 screw</li>
+<li>(1) M3x11 spacer</li>
+<li>(1) M3 nuts</li>
+<li>(4) M3x6 screws for attaching the module to your rack</li>
+<li>(2) Rubber bands</li>
+</ul>
+<p>We program, test, and calibrate the mainboard before sending it to you, so you don't have to worry about any of that- once you're done building you'll be good to go!</p>
+<h2 id="soldering-the-power-header">Soldering the power header<a class="headerlink" href="#soldering-the-power-header" title="Permanent link">#</a></h2>
+<p>Your first task is to solder the 10-pin Eurorack power connector.</p>
+<p><img alt="Power connector" src="../images/power-header.jpg" /></p>
+<p>The power connector goes on the <strong>back</strong> side of the board. When placing <strong>note the notch in the outline on the board</strong>. You'll need to make sure the <strong>slot on the connector matches where the notch is on the outline</strong>.</p>
+<p><img alt="Power connector placed" src="../images/header-placed.jpg" /></p>
+<p>Once placed you can solder the 10 pins on the other side of the board. Be careful here and avoid touching the small components near the pins with your iron.</p>
+<p><img alt="Soldering the power header" src="../images/header-soldering.jpg" /></p>
+<p><img alt="Power connector soldered" src="../images/header-soldered.jpg" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Watch out for those LEDs!</p>
+<p>Avoid touching the LEDs with your iron- they really don't like being melted and they're very hard to replace.</p>
+</div>
+<h2 id="soldering-the-pin-headers">Soldering the pin headers<a class="headerlink" href="#soldering-the-pin-headers" title="Permanent link">#</a></h2>
+<p>Next up is the two 20-pin sockets.</p>
+<p><img alt="20-pin socket" src="/images/pin-headers.jpg" /></p>
+<p>They also go on the <strong>back</strong> side of the board, just like the power header. The easiest way to get everything aligned is to place the sockets on the matching headers on the mainboard:</p>
+<p><img alt="sockets placed" src="/images/pin-headers-placed.jpg" /></p>
+<p>And then place the jackboard onto the sockets:</p>
+<p><img alt="jackboard placed over sockets" src="/images/pin-headers-placed-2.jpg" /></p>
+<p>Now you can solder all the pins. For each header, you should solder one of the pins at the edge first and make sure the sockets are flush against the board before continuing. It's much easier to fix alignment when you only have one pin to deal with.</p>
+<p><img alt="Soldering pin headers" src="/images/pin-headers-soldering.jpg" /></p>
+<p>Once you're done, remove the mainboard and set it aside.</p>
+<p><img alt="pin sockets soldered" src="/images/pin-headers-soldered.jpg" /></p>
+<h2 id="placing-the-front-side-components">Placing the front-side components<a class="headerlink" href="#placing-the-front-side-components" title="Permanent link">#</a></h2>
+<p>Now that you're done with the components on the back, it's time to take on the front. You'll need to place all of the components <strong>before soldering</strong> them - trust us, it'll make things easier.</p>
+<p><img alt="front-side components" src="/images/front-parts.jpg" /></p>
+<p>Start with the tactile switch. It goes right in the middle of the board:</p>
+<p><img alt="Tact switch placed" src="/images/button-placed.jpg" /></p>
+<p>Go ahead and put the cap on it as well. It takes a little force, but it should snap into place.</p>
+<p><img alt="Tact cap placed" src="/images/button-capped.jpg" /></p>
+<p>Next, place all of the potentiometers. You might have to give their little legs a squeeze to get them to fit into place.</p>
+<p><img alt="Potentiometers placed" src="/images/pot-placed.jpg" /></p>
+<p>Finally, put in all of the 1/8" jacks. They don't snap into place like the button and the potentiometers, so don't flip the board upside-down or you'll undo all of your work!</p>
+<p><img alt="Jacks placed" src="/images/jack-placed.jpg" /></p>
+<p>Once complete, your jackboard should look like this:</p>
+<p><img alt="Front-side components placed" src="../images/front-parts-placed.jpg" /></p>
+<h2 id="using-the-front-panel-as-a-jig">Using the front panel as a jig<a class="headerlink" href="#using-the-front-panel-as-a-jig" title="Permanent link">#</a></h2>
+<p>Since the front-side components need to peek through the front panel, you can use it as a jig to make sure everything stays in the right place. Carefully put the front panel on, taking care to line up the holes.</p>
+<p><img alt="Placing the panel" src="../images/jig-placed.jpg" /></p>
+<p>Now take the two rubber bands and use them to hold the whole assembly together while you're soldering. Put one at the top and one at the bottom, and double them over until they're tight enough to hold the components in place.</p>
+<p><img alt="Rubber bands on panel" src="../images/rubber-bands-1.jpg" />
+<img alt="Rubber bands on panel" src="../images/rubber-bands-2.jpg" /></p>
+<h2 id="solder-the-front-side-components">Solder the front-side components<a class="headerlink" href="#solder-the-front-side-components" title="Permanent link">#</a></h2>
+<p>You're now ready to solder all of those front-side components. We recommend that you start with the tactile switch, being careful not to hit the pin sockets with your iron:</p>
+<p><img alt="Soldering the tact switch" src="../images/soldering-button.jpg" /></p>
+<p>Next, solder the potentiometer right underneath it - again, be careful not to hurt the pin sockets:</p>
+<p><img alt="Soldering the sneaky potentiometer" src="../images/soldering-sneaky-pot.jpg" />
+<img alt="Soldering the sneaky potentiometer" src="../images/soldering-sneaky-pot-2.jpg" /></p>
+<p>Now you can solder all of the other components. As you solder, be sure to check that the front panel and all of the components are held in place and flush. You can move the rubber bands around as needed to get to all of the pads.</p>
+<p><img alt="Soldering the front-side components" src="../images/soldering-front-components.jpg" /></p>
+<p>Once you're done, remove the rubber bands and the panel. You won't need the rubber bands again, so feel free to re-use those.</p>
+<p><img alt="Finished jackboard" src="../images/front-components-soldered.jpg" /></p>
+<h2 id="attaching-the-mainboard-to-the-jackboard">Attaching the mainboard to the jackboard<a class="headerlink" href="#attaching-the-mainboard-to-the-jackboard" title="Permanent link">#</a></h2>
+<p>The mainboard and jackboard connect to each other through the 20-pin headers and sockets. To make sure everything is aligned correctly and stays in place, there's also a screw that fastens them together.</p>
+<p>First, take the M3x18 screw and place it through the mounting hole in the mainboard. It should be facing the same was as the pin headers.</p>
+<p><img alt="Placing the screw" src="../images/placing-screw.jpg" />
+<img alt="Screw in place" src="../images/screw-placed.jpg" />
+<img alt="Screw in place" src="../images/screw-placed-2.jpg" /></p>
+<p>Next, take the M3 standoff and screw it onto the screw by hand until it's flush with the mainboard. Don't over-tighten it.</p>
+<p><img alt="Placing the standoff" src="../images/placing-spacer.jpg" />
+<img alt="Standoff in place" src="../images/spacer-placed.jpg" /></p>
+<p>Now take the jackboard and connect it to the mainboard using the pin headers and sockets. The screw should go through the matching hole in the middle of the jackboard:</p>
+<p><img alt="Aligning the mainboard and jackboard" src="../images/connecting.jpg" />
+<img alt="Connecting the jackboard and mainboard" src="../images/connected.jpg" />
+<img alt="Jackboard placed on mainboard" src="../images/screw-through-jackboard.jpg" /></p>
+<p>Finally, take the M3 nut and place it onto the screw.</p>
+<p><img alt="Placing the nut" src="../images/nut-placing.jpg" />
+<img alt="Nut placed on screw" src="../images/nut-placed.jpg" /></p>
+<p>If you have trouble with this, you can use a small screwdriver to back the screw out a little and then screw it into the nut. Be careful not to over-tighten.</p>
+<h2 id="putting-the-panel-on">Putting the panel on<a class="headerlink" href="#putting-the-panel-on" title="Permanent link">#</a></h2>
+<p>The last step is to put Castor &amp; Pollux's lovely panel on:</p>
+<p><img alt="Panel placed" src="../images/panel-placed.jpg" /></p>
+<p>Finish it up by screwing the 1/8" jack nuts onto the jacks- again, don't over-tighten them.</p>
+<p><img alt="Placing the jack nuts" src="../images/placing-jack-nuts.jpg" /></p>
+<h2 id="all-done">All done<a class="headerlink" href="#all-done" title="Permanent link">#</a></h2>
+<p>Congratulations! You've finished your very own Castor &amp; Pollux!</p>
+<p><img alt="All done" src="../images/finished.jpg" /></p>
+<p>Now that it's all put together go check out the <a href="/index">User's Guide</a> and please show us your work by tweeting at <a href="https://twitter.com/wntrblm" referrerpolicy="origin" rel="noopener" target="_blank">@wntrblm</a> or tagging <a href="https://instagram.com/wntrblm" referrerpolicy="origin" rel="noopener" target="_blank">@wntrblm</a> in your instagram post.</p></article>
+            </div>
+        </section>
+
+
+		<footer class="footer">
+			<div class="container is-max-desktop">
+				<p class="copyright">© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0</p>
+				<p class="edit-me">
+					Found an issue?
+					<a href="mailto:support@winterbloom.com"
+						>Send us a message</a
+					>
+					or
+					<a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/edit/main/user_guide/docs/build.md">Edit this page on GitHub</a
+					>.
+				</p>
+				<p class="updated">
+					Last updated on June 09, 2021
+				</p>
+			</div>
+		</footer>
+    </body>
+
+    <script type="text/javascript" src="../script.js"></script>
+</html>
