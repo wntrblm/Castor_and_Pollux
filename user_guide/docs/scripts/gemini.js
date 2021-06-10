@@ -29,9 +29,16 @@ export default class Gemini {
 
     async load_settings() {
         console.log("Loading settings from device...");
-        const response = await this.midi.transact(
-            new Uint8Array([0xf0, 0x77, 0x18, 0xf7])
-        );
+
+        const timeout = new Promise((_, reject) => {
+            setTimeout(() => reject("timeout"), 1000);
+        });
+
+        const response = await Promise.race([
+            timeout,
+            this.midi.transact(new Uint8Array([0xf0, 0x77, 0x18, 0xf7])),
+        ]);
+
         const encoded_data = strip_response(response);
         const decoded_data = Teeth.decode(encoded_data);
         return GemSettings.unpack(decoded_data);
