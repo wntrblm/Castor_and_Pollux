@@ -13,6 +13,8 @@ import GitHub from "./github.js";
 
 const ui = {
     settings_form: $e("settings_editor"),
+    info_section: $e("info_section"),
+    settings_section: $e("settings_section"),
     save_btn: $e("save_button"),
     dangerous_fields: [
         ...document.querySelectorAll("#settings_editor .is-dangerous"),
@@ -22,6 +24,7 @@ const ui = {
     connect_info: $e("connect_info"),
     firmware_version: $e("firmware_version"),
     firmware_version_update: $e("firmware_version_update"),
+    firmware_incompatible: $e("firmware_incompatible"),
     serial_number: $e("serial_number"),
     restore_adc_calibration_btn: $e("restore_adc_calibration"),
 };
@@ -29,6 +32,8 @@ const ui = {
 const midi = new MIDI("Gemini");
 const gemini = new Gemini(midi);
 const settings = new GemSettings();
+/* The lowest compatible firmware version is from June, 2021 */
+const minimum_firmware_version = new Date(2021, 5, 1);
 let gemini_firmware_version = null;
 let gemini_serial_number = null;
 
@@ -73,6 +78,22 @@ async function restore_adc_calibration() {
     forms.update_values(ui.settings_form);
 }
 
+function check_firmware_version() {
+    let [year, month, day] = gemini_firmware_version
+        .split(" ")[0]
+        .split(".")
+        .map((x) => parseInt(x, 10));
+
+    let version_date = new Date(year, month - 1, day);
+
+    if (version_date < minimum_firmware_version) {
+        ui.firmware_incompatible.classList.remove("hidden");
+        return false;
+    }
+
+    return true;
+}
+
 async function check_for_new_firmware() {
     let gh = new GitHub();
     let release_info = null;
@@ -112,10 +133,17 @@ $on(ui.connect_btn, "click", async function () {
 
     gemini_firmware_version = await gemini.get_version();
     ui.firmware_version.value = `${gemini_firmware_version}`;
-    check_for_new_firmware();
-
     gemini_serial_number = await gemini.get_serial_number();
     ui.serial_number.value = `${gemini_serial_number}`;
+
+    ui.info_section.classList.remove("hidden");
+
+    if (!check_firmware_version()) {
+        console.log("Firmware too old, bailing. :(");
+        return;
+    }
+
+    check_for_new_firmware();
 
     /* Load settings & update the form. */
     Object.assign(settings, await gemini.load_settings());
@@ -128,7 +156,7 @@ $on(ui.connect_btn, "click", async function () {
     ui.connect_btn.innerText = "Connected";
     ui.connect_info.classList.add("hidden");
     ui.connect_info.innerText = "";
-    ui.settings_form.classList.remove("hidden");
+    ui.settings_section.classList.remove("hidden");
 
     check_for_backups();
 });
