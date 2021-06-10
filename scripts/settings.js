@@ -23,7 +23,7 @@ const ui = {
     connect_btn: $e("connect"),
     connect_info: $e("connect_info"),
     firmware_version: $e("firmware_version"),
-    firmware_version_update: $e("firmware_version_update"),
+    firmware_outdated: $e("firmware_outdated"),
     firmware_incompatible: $e("firmware_incompatible"),
     serial_number: $e("serial_number"),
     restore_adc_calibration_btn: $e("restore_adc_calibration"),
@@ -111,10 +111,10 @@ async function check_for_new_firmware() {
         return;
     }
 
-    let link = ui.firmware_version_update.querySelector("a");
+    let link = ui.firmware_outdated.querySelector("a");
     link.href = release_info.html_url;
     link.innerText = `${release_info.name} (${release_info.tag_name})`;
-    ui.firmware_version_update.classList.remove("hidden");
+    ui.firmware_outdated.classList.remove("hidden");
 }
 
 $on(ui.connect_btn, "click", async function () {
@@ -146,8 +146,25 @@ $on(ui.connect_btn, "click", async function () {
     check_for_new_firmware();
 
     /* Load settings & update the form. */
-    Object.assign(settings, await gemini.load_settings());
-    console.log("Loaded settings", settings);
+    let loaded_settings = false;
+    /* WebMIDI can sometimes inexplicably mess up SysEx messages, so try this a few times. */
+    for (let attempt = 0; attempt < 10; attempt += 1) {
+        try {
+            Object.assign(settings, await gemini.load_settings());
+            loaded_settings = true;
+            console.log("Loaded settings", settings);
+            break;
+        } catch (err) {
+            console.log("Retrying loading settings, got: ", err);
+        }
+    }
+
+    if (!loaded_settings) {
+        ui.connect_info.classList.add("is-danger");
+        ui.connect_info.innerText =
+            "Couldn't load settings, check connection, power, and try resetting the module.";
+        return;
+    }
 
     forms.update_values(ui.settings_form);
 
