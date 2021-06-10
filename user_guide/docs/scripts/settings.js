@@ -146,8 +146,25 @@ $on(ui.connect_btn, "click", async function () {
     check_for_new_firmware();
 
     /* Load settings & update the form. */
-    Object.assign(settings, await gemini.load_settings());
-    console.log("Loaded settings", settings);
+    let loaded_settings = false;
+    /* WebMIDI can sometimes inexplicably mess up SysEx messages, so try this a few times. */
+    for (let attempt = 0; attempt < 10; attempt += 1) {
+        try {
+            Object.assign(settings, await gemini.load_settings());
+            loaded_settings = true;
+            console.log("Loaded settings", settings);
+            break;
+        } catch (err) {
+            console.log("Retrying loading settings, got: ", err);
+        }
+    }
+
+    if (!loaded_settings) {
+        ui.connect_info.classList.add("is-danger");
+        ui.connect_info.innerText =
+            "Couldn't load settings, check connection, power, and try resetting the module.";
+        return;
+    }
 
     forms.update_values(ui.settings_form);
 
