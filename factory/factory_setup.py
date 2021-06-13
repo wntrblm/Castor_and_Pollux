@@ -1,6 +1,6 @@
 import argparse
 
-from wintertools import fw_fetch, jlink, log
+from wintertools import fw_fetch, jlink, log, noisy_bell
 
 from libgemini import adc_calibration, gemini, ramp_calibration
 
@@ -86,6 +86,7 @@ def main():
     log.section("Soft-resetting")
     gem = gemini.Gemini()
     gem.soft_reset()
+    noisy_bell.bell()
     log.success("Finished")
 
 
