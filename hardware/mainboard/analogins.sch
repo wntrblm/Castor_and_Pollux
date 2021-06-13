@@ -23,6 +23,8 @@ F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 1250 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 2450 1350 50  0001 C CNN
 F 4 "yes" H 2400 1150 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 2400 1150 50  0001 C CNN "mpn"
+F 6 "AD8544" H 2400 1150 50  0001 C CNN "mpn alt"
+F 7 "TLV9004" H 2400 1150 50  0001 C CNN "mpn alts 2"
 	1    2400 1150
 	1    0    0    -1  
 $EndComp
@@ -151,6 +153,8 @@ F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 2750 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 2450 2850 50  0001 C CNN
 F 4 "yes" H 2400 2650 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 2400 2650 50  0001 C CNN "mpn"
+F 6 "AD8544" H 2400 2650 50  0001 C CNN "mpn alt"
+F 7 "TLV9004" H 2400 2650 50  0001 C CNN "mpn alts 2"
 	2    2400 2650
 	1    0    0    -1  
 $EndComp
@@ -277,6 +281,8 @@ F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 4200 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 2450 4300 50  0001 C CNN
 F 4 "yes" H 2400 4100 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 2400 4100 50  0001 C CNN "mpn"
+F 6 "AD8544" H 2400 4100 50  0001 C CNN "mpn alt"
+F 7 "TLV9004" H 2400 4100 50  0001 C CNN "mpn alts 2"
 	3    2400 4100
 	1    0    0    -1  
 $EndComp
@@ -407,6 +413,8 @@ F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 2350 5650 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 2450 5750 50  0001 C CNN
 F 4 "yes" H 2400 5550 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 2400 5550 50  0001 C CNN "mpn"
+F 6 "AD8544" H 2400 5550 50  0001 C CNN "mpn alt"
+F 7 "TLV9004" H 2400 5550 50  0001 C CNN "mpn alts 2"
 	4    2400 5550
 	1    0    0    -1  
 $EndComp
@@ -535,6 +543,8 @@ F 2 "Package_SO:TSSOP-14_4.4x5mm_P0.65mm" H 7500 6050 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/MCP6001-1R-1U-2-4-1-MHz-Low-Power-Op-Amp-DS20001733L.pdf" H 7600 6150 50  0001 C CNN
 F 4 "yes" H 7550 5950 50  0001 C CNN "finalized"
 F 5 "MCP6004T-I/ST" H 7550 5950 50  0001 C CNN "mpn"
+F 6 "AD8544" H 7550 5950 50  0001 C CNN "mpn alt"
+F 7 "TLV9004" H 7550 5950 50  0001 C CNN "mpn alts 2"
 	5    7550 5950
 	1    0    0    -1  
 $EndComp

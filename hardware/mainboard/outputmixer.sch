@@ -23,6 +23,7 @@ F 2 "Package_SO:TSSOP-8_4.4x3mm_P0.65mm" H 3400 4150 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 3400 4150 50  0001 C CNN
 F 4 "yes" H 3400 4150 50  0001 C CNN "finalized"
 F 5 "TL072CPWR" H 3400 4150 50  0001 C CNN "mpn"
+F 6 "TL082CPWR" H 3400 4150 50  0001 C CNN "mpn alt"
 	2    3400 4150
 	1    0    0    1   
 $EndComp
@@ -36,6 +37,7 @@ F 2 "Package_SO:TSSOP-8_4.4x3mm_P0.65mm" H 6100 3050 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 6100 3050 50  0001 C CNN
 F 4 "yes" H 6100 3050 50  0001 C CNN "finalized"
 F 5 "TL072CPWR" H 6100 3050 50  0001 C CNN "mpn"
+F 6 "TL082CPWR" H 6100 3050 50  0001 C CNN "mpn alt"
 	3    6100 3050
 	1    0    0    -1  
 $EndComp
@@ -101,6 +103,7 @@ F 2 "Package_SO:TSSOP-8_4.4x3mm_P0.65mm" H 3400 2400 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 3400 2400 50  0001 C CNN
 F 4 "yes" H 3400 2400 50  0001 C CNN "finalized"
 F 5 "TL072CPWR" H 3400 2400 50  0001 C CNN "mpn"
+F 6 "TL082CPWR" H 3400 2400 50  0001 C CNN "mpn alt"
 	1    3400 2400
 	1    0    0    1   
 $EndComp

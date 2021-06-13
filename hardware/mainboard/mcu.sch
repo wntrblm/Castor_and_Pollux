@@ -23,6 +23,7 @@ F 2 "Package_QFP:TQFP-48_7x7mm_P0.5mm" H 1900 2100 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/SAM_D21_DA1_Family_Data%20Sheet_DS40001882E.pdf" H 2850 4850 50  0001 C CNN
 F 4 "yes" H 2850 3850 50  0001 C CNN "finalized"
 F 5 "ATSAMD21G18A-AUT" H 2850 3850 50  0001 C CNN "mpn"
+F 6 "ATSAMD21G18A-A**" H 2850 3850 50  0001 C CNN "mpn alt"
 	1    2850 3850
 	1    0    0    -1  
 $EndComp
@@ -369,6 +370,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 6650 5250 50  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22187E.pdf" H 6650 6100 50  0001 C CNN
 F 4 "yes" H 6650 5850 50  0001 C CNN "finalized"
 F 5 "MCP4728A0T-E/UN" H 6650 5850 50  0001 C CNN "mpn"
+F 6 "MCP4728A0*-*/UN" H 6650 5850 50  0001 C CNN "mpn alt"
 	1    6650 5850
 	1    0    0    -1  
 $EndComp
@@ -494,11 +496,11 @@ F 0 "C23" H 8415 5946 50  0000 L CNN
 F 1 "10uF" H 8415 5855 50  0000 L CNN
 F 2 "Capacitor_SMD:C_0805_2012Metric_Pad1.15x1.40mm_HandSolder" H 8338 5750 50  0001 C CNN
 F 3 "~" H 8300 5900 50  0001 C CNN
-F 4 "yes" H 8300 5900 50  0001 C CNN "finalized"
+F 4 "yes & alt" H 8300 5900 50  0001 C CNN "finalized"
 F 5 "CL21A106KAYNNN" H 8300 5900 50  0001 C CNN "mpn"
 F 6 "10% 25v" H 8300 5900 50  0001 C CNN "mpn specs"
-F 7 "" H 8300 5900 50  0001 C CNN "mpn alt"
-F 8 "audio path, 25v" H 8300 5900 50  0001 C CNN "Reqs"
+F 7 "CL21A106KAFN3NE" H 8300 5900 50  0001 C CNN "mpn alt"
+F 8 "audio path, 20v" H 8300 5900 50  0001 C CNN "Reqs"
 	1    8300 5900
 	1    0    0    -1  
 $EndComp
