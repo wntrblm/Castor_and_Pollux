@@ -7,6 +7,7 @@
 #include "wntr_midi_core.h"
 #include "class/midi/midi_device.h"
 #include "printf.h"
+#include "tusb.h"
 #include "wntr_ticks.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -54,7 +55,7 @@ void wntr_midi_send(const struct WntrMIDIMessage* msg) {
     packet[1] = msg->status;
     packet[2] = msg->data_0;
     packet[3] = msg->data_1;
-    tud_midi_send(packet);
+    tud_midi_packet_write(packet);
 }
 
 size_t wntr_midi_sysex_len() { return sysex_data_len_; }
@@ -71,25 +72,25 @@ void wntr_midi_send_sysex(const uint8_t* data, size_t len) {
             sysex_iterator_next(data, len, &head, packet + 1);
             sysex_iterator_next(data, len, &head, packet + 2);
             sysex_iterator_next(data, len, &head, packet + 3);
-            tud_midi_send(packet);
+            tud_midi_packet_write(packet);
             continue;
         } else if (remaining == 3) {
             packet[0] = MIDI_CODE_INDEX_SYSEX_END_THREE_BYTE;
             sysex_iterator_next(data, len, &head, packet + 1);
             sysex_iterator_next(data, len, &head, packet + 2);
             sysex_iterator_next(data, len, &head, packet + 3);
-            tud_midi_send(packet);
+            tud_midi_packet_write(packet);
             return;
         } else if (remaining == 2) {
             packet[0] = MIDI_CODE_INDEX_SYSEX_END_TWO_BYTE;
             sysex_iterator_next(data, len, &head, packet + 1);
             sysex_iterator_next(data, len, &head, packet + 2);
-            tud_midi_send(packet);
+            tud_midi_packet_write(packet);
             return;
         } else if (remaining == 1) {
             packet[0] = MIDI_CODE_INDEX_SYSEX_END_ONE_BYTE;
             sysex_iterator_next(data, len, &head, packet + 1);
-            tud_midi_send(packet);
+            tud_midi_packet_write(packet);
             return;
         }
     };
@@ -99,7 +100,7 @@ void wntr_midi_send_sysex(const uint8_t* data, size_t len) {
 
 static bool midi_read(struct WntrMIDIMessage* msg) {
     uint8_t packet[4];
-    if (!tud_midi_receive(packet)) {
+    if (!tud_midi_packet_read(packet)) {
         return false;
     }
 

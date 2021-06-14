@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -48,7 +48,8 @@ typedef enum
 {
   TUSB_SPEED_FULL = 0,
   TUSB_SPEED_LOW     ,
-  TUSB_SPEED_HIGH
+  TUSB_SPEED_HIGH,
+  TUSB_SPEED_INVALID = 0xff,
 }tusb_speed_t;
 
 /// defined base on USB Specs Endpoint's bmAttributes
@@ -250,6 +251,13 @@ typedef enum
   MS_OS_20_FEATURE_VENDOR_REVISION     = 0x08
 } microsoft_os_20_type_t;
 
+enum
+{
+  CONTROL_STAGE_SETUP,
+  CONTROL_STAGE_DATA,
+  CONTROL_STAGE_ACK
+};
+
 //--------------------------------------------------------------------+
 // USB Descriptors
 //--------------------------------------------------------------------+
@@ -276,6 +284,8 @@ typedef struct TU_ATTR_PACKED
   uint8_t  bNumConfigurations ; ///< Number of possible configurations.
 } tusb_desc_device_t;
 
+TU_VERIFY_STATIC( sizeof(tusb_desc_device_t) == 18, "size is not correct");
+
 // USB Binary Device Object Store (BOS) Descriptor
 typedef struct TU_ATTR_PACKED
 {
@@ -298,6 +308,8 @@ typedef struct TU_ATTR_PACKED
   uint8_t  bmAttributes        ; ///< Configuration characteristics \n D7: Reserved (set to one)\n D6: Self-powered \n D5: Remote Wakeup \n D4...0: Reserved (reset to zero) \n D7 is reserved and must be set to one for historical reasons. \n A device configuration that uses power from the bus and a local source reports a non-zero value in bMaxPower to indicate the amount of bus power required and sets D6. The actual power source at runtime may be determined using the GetStatus(DEVICE) request (see USB 2.0 spec Section 9.4.5). \n If a device configuration supports remote wakeup, D5 is set to one.
   uint8_t  bMaxPower           ; ///< Maximum power consumption of the USB device from the bus in this specific configuration when the device is fully operational. Expressed in 2 mA units (i.e., 50 = 100 mA).
 } tusb_desc_configuration_t;
+
+TU_VERIFY_STATIC( sizeof(tusb_desc_configuration_t) == 9, "size is not correct");
 
 /// USB Interface Descriptor
 typedef struct TU_ATTR_PACKED
@@ -332,7 +344,7 @@ typedef struct TU_ATTR_PACKED
   struct TU_ATTR_PACKED {
     uint16_t size           : 11; ///< Maximum packet size this endpoint is capable of sending or receiving when this configuration is selected. \n For isochronous endpoints, this value is used to reserve the bus time in the schedule, required for the per-(micro)frame data payloads. The pipe may, on an ongoing basis, actually use less bandwidth than that reserved. The device reports, if necessary, the actual bandwidth used via its normal, non-USB defined mechanisms. \n For all endpoints, bits 10..0 specify the maximum packet size (in bytes). \n For high-speed isochronous and interrupt endpoints: \n Bits 12..11 specify the number of additional transaction opportunities per microframe: \n- 00 = None (1 transaction per microframe) \n- 01 = 1 additional (2 per microframe) \n- 10 = 2 additional (3 per microframe) \n- 11 = Reserved \n Bits 15..13 are reserved and must be set to zero.
     uint16_t hs_period_mult : 2;
-    uint16_t : 0;
+    uint16_t TU_RESERVED    : 3;
   }wMaxPacketSize;
 
   uint8_t  bInterval        ; ///< Interval for polling endpoint for data transfers. Expressed in frames or microframes depending on the device operating speed (i.e., either 1 millisecond or 125 us units). \n- For full-/high-speed isochronous endpoints, this value must be in the range from 1 to 16. The bInterval value is used as the exponent for a \f$ 2^(bInterval-1) \f$ value; e.g., a bInterval of 4 means a period of 8 (\f$ 2^(4-1) \f$). \n- For full-/low-speed interrupt endpoints, the value of this field may be from 1 to 255. \n- For high-speed interrupt endpoints, the bInterval value is used as the exponent for a \f$ 2^(bInterval-1) \f$ value; e.g., a bInterval of 4 means a period of 8 (\f$ 2^(4-1) \f$) . This value must be from 1 to 16. \n- For high-speed bulk/control OUT endpoints, the bInterval must specify the maximum NAK rate of the endpoint. A value of 0 indicates the endpoint never NAKs. Other values indicate at most 1 NAK each bInterval number of microframes. This value must be in the range from 0 to 255. \n Refer to Chapter 5 of USB 2.0 specification for more information.
@@ -411,6 +423,29 @@ typedef struct TU_ATTR_PACKED
   char    url[];
 } tusb_desc_webusb_url_t;
 
+// DFU Functional Descriptor
+typedef struct TU_ATTR_PACKED
+{
+  uint8_t  bLength;
+  uint8_t  bDescriptorType;
+
+  union {
+    struct TU_ATTR_PACKED {
+      uint8_t bitCanDnload             : 1;
+      uint8_t bitCanUpload             : 1;
+      uint8_t bitManifestationTolerant : 1;
+      uint8_t bitWillDetach            : 1;
+      uint8_t reserved                 : 4;
+    } bmAttributes;
+
+    uint8_t bAttributes;
+  };
+
+  uint16_t wDetachTimeOut;
+  uint16_t wTransferSize;
+  uint16_t bcdDFUVersion;
+} tusb_desc_dfu_functional_t;
+
 /*------------------------------------------------------------------*/
 /* Types
  *------------------------------------------------------------------*/
@@ -431,7 +466,7 @@ typedef struct TU_ATTR_PACKED{
   uint16_t wLength;
 } tusb_control_request_t;
 
-TU_VERIFY_STATIC( sizeof(tusb_control_request_t) == 8, "mostly compiler option issue");
+TU_VERIFY_STATIC( sizeof(tusb_control_request_t) == 8, "size is not correct");
 
 // TODO move to somewhere suitable
 static inline uint8_t bm_request_type(uint8_t direction, uint8_t type, uint8_t recipient)
