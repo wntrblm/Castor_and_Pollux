@@ -28,8 +28,8 @@
 #define _TUSB_OPTION_H_
 
 #define TUSB_VERSION_MAJOR     0
-#define TUSB_VERSION_MINOR     5
-#define TUSB_VERSION_REVISION  0
+#define TUSB_VERSION_MINOR     10
+#define TUSB_VERSION_REVISION  1
 #define TUSB_VERSION_STRING    TU_STRING(TUSB_VERSION_MAJOR) "." TU_STRING(TUSB_VERSION_MINOR) "." TU_STRING(TUSB_VERSION_REVISION)
 
 /** \defgroup group_mcu Supported MCU
@@ -59,6 +59,8 @@
 #define OPT_MCU_SAMD51            201 ///< MicroChip SAMD51
 #define OPT_MCU_SAMG              202 ///< MicroChip SAMDG series
 #define OPT_MCU_SAME5X            203 ///< MicroChip SAM E5x
+#define OPT_MCU_SAMD11            204 ///< MicroChip SAMD11
+#define OPT_MCU_SAML22            205 ///< MicroChip SAML22
 
 // STM32
 #define OPT_MCU_STM32F0           300 ///< ST STM32F0
@@ -92,9 +94,27 @@
 
 // Espressif
 #define OPT_MCU_ESP32S2           900 ///< Espressif ESP32-S2
+#define OPT_MCU_ESP32S3           901 ///< Espressif ESP32-S3
 
 // Dialog
 #define OPT_MCU_DA1469X          1000 ///< Dialog Semiconductor DA1469x
+
+// Raspberry Pi
+#define OPT_MCU_RP2040           1100 ///< Raspberry Pi RP2040
+
+// NXP Kinetis
+#define OPT_MCU_MKL25ZXX         1200 ///< NXP MKL25Zxx
+
+// Silabs
+#define OPT_MCU_EFM32GG          1300 ///< Silabs EFM32GG
+#define OPT_MCU_EFM32GG11        1301 ///< Silabs EFM32GG11
+#define OPT_MCU_EFM32GG12        1302 ///< Silabs EFM32GG12
+
+// Renesas RX
+#define OPT_MCU_RX63X            1400 ///< Renesas RX63N/631
+
+// Mind Motion
+#define OPT_MCU_MM32F327X        1500 ///< Mind Motion MM32F327
 
 /** @} */
 
@@ -105,15 +125,16 @@
 #define OPT_OS_FREERTOS   2  ///< FreeRTOS
 #define OPT_OS_MYNEWT     3  ///< Mynewt OS
 #define OPT_OS_CUSTOM     4  ///< Custom OS is implemented by application
+#define OPT_OS_PICO       5  ///< Raspberry Pi Pico SDK
+#define OPT_OS_RTTHREAD   6  ///< RT-Thread
 /** @} */
 
-
 // Allow to use command line to change the config name/location
-#ifndef CFG_TUSB_CONFIG_FILE
-  #define CFG_TUSB_CONFIG_FILE "tusb_config.h"
+#ifdef CFG_TUSB_CONFIG_FILE
+  #include CFG_TUSB_CONFIG_FILE
+#else
+  #include "tusb_config.h"
 #endif
-
-#include CFG_TUSB_CONFIG_FILE
 
 /** \addtogroup group_configuration
  *  @{ */
@@ -144,22 +165,22 @@
   #define CFG_TUSB_RHPORT1_MODE OPT_MODE_NONE
 #endif
 
-#if ((CFG_TUSB_RHPORT0_MODE & OPT_MODE_HOST  ) && (CFG_TUSB_RHPORT1_MODE & OPT_MODE_HOST  )) || \
-    ((CFG_TUSB_RHPORT0_MODE & OPT_MODE_DEVICE) && (CFG_TUSB_RHPORT1_MODE & OPT_MODE_DEVICE))
+#if (((CFG_TUSB_RHPORT0_MODE) & OPT_MODE_HOST  ) && ((CFG_TUSB_RHPORT1_MODE) & OPT_MODE_HOST  )) || \
+    (((CFG_TUSB_RHPORT0_MODE) & OPT_MODE_DEVICE) && ((CFG_TUSB_RHPORT1_MODE) & OPT_MODE_DEVICE))
   #error "TinyUSB currently does not support same modes on more than 1 roothub port"
 #endif
 
 // Which roothub port is configured as host
-#define TUH_OPT_RHPORT          ( (CFG_TUSB_RHPORT0_MODE & OPT_MODE_HOST) ? 0 : ((CFG_TUSB_RHPORT1_MODE & OPT_MODE_HOST) ? 1 : -1) )
+#define TUH_OPT_RHPORT          ( ((CFG_TUSB_RHPORT0_MODE) & OPT_MODE_HOST) ? 0 : (((CFG_TUSB_RHPORT1_MODE) & OPT_MODE_HOST) ? 1 : -1) )
 #define TUSB_OPT_HOST_ENABLED   ( TUH_OPT_RHPORT >= 0 )
 
 // Which roothub port is configured as device
-#define TUD_OPT_RHPORT          ( (CFG_TUSB_RHPORT0_MODE & OPT_MODE_DEVICE) ? 0 : ((CFG_TUSB_RHPORT1_MODE & OPT_MODE_DEVICE) ? 1 : -1) )
+#define TUD_OPT_RHPORT          ( ((CFG_TUSB_RHPORT0_MODE) & OPT_MODE_DEVICE) ? 0 : (((CFG_TUSB_RHPORT1_MODE) & OPT_MODE_DEVICE) ? 1 : -1) )
 
 #if TUD_OPT_RHPORT == 0
-#define TUD_OPT_HIGH_SPEED      ( CFG_TUSB_RHPORT0_MODE & OPT_MODE_HIGH_SPEED )
+#define TUD_OPT_HIGH_SPEED      ( (CFG_TUSB_RHPORT0_MODE) & OPT_MODE_HIGH_SPEED )
 #else
-#define TUD_OPT_HIGH_SPEED      ( CFG_TUSB_RHPORT1_MODE & OPT_MODE_HIGH_SPEED )
+#define TUD_OPT_HIGH_SPEED      ( (CFG_TUSB_RHPORT1_MODE) & OPT_MODE_HIGH_SPEED )
 #endif
 
 #define TUSB_OPT_DEVICE_ENABLED ( TUD_OPT_RHPORT >= 0 )
@@ -206,6 +227,10 @@
   #define CFG_TUD_HID             0
 #endif
 
+#ifndef CFG_TUD_AUDIO
+  #define CFG_TUD_AUDIO           0
+#endif
+
 #ifndef CFG_TUD_MIDI
   #define CFG_TUD_MIDI            0
 #endif
@@ -218,8 +243,16 @@
   #define CFG_TUD_USBTMC          0
 #endif
 
-#ifndef CFG_TUD_DFU_RT
-  #define CFG_TUD_DFU_RT          0
+#ifndef CFG_TUD_DFU_RUNTIME
+  #define CFG_TUD_DFU_RUNTIME     0
+#endif
+
+#ifndef CFG_TUD_DFU_MODE
+  #define CFG_TUD_DFU_MODE        0
+#endif
+
+#ifndef CFG_TUD_DFU_TRANSFER_BUFFER_SIZE
+  #define CFG_TUD_DFU_TRANSFER_BUFFER_SIZE  64
 #endif
 
 #ifndef CFG_TUD_NET
@@ -244,16 +277,37 @@
     #error there is no benefit enable hub with max device is 1. Please disable hub or increase CFG_TUSB_HOST_DEVICE_MAX
   #endif
 
-  //------------- HID CLASS -------------//
-  #define HOST_CLASS_HID   ( CFG_TUH_HID_KEYBOARD + CFG_TUH_HID_MOUSE + CFG_TUSB_HOST_HID_GENERIC )
-
-  #ifndef CFG_TUSB_HOST_ENUM_BUFFER_SIZE
-    #define CFG_TUSB_HOST_ENUM_BUFFER_SIZE 256
+  #ifndef CFG_TUH_ENUMERATION_BUFSZIE
+    #define CFG_TUH_ENUMERATION_BUFSZIE 256
   #endif
 
   //------------- CLASS -------------//
 #endif // TUSB_OPT_HOST_ENABLED
 
+//--------------------------------------------------------------------+
+// Port Options
+// TUP for TinyUSB Port (can be renamed)
+//--------------------------------------------------------------------+
+
+// TUP_ARCH_STRICT_ALIGN if arch cannot access unaligned memory
+
+
+// ARMv7+ (M3-M7, M23-M33) can access unaligned memory
+#if (defined(__ARM_ARCH) && (__ARM_ARCH >= 7))
+  #define TUP_ARCH_STRICT_ALIGN   0
+#else
+  #define TUP_ARCH_STRICT_ALIGN   1
+#endif
+
+// TUP_MCU_STRICT_ALIGN will overwrite TUP_ARCH_STRICT_ALIGN.
+// In case TUP_MCU_STRICT_ALIGN = 1 and TUP_ARCH_STRICT_ALIGN =0, we will not reply on compiler
+// to generate unaligned access code.
+// LPC_IP3511 Highspeed cannot access unaligned memory on USB_RAM
+#if TUD_OPT_HIGH_SPEED && (CFG_TUSB_MCU == OPT_MCU_LPC54XXX || CFG_TUSB_MCU == OPT_MCU_LPC55XX)
+  #define TUP_MCU_STRICT_ALIGN   1
+#else
+  #define TUP_MCU_STRICT_ALIGN   0
+#endif
 
 //------------------------------------------------------------------
 // Configuration Validation

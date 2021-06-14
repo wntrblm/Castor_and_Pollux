@@ -1,4 +1,4 @@
-/* 
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) 2019 Ha Thach (tinyusb.org)
@@ -42,7 +42,7 @@
 #if TUSB_OPT_HOST_ENABLED
   #include "host/usbh.h"
 
-  #if HOST_CLASS_HID
+  #if CFG_TUH_HID
     #include "class/hid/hid_host.h"
   #endif
 
@@ -76,6 +76,10 @@
     #include "class/msc/msc_device.h"
   #endif
 
+#if CFG_TUD_AUDIO
+  #include "class/audio/audio_device.h"
+#endif
+
   #if CFG_TUD_MIDI
     #include "class/midi/midi_device.h"
   #endif
@@ -88,8 +92,12 @@
     #include "class/usbtmc/usbtmc_device.h"
   #endif
 
-  #if CFG_TUD_DFU_RT
+  #if CFG_TUD_DFU_RUNTIME
     #include "class/dfu/dfu_rt_device.h"
+  #endif
+
+  #if CFG_TUD_DFU_MODE
+    #include "class/dfu/dfu_device.h"
   #endif
 
   #if CFG_TUD_NET
