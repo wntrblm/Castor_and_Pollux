@@ -1,3 +1,16 @@
+# June 13th, 2021 (mainboard v4)
+
+This hardware revision was largely just to add additional information to the silk screen and update MPNs. This revision is used in production round three.
+
+* Added CE and WEEE logos to the mainboard.
+* Assigned new MPNs on the mainboard.
+* Added a laser-cuttable jig for the programming board.
+* Added missing values to jackboard potentiometers.
+* Pulled the copper fills on the mainboard back from the board edge.
+* Pulled the copper fills on the programming board back from the board edge.
+* Updated hierarchal symbols directions with proper signal directions.
+* Created new version of the programming board with significantly more test points.
+
 # January 27, 2021 (mainboard v3)
 
 This hardware revision was created to obtain better performance out of the ramp oscillators.

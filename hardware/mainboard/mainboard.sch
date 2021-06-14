@@ -5,8 +5,8 @@ $Descr USLetter 11000 8500
 encoding utf-8
 Sheet 1 7
 Title "Castor & Pollux"
-Date "2021-02-07"
-Rev "v3"
+Date "2021-06-13"
+Rev "v4"
 Comp "Winterbloom"
 Comment1 "CERN-OHL-P v2"
 Comment2 "Alethea Flowers"
