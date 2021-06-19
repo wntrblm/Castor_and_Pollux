@@ -1,4 +1,5 @@
 site_name: Winterbloom Castor & Pollux User Guide
+site_url: https://gemini.wntr.dev
 copyright: "© 2020 Winterbloom, licensed under Creative Commons CC BY-SA 4.0"
 repo_url: "https://github.com/theacodes/Winterbloom_Castor_and_Pollux"
 edit_uri: edit/main/user_guide/docs
@@ -17,9 +18,8 @@ markdown_extensions:
     - pymdownx.magiclink
     - md_in_html
     - markdown_link_attr_modifier:
-          external_only: True
+          new_tab: "external_only"
           custom_attrs:
-              rel: "noopener"
               referrerpolicy: "origin"
 nav:
     - "User Guide": index.md
