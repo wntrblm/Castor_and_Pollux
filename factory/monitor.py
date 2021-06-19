@@ -5,6 +5,7 @@
 """Monitor Gemini's inputs."""
 
 import pathlib
+import sys
 import time
 
 from wintertools import fs, git, log, tui
@@ -201,8 +202,12 @@ def _check_firmware_version(gem):
     log.info(f"Firmware build ID: {build_id}")
 
     if latest_release in build_id:
-        return
+        return True
+    else:
+        return False
 
+
+def _update_firmware(gem):
     log.warning(
         "Firmware is out of date, updating it.."
     )
@@ -221,7 +226,9 @@ def _check_firmware_version(gem):
 
 def main(stats=False):
     gem = gemini.Gemini()
-    _check_firmware_version(gem)
+
+    if "--force-update" in sys.argv or not _check_firmware_version(gem):
+        _update_firmware(gem)
 
     settings = gem.read_settings()
 
