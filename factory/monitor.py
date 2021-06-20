@@ -223,6 +223,9 @@ def _update_firmware(gem):
 
     log.success("Firmware updated!")
 
+    build_id = gem.get_firmware_version()
+    log.info(f"Firmware build ID: {build_id}")
+
 
 def main(stats=False):
     gem = gemini.Gemini()
