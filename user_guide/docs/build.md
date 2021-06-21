@@ -19,9 +19,44 @@ Before jumping in, make sure you have:
 
 Your kit should contain the following items. If any are missing please email us at support@winterbloom.com.
 
-<object data="../images/kitted-2.svg" type="image/svg+xml" id="kitsvg" width="100%" height="100%" alt="Kit contents"></object>
-<p id="kitsvg-hover-text" class="hidden" style="text-align: center; font-style: italic; font-size: 80%">Hover an item to see its name</p>
+<object
+    alt="Kit contents"
+    data-is-svg-map
+    data-list="kit-contents-img-datalist"
+    data-stylesheet="/styles/kit-contents-svgmap.css"
+    data-info-text-template="kit-contents-img-info-text"
+    data="../images/kitted-2.svg"
+    height="100%"
+    id="kit-contents-img"
+    type="image/svg+xml"
+    width="100%">
+</object>
+<template id="kit-contents-img-info-text">
+    <g id="info-text-container">
+        <rect data-size-to="info-text"></rect>
+        <text id="info-text">Test test test</text>
+    </g>
+</template>
+<datalist id="kit-contents-img-datalist">
+    <option value="mainboard">Mainboard (1)</option>
+    <option value="jackboard">Jackboard PCB (1)</option>
+    <option value="panel">Front panel (1)</option>
+    <option value="pin-sockets">20-pin 2.54" pin sockets (2)</option>
+    <option value="jacks">1/8" jacks (13)</option>
+    <option value="nuts">Hex nuts for the 1/8" jacks (13)</option>
+    <option value="pots">Potentiometers (13)</option>
+    <option value="switch">Tactile switch (1)</option>
+    <option value="switch-cap">Tactile switch cap (1)</option>
+    <option value="screw">M3x18 screw (1)</option>
+    <option value="spacer">M3x11 spacer (1)</option>
+    <option value="nut">M3 nut (1)</option>
+    <option value="power-header">Eurorack power header (1)</option>
+    <option value="power-cable">Eurorack power cable (1)</option>
+    <option value="mounting-screws">M3x6 screws (4)</option>
+    <option value="rubber-bands">Rubber bands (2)</option>
+</datalist>
 <script type="module" src="/scripts/svgmap.js"></script>
+<link rel="stylesheet" href="/styles/svgmap.css"/>
 
 - (1) Castor & Pollux mainboard
 - (1) Castor & Pollux jackboard printed circuit board (PCB)

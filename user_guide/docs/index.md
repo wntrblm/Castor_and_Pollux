@@ -40,7 +40,54 @@ To install this into your Eurorack setup:
 
 ## Inputs and outputs
 
-![Module with labels for inputs and outputs](images/gemini-labeled.png)
+<object
+    alt="A visual map of inputs and outputs"
+    data-is-svg-map
+    data-list="io-legend-datalist"
+    data-stylesheet="/styles/io-legend-svgmap.css"
+    data-info-text-template="io-legend-info-text"
+    data="../images/io-legend.svg"
+    height="100%"
+    id="io-legend"
+    type="image/svg+xml"
+    width="100%">
+</object>
+<template id="io-legend-info-text">
+    <g id="info-text-container">
+        <rect data-size-to="info-text"></rect>
+        <text id="info-text">Test test test</text>
+    </g>
+</template>
+<datalist id="io-legend-datalist">
+    <option value="pollux-pitch-in">Pollux's pitch CV input</option>
+    <option value="pollux-pitch-knob">Pollux's pitch knob</option>
+    <option value="pollux-pwm-in">Pollux's pulse width CV input</option>
+    <option value="pollux-pwm-knob">Pollux's pulse width knob</option>
+    <option value="pollux-ramp-out">Pollux's ramp waveform output</option>
+    <option value="pollux-pulse-out">Pollux's pulse waveform output</option>
+    <option value="pollux-sub-out">Pollux's sub waveform output</option>
+    <option value="pollux-ramp-mix">Pollux's ramp waveform mix</option>
+    <option value="pollux-pulse-mix">Pollux's pulse waveform mix</option>
+    <option value="pollux-sub-mix">Pollux's sub waveform mix</option>
+    <option value="pollux-mix-out">Pollux's mixer output</option>
+    <option value="castor-pitch-in">Castor's pitch CV input</option>
+    <option value="castor-pitch-knob">Castor's pitch knob</option>
+    <option value="castor-pwm-in">Castor's pulse width CV input</option>
+    <option value="castor-pwm-knob">Castor's pulse width knob</option>
+    <option value="castor-ramp-out">Castor's ramp waveform output</option>
+    <option value="castor-pulse-out">Castor's pulse waveform output</option>
+    <option value="castor-sub-out">Castor's sub waveform output</option>
+    <option value="castor-ramp-mix">Castor's ramp waveform mix</option>
+    <option value="castor-pulse-mix">Castor's pulse waveform mix</option>
+    <option value="castor-sub-mix">Castor's sub waveform mix</option>
+    <option value="castor-mix-out">Castor's mixer output</option>
+    <option value="crossfader-out">Crossfader output</option>
+    <option value="crossfader-knob">Crossfader knob</option>
+    <option value="lfo-knob">Chorus / LFO knob</option>
+    <option value="hard-sync">Hard sync / tweak button</option>
+</datalist>
+<script type="module" src="/scripts/svgmap.js"></script>
+<link rel="stylesheet" href="/styles/svgmap.css"/>
 
 Castor & Pollux contains *two* separate oscillators. Each has two inputs with associated knobs:
 
@@ -78,6 +125,10 @@ Finally, there is a knob to enable chorusing and a button to enable hard sync:
 ![Chorusing knob and hard sync button](images/chorusing_hard_sync.png)
 
 The [chorusing](#chorusing) section goes into more detail and has some sound samples, and the [hard sync](#hard-sync) section shows how hard sync affects the second oscillator.
+
+Finally, here's a cheatsheet if you'd like to have a quick reference:
+
+![Module with labels for inputs and outputs](images/gemini-labeled.png)
 
 
 ## Tuning

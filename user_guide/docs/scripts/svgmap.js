@@ -1,135 +1,128 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const svg_elem = document.getElementById("kitsvg");
-    document.getElementById("kitsvg-hover-text").classList.remove("hidden");
-    svg_elem.addEventListener("load", () => {
-        const svg = svg_elem.contentDocument;
+/*
+    An advanced imagemap using SVG.
 
-        /* Fix for safari, which continues to be the most obnoxious browser. */
-        const is_safari = /apple/i.test(navigator.vendor);
+    <object> element attributes:
+    - data-is-svg-map: attaches this functionality.
+    - data-list: element ID of a <datalist> containing <options> that map the
+        IDs of SVG areas to descriptions.
+    - data-stylesheet: href to stylesheet to apply inside of the SVG.
 
-        if (is_safari) {
-            for (let elem of svg.querySelectorAll("[*|href]")) {
-                console.log(elem);
-                elem.setAttribute(
-                    "href",
-                    elem.getAttributeNS("http://www.w3.org/1999/xlink", "href")
-                );
-            }
-        }
+    The stylesheet should have styles for .hoverable, .hoverable:hover, and
+    .info-text.
+*/
+class SVGMap {
+    constructor(object_elem) {
+        this.object_elem = object_elem;
+        this.svg_doc = object_elem.contentDocument;
 
-        /* Create the custom stylesheet */
-        const style_elem = svg.createElementNS(
+        this.svg_doc = object_elem.contentDocument;
+        this.svg_elem = this.svg_doc.querySelector("svg");
+        apply_safari_img_in_svg_fix(this.svg_elem);
+
+        this.insert_stylesheet().then(() => {
+            this.insert_help_text();
+            this.insert_info_text();
+            this.attach_event_listeners();
+        });
+    }
+
+    insert_help_text() {
+        const help_text_elem = document.createElement("p");
+        help_text_elem.innerText = "Hover or tap an item";
+        help_text_elem.classList.add("svgmap-help-text");
+        this.object_elem.parentNode.insertBefore(
+            help_text_elem,
+            this.object_elem.nextSibling
+        );
+    }
+
+    async insert_stylesheet() {
+        const resp = await fetch(this.object_elem.dataset.stylesheet);
+        const style_elem = this.svg_doc.createElementNS(
             "http://www.w3.org/2000/svg",
             "style"
         );
         style_elem.setAttribute("type", "text/css");
-        style_elem.textContent = `
-            .hoverable {
-                fill: rgba(0, 0, 0, 0) !important;
-                stroke: none !important;
-                mix-blend-mode: color !important;
-                filter: blur(20px) !important;
-                transition: fill 0.1s;
-            }
-            .hoverable:hover {
-                fill: #66ADB5 !important;
-            }
-            .info-text {
-                font-family: Overpass, sans-serif;
-                font-size: 300%; fill: white;
-                transition: fill 0.1s;
-            }
-        `;
-        svg.querySelector("svg").appendChild(style_elem);
+        style_elem.textContent = await resp.text();
+        this.svg_elem.appendChild(style_elem);
+    }
 
-        /* Create the text element to hold the description text */
-        const info_text = svg.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text"
+    insert_info_text() {
+        const info_text_template = document.getElementById(
+            this.object_elem.dataset.infoTextTemplate
         );
-        info_text.setAttribute("class", "info-text");
-        info_text.setAttribute("x", "3%");
-        info_text.setAttribute("y", "95%");
-        info_text.textContent = "";
-        svg.querySelector("svg").appendChild(info_text);
+        let info_text_elem = null;
 
-        /* Now attach event listeners to all of the hoverable elements */
-        const items = [
-            {
-                id: "mainboard",
-                description: "Mainboard (1)",
-            },
-            {
-                id: "jackboard",
-                description: "Jackboard PCB (1)",
-            },
-            {
-                id: "panel",
-                description: "Front panel (1)",
-            },
-            {
-                id: "pin-sockets",
-                description: '20-pin 2.54" pin sockets (2)',
-            },
-            {
-                id: "jacks",
-                description: '1/8" jacks (13)',
-            },
-            {
-                id: "nuts",
-                description: 'Hex nuts for the 1/8" jacks (13)',
-            },
-            {
-                id: "pots",
-                description: "Potentiometers (13)",
-            },
-            {
-                id: "switch",
-                description: "Tactile switch (1)",
-            },
-            {
-                id: "switch-cap",
-                description: "Tactile switch cap (1)",
-            },
-            {
-                id: "screw",
-                description: "M3x18 screw (1)",
-            },
-            {
-                id: "spacer",
-                description: "M3x11 spacer (1)",
-            },
-            {
-                id: "nut",
-                description: "M3 nut (1)",
-            },
-            {
-                id: "power-header",
-                description: "Eurorack power header (1)",
-            },
-            {
-                id: "power-cable",
-                description: "Eurorack power cable (1)",
-            },
-            {
-                id: "mounting-screws",
-                description: "M3x6 screws (4)",
-            },
-            {
-                id: "rubber-bands",
-                description: "Rubber bands (2)",
-            },
-        ];
-        for (let item of items) {
-            const item_elem = svg.getElementById(item.id);
+        if (info_text_template !== null) {
+            /* Translate the HTML template into and SVG defs so the namespace is correct. */
+            const svg_defs = this.svg_doc.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "defs"
+            );
+            svg_defs.innerHTML = info_text_template.innerHTML;
+            info_text_elem = svg_defs.firstElementChild;
+        } else {
+            info_text_elem = this.svg_doc.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text"
+            );
+            info_text_elem.setAttribute("id", "info-text");
+        }
+        this.svg_elem.appendChild(info_text_elem);
+
+        /* We only need the text element from this point on. */
+        this.info_text_container = info_text_elem;
+        this.info_text = this.svg_doc.getElementById("info-text");
+        this.info_text.textContent = "";
+
+        /* Check if there's a rect that's set to follow the text's size. */
+        this.rect = this.svg_doc.querySelector("rect[data-size-to]");
+    }
+
+    update_bounding_rect() {
+        if (this.rect === null) return;
+        const bb = this.info_text.getBBox();
+        this.rect.setAttribute("x", bb.x);
+        this.rect.setAttribute("y", bb.y);
+        this.rect.setAttribute("width", bb.width);
+        this.rect.setAttribute("height", bb.height);
+    }
+
+    attach_event_listeners() {
+        const datalist = document.getElementById(this.object_elem.dataset.list);
+        for (let item of datalist.options) {
+            const item_elem = this.svg_doc.getElementById(item.value);
             item_elem.classList.add("hoverable");
             item_elem.addEventListener("mouseenter", () => {
-                info_text.textContent = item.description;
-                info_text.style = "fill: white;";
+                this.info_text.textContent = item.label;
+                this.info_text_container.classList.add("visible");
+                this.info_text_container.dataset.value = item.value;
+                this.update_bounding_rect();
             });
             item_elem.addEventListener("mouseleave", () => {
-                info_text.style = "fill: transparent;";
+                this.info_text_container.classList.remove("visible");
             });
         }
-    });
+    }
+}
+
+window.addEventListener("load", () => {
+    const svg_maps = document.querySelectorAll("object[data-is-svg-map]");
+    for (const elem of svg_maps) {
+        new SVGMap(elem);
+    }
 });
+
+const is_safari = /apple/i.test(navigator.vendor);
+
+function apply_safari_img_in_svg_fix(svg) {
+    /* Fix for safari, which continues to be the most obnoxious browser. */
+    if (is_safari) {
+        for (let elem of svg.querySelectorAll("[*|href]")) {
+            elem.setAttribute(
+                "href",
+                elem.getAttributeNS("http://www.w3.org/1999/xlink", "href")
+            );
+        }
+    }
+}

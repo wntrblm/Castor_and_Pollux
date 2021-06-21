@@ -1,0 +1,107 @@
+.hoverable {
+    stroke: none !important;
+    mix-blend-mode: screen !important;
+    filter: blur(20px) !important;
+    opacity: 0.15;
+    transition: 0.15s;
+}
+
+.hoverable:hover {
+    opacity: 0.8;
+}
+
+g.hoverable * {
+    stroke: none !important;
+}
+
+#pollux-pitch-in,
+#castor-pitch-in,
+#pollux-pwm-in,
+#castor-pwm-in,
+#pollux-pitch-knob *,
+#pollux-pwm-knob *,
+#castor-pitch-knob,
+#castor-pwm-knob * {
+    fill: #408c94 !important;
+}
+
+#pollux-ramp-out,
+#pollux-pulse-out,
+#pollux-sub-out,
+#pollux-mix-out,
+#castor-sub-out,
+#castor-ramp-out,
+#castor-pulse-out,
+#castor-mix-out,
+#crossfader-out,
+#pollux-ramp-mix *,
+#pollux-pulse-mix *,
+#pollux-sub-mix *,
+#castor-ramp-mix *,
+#castor-pulse-mix *,
+#castor-sub-mix * {
+    fill: #d94a5c !important;
+}
+
+#crossfader-knob,
+#lfo-knob,
+#hard-sync {
+    fill: #dba140 !important;
+}
+
+#info-text-container {
+    transform: translate(50%, 95%);
+    opacity: 0;
+    transition: 0.1s;
+}
+
+#info-text-container.visible {
+    opacity: 1;
+}
+
+#info-text-container rect {
+    fill: #1ba8b8;
+    transform: translate(0, 1.4em) scale(1.2, 1.5);
+}
+
+#info-text-container[data-value="pollux-pitch-in"] rect,
+#info-text-container[data-value="castor-pitch-in"] rect,
+#info-text-container[data-value="pollux-pwm-in"] rect,
+#info-text-container[data-value="castor-pwm-in"] rect,
+#info-text-container[data-value="pollux-pitch-knob"] rect,
+#info-text-container[data-value="pollux-pwm-knob"] rect,
+#info-text-container[data-value="castor-pitch-knob"] rect,
+#info-text-container[data-value="castor-pwm-knob"] rect {
+    fill: #408c94 !important;
+}
+
+#info-text-container[data-value="pollux-ramp-out"] rect,
+#info-text-container[data-value="pollux-pulse-out"] rect,
+#info-text-container[data-value="pollux-sub-out"] rect,
+#info-text-container[data-value="pollux-mix-out"] rect,
+#info-text-container[data-value="castor-sub-out"] rect,
+#info-text-container[data-value="castor-ramp-out"] rect,
+#info-text-container[data-value="castor-pulse-out"] rect,
+#info-text-container[data-value="castor-mix-out"] rect,
+#info-text-container[data-value="crossfader-out"] rect,
+#info-text-container[data-value="pollux-ramp-mix"] rect,
+#info-text-container[data-value="pollux-pulse-mix"] rect,
+#info-text-container[data-value="pollux-sub-mix"] rect,
+#info-text-container[data-value="castor-ramp-mix"] rect,
+#info-text-container[data-value="castor-pulse-mix"] rect,
+#info-text-container[data-value="castor-sub-mix"] rect {
+    fill: #d94a5c !important;
+}
+
+#info-text-container[data-value="crossfader-knob"] rect,
+#info-text-container[data-value="lfo-knob"] rect,
+#info-text-container[data-value="hard-sync"] rect {
+    fill: #dba140 !important;
+}
+
+#info-text {
+    font-family: Overpass, sans-serif;
+    font-size: 8em;
+    text-anchor: middle;
+    fill: white;
+}
