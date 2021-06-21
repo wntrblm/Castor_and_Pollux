@@ -106,13 +106,13 @@ Each oscillator also has three dedicated waveshape outputs:
 - A pulse wave output
 - A sub square wave output
 
-Each waveshape is nominally 10v peak-to-peak. You can read more about the sound of each waveshape in the [waveshape](#waveshape) section.
+Each waveshape is nominally 10v peak-to-peak. You can read more about the sound of each waveshape in the [waveshapes](#waveshapes) section.
 
 Each oscillator also has a waveshape mixer that contains level knobs for each waveshape and a mix output:
 
 ![Mixer knobs and mixer output highlighted](images/mixer.png)
 
-The [waveshape](#waveshape) section also shows how mixing the waveshapes affects the waveshape and sound.
+The [waveshapes](#waveshapes) section also shows how mixing the waveshapes affects the waveshape and sound.
 
 There is also a combined output that mixes the output from both oscillators mixer together. It has a crossfader knob to determine which oscillator is more prominent in the mix:
 
