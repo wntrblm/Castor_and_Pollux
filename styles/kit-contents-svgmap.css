@@ -1,0 +1,37 @@
+.hoverable {
+    fill: #1ba8b800 !important;
+    stroke-width: 10 !important;
+    stroke: #1ba8b8 !important;
+    mix-blend-mode: color !important;
+    filter: blur(20px) !important;
+    opacity: 1;
+    transition: 0.1s;
+}
+
+.hoverable:hover {
+    fill: #1ba8b8 !important;
+    stroke: #1ba8b800 !important;
+    opacity: 1;
+}
+
+#info-text-container {
+    transform: translate(50%, 95%);
+    opacity: 0;
+    transition: 0.1s;
+}
+
+#info-text-container.visible {
+    opacity: 1;
+}
+
+#info-text-container rect {
+    fill: #1ba8b8;
+    transform: translate(0, 0.4em) scale(1.2, 1.5);
+}
+
+#info-text {
+    font-family: Overpass, sans-serif;
+    font-size: 3em;
+    text-anchor: middle;
+    fill: white;
+}
