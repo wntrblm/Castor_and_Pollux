@@ -17,4 +17,6 @@ jobs:
           cd user_guide
           python -m pip install -r requirements.txt
       - name: MkDocs publish
-        run: mkdocs gh-deploy --force
+        run: |
+          cd user_guide
+          mkdocs gh-deploy --force
