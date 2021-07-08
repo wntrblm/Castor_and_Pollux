@@ -5,8 +5,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Castor & Pollux: Jackboard"
-Date "9/22/2020"
-Rev "v2"
+Date "2021-06-29"
+Rev "v3"
 Comp "Winterbloom"
 Comment1 "gemini.wntr.dev"
 Comment2 "CERN-OHL-P v2"
@@ -51,7 +51,7 @@ U 1 1 5F07F4D9
 P 4850 950
 F 0 "J2" H 4670 883 50  0000 R CNN
 F 1 "CV A" H 4670 974 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 950 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 4850 950 50  0001 C CNN
 F 3 "~" H 4850 950 50  0001 C CNN
 	1    4850 950 
 	-1   0    0    1   
@@ -62,7 +62,7 @@ U 1 1 5F07FDA5
 P 4850 1400
 F 0 "J3" H 4670 1333 50  0000 R CNN
 F 1 "Duty A" H 4670 1424 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 1400 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 4850 1400 50  0001 C CNN
 F 3 "~" H 4850 1400 50  0001 C CNN
 	1    4850 1400
 	-1   0    0    1   
@@ -73,7 +73,7 @@ U 1 1 5F080386
 P 4850 1850
 F 0 "J7" H 4670 1783 50  0000 R CNN
 F 1 "Ramp A" H 4670 1874 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 1850 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 4850 1850 50  0001 C CNN
 F 3 "~" H 4850 1850 50  0001 C CNN
 	1    4850 1850
 	-1   0    0    1   
@@ -84,7 +84,7 @@ U 1 1 5F080832
 P 4850 2300
 F 0 "J8" H 4670 2233 50  0000 R CNN
 F 1 "PWM A" H 4670 2324 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 2300 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 4850 2300 50  0001 C CNN
 F 3 "~" H 4850 2300 50  0001 C CNN
 	1    4850 2300
 	-1   0    0    1   
@@ -95,7 +95,7 @@ U 1 1 5F080D52
 P 4850 2750
 F 0 "J9" H 4670 2683 50  0000 R CNN
 F 1 "Sub A" H 4670 2774 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 2750 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 4850 2750 50  0001 C CNN
 F 3 "~" H 4850 2750 50  0001 C CNN
 	1    4850 2750
 	-1   0    0    1   
@@ -106,7 +106,7 @@ U 1 1 5F0814A4
 P 4850 3200
 F 0 "J10" H 4670 3133 50  0000 R CNN
 F 1 "Mix A" H 4670 3224 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 4850 3200 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 4850 3200 50  0001 C CNN
 F 3 "~" H 4850 3200 50  0001 C CNN
 	1    4850 3200
 	-1   0    0    1   
@@ -117,7 +117,7 @@ U 1 1 5F081FB5
 P 7300 1000
 F 0 "J11" H 7120 933 50  0000 R CNN
 F 1 "CV B" H 7120 1024 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 1000 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 7300 1000 50  0001 C CNN
 F 3 "~" H 7300 1000 50  0001 C CNN
 	1    7300 1000
 	-1   0    0    1   
@@ -128,7 +128,7 @@ U 1 1 5F081FBF
 P 7300 1450
 F 0 "J12" H 7120 1383 50  0000 R CNN
 F 1 "Duty B" H 7120 1474 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 1450 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 7300 1450 50  0001 C CNN
 F 3 "~" H 7300 1450 50  0001 C CNN
 	1    7300 1450
 	-1   0    0    1   
@@ -139,7 +139,7 @@ U 1 1 5F081FC9
 P 7300 1900
 F 0 "J13" H 7120 1833 50  0000 R CNN
 F 1 "Ramp B" H 7120 1924 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 1900 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 7300 1900 50  0001 C CNN
 F 3 "~" H 7300 1900 50  0001 C CNN
 	1    7300 1900
 	-1   0    0    1   
@@ -150,7 +150,7 @@ U 1 1 5F081FD3
 P 7300 2350
 F 0 "J14" H 7120 2283 50  0000 R CNN
 F 1 "PWM B" H 7120 2374 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 2350 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 7300 2350 50  0001 C CNN
 F 3 "~" H 7300 2350 50  0001 C CNN
 	1    7300 2350
 	-1   0    0    1   
@@ -161,7 +161,7 @@ U 1 1 5F081FDD
 P 7300 2800
 F 0 "J15" H 7120 2733 50  0000 R CNN
 F 1 "Sub B" H 7120 2824 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 2800 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 7300 2800 50  0001 C CNN
 F 3 "~" H 7300 2800 50  0001 C CNN
 	1    7300 2800
 	-1   0    0    1   
@@ -172,7 +172,7 @@ U 1 1 5F081FE7
 P 7300 3250
 F 0 "J16" H 7120 3183 50  0000 R CNN
 F 1 "Mix B" H 7120 3274 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 7300 3250 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 7300 3250 50  0001 C CNN
 F 3 "~" H 7300 3250 50  0001 C CNN
 	1    7300 3250
 	-1   0    0    1   
@@ -402,7 +402,7 @@ U 1 1 5F09B62C
 P 9550 1000
 F 0 "J17" H 9370 933 50  0000 R CNN
 F 1 "Mix" H 9370 1024 50  0000 R CNN
-F 2 "jackboard:WQP-PJ301M-12_JACK" H 9550 1000 50  0001 C CNN
+F 2 "winterbloom:WQP-WQP518MA" H 9550 1000 50  0001 C CNN
 F 3 "~" H 9550 1000 50  0001 C CNN
 	1    9550 1000
 	-1   0    0    1   
@@ -426,10 +426,10 @@ L Device:R_POT_US RV1
 U 1 1 5F0A000C
 P 4300 4050
 F 0 "RV1" H 4233 4096 50  0000 R CNN
-F 1 "B10k" H 4233 4005 50  0000 R CNN
+F 1 "CV A" H 4233 4005 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 4050 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 4050 50  0001 C CNN
-F 4 "CV A" H 4125 3925 50  0000 C CNN "Comment"
+F 4 "B10k" H 4125 3925 50  0000 C CNN "Comment"
 	1    4300 4050
 	1    0    0    -1  
 $EndComp
@@ -460,10 +460,10 @@ L Device:R_POT_US RV2
 U 1 1 5F0ABF2C
 P 4300 4850
 F 0 "RV2" H 4233 4896 50  0000 R CNN
-F 1 "B10k" H 4233 4805 50  0000 R CNN
+F 1 "Duty A" H 4233 4805 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 4850 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 4850 50  0001 C CNN
-F 4 "Duty A" H 4225 4725 50  0000 R CNN "Comment"
+F 4 "B10k" H 4225 4725 50  0000 R CNN "Comment"
 	1    4300 4850
 	1    0    0    -1  
 $EndComp
@@ -494,10 +494,10 @@ L Device:R_POT_US RV3
 U 1 1 5F0AD94F
 P 4300 5650
 F 0 "RV3" H 4233 5696 50  0000 R CNN
-F 1 "B10k" H 4233 5605 50  0000 R CNN
+F 1 "Ramp A" H 4233 5605 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 5650 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 5650 50  0001 C CNN
-F 4 "Ramp A" H 4225 5525 50  0000 R CNN "Comment"
+F 4 "B10k" H 4225 5525 50  0000 R CNN "Comment"
 	1    4300 5650
 	1    0    0    -1  
 $EndComp
@@ -517,10 +517,10 @@ L Device:R_POT_US RV4
 U 1 1 5F0AF0F6
 P 4300 6450
 F 0 "RV4" H 4233 6496 50  0000 R CNN
-F 1 "B10k" H 4233 6405 50  0000 R CNN
+F 1 "PWM A" H 4233 6405 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 6450 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 6450 50  0001 C CNN
-F 4 "PWM A" H 4225 6325 50  0000 R CNN "Comment"
+F 4 "B10k" H 4225 6325 50  0000 R CNN "Comment"
 	1    4300 6450
 	1    0    0    -1  
 $EndComp
@@ -540,10 +540,10 @@ L Device:R_POT_US RV5
 U 1 1 5F0B0BD3
 P 4300 7250
 F 0 "RV5" H 4233 7296 50  0000 R CNN
-F 1 "B10k" H 4233 7205 50  0000 R CNN
+F 1 "Sub A" H 4233 7205 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 4300 7250 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 4300 7250 50  0001 C CNN
-F 4 "Sub A" H 4225 7125 50  0000 R CNN "Comment"
+F 4 "B10k" H 4225 7125 50  0000 R CNN "Comment"
 	1    4300 7250
 	1    0    0    -1  
 $EndComp
@@ -563,10 +563,10 @@ L Device:R_POT_US RV6
 U 1 1 5F0B8A89
 P 5900 4050
 F 0 "RV6" H 5833 4096 50  0000 R CNN
-F 1 "B10k" H 5833 4005 50  0000 R CNN
+F 1 "CV B" H 5833 4005 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 4050 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 4050 50  0001 C CNN
-F 4 "CV B" H 5825 3925 50  0000 R CNN "Comment"
+F 4 "B10k" H 5825 3925 50  0000 R CNN "Comment"
 	1    5900 4050
 	1    0    0    -1  
 $EndComp
@@ -597,10 +597,10 @@ L Device:R_POT_US RV7
 U 1 1 5F0B8A9B
 P 5900 4850
 F 0 "RV7" H 5833 4896 50  0000 R CNN
-F 1 "B10k" H 5833 4805 50  0000 R CNN
+F 1 "Duty B" H 5833 4805 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 4850 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 4850 50  0001 C CNN
-F 4 "Duty B" H 5825 4725 50  0000 R CNN "Comment"
+F 4 "B10k" H 5825 4725 50  0000 R CNN "Comment"
 	1    5900 4850
 	1    0    0    -1  
 $EndComp
@@ -631,10 +631,10 @@ L Device:R_POT_US RV8
 U 1 1 5F0B8AAD
 P 5900 5650
 F 0 "RV8" H 5833 5696 50  0000 R CNN
-F 1 "B10k" H 5833 5605 50  0000 R CNN
+F 1 "Ramp B" H 5833 5605 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 5650 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 5650 50  0001 C CNN
-F 4 "Ramp B" H 5825 5525 50  0000 R CNN "Comment"
+F 4 "B10k" H 5825 5525 50  0000 R CNN "Comment"
 	1    5900 5650
 	1    0    0    -1  
 $EndComp
@@ -654,10 +654,10 @@ L Device:R_POT_US RV9
 U 1 1 5F0B8ABF
 P 5900 6450
 F 0 "RV9" H 5833 6496 50  0000 R CNN
-F 1 "B10k" H 5833 6405 50  0000 R CNN
+F 1 "PWM B" H 5833 6405 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 6450 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 6450 50  0001 C CNN
-F 4 "PWM B" H 5825 6325 50  0000 R CNN "Comment"
+F 4 "B10k" H 5825 6325 50  0000 R CNN "Comment"
 	1    5900 6450
 	1    0    0    -1  
 $EndComp
@@ -677,10 +677,10 @@ L Device:R_POT_US RV10
 U 1 1 5F0B8AD1
 P 5900 7250
 F 0 "RV10" H 5833 7296 50  0000 R CNN
-F 1 "B10k" H 5833 7205 50  0000 R CNN
+F 1 "Sub B" H 5833 7205 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 5900 7250 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 5900 7250 50  0001 C CNN
-F 4 "Sub B" H 5825 7125 50  0000 R CNN "Comment"
+F 4 "B10k" H 5825 7125 50  0000 R CNN "Comment"
 	1    5900 7250
 	1    0    0    -1  
 $EndComp
@@ -752,10 +752,10 @@ L Device:R_POT_US RV11
 U 1 1 5F0EA75D
 P 7650 4850
 F 0 "RV11" H 7583 4896 50  0000 R CNN
-F 1 "B10k" H 7583 4805 50  0000 R CNN
+F 1 "Mix" H 7583 4805 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 7650 4850 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 7650 4850 50  0001 C CNN
-F 4 "Mix" H 7575 4725 50  0000 R CNN "Comment"
+F 4 "B10k" H 7575 4725 50  0000 R CNN "Comment"
 	1    7650 4850
 	1    0    0    -1  
 $EndComp
@@ -764,10 +764,10 @@ L Device:R_POT_US RV12
 U 1 1 5F0EBD75
 P 7650 5650
 F 0 "RV12" H 7583 5696 50  0000 R CNN
-F 1 "B10k" H 7583 5605 50  0000 R CNN
+F 1 "LFO" H 7583 5605 50  0000 R CNN
 F 2 "jackboard:Alpha_Pot" H 7650 5650 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf" H 7650 5650 50  0001 C CNN
-F 4 "Phase" H 7575 5525 50  0000 R CNN "Comment"
+F 4 "B10k" H 7575 5525 50  0000 R CNN "Comment"
 	1    7650 5650
 	1    0    0    -1  
 $EndComp
@@ -1358,7 +1358,7 @@ L Mechanical:MountingHole_Pad H1
 U 1 1 5F26B141
 P 9050 6050
 F 0 "H1" H 9150 6099 50  0000 L CNN
-F 1 "MountingHole_Pad" H 9150 6008 50  0000 L CNN
+F 1 "M3" H 9150 6008 50  0000 L CNN
 F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 9050 6050 50  0001 C CNN
 F 3 "~" H 9050 6050 50  0001 C CNN
 	1    9050 6050
@@ -1368,8 +1368,6 @@ Wire Wire Line
 	9450 4900 10750 4900
 NoConn ~ 9750 5100
 NoConn ~ 9750 5200
-Text Label 6100 750  0    50   ~ 0
-cv_a_jack
 $Comp
 L power:GND #PWR0105
 U 1 1 5F2A0F34
@@ -1395,39 +1393,6 @@ Wire Wire Line
 	5900 7550 5900 7400
 Wire Wire Line
 	7650 5100 7650 5000
-$Comp
-L Device:CP C1
-U 1 1 5F5B7DA0
-P 2100 2150
-F 0 "C1" H 2218 2196 50  0000 L CNN
-F 1 "100uF" H 2218 2105 50  0000 L CNN
-F 2 "Capacitor_THT:CP_Radial_D6.3mm_P2.50mm" H 2138 2000 50  0001 C CNN
-F 3 "~" H 2100 2150 50  0001 C CNN
-	1    2100 2150
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3.3V #PWR0119
-U 1 1 5F5B849F
-P 2100 2000
-F 0 "#PWR0119" H 2100 1850 50  0001 C CNN
-F 1 "+3.3V" V 2100 2250 50  0000 C CNN
-F 2 "" H 2100 2000 50  0001 C CNN
-F 3 "" H 2100 2000 50  0001 C CNN
-	1    2100 2000
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0161
-U 1 1 5F5B8D8C
-P 2100 2300
-F 0 "#PWR0161" H 2100 2050 50  0001 C CNN
-F 1 "GND" H 2150 2150 50  0000 R CNN
-F 2 "" H 2100 2300 50  0001 C CNN
-F 3 "" H 2100 2300 50  0001 C CNN
-	1    2100 2300
-	1    0    0    -1  
-$EndComp
 Wire Wire Line
 	8350 3800 8200 3800
 Wire Wire Line
@@ -1443,27 +1408,14 @@ Wire Wire Line
 Wire Wire Line
 	8150 3900 8350 3900
 $Comp
-L Jumper:SolderJumper_3_Bridged12 JP1
-U 1 1 5F65C20F
-P 5900 750
-F 0 "JP1" H 5900 955 50  0000 C CNN
-F 1 "CV Tie" H 5900 864 50  0000 C CNN
-F 2 "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm" H 5900 750 50  0001 C CNN
-F 3 "~" H 5900 750 50  0001 C CNN
-	1    5900 750 
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	5900 900  7100 900 
-$Comp
 L power:GND #PWR0162
 U 1 1 5F662DAE
-P 5700 750
-F 0 "#PWR0162" H 5700 500 50  0001 C CNN
-F 1 "GND" V 5705 622 50  0000 R CNN
-F 2 "" H 5700 750 50  0001 C CNN
-F 3 "" H 5700 750 50  0001 C CNN
-	1    5700 750 
+P 7100 900
+F 0 "#PWR0162" H 7100 650 50  0001 C CNN
+F 1 "GND" V 7105 772 50  0000 R CNN
+F 2 "" H 7100 900 50  0001 C CNN
+F 3 "" H 7100 900 50  0001 C CNN
+	1    7100 900 
 	0    1    1    0   
 $EndComp
 Text Label 9350 1600 2    50   ~ 0
@@ -1473,9 +1425,10 @@ L Switch:SW_Push SW1
 U 1 1 5F697077
 P 9550 1600
 F 0 "SW1" H 9550 1885 50  0000 C CNN
-F 1 "SW_Push" H 9550 1794 50  0000 C CNN
+F 1 "Sync" H 9550 1794 50  0000 C CNN
 F 2 "Button_Switch_THT:SW_PUSH_6mm" H 9550 1800 50  0001 C CNN
 F 3 "~" H 9550 1800 50  0001 C CNN
+F 4 "Tactile switch" H 9550 1600 50  0001 C CNN "Comment"
 	1    9550 1600
 	1    0    0    -1  
 $EndComp
