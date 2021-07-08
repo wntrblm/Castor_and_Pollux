@@ -26,7 +26,7 @@
 We want you to have a wonderful experience with your module. If you need help or run into problems, please reach out to us. Email is the best way for product issues, whereas Discord and GitHub are great for getting advice and help on how to customize your module.
 
 * Send us [an email](mailto:support@winterbloom.com)
-* File a bug [on GitHub](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/issues)
+* File a bug [on GitHub](https://github.com/wntrblm/Castor_and_Pollux/issues)
 * Reach out on the [Discord][discord]
 
 
@@ -369,7 +369,7 @@ Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, 
 
 ## Updating the firmware
 
-1. Download the latest firmware [from GitHub](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/releases). It will be a `.uf2` file.
+1. Download the latest firmware [from GitHub](https://github.com/wntrblm/Castor_and_Pollux/releases/latest). It will be a `.uf2` file.
 1. Connect Castor & Pollux to your computer via USB. The USB port is located underneath the panel. Note that you still have to power the module from a Eurorack power supply.
 1. Place Castor & Pollux in bootloader mode by pressing the reset button twice quickly. The reset button is located just below the USB port. Once in bootloader mode, you should see a drive on your computer named `GEMINIBOOT`.
 1. Copy the `.uf2` file from step 1 to the `GEMINIBOOT` drive. The module should restart by itself.
@@ -379,8 +379,8 @@ Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, 
 
 Castor & Pollux is completely open source and hacking is encouraged.
 
-* The [firmware](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/main/firmware) is available under the [MIT License](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/main/firmware/LICENSE). Note that the firmware uses some third-party libraries that are under different, but compatible terms. Read the full text of the license for more details.
-* The [hardware designs](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/tree/main/hardware) is available under the permissive [CERN-OHL-P v2](https://cern-ohl.web.cern.ch/) and is designed using [KiCAD](https://kicad.org/) which is free and open-source. You can open the hardware files using KiCAD or you can check out a PDF of the schematics for the [mainboard](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/main/hardware/mainboard/mainboard.pdf) and the [jackboard](https://github.com/theacodes/Winterbloom_Castor_and_Pollux/raw/main/hardware/jackboard/jackboard.pdf).
+* The [firmware](https://github.com/wntrblm/Castor_and_Pollux/tree/main/firmware) is available under the [MIT License](https://github.com/wntrblm/Castor_and_Pollux/tree/main/firmware/LICENSE). Note that the firmware uses some third-party libraries that are under different, but compatible terms. Read the full text of the license for more details.
+* The [hardware designs](https://github.com/wntrblm/Castor_and_Pollux/tree/main/hardware) is available under the permissive [CERN-OHL-P v2](https://cern-ohl.web.cern.ch/) and is designed using [KiCAD](https://kicad.org/) which is free and open-source. You can open the hardware files using KiCAD or you can check out a PDF of the schematics for the [mainboard](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/mainboard/mainboard.pdf) and the [jackboard](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/jackboard/jackboard.pdf).
 
 
 ![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/us001060.html)

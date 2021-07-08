@@ -25,7 +25,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div id="firmware_incompatible" class="mb-5 hidden">
         <p class="notification is-danger">
             <span class="fairy" title="Hey, Listen!">🧚‍♀️</span>
-            You'll need to update your module's firmware to use this editor. Don't worry, it's really easy! <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/releases/latest" target="_blank">Get the newest firmware</a>
+            You'll need to update your module's firmware to use this editor. Don't worry, it's really easy! <a href="https://github.com/wntrblm/Castor_and_Pollux/releases/latest" target="_blank">Get the newest firmware</a>
         </p>
     </div>
     <div class="columns">
@@ -63,7 +63,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             </p>
             <p id="firmware_outdated" class="notification is-danger hidden">
                 <span class="fairy" title="Hey, Listen!">🧚‍♀️</span>
-                A new firmware version is available: <a href="https://github.com/theacodes/Winterbloom_Castor_and_Pollux/releases/latest" target="_blank"></a>
+                A new firmware version is available: <a href="https://github.com/wntrblm/Castor_and_Pollux/releases/latest" target="_blank"></a>
             </p>
         </div>
     </div>
