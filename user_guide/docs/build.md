@@ -13,7 +13,7 @@ This build takes around **three hours** to complete.
 Before jumping in, make sure you have:
 
 * A soldering iron, like [this one](https://www.adafruit.com/product/180).
-* Solder, we can recommend [Adafruit's 60/40 rosin core solder](https://www.adafruit.com/product/145).
+* Solder, we can recommend [Adafruit's 60/40 **no-clean** rosin core solder](https://www.adafruit.com/product/145). We suggest using soldering with "no clean" flux. If you do use a different kind of flux, be sure to carefully clean the flux residue off based on the guidelines provided by the manufacturer of your solder.
 
 ## Kit contents
 
