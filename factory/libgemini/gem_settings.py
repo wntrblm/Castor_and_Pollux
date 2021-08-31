@@ -9,9 +9,9 @@ import structy
 
 @dataclass
 class GemSettings(structy.Struct):
-    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??ii"
+    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??iiiBBii"
 
-    PACKED_SIZE : ClassVar[int] = 58
+    PACKED_SIZE : ClassVar[int] = 72
     """The total size of the struct once packed."""
 
     adc_gain_corr: int = 2048
@@ -35,7 +35,7 @@ class GemSettings(structy.Struct):
     chorus_max_intensity: structy.Fix16 = 0.05
     """Maximum amount that the chorus can impact Pollux's frequency."""
 
-    lfo_frequency: structy.Fix16 = 0.2
+    lfo_1_frequency: structy.Fix16 = 0.2
     """The default LFO frequency in hertz."""
 
     cv_offset_error: structy.Fix16 = 0.0
@@ -71,3 +71,18 @@ class GemSettings(structy.Struct):
 
     base_cv_offset: structy.Fix16 = 1.0
     """The base CV offset applied to the pitch inputs."""
+
+    lfo_2_frequency_ratio: structy.Fix16 = 2
+    """The ratio of the second LFO's frequency to the first."""
+
+    lfo_1_waveshape: int = 0
+    """LFO 1's waveshape."""
+
+    lfo_2_waveshape: int = 0
+    """LFO 2's waveshape."""
+
+    lfo_1_factor: structy.Fix16 = 1
+    """LFO 1's factor."""
+
+    lfo_2_factor: structy.Fix16 = 0
+    """LFO 2's factor."""
