@@ -170,6 +170,7 @@ $on(ui.connect_btn, "click", async function () {
     }
 
     ui.settings_form.update();
+    draw_lfo_waveform();
 
     ui.connect_btn.classList.remove("is-primary");
     ui.connect_btn.classList.add("is-success");
