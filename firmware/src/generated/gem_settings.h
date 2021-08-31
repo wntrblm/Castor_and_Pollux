@@ -9,7 +9,7 @@
 
 #include "fix16.h"
 
-#define GEMSETTINGS_PACKED_SIZE 58
+#define GEMSETTINGS_PACKED_SIZE 72
 
 struct GemSettings {
     /* The ADC's internal gain correction register. */
@@ -26,7 +26,7 @@ struct GemSettings {
     /* Maximum amount that the chorus can impact Pollux's frequency. */
     fix16_t chorus_max_intensity;
     /* The default LFO frequency in hertz. */
-    fix16_t lfo_frequency;
+    fix16_t lfo_1_frequency;
     /* Error correction for the ADC readings for the CV input. */
     fix16_t cv_offset_error;
     fix16_t cv_gain_error;
@@ -52,6 +52,16 @@ struct GemSettings {
     fix16_t pitch_knob_nonlinearity;
     /* The base CV offset applied to the pitch inputs. */
     fix16_t base_cv_offset;
+    /* The ratio of the second LFO's frequency to the first. */
+    fix16_t lfo_2_frequency_ratio;
+    /* LFO 1's waveshape. */
+    uint8_t lfo_1_waveshape;
+    /* LFO 2's waveshape. */
+    uint8_t lfo_2_waveshape;
+    /* LFO 1's factor. */
+    fix16_t lfo_1_factor;
+    /* LFO 2's factor. */
+    fix16_t lfo_2_factor;
 };
 
 void GemSettings_init(struct GemSettings* inst);

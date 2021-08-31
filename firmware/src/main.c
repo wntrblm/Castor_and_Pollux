@@ -19,7 +19,13 @@ static struct WntrButton hard_sync_button_ = {.port = GEM_HARD_SYNC_BUTTON_PORT,
 
 /* State */
 static struct GemSettings settings_;
-static struct WntrPeriodicWaveform lfo_;
+static struct {
+    wntr_periodic_waveform_function functions[2];
+    fix16_t frequencies[2];
+    fix16_t factors[2];
+    fix16_t phases[2];
+} lfo_state_;
+static struct WntrMixedPeriodicWaveform lfo_;
 static struct GemOscillator castor_;
 static struct GemOscillator pollux_;
 static bool hard_sync_ = false;
@@ -28,6 +34,22 @@ static bool hard_sync_ = false;
 static uint32_t animation_time_ = 0;
 static uint32_t sample_time_ = 0;
 static uint32_t idle_cycles_ = 0;
+
+/* Helpers for init_ */
+wntr_periodic_waveform_function _lfo_waveshape_setting_to_func(uint8_t n) {
+    switch (n) {
+        case 0:
+            return wntr_triangle;
+        case 1:
+            return wntr_sine;
+        case 2:
+            return wntr_sawtooth;
+        case 3:
+            return wntr_square;
+        default:
+            return wntr_triangle;
+    }
+}
 
 /*
     Initializes the core processor, clocks, peripherals, drivers, settings,
@@ -150,10 +172,19 @@ static void init_() {
         Gemini has an internal low-frequency oscillator that can be used to
         modulate the pitch and pulse width of the oscillators.
 
-        For the time being it's hardcoded to use a triangle waveform, but
-        this is definitely something that could be pulled out into a setting.
+        It's current limited to just combining two waveforms, but it could
+        support more.
     */
-    WntrPeriodicWaveform_init(&lfo_, wntr_triangle, settings_.lfo_frequency);
+    lfo_state_.functions[0] = _lfo_waveshape_setting_to_func(settings_.lfo_1_waveshape);
+    lfo_state_.functions[1] = _lfo_waveshape_setting_to_func(settings_.lfo_2_waveshape);
+    lfo_state_.frequencies[0] = settings_.lfo_1_frequency;
+    lfo_state_.frequencies[1] = fix16_mul(settings_.lfo_1_frequency, settings_.lfo_2_frequency_ratio);
+    lfo_state_.factors[0] = settings_.lfo_1_factor;
+    lfo_state_.factors[1] = settings_.lfo_2_factor;
+    lfo_state_.phases[0] = F16(0);
+    lfo_state_.phases[1] = F16(0);
+    WntrMixedPeriodicWaveform_init(
+        &lfo_, 2, lfo_state_.functions, lfo_state_.frequencies, lfo_state_.factors, lfo_state_.phases, wntr_ticks());
 
     /*
         Gemini has two oscillators - Castor & Pollux. For the most part they're
@@ -237,15 +268,16 @@ static void oscillator_task_() {
     /*
         Update the internal LFO used for modulating pitch and pulse width.
     */
-    WntrPeriodicWaveform_step(&lfo_);
+    fix16_t lfo_value = WntrMixedPeriodicWaveform_step(&lfo_, loop_start_time);
+    gem_led_tweak_data.lfo_value = lfo_value;
     fix16_t pitch_lfo_intensity = UINT12_NORMALIZE(UINT12_INVERT(adc_results_[GEM_IN_CHORUS_POT]));
-    fix16_t pitch_lfo_value = fix16_mul(settings_.chorus_max_intensity, fix16_mul(pitch_lfo_intensity, lfo_.value));
+    fix16_t pitch_lfo_value = fix16_mul(settings_.chorus_max_intensity, fix16_mul(pitch_lfo_intensity, lfo_value));
 
     /*
         Update both oscillator's internal state based on the ADC inputs.
     */
     struct GemOscillatorInputs inputs = {
-        .adc = adc_results_, .lfo_pulse_width = lfo_.value, .lfo_pitch = pitch_lfo_value};
+        .adc = adc_results_, .lfo_pulse_width = lfo_value, .lfo_pitch = pitch_lfo_value};
 
     GemOscillator_update(&castor_, inputs);
 
@@ -360,7 +392,7 @@ static void tweak_task_() {
         /* Chorus intensity knob controls the LFO frequency in tweak mode. */
         IF_WAGGLED(chorus_pot_code, GEM_IN_CHORUS_POT)
             fix16_t frequency_value = UINT12_NORMALIZE(chorus_pot_code);
-            lfo_.frequency = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
+            lfo_state_.frequencies[0] = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
         IF_WAGGLED_END
 
         /* PWM Knobs control whether or not the LFO gets routed to them. */
@@ -383,7 +415,6 @@ static void tweak_task_() {
         /*
             Tweak mode uses the LEDs to tell the user what the settings are.
         */
-        gem_led_tweak_data.lfo_value = lfo_.value;
         gem_led_tweak_data.castor_pwm = castor_.lfo_pwm;
         gem_led_tweak_data.pollux_pwm = pollux_.lfo_pwm;
 

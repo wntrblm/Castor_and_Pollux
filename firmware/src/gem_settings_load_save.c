@@ -14,11 +14,19 @@
 
 #define SETTINGS_MARKER_V1 0x65
 #define SETTINGS_MARKER_V2 0x66
+#define SETTINGS_MARKER_V3 0x67
 
 #define LIMIT_F16_FIELD(field, min, max)                                                                               \
     if (settings->field < F16(min) || settings->field > F16(max)) {                                                    \
         settings->field = defaults.field;                                                                              \
     }
+
+#define LIMIT_INT_FIELD(field, min, max)                                                                               \
+    if (settings->field < min || settings->field > max) {                                                              \
+        settings->field = defaults.field;                                                                              \
+    }
+
+#define DEFAULT_FIELD(field) settings->field = defaults.field;
 
 extern uint8_t _nvm_settings_base_address;
 
@@ -41,17 +49,32 @@ bool GemSettings_check(uint8_t marker, struct GemSettings* settings) {
     LIMIT_F16_FIELD(pollux_knob_max, 0.0, 10.0);
     LIMIT_F16_FIELD(pollux_knob_min, -10.0, 0.0);
     LIMIT_F16_FIELD(chorus_max_intensity, 0.0, 1.0);
-    LIMIT_F16_FIELD(lfo_frequency, 0.0, 50.0);
+    LIMIT_F16_FIELD(lfo_1_frequency, 0.0, 50.0);
     LIMIT_F16_FIELD(smooth_initial_gain, 0.0, 1.0);
     LIMIT_F16_FIELD(smooth_sensitivity, 0.0, 100.0);
     LIMIT_F16_FIELD(pitch_knob_nonlinearity, 0.3, 1.0);
 
     /* V2 added base_cv_offset field. */
     if (marker == SETTINGS_MARKER_V1) {
-        printf("Upgrading setings from v1 to v2.\n");
-        settings->base_cv_offset = defaults.base_cv_offset;
+        printf("Upgrading settings from v1 to v2.\n");
+        DEFAULT_FIELD(base_cv_offset);
     }
     LIMIT_F16_FIELD(base_cv_offset, 0.0, 5.0);
+
+    /* V3 added several lfo options. */
+    if (marker == SETTINGS_MARKER_V2) {
+        printf("Upgrading settings from v2 to v3.\n");
+        DEFAULT_FIELD(lfo_2_frequency_ratio)
+        DEFAULT_FIELD(lfo_1_waveshape)
+        DEFAULT_FIELD(lfo_2_waveshape)
+        DEFAULT_FIELD(lfo_1_factor)
+        DEFAULT_FIELD(lfo_2_factor)
+    }
+    LIMIT_F16_FIELD(lfo_2_frequency_ratio, 0.0, 10.0);
+    LIMIT_INT_FIELD(lfo_1_waveshape, 0, 4);
+    LIMIT_INT_FIELD(lfo_2_waveshape, 0, 4);
+    LIMIT_F16_FIELD(lfo_1_factor, 0.0, 1.0);
+    LIMIT_F16_FIELD(lfo_2_factor, 0.0, 1.0);
 
     return true;
 
@@ -71,7 +94,7 @@ bool GemSettings_load(struct GemSettings* settings) {
 
     uint8_t marker = data[0];
 
-    if (marker != SETTINGS_MARKER_V1 && marker != SETTINGS_MARKER_V2) {
+    if (marker != SETTINGS_MARKER_V1 && marker != SETTINGS_MARKER_V2 && marker != SETTINGS_MARKER_V3) {
         printf("Invalid settings marker.\n");
         goto fail;
     }
@@ -92,7 +115,7 @@ fail:
 
 void GemSettings_save(struct GemSettings* settings) {
     uint8_t data[GEMSETTINGS_PACKED_SIZE + 1];
-    data[0] = SETTINGS_MARKER_V2;
+    data[0] = SETTINGS_MARKER_V3;
 
     GemSettings_check(data[0], settings);
 

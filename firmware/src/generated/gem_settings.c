@@ -5,7 +5,7 @@
 
 #include "gem_settings.h"
 
-#define _PACK_STRING "HhHiiiiiiiiiiH??ii"
+#define _PACK_STRING "HhHiiiiiiiiiiH??iiiBBii"
 
 void GemSettings_init(struct GemSettings* inst) {
     inst->adc_gain_corr = 2048;
@@ -16,7 +16,7 @@ void GemSettings_init(struct GemSettings* inst) {
     inst->pollux_knob_min = F16(-1.2);
     inst->pollux_knob_max = F16(1.2);
     inst->chorus_max_intensity = F16(0.05);
-    inst->lfo_frequency = F16(0.2);
+    inst->lfo_1_frequency = F16(0.2);
     inst->cv_offset_error = F16(0.0);
     inst->cv_gain_error = F16(1.0);
     inst->smooth_initial_gain = F16(0.1);
@@ -26,6 +26,11 @@ void GemSettings_init(struct GemSettings* inst) {
     inst->pollux_lfo_pwm = false;
     inst->pitch_knob_nonlinearity = F16(0.6);
     inst->base_cv_offset = F16(1.0);
+    inst->lfo_2_frequency_ratio = F16(2);
+    inst->lfo_1_waveshape = 0;
+    inst->lfo_2_waveshape = 0;
+    inst->lfo_1_factor = F16(1);
+    inst->lfo_2_factor = F16(0);
 }
 
 struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* buf) {
@@ -41,7 +46,7 @@ struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* b
         inst->pollux_knob_min,
         inst->pollux_knob_max,
         inst->chorus_max_intensity,
-        inst->lfo_frequency,
+        inst->lfo_1_frequency,
         inst->cv_offset_error,
         inst->cv_gain_error,
         inst->smooth_initial_gain,
@@ -50,7 +55,12 @@ struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* b
         inst->castor_lfo_pwm,
         inst->pollux_lfo_pwm,
         inst->pitch_knob_nonlinearity,
-        inst->base_cv_offset);
+        inst->base_cv_offset,
+        inst->lfo_2_frequency_ratio,
+        inst->lfo_1_waveshape,
+        inst->lfo_2_waveshape,
+        inst->lfo_1_factor,
+        inst->lfo_2_factor);
 }
 
 struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t* buf) {
@@ -66,7 +76,7 @@ struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t*
         &inst->pollux_knob_min,
         &inst->pollux_knob_max,
         &inst->chorus_max_intensity,
-        &inst->lfo_frequency,
+        &inst->lfo_1_frequency,
         &inst->cv_offset_error,
         &inst->cv_gain_error,
         &inst->smooth_initial_gain,
@@ -75,7 +85,12 @@ struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t*
         &inst->castor_lfo_pwm,
         &inst->pollux_lfo_pwm,
         &inst->pitch_knob_nonlinearity,
-        &inst->base_cv_offset);
+        &inst->base_cv_offset,
+        &inst->lfo_2_frequency_ratio,
+        &inst->lfo_1_waveshape,
+        &inst->lfo_2_waveshape,
+        &inst->lfo_1_factor,
+        &inst->lfo_2_factor);
 }
 
 void GemSettings_print(const struct GemSettings* inst) {
@@ -111,8 +126,8 @@ void GemSettings_print(const struct GemSettings* inst) {
     }
     {
         char fix16buf[13];
-        fix16_to_str(inst->lfo_frequency, fix16buf, 2);
-        STRUCTY_PRINTF("- lfo_frequency: %s\n", fix16buf);
+        fix16_to_str(inst->lfo_1_frequency, fix16buf, 2);
+        STRUCTY_PRINTF("- lfo_1_frequency: %s\n", fix16buf);
     }
     {
         char fix16buf[13];
@@ -146,5 +161,22 @@ void GemSettings_print(const struct GemSettings* inst) {
         char fix16buf[13];
         fix16_to_str(inst->base_cv_offset, fix16buf, 2);
         STRUCTY_PRINTF("- base_cv_offset: %s\n", fix16buf);
+    }
+    {
+        char fix16buf[13];
+        fix16_to_str(inst->lfo_2_frequency_ratio, fix16buf, 2);
+        STRUCTY_PRINTF("- lfo_2_frequency_ratio: %s\n", fix16buf);
+    }
+    STRUCTY_PRINTF("- lfo_1_waveshape: %u\n", inst->lfo_1_waveshape);
+    STRUCTY_PRINTF("- lfo_2_waveshape: %u\n", inst->lfo_2_waveshape);
+    {
+        char fix16buf[13];
+        fix16_to_str(inst->lfo_1_factor, fix16buf, 2);
+        STRUCTY_PRINTF("- lfo_1_factor: %s\n", fix16buf);
+    }
+    {
+        char fix16buf[13];
+        fix16_to_str(inst->lfo_2_factor, fix16buf, 2);
+        STRUCTY_PRINTF("- lfo_2_factor: %s\n", fix16buf);
     }
 }

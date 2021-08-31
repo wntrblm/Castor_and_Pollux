@@ -20,7 +20,7 @@ class GemSettings:
     chorus_max_intensity: fix16 = 0.05
 
     """The default LFO frequency in hertz."""
-    lfo_frequency: fix16 = 0.2
+    lfo_1_frequency: fix16 = 0.2
 
     """Error correction for the ADC readings for the CV input."""
     cv_offset_error: fix16 = 0.0
@@ -50,5 +50,24 @@ class GemSettings:
         make it harder to tune and aren't recommended."""
     pitch_knob_nonlinearity: fix16 = 0.6
 
+    # Added in V2
+
     """The base CV offset applied to the pitch inputs."""
     base_cv_offset: fix16 = 1.0
+
+    # Added in V3
+
+    """The ratio of the second LFO's frequency to the first."""
+    lfo_2_frequency_ratio: fix16 = 2
+
+    """LFO 1's waveshape."""
+    lfo_1_waveshape: uint8 = 0
+
+    """LFO 2's waveshape."""
+    lfo_2_waveshape: uint8 = 0
+
+    """LFO 1's factor."""
+    lfo_1_factor: fix16 = 1
+
+    """LFO 2's factor."""
+    lfo_2_factor: fix16 = 0

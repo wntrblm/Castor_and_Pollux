@@ -170,7 +170,7 @@ static void animation_step_tweak_(uint32_t delta) {
     }
 
     fix16_t lfoadj = fix16_div(fix16_add(gem_led_tweak_data.lfo_value, F16(1.0)), F16(2.0));
-    uint8_t lfo_value = fix16_to_int(fix16_mul(F16(255.0), lfoadj));
+    uint8_t lfo_value = fix16_to_int(fix16_mul(F16(255.0), lfoadj)) & 0xFF;
     gem_dotstar_set32(4, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
     gem_dotstar_set32(5, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
     gem_dotstar_set32(6, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
