@@ -34,7 +34,7 @@ const midi = new MIDI("Gemini");
 const gemini = new Gemini(midi);
 const settings = new GemSettings();
 /* The lowest compatible firmware version */
-const minimum_firmware_version = new Date(2021, 8, 31);
+const minimum_firmware_version = new Date(2021, 7, 31);
 let gemini_firmware_version = null;
 let gemini_serial_number = null;
 
@@ -86,6 +86,8 @@ function check_firmware_version() {
         .map((x) => parseInt(x, 10));
 
     let version_date = new Date(year, month - 1, day);
+
+    console.log(year, month, day, version_date, minimum_firmware_version);
 
     if (version_date < minimum_firmware_version) {
         ui.firmware_incompatible.classList.remove("hidden");
