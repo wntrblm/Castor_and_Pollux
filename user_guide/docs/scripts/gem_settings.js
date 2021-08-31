@@ -4,7 +4,7 @@
 import Struct from "./structy.js";
 
 class GemSettings extends Struct {
-  static _pack_string = "HhHiiiiiiiiiiH??ii";
+  static _pack_string = "HhHiiiiiiiiiiH??iiiBBii";
   static _fields = [
     { name: "adc_gain_corr", kind: "uint16", default: 2048 },
     { name: "adc_offset_corr", kind: "int16", default: 0 },
@@ -14,7 +14,7 @@ class GemSettings extends Struct {
     { name: "pollux_knob_min", kind: "fix16", default: -1.2 },
     { name: "pollux_knob_max", kind: "fix16", default: 1.2 },
     { name: "chorus_max_intensity", kind: "fix16", default: 0.05 },
-    { name: "lfo_frequency", kind: "fix16", default: 0.2 },
+    { name: "lfo_1_frequency", kind: "fix16", default: 0.2 },
     { name: "cv_offset_error", kind: "fix16", default: 0.0 },
     { name: "cv_gain_error", kind: "fix16", default: 1.0 },
     { name: "smooth_initial_gain", kind: "fix16", default: 0.1 },
@@ -24,9 +24,14 @@ class GemSettings extends Struct {
     { name: "pollux_lfo_pwm", kind: "bool", default: false },
     { name: "pitch_knob_nonlinearity", kind: "fix16", default: 0.6 },
     { name: "base_cv_offset", kind: "fix16", default: 1.0 },
+    { name: "lfo_2_frequency_ratio", kind: "fix16", default: 2 },
+    { name: "lfo_1_waveshape", kind: "uint8", default: 0 },
+    { name: "lfo_2_waveshape", kind: "uint8", default: 0 },
+    { name: "lfo_1_factor", kind: "fix16", default: 1 },
+    { name: "lfo_2_factor", kind: "fix16", default: 0 },
   ];
 
-  static packed_size = 58;
+  static packed_size = 72;
 
   constructor(values = {}) {
     super(values);

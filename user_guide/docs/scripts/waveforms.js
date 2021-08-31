@@ -103,7 +103,7 @@ const pulse_display = new WaveformDisplay($e("pulse"), (phase, offset) => {
     return pulse_waveform(phase, offset, pulse_config.width);
 });
 
-forms.bind($e("pulse-form"), pulse_config);
+new forms.Form($e("pulse-form"), pulse_config);
 $on($e("pulse-form"), "input", () => pulse_display.update());
 
 /* Sub waveform */
@@ -147,7 +147,7 @@ const mix_display = new WaveformDisplay($e("mix"), (phase, offset) => {
     );
 });
 
-forms.bind($e("mix-form"), mix_config);
+new forms.Form($e("mix-form"), mix_config);
 $on($e("mix-form"), "input", () => mix_display.update());
 
 /* Stacked oscillators. */
@@ -172,7 +172,7 @@ const stacked_display = new WaveformDisplay($e("stacked"), (phase, offset) => {
     );
 });
 
-forms.bind($e("stacked-form"), stacked_config);
+new forms.Form($e("stacked-form"), stacked_config);
 $on($e("stacked-form"), "input", () => stacked_display.update());
 
 /* Chorusing */
@@ -199,7 +199,7 @@ const chorusing_display = new WaveformDisplay(
     }
 );
 
-forms.bind($e("chorusing-form"), chorusing_config);
+new forms.Form($e("chorusing-form"), chorusing_config);
 $on($e("chorusing-form"), "input", () => chorusing_display.update());
 
 /* Non-linear tune */

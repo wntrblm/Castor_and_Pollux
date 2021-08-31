@@ -12,7 +12,7 @@ import Gemini from "./gemini.js";
 import GitHub from "./github.js";
 
 const ui = {
-    settings_form: $e("settings_editor"),
+    settings_form_elem: $e("settings_editor"),
     info_section: $e("info_section"),
     settings_section: $e("settings_section"),
     save_btn: $e("save_button"),
@@ -27,13 +27,14 @@ const ui = {
     firmware_incompatible: $e("firmware_incompatible"),
     serial_number: $e("serial_number"),
     restore_adc_calibration_btn: $e("restore_adc_calibration"),
+    lfo_waveform_canvas: $e("lfo-waveform-canvas"),
 };
 
 const midi = new MIDI("Gemini");
 const gemini = new Gemini(midi);
 const settings = new GemSettings();
-/* The lowest compatible firmware version is from June, 2021 */
-const minimum_firmware_version = new Date(2021, 5, 1);
+/* The lowest compatible firmware version */
+const minimum_firmware_version = new Date(2021, 8, 31);
 let gemini_firmware_version = null;
 let gemini_serial_number = null;
 
@@ -75,7 +76,7 @@ async function restore_adc_calibration() {
     settings.cv_gain_error = afe_calibration.gain_error;
     settings.cv_offset_error = afe_calibration.offset_error;
 
-    forms.update_values(ui.settings_form);
+    ui.settings_form.update();
 }
 
 function check_firmware_version() {
@@ -166,7 +167,7 @@ $on(ui.connect_btn, "click", async function () {
         return;
     }
 
-    forms.update_values(ui.settings_form);
+    ui.settings_form.update();
 
     ui.connect_btn.classList.remove("is-primary");
     ui.connect_btn.classList.add("is-success");
@@ -217,11 +218,81 @@ $on(ui.allow_danger, "change", function () {
 /*
   Form data binding and display logic
 */
-forms.bind(ui.settings_form, settings);
-forms.bind_value_displays(ui.settings_form);
+ui.settings_form = new forms.Form(ui.settings_form_elem, settings);
+forms.bind_value_displays(ui.settings_form.elem);
 
 new forms.ValueDisplay(
-    ui.settings_form["pollux_follower_threshold"],
+    ui.settings_form.elem["pollux_follower_threshold"],
     (input) => ((input.valueAsNumber / 4096) * 6.0).toFixed(2),
     "pollux_follower_threshold_value_display_volts"
 );
+
+/*
+    Helper to draw the LFO waveform.
+*/
+function draw_lfo_waveform() {
+    const get_waveform = (selection) => {
+        selection = parseInt(selection);
+        switch (selection) {
+            // Triangle
+            case 0:
+                return (phase, frequency) =>
+                    -1.0 + Math.abs(-2.0 + ((phase * frequency) % 1.0) * 4);
+            // Sine
+            case 1:
+                return (phase, frequency) =>
+                    Math.sin(2 * Math.PI * phase * frequency);
+            // Sawtooth
+            case 2:
+                return (phase, frequency) =>
+                    -1.0 + ((phase * frequency) % 1.0) * 2;
+            // Square
+            case 3:
+                return (phase, frequency) =>
+                    (phase * frequency) % 1.0 < 0.5 ? -1 : 1;
+        }
+    };
+
+    const freq = 3;
+    const lfo_1_f = get_waveform(settings.lfo_1_waveshape);
+    const lfo_1_a = settings.lfo_1_factor;
+    const lfo_2_f = get_waveform(settings.lfo_2_waveshape);
+    const lfo_2_a = settings.lfo_2_factor;
+    const lfo_2_r = settings.lfo_2_frequency_ratio;
+
+    const lfo_func = (phase) => {
+        return (
+            lfo_1_f(phase, freq) * lfo_1_a +
+            lfo_2_f(phase, freq * lfo_2_r) * lfo_2_a
+        );
+    };
+
+    const canvas = ui.lfo_waveform_canvas;
+    const ctx = canvas.getContext("2d");
+    const padding = canvas.height * 0.2;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.strokeStyle = "rgb(94, 64, 158)";
+    ctx.lineWidth = 10;
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
+
+    ctx.beginPath();
+    for (let i = 0; i < 1.1; i += 1 / canvas.width) {
+        let val = lfo_func(0.25 + i);
+        val = (val + 1) / 2;
+        ctx.lineTo(
+            i * canvas.width,
+            padding + val * (canvas.height - padding * 2)
+        );
+    }
+    ctx.stroke();
+}
+
+draw_lfo_waveform();
+for (let input of ui.settings_form.elem.querySelectorAll("[name*=lfo]")) {
+    input.addEventListener("input", () => {
+        window.requestAnimationFrame(draw_lfo_waveform);
+    });
+}

@@ -357,9 +357,9 @@ To configure the internal LFO, **hold** down the hard sync button. The module's 
 ![LFO configuration knobs highlighted](images/tweak.png)
 
 1. Moving the **chorus knob** (φ) will change the frequency of the LFO. The LEDs at the bottom of the module will pulse to show the LFO's frequency.
-2. Moving the **pulse width** knob of each of the oscillators will enable or disable LFO routing to the oscillator's pulse width. Turning the knob counter-clockwise will disable the LFO, turning it clockwise will enable it. The LEDs near the oscillator will illuminate if the LFO is enabled. When the LFO is enabled, the pulse width knob will control the *intensity* of the pulse width modulation instead of directly setting the pulse width.
+2. Moving the **pulse width** knob of each of the oscillators will enable or disable LFO routing to the oscillator's pulse width. When the LFO is routed to an oscillator, its pulse width knob will control the *intensity* of the pulse width modulation instead of directly setting the pulse width. Turning the knob counter-clockwise will disable the LFO routing, turning it clockwise will enable it. The LEDs near the oscillator will illuminate if the LFO routing is enabled.
 
-You can also configure the values for these settings at boot-up using the [settings editor](#editing-module-settings).
+By default, the internal LFO is a straightforward triangle wave. However, the [settings editor](#editing-module-settings) allows you to change the LFO's waveshape between triangle, sine, sawtooth, and square, as well as combine a *second* waveshape with the first to create interesting LFO effects.
 
 
 ## Editing module settings
