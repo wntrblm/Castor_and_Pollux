@@ -79,9 +79,9 @@ class DirectADCStrategy:
 
     def setup(self, gem):
         gem.disable_adc_error_correction()
-        # input(
-        #     f"Connect Sol channel {tui.bold}A{tui.reset} to the LFO knob channel and press enter."
-        # )
+        log.info(
+            f"Measuring ADC channel {self.channel} via Sol output {self.sol_channel}"
+        )
 
     def save(self, gem, gain_error, offset_error):
         gem.set_adc_gain_error(gain_error)
@@ -109,9 +109,6 @@ class ThroughAFEStrategy:
         self._offset_error = None
 
     def setup(self, gem):
-        # input(
-        #     f"Connect Sol channel {tui.bold}B{tui.reset} to CV A input and press enter."
-        # )
         gem.enable_adc_error_correction()
 
     def save(self, gem, gain_error, offset_error):
@@ -172,13 +169,15 @@ def run(
 
     strategy.setup(gem)
 
-    measured = _measure_range(gem, sol_, strategy, sample_count, calibration_points)
+    pre_calibration_measurements = _measure_range(
+        gem, sol_, strategy, sample_count, calibration_points
+    )
 
     gain_error = adc_errors.calculate_avg_gain_error(
-        expected_codes, list(measured.values())
+        expected_codes, list(pre_calibration_measurements.values())
     )
     offset_error = adc_errors.calculate_avg_offset_error(
-        expected_codes, list(measured.values()), gain_error
+        expected_codes, list(pre_calibration_measurements.values()), gain_error
     )
 
     log.success(f"Measured gain={gain_error:.3f}, offset={offset_error:.1f}")
@@ -206,17 +205,38 @@ def run(
 
     gem.enable_adc_error_correction()
 
-    measured = _measure_range(gem, sol_, strategy, sample_count, calibration_points)
+    post_calibration_measurements = _measure_range(
+        gem, sol_, strategy, sample_count, calibration_points
+    )
 
     gain_error = adc_errors.calculate_avg_gain_error(
-        expected_codes, list(measured.values())
+        expected_codes, list(post_calibration_measurements.values())
     )
     offset_error = adc_errors.calculate_avg_offset_error(
-        expected_codes, list(measured.values()), gain_error
+        expected_codes, list(post_calibration_measurements.values()), gain_error
     )
     log.info(f"Remeasured gain={gain_error:.3f}, offset={offset_error:.1f}")
 
     sol_.set_voltage(strategy.sol_channel, 0)
+
+    # Save readings for further analysis if needed.
+    measurement_file = (
+        pathlib.Path("calibrations") / "measurements" / strategy.file_name(gem)
+    )
+    measurement_file.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(measurement_file, "w") as fh:
+        json.dump(
+            {
+                "points": calibration_points,
+                "pre": pre_calibration_measurements,
+                "post": post_calibration_measurements,
+            },
+            fh,
+            indent=2,
+        )
+        log.info(f"Saved measurement data to {measurement_file}")
+
     log.success("Done")
     gem.close()
 
