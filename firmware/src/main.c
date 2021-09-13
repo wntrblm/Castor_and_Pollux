@@ -92,6 +92,7 @@ static void init_() {
 
     /* Gemini uses i2c to communicate with the external DAC. */
     gem_i2c_init();
+    gem_mcp_4728_init();
 
     /* Gemini uses SPI to communicate with the Dotstar LEDs. */
     gem_spi_init();

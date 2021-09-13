@@ -6,10 +6,36 @@
 
 #include "gem_mcp4728.h"
 #include "gem_i2c.h"
+#include "printf.h"
 
-#define I2C_ADDRESS 0x60
 #define SINGLE_WRITE_CMD 0b01011000
 #define SEQUENTIAL_WRITE_CMD 0b01010000
+
+static const uint8_t i2c_addresses_[] = {
+    // MCP4728A0 used for rounds 1 & 2.
+    0x60,
+    // MCP4628A4 used for round 3.
+    0x64,
+};
+
+static uint8_t address_ = 0;
+
+void gem_mcp_4728_init() {
+    for (size_t i = 0; i < sizeof(i2c_addresses_) / sizeof(i2c_addresses_[0]); i++) {
+        address_ = i2c_addresses_[i];
+        enum GemI2CResult result = gem_mcp_4728_write_channel(
+            0,
+            (struct GemMCP4278Channel){
+                .value = 0,
+            });
+
+        if (result == GEM_I2C_RESULT_SUCCESS) {
+            printf("MCP4728 found at 0x%02x.\n", address_);
+            return;
+        }
+    }
+    printf("Could not find MCP4728!\n");
+}
 
 enum GemI2CResult gem_mcp_4728_write_channel(uint8_t channel_no, struct GemMCP4278Channel settings) {
     uint8_t data[3] = {
@@ -18,7 +44,7 @@ enum GemI2CResult gem_mcp_4728_write_channel(uint8_t channel_no, struct GemMCP42
         (settings.value & 0xFF),
     };
 
-    return gem_i2c_write(I2C_ADDRESS, data, 3);
+    return gem_i2c_write(address_, data, 3);
 }
 
 enum GemI2CResult gem_mcp_4728_write_channels(
@@ -42,5 +68,5 @@ enum GemI2CResult gem_mcp_4728_write_channels(
         (ch_d_settings.value & 0xFF),
     };
 
-    return gem_i2c_write(I2C_ADDRESS, data, 9);
+    return gem_i2c_write(address_, data, 9);
 }
