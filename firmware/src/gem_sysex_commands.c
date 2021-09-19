@@ -28,6 +28,12 @@
 
 /* Macros & defs */
 
+#ifdef DEBUG
+#define debug_printf(...) printf(__VA_ARGS__)
+#else
+#define debug_printf(...)
+#endif
+
 #define SETTINGS_ENCODED_LEN TEETH_ENCODED_LENGTH(GEMSETTINGS_PACKED_SIZE)
 #define ARRAY_LEN(array) (sizeof(array) / sizeof(array[0]))
 
@@ -144,6 +150,8 @@ static void cmd_0x01_hello_(const uint8_t* data, size_t len) {
     }
     memccpy(response, build_info, 0, build_info_len);
     SEND_RESPONSE_LEN(build_info_len);
+
+    debug_printf("SysEx 0x01: Hello! Build info length: %u\n", build_info_len);
 }
 
 static void cmd_0x02_write_adc_gain_(const uint8_t* data, size_t len) {
@@ -156,6 +164,8 @@ static void cmd_0x02_write_adc_gain_(const uint8_t* data, size_t len) {
     settings.adc_gain_corr = WNTR_UNPACK_16(request, 0);
 
     GemSettings_save(&settings);
+
+    debug_printf("SysEx 0x02: Set ADC gain to %u\n", settings.adc_gain_corr);
 }
 
 static void cmd_0x03_write_adc_offset_(const uint8_t* data, size_t len) {
@@ -168,6 +178,8 @@ static void cmd_0x03_write_adc_offset_(const uint8_t* data, size_t len) {
     settings.adc_offset_corr = WNTR_UNPACK_16(request, 0);
 
     GemSettings_save(&settings);
+
+    debug_printf("SysEx 0x03: Set ADC offset to %u\n", settings.adc_offset_corr);
 }
 
 static void cmd_0x04_read_adc_(const uint8_t* data, size_t len) {
@@ -175,7 +187,8 @@ static void cmd_0x04_read_adc_(const uint8_t* data, size_t len) {
     /* Response (teeth): VALUE(2) */
     (void)(len);
 
-    uint16_t result = gem_adc_read_sync(&gem_adc_inputs[data[0]]);
+    uint8_t channel = data[0];
+    uint16_t result = gem_adc_read_sync(&gem_adc_inputs[channel]);
 
     PREPARE_RESPONSE(0x04, TEETH_ENCODED_LENGTH(2));
 
@@ -184,6 +197,8 @@ static void cmd_0x04_read_adc_(const uint8_t* data, size_t len) {
     teeth_encode(unencoded_response, 2, response);
 
     SEND_RESPONSE();
+
+    debug_printf("SysEx 0x04: Read ADC channel %u, value %u\n", channel, result);
 }
 
 static void cmd_0x05_set_dac_(const uint8_t* data, size_t len) {
@@ -209,7 +224,7 @@ static void cmd_0x05_set_dac_(const uint8_t* data, size_t len) {
             .value = d,
         });
 
-    printf("Set DACs to %u, %u, %u, %u. Result: %u\n", a, b, c, d, res);
+    debug_printf("SysEx 0x04: Set DACs to %u, %u, %u, %u. Result: %u\n", a, b, c, d, res);
 }
 
 static void cmd_0x06_set_period_(const uint8_t* data, size_t len) {
@@ -217,7 +232,12 @@ static void cmd_0x06_set_period_(const uint8_t* data, size_t len) {
     (void)(len);
     DECODE_TEETH_REQUEST(5);
 
-    gem_pulseout_set_period(request[0], WNTR_UNPACK_32(request, 1));
+    uint8_t channel = request[0];
+    uint32_t period = WNTR_UNPACK_32(request, 1);
+
+    gem_pulseout_set_period(channel, period);
+
+    debug_printf("SysEx 0x06: Set period for osc %u to %u\n", channel, period);
 }
 
 static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len) {
@@ -225,6 +245,8 @@ static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len) {
     (void)(len);
 
     GemSettings_erase();
+
+    debug_printf("SysEx 0x07: Erased settings\n");
 }
 
 static void cmd_0x18_read_settings_(const uint8_t* data, size_t len) {
@@ -240,6 +262,8 @@ static void cmd_0x18_read_settings_(const uint8_t* data, size_t len) {
     PREPARE_RESPONSE(0x18, TEETH_ENCODED_LENGTH(GEMSETTINGS_PACKED_SIZE));
     teeth_encode(settings_buf, GEMSETTINGS_PACKED_SIZE, response);
     SEND_RESPONSE();
+
+    debug_printf("SysEx 0x18: Read settings\n");
 }
 
 static void cmd_0x19_write_settings_(const uint8_t* data, size_t len) {
@@ -251,11 +275,13 @@ static void cmd_0x19_write_settings_(const uint8_t* data, size_t len) {
     if (GemSettings_unpack(&settings, request).status == STRUCTY_RESULT_OKAY) {
         GemSettings_save(&settings);
     } else {
-        printf("Failed to save settings, unable to deserialize.\n");
+        debug_printf("Failed to save settings, unable to deserialize.\n");
     }
 
     /* Ack the data. */
     RESPONSE_0(0x19);
+
+    debug_printf("SysEx 0x19: Wrote settings\n");
 }
 
 static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
@@ -271,19 +297,19 @@ static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
         return;
     }
 
-    printf(
-        "Set LUT entry %u to period=%u, castor_ramp_cv=%u, pollux_ramp_cv=%u\r\n",
-        entry,
-        period,
-        castor_code,
-        pollux_code);
-
     gem_ramp_table[entry].period = period;
     gem_ramp_table[entry].castor_ramp_cv = castor_code;
     gem_ramp_table[entry].pollux_ramp_cv = pollux_code;
 
     /* Acknowledge the message. */
     RESPONSE_0(0x0A);
+
+    debug_printf(
+        "SysEXx 0x0A: Set LUT entry %u to period=%u, castor_ramp_cv=%u, pollux_ramp_cv=%u\n",
+        entry,
+        period,
+        castor_code,
+        pollux_code);
 }
 
 static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len) {
@@ -291,6 +317,8 @@ static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len) {
     (void)(len);
 
     gem_save_ramp_table();
+
+    debug_printf("SysEx 0x0B: Saved LUT table to NVRAM\n");
 }
 
 static void cmd_0x0C_erase_lut_(const uint8_t* data, size_t len) {
@@ -298,6 +326,8 @@ static void cmd_0x0C_erase_lut_(const uint8_t* data, size_t len) {
     (void)(len);
 
     gem_erase_ramp_table();
+
+    debug_printf("SysEx 0x0B: Erased LUT table from NVRAM\n");
 }
 
 static void cmd_0x0D_disable_adc_corr_(const uint8_t* data, size_t len) {
@@ -305,6 +335,8 @@ static void cmd_0x0D_disable_adc_corr_(const uint8_t* data, size_t len) {
     (void)(len);
 
     gem_adc_set_error_correction(2048, 0);
+
+    debug_printf("SysEx 0x0D: ADC hardware error correction disabled.\n");
 }
 
 static void cmd_0x0E_enable_adc_corr_(const uint8_t* data, size_t len) {
@@ -314,6 +346,8 @@ static void cmd_0x0E_enable_adc_corr_(const uint8_t* data, size_t len) {
     struct GemSettings settings;
     GemSettings_load(&settings);
     gem_adc_set_error_correction(settings.adc_gain_corr, settings.adc_offset_corr);
+
+    debug_printf("SysEx 0x0e: ADC hardware error correction enabled.\n");
 }
 
 static void cmd_0x0F_get_serial_no_(const uint8_t* data, size_t len) {
@@ -329,6 +363,8 @@ static void cmd_0x0F_get_serial_no_(const uint8_t* data, size_t len) {
     teeth_encode(serial_no, WNTR_SERIAL_NUMBER_LEN, response);
 
     SEND_RESPONSE();
+
+    debug_printf("SysEx 0x0F: Get serial number.\n");
 }
 
 static void cmd_0x10_monitor_(const uint8_t* data, size_t len) {
@@ -341,11 +377,15 @@ static void cmd_0x10_monitor_(const uint8_t* data, size_t len) {
     } else {
         monitor_enabled_ = false;
     }
+
+    debug_printf("SysEx 0x10: Enter monitor mode.\n");
 }
 
 static void cmd_0x11_soft_reset_(const uint8_t* data, size_t len) {
     (void)data;
     (void)len;
+
+    debug_printf("SysEx 0x11: Soft reset.\n");
 
     NVIC_SystemReset();
 }
@@ -356,11 +396,15 @@ static void cmd_0x12_enter_calibration_mode_(const uint8_t* data, size_t len) {
 
     gem_adc_stop_scanning();
     gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
+
+    debug_printf("SysEx 0x12: Enter calibration mode.\n");
 }
 
 static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len) {
     (void)data;
     (void)len;
+
+    debug_printf("SysEx 0x13: Reset into bootloader.\n");
 
     wntr_reset_into_bootloader();
 }
