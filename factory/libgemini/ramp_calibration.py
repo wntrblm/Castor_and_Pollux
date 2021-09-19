@@ -6,7 +6,6 @@ import argparse
 import json
 import os.path
 import pathlib
-import statistics
 import time
 
 import pyvisa as visa
@@ -19,25 +18,15 @@ period_to_dac_code = reference_calibration.castor.copy()
 start_color = (1.0, 1.0, 0.0)
 end_color = (0.5, 0.6, 1.0)
 
-AVERAGE_COUNT = 2
 
-
-# Use max because PK-PK has poor resolution and also includes negative transients.
-def _measure_max(scope, scope_channel):
-    return statistics.mean(
-        scope.get_max(scope_channel) for _ in range(0, AVERAGE_COUNT)
-    )
-
-
-def _manual_seek(gem, dac_channel, charge_code):
-    gem.set_dac(dac_channel, charge_code, 0)
+def _manual_seek(gem, charge_code):
     adjuster = interactive.adjust_value(charge_code, min=0, max=4095)
     output = tui.Updateable()
 
     with output:
         for value in adjuster:
             charge_code = value
-            gem.set_dac(dac_channel, charge_code, 0)
+            gem.set_dac(charge_code, 2048, charge_code, 2048)
             print(
                 f"code: {charge_code}, voltage: {oscillators.charge_code_to_volts(charge_code):03f}"
             )
@@ -68,12 +57,10 @@ def _calibrate_oscillator(gem, scope, oscillator):
         scope_channel = "c1"
         scope.enable_channel("c1")
         scope.disable_channel("c2")
-        dac_channel = 0
     else:
         scope_channel = "c2"
         scope.enable_channel("c2")
         scope.disable_channel("c1")
-        dac_channel = 2
 
     scope.set_trigger_level(scope_channel, "1.65V")
     scope.set_cursor_type("Y")
@@ -121,14 +108,12 @@ def _calibrate_oscillator(gem, scope, oscillator):
 
         gem.set_period(oscillator, period)
 
-        calibrated_code = _manual_seek(gem, dac_channel, dac_code)
+        calibrated_code = _manual_seek(gem, dac_code)
 
         period_to_dac_code[period] = calibrated_code
 
-        magnitude = _measure_max(scope, scope_channel)
-
         log.success(
-            f"Calibrated to {calibrated_code} ({oscillators.charge_code_to_volts(calibrated_code):.03f} volts), magnitude: {magnitude:.2f} volts"
+            f"Calibrated to {calibrated_code} ({oscillators.charge_code_to_volts(calibrated_code):.03f} volts)"
         )
 
         last_dac_code = calibrated_code
@@ -141,14 +126,12 @@ def run(save):
     log.info("Connecting to Gemini...")
     gem = gemini.Gemini()
     gem.enter_calibration_mode()
+    time.sleep(0.1)
 
     initial_period, initial_dac_code = next(iter(period_to_dac_code.items()))
-    time.sleep(0.1)
     gem.set_period(0, initial_period)
-    gem.set_dac(0, initial_dac_code, 0)
-    time.sleep(0.1)
     gem.set_period(1, initial_period)
-    gem.set_dac(2, initial_dac_code, 0)
+    gem.set_dac(initial_dac_code, 2048, initial_dac_code, 2048)
 
     # Oscilloscope setup.
     log.info("Configuring oscilloscope...")
@@ -245,9 +228,8 @@ def run(save):
     else:
         log.warning("Dry run enabled, calibration table not saved to device.")
 
-    gem.close()
+    gem.soft_reset()
 
-    print("")
     log.success("Done!")
 
 

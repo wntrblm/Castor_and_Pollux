@@ -6,7 +6,6 @@
 
 import enum
 import struct
-import time
 
 from wintertools import log, midi, teeth
 
@@ -74,8 +73,8 @@ class Gemini(midi.MIDIDevice):
         (val,) = struct.unpack(">H", resp)
         return val
 
-    def set_dac(self, ch, val, vref):
-        data = struct.pack(">BHB", ch, val, vref)
+    def set_dac(self, a, b, c, d):
+        data = struct.pack(">HHHH", a, b, c, d)
         self.sysex(SysExCommands.SET_DAC, data=data, encode=True)
 
     def set_period(self, ch, val):

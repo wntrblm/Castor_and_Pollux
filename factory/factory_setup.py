@@ -24,7 +24,6 @@ def erase_nvm():
     log.success("Erased ramp look-up-table.")
     gem.reset_settings()
     log.success("Erased user settings.")
-    gem.close()
 
 
 def run_ramp_calibration():

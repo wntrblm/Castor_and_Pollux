@@ -26,18 +26,12 @@ def set_oscillators_to_note(note, calibration=reference_calibration):
         f"Note: {note}, Freq: {freq}, Charge codes: {charge_code_castor}, {charge_code_pollux}"
     )
 
+    gem.set_dac(charge_code_castor, 2048, charge_code_pollux, 2048)
     gem.set_period(0, period)
-    gem.set_dac(0, charge_code_castor, 0)
-    time.sleep(0.1)  # Needed so the DAC has time to update EEPROM
     gem.set_period(1, period)
-    gem.set_dac(2, charge_code_pollux, 0)
 
 
 def sweep_notes(calibration=reference_calibration):
-    # Set the PWM DACs to 50%
-    gem.set_dac(1, 2048, 0)
-    gem.set_dac(3, 2048, 0)
-
     for n in range(12, 94):
         set_oscillators_to_note(n, calibration=reference_calibration)
         time.sleep(0.5)
