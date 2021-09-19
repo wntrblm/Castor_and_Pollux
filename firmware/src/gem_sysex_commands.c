@@ -187,13 +187,29 @@ static void cmd_0x04_read_adc_(const uint8_t* data, size_t len) {
 }
 
 static void cmd_0x05_set_dac_(const uint8_t* data, size_t len) {
-    /* Request: CHANNEL(1) VALUE(2) VREF(1)*/
-    DECODE_TEETH_REQUEST(4);
+    /* Request: VALUE_A(2) VALUE_B(2) VALUE_C(2) VALUE_D(2) */
+    DECODE_TEETH_REQUEST(8);
 
-    struct GemMCP4278Channel dac_settings = {};
-    dac_settings.vref = request[3];
-    dac_settings.value = WNTR_UNPACK_16(request, 1);
-    gem_mcp_4728_write_channel(request[0], dac_settings);
+    uint16_t a = WNTR_UNPACK_16(request, 0);
+    uint16_t b = WNTR_UNPACK_16(request, 2);
+    uint16_t c = WNTR_UNPACK_16(request, 4);
+    uint16_t d = WNTR_UNPACK_16(request, 6);
+
+    enum GemI2CResult res = gem_mcp_4728_write_channels(
+        (struct GemMCP4278Channel){
+            .value = a,
+        },
+        (struct GemMCP4278Channel){
+            .value = b,
+        },
+        (struct GemMCP4278Channel){
+            .value = c,
+        },
+        (struct GemMCP4278Channel){
+            .value = d,
+        });
+
+    printf("Set DACs to %u, %u, %u, %u. Result: %u\n", a, b, c, d, res);
 }
 
 static void cmd_0x06_set_period_(const uint8_t* data, size_t len) {
