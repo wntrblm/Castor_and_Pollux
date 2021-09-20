@@ -238,7 +238,6 @@ def run(
         log.info(f"Saved measurement data to {measurement_file}")
 
     log.success("Done")
-    gem.close()
 
 
 if __name__ == "__main__":

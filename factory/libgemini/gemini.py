@@ -61,10 +61,11 @@ class Gemini(midi.MIDIDevice):
         return self.serial_number
 
     def enter_calibration_mode(self):
-        self.get_firmware_version()
-        log.info(f"Gemini version: {self.version}")
-        self.get_serial_number()
-        log.info(f"Serial number: {self.serial_number}")
+        if self.version is None:
+            self.get_firmware_version()
+            log.info(f"Gemini version: {self.version}")
+            self.get_serial_number()
+            log.info(f"Serial number: {self.serial_number}")
 
         self.sysex(SysExCommands.ENTER_CALIBRATION)
 
