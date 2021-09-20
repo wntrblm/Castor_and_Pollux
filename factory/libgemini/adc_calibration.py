@@ -159,8 +159,8 @@ def run(
 
     calibration_points = dict(zip(voltages, expected_codes))
 
-    gem = gemini.Gemini()
-    sol_ = sol.Sol()
+    gem = gemini.Gemini.get()
+    sol_ = sol.Sol.get()
 
     sol_.setup()
     sol_.set_voltage(0, channel=strategy.sol_channel)

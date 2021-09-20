@@ -19,11 +19,13 @@ def program_firmware():
 
 def erase_nvm():
     log.section("Erasing NVM")
-    gem = gemini.Gemini()
+    gem = gemini.Gemini.get()
     gem.erase_lut()
     log.success("Erased ramp look-up-table.")
     gem.reset_settings()
     log.success("Erased user settings.")
+    gem.soft_reset()
+    log.success("Soft reset.")
 
 
 def run_ramp_calibration():
@@ -83,7 +85,7 @@ def main():
         run_afe_calibration()
 
     log.section("Soft-resetting")
-    gem = gemini.Gemini()
+    gem = gemini.Gemini.get()
     gem.soft_reset()
     noisy_bell.bell()
     log.success("Finished")

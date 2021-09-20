@@ -124,7 +124,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
 def run(save):
     # Gemini setup
     log.info("Connecting to Gemini...")
-    gem = gemini.Gemini()
+    gem = gemini.Gemini.get()
     gem.enter_calibration_mode()
     time.sleep(0.1)
 

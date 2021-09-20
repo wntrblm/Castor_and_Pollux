@@ -8,7 +8,7 @@ import wintertools.oscilloscope
 from libgemini import fallback_calibration, gemini, oscillators, reference_calibration
 
 _visa_resources_mgr = pyvisa.ResourceManager("@ivi")
-gem = gemini.Gemini()
+gem = gemini.Gemini.get()
 
 
 def set_oscillators_to_note(note, calibration=reference_calibration):

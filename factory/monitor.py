@@ -208,9 +208,7 @@ def _check_firmware_version(gem):
 
 
 def _update_firmware(gem):
-    log.warning(
-        "Firmware is out of date, updating it.."
-    )
+    log.warning("Firmware is out of date, updating it..")
 
     gem.reset_into_bootloader()
 
@@ -228,7 +226,7 @@ def _update_firmware(gem):
 
 
 def main(stats=False):
-    gem = gemini.Gemini()
+    gem = gemini.Gemini.get()
 
     if "--force-update" in sys.argv or not _check_firmware_version(gem):
         _update_firmware(gem)
