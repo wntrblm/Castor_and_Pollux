@@ -210,7 +210,7 @@ static void cmd_0x05_set_dac_(const uint8_t* data, size_t len) {
     uint16_t c = WNTR_UNPACK_16(request, 4);
     uint16_t d = WNTR_UNPACK_16(request, 6);
 
-    enum GemI2CResult res = gem_mcp_4728_write_channels(
+    __attribute__((unused)) enum GemI2CResult res = gem_mcp_4728_write_channels(
         (struct GemMCP4278Channel){
             .value = a,
         },
