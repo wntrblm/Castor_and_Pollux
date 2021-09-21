@@ -1,0 +1,20 @@
+.label-nested {
+    display: block;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #a28ad6;
+    margin-top: -1em;
+    margin-bottom: 1em;
+}
+
+.select.is-full-width {
+    display: block;
+}
+
+.select.is-full-width select {
+    width: 100%;
+}
+
+#lfo-waveform-canvas {
+    max-width: 100%;
+}

@@ -1,0 +1,37 @@
+/* Be consistent with the golden rule:
+    JS should never cause elements on the page to move,
+    so style the element that'll be replaced by a more
+    fancy widget to take up exactly the same amount
+    of space as the fancy widget.
+*/
+
+.winter-oscilloscope {
+    margin: 2em auto;
+    max-width: 300px;
+    background-color: #408D94;
+    padding: calc(50px + 1em) 0 calc(1.75em + 1rem) 0;
+    color: white;
+}
+
+.winter-oscilloscope.js {
+    padding: 1em 0 0.25em 0;
+}
+
+.winter-oscilloscope audio {
+    display: block;
+    width: 90%;
+    margin: 1em auto;
+}
+
+.winter-oscilloscope p {
+    font-size: 90%;
+    text-align: center;
+    font-style: italic;
+    margin-top: 0.5em;
+}
+
+.winter-oscilloscope canvas {
+    display: block;
+    background-color: none;
+    width: 100%;
+}
