@@ -121,7 +121,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
     return period_to_dac_code.copy()
 
 
-def run(save):
+def run(save, reset=True):
     # Gemini setup
     log.info("Connecting to Gemini...")
     gem = gemini.Gemini.get()
@@ -228,7 +228,8 @@ def run(save):
     else:
         log.warning("Dry run enabled, calibration table not saved to device.")
 
-    gem.soft_reset()
+    if reset:
+        gem.soft_reset()
 
     log.success("Done!")
 

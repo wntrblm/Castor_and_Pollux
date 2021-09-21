@@ -180,7 +180,7 @@ def run(
         expected_codes, list(pre_calibration_measurements.values()), gain_error
     )
 
-    log.success(f"Measured gain={gain_error:.3f}, offset={offset_error:.1f}")
+    log.info(f"Measured gain={gain_error:.3f}, offset={offset_error:.1f}")
 
     strategy.finish(gem)
 
@@ -215,7 +215,7 @@ def run(
     offset_error = adc_errors.calculate_avg_offset_error(
         expected_codes, list(post_calibration_measurements.values()), gain_error
     )
-    log.info(f"Remeasured gain={gain_error:.3f}, offset={offset_error:.1f}")
+    log.success(f"Remeasured gain={gain_error:.3f}, offset={offset_error:.1f}")
 
     sol_.set_voltage(strategy.sol_channel, 0)
 

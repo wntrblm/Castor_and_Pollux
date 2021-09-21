@@ -30,7 +30,7 @@ def erase_nvm():
 
 def run_ramp_calibration():
     log.section("Calibrating ramps")
-    ramp_calibration.run(save=True)
+    ramp_calibration.run(save=True, reset=False)
 
 
 def run_adc_calibration():
