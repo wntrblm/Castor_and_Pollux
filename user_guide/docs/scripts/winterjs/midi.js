@@ -14,14 +14,14 @@ export default class MIDI {
 
         for (const port of access.inputs.values()) {
             if (
-                port.name.toLowerCase().contains(this.port_name.toLowerCase())
+                port.name.toLowerCase().includes(this.port_name.toLowerCase())
             ) {
                 this.input = port;
             }
         }
         for (const port of access.outputs.values()) {
             if (
-                port.name.toLowerCase().contains(this.port_name.toLowerCase())
+                port.name.toLowerCase().includes(this.port_name.toLowerCase())
             ) {
                 this.output = port;
             }
