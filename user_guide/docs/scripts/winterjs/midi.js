@@ -13,12 +13,16 @@ export default class MIDI {
         let access = await navigator.requestMIDIAccess({ sysex: true });
 
         for (const port of access.inputs.values()) {
-            if (port.name === this.port_name) {
+            if (
+                port.name.toLowerCase().contains(this.port_name.toLowerCase())
+            ) {
                 this.input = port;
             }
         }
         for (const port of access.outputs.values()) {
-            if (port.name === this.port_name) {
+            if (
+                port.name.toLowerCase().contains(this.port_name.toLowerCase())
+            ) {
                 this.output = port;
             }
         }
