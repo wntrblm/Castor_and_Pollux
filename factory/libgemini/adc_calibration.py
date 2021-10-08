@@ -37,7 +37,7 @@ def _measure_range(gem, sol_, strategy, sample_count, calibration_points):
             log.info(f"{tui.reset}expecting:  {expected_code}")
 
             sol_.set_voltage(voltage, channel=strategy.sol_channel)
-            time.sleep(0.2)
+            # time.sleep(0.02)
 
             samples = []
             for s in range(sample_count):
@@ -173,11 +173,13 @@ def run(
         gem, sol_, strategy, sample_count, calibration_points
     )
 
+    # Exclude the last measurement, since it's *definitely* out of the range
+    # and therefore intentionally an outlier
     gain_error = adc_errors.calculate_avg_gain_error(
-        expected_codes, list(pre_calibration_measurements.values())
+        expected_codes, list(pre_calibration_measurements.values())[:-1]
     )
     offset_error = adc_errors.calculate_avg_offset_error(
-        expected_codes, list(pre_calibration_measurements.values()), gain_error
+        expected_codes, list(pre_calibration_measurements.values())[:-1], gain_error
     )
 
     log.info(f"Measured gain={gain_error:.3f}, offset={offset_error:.1f}")

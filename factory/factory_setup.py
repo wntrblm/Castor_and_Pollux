@@ -38,7 +38,7 @@ def run_adc_calibration():
 
     adc_calibration.run(
         num_calibration_points=20,
-        sample_count=128,
+        sample_count=64,
         strategy="adc",
         save=True,
     )
@@ -49,7 +49,7 @@ def run_afe_calibration():
 
     adc_calibration.run(
         num_calibration_points=50,
-        sample_count=128,
+        sample_count=64,
         strategy="afe",
         save=True,
     )
