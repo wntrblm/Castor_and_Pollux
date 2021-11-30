@@ -96,8 +96,20 @@ void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorIn
 
 static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
     /*
-        The basic pitch CV determination formula is:
-        (base offset) + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
+        To determine pitch, we sum two terms:
+            * CV knob (never quantized)
+                (CV knob * KNOB_RANGE) - KNOB_RANGE / 2
+            * Pitch CV input (quantized if enabled in the settings)
+                quantize(base_cv_offset + (CV in * CV_RANGE))
+
+        Note that base_cv_offset is included in the quantized part.
+        This is so that it is possible to calibrate against an external
+        CV source, so that the pitch CVs it produces get mapped to the
+        middle of the range for each note, for maximum noise tolerance.
+
+        Without this, we could encounter a nasty edge case where the CVs
+        land right near the boundary between two notes, causing the quantizer
+        to flip back and forth between two adjacent notes.
     */
 
     uint16_t cv_adc_code = inputs.adc[osc->pitch_cv_channel];
@@ -123,7 +135,18 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
     */
     else {
         fix16_t cv = UINT12_NORMALIZE_F(cv_adc_code_f16);
-        osc->pitch_cv = fix16_add(osc->base_offset, fix16_mul(GEM_CV_INPUT_RANGE, cv));
+        fix16_t pitch_cv = fix16_add(osc->base_offset, fix16_mul(GEM_CV_INPUT_RANGE, cv));
+
+        if (osc->quantize) {
+            /*
+              Quantize to the nearest 12-tone equal temperament note.
+            */
+            pitch_cv = pitch_cv * 12;
+            pitch_cv = fix16_floor(fix16_add(pitch_cv, fix16_from_float(0.5)));
+            pitch_cv = (pitch_cv + 6) / 12;
+        }
+
+        osc->pitch_cv = pitch_cv;
     }
 
     /* Read the pitch knob and normalize (0.0 -> 1.0) its value. */
