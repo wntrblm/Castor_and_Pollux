@@ -5,7 +5,7 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Castor & Pollux: testkit-adapter"
-Date "2021-02-27"
+Date "2021-10-31"
 Rev "v3"
 Comp "Winterbloom"
 Comment1 "gemini.wntr.dev"
@@ -196,23 +196,23 @@ cv_a_jack
 $Comp
 L Mechanical:MountingHole_Pad H1
 U 1 1 5F7F591B
-P 3650 7200
-F 0 "H1" H 3550 7157 50  0000 R CNN
-F 1 "M3" H 3550 7248 50  0000 R CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 3650 7200 50  0001 C CNN
-F 3 "~" H 3650 7200 50  0001 C CNN
-	1    3650 7200
+P 3800 6650
+F 0 "H1" H 3700 6607 50  0000 R CNN
+F 1 "M3" H 3700 6698 50  0000 R CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 3800 6650 50  0001 C CNN
+F 3 "~" H 3800 6650 50  0001 C CNN
+	1    3800 6650
 	-1   0    0    1   
 $EndComp
 $Comp
 L power:GND #PWR0130
 U 1 1 5F7F5D9E
-P 3650 7100
-F 0 "#PWR0130" H 3650 6850 50  0001 C CNN
-F 1 "GND" H 3655 6927 50  0000 C CNN
-F 2 "" H 3650 7100 50  0001 C CNN
-F 3 "" H 3650 7100 50  0001 C CNN
-	1    3650 7100
+P 3800 6550
+F 0 "#PWR0130" H 3800 6300 50  0001 C CNN
+F 1 "GND" H 3805 6377 50  0001 C CNN
+F 2 "" H 3800 6550 50  0001 C CNN
+F 3 "" H 3800 6550 50  0001 C CNN
+	1    3800 6550
 	-1   0    0    1   
 $EndComp
 Text Label 1600 3000 2    50   ~ 0
@@ -265,7 +265,7 @@ Text Label 2350 4300 0    50   ~ 0
 mix_pot_in
 Text Label 2350 4400 0    50   ~ 0
 mix_out
-Text Label 4500 2900 2    50   ~ 0
+Text Label 4275 2900 2    50   ~ 0
 mix_pot_out
 Text Label 4500 2900 0    50   ~ 0
 mix_pot_in
@@ -338,17 +338,6 @@ F 3 "~" H 1850 6850 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_02x20_Odd_Even J4
-U 1 1 614470EB
-P 5950 5125
-F 0 "J4" H 6000 6242 50  0000 C CNN
-F 1 "Left" H 6000 6151 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical" H 5950 5125 50  0001 C CNN
-F 3 "~" H 5950 5125 50  0001 C CNN
-	1    5950 5125
-	1    0    0    -1  
-$EndComp
-$Comp
 L Connector_Generic:Conn_02x20_Odd_Even J5
 U 1 1 6144B801
 P 7950 5175
@@ -376,48 +365,44 @@ U 1 1 61464102
 P 2925 6475
 F 0 "H2" H 2825 6432 50  0000 R CNN
 F 1 "M3" H 2825 6523 50  0000 R CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 2925 6475 50  0001 C CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 2925 6475 50  0001 C CNN
 F 3 "~" H 2925 6475 50  0001 C CNN
 	1    2925 6475
 	-1   0    0    1   
 $EndComp
-NoConn ~ 2925 6375
 $Comp
 L Mechanical:MountingHole_Pad H3
 U 1 1 61465048
-P 2925 6800
-F 0 "H3" H 2825 6757 50  0000 R CNN
-F 1 "M3" H 2825 6848 50  0000 R CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 2925 6800 50  0001 C CNN
-F 3 "~" H 2925 6800 50  0001 C CNN
-	1    2925 6800
+P 3275 6475
+F 0 "H3" H 3175 6432 50  0000 R CNN
+F 1 "M3" H 3175 6523 50  0000 R CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 3275 6475 50  0001 C CNN
+F 3 "~" H 3275 6475 50  0001 C CNN
+	1    3275 6475
 	-1   0    0    1   
 $EndComp
-NoConn ~ 2925 6700
 $Comp
 L Mechanical:MountingHole_Pad H4
 U 1 1 61465530
-P 2925 7100
-F 0 "H4" H 2825 7057 50  0000 R CNN
-F 1 "M3" H 2825 7148 50  0000 R CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 2925 7100 50  0001 C CNN
-F 3 "~" H 2925 7100 50  0001 C CNN
-	1    2925 7100
+P 2925 6875
+F 0 "H4" H 2825 6832 50  0000 R CNN
+F 1 "M3" H 2825 6923 50  0000 R CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 2925 6875 50  0001 C CNN
+F 3 "~" H 2925 6875 50  0001 C CNN
+	1    2925 6875
 	-1   0    0    1   
 $EndComp
-NoConn ~ 2925 7000
 $Comp
 L Mechanical:MountingHole_Pad H5
 U 1 1 61465A06
-P 2925 7375
-F 0 "H5" H 2825 7332 50  0000 R CNN
-F 1 "M3" H 2825 7423 50  0000 R CNN
-F 2 "MountingHole:MountingHole_3.2mm_M3" H 2925 7375 50  0001 C CNN
-F 3 "~" H 2925 7375 50  0001 C CNN
-	1    2925 7375
+P 3275 6875
+F 0 "H5" H 3175 6832 50  0000 R CNN
+F 1 "M3" H 3175 6923 50  0000 R CNN
+F 2 "MountingHole:MountingHole_3.2mm_M3_Pad_Via" H 3275 6875 50  0001 C CNN
+F 3 "~" H 3275 6875 50  0001 C CNN
+	1    3275 6875
 	-1   0    0    1   
 $EndComp
-NoConn ~ 2925 7275
 $Comp
 L power:GND #PWR0101
 U 1 1 6143C724
@@ -438,17 +423,6 @@ F 1 "GND" H 5755 4052 50  0001 C CNN
 F 2 "" H 5750 4225 50  0001 C CNN
 F 3 "" H 5750 4225 50  0001 C CNN
 	1    5750 4225
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR0105
-U 1 1 6143D522
-P 5750 4425
-F 0 "#PWR0105" H 5750 4175 50  0001 C CNN
-F 1 "GND" H 5755 4252 50  0001 C CNN
-F 2 "" H 5750 4425 50  0001 C CNN
-F 3 "" H 5750 4425 50  0001 C CNN
-	1    5750 4425
 	0    1    1    0   
 $EndComp
 $Comp
@@ -474,17 +448,6 @@ F 3 "" H 5750 4825 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR0118
-U 1 1 6143E0E9
-P 6250 4425
-F 0 "#PWR0118" H 6250 4175 50  0001 C CNN
-F 1 "GND" H 6255 4252 50  0001 C CNN
-F 2 "" H 6250 4425 50  0001 C CNN
-F 3 "" H 6250 4425 50  0001 C CNN
-	1    6250 4425
-	0    -1   -1   0   
-$EndComp
-$Comp
 L power:GND #PWR0120
 U 1 1 6143E590
 P 6250 4625
@@ -504,28 +467,6 @@ F 1 "GND" H 6255 4652 50  0001 C CNN
 F 2 "" H 6250 4825 50  0001 C CNN
 F 3 "" H 6250 4825 50  0001 C CNN
 	1    6250 4825
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:GND #PWR0122
-U 1 1 6143EB62
-P 5750 5525
-F 0 "#PWR0122" H 5750 5275 50  0001 C CNN
-F 1 "GND" H 5755 5352 50  0001 C CNN
-F 2 "" H 5750 5525 50  0001 C CNN
-F 3 "" H 5750 5525 50  0001 C CNN
-	1    5750 5525
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR0123
-U 1 1 6143F0FB
-P 6250 5525
-F 0 "#PWR0123" H 6250 5275 50  0001 C CNN
-F 1 "GND" H 6255 5352 50  0001 C CNN
-F 2 "" H 6250 5525 50  0001 C CNN
-F 3 "" H 6250 5525 50  0001 C CNN
-	1    6250 5525
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -562,36 +503,14 @@ F 3 "" H 6250 4325 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:+12V #PWR0127
-U 1 1 61440DCE
+L power:-12V #PWR0129
+U 1 1 61442327
 P 5750 4325
-F 0 "#PWR0127" H 5750 4175 50  0001 C CNN
-F 1 "+12V" V 5750 4425 50  0000 L CNN
+F 0 "#PWR0129" H 5750 4425 50  0001 C CNN
+F 1 "-12V" V 5750 4425 50  0000 L CNN
 F 2 "" H 5750 4325 50  0001 C CNN
 F 3 "" H 5750 4325 50  0001 C CNN
 	1    5750 4325
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:-12V #PWR0128
-U 1 1 61441D83
-P 6250 4525
-F 0 "#PWR0128" H 6250 4625 50  0001 C CNN
-F 1 "-12V" V 6250 4625 50  0000 L CNN
-F 2 "" H 6250 4525 50  0001 C CNN
-F 3 "" H 6250 4525 50  0001 C CNN
-	1    6250 4525
-	0    1    1    0   
-$EndComp
-$Comp
-L power:-12V #PWR0129
-U 1 1 61442327
-P 5750 4525
-F 0 "#PWR0129" H 5750 4625 50  0001 C CNN
-F 1 "-12V" V 5750 4625 50  0000 L CNN
-F 2 "" H 5750 4525 50  0001 C CNN
-F 3 "" H 5750 4525 50  0001 C CNN
-	1    5750 4525
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -616,46 +535,10 @@ F 3 "" H 5750 4725 50  0001 C CNN
 	1    5750 4725
 	0    -1   -1   0   
 $EndComp
-Text GLabel 5750 4925 0    50   Input ~ 0
-A1*
-Text GLabel 6250 4925 2    50   Input ~ 0
-A2*
-Text GLabel 5750 5025 0    50   Input ~ 0
-A3*
-Text GLabel 5750 5125 0    50   Input ~ 0
-A5*
 Text GLabel 5750 5225 0    50   Input ~ 0
-A7*
-Text GLabel 5750 5325 0    50   Input ~ 0
-A9*
-Text GLabel 5750 5425 0    50   Input ~ 0
-A11*
-Text GLabel 6250 5025 2    50   Input ~ 0
-A4*
-Text GLabel 6250 5125 2    50   Input ~ 0
-A6*
+ADC_1A
 Text GLabel 6250 5225 2    50   Input ~ 0
-A8*
-Text GLabel 6250 5325 2    50   Input ~ 0
-A10*
-Text GLabel 6250 5425 2    50   Input ~ 0
-A12*
-Text GLabel 5750 5625 0    50   Input ~ 0
-A13
-Text GLabel 6250 5625 2    50   Input ~ 0
-A14
-Text GLabel 5750 5725 0    50   Input ~ 0
-A15
-Text GLabel 6250 5725 2    50   Input ~ 0
-A16
-Text GLabel 6250 5825 2    50   Input ~ 0
-A17
-Text GLabel 6250 5925 2    50   Input ~ 0
-A19
-Text GLabel 5750 5825 0    50   Input ~ 0
-A18
-Text GLabel 5750 5925 0    50   Input ~ 0
-A20
+ADC_1B
 $Comp
 L power:GND #PWR0133
 U 1 1 61446454
@@ -679,130 +562,60 @@ F 3 "" H 9750 4225 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 Text GLabel 9750 4325 0    50   Input ~ 0
-AUDIO_OUT_L
-Text GLabel 10250 4325 2    50   Input ~ 0
-AUDIO_OUT_R
-Text GLabel 9750 4425 0    50   Input ~ 0
-AUDIO_IN_2B
-Text GLabel 9750 4525 0    50   Input ~ 0
-AUDIO_IN_2C
-Text GLabel 9750 4625 0    50   Input ~ 0
-AUDIO_IN_1B
-Text GLabel 9750 4725 0    50   Input ~ 0
-AUDIO_IN_1C
-Text GLabel 10250 4425 2    50   Input ~ 0
-AUDIO_IN_2A
-Text GLabel 10250 4525 2    50   Input ~ 0
-AUDIO_IN_2D
-Text GLabel 10250 4625 2    50   Input ~ 0
-AUDIO_IN_1A
-Text GLabel 10250 4725 2    50   Input ~ 0
-AUDIO_IN_1D
-$Comp
-L power:GND #PWR0135
-U 1 1 61447E71
-P 9750 4825
-F 0 "#PWR0135" H 9750 4575 50  0001 C CNN
-F 1 "GND" H 9755 4652 50  0001 C CNN
-F 2 "" H 9750 4825 50  0001 C CNN
-F 3 "" H 9750 4825 50  0001 C CNN
-	1    9750 4825
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR0136
-U 1 1 61448327
-P 10250 4825
-F 0 "#PWR0136" H 10250 4575 50  0001 C CNN
-F 1 "GND" H 10255 4652 50  0001 C CNN
-F 2 "" H 10250 4825 50  0001 C CNN
-F 3 "" H 10250 4825 50  0001 C CNN
-	1    10250 4825
-	0    -1   -1   0   
-$EndComp
-Text GLabel 10250 5025 2    50   Input ~ 0
-OSC_A
-Text GLabel 9750 5025 0    50   Input ~ 0
-OSC_B
-Text GLabel 10250 4925 2    50   Input ~ 0
-OSC_C
-Text GLabel 9750 4925 0    50   Input ~ 0
-OSC_D
+EXT_OSC_A
 $Comp
 L power:GND #PWR0137
 U 1 1 61448B87
-P 9750 5125
-F 0 "#PWR0137" H 9750 4875 50  0001 C CNN
-F 1 "GND" H 9755 4952 50  0001 C CNN
-F 2 "" H 9750 5125 50  0001 C CNN
-F 3 "" H 9750 5125 50  0001 C CNN
-	1    9750 5125
+P 9750 5025
+F 0 "#PWR0137" H 9750 4775 50  0001 C CNN
+F 1 "GND" H 9755 4852 50  0001 C CNN
+F 2 "" H 9750 5025 50  0001 C CNN
+F 3 "" H 9750 5025 50  0001 C CNN
+	1    9750 5025
 	0    1    1    0   
 $EndComp
 $Comp
 L power:GND #PWR0138
 U 1 1 61448F26
-P 10250 5125
-F 0 "#PWR0138" H 10250 4875 50  0001 C CNN
-F 1 "GND" H 10255 4952 50  0001 C CNN
-F 2 "" H 10250 5125 50  0001 C CNN
-F 3 "" H 10250 5125 50  0001 C CNN
-	1    10250 5125
+P 10250 5025
+F 0 "#PWR0138" H 10250 4775 50  0001 C CNN
+F 1 "GND" H 10255 4852 50  0001 C CNN
+F 2 "" H 10250 5025 50  0001 C CNN
+F 3 "" H 10250 5025 50  0001 C CNN
+	1    10250 5025
 	0    -1   -1   0   
 $EndComp
-Text GLabel 10250 5225 2    50   Input ~ 0
+Text GLabel 8850 5475 3    50   Input ~ 0
 DAC_2A
-Text GLabel 10250 5325 2    50   Input ~ 0
+Text GLabel 8750 4975 1    50   Input ~ 0
 DAC_2D
-Text GLabel 10250 5425 2    50   Input ~ 0
-DAC_1A
-Text GLabel 10250 5525 2    50   Input ~ 0
-DAC_1D
-Text GLabel 9750 5225 0    50   Input ~ 0
-DAC_2B
-Text GLabel 9750 5325 0    50   Input ~ 0
-DAC_2C
-Text GLabel 9750 5425 0    50   Input ~ 0
-DAC_1B
-Text GLabel 9750 5525 0    50   Input ~ 0
-DAC_1C
-$Comp
-L power:GND #PWR0139
-U 1 1 61449ECF
-P 9750 5625
-F 0 "#PWR0139" H 9750 5375 50  0001 C CNN
-F 1 "GND" H 9755 5452 50  0001 C CNN
-F 2 "" H 9750 5625 50  0001 C CNN
-F 3 "" H 9750 5625 50  0001 C CNN
-	1    9750 5625
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR0140
-U 1 1 6144A49B
-P 10250 5625
-F 0 "#PWR0140" H 10250 5375 50  0001 C CNN
-F 1 "GND" H 10255 5452 50  0001 C CNN
-F 2 "" H 10250 5625 50  0001 C CNN
-F 3 "" H 10250 5625 50  0001 C CNN
-	1    10250 5625
-	0    -1   -1   0   
-$EndComp
-Text GLabel 9750 5725 0    50   Input ~ 0
-DAC_4B
-Text GLabel 9750 5825 0    50   Input ~ 0
-DAC_4C
-Text GLabel 9750 5925 0    50   Input ~ 0
-DAC_3B
-Text GLabel 9750 6025 0    50   Input ~ 0
-DAC_3C
 Text GLabel 10250 5725 2    50   Input ~ 0
-DAC_4A
+DAC_1A
+Text GLabel 9750 5825 0    50   Input ~ 0
+DAC_1D
+Text GLabel 8850 4975 1    50   Input ~ 0
+DAC_2B
+Text GLabel 8750 5475 3    50   Input ~ 0
+DAC_2C
+Text GLabel 9750 5725 0    50   Input ~ 0
+DAC_1B
 Text GLabel 10250 5825 2    50   Input ~ 0
-DAC_4D
-Text GLabel 10250 5925 2    50   Input ~ 0
-DAC_3A
+DAC_1C
+Text GLabel 9750 5925 0    50   Input ~ 0
+DAC_4B
 Text GLabel 10250 6025 2    50   Input ~ 0
+DAC_4C
+Text GLabel 8650 4975 1    50   Input ~ 0
+DAC_3B
+Text GLabel 8550 5475 3    50   Input ~ 0
+DAC_3C
+Text GLabel 10250 5925 2    50   Input ~ 0
+DAC_4A
+Text GLabel 9750 6025 0    50   Input ~ 0
+DAC_4D
+Text GLabel 8650 5475 3    50   Input ~ 0
+DAC_3A
+Text GLabel 8550 4975 1    50   Input ~ 0
 DAC_3D
 $Comp
 L power:GND #PWR0141
@@ -848,64 +661,6 @@ F 3 "" H 8950 5475 50  0001 C CNN
 	1    8950 5475
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	8950 5475 8850 5475
-Connection ~ 8950 5475
-Connection ~ 7050 5475
-Connection ~ 7150 5475
-Wire Wire Line
-	7150 5475 7050 5475
-Connection ~ 7250 5475
-Wire Wire Line
-	7250 5475 7150 5475
-Connection ~ 7350 5475
-Wire Wire Line
-	7350 5475 7250 5475
-Connection ~ 7450 5475
-Wire Wire Line
-	7450 5475 7350 5475
-Connection ~ 7550 5475
-Wire Wire Line
-	7550 5475 7450 5475
-Connection ~ 7650 5475
-Wire Wire Line
-	7650 5475 7550 5475
-Connection ~ 7750 5475
-Wire Wire Line
-	7750 5475 7650 5475
-Connection ~ 7850 5475
-Wire Wire Line
-	7850 5475 7750 5475
-Connection ~ 7950 5475
-Wire Wire Line
-	7950 5475 7850 5475
-Connection ~ 8050 5475
-Wire Wire Line
-	8050 5475 7950 5475
-Connection ~ 8150 5475
-Wire Wire Line
-	8150 5475 8050 5475
-Connection ~ 8250 5475
-Wire Wire Line
-	8250 5475 8150 5475
-Connection ~ 8350 5475
-Wire Wire Line
-	8350 5475 8250 5475
-Connection ~ 8450 5475
-Wire Wire Line
-	8450 5475 8350 5475
-Connection ~ 8550 5475
-Wire Wire Line
-	8550 5475 8450 5475
-Connection ~ 8650 5475
-Wire Wire Line
-	8650 5475 8550 5475
-Connection ~ 8750 5475
-Wire Wire Line
-	8750 5475 8650 5475
-Connection ~ 8850 5475
-Wire Wire Line
-	8850 5475 8750 5475
 $Comp
 L power:GND #PWR0145
 U 1 1 6144E74F
@@ -928,39 +683,12 @@ F 3 "" H 8950 4975 50  0001 C CNN
 	1    8950 4975
 	-1   0    0    1   
 $EndComp
-$Comp
-L power:GND #PWR0147
-U 1 1 6144F24A
-P 8050 4975
-F 0 "#PWR0147" H 8050 4725 50  0001 C CNN
-F 1 "GND" H 8055 4802 50  0001 C CNN
-F 2 "" H 8050 4975 50  0001 C CNN
-F 3 "" H 8050 4975 50  0001 C CNN
-	1    8050 4975
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	7250 4975 7150 4975
-Connection ~ 7050 4975
-Connection ~ 7150 4975
-Wire Wire Line
-	7150 4975 7050 4975
-NoConn ~ 5750 6025
-NoConn ~ 6250 6025
 Text Label 2350 2900 0    50   ~ 0
 board_3v3
 Text Label 1600 2900 2    50   ~ 0
 board_3v3a
 Text Label 2000 1150 1    50   ~ 0
 board_3v3
-Text GLabel 10600 1525 0    50   Input ~ 0
-A2*
-Text GLabel 10600 975  0    50   Input ~ 0
-A1*
-Text GLabel 10700 1525 2    50   Input ~ 0
-OSC_A
-Text GLabel 10700 975  2    50   Input ~ 0
-OSC_B
 Wire Wire Line
 	10700 975  10650 975 
 Wire Wire Line
@@ -999,47 +727,27 @@ Text Label 8875 2125 0    50   ~ 0
 cv_a_pot
 Text Label 8875 2725 0    50   ~ 0
 cv_a_jack
-Text Label 4300 3025 0    50   ~ 0
+Text Label 4500 3025 0    50   ~ 0
 chorus_pot
 Text Label 8875 2225 0    50   ~ 0
 cv_b_pot
-Text Label 4275 2625 0    50   ~ 0
+Text Label 4475 2625 0    50   ~ 0
 duty_a_pot
-Text Label 4275 2725 0    50   ~ 0
+Text Label 4475 2725 0    50   ~ 0
 duty_b_pot
 Text Label 8875 2825 0    50   ~ 0
 cv_b_jack
-Text GLabel 8825 2125 0    50   Input ~ 0
-DAC_2A
-Text GLabel 8825 2725 0    50   Input ~ 0
-DAC_1A
 $Comp
 L power:GND #PWR0148
 U 1 1 61466046
-P 4300 3025
-F 0 "#PWR0148" H 4300 2775 50  0001 C CNN
-F 1 "GND" V 4305 2897 50  0001 R CNN
-F 2 "" H 4300 3025 50  0001 C CNN
-F 3 "" H 4300 3025 50  0001 C CNN
-	1    4300 3025
+P 4275 3025
+F 0 "#PWR0148" H 4275 2775 50  0001 C CNN
+F 1 "GND" V 4280 2897 50  0001 R CNN
+F 2 "" H 4275 3025 50  0001 C CNN
+F 3 "" H 4275 3025 50  0001 C CNN
+	1    4275 3025
 	0    1    1    0   
 $EndComp
-Text GLabel 7525 2275 2    50   Input ~ 0
-AUDIO_IN_2A
-Text GLabel 7525 2375 2    50   Input ~ 0
-AUDIO_IN_2B
-Text GLabel 7525 2475 2    50   Input ~ 0
-AUDIO_IN_2C
-Text GLabel 7525 2775 2    50   Input ~ 0
-AUDIO_IN_1A
-Text GLabel 7525 2875 2    50   Input ~ 0
-AUDIO_IN_1B
-Text GLabel 7525 2975 2    50   Input ~ 0
-AUDIO_IN_1C
-Text GLabel 7525 2575 2    50   Input ~ 0
-AUDIO_IN_2D
-Text GLabel 7525 3075 2    50   Input ~ 0
-AUDIO_IN_1D
 $Comp
 L Jumper:Jumper_2_Open JP1
 U 1 1 614689B3
@@ -1126,10 +834,6 @@ F 3 "~" H 5625 1625 50  0001 C CNN
 	1    5625 1625
 	1    0    0    -1  
 $EndComp
-Text GLabel 8825 2225 0    50   Input ~ 0
-DAC_2B
-Text GLabel 8825 2825 0    50   Input ~ 0
-DAC_1B
 Text Label 4275 2625 2    50   ~ 0
 board_3v3a
 Text Label 4275 2725 2    50   ~ 0
@@ -1182,22 +886,6 @@ F 3 "~" H 4325 7350 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 NoConn ~ 4325 7250
-Text GLabel 8150 4975 1    50   Input ~ 0
-SERIAL1.0
-Text GLabel 8250 4975 1    50   Input ~ 0
-SERIAL1.1
-Text GLabel 8350 4975 1    50   Input ~ 0
-SERIAL1.2
-Text GLabel 8450 4975 1    50   Input ~ 0
-SERIAL1.3
-Text GLabel 8825 3250 2    50   Input ~ 0
-SERIAL1.0
-Text GLabel 8825 3350 2    50   Input ~ 0
-SERIAL1.1
-Text GLabel 8825 3450 2    50   Input ~ 0
-SERIAL1.2
-Text GLabel 8825 3550 2    50   Input ~ 0
-SERIAL1.3
 Text Label 1150 6350 1    50   ~ 0
 board_3v3
 Wire Wire Line
@@ -1224,4 +912,341 @@ Wire Wire Line
 	8825 2725 8875 2725
 Wire Wire Line
 	8875 2825 8825 2825
+$Comp
+L power:GND #PWR0105
+U 1 1 617FDF59
+P 8450 5475
+F 0 "#PWR0105" H 8450 5225 50  0001 C CNN
+F 1 "GND" H 8455 5302 50  0001 C CNN
+F 2 "" H 8450 5475 50  0001 C CNN
+F 3 "" H 8450 5475 50  0001 C CNN
+	1    8450 5475
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0116
+U 1 1 617FE45B
+P 8350 5475
+F 0 "#PWR0116" H 8350 5225 50  0001 C CNN
+F 1 "GND" H 8355 5302 50  0001 C CNN
+F 2 "" H 8350 5475 50  0001 C CNN
+F 3 "" H 8350 5475 50  0001 C CNN
+	1    8350 5475
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0118
+U 1 1 617FE80E
+P 7950 5475
+F 0 "#PWR0118" H 7950 5225 50  0001 C CNN
+F 1 "GND" H 7955 5302 50  0001 C CNN
+F 2 "" H 7950 5475 50  0001 C CNN
+F 3 "" H 7950 5475 50  0001 C CNN
+	1    7950 5475
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0122
+U 1 1 617FEFC0
+P 7850 5475
+F 0 "#PWR0122" H 7850 5225 50  0001 C CNN
+F 1 "GND" H 7855 5302 50  0001 C CNN
+F 2 "" H 7850 5475 50  0001 C CNN
+F 3 "" H 7850 5475 50  0001 C CNN
+	1    7850 5475
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0123
+U 1 1 617FF498
+P 7550 5475
+F 0 "#PWR0123" H 7550 5225 50  0001 C CNN
+F 1 "GND" H 7555 5302 50  0001 C CNN
+F 2 "" H 7550 5475 50  0001 C CNN
+F 3 "" H 7550 5475 50  0001 C CNN
+	1    7550 5475
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0127
+U 1 1 617FF937
+P 7950 4975
+F 0 "#PWR0127" H 7950 4725 50  0001 C CNN
+F 1 "GND" H 7955 4802 50  0001 C CNN
+F 2 "" H 7950 4975 50  0001 C CNN
+F 3 "" H 7950 4975 50  0001 C CNN
+	1    7950 4975
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0128
+U 1 1 617FFDA6
+P 7850 4975
+F 0 "#PWR0128" H 7850 4725 50  0001 C CNN
+F 1 "GND" H 7855 4802 50  0001 C CNN
+F 2 "" H 7850 4975 50  0001 C CNN
+F 3 "" H 7850 4975 50  0001 C CNN
+	1    7850 4975
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0135
+U 1 1 618000BA
+P 7550 4975
+F 0 "#PWR0135" H 7550 4725 50  0001 C CNN
+F 1 "GND" H 7555 4802 50  0001 C CNN
+F 2 "" H 7550 4975 50  0001 C CNN
+F 3 "" H 7550 4975 50  0001 C CNN
+	1    7550 4975
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0136
+U 1 1 61800378
+P 8450 4975
+F 0 "#PWR0136" H 8450 4725 50  0001 C CNN
+F 1 "GND" H 8455 4802 50  0001 C CNN
+F 2 "" H 8450 4975 50  0001 C CNN
+F 3 "" H 8450 4975 50  0001 C CNN
+	1    8450 4975
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0139
+U 1 1 61801BAF
+P 10250 5625
+F 0 "#PWR0139" H 10250 5375 50  0001 C CNN
+F 1 "GND" H 10255 5452 50  0001 C CNN
+F 2 "" H 10250 5625 50  0001 C CNN
+F 3 "" H 10250 5625 50  0001 C CNN
+	1    10250 5625
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0140
+U 1 1 61801F98
+P 9750 5625
+F 0 "#PWR0140" H 9750 5375 50  0001 C CNN
+F 1 "GND" H 9755 5452 50  0001 C CNN
+F 2 "" H 9750 5625 50  0001 C CNN
+F 3 "" H 9750 5625 50  0001 C CNN
+	1    9750 5625
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0147
+U 1 1 61802927
+P 10250 5325
+F 0 "#PWR0147" H 10250 5075 50  0001 C CNN
+F 1 "GND" H 10255 5152 50  0001 C CNN
+F 2 "" H 10250 5325 50  0001 C CNN
+F 3 "" H 10250 5325 50  0001 C CNN
+	1    10250 5325
+	0    -1   -1   0   
+$EndComp
+Text GLabel 9750 4425 0    50   Input ~ 0
+EXT_OSC_D
+Text GLabel 9750 4525 0    50   Input ~ 0
+EXT_AUDIO_A
+Text GLabel 9750 4625 0    50   Input ~ 0
+EXT_MM_V
+Text GLabel 9750 4725 0    50   Input ~ 0
+EXT_FG_A
+Text GLabel 9750 4825 0    50   Input ~ 0
+EXT_INST_A
+Text GLabel 9750 4925 0    50   Input ~ 0
+EXT_INST_D
+Text GLabel 10250 4325 2    50   Input ~ 0
+EXT_OSC_B
+Text GLabel 10250 4425 2    50   Input ~ 0
+EXT_OSC_C
+Text GLabel 10250 4525 2    50   Input ~ 0
+EXT_AUDIO_B
+Text GLabel 10250 4625 2    50   Input ~ 0
+EXT_MM_A
+Text GLabel 10250 4725 2    50   Input ~ 0
+EXT_FG_B
+Text GLabel 10250 4825 2    50   Input ~ 0
+EXT_INST_B
+Text GLabel 10250 4925 2    50   Input ~ 0
+EXT_INST_C
+$Comp
+L power:-12V #PWR0149
+U 1 1 61807D75
+P 5750 4425
+F 0 "#PWR0149" H 5750 4525 50  0001 C CNN
+F 1 "-12V" V 5750 4525 50  0000 L CNN
+F 2 "" H 5750 4425 50  0001 C CNN
+F 3 "" H 5750 4425 50  0001 C CNN
+	1    5750 4425
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+12V #PWR0150
+U 1 1 61808212
+P 6250 4425
+F 0 "#PWR0150" H 6250 4275 50  0001 C CNN
+F 1 "+12V" V 6250 4525 50  0000 L CNN
+F 2 "" H 6250 4425 50  0001 C CNN
+F 3 "" H 6250 4425 50  0001 C CNN
+	1    6250 4425
+	0    1    1    0   
+$EndComp
+NoConn ~ 5750 4525
+NoConn ~ 6250 4525
+$Comp
+L Connector_Generic:Conn_02x20_Odd_Even J4
+U 1 1 614470EB
+P 6050 5125
+F 0 "J4" H 6100 6242 50  0000 C CNN
+F 1 "Left" H 6100 6151 50  0000 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_2x20_P2.54mm_Vertical" H 6050 5125 50  0001 C CNN
+F 3 "~" H 6050 5125 50  0001 C CNN
+	1    6050 5125
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0151
+U 1 1 6180DB71
+P 6250 5125
+F 0 "#PWR0151" H 6250 4875 50  0001 C CNN
+F 1 "GND" H 6255 4952 50  0001 C CNN
+F 2 "" H 6250 5125 50  0001 C CNN
+F 3 "" H 6250 5125 50  0001 C CNN
+	1    6250 5125
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0152
+U 1 1 6180E018
+P 5750 5125
+F 0 "#PWR0152" H 5750 4875 50  0001 C CNN
+F 1 "GND" H 5755 4952 50  0001 C CNN
+F 2 "" H 5750 5125 50  0001 C CNN
+F 3 "" H 5750 5125 50  0001 C CNN
+	1    5750 5125
+	0    1    1    0   
+$EndComp
+Text GLabel 5750 5325 0    50   Input ~ 0
+ADC_1C
+Text GLabel 6250 5325 2    50   Input ~ 0
+ADC_1D
+Text GLabel 5750 5425 0    50   Input ~ 0
+ADC_4A
+Text GLabel 5750 5525 0    50   Input ~ 0
+ADC_4C
+Text GLabel 6250 5425 2    50   Input ~ 0
+ADC_4B
+Text GLabel 6250 5525 2    50   Input ~ 0
+ADC_4D
+Text GLabel 6250 5725 2    50   Input ~ 0
+ADC_3B
+Text GLabel 6250 5825 2    50   Input ~ 0
+ADC_3D
+Text GLabel 6250 5925 2    50   Input ~ 0
+ADC_2B
+Text GLabel 6250 6025 2    50   Input ~ 0
+ADC_2D
+$Comp
+L power:GND #PWR0153
+U 1 1 618104A7
+P 6250 5625
+F 0 "#PWR0153" H 6250 5375 50  0001 C CNN
+F 1 "GND" H 6255 5452 50  0001 C CNN
+F 2 "" H 6250 5625 50  0001 C CNN
+F 3 "" H 6250 5625 50  0001 C CNN
+	1    6250 5625
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0154
+U 1 1 61810887
+P 5750 5625
+F 0 "#PWR0154" H 5750 5375 50  0001 C CNN
+F 1 "GND" H 5755 5452 50  0001 C CNN
+F 2 "" H 5750 5625 50  0001 C CNN
+F 3 "" H 5750 5625 50  0001 C CNN
+	1    5750 5625
+	0    1    1    0   
+$EndComp
+Text GLabel 5750 5725 0    50   Input ~ 0
+ADC_3A
+Text GLabel 5750 5825 0    50   Input ~ 0
+ADC_3C
+Text GLabel 5750 5925 0    50   Input ~ 0
+ADC_2A
+Text GLabel 5750 6025 0    50   Input ~ 0
+ADC_2C
+Text GLabel 10700 975  2    50   Input ~ 0
+EXT_OSC_A
+Text GLabel 10700 1525 2    50   Input ~ 0
+EXT_OSC_B
+Text GLabel 10600 975  0    50   Input ~ 0
+ADC_3A
+Text GLabel 10600 1525 0    50   Input ~ 0
+ADC_1A
+Text GLabel 8825 2125 0    50   Input ~ 0
+DAC_1A
+Text GLabel 8825 2225 0    50   Input ~ 0
+DAC_4A
+Text GLabel 8825 2725 0    50   Input ~ 0
+DAC_1B
+Text GLabel 8825 2825 0    50   Input ~ 0
+DAC_4B
+Wire Wire Line
+	4275 2625 4475 2625
+Wire Wire Line
+	4475 2725 4275 2725
+Wire Wire Line
+	4500 2900 4275 2900
+Wire Wire Line
+	4275 3025 4500 3025
+Text GLabel 7525 3075 2    50   Input ~ 0
+EXT_AUDIO_A
+Text GLabel 7525 2575 2    50   Input ~ 0
+EXT_AUDIO_B
+$Comp
+L power:GND #PWR0155
+U 1 1 61824BD0
+P 2925 6375
+F 0 "#PWR0155" H 2925 6125 50  0001 C CNN
+F 1 "GND" H 2930 6202 50  0001 C CNN
+F 2 "" H 2925 6375 50  0001 C CNN
+F 3 "" H 2925 6375 50  0001 C CNN
+	1    2925 6375
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0156
+U 1 1 6182562E
+P 3275 6375
+F 0 "#PWR0156" H 3275 6125 50  0001 C CNN
+F 1 "GND" H 3280 6202 50  0001 C CNN
+F 2 "" H 3275 6375 50  0001 C CNN
+F 3 "" H 3275 6375 50  0001 C CNN
+	1    3275 6375
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0157
+U 1 1 6182593B
+P 2925 6775
+F 0 "#PWR0157" H 2925 6525 50  0001 C CNN
+F 1 "GND" H 2930 6602 50  0001 C CNN
+F 2 "" H 2925 6775 50  0001 C CNN
+F 3 "" H 2925 6775 50  0001 C CNN
+	1    2925 6775
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0158
+U 1 1 618265A6
+P 3275 6775
+F 0 "#PWR0158" H 3275 6525 50  0001 C CNN
+F 1 "GND" H 3280 6602 50  0001 C CNN
+F 2 "" H 3275 6775 50  0001 C CNN
+F 3 "" H 3275 6775 50  0001 C CNN
+	1    3275 6775
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC
