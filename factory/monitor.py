@@ -8,7 +8,7 @@ import pathlib
 import sys
 import time
 
-from wintertools import fs, git, log, tui
+from wintertools import fs, git, tui
 
 from libgemini import gem_monitor_update, gemini
 
@@ -199,7 +199,7 @@ def draw(update, seen_states, stats=False):
 def _check_firmware_version(gem):
     latest_release = git.latest_tag()
     build_id = gem.get_firmware_version()
-    log.info(f"Firmware build ID: {build_id}")
+    print(f"Firmware build ID: {build_id}")
 
     if latest_release in build_id:
         return True
@@ -208,7 +208,7 @@ def _check_firmware_version(gem):
 
 
 def _update_firmware(gem):
-    log.warning("Firmware is out of date, updating it..")
+    print("!! Firmware is out of date, updating it..")
 
     gem.reset_into_bootloader()
 
@@ -219,10 +219,10 @@ def _update_firmware(gem):
 
     time.sleep(3)
 
-    log.success("Firmware updated!")
+    print("[green]Firmware updated![/]")
 
     build_id = gem.get_firmware_version()
-    log.info(f"Firmware build ID: {build_id}")
+    print(f"Firmware build ID: {build_id}")
 
 
 def main(stats=False):
@@ -233,7 +233,7 @@ def main(stats=False):
 
     settings = gem.read_settings()
 
-    log.info(settings)
+    print(settings)
 
     gem.enable_monitor()
 

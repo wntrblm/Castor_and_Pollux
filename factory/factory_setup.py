@@ -1,57 +1,50 @@
 import argparse
 
-from wintertools import fw_fetch, jlink, log, noisy_bell
+from rich import print
+from wintertools import fw_fetch, jlink, reportcard
 
-from libgemini import adc_calibration, gemini, ramp_calibration
+from libgemini import adc_calibration, cv_calibration, gemini, ramp_calibration
 
 DEVICE_NAME = "winterbloom_gemini"
 JLINK_DEVICE = "ATSAMD21G18"
 JLINK_SCRIPT = "scripts/flash.jlink"
-
-
-def program_firmware():
-    log.section("Programming firmware")
-
-    fw_fetch.latest_bootloader(DEVICE_NAME)
-
-    jlink.run(JLINK_DEVICE, JLINK_SCRIPT)
+REPORT = reportcard.Report(name="Castor & Pollux")
 
 
 def erase_nvm():
-    log.section("Erasing NVM")
+    print("# Erasing NVM")
     gem = gemini.Gemini.get()
     gem.erase_lut()
-    log.success("Erased ramp look-up-table.")
+    print("✓ Erased ramp look-up-table")
     gem.reset_settings()
-    log.success("Erased user settings.")
+    print("✓ Erased user settings")
     gem.soft_reset()
-    log.success("Soft reset.")
+    print("Reset")
 
 
-def run_ramp_calibration():
-    log.section("Calibrating ramps")
-    ramp_calibration.run(save=True, reset=False)
+def get_firmware_and_serial():
+    print("# Firmware & serial")
 
+    gem = gemini.Gemini.get()
+    fw_version = gem.get_firmware_version()
+    serial = gem.get_serial_number()
 
-def run_adc_calibration():
-    log.section("Calibrating ADC")
+    print(f"Firmware version: {fw_version}")
+    print(f"Serial number: {serial}")
 
-    adc_calibration.run(
-        num_calibration_points=20,
-        sample_count=64,
-        strategy="adc",
-        save=True,
-    )
-
-
-def run_afe_calibration():
-    log.section("Calibrating AFE")
-
-    adc_calibration.run(
-        num_calibration_points=50,
-        sample_count=64,
-        strategy="afe",
-        save=True,
+    REPORT.ulid = serial
+    REPORT.sections.append(
+        reportcard.Section(
+            name="Firmware",
+            items=[
+                reportcard.LabelValueItem(
+                    label="Version", value=fw_version, class_="stack"
+                ),
+                reportcard.LabelValueItem(
+                    label="Serial number", value=serial, class_="stack"
+                ),
+            ],
+        )
     )
 
 
@@ -63,32 +56,45 @@ def main():
         "--stages",
         type=str,
         nargs="*",
-        default=["firmware", "ramp", "adc", "afe"],
+        default=["firmware", "ramp", "adc", "cv"],
         help="Select which setup stages to run.",
     )
 
     args = parser.parse_args()
 
     if "firmware" in args.stages:
-        program_firmware()
+        print("# Programming firmware")
+        fw_fetch.latest_bootloader(DEVICE_NAME)
+        jlink.run(JLINK_DEVICE, JLINK_SCRIPT)
 
     if "erase_nvm" in args.stages:
         erase_nvm()
 
+    get_firmware_and_serial()
+
     if "ramp" in args.stages:
-        run_ramp_calibration()
+        print("# Calibrating ramps")
+        REPORT.sections.append(ramp_calibration.run(save=True))
 
     if "adc" in args.stages:
-        run_adc_calibration()
+        print("# Calibrating ADC")
+        REPORT.sections.append(adc_calibration.run())
 
-    if "afe" in args.stages:
-        run_afe_calibration()
+    if "cv" in args.stages:
+        print("# Calibrating pitch CV")
+        REPORT.sections.append(cv_calibration.run())
 
-    log.section("Soft-resetting")
     gem = gemini.Gemini.get()
     gem.soft_reset()
-    noisy_bell.bell()
-    log.success("Finished")
+
+    print(REPORT)
+    REPORT.save()
+    reportcard.render_html(REPORT)
+
+    if REPORT.succeeded:
+        print("[green]Finished![/]")
+    else:
+        print("[bold red]FAILED!![/]")
 
 
 if __name__ == "__main__":

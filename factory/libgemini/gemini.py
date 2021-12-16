@@ -5,9 +5,10 @@
 # Interface for Gemini's MIDI SysEx command set
 
 import enum
+import statistics
 import struct
 
-from wintertools import log, midi, teeth
+from wintertools import midi, teeth
 
 from libgemini import gem_monitor_update, gem_settings
 
@@ -45,6 +46,17 @@ class Gemini(midi.MIDIDevice):
     MIDI_PORT_NAME = "Gemini"
     SYSEX_MARKER = 0x77
 
+    class ADC(enum.IntEnum):
+        CV_A = 0
+        CV_A_POT = 1
+        CV_B = 2
+        CV_B_POT = 3
+        DUTY_A = 4
+        DUTY_A_POT = 5
+        DUTY_B = 6
+        DUTY_B_POT = 7
+        CHORUS_POT = 8
+
     def __init__(self):
         super().__init__()
         self.version = None
@@ -61,18 +73,20 @@ class Gemini(midi.MIDIDevice):
         return self.serial_number
 
     def enter_calibration_mode(self):
-        if self.version is None:
-            self.get_firmware_version()
-            log.info(f"Gemini version: {self.version}")
-            self.get_serial_number()
-            log.info(f"Serial number: {self.serial_number}")
-
         self.sysex(SysExCommands.ENTER_CALIBRATION)
 
     def read_adc(self, ch):
         resp = self.sysex(SysExCommands.READ_ADC, data=[ch], response=True, decode=True)
         (val,) = struct.unpack(">H", resp)
         return val
+
+    def read_adc_average(self, ch, samples=10):
+        _vals = []
+
+        for _ in range(samples):
+            _vals.append(self.read_adc(ch))
+
+        return statistics.mean(_vals)
 
     def set_dac(self, a, b, c, d):
         data = struct.pack(">HHHH", a, b, c, d)
@@ -91,7 +105,7 @@ class Gemini(midi.MIDIDevice):
         self.set_adc_gain_error_int(val)
 
     def set_adc_offset_error(self, val):
-        data = struct.pack(">h", val)
+        data = struct.pack(">h", int(val))
         self.sysex(SysExCommands.WRITE_ADC_OFFSET, data=data, encode=True)
 
     def disable_adc_error_correction(self):

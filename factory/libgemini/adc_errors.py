@@ -7,6 +7,13 @@
 import statistics
 
 
+def calculate(expected_low, expected_high, measured_low, measured_high):
+    gain_error = (expected_high - expected_low) / (measured_high - measured_low)
+    offset_error = (measured_low * gain_error) - expected_low
+
+    return gain_error, offset_error
+
+
 def calculate_avg_gain_error(expected, measured):
     low = int(len(expected) * 0.2)
     high = int(len(expected) * 0.8)
@@ -34,6 +41,12 @@ def calculate_avg_offset_error(expected, measured, gain_error):
         low += 1
 
     return statistics.mean(offset_errors)
+
+
+def calculate_avg_errors(expected, measured):
+    gain_error = calculate_avg_gain_error(expected, measured)
+    offset_error = calculate_avg_offset_error(expected, measured, gain_error)
+    return gain_error, offset_error
 
 
 def apply_correction(value, gain_error, offset_error):

@@ -2,12 +2,10 @@ import statistics
 import time
 
 import IPython
-import pyvisa
 import wintertools.oscilloscope
 
 from libgemini import fallback_calibration, gemini, oscillators, reference_calibration
 
-_visa_resources_mgr = pyvisa.ResourceManager("@ivi")
 gem = gemini.Gemini.get()
 
 
@@ -46,7 +44,7 @@ def sweep_notes_with_fallback():
 
 
 def get_oscilloscope():
-    return wintertools.oscilloscope.Oscilloscope(_visa_resources_mgr)
+    return wintertools.oscilloscope.Oscilloscope()
 
 
 def read_adc_average(channel, count=100):

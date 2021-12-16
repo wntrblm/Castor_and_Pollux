@@ -2,14 +2,13 @@
 # Published under the standard MIT License.
 # Full text available at: https://opensource.org/licenses/MIT
 
-import argparse
 import json
 import os.path
 import pathlib
 import time
 
-import pyvisa as visa
-from wintertools import interactive, log, oscilloscope, tui
+from rich import print
+from wintertools import interactive, oscilloscope, reportcard, tui
 
 from libgemini import gemini, oscillators, reference_calibration
 
@@ -20,8 +19,10 @@ end_color = (0.5, 0.6, 1.0)
 
 
 def _manual_seek(gem, charge_code):
+    output = tui.Updateable(persist=False)
     adjuster = interactive.adjust_value(charge_code, min=0, max=4095)
-    output = tui.Updateable()
+
+    time.sleep(0.1)
 
     with output:
         for value in adjuster:
@@ -33,21 +34,6 @@ def _manual_seek(gem, charge_code):
             output.update()
 
     return charge_code
-
-
-def _set_scope_time_division(scope, frequency):
-    if frequency > 1200:
-        scope.set_time_division("100us")
-    elif frequency > 700:
-        scope.set_time_division("200us")
-    elif frequency > 180:
-        scope.set_time_division("500us")
-    elif frequency > 90:
-        scope.set_time_division("1ms")
-    elif frequency > 46:
-        scope.set_time_division("2ms")
-    else:
-        scope.set_time_division("5ms")
 
 
 def _calibrate_oscillator(gem, scope, oscillator):
@@ -83,47 +69,62 @@ def _calibrate_oscillator(gem, scope, oscillator):
         if dac_code < last_dac_code:
             dac_code = last_dac_code
 
-        # Adjust the oscilloscope's time division as needed.
         frequency = oscillators.timer_period_to_frequency(period)
-        _set_scope_time_division(scope, frequency)
+        scope.set_time_division_from_frequency(frequency)
 
-        bar.draw(
-            tui.Segment(progress, color=tui.gradient(start_color, end_color, progress)),
-        )
+        output = tui.Updateable(persist=False)
 
-        log.info(f"Calibrating ramp for {frequency=:.2f} Hz {period=}")
+        with output:
+            bar.draw(
+                tui.Segment(
+                    progress, color=tui.gradient(start_color, end_color, progress)
+                ),
+            )
 
-        # If we've measured more than twice, we have enough info to determine
-        # the slope of the charge voltage - it should be pretty much linear, so
-        # we can guess a code very close to the right one.
-        if n > 2:
-            x_1, y_1 = list(period_to_dac_code.items())[n - 1]
-            x_2, y_2 = list(period_to_dac_code.items())[0]
-            x_1 = oscillators.timer_period_to_frequency(x_1)
-            x_2 = oscillators.timer_period_to_frequency(x_2)
-            slope = (y_2 - y_1) / (x_2 - x_1)
-            y_intercept = y_2 - (slope * x_2)
-            dac_code = min(4095, round(y_intercept + (slope * frequency)))
-            log.info(f"Guessed DAC code as {dac_code} from slope {slope:02f}")
+            print(f"Calibrating ramp for {frequency=:.2f} Hz {period=}")
 
-        gem.set_period(oscillator, period)
+            # If we've measured more than twice, we have enough info to determine
+            # the slope of the charge voltage - it should be pretty much linear, so
+            # we can guess a code very close to the right one.
+            if n > 2:
+                x_1, y_1 = list(period_to_dac_code.items())[n - 1]
+                x_2, y_2 = list(period_to_dac_code.items())[0]
+                x_1 = oscillators.timer_period_to_frequency(x_1)
+                x_2 = oscillators.timer_period_to_frequency(x_2)
+                slope = (y_2 - y_1) / (x_2 - x_1)
+                y_intercept = y_2 - (slope * x_2)
+                dac_code = min(4095, round(y_intercept + (slope * frequency)))
+                print(
+                    f"[italic]Guessed DAC code as {dac_code} from slope {slope:02f}[/]"
+                )
 
-        calibrated_code = _manual_seek(gem, dac_code)
+            gem.set_period(oscillator, period)
+
+            if dac_code < 4095:
+                calibrated_code = _manual_seek(gem, dac_code)
+            else:
+                calibrated_code = 4095
 
         period_to_dac_code[period] = calibrated_code
 
-        log.success(
-            f"Calibrated to {calibrated_code} ({oscillators.charge_code_to_volts(calibrated_code):.03f} volts)"
-        )
-
         last_dac_code = calibrated_code
 
-    return period_to_dac_code.copy()
+    results = period_to_dac_code.copy()
+
+    lowest_voltage = oscillators.charge_code_to_volts(min(results.values()))
+    highest_voltage = oscillators.charge_code_to_volts(max(results.values()))
+
+    print()
+    print("[green]Calibrated:[/]")
+    print(f"- lowest: {lowest_voltage:.2f} volts")
+    print(f"- Highest: {highest_voltage:.2f} volts")
+    print()
+
+    return results
 
 
-def run(save, reset=True):
-    # Gemini setup
-    log.info("Connecting to Gemini...")
+def run(save):
+    scope = oscilloscope.Oscilloscope()
     gem = gemini.Gemini.get()
     gem.enter_calibration_mode()
     time.sleep(0.1)
@@ -133,50 +134,29 @@ def run(save, reset=True):
     gem.set_period(1, initial_period)
     gem.set_dac(initial_dac_code, 2048, initial_dac_code, 2048)
 
-    # Oscilloscope setup.
-    log.info("Configuring oscilloscope...")
-    resource_manager = visa.ResourceManager("@ivi")
-    scope = oscilloscope.Oscilloscope(resource_manager)
-
     # scope.reset()
     scope.enable_bandwidth_limit()
     scope.set_intensity(50, 100)
 
-    # Enable both channels initially so that it's clear if the programming
-    # board isn't connecting to the POGO pins.
     scope.set_time_division("10ms")
     scope.enable_channel("c1")
-    scope.enable_channel("c2")
     scope.set_vertical_division("c1", "800mV")
-    scope.set_vertical_division("c2", "800mV")
     scope.set_vertical_offset("c1", "-1.65V")
+    scope.enable_channel("c2")
+    scope.set_vertical_division("c2", "800mV")
     scope.set_vertical_offset("c2", "-1.65V")
 
-    log.warning("Connect PROBE ONE to RAMP A")
-    log.warning("Connect PROBE TWO to RAMP B")
-    log.warning("Confirm sawtooth waveforms are visible before continuing!")
+    print("!! Connect PROBE ONE to RAMP A")
+    print("!! Connect PROBE TWO to RAMP B")
+    print("!! Confirm sawtooth waveforms are visible before continuing!")
     interactive.continue_when_ready()
 
     # Calibrate both oscillators
-    log.section("Calibrating Castor...", depth=2)
+    print("Calibrating Castor...")
     castor_calibration = _calibrate_oscillator(gem, scope, 0)
 
-    lowest_voltage = oscillators.charge_code_to_volts(min(castor_calibration.values()))
-    highest_voltage = oscillators.charge_code_to_volts(max(castor_calibration.values()))
-    log.success(
-        f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
-    )
-
-    log.section("Calibrating Pollux...", depth=2)
+    print("Calibrating Pollux...")
     pollux_calibration = _calibrate_oscillator(gem, scope, 1)
-
-    lowest_voltage = oscillators.charge_code_to_volts(min(pollux_calibration.values()))
-    highest_voltage = oscillators.charge_code_to_volts(max(pollux_calibration.values()))
-    log.success(
-        f"\nCalibrated:\n- Lowest: {lowest_voltage:.2f}v\n- Highest: {highest_voltage:.2f}v\n"
-    )
-
-    log.section("Saving calibration table...", depth=2)
 
     local_copy = pathlib.Path("calibrations") / f"{gem.serial_number}.ramp.json"
     local_copy.parent.mkdir(parents=True, exist_ok=True)
@@ -188,63 +168,91 @@ def run(save, reset=True):
         }
         json.dump(data, fh)
 
-    log.success(f"Saved local copy to {local_copy}")
+    print(f"[italic]Saved ramp table to {local_copy}[/]")
 
     if save:
-        output = tui.Updateable()
-        bar = tui.Bar()
-
-        log.info("Sending LUT values to device...")
-
-        with output:
-            for n, timer_period in enumerate(castor_calibration.keys()):
-                progress = n / (len(castor_calibration.values()) - 1)
-                bar.draw(
-                    tui.Segment(
-                        progress,
-                        color=tui.gradient(start_color, end_color, progress),
-                    ),
-                )
-                output.update()
-
-                castor_code = castor_calibration[timer_period]
-                pollux_code = pollux_calibration[timer_period]
-
-                gem.write_lut_entry(n, timer_period, castor_code, pollux_code)
-
-                log.debug(
-                    f"Set LUT entry {n} to {timer_period=}, {castor_code=}, {pollux_code=}."
-                )
-
-        log.info("Committing LUT to NVM...")
-        gem.write_lut()
+        print("Sending ramp table values to device...")
 
         checksum = 0
-        for dac_code in castor_calibration.values():
-            checksum ^= dac_code
+        for n, timer_period in enumerate(castor_calibration.keys()):
+            castor_code = castor_calibration[timer_period]
+            pollux_code = pollux_calibration[timer_period]
+            checksum ^= castor_code
+            gem.write_lut_entry(n, timer_period, castor_code, pollux_code)
 
-        log.success(f"Calibration table written, checksum: {checksum:04x}")
+        gem.write_lut()
+
+        print("[green]Saved ramp table to NVM[/], checksum: {checksum:04x}")
 
     else:
-        log.warning("Dry run enabled, calibration table not saved to device.")
+        print("[italic]Dry run enabled, ramp table not saved to device.[/]")
 
-    if reset:
-        gem.soft_reset()
-
-    log.success("Done!")
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    report_graph = reportcard.LineGraph(
+        height=500,
+        x_axis=reportcard.Axis(
+            label="Freq (Hz)",
+            min=0,
+            max=2_000,
+            min_label="0",
+            max_label="2k",
+            ease=reportcard.Ease.cube,
+        ),
+        y_axis=reportcard.Axis(
+            label="Charge (V)",
+            min=0,
+            max=3.3,
+            min_label="0",
+            max_label="3.3",
+        ),
+        grid_lines=reportcard.GridLines(
+            x_step=0.1,
+            y_step=0.5,
+        ),
     )
-    parser.add_argument(
-        "--dry_run",
-        action="store_true",
-        default=False,
-        help="Don't save the calibration values.",
+
+    # Pass validation if the charge code didn't hit the ceiling before the
+    # later 1/4 of the frequency range.
+    calibration_len = len(castor_calibration)
+    castor_passed = all(
+        x < 4095
+        for x in list(castor_calibration.values())[: int(calibration_len * 3 / 4)]
+    )
+    pollux_passed = all(
+        x < 4095
+        for x in list(pollux_calibration.values())[: int(calibration_len * 3 / 4)]
     )
 
-    args = parser.parse_args()
-
-    run(not args.dry_run)
+    return reportcard.Section(
+        name="Sawtooth",
+        items=[
+            reportcard.PassFailItem(
+                label="Castor ramp calibration", value=castor_passed
+            ),
+            reportcard.PassFailItem(
+                label="Pollux ramp calibration", value=pollux_passed
+            ),
+            reportcard.LineGraphItem(
+                series=[
+                    reportcard.Series(
+                        data=[
+                            (
+                                oscillators.timer_period_to_frequency(period),
+                                oscillators.charge_code_to_volts(code),
+                            )
+                            for period, code in castor_calibration.items()
+                        ]
+                    ),
+                    reportcard.Series(
+                        data=[
+                            (
+                                oscillators.timer_period_to_frequency(period),
+                                oscillators.charge_code_to_volts(code),
+                            )
+                            for period, code in pollux_calibration.items()
+                        ],
+                    ),
+                ],
+                graph=report_graph,
+            ),
+        ],
+    )
