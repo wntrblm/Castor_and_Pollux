@@ -174,11 +174,11 @@ exit:
 timeout_fail:
     printf("Timed out while waiting for SysEx.\n");
     sysex_data_len_ = 0;
-    printf("Received %u bytes before timeout:\n", data_index);
+    printf("Received %zu bytes before timeout:\n", data_index);
     for (size_t i = 0; i < data_index; i++) {
         printf("0x%02x ", sysex_data_[i]);
         if (i > 16) {
-            printf("... (%u more)", data_index - i);
+            printf("... (%zu more)", data_index - i);
             break;
         }
     }
