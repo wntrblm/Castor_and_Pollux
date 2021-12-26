@@ -2,8 +2,8 @@
 # Published under the standard MIT License.
 # Full text available at: https://opensource.org/licenses/MIT
 
-from rich import print
 from wintertools import reportcard
+from wintertools.print import print
 
 from libgemini import adc_errors, gemini
 
@@ -26,15 +26,15 @@ def run():
     gain_error, offset_error = adc_errors.calculate(0, 4095, zero_code, max_code)
 
     print("Pre-calibration measurements:")
-    print(f" * 0v : {zero_code}")
-    print(f" * 3.3v : {max_code}")
-    print(f" * Gain error : {gain_error:0.3f}")
-    print(f" * Offset error : {offset_error:.0f}")
+    print(f"* 0v : {zero_code}")
+    print(f"* 3.3v : {max_code}")
+    print(f"* Gain error : {gain_error:0.3f}")
+    print(f"* Offset error : {offset_error:.0f}")
 
     gem.set_adc_gain_error(gain_error)
     gem.set_adc_offset_error(offset_error)
     gem.enable_adc_error_correction()
-    print("[green]Saved to device NVM[/green]")
+    print("✓ Saved to device NVM")
 
     post_zero_code = gem.read_adc_average(gem.ADC.CHORUS_POT)
     post_max_code = gem.read_adc_average(gem.ADC.DUTY_A_POT)
@@ -43,10 +43,10 @@ def run():
     )
 
     print("Post-calibration measurements:")
-    print(f" * 0v : {post_zero_code}")
-    print(f" * 3.3v : {post_max_code}")
-    print(f" * Gain error : {post_gain_error:0.3f}")
-    print(f" * Offset error : {post_offset_error:.0f}")
+    print(f"* 0v : {post_zero_code}")
+    print(f"* 3.3v : {post_max_code}")
+    print(f"* Gain error : {post_gain_error:0.3f}")
+    print(f"* Offset error : {post_offset_error:.0f}")
 
     passed = post_zero_code < 10 and post_max_code > 4085
 

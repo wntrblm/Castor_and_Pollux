@@ -7,8 +7,8 @@ import os.path
 import pathlib
 import time
 
-from rich import print
 from wintertools import interactive, oscilloscope, reportcard, tui
+from wintertools.print import print
 
 from libgemini import gemini, oscillators, reference_calibration
 
@@ -114,11 +114,9 @@ def _calibrate_oscillator(gem, scope, oscillator):
     lowest_voltage = oscillators.charge_code_to_volts(min(results.values()))
     highest_voltage = oscillators.charge_code_to_volts(max(results.values()))
 
-    print()
-    print("[green]Calibrated:[/]")
+    print("✓ Calibrated:")
     print(f"- lowest: {lowest_voltage:.2f} volts")
     print(f"- Highest: {highest_voltage:.2f} volts")
-    print()
 
     return results
 
@@ -182,7 +180,8 @@ def run(save):
 
         gem.write_lut()
 
-        print("[green]Saved ramp table to NVM[/], checksum: {checksum:04x}")
+        print("✓ Saved ramp table to NVM")
+        print("checksum: {checksum:04x}")
 
     else:
         print("[italic]Dry run enabled, ramp table not saved to device.[/]")

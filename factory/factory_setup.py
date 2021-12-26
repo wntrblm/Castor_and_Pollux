@@ -1,7 +1,7 @@
 import argparse
 
-from rich import print
 from wintertools import fw_fetch, jlink, reportcard
+from wintertools.print import print
 
 from libgemini import adc_calibration, cv_calibration, gemini, ramp_calibration
 
@@ -92,9 +92,9 @@ def main():
     reportcard.render_html(REPORT)
 
     if REPORT.succeeded:
-        print("[green]Finished![/]")
+        print.success()
     else:
-        print("[bold red]FAILED!![/]")
+        print.failure()
 
 
 if __name__ == "__main__":

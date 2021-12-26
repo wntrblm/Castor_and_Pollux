@@ -7,8 +7,8 @@ import pathlib
 import statistics
 
 from hubble import Hubble
-from rich import print
 from wintertools import reportcard, tui
+from wintertools.print import print
 
 from libgemini import adc_errors, gemini
 
@@ -64,7 +64,7 @@ def run():
     settings.cv_gain_error = pre_gain_error
     settings.cv_offset_error = pre_offset_error
     gem.save_settings(settings)
-    print("[green]Saved to device NVM.[/]")
+    print("✓ Saved to device NVM.")
 
     print("Taking measurements with new calibration...")
 
