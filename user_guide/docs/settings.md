@@ -73,8 +73,8 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column field">
             <label class="label" for="led_brightness">LED brightness</label>
-            <input class="input" type="range" name="led_brightness" min="0" max="254" value="127" data-binding-type="int" data-value-display="(input.valueAsNumber / 254 * 100).toFixed(0)" />
-            <span class="units"><span id="led_brightness_value_display"></span> percent</span>
+            <input class="input" type="range" name="led_brightness" min="0" max="254" value="127" data-bind data-bind-type="int" />
+            <span class="units"><span data-display-value-for="led_brightness" data-display-formatter="(input.valueAsNumber / 254 * 100).toFixed(0)"></span> percent</span>
         </div>
         <div class="column">
             <p class="notification help-text">The higher the brightness, the more power the module will consume. At maximum brightness, it consumes <code>130mA</code> from the <code>+12v</code> rail.</p>
@@ -84,7 +84,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         <div class="column">
             <div class="field">
                 <label class="label" for="base_cv_offset">Base pitch CV offset</label>
-                <input class="input" type="number" name="base_cv_offset" value="1.0" step="0.083" min="0" max="5" data-binding-type="float" data-binding-precision="2" />
+                <input class="input" type="number" name="base_cv_offset" value="1.0" step="0.083" min="0" max="5" data-bind data-bind-type="float" data-binding-precision="2" />
                 <span class="units">octaves (volts)</span>
             </div>
         </div>
@@ -96,22 +96,22 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         <div class="column">
             <div class="field">
                 <label class="label" for="castor_knob_min">Castor pitch knob minimum</label>
-                <input class="input" type="number" name="castor_knob_min" value="-1.02" step="0.1" min="-3.3" max="0" data-binding-type="float" data-binding-precision="2" />
+                <input class="input" type="number" name="castor_knob_min" value="-1.02" step="0.1" min="-3.3" max="0" data-bind data-bind-type="float" />
                 <span class="units">octaves (volts)</span>
             </div>
             <div class="field">
                 <label class="label" for="castor_knob_max">Castor pitch knob maximum</label>
-                <input class="input" type="number" name="castor_knob_max" value="1.10" step="0.1" min="0" max="3.3" data-binding-type="float" data-binding-precision="2" />
+                <input class="input" type="number" name="castor_knob_max" value="1.10" step="0.1" min="0" max="3.3" data-bind data-bind-type="float" />
                 <span class="units">octaves (volts)</span>
             </div>
             <div class="field">
                 <label class="label" for="pollux_knob_min">Pollux pitch knob minimum</label>
-                <input class="input" type="number" name="pollux_knob_min" value="-1.02" step="0.1" min="-3.3" max="0" data-binding-type="float" data-binding-precision="2" />
+                <input class="input" type="number" name="pollux_knob_min" value="-1.02" step="0.1" min="-3.3" max="0" data-bind data-bind-type="float" />
                 <span class="units">octaves (volts)</span>
             </div>
             <div class="field">
                 <label class="label" for="pollux_knob_max">Pollux pitch knob maximum</label>
-                <input class="input" type="number" name="pollux_knob_max" value="1.10" step="0.1" min="0" max="3.0" data-binding-type="float" data-binding-precision="2"/>
+                <input class="input" type="number" name="pollux_knob_max" value="1.10" step="0.1" min="0" max="3.0" data-bind data-bind-type="float" />
                 <span class="units">octaves (volts)</span>
             </div>
         </div>
@@ -122,8 +122,8 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column field">
             <label class="label" for="pitch_knob_nonlinearity">Pitch knob non-linearity</label>
-            <input class="input" type="range" name="pitch_knob_nonlinearity" value="0.6" step="0.01" min="0.33" max="1.0" data-binding-type="float" data-binding-precision="2" data-value-display="percent" />
-            <span class="units"><span id="pitch_knob_nonlinearity_value_display"></span> percent</span>
+            <input class="input" type="range" name="pitch_knob_nonlinearity" value="0.6" step="0.01" min="0.33" max="1.0" data-bind data-bind-type="float" />
+            <span class="units"><span data-display-value-for="pitch_knob_nonlinearity" data-display-format="percent"></span> percent</span>
         </div>
         <div class="column">
             <p class="notification help-text">
@@ -140,8 +140,8 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column field">
             <label class="label" for="chorus_max_intensity">Chorus maximum intensity</label>
-            <input class="input" type="range" name="chorus_max_intensity" value="0.05" step="0.01" min="0" max="1.0" data-binding-type="float" data-binding-precision="2" data-value-display="percent" />
-            <span class="units"><span id="chorus_max_intensity_value_display"></span> percent</span>
+            <input class="input" type="range" name="chorus_max_intensity" value="0.05" step="0.01" min="0" max="1.0" data-bind data-bind-type="float" />
+            <span class="units"><span data-display-value-for="chorus_max_intensity" data-display-format="percent"></span> percent</span>
         </div>
         <div class="column">
             <p class="notification help-text">
@@ -152,8 +152,8 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column field">
             <label class="label" for="lfo_1_frequency">LFO frequency</label>
-            <input class="input" type="range" name="lfo_1_frequency" value="0.2" step="0.1" min="0.1" max="10.0" data-binding-type="float" data-binding-precision="2" data-value-display="float" data-value-display-precision="1" />
-            <span class="units"><span id="lfo_1_frequency_value_display"></span> hertz</span>
+            <input class="input" type="range" name="lfo_1_frequency" value="0.2" step="0.1" min="0.1" max="10.0" data-bind data-bind-type="float"/>
+            <span class="units"><span data-display-value-for="lfo_1_frequency"></span> hertz</span>
         </div>
         <div class="column">
             <p class="notification help-text">
@@ -168,28 +168,28 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             <div class="columns">
                 <div class="column">
                     <div class="select is-full-width">
-                        <select id="lfo_1_waveshape" name="lfo_1_waveshape" data-binding-type="int">
+                        <select id="lfo_1_waveshape" name="lfo_1_waveshape" data-bind data-bind-type="int">
                             <option value="0">Triangle</option>
                             <option value="1">Sine</option>
                             <option value="2">Sawtooth</option>
                             <option value="3">Square</option>
                         </select>
                     </div>
-                    <input class="input" type="range" id="lfo_1_factor" name="lfo_1_factor" value="1.0" step="0.01" min="0.0" max="1.0" data-binding-type="float"/>
+                    <input class="input" type="range" id="lfo_1_factor" name="lfo_1_factor" value="1.0" step="0.01" min="0.0" max="1.0" data-bind data-bind-type="float"/>
                     <label class="label-nested" for="lfo_1_factor">amplitude</label>
                 </div>
                 <div class="column">
                     <div class="select is-full-width">
-                        <select id="lfo_2_waveshape" name="lfo_2_waveshape" data-binding-type="int">
+                        <select id="lfo_2_waveshape" name="lfo_2_waveshape" data-bind-type="int">
                             <option value="0">Triangle</option>
                             <option value="1">Sine</option>
                             <option value="2">Sawtooth</option>
                             <option value="3">Square</option>
                         </select>
                     </div>
-                    <input class="input" type="range" id="lfo_2_factor" name="lfo_2_factor" value="1.0" step="0.01" min="0.0" max="1.0" data-binding-type="float"/>
+                    <input class="input" type="range" id="lfo_2_factor" name="lfo_2_factor" value="1.0" step="0.01" min="0.0" max="1.0" data-bind data-bind-type="float"/>
                     <label class="label-nested" for="lfo_2_factor">amplitude</label>
-                    <input class="input" type="range" id="lfo_2_frequency_ratio" name="lfo_2_frequency_ratio" value="1.0" step="0.01" min="0.0" max="10.0" data-binding-type="float"/>
+                    <input class="input" type="range" id="lfo_2_frequency_ratio" name="lfo_2_frequency_ratio" value="1.0" step="0.01" min="0.0" max="10.0" data-bind data-bind-type="float"/>
                     <label class="label-nested" for="lfo_2_frequency_ratio">frequency ratio</label>
                 </div>
             </div>
@@ -209,13 +209,13 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             </div>
             <div class="field">
                 <label class="checkbox" for="castor_lfo_pwm">
-                    <input class="checkbox" type="checkbox" id="castor_lfo_pwm" name="castor_lfo_pwm" value="on" data-binding-type="checkbox" />
+                    <input class="checkbox" type="checkbox" id="castor_lfo_pwm" name="castor_lfo_pwm" value="on" data-bind />
                     Route LFO to Castor's pulse width
                 </label>
             </div>
             <div class="field">
                 <label class="checkbox" for="pollux_lfo_pwm">
-                    <input class="checkbox" type="checkbox" id="pollux_lfo_pwm" name="pollux_lfo_pwm" value="on" data-binding-type="checkbox" />
+                    <input class="checkbox" type="checkbox" id="pollux_lfo_pwm" name="pollux_lfo_pwm" value="on" data-bind />
                     Route LFO to Pollux's pulse width
                 </label>
             </div>
@@ -230,13 +230,13 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         <div class="column">
             <div class="field">
                 <label class="label" for="smooth_initial_gain">CV smoothing initial gain</label>
-                <input class="input" type="range" name="smooth_initial_gain" value="0.1" step="0.05" min="0" max="1" data-binding-type="float" data-binding-precision="4" data-value-display="percent" />
-                <span class="units"><span id="smooth_initial_gain_value_display"></span> percent</span>
+                <input class="input" type="range" name="smooth_initial_gain" value="0.1" step="0.05" min="0" max="1" data-bind data-bind-type="float" data-binding-precision="4" />
+                <span class="units"><span data-display-value-for="smooth_initial_gain" data-display-format="percent"></span> percent</span>
             </div>
             <div class="field">
                 <label class="label" for="smooth_sensitivity">CV smoothing sensitivity</label>
-                <input class="input" type="range" name="smooth_sensitivity" value="20" step="1" min="0" max="100" data-binding-type="float" data-binding-precision="2" data-value-display />
-                <span class="units"><span id="smooth_sensitivity_value_display"></span>x multiplier</span>
+                <input class="input" type="range" name="smooth_sensitivity" value="20" step="1" min="0" max="100" data-bind data-bind-type="float" />
+                <span class="units"><span data-display-value-for="smooth_sensitivity"></span>x multiplier</span>
             </div>
         </div>
         <div class="column">
@@ -258,8 +258,8 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column field">
             <label class="label" for="pollux_follower_threshold">Pollux follower threshold</label>
-            <input class="input is-dangerous" type="number" name="pollux_follower_threshold" min="0" max="500" value="100" readonly data-binding-type="int" data-value-display />
-            <span class="units"><span id="pollux_follower_threshold_value_display"></span> code points, <span id="pollux_follower_threshold_value_display_volts"></span> volts</span>
+            <input class="input is-dangerous" type="number" name="pollux_follower_threshold" min="0" max="500" value="100" readonly data-bind data-bind-type="int"/>
+            <span class="units"><span data-display-value-for="pollux_follower_threshold"></span> code points, <span data-display-value-for="pollux_follower_threshold" data-display-formatter="((input.valueAsNumber / 4096) * 6.0).toFixed(2);"></span> volts</span>
         </div>
         <div class="column">
             <p class="notification help-text">
@@ -271,22 +271,22 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         <div class="column">
             <div class="field">
                 <label class="label" for="cv_gain_error">CV input gain correction</label>
-                <input class="input is-dangerous" type="number" name="cv_gain_error" value="1" min="0.5" max="2.0" step="0.0001" readonly data-binding-type="float" data-binding-precision="4"/>
+                <input class="input is-dangerous" type="number" name="cv_gain_error" value="1" min="0.5" max="2.0" step="0.0001" readonly data-bind data-bind-type="float" data-binding-precision="4"/>
                 <span class="units">multiplier</span>
             </div>
             <div class="field">
                 <label class="label" for="cv_offset_error">CV input error correction</label>
-                <input class="input is-dangerous" type="number" name="cv_offset_error" value="0" readonly data-binding-type="float" data-binding-precision="1"/>
+                <input class="input is-dangerous" type="number" name="cv_offset_error" value="0" readonly data-bind-type="float" data-bind data-binding-precision="1"/>
                 <span class="units">code points</span>
             </div>
             <div class="field">
                 <label class="label" for="adc_gain_corr">ADC gain correction</label>
-                <input class="input is-dangerous" type="number" name="adc_gain_corr" value="2048" min="1024" max="3072" readonly data-binding-type="int" data-value-display="(input.valueAsNumber / 2048).toFixed(3)"/>
-                <span class="units"><span id="adc_gain_corr_value_display"></span>x multiplier</span>
+                <input class="input is-dangerous" type="number" name="adc_gain_corr" value="2048" min="1024" max="3072" readonly data-bind data-bind-type="int"/>
+                <span class="units"><span data-display-value-for="adc_gain_corr" data-display-formatter="(input.valueAsNumber / 2048).toFixed(3)"></span>x multiplier</span>
             </div>
             <div class="field">
                 <label class="label" for="adc_offset_corr">ADC offset correction</label>
-                <input class="input is-dangerous" type="number" name="adc_offset_corr" value="0" min="-100" max="100" readonly data-binding-type="int" />
+                <input class="input is-dangerous" type="number" name="adc_offset_corr" value="0" min="-100" max="100" readonly data-bind data-bind-type="int" />
                 <span class="units">code points</span>
             </div>
         </div>

@@ -1,5 +1,5 @@
-import * as Teeth from "./winterjs/teeth.js";
-import { Uint8Array_to_hex } from "./winterjs/utils.js";
+import * as Teeth from "../winterjs/teeth.js";
+import { Uint8Array_to_hex } from "../winterjs/utils.js";
 import GemSettings from "./gem_settings.js";
 
 function strip_response(response) {

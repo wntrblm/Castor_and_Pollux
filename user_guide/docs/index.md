@@ -175,11 +175,11 @@ The ramp wave looks like this (click the image to start and stop the animation):
 
 The ramp sounds like this:
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="ramp wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_octaves.mp3"></audio>
 </div>
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="ramp with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_filtered.mp3"></audio>
 </div>
 
@@ -190,7 +190,7 @@ The pulse wave depends on the pulse width CV and knob. You can vary the pulse wi
     <form id="pulse-form">
         <div class="slider">
             <input type="range" id="pulse-width" name="width"
-                    min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+                    min="0" max="1.0" step="0.01" value="0.5" data-bind data-bind-type="float">
             <label for="pulse-width">pulse width</label>
         </div>
     </form>
@@ -200,15 +200,15 @@ You can also configure the [internal low-frequency oscillator](#internal-low-fre
 
 Here's some examples of the pulse wave's sound:
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="pulse wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_octaves.mp3"></audio>
 </div>
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="pulse with pulse-width modulation" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_pwm.mp3"></audio>
 </div>
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="pulse with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_filtered.mp3"></audio>
 </div>
 
@@ -220,11 +220,11 @@ Finally, there's the sub waveshape. It's a square wave that's one octave lower. 
 
 And here's some sound samples of the sub waveshape:
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="sub wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_octaves.mp3"></audio>
 </div>
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="sub with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_filtered.mp3"></audio>
 </div>
 
@@ -235,22 +235,22 @@ These these waveshapes can be mixed together to produce much more complex and in
     <form id="mix-form">
         <div class="slider">
             <input type="range" id="ramp_mix" name="ramp_mix"
-                    min="0" max="0.5" step="0.01" value="0.5" data-binding-type="float">
+                    min="0" max="0.5" step="0.01" value="0.5" data-bind data-bind-type="float">
             <label for="ramp_mix">ramp volume</label>
         </div>
         <div class="slider">
             <input type="range" id="pulse_mix" name="pulse_mix"
-                    min="0" max="0.5" step="0.01" value="0.25" data-binding-type="float">
+                    min="0" max="0.5" step="0.01" value="0.25" data-bind data-bind-type="float">
             <label for="pulse_mix">pulse volume</label>
         </div>
         <div class="slider">
             <input type="range" id="pulse_width_mix" name="pulse_width"
-                    min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+                    min="0" max="1.0" step="0.01" value="0.5" data-bind data-bind-type="float">
             <label for="pulse_width_mix">pulse width</label>
         </div>
         <div class="slider">
             <input type="range" id="sub_mix" name="sub_mix"
-                    min="0" max="0.5" step="0.01" value="0.25" data-binding-type="float">
+                    min="0" max="0.5" step="0.01" value="0.25" data-bind data-bind-type="float">
             <label for="sub_mix">sub volume</label>
         </div>
     </form>
@@ -258,15 +258,15 @@ These these waveshapes can be mixed together to produce much more complex and in
 
 Here's some sound samples of various mixes:
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="ramp & sub" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_sub.mp3"></audio>
 </div>
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="sub & pulse" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_square_with_pwm.mp3"></audio>
 </div>
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="various mixes" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/waveform_mixing.mp3"></audio>
 </div>
 
@@ -282,12 +282,12 @@ You can play around with this interactive animation to see how detuning and mixi
     <form id="stacked-form">
         <div class="slider">
             <input type="range" id="stacked_detune" name="detune"
-                    min="-1" max="1" step="0.01" value="0.25" data-binding-type="float">
+                    min="-1" max="1" step="0.01" value="0.25" data-bind data-bind-type="float">
             <label for="stacked_detune">detuning</label>
         </div>
         <div class="slider">
             <input type="range" id="stacked_mix" name="mix"
-                    min="0" max="1.0" step="0.01" value="0.5" data-binding-type="float">
+                    min="0" max="1.0" step="0.01" value="0.5" data-bind data-bind-type="float">
             <label for="stacked_mix">crossfader (Σ)</label>
         </div>
     </form>
@@ -295,15 +295,15 @@ You can play around with this interactive animation to see how detuning and mixi
 
 This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here's some sound samples of oscillator stacking:
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="stacked complex waveforms" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/stacked_complex.mp3"></audio>
 </div>
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="stacked sub & ramp" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/twilight.mp3"></audio>
 </div>
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="stacked sub & pulse" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/steps.mp3"></audio>
 </div>
 
@@ -319,7 +319,7 @@ You can play around with this interactive animation to see how the chorusing amo
     <form id="chorusing-form">
         <div class="slider">
             <input type="range" id="chorusing_amount" name="amount"
-                    min="0" max="1" step="0.01" value="0.25" data-binding-type="float">
+                    min="0" max="1" step="0.01" value="0.25" data-bind data-bind-type="float">
             <label for="chorusing_amount">chorusing amount (φ)</label>
         </div>
     </form>
@@ -327,7 +327,7 @@ You can play around with this interactive animation to see how the chorusing amo
 
 Here's some sound samples of chorusing:
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="chorusing" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/chorusing.mp3"></audio>
 </div>
 
@@ -340,7 +340,7 @@ To use hard sync **tap** the hard sync button - the LEDs should all change to th
 
 Here's some sound samples of hard sync:
 
-<div class="winter-oscilloscope">
+<div class="winter-audio-player">
     <audio title="hard sync" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/hard_sync.mp3"></audio>
 </div>
 
@@ -417,6 +417,5 @@ Castor & Pollux would not be possible without the help of the Adafruit, support 
 
 <link rel="stylesheet" href="styles/waveforms.css">
 <script type="module" src="scripts/waveforms.js"></script>
-
-<link rel="stylesheet" href="scripts/winterjs/oscilloscope.css">
-<script type="module" src="scripts/winterjs/oscilloscope.js"></script>
+<link rel="stylesheet" href="/winterjs/audio-player.css">
+<script type="module" src="/winterjs/audio-player.js"></script>

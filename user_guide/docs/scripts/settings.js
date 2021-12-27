@@ -4,9 +4,9 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-import { $e, $on } from "./winterjs/utils.js";
-import * as forms from "./winterjs/forms.js";
-import MIDI from "./winterjs/midi.js";
+import { $e, $on } from "../winterjs/utils.js";
+import * as forms from "../winterjs/forms.js";
+import MIDI from "../winterjs/midi.js";
 import GemSettings from "./gem_settings.js";
 import Gemini from "./gemini.js";
 import GitHub from "./github.js";
@@ -222,13 +222,6 @@ $on(ui.allow_danger, "change", function () {
   Form data binding and display logic
 */
 ui.settings_form = new forms.Form(ui.settings_form_elem, settings);
-forms.bind_value_displays(ui.settings_form.elem);
-
-new forms.ValueDisplay(
-    ui.settings_form.elem["pollux_follower_threshold"],
-    (input) => ((input.valueAsNumber / 4096) * 6.0).toFixed(2),
-    "pollux_follower_threshold_value_display_volts"
-);
 
 /*
     Helper to draw the LFO waveform.
