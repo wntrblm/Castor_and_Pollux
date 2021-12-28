@@ -218,7 +218,7 @@ Congratulations! You've finished your very own Castor & Pollux!
 
 ![All done](images/finished.jpg)
 
-Now that it's all put together go check out the [User's Guide](/index) and please show us your work by tweeting at [@wntrblm](https://twitter.com/wntrblm) or tagging [@wntrblm](https://instagram.com/wntrblm) in your instagram post.
+Now that it's all put together go check out the [User's Guide](/) and please show us your work by tweeting at [@wntrblm](https://twitter.com/wntrblm) or tagging [@wntrblm](https://instagram.com/wntrblm) in your instagram post.
 
 
 [discord]: https://discord.gg/UpfqghQ
