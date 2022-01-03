@@ -1,5 +1,6 @@
 import argparse
 
+from hubble import Hubble
 from wintertools import fw_fetch, jlink, reportcard
 from wintertools.print import print
 
@@ -62,6 +63,9 @@ def main():
 
     args = parser.parse_args()
 
+    hubble = Hubble.get()
+    hubble.start()
+
     if "firmware" in args.stages:
         print("# Programming firmware")
         fw_fetch.latest_bootloader(DEVICE_NAME)
@@ -92,8 +96,10 @@ def main():
     reportcard.render_html(REPORT)
 
     if REPORT.succeeded:
+        hubble.success()
         print.success()
     else:
+        hubble.fail()
         print.failure()
 
 

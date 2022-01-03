@@ -144,8 +144,6 @@ def run(save):
     scope.set_vertical_division("c2", "800mV")
     scope.set_vertical_offset("c2", "-1.65V")
 
-    print("!! Connect PROBE ONE to RAMP A")
-    print("!! Connect PROBE TWO to RAMP B")
     print("!! Confirm sawtooth waveforms are visible before continuing!")
     interactive.continue_when_ready()
 
