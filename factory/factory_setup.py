@@ -1,7 +1,7 @@
 import argparse
 
 from hubble import Hubble
-from wintertools import fw_fetch, jlink, reportcard
+from wintertools import fw_fetch, jlink, reportcard, thermalprinter
 from wintertools.print import print
 
 from libgemini import adc_calibration, cv_calibration, gemini, ramp_calibration
@@ -76,10 +76,6 @@ def main():
 
     get_firmware_and_serial()
 
-    if "ramp" in args.stages:
-        print("# Calibrating ramps")
-        REPORT.sections.append(ramp_calibration.run(save=True))
-
     if "adc" in args.stages:
         print("# Calibrating ADC")
         REPORT.sections.append(adc_calibration.run())
@@ -87,6 +83,10 @@ def main():
     if "cv" in args.stages:
         print("# Calibrating pitch CV")
         REPORT.sections.append(cv_calibration.run())
+
+    if "ramp" in args.stages:
+        print("# Calibrating ramps")
+        REPORT.sections.append(ramp_calibration.run(save=True))
 
     gem = gemini.Gemini.get()
     gem.soft_reset()
@@ -101,6 +101,8 @@ def main():
     else:
         hubble.fail()
         print.failure()
+
+    thermalprinter.print_me_maybe(reportcard.render_image(REPORT))
 
 
 if __name__ == "__main__":
