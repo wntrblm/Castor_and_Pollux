@@ -38,7 +38,8 @@ void GemOscillator_init(
     fix16_t base_offset,
     fix16_t knob_min,
     fix16_t knob_max,
-    bool lfo_pwm) {
+    bool lfo_pwm,
+    bool quantize) {
 
     osc->number = number;
     osc->pitch_cv_channel = pitch_cv_channel;
@@ -51,6 +52,7 @@ void GemOscillator_init(
     osc->follower_threshold = 0;
     osc->lfo_pwm = lfo_pwm;
     osc->lfo_pitch = false;
+    osc->quantize = quantize;
 
     osc->outputs = (struct GemOscillatorOutputs){};
     osc->smooth.initial_gain = smooth_initial_gain;

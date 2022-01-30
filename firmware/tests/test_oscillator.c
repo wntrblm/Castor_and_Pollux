@@ -17,7 +17,7 @@ TEST_CASE_BEGIN(update)
     gem_oscillator_init(error_correction, F16(0.6));
 
     struct GemOscillator osc = {};
-    GemOscillator_init(&osc, 0, 0, 1, 2, 3, F16(1.0), F16(1.0), F16(1.0), F16(-1.5), F16(1.5), false);
+    GemOscillator_init(&osc, 0, 0, 1, 2, 3, F16(1.0), F16(1.0), F16(1.0), F16(-1.5), F16(1.5), false, false);
 
     struct GemOscillatorInputs inputs = {.adc = (uint32_t[]){4095, 2048, 4095, 2048}};
     GemOscillator_update(&osc, inputs);

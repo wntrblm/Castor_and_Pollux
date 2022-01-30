@@ -41,6 +41,7 @@ struct GemOscillator {
     uint16_t follower_threshold;
     bool lfo_pitch;
     bool lfo_pwm;
+    bool quantize;
 
     /* State */
     struct GemOscillatorOutputs outputs;
@@ -67,7 +68,8 @@ void GemOscillator_init(
     fix16_t base_offset,
     fix16_t knob_min,
     fix16_t knob_max,
-    bool lfo_pwm);
+    bool lfo_pwm,
+    bool quantize);
 
 void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) RAMFUNC;
 

@@ -9,9 +9,9 @@ import structy
 
 @dataclass
 class GemSettings(structy.Struct):
-    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??iiiBBii"
+    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??iiiBBii??"
 
-    PACKED_SIZE : ClassVar[int] = 72
+    PACKED_SIZE : ClassVar[int] = 74
     """The total size of the struct once packed."""
 
     adc_gain_corr: int = 2048
@@ -86,3 +86,17 @@ class GemSettings(structy.Struct):
 
     lfo_2_factor: structy.Fix16 = 0
     """LFO 2's factor."""
+
+    castor_quantize: bool = False
+    """Quantize pitch CV inputs. This only affects the CV input, not the
+            pitch knob, so that the oscillator can still be tuned. The base CV
+            offset is added before quantization, so that the quantizer can be
+            calibrated against an external CV source.
+
+            If you find that Castor & Pollux's pitch keeps jumping back and forth
+            between adjacent notes, this means that the CV source is outputing
+            values near to the boundary between two notes. Try increasing the base
+            CV offset by 1/24 (ie, 0.0416...), to recenter the voltages properly.
+        """
+
+    pollux_quantize: bool = False

@@ -9,7 +9,7 @@
 
 #include "fix16.h"
 
-#define GEMSETTINGS_PACKED_SIZE 72
+#define GEMSETTINGS_PACKED_SIZE 74
 
 struct GemSettings {
     /* The ADC's internal gain correction register. */
@@ -62,6 +62,18 @@ struct GemSettings {
     fix16_t lfo_1_factor;
     /* LFO 2's factor. */
     fix16_t lfo_2_factor;
+    /* Quantize pitch CV inputs. This only affects the CV input, not the
+        pitch knob, so that the oscillator can still be tuned. The base CV
+        offset is added before quantization, so that the quantizer can be
+        calibrated against an external CV source.
+
+        If you find that Castor & Pollux's pitch keeps jumping back and forth
+        between adjacent notes, this means that the CV source is outputing
+        values near to the boundary between two notes. Try increasing the base
+        CV offset by 1/24 (ie, 0.0416...), to recenter the voltages properly.
+     */
+    bool castor_quantize;
+    bool pollux_quantize;
 };
 
 void GemSettings_init(struct GemSettings* inst);
