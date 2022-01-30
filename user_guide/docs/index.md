@@ -157,6 +157,9 @@ In order to make tuning easier, the pitch knobs have a **non-linear** response: 
 
 Notice that with the non-linear response it's much easier to tune to frequencies around `440 Hz`. This is how Castor & Pollux's pitch knobs work. You can configure how strong this effect is using the [settings editor](#editing-module-settings).
 
+The pitch CV inputs can optionally be quantized to the nearest semitone. This is not enabled by default,
+but can be enabled using the [settings editor](#editing-module-settings). The pitch knobs are never
+quantized, only the CV inputs, so that the knobs can still be used to tune the oscillators.
 
 ## Waveshapes
 

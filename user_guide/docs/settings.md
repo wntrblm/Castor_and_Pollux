@@ -95,6 +95,25 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column">
             <div class="field">
+                <label class="label">Pitch quantizer</label>
+            </div>
+            <div class="field">
+                <input class="checkbox" type="checkbox" id="castor_quantize" name="castor_quantize" value="off" data-bind />
+                Quantize Castor pitch CV
+            </div>
+            <div class="field">
+                <input class="checkbox" type="checkbox" id="pollux_quantize" name="pollux_quantize" value="off" data-bind />
+                Quantize Pollux pitch CV
+            </div>
+        </div>
+        <div class="column">
+            <p class="notification help-text">These settings determine whether to quantize the pitch CV inputs. This only affects the CV input, not the pitch knob, so that the oscillator can still be tuned. The base CV offset is added before quantization, so that the quantizer can be calibrated against an external CV source.</p>
+            <p class="notification help-text">If you find that Castor &amp; Pollux's pitch keeps jumping back and forth between adjacent notes, this means that the CV source is outputing values near to the boundary between two notes. Try increasing the base CV offset by 1/24 (ie, 0.0416...), to recenter the voltages properly.</p>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="field">
                 <label class="label" for="castor_knob_min">Castor pitch knob minimum</label>
                 <input class="input" type="number" name="castor_knob_min" value="-1.02" step="0.1" min="-3.3" max="0" data-bind data-bind-type="float" />
                 <span class="units">octaves (volts)</span>
