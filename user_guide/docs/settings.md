@@ -107,8 +107,10 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             </div>
         </div>
         <div class="column">
-            <p class="notification help-text">These settings determine whether to quantize the pitch CV inputs. This only affects the CV input, not the pitch knob, so that the oscillator can still be tuned. The base CV offset is added before quantization, so that the quantizer can be calibrated against an external CV source.</p>
-            <p class="notification help-text">If you find that Castor &amp; Pollux's pitch keeps jumping back and forth between adjacent notes, this means that the CV source is outputing values near to the boundary between two notes. Try increasing the base CV offset by 1/24 (ie, 0.0416...), to recenter the voltages properly.</p>
+            <div class="notification help-text">
+                <p>These settings determine whether to quantize the pitch CV inputs. This only affects the CV input, not the pitch knob, so that the oscillator can still be tuned. The base CV offset is added before quantization, so that the quantizer can be calibrated against an external CV source.</p>
+                <p>If you find that Castor &amp; Pollux's pitch keeps jumping back and forth between adjacent notes, this means that the CV source is outputing values near to the boundary between two notes. Try increasing the base CV offset by 1/24 (ie, 0.0416...), to recenter the voltages properly.</p>
+            </div>
         </div>
     </div>
     <div class="columns">
