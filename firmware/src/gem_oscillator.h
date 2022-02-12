@@ -52,6 +52,7 @@ struct GemOscillator {
     uint16_t pulse_width_knob;
     uint16_t pulse_width_cv;
     uint16_t pulse_width;
+    uint16_t quantizer_bin;
 };
 
 void gem_oscillator_init(struct WntrErrorCorrection pitch_cv_adc_error_correction, fix16_t pitch_knob_nonlinearity);

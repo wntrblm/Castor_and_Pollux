@@ -6,6 +6,7 @@
 
 #include "gem_oscillator.h"
 #include "gem_config.h"
+#include "gem_quantizer.h"
 #include "wntr_bezier.h"
 #include "wntr_uint12.h"
 
@@ -61,6 +62,7 @@ void GemOscillator_init(
     osc->smooth._lowpass2 = F16(0);
     osc->pitch = F16(0);
     osc->pulse_width = 2048;
+    osc->quantizer_bin = 0;
 }
 
 void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
@@ -143,12 +145,32 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
         fix16_t pitch_cv = fix16_add(osc->base_offset, fix16_mul(GEM_CV_INPUT_RANGE, cv));
 
         if (osc->quantize) {
-            /*
-              Quantize to the nearest 12-tone equal temperament note.
-            */
-            pitch_cv = pitch_cv * 12;
-            pitch_cv = fix16_floor(fix16_add(pitch_cv, F16(0.5)));
-            pitch_cv = (pitch_cv + 6) / 12;
+            const fix16_t hysteresis = gem_quantizer_config.hysteresis;
+            const uint32_t notes_len = gem_quantizer_config.notes_len;
+            const struct GemQuantizerTableEntry* notes = &gem_quantizer_config.notes[0];
+
+            /* Find the upper and lower bounds of the current quantizer bin,
+               including hysteresis */
+            fix16_t bin_bottom = notes[osc->quantizer_bin].threshold - hysteresis;
+            fix16_t bin_top;
+            if (osc->quantizer_bin == notes_len - 1) {
+                /*
+                    Prevent reading off the end of the table.
+                */
+                bin_top = INT32_MAX;
+            } else {
+                bin_top = notes[osc->quantizer_bin + 1].threshold + hysteresis;
+            }
+
+            if (pitch_cv < bin_bottom || pitch_cv >= bin_top) {
+                osc->quantizer_bin = GemQuantizer_search_table(pitch_cv);
+            }
+
+            // Should never be hit, but just to be sure...
+            if (osc->quantizer_bin >= notes_len) {
+                osc->quantizer_bin = notes_len - 1;
+            }
+            pitch_cv = notes[osc->quantizer_bin].output;
         }
 
         osc->pitch_cv = pitch_cv;

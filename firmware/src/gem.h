@@ -19,6 +19,7 @@
 #include "gem_nvm.h"
 #include "gem_oscillator.h"
 #include "gem_pulseout.h"
+#include "gem_quantizer.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
 #include "gem_spi.h"
