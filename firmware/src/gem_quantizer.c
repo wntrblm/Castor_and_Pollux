@@ -5,11 +5,6 @@
 */
 
 /* TODO:
-    * Sysex messages to upload/download table
-      * Will need to expand max sysex size in third_party/libwinter/wntr_midi_core.c
-      * Pack into/unpack from buffer on stack, as with other sysexes
-      * Live-load for testing purposes
-
     * Write scripts to generate a few useful scales
 
     * Allocate space in flash, implement load/save functions
@@ -24,6 +19,7 @@
 */
 
 #include "gem_quantizer.h"
+#include "wntr_pack.h"
 #include <string.h>
 
 /* Static variables */
@@ -75,6 +71,36 @@ uint32_t GemQuantizer_search_table(fix16_t pitch_cv) {
     }
 
     return lo;
+}
+
+void GemQuantizer_erase() {
+    // TODO: Clear stored table instead
+    gem_quantizer_config = default_quantizer_config;
+}
+
+bool GemQuantizer_unpack(struct GemQuantizerConfig* config, const uint8_t* data) {
+    config->hysteresis = (fix16_t)WNTR_UNPACK_32(data, 0);
+    config->notes_len = (uint32_t)data[4];
+    for (uint32_t i = 0; i < config->notes_len; i++) {
+        config->notes[i].threshold = (fix16_t)WNTR_UNPACK_32(data, 5 + 8 * i + 0);
+        config->notes[i].output = (fix16_t)WNTR_UNPACK_32(data, 5 + 8 * i + 4);
+    }
+    // TODO: Validation
+    return true;
+}
+
+bool GemQuantizer_pack(const struct GemQuantizerConfig* config, uint8_t* data) {
+    // Clear the output buffer, as we may not necessarily write to every byte
+    memset(data, 0, GEMQUANTIZER_PACKED_SIZE);
+
+    WNTR_PACK_32(config->hysteresis, data, 0);
+    data[4] = (uint8_t)config->notes_len;
+    for (uint32_t i = 0; i < config->notes_len; i++) {
+        WNTR_PACK_32(config->notes[i].threshold, data, 5 + 8 * i + 0);
+        WNTR_PACK_32(config->notes[i].output, data, 5 + 8 * i + 4);
+    }
+    // TODO: Validation
+    return true;
 }
 
 /* Private functions */

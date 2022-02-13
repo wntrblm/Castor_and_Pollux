@@ -28,7 +28,7 @@ RAM_SIZE = 0x8000
 # The amount of SRAM to set aside for the program stack. This is
 # application-specific. Wintertools enables warnings about using more stack
 # than available to help tune this.
-STACK_SIZE = 0x800
+STACK_SIZE = 0x2000
 
 # Each device has a seperate linker script. This was copied from
 # third_party/samd21/gcc

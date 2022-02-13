@@ -11,6 +11,7 @@
 #include "gem_lookup_tables.h"
 #include "gem_mcp4728.h"
 #include "gem_pulseout.h"
+#include "gem_quantizer.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
 #include "gem_usb.h"
@@ -72,6 +73,8 @@ static void cmd_0x04_read_adc_(const uint8_t* data, size_t len);
 static void cmd_0x05_set_dac_(const uint8_t* data, size_t len);
 static void cmd_0x06_set_period_(const uint8_t* data, size_t len);
 static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len);
+static void cmd_0x08_erase_quantizer_config_(const uint8_t* data, size_t len);
+
 static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len);
 static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len);
 static void cmd_0x0C_erase_lut_(const uint8_t* data, size_t len);
@@ -82,8 +85,11 @@ static void cmd_0x10_monitor_(const uint8_t* data, size_t len);
 static void cmd_0x11_soft_reset_(const uint8_t* data, size_t len);
 static void cmd_0x12_enter_calibration_mode_(const uint8_t* data, size_t len);
 static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len);
+
 static void cmd_0x18_read_settings_(const uint8_t* data, size_t len);
 static void cmd_0x19_write_settings_(const uint8_t* data, size_t len);
+static void cmd_0x1A_read_quantizer_config_(const uint8_t* data, size_t len);
+static void cmd_0x1B_write_quantizer_config_(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -95,6 +101,8 @@ void gem_register_sysex_commands() {
     wntr_midi_register_sysex_command(0x05, cmd_0x05_set_dac_);
     wntr_midi_register_sysex_command(0x06, cmd_0x06_set_period_);
     wntr_midi_register_sysex_command(0x07, cmd_0x07_erase_settings_);
+    wntr_midi_register_sysex_command(0x08, cmd_0x08_erase_quantizer_config_);
+
     wntr_midi_register_sysex_command(0x0A, cmd_0x0A_write_lut_entry_);
     wntr_midi_register_sysex_command(0x0B, cmd_0x0B_write_lut_);
     wntr_midi_register_sysex_command(0x0C, cmd_0x0C_erase_lut_);
@@ -105,8 +113,11 @@ void gem_register_sysex_commands() {
     wntr_midi_register_sysex_command(0x11, cmd_0x11_soft_reset_);
     wntr_midi_register_sysex_command(0x12, cmd_0x12_enter_calibration_mode_);
     wntr_midi_register_sysex_command(0x13, cmd_0x13_reset_into_bootloader_);
+
     wntr_midi_register_sysex_command(0x18, cmd_0x18_read_settings_);
     wntr_midi_register_sysex_command(0x19, cmd_0x19_write_settings_);
+    wntr_midi_register_sysex_command(0x1A, cmd_0x1A_read_quantizer_config_);
+    wntr_midi_register_sysex_command(0x1B, cmd_0x1B_write_quantizer_config_);
 };
 
 void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
@@ -407,4 +418,62 @@ static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len) {
     debug_printf("SysEx 0x13: Reset into bootloader.\n");
 
     wntr_reset_into_bootloader();
+}
+
+static void cmd_0x08_erase_quantizer_config_(const uint8_t* data, size_t len) {
+    (void)data;
+    (void)len;
+
+    /* Clear live quantizer config. TODO: Clear in flash instead */
+    GemQuantizer_erase();
+
+    debug_printf("SysEx 0x08: Erased quantizer config\n");
+}
+
+static void cmd_0x1A_read_quantizer_config_(const uint8_t* data, size_t len) {
+    (void)data;
+    (void)len;
+
+    /* Read live quantizer config. TODO: Read from flash instead */
+    uint8_t config_buf[GEMQUANTIZER_PACKED_SIZE];
+    GemQuantizer_pack(&gem_quantizer_config, config_buf);
+
+    PREPARE_RESPONSE(0x1A, TEETH_ENCODED_LENGTH(GEMQUANTIZER_PACKED_SIZE));
+    teeth_encode(config_buf, GEMQUANTIZER_PACKED_SIZE, response);
+    SEND_RESPONSE();
+
+    debug_printf("SysEx 0x1A: Read quantizer config\n");
+}
+
+static void cmd_0x1B_write_quantizer_config_(const uint8_t* data, size_t len) {
+    (void)data;
+    (void)len;
+
+#if 0
+    /* Request (teeth): serialized settings */
+    DECODE_TEETH_REQUEST(GEMSETTINGS_PACKED_SIZE);
+
+    struct GemSettings settings;
+
+    if (GemSettings_unpack(&settings, request).status == STRUCTY_RESULT_OKAY) {
+        GemSettings_save(&settings);
+    } else {
+        debug_printf("Failed to save settings, unable to deserialize.\n");
+    }
+
+    /* Ack the data. */
+    RESPONSE_0(0x19);
+
+    debug_printf("SysEx 0x19: Wrote settings\n");
+#endif
+
+    /* Write live quantizer config. TODO: Write to flash instead */
+    DECODE_TEETH_REQUEST(GEMQUANTIZER_PACKED_SIZE);
+
+    GemQuantizer_unpack(&gem_quantizer_config, request);
+
+    /* Ack the data. */
+    RESPONSE_0(0x1B);
+
+    debug_printf("SysEx 0x19: Wrote quantizer config\n");
 }

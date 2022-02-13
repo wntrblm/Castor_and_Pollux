@@ -7,6 +7,7 @@
 #pragma once
 
 #include "fix16.h"
+#include <stdbool.h>
 #include <stdint.h>
 
 /* Implementation of the optional pitch quantizer */
@@ -97,6 +98,13 @@ struct GemQuantizerConfig {
     // TODO: Add checksum
 };
 
+// Maximum size of a packed quantizer table
+// Size is 4 bytes for hysteresis, 1 byte for number of notes, then 255*8 bytes for notes
+// Note: This size could be reduced by storing values in i4.12 format, rather than
+// the current `fix16` (i16.16) format, as the extra range and precision are not
+// needed here
+#define GEMQUANTIZER_PACKED_SIZE 2045
+
 extern struct GemQuantizerConfig gem_quantizer_config;
 
 void gem_quantizer_init();
@@ -105,3 +113,7 @@ void gem_quantizer_init();
 // falls into.
 // Returns the index of the quantizer bin.
 uint32_t GemQuantizer_search_table(fix16_t pitch_cv);
+
+void GemQuantizer_erase();
+bool GemQuantizer_unpack(struct GemQuantizerConfig* config, const uint8_t* data);
+bool GemQuantizer_pack(const struct GemQuantizerConfig* config, uint8_t* data);
