@@ -120,16 +120,15 @@ There is also a combined output that mixes the output from both oscillators mixe
 
 The [oscillator stacking](#oscillator-stacking) section has more details and sound samples of combining the oscillators together.
 
-Finally, there is a knob to enable chorusing and a button to enable hard sync:
+Finally, there is a knob to enable chorusing, and a button to enable hard sync:
 
 ![Chorusing knob and hard sync button](images/chorusing_hard_sync.png)
 
-The [chorusing](#chorusing) section goes into more detail and has some sound samples, and the [hard sync](#hard-sync) section shows how hard sync affects the second oscillator.
+The [chorusing](#chorusing) section goes into more detail and has some sound samples. The [hard sync](#hard-sync) section shows how hard sync affects the second oscillator.
 
 Finally, here's a cheatsheet if you'd like to have a quick reference:
 
 ![Module with labels for inputs and outputs](images/gemini-labeled.png)
-
 
 ## Tuning
 
@@ -198,7 +197,7 @@ The pulse wave depends on the pulse width CV and knob. You can vary the pulse wi
 
 You can also configure the [internal low-frequency oscillator](#internal-low-frequency-oscillator) to modulate the pulse width.
 
-Here's some examples of the pulse wave's sound:
+Here are some examples of the pulse wave's sounds:
 
 <div class="winter-audio-player">
     <audio title="pulse wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_octaves.mp3"></audio>
@@ -218,7 +217,7 @@ Finally, there's the sub waveshape. It's a square wave that's one octave lower. 
     <canvas id="sub" width="640" height="480" class="waveform red"></canvas>
 </div>
 
-And here's some sound samples of the sub waveshape:
+And here are some sound samples of the sub waveshape:
 
 <div class="winter-audio-player">
     <audio title="sub wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_octaves.mp3"></audio>
@@ -228,7 +227,7 @@ And here's some sound samples of the sub waveshape:
     <audio title="sub with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_filtered.mp3"></audio>
 </div>
 
-These these waveshapes can be mixed together to produce much more complex and interesting waveshapes - try playing with the sliders under this animation and seeing how it affects the waveshape:
+These waveshapes can be mixed together to produce much more complex and interesting variants - try playing with the sliders under this animation to see how it affects the waveshape:
 
 <div class="interactive">
     <canvas id="mix" width="640" height="480" class="waveform teal2"></canvas>
@@ -256,7 +255,7 @@ These these waveshapes can be mixed together to produce much more complex and in
     </form>
 </div>
 
-Here's some sound samples of various mixes:
+Here are some sound samples of various mixes:
 
 <div class="winter-audio-player">
     <audio title="ramp & sub" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_sub.mp3"></audio>
@@ -293,7 +292,7 @@ You can play around with this interactive animation to see how detuning and mixi
     </form>
 </div>
 
-This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here's some sound samples of oscillator stacking:
+This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here are some sound samples of oscillator stacking:
 
 <div class="winter-audio-player">
     <audio title="stacked complex waveforms" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/stacked_complex.mp3"></audio>
@@ -307,10 +306,9 @@ This animation just uses the ramp waveshape, but the crossfader takes the mix fr
     <audio title="stacked sub & pulse" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/steps.mp3"></audio>
 </div>
 
-
 ## Chorusing
 
-Inspired by the original Juno's analog chorus circuit, Castor & Pollux contains an adaptation of chorusing that works well for a monophonic voice. Instead of applying the chorus affect *after* sound generation, Castor & Pollux's chorusing works by varying the frequency of the second oscillator using an [internal low-frequency oscillator](#internal-low-frequency-oscillator). This means that you have to [use both oscillators](#oscillator-stacking) in order to hear this effect. The **chorus knob** (marked by the symbol φ) determines the intensity of chorusing from none when fully counter-clockwise to its maximum at fully clockwise. The **crossfader** (marked by the symbol Σ) also has an impact on the intensity of the chorus. Finally, you can modify the speed of the chorus by changing the [internal low-frequency oscillator's frequency](#internal-low-frequency-oscillator).
+Inspired by the original Juno's analog chorus circuit, Castor & Pollux contains an adaptation of chorusing that works well for a monophonic voice. Instead of applying the chorus affect *after* sound generation, Castor & Pollux's chorusing works by varying the frequency of the second oscillator using an [internal low-frequency oscillator](#internal-low-frequency-oscillator). This means you have to [use both oscillators](#oscillator-stacking) in order to hear this effect. The **chorus knob** (marked by the symbol φ) determines the intensity of chorusing from none when fully counter-clockwise, to its maximum at fully clockwise. The **crossfader** (marked by the symbol Σ) also has an impact on the intensity of the chorus. Finally, you can modify the speed of the chorus by changing the [internal low-frequency oscillator's frequency](#internal-low-frequency-oscillator).
 
 You can play around with this interactive animation to see how the chorusing amount changes the final waveshape. You'll need to click on the animation to start it otherwise you won't really be able to see the chorusing effect.
 
@@ -325,20 +323,19 @@ You can play around with this interactive animation to see how the chorusing amo
     </form>
 </div>
 
-Here's some sound samples of chorusing:
+Here are some sound samples of chorusing:
 
 <div class="winter-audio-player">
     <audio title="chorusing" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/chorusing.mp3"></audio>
 </div>
 
-
 ## Hard sync
 
-[*Hard sync*](https://en.wikipedia.org/wiki/Oscillator_sync) is a feature seen in several synthesizer voices that have two or more oscillators, however, it's not a feature seen on the original Juno because each voice only had one oscillator. Since Castor & Pollux has two oscillators to work with it has an adaption of hard sync. Hard sync allows you to sync the second oscillator to the first - the output will retain the same *base frequency* as the first oscillator but the waveshape will be impacted by the frequency of the second oscillator. In other words, it'll sound like the same note but have a much different timbre.
+[*Hard sync*](https://en.wikipedia.org/wiki/Oscillator_sync) is a feature seen in several synthesizer voices that have two or more oscillators. However, it's not a feature seen on the original Juno because each voice only had one oscillator. Since Castor & Pollux has two oscillators to work with, it has an adaption of hard sync. Hard sync allows you to sync the second oscillator to the first - the output will retain the same *base frequency* as the first oscillator but the waveshape will be impacted by the frequency of the second oscillator. In other words, it'll sound like the same note but have a much different timbre.
 
 To use hard sync **tap** the hard sync button - the LEDs should all change to the same color. You'll use the first oscillator's pitch CV to set the note and you'll use the second oscillator's pitch knob or pitch CV input to control the timbre. You'll take the output from the second oscillator (or the combined output) - since hard sync does not impact the waveshape of the first oscillator.
 
-Here's some sound samples of hard sync:
+Here are some sound samples of hard sync:
 
 <div class="winter-audio-player">
     <audio title="hard sync" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/hard_sync.mp3"></audio>
@@ -364,14 +361,13 @@ By default, the internal LFO is a straightforward triangle wave. However, the [s
 
 ## Editing module settings
 
-Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, there is a little microcontroller brain inside that's orchestrating everything. There's a few settings you can tweak over USB, such as the LED brightness and the range of the pitch knobs. Head over to the [web-based settings editor](settings) to tweak to your heart's content.
-
+Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, there is a little microcontroller brain inside that's orchestrating everything. There are a few settings you can tweak over USB, such as the LED brightness, and the range of the pitch knobs. Head over to the [web-based settings editor](settings) to tweak to your heart's content.
 
 ## Updating the firmware
 
 1. Download the latest firmware [from GitHub](https://github.com/wntrblm/Castor_and_Pollux/releases/latest). It will be a `.uf2` file.
 1. Connect Castor & Pollux to your computer via USB. The USB port is located underneath the panel. Note that you still have to power the module from a Eurorack power supply.
-1. Place Castor & Pollux in bootloader mode by pressing the reset button twice quickly. The reset button is located just below the USB port. Once in bootloader mode, you should see a drive on your computer named `GEMINIBOOT`.
+1. Place Castor & Pollux in bootloader mode by quickly pressing the reset button twice. The reset button is located just below the USB port. Once in bootloader mode, you should see a drive on your computer named `GEMINIBOOT`.
 1. Copy the `.uf2` file from step 1 to the `GEMINIBOOT` drive. The module should restart by itself.
 
 
@@ -380,15 +376,14 @@ Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, 
 Castor & Pollux is completely open source and hacking is encouraged.
 
 * The [firmware](https://github.com/wntrblm/Castor_and_Pollux/tree/main/firmware) is available under the [MIT License](https://github.com/wntrblm/Castor_and_Pollux/tree/main/firmware/LICENSE). Note that the firmware uses some third-party libraries that are under different, but compatible terms. Read the full text of the license for more details.
-* The [hardware designs](https://github.com/wntrblm/Castor_and_Pollux/tree/main/hardware) is available under the permissive [CERN-OHL-P v2](https://cern-ohl.web.cern.ch/) and is designed using [KiCAD](https://kicad.org/) which is free and open-source. You can open the hardware files using KiCAD or you can check out a PDF of the schematics for the [mainboard](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/mainboard/mainboard.pdf) and the [jackboard](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/jackboard/jackboard.pdf).
+* The [hardware designs](https://github.com/wntrblm/Castor_and_Pollux/tree/main/hardware) are available under the permissive [CERN-OHL-P v2](https://cern-ohl.web.cern.ch/) license, and is designed using [KiCAD](https://kicad.org/), which is free and open-source. You can open the hardware files using KiCAD, or you can check out a PDF of the schematics for the [mainboard](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/mainboard/mainboard.pdf) and the [jackboard](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/jackboard/jackboard.pdf).
 
 
-![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/us001060.html)
-
+![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/us001060.html).
 
 ## Warranty, disclaimers, and limits
 
-Modules purchased from Winterbloom have a warranty of six months from the date of purchase. This warranty covers any manufacturing defects in the module. It does not cover damage from due to incorrect handling, storage, or power, overvoltage events, or modifications.
+Modules purchased from Winterbloom have a warranty of six months from the date of purchase. This warranty covers any manufacturing defects in the module. It does not cover damage due to incorrect handling, storage, power, overvoltage events, or modifications.
 
 Please [contact us](mailto:support@winterbloom.com) if you are experiencing issues with your module. Modules returned under warranty will either be refunded, replaced, or repaired at our discretion. You will be responsible for the cost of returning the module to Winterbloom.
 
