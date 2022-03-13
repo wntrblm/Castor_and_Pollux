@@ -73,7 +73,7 @@ SRAM_SIZE = 0x8000;        /* 32kB, 32,768 bytes */
    * https://gcc.gnu.org/onlinedocs/gnat_ugn/Static-Stack-Usage-Analysis.html
    * https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
 */
-STACK_SIZE = DEFINED(__stack_size__) ? __stack_size__ : 0x800;
+STACK_SIZE = __stack_size__;
 
 /*
    Memory space definition.
