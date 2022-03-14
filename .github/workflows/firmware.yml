@@ -59,7 +59,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -qq eatmydata
-          sudo eatmydata apt-get install -qq ninja-build wget
+          sudo eatmydata apt-get install -qq ninja-build wget librtmidi-dev
 
       - name: Install ARM embedded toolchain
         # TODO: Put this file on static.winterbloom.com
@@ -110,7 +110,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -qq eatmydata
-          sudo eatmydata apt-get install -qq ninja-build wget clang clang-tools
+          sudo eatmydata apt-get install -qq ninja-build wget clang clang-tools librtmidi-dev
 
       - name: Set up Python 3.9
         uses: actions/setup-python@v1
