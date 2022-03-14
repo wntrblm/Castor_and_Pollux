@@ -13,6 +13,8 @@
 
 const struct WntrErrorCorrection error_correction = {.offset = F16(0), .gain = F16(1)};
 
+static inline uint32_t _voltage_to_adc_code(float voltage) { return 4095 - (uint32_t)(voltage / 7.0f * 4095.0f); }
+
 TEST_CASE_BEGIN(update)
     gem_oscillator_init(error_correction, F16(0.6));
 
@@ -99,6 +101,31 @@ TEST_CASE_BEGIN(update)
     GemOscillator_update(&osc, inputs);
     munit_assert_uint16(osc.pulse_width_knob, ==, 1024);
     munit_assert_uint16(osc.pulse_width, ==, 4095);
+
+    /*
+        Testing quantization.
+    */
+    osc.quantize = true;
+
+    /* First one is identical to the unquantized test to validate assumptions. */
+    inputs.adc = ((uint32_t[]){4095, 2048, 4095, 2048});
+    GemOscillator_update(&osc, inputs);
+    ASSERT_FIX16_CLOSE(osc.pitch_cv, F16(1.0), 0.001);
+
+    /* Second one has a value of just above 83mV (C#1), should quantize *down* */
+    inputs.adc = ((uint32_t[]){_voltage_to_adc_code(0.090f), 2048, 4095, 2048});
+    GemOscillator_update(&osc, inputs);
+    ASSERT_FIX16_CLOSE(osc.pitch_cv, F16(1.0833), 0.001);
+
+    /* Second one has a value of just below 166mV (D1), should quantize *up* */
+    inputs.adc = ((uint32_t[]){_voltage_to_adc_code(0.150f), 2048, 4095, 2048});
+    GemOscillator_update(&osc, inputs);
+    ASSERT_FIX16_CLOSE(osc.pitch_cv, F16(1.1667), 0.001);
+
+    /* Third one has a value of just above 166mV (D1), should quantize *down* again */
+    inputs.adc = ((uint32_t[]){_voltage_to_adc_code(0.180f), 2048, 4095, 2048});
+    GemOscillator_update(&osc, inputs);
+    ASSERT_FIX16_CLOSE(osc.pitch_cv, F16(1.1667), 0.001);
 
 TEST_CASE_END
 

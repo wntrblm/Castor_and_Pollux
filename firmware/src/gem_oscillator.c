@@ -142,7 +142,7 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
               Quantize to the nearest 12-tone equal temperament note.
             */
             pitch_cv = pitch_cv * 12;
-            pitch_cv = fix16_floor(fix16_add(pitch_cv, fix16_from_float(0.5)));
+            pitch_cv = fix16_floor(fix16_add(pitch_cv, F16(0.5)));
             pitch_cv = (pitch_cv + 6) / 12;
         }
 
