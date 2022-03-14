@@ -74,8 +74,13 @@ void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorIn
         This is done in post update so that main() can grab Castor's unfiltered
         value so if Pollux is following Castor it will be lock-step instead of
         lagging slightly behind.
+
+        This is not done if quantization is enabled since it would just introduce
+        unnecessary latency.
     */
-    osc->pitch = WntrSmoothie_step(&osc->smooth, osc->pitch);
+    if (!osc->quantize) {
+        osc->pitch = WntrSmoothie_step(&osc->smooth, osc->pitch);
+    }
 
     /* Apply LFO to pitch if its enabled for this oscillator. */
     if (osc->lfo_pitch) {
