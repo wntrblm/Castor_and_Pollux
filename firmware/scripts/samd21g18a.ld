@@ -56,6 +56,20 @@ NVM_SIZE = 0x400;          /* 1kB, 1,024 bytes */
 SRAM_SIZE = 0x8000;        /* 32kB, 32,768 bytes */
 
 /*
+   We reserve a chunk at the end of the flash for "non-volatile memory" (NVM) -
+   which is used by the application to store per-device information.
+   This is divided into three sections:
+
+   * User-selected quantizer table
+   * User settings
+   * DAC calibration lookup table (LUT)
+*/
+QUANTIZER_SIZE = 0x1000;   /* 4kB, 4,096 bytes - TODO reduce once format is settled */
+SETTINGS_SIZE = 0x200;     /* 0.5kB, 512 bytes */
+LUT_SIZE = 0x200;          /* 0.5kB, 512 bytes */
+NVM_SIZE = QUANTIZER_SIZE + SETTINGS_SIZE + LUT_SIZE;
+
+/*
    ARM Cortex-M processors use a descending stack and generally
    require stack space to be set aside in RAM.
 
@@ -531,26 +545,37 @@ SECTIONS
 */
 
 /*
+   Symbols for the quantizer section in the NVM memory block.
+
+   Gemini uses this section to store the user's custom quantization
+   table (if any).
+
+   References:
+   * ../src/gem_quantizer.c
+   TODO: Add a marker to the packed config, and hook up to this symbol
+*/
+_nvm_quantizer_base_address = ORIGIN(nvm);
+_nvm_quantizer_length = QUANTIZER_SIZE;
+
+/*
    Symbols for the settings section in the NVM memory block.
 
-   Gemini uses the first half of the NVM block for user settings.
-   This symbol is used by the settings module to know where to
-   load and save settings.
+   Gemini uses this section to load and save user settings.
 
    References:
    * ../src/gem_settings_load_save.c
 */
-_nvm_settings_base_address = ORIGIN(nvm);
-_nvm_settings_length = LENGTH(nvm) / 2;
+_nvm_settings_base_address = ORIGIN(nvm) + QUANTIZER_SIZE;
+_nvm_settings_length = SETTINGS_SIZE;
 
 /*
    Symbols for the calibration/look-up table in the NVM memory block.
 
-   Gemini uses the other half of the NVM block to store the factory-
-   calibrated look-up table for translating ADC -> frequency/DAC codes.
+   Gemini uses this section to store the factory-calibrated look-up table
+   for translating ADC -> frequency/DAC codes.
 
    References:
    * ../src/gem_ramp_table_load_save.c
 */
-_nvm_lut_base_address = ORIGIN(nvm) + LENGTH(nvm) / 2;
-_nvm_lut_length = LENGTH(nvm) / 2;
+_nvm_lut_base_address = ORIGIN(nvm) + QUANTIZER_SIZE + SETTINGS_SIZE;
+_nvm_lut_length = LUT_SIZE;
