@@ -434,9 +434,11 @@ static void cmd_0x1A_read_quantizer_config_(const uint8_t* data, size_t len) {
     (void)data;
     (void)len;
 
-    /* Read live quantizer config. TODO: Read from flash instead */
+    /* Read quantizer config from flash */
+    GemQuantizerConfig config;
     uint8_t config_buf[GEMQUANTIZER_PACKED_SIZE];
-    GemQuantizer_pack(&gem_quantizer_config, config_buf);
+    GemQuantizer_load(&config);
+    GemQuantizer_pack(&config, config_buf);
 
     PREPARE_RESPONSE(0x1A, TEETH_ENCODED_LENGTH(GEMQUANTIZER_PACKED_SIZE));
     teeth_encode(config_buf, GEMQUANTIZER_PACKED_SIZE, response);
@@ -446,31 +448,17 @@ static void cmd_0x1A_read_quantizer_config_(const uint8_t* data, size_t len) {
 }
 
 static void cmd_0x1B_write_quantizer_config_(const uint8_t* data, size_t len) {
-    (void)data;
-    (void)len;
-
-#if 0
-    /* Request (teeth): serialized settings */
-    DECODE_TEETH_REQUEST(GEMSETTINGS_PACKED_SIZE);
-
-    struct GemSettings settings;
-
-    if (GemSettings_unpack(&settings, request).status == STRUCTY_RESULT_OKAY) {
-        GemSettings_save(&settings);
-    } else {
-        debug_printf("Failed to save settings, unable to deserialize.\n");
-    }
-
-    /* Ack the data. */
-    RESPONSE_0(0x19);
-
-    debug_printf("SysEx 0x19: Wrote settings\n");
-#endif
-
-    /* Write live quantizer config. TODO: Write to flash instead */
+    /* Write quantizer config to flash */
     DECODE_TEETH_REQUEST(GEMQUANTIZER_PACKED_SIZE);
 
-    GemQuantizer_unpack(&gem_quantizer_config, request);
+    GemQuantizerConfig config;
+
+    bool result = GemQuantizer_unpack(&config, request);
+    if (result == true) {
+        GemQuantizer_save(&config);
+    } else {
+        debug_printf("Failed to save quantizer config, unable to deserialize.\n");
+    }
 
     /* Ack the data. */
     RESPONSE_0(0x1B);

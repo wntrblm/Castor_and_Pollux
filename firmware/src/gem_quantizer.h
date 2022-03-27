@@ -94,8 +94,6 @@ struct GemQuantizerConfig {
 
     uint32_t notes_len;
     struct GemQuantizerTableEntry notes[MAX_QUANTIZER_TABLE_SIZE];
-
-    // TODO: Add checksum
 };
 
 // Maximum size of a packed quantizer table
@@ -107,13 +105,15 @@ struct GemQuantizerConfig {
 
 extern struct GemQuantizerConfig gem_quantizer_config;
 
-void gem_quantizer_init();
-
 // Search the quantizer table to figure out which bin the incoming pitch CV
 // falls into.
 // Returns the index of the quantizer bin.
 uint32_t GemQuantizer_search_table(fix16_t pitch_cv);
 
+void GemQuantizer_init(GemQuantizer *config);
+bool GemQuantizer_unpack(struct GemQuantizerConfig *config, const uint8_t *data);
+bool GemQuantizer_pack(const struct GemQuantizerConfig *config, uint8_t *data);
+
 void GemQuantizer_erase();
-bool GemQuantizer_unpack(struct GemQuantizerConfig* config, const uint8_t* data);
-bool GemQuantizer_pack(const struct GemQuantizerConfig* config, uint8_t* data);
+bool GemQuantizer_load(struct GemQuantizerConfig *config);
+bool GemQuantizer_save(const struct GemQuantizerConfig *config);

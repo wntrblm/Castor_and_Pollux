@@ -552,7 +552,6 @@ SECTIONS
 
    References:
    * ../src/gem_quantizer.c
-   TODO: Add a marker to the packed config, and hook up to this symbol
 */
 _nvm_quantizer_base_address = ORIGIN(nvm);
 _nvm_quantizer_length = QUANTIZER_SIZE;

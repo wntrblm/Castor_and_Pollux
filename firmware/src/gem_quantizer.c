@@ -22,6 +22,13 @@
 #include "wntr_pack.h"
 #include <string.h>
 
+#define QUANTIZER_MARKER_V1 0xA1
+
+#define QUANTIZER_MARKER_MIN QUANTIZER_MARKER_V1
+#define QUANTIZER_MARKER_MAX QUANTIZER_MARKER_V1
+
+extern uint8_t _nvm_quantizer_base_address;
+
 /* Static variables */
 
 /* Forward declarations */
@@ -32,9 +39,8 @@ static const struct GemQuantizerConfig default_quantizer_config;
 
 struct GemQuantizerConfig gem_quantizer_config;
 
-void gem_quantizer_init() {
-    // TODO: Load from flash
-    gem_quantizer_config = default_quantizer_config;
+void GemQuantizer_init(GemQuantizer *config) {
+    *config = default_quantizer_config;
 }
 
 uint32_t GemQuantizer_search_table(fix16_t pitch_cv) {
@@ -73,12 +79,7 @@ uint32_t GemQuantizer_search_table(fix16_t pitch_cv) {
     return lo;
 }
 
-void GemQuantizer_erase() {
-    // TODO: Clear stored table instead
-    gem_quantizer_config = default_quantizer_config;
-}
-
-bool GemQuantizer_unpack(struct GemQuantizerConfig* config, const uint8_t* data) {
+bool GemQuantizer_unpack(struct GemQuantizerConfig *config, const uint8_t *data) {
     config->hysteresis = (fix16_t)WNTR_UNPACK_32(data, 0);
     config->notes_len = (uint32_t)data[4];
     for (uint32_t i = 0; i < config->notes_len; i++) {
@@ -101,6 +102,60 @@ bool GemQuantizer_pack(const struct GemQuantizerConfig* config, uint8_t* data) {
     }
     // TODO: Validation
     return true;
+}
+
+void GemQuantizer_erase() {
+    /* Just erase the marker byte. */
+    uint8_t data[1] = {0xFF};
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
+    gem_nvm_write((uint32_t)(&_nvm_quantizer_base_address), data, 1);
+}
+
+bool GemQuantizer_load(struct GemQuantizerConfig *config) {
+    uint8_t data[GEMQUANTIZER_PACKED_SIZE + 1];
+
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
+    gem_nvm_read((uint32_t)(&_nvm_quantizer_base_address), data, GEMQUANTIZER_PACKED_SIZE + 1);
+
+    uint8_t marker = data[0];
+
+    if (marker < QUANTIZER_MARKER_MIN || marker > QUANTIZER_MARKER_MAX) {
+        printf("Invalid quantizer config marker.\n");
+        goto fail;
+    }
+
+    bool result = GemQuantizer_unpack(config, data + 1);
+
+    // TODO
+    /*
+    if (result == true) {
+        return GemQuantizer_check(marker, config);
+    }
+    */
+
+    printf("Failed to load quantizer config.\n");
+
+fail:
+    printf("Loading default quantizer config.\n");
+    GemQuantizer_init(config);
+    return false;
+}
+
+bool GemQuantizer_save(const struct GemQuantizerConfig *config) {
+    uint8_t data[GEMQUANTIZER_PACKED_SIZE + 1];
+    // We might not fill the entire data buffer, as the config struct is variable size.
+    // So we zero out the buffer before starting, to avoid saving garbage off the stack
+    memset(data, 0, sizeof(data));
+
+    data[0] = QUANTIZER_MARKER_MAX;
+    bool result = GemQuantizer_pack(config, data + 1);
+    WNTR_ASSERT(result == true);
+
+    // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
+    gem_nvm_write((uint32_t)(&_nvm_quantizer_base_address), data, GEMQUANTIZER_PACKED_SIZE + 1);
+
+    printf("Saved quantizer config: \n");
+    //GemQuantizer_print(config);
 }
 
 /* Private functions */

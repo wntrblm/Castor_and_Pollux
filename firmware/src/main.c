@@ -190,7 +190,7 @@ static void init_() {
     /*
         Load quantizer configuration
     */
-    gem_quantizer_init();
+    GemQuantizer_load(&gem_quantizer_config);
 
     /*
         Gemini has two oscillators - Castor & Pollux. For the most part they're
