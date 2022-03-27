@@ -145,6 +145,11 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
         fix16_t pitch_cv = fix16_add(osc->base_offset, fix16_mul(GEM_CV_INPUT_RANGE, cv));
 
         if (osc->quantize) {
+            // TODO: Move this code into a function in gem_quantizer.c
+            // TODO: Add fast variant which just adds/subtracts 1 from bin number
+            //       instead of doing a binary search. This should converge very
+            //       fast anyway, due to moving by a bin per sample, while
+            //       significantly reducing the worst-case runtime
             const fix16_t hysteresis = gem_quantizer_config.hysteresis;
             const uint32_t notes_len = gem_quantizer_config.notes_len;
             const struct GemQuantizerTableEntry* notes = &gem_quantizer_config.notes[0];
