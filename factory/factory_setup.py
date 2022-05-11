@@ -91,6 +91,10 @@ def main():
     gem = gemini.Gemini.get()
     gem.soft_reset()
 
+    if args.stages != ["firmware", "ramp", "adc", "cv"]:
+        print("!! Not all stages run, not creating report.")
+        return
+
     print(REPORT)
     REPORT.save()
     reportcard.render_html(REPORT)
