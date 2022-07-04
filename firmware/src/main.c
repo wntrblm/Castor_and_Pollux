@@ -188,6 +188,11 @@ static void init_() {
         &lfo_, 2, lfo_state_.functions, lfo_state_.frequencies, lfo_state_.factors, lfo_state_.phases, wntr_ticks());
 
     /*
+        Load quantizer configuration
+    */
+    GemQuantizer_load(&gem_quantizer_config);
+
+    /*
         Gemini has two oscillators - Castor & Pollux. For the most part they're
         completely independent: they each have their own pitch and pulse width
         inputs, their own pitch knob range configuration, and their own
@@ -212,7 +217,8 @@ static void init_() {
         settings_.base_cv_offset,
         settings_.castor_knob_min,
         settings_.castor_knob_max,
-        settings_.castor_lfo_pwm);
+        settings_.castor_lfo_pwm,
+        settings_.castor_quantize);
 
     GemOscillator_init(
         &pollux_,
@@ -226,7 +232,8 @@ static void init_() {
         settings_.base_cv_offset,
         settings_.pollux_knob_min,
         settings_.pollux_knob_max,
-        settings_.pollux_lfo_pwm);
+        settings_.pollux_lfo_pwm,
+        settings_.pollux_quantize);
 
     /*
         The oscillators aren't completely independent: Pollux is special.

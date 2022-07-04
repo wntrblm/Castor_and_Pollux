@@ -15,6 +15,10 @@
 #define SETTINGS_MARKER_V1 0x65
 #define SETTINGS_MARKER_V2 0x66
 #define SETTINGS_MARKER_V3 0x67
+#define SETTINGS_MARKER_V4 0x68
+
+#define SETTINGS_MARKER_MIN SETTINGS_MARKER_V1
+#define SETTINGS_MARKER_MAX SETTINGS_MARKER_V4
 
 #define LIMIT_F16_FIELD(field, min, max)                                                                               \
     if (settings->field < F16(min) || settings->field > F16(max)) {                                                    \
@@ -55,14 +59,14 @@ bool GemSettings_check(uint8_t marker, struct GemSettings* settings) {
     LIMIT_F16_FIELD(pitch_knob_nonlinearity, 0.3, 1.0);
 
     /* V2 added base_cv_offset field. */
-    if (marker == SETTINGS_MARKER_V1) {
+    if (marker < SETTINGS_MARKER_V2) {
         printf("Upgrading settings from v1 to v2.\n");
         DEFAULT_FIELD(base_cv_offset);
     }
     LIMIT_F16_FIELD(base_cv_offset, 0.0, 5.0);
 
     /* V3 added several lfo options. */
-    if (marker == SETTINGS_MARKER_V2) {
+    if (marker < SETTINGS_MARKER_V3) {
         printf("Upgrading settings from v2 to v3.\n");
         DEFAULT_FIELD(lfo_2_frequency_ratio)
         DEFAULT_FIELD(lfo_1_waveshape)
@@ -75,6 +79,13 @@ bool GemSettings_check(uint8_t marker, struct GemSettings* settings) {
     LIMIT_INT_FIELD(lfo_2_waveshape, 0, 4);
     LIMIT_F16_FIELD(lfo_1_factor, 0.0, 1.0);
     LIMIT_F16_FIELD(lfo_2_factor, 0.0, 1.0);
+
+    /* V4 added quantization to the pitch CV inputs */
+    if (marker < SETTINGS_MARKER_V4) {
+        printf("Upgrading settings from v3 to v4.\n");
+        DEFAULT_FIELD(castor_quantize);
+        DEFAULT_FIELD(pollux_quantize);
+    }
 
     return true;
 
@@ -94,7 +105,7 @@ bool GemSettings_load(struct GemSettings* settings) {
 
     uint8_t marker = data[0];
 
-    if (marker != SETTINGS_MARKER_V1 && marker != SETTINGS_MARKER_V2 && marker != SETTINGS_MARKER_V3) {
+    if (marker < SETTINGS_MARKER_MIN || marker > SETTINGS_MARKER_MAX) {
         printf("Invalid settings marker.\n");
         goto fail;
     }
@@ -115,7 +126,7 @@ fail:
 
 void GemSettings_save(struct GemSettings* settings) {
     uint8_t data[GEMSETTINGS_PACKED_SIZE + 1];
-    data[0] = SETTINGS_MARKER_V3;
+    data[0] = SETTINGS_MARKER_MAX;
 
     GemSettings_check(data[0], settings);
 

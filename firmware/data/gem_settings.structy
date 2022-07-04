@@ -71,3 +71,18 @@ class GemSettings:
 
     """LFO 2's factor."""
     lfo_2_factor: fix16 = 0
+
+    # Added in V4
+
+    """Quantize pitch CV inputs. This only affects the CV input, not the
+        pitch knob, so that the oscillator can still be tuned. The base CV
+        offset is added before quantization, so that the quantizer can be
+        calibrated against an external CV source.
+
+        If you find that Castor & Pollux's pitch keeps jumping back and forth
+        between adjacent notes, this means that the CV source is outputing
+        values near to the boundary between two notes. Try increasing the base
+        CV offset by 1/24 (ie, 0.0416...), to recenter the voltages properly.
+    """
+    castor_quantize: bool = False
+    pollux_quantize: bool = False

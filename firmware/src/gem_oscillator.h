@@ -41,6 +41,7 @@ struct GemOscillator {
     uint16_t follower_threshold;
     bool lfo_pitch;
     bool lfo_pwm;
+    bool quantize;
 
     /* State */
     struct GemOscillatorOutputs outputs;
@@ -51,6 +52,7 @@ struct GemOscillator {
     uint16_t pulse_width_knob;
     uint16_t pulse_width_cv;
     uint16_t pulse_width;
+    uint16_t quantizer_bin;
 };
 
 void gem_oscillator_init(struct WntrErrorCorrection pitch_cv_adc_error_correction, fix16_t pitch_knob_nonlinearity);
@@ -67,7 +69,8 @@ void GemOscillator_init(
     fix16_t base_offset,
     fix16_t knob_min,
     fix16_t knob_max,
-    bool lfo_pwm);
+    bool lfo_pwm,
+    bool quantize);
 
 void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) RAMFUNC;
 

@@ -14,7 +14,7 @@
 
 /* Macros & definitions */
 
-#define SYSEX_BUF_SIZE 128
+#define SYSEX_BUF_SIZE 3072
 #define SYSEX_TIMEOUT 100 /* Milliseconds */
 #define SYSEX_START_BYTE 0xF0
 #define SYSEX_END_BYTE 0xF7

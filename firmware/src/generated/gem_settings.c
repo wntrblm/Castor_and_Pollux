@@ -5,7 +5,7 @@
 
 #include "gem_settings.h"
 
-#define _PACK_STRING "HhHiiiiiiiiiiH??iiiBBii"
+#define _PACK_STRING "HhHiiiiiiiiiiH??iiiBBii??"
 
 void GemSettings_init(struct GemSettings* inst) {
     inst->adc_gain_corr = 2048;
@@ -31,6 +31,8 @@ void GemSettings_init(struct GemSettings* inst) {
     inst->lfo_2_waveshape = 0;
     inst->lfo_1_factor = F16(1);
     inst->lfo_2_factor = F16(0);
+    inst->castor_quantize = false;
+    inst->pollux_quantize = false;
 }
 
 struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* buf) {
@@ -60,7 +62,9 @@ struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* b
         inst->lfo_1_waveshape,
         inst->lfo_2_waveshape,
         inst->lfo_1_factor,
-        inst->lfo_2_factor);
+        inst->lfo_2_factor,
+        inst->castor_quantize,
+        inst->pollux_quantize);
 }
 
 struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t* buf) {
@@ -90,7 +94,9 @@ struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t*
         &inst->lfo_1_waveshape,
         &inst->lfo_2_waveshape,
         &inst->lfo_1_factor,
-        &inst->lfo_2_factor);
+        &inst->lfo_2_factor,
+        &inst->castor_quantize,
+        &inst->pollux_quantize);
 }
 
 void GemSettings_print(const struct GemSettings* inst) {
@@ -179,4 +185,6 @@ void GemSettings_print(const struct GemSettings* inst) {
         fix16_to_str(inst->lfo_2_factor, fix16buf, 2);
         STRUCTY_PRINTF("- lfo_2_factor: %s\n", fix16buf);
     }
+    STRUCTY_PRINTF("- castor_quantize: %u\n", inst->castor_quantize);
+    STRUCTY_PRINTF("- pollux_quantize: %u\n", inst->pollux_quantize);
 }

@@ -6,6 +6,7 @@
 
 #include "gem_oscillator.h"
 #include "gem_config.h"
+#include "gem_quantizer.h"
 #include "wntr_bezier.h"
 #include "wntr_uint12.h"
 
@@ -38,7 +39,8 @@ void GemOscillator_init(
     fix16_t base_offset,
     fix16_t knob_min,
     fix16_t knob_max,
-    bool lfo_pwm) {
+    bool lfo_pwm,
+    bool quantize) {
 
     osc->number = number;
     osc->pitch_cv_channel = pitch_cv_channel;
@@ -51,6 +53,7 @@ void GemOscillator_init(
     osc->follower_threshold = 0;
     osc->lfo_pwm = lfo_pwm;
     osc->lfo_pitch = false;
+    osc->quantize = quantize;
 
     osc->outputs = (struct GemOscillatorOutputs){};
     osc->smooth.initial_gain = smooth_initial_gain;
@@ -59,6 +62,7 @@ void GemOscillator_init(
     osc->smooth._lowpass2 = F16(0);
     osc->pitch = F16(0);
     osc->pulse_width = 2048;
+    osc->quantizer_bin = 0;
 }
 
 void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
@@ -72,8 +76,13 @@ void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorIn
         This is done in post update so that main() can grab Castor's unfiltered
         value so if Pollux is following Castor it will be lock-step instead of
         lagging slightly behind.
+
+        This is not done if quantization is enabled since it would just introduce
+        unnecessary latency.
     */
-    osc->pitch = WntrSmoothie_step(&osc->smooth, osc->pitch);
+    if (!osc->quantize) {
+        osc->pitch = WntrSmoothie_step(&osc->smooth, osc->pitch);
+    }
 
     /* Apply LFO to pitch if its enabled for this oscillator. */
     if (osc->lfo_pitch) {
@@ -94,8 +103,20 @@ void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorIn
 
 static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
     /*
-        The basic pitch CV determination formula is:
-        (base offset) + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
+        To determine pitch, we sum two terms:
+            * CV knob (never quantized)
+                (CV knob * KNOB_RANGE) - KNOB_RANGE / 2
+            * Pitch CV input (quantized if enabled in the settings)
+                quantize(base_cv_offset + (CV in * CV_RANGE))
+
+        Note that base_cv_offset is included in the quantized part.
+        This is so that it is possible to calibrate against an external
+        CV source, so that the pitch CVs it produces get mapped to the
+        middle of the range for each note, for maximum noise tolerance.
+
+        Without this, we could encounter a nasty edge case where the CVs
+        land right near the boundary between two notes, causing the quantizer
+        to flip back and forth between two adjacent notes.
     */
 
     uint16_t cv_adc_code = inputs.adc[osc->pitch_cv_channel];
@@ -121,7 +142,43 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
     */
     else {
         fix16_t cv = UINT12_NORMALIZE_F(cv_adc_code_f16);
-        osc->pitch_cv = fix16_add(osc->base_offset, fix16_mul(GEM_CV_INPUT_RANGE, cv));
+        fix16_t pitch_cv = fix16_add(osc->base_offset, fix16_mul(GEM_CV_INPUT_RANGE, cv));
+
+        if (osc->quantize) {
+            // TODO: Move this code into a function in gem_quantizer.c
+            // TODO: Add fast variant which just adds/subtracts 1 from bin number
+            //       instead of doing a binary search. This should converge very
+            //       fast anyway, due to moving by a bin per sample, while
+            //       significantly reducing the worst-case runtime
+            const fix16_t hysteresis = gem_quantizer_config.hysteresis;
+            const uint32_t notes_len = gem_quantizer_config.notes_len;
+            const struct GemQuantizerTableEntry* notes = &gem_quantizer_config.notes[0];
+
+            /* Find the upper and lower bounds of the current quantizer bin,
+               including hysteresis */
+            fix16_t bin_bottom = notes[osc->quantizer_bin].threshold - hysteresis;
+            fix16_t bin_top;
+            if (osc->quantizer_bin == notes_len - 1) {
+                /*
+                    Prevent reading off the end of the table.
+                */
+                bin_top = INT32_MAX;
+            } else {
+                bin_top = notes[osc->quantizer_bin + 1].threshold + hysteresis;
+            }
+
+            if (pitch_cv < bin_bottom || pitch_cv >= bin_top) {
+                osc->quantizer_bin = GemQuantizer_search_table(pitch_cv);
+            }
+
+            // Should never be hit, but just to be sure...
+            if (osc->quantizer_bin >= notes_len) {
+                osc->quantizer_bin = notes_len - 1;
+            }
+            pitch_cv = notes[osc->quantizer_bin].output;
+        }
+
+        osc->pitch_cv = pitch_cv;
     }
 
     /* Read the pitch knob and normalize (0.0 -> 1.0) its value. */
