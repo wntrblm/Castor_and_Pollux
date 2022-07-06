@@ -9,9 +9,9 @@ import structy
 
 @dataclass
 class GemSettings(structy.Struct):
-    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??iiiBBii"
+    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??iiiBBiiH"
 
-    PACKED_SIZE : ClassVar[int] = 72
+    PACKED_SIZE : ClassVar[int] = 74
     """The total size of the struct once packed."""
 
     adc_gain_corr: int = 2048
@@ -86,3 +86,10 @@ class GemSettings(structy.Struct):
 
     lfo_2_factor: structy.Fix16 = 0
     """LFO 2's factor."""
+
+    pulse_width_bitmask: int = 4095
+    """
+        The bitmask applied to the pulse width DAC output. This allows emulating
+        the behavior of Castor & Pollux's original firmware where timing issues
+        caused pulse width modulation to "step".
+        """
