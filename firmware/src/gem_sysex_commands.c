@@ -263,7 +263,10 @@ static void cmd_0x18_read_settings_(const uint8_t* data, size_t len) {
     teeth_encode(settings_buf, GEMSETTINGS_PACKED_SIZE, response);
     SEND_RESPONSE();
 
-    debug_printf("SysEx 0x18: Read settings\n");
+    debug_printf(
+        "SysEx 0x18: Read settings, packed size: %u, encoded size: %u\n",
+        GEMSETTINGS_PACKED_SIZE,
+        TEETH_ENCODED_LENGTH(GEMSETTINGS_PACKED_SIZE));
 }
 
 static void cmd_0x19_write_settings_(const uint8_t* data, size_t len) {

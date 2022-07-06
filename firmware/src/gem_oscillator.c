@@ -38,7 +38,8 @@ void GemOscillator_init(
     fix16_t base_offset,
     fix16_t knob_min,
     fix16_t knob_max,
-    bool lfo_pwm) {
+    bool lfo_pwm,
+    uint16_t pulse_width_bitmask) {
 
     osc->number = number;
     osc->pitch_cv_channel = pitch_cv_channel;
@@ -51,6 +52,7 @@ void GemOscillator_init(
     osc->follower_threshold = 0;
     osc->lfo_pwm = lfo_pwm;
     osc->lfo_pitch = false;
+    osc->pulse_width_bitmask = pulse_width_bitmask;
 
     osc->outputs = (struct GemOscillatorOutputs){};
     osc->smooth.initial_gain = smooth_initial_gain;
@@ -174,4 +176,9 @@ void calculate_pulse_width_(struct GemOscillator* osc, struct GemOscillatorInput
     }
 
     UINT12_CLAMP(osc->pulse_width);
+
+    /*
+        Apply the pulse width bitmask to emulate the old "steppy" behavior
+    */
+    osc->pulse_width = osc->pulse_width & osc->pulse_width_bitmask;
 }

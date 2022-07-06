@@ -71,3 +71,12 @@ class GemSettings:
 
     """LFO 2's factor."""
     lfo_2_factor: fix16 = 0
+
+    # Added in V4
+
+    """
+    The bitmask applied to the pulse width DAC output. This allows emulating
+    the behavior of Castor & Pollux's original firmware where timing issues
+    caused pulse width modulation to "step".
+    """
+    pulse_width_bitmask: uint16 = 0xFFF

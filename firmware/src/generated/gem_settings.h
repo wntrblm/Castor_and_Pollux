@@ -9,7 +9,7 @@
 
 #include "fix16.h"
 
-#define GEMSETTINGS_PACKED_SIZE 72
+#define GEMSETTINGS_PACKED_SIZE 74
 
 struct GemSettings {
     /* The ADC's internal gain correction register. */
@@ -62,6 +62,12 @@ struct GemSettings {
     fix16_t lfo_1_factor;
     /* LFO 2's factor. */
     fix16_t lfo_2_factor;
+    /*
+    The bitmask applied to the pulse width DAC output. This allows emulating
+    the behavior of Castor & Pollux's original firmware where timing issues
+    caused pulse width modulation to "step".
+     */
+    uint16_t pulse_width_bitmask;
 };
 
 void GemSettings_init(struct GemSettings* inst);
