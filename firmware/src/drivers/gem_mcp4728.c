@@ -9,7 +9,6 @@
 #include "printf.h"
 
 #define SINGLE_WRITE_CMD 0b01011000
-#define SEQUENTIAL_WRITE_CMD 0b01010000
 
 static const uint8_t i2c_addresses_[] = {
     // MCP4728A0 used for rounds 1 & 2.
@@ -53,18 +52,13 @@ enum GemI2CResult gem_mcp_4728_write_channels(
     struct GemMCP4278Channel ch_c_settings,
     struct GemMCP4278Channel ch_d_settings) {
     uint8_t data[9] = {
-        SEQUENTIAL_WRITE_CMD,
-        (ch_a_settings.vref << 7) | (ch_a_settings.pd << 6) | (ch_a_settings.gain << 4) |
-            ((ch_a_settings.value >> 8) & 0xF),
+        (ch_a_settings.pd << 4) | ((ch_a_settings.value >> 8) & 0xF),
         (ch_a_settings.value & 0xFF),
-        (ch_b_settings.vref << 7) | (ch_b_settings.pd << 6) | (ch_b_settings.gain << 4) |
-            ((ch_b_settings.value >> 8) & 0xF),
+        (ch_b_settings.pd << 4) | ((ch_b_settings.value >> 8) & 0xF),
         (ch_b_settings.value & 0xFF),
-        (ch_c_settings.vref << 7) | (ch_c_settings.pd << 6) | (ch_c_settings.gain << 4) |
-            ((ch_c_settings.value >> 8) & 0xF),
+        (ch_c_settings.pd << 4) | ((ch_c_settings.value >> 8) & 0xF),
         (ch_c_settings.value & 0xFF),
-        (ch_d_settings.vref << 7) | (ch_d_settings.pd << 6) | (ch_d_settings.gain << 4) |
-            ((ch_d_settings.value >> 8) & 0xF),
+        (ch_d_settings.pd << 4) | ((ch_d_settings.value >> 8) & 0xF),
         (ch_d_settings.value & 0xFF),
     };
 
