@@ -5,7 +5,7 @@ To use this editor:
 1. Click the [connect button](#connect), and when prompted, allow the page access to your MIDI devices.
 1. Once connected the editor will appear and load the current settings from your device.
 1. Once you're done editing, click the save button at the bottom of the editor.
-1. **Re-start your module for the changes to take effect**. You can do this by turning it off and back or on by pressing the small reset button that's right beside the USB port.
+1. Saving should automatically reset your module, but, if you don't see the changes take effect then try restarting your module. You can do this by turning it off and back on or by pressing the small reset button that's right beside the USB port.
 
 !!! Note
     This editor uses [WebMIDI](https://www.midi.org/17-the-mma/99-web-midi) to communicate with Castor & Pollux. It works in [Google Chrome](https://www.google.com/chrome/), [Microsoft Edge](https://www.microsoft.com/en-us/edge), and [Opera](https://www.opera.com/) ([full list of supported browsers](https://caniuse.com/midi)).
@@ -229,6 +229,26 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column">
             <div class="field">
+                <label class="label">Pulse width behavior</label>
+                <div class="select is-full-width">
+                    <select id="pulse_width_bitmask" name="pulse_width_bitmask" data-bind data-bind-type="int">
+                        <option value="4095">Smooth</option>
+                        <option value="3840">Classic</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <p class="notification help-text">
+                This controls the behavior of the pulse wave when the pulse width is modulated. Smooth is almost certainly what you want, however, if you choose Classic you'll introduce some interesting glitchy/stepping behavior when the pulse width changes.
+                <br>
+                The reason this setting exists is because prior to the July 2022 firmware release, Castor &amp; Pollux had a bug that caused the effective pulse width resolution to be far lower than intended. Some folks like the old sound, so we added this setting for nostalgia.
+            </p>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="field">
                 <label class="label" for="smooth_initial_gain">CV smoothing initial gain</label>
                 <input class="input" type="range" name="smooth_initial_gain" value="0.1" step="0.05" min="0" max="1" data-bind data-bind-type="float" data-binding-precision="4" />
                 <span class="units"><span data-display-value-for="smooth_initial_gain" data-display-format="percent"></span> percent</span>
@@ -301,8 +321,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     </div>
     <div class="section-divider">Save & restart</div>
     <div class="field">
-        <button class="button is-primary is-large is-fullwidth" type="button" id="save_button">Save</button>
-        <p class="has-text-centered">Remember to save and <strong>restart your module</strong> to have these settings take effect!</p>
+        <button class="button is-primary is-large is-fullwidth" type="button" id="save_button">Save &amp; restart</button>
     </div>
     </div>
 </form>

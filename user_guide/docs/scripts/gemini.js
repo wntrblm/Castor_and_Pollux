@@ -53,4 +53,10 @@ export default class Gemini {
         midi_message[midi_message.length - 1] = 0xf7;
         await this.midi.transact(midi_message);
     }
+
+    async soft_reset() {
+        await this.midi.transact(
+            new Uint8Array([0xf0, 0x77, 0x11, 0xf7])
+        );
+    }
 }

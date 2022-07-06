@@ -188,6 +188,7 @@ $on(ui.save_btn, "click", async function () {
     console.log("Saving settings", settings);
 
     await gemini.save_settings(settings);
+    gemini.soft_reset();
 
     ui.save_btn.classList.remove("is-primary");
     ui.save_btn.classList.add("is-success");
