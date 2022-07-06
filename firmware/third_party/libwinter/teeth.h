@@ -52,5 +52,5 @@ one more byte than usual to encode so it's an *overbyte*...
 #define TEETH_ENCODED_LENGTH(src_len) (((src_len + 4 - 1) / 4) * 5)
 #define TEETH_DECODED_LENGTH(src_len) (src_len / 5 * 4)
 
-void teeth_encode(const uint8_t* src, size_t src_len, uint8_t* dst);
+size_t teeth_encode(const uint8_t* src, size_t src_len, uint8_t* dst);
 size_t teeth_decode(const uint8_t* src, size_t src_len, uint8_t* dst);

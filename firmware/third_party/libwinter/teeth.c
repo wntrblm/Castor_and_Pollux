@@ -6,7 +6,7 @@
 
 #include "teeth.h"
 
-void teeth_encode(const uint8_t* src, size_t src_len, uint8_t* dst) {
+size_t teeth_encode(const uint8_t* src, size_t src_len, uint8_t* dst) {
     size_t src_idx = 0;
     size_t dst_idx = 0;
 
@@ -31,7 +31,8 @@ void teeth_encode(const uint8_t* src, size_t src_len, uint8_t* dst) {
             dst[dst_idx + 1] = src[src_idx] & 0x7F;
             dst[dst_idx + 2] = src[src_idx + 1] & 0x7F;
             dst[dst_idx + 3] = src[src_idx + 2] & 0x7F;
-            dst_idx += 4;
+            dst[dst_idx + 4] = 0x00;
+            dst_idx += 5;
             src_idx += 3;
         }
         // There's only 2 bytes left
@@ -39,19 +40,26 @@ void teeth_encode(const uint8_t* src, size_t src_len, uint8_t* dst) {
             dst[dst_idx] = 0x20 | ((src[src_idx] & 0x80) >> 4) | ((src[src_idx + 1] & 0x80) >> 5);
             dst[dst_idx + 1] = src[src_idx] & 0x7F;
             dst[dst_idx + 2] = src[src_idx + 1] & 0x7F;
-            dst_idx += 3;
+            dst[dst_idx + 3] = 0x00;
+            dst[dst_idx + 4] = 0x00;
+            dst_idx += 5;
             src_idx += 2;
         }
         // There's only 1 byte left
         else if (src_idx + 1 == src_len) {
             dst[dst_idx] = 0x10 | ((src[src_idx] & 0x80) >> 4);
             dst[dst_idx + 1] = src[src_idx] & 0x7F;
+            dst[dst_idx + 2] = 0x00;
+            dst[dst_idx + 3] = 0x00;
+            dst[dst_idx + 4] = 0x00;
             dst_idx += 2;
             src_idx += 1;
         } else {
             break;
         }
     }
+
+    return dst_idx + 1;
 }
 
 size_t teeth_decode(const uint8_t* src, size_t src_len, uint8_t* dst) {
