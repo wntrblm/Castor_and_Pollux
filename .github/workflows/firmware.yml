@@ -16,7 +16,7 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -qq eatmydata
-          sudo eatmydata apt-get install -qq ninja-build clang-tidy clang-format alsa
+          sudo eatmydata apt-get install -qq ninja-build clang-tidy clang-format libasound2-dev
 
       - name: Set up Python 3.9
         uses: actions/setup-python@v1
