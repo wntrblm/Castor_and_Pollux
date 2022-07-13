@@ -319,7 +319,46 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             </div>
         </div>
     </div>
-    <div class="section-divider">Save & restart</div>
+    <div class="columns">
+        <div class="column field">
+            <label class="label">Tuning calibration</label>
+            <div class="columns">
+                <div class="column is-narrow">
+                    <button type="button" class="button is-info" id="measure_one">Measure 1V</button>
+                </div>
+                <div class="column">
+                    <input id="measure_one_result" class="input" type="number" placeholder="not measured" readonly>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-narrow">
+                    <button type="button" class="button is-info" id="measure_three">Measure 3V</button>
+                </div>
+                <div class="column">
+                    <input id="measure_three_result" class="input" type="number" placeholder="not measured" readonly>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <label class="label" for="gain_error_result">Gain error</label>
+                    <input id="gain_error_result" name="gain_error_result" class="input" type="number" readonly/>
+                </div>
+                <div class="column">
+                    <label class="label" for="offset_error_result">Offset error</label>
+                    <input id="offset_error_result" name="offset_error_result" class="input" type="number" readonly/>
+                </div>
+            </div>
+            <button type="button" class="button is-danger is-fullwidth" id="save_tuning" disabled>Save</button>
+        </div>
+        <div class="column">
+            <p class="notification help-text">
+                This allows you to re-calibrate your module's tuning. You should only do this if you absolutely know what you're doing or have been instructed to do so by support. <strong>Please write down the values for the settings in the previous section</strong> as this will overwrite them.
+                <br>
+                To use this, connect the most accurate CV source that you have to the first oscillator's pitch input. Set the CV to 1V and click "Measure 1V". Repeat for 3V. Once both measurements have been taken, it will calculate new values for tuning calibration. Click "Save" to write these to the device.
+            </p>
+        </div>
+    </div>
+    <div class="section-divider">Save to device</div>
     <div class="field">
         <button class="button is-primary is-large is-fullwidth" type="button" id="save_button">Save &amp; restart</button>
     </div>
