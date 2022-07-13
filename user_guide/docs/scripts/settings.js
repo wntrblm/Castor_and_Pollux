@@ -28,6 +28,15 @@ const ui = {
     serial_number: $e("serial_number"),
     restore_adc_calibration_btn: $e("restore_adc_calibration"),
     lfo_waveform_canvas: $e("lfo-waveform-canvas"),
+    tuning: {
+        measure_one: $e("measure_one"),
+        measure_one_result: $e("measure_one_result"),
+        measure_three: $e("measure_three"),
+        measure_three_result: $e("measure_three_result"),
+        gain_error_result: $e("gain_error_result"),
+        offset_error_result: $e("offset_error_result"),
+        save: $e("save_tuning"),
+    }
 };
 
 const midi = new MIDI("Gemini");
@@ -294,3 +303,57 @@ for (let input of ui.settings_form.elem.querySelectorAll("[name*=lfo]")) {
         window.requestAnimationFrame(draw_lfo_waveform);
     });
 }
+
+/*
+    Tuning calibration helpers
+*/
+const tuning_info = {
+    one_volt: 0,
+    three_volt: 0,
+    gain_error: 0,
+    offset_error: 0,
+}
+
+$on(ui.tuning.measure_one, "click", async function() {
+    tuning_info.one_volt = await gemini.read_adc_average(0, 20);
+    ui.tuning.measure_one_result.value = tuning_info.one_volt;
+
+    tuning_info.gain_error = null;
+    tuning_info.offset_error = null;
+    tuning_info.three_volt = null;
+
+    ui.tuning.gain_error_result.value = tuning_info.gain_error;
+    ui.tuning.offset_error_result.value = tuning_info.offset_error;
+    ui.tuning.measure_three_result.value = tuning_info.three_volt;
+    ui.tuning.save.disabled = true;
+});
+
+$on(ui.tuning.measure_three, "click", async function() {
+    tuning_info.three_volt = await gemini.read_adc_average(0, 20);
+    ui.tuning.measure_three_result.value = tuning_info.three_volt;
+
+    if(!tuning_info.one_volt) return;
+
+    const expected_low = gemini.volts_to_code(1.0);
+    const expected_high = gemini.volts_to_code(3.0);
+    const measured_low = tuning_info.one_volt;
+    const measured_high = tuning_info.three_volt;
+    tuning_info.gain_error = ((expected_high - expected_low) / (measured_high - measured_low)).toFixed(4);
+    tuning_info.offset_error = ((measured_low * tuning_info.gain_error) - expected_low).toFixed(1);
+
+    ui.tuning.gain_error_result.value = tuning_info.gain_error;
+    ui.tuning.offset_error_result.value = tuning_info.offset_error;
+    ui.tuning.save.disabled = false;
+});
+
+$on(ui.tuning.save, "click", function() {
+    if(tuning_info.gain_error === null) return;
+    if(tuning_info.offset_error === null) return;
+
+    settings.cv_gain_error = tuning_info.gain_error;
+    settings.cv_offset_error = tuning_info.offset_error;
+
+    ui.settings_form.update();
+    ui.save_btn.scrollIntoView();
+    ui.save_btn.click();
+});

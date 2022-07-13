@@ -28,6 +28,7 @@ export default class Gemini {
     }
 
     async load_settings() {
+        /* Command 0x18: read settings */
         console.log("Loading settings from device...");
 
         const timeout = new Promise((_, reject) => {
@@ -45,6 +46,7 @@ export default class Gemini {
     }
 
     async save_settings(settings) {
+        /* Command 0x19: write settings */
         const settings_data = settings.pack();
         const encoded_data = Teeth.encode(settings_data);
         const midi_message = new Uint8Array(4 + encoded_data.length);
@@ -55,8 +57,38 @@ export default class Gemini {
     }
 
     async soft_reset() {
+        /* Command 0x11: soft reset */
         await this.midi.transact(
             new Uint8Array([0xf0, 0x77, 0x11, 0xf7])
         );
+    }
+
+    async read_adc(channel) {
+        /* (command 0x04 - read ADC) */
+        const response = await this.midi.transact(
+            new Uint8Array([0xf0, 0x77, 0x04, channel, 0xf7])
+        );
+        const result_buf = Teeth.decode(strip_response(response));
+        const result_view = new DataView(result_buf.buffer, 0);
+        return result_view.getUint16(0);
+    }
+
+    async read_adc_average(channel, samples) {
+        const results = [];
+        for(let i = 0; i < samples; i++) {
+            results.push(await this.read_adc(channel));
+        }
+        return results.reduce((x, y) => { return x + y; }, 0) / results.length;
+    }
+
+    code_to_volts(code) {
+        code = 4095 - code;
+        return 6.0 - ((code / 4095) * 6.0);
+    }
+
+    volts_to_code(volts) {
+        let code = volts / 6.0 * 4095
+        code = 4095 - code
+        return code
     }
 }
