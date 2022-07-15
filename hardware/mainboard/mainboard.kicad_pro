@@ -106,7 +106,7 @@
         "allow_blind_buried_vias": false,
         "allow_microvias": false,
         "max_error": 0.005,
-        "min_clearance": 0.16,
+        "min_clearance": 0.18,
         "min_copper_edge_clearance": 0.25,
         "min_hole_clearance": 0.25,
         "min_hole_to_hole": 0.5,
@@ -134,6 +134,22 @@
         {
           "diameter": 0.0,
           "drill": 0.0
+        },
+        {
+          "diameter": 0.7,
+          "drill": 0.4
+        },
+        {
+          "diameter": 0.8,
+          "drill": 0.5
+        },
+        {
+          "diameter": 0.9,
+          "drill": 0.6
+        },
+        {
+          "diameter": 1.0,
+          "drill": 0.7
         }
       ],
       "zones_allow_external_fillets": true,
