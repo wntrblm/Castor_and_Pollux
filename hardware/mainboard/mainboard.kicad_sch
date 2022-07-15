@@ -417,7 +417,7 @@
     (property "Value" "EXT" (id 1) (at 184.15 103.2255 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Connector_JST:JST_GH_SM08B-GHS-TB_1x08-1MP_P1.25mm_Horizontal" (id 2) (at 180.975 100.33 0)
+    (property "Footprint" "Connector_JST:JST_GH_BM08B-GHS-TBT_1x08-1MP_P1.25mm_Vertical" (id 2) (at 180.975 100.33 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 180.975 100.33 0)
@@ -1338,7 +1338,7 @@
       (reference "FB3") (unit 1) (value "Ferrite Bead") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
     )
     (path "/5bd9e93b-5109-4a41-a000-7d5082699c28"
-      (reference "J1") (unit 1) (value "EXT") (footprint "Connector_JST:JST_GH_SM08B-GHS-TB_1x08-1MP_P1.25mm_Horizontal")
+      (reference "J1") (unit 1) (value "EXT") (footprint "Connector_JST:JST_GH_BM08B-GHS-TBT_1x08-1MP_P1.25mm_Vertical")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0b0468"
       (reference "J3") (unit 1) (value "USB") (footprint "winterbloom:USB_B_Micro_Receptacle")
