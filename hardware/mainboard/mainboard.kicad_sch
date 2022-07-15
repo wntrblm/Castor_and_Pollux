@@ -1580,8 +1580,8 @@
     (path "/00000000-0000-0000-0000-00005f0d50ce/00000000-0000-0000-0000-00005f450b70"
       (reference "R69") (unit 1) (value "1k") (footprint "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder")
     )
-    (path "/00000000-0000-0000-0000-00005f09eaa6/3e07b953-6d72-418a-9470-7e8ae45eec8b"
-      (reference "RV1") (unit 1) (value "PITCH B") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+    (path "/00000000-0000-0000-0000-00005f09eaa6/9c75e9a6-d703-49f1-8aac-20c112099ea3"
+      (reference "RV1") (unit 1) (value "PITCH A") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/e7f54cef-1ef9-47ba-b3bc-b1e84091cb72"
       (reference "RV2") (unit 1) (value "DUTY A") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
@@ -1595,8 +1595,8 @@
     (path "/00000000-0000-0000-0000-00005f0e55e2/7802a7f0-f5c1-4f78-9d39-0fd520864fe8"
       (reference "RV5") (unit 1) (value "SUB") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
-    (path "/00000000-0000-0000-0000-00005f09eaa6/9c75e9a6-d703-49f1-8aac-20c112099ea3"
-      (reference "RV6") (unit 1) (value "PITCH A") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+    (path "/00000000-0000-0000-0000-00005f09eaa6/3e07b953-6d72-418a-9470-7e8ae45eec8b"
+      (reference "RV6") (unit 1) (value "PITCH B") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/0cac308a-f0c7-4e77-910d-41ab1ab7e0b4"
       (reference "RV7") (unit 1) (value "DUTY B") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
