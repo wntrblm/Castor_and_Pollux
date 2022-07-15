@@ -375,8 +375,7 @@
     (uuid f78bd120-7f06-44e2-b9b8-79256ba0ba01)
   )
 
-  (text "TODO:\n- Test pads\n- Fix the pitch CV input range\n- USB power\n- TVS diodes for inputs?"
-    (at 26.67 194.31 0)
+  (text "TODO:\n- Fix the pitch CV input range\n- USB power" (at 26.67 194.31 0)
     (effects (font (size 3 3)) (justify left bottom))
     (uuid a3730ea0-1644-4350-8385-18e578daa169)
   )
@@ -686,8 +685,8 @@
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f23bda0"
       (reference "#FLG0104") (unit 1) (value "PWR_FLAG") (footprint "")
     )
-    (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f200052"
-      (reference "#PWR01") (unit 1) (value "-12V") (footprint "")
+    (path "/00000000-0000-0000-0000-00005f01694c/77f0e375-2b91-4da9-94eb-37f89e3d423c"
+      (reference "#PWR01") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f1fa7fd"
       (reference "#PWR02") (unit 1) (value "GND") (footprint "")
@@ -869,14 +868,26 @@
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0beb01"
       (reference "#PWR061") (unit 1) (value "+3.3V") (footprint "")
     )
+    (path "/00000000-0000-0000-0000-00005f3674a8/a101eafe-f2f2-4f60-8ef6-c51c00711172"
+      (reference "#PWR062") (unit 1) (value "GND") (footprint "")
+    )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0bf242"
       (reference "#PWR063") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-00005f3674a8/a7a1661f-c036-4d29-bc74-5dc71c68b951"
+      (reference "#PWR064") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0b7121"
       (reference "#PWR065") (unit 1) (value "GND") (footprint "")
     )
+    (path "/00000000-0000-0000-0000-00005f3674a8/f332f456-507c-4a46-852d-da87a930bc44"
+      (reference "#PWR066") (unit 1) (value "GND") (footprint "")
+    )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0b3ba8"
       (reference "#PWR067") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-00005f3674a8/033d3c13-5704-4fd2-9690-8b86971be163"
+      (reference "#PWR068") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0c2670"
       (reference "#PWR069") (unit 1) (value "GND") (footprint "")
@@ -1158,10 +1169,10 @@
       (reference "C1") (unit 1) (value "0.1uF") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f07e185"
-      (reference "C2") (unit 1) (value "22uF") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
+      (reference "C2") (unit 1) (value "10u") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f07ed0e"
-      (reference "C3") (unit 1) (value "22uF") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
+      (reference "C3") (unit 1) (value "10u") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f080120"
       (reference "C4") (unit 1) (value "0.1uF") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
@@ -1292,6 +1303,9 @@
     (path "/00000000-0000-0000-0000-00005f09eaa6/a7bffd85-247c-47fb-8508-2919db8c68f2"
       (reference "C46") (unit 1) (value "0.1uF") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
+    (path "/00000000-0000-0000-0000-00005f01694c/8ff5fb96-6b0c-4a55-9da7-fffb288dc3f7"
+      (reference "C47") (unit 1) (value "22uF") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
+    )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f1fb229"
       (reference "C48") (unit 1) (value "22uF") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
@@ -1327,6 +1341,18 @@
     )
     (path "/31000f0f-e202-4936-af7b-0293ced26715/0abf25b2-71de-4a59-9436-b460c67fa30f"
       (reference "D10") (unit 1) (value "Dotstar") (footprint "winterbloom:LED_APA102_Dotstar_5050")
+    )
+    (path "/00000000-0000-0000-0000-00005f3674a8/b28dcd68-b209-4884-a8ea-8de090b7a72b"
+      (reference "D11") (unit 1) (value "ESD") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
+    )
+    (path "/00000000-0000-0000-0000-00005f3674a8/e6096b4c-ad25-4cf4-a4f9-8dc2c92596f1"
+      (reference "D12") (unit 1) (value "ESD") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
+    )
+    (path "/00000000-0000-0000-0000-00005f3674a8/bfd4b1bd-0569-44bc-bed2-1855687e5012"
+      (reference "D13") (unit 1) (value "ESD") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
+    )
+    (path "/00000000-0000-0000-0000-00005f3674a8/5d9cf1c0-9c52-4334-9f79-744119a618a9"
+      (reference "D14") (unit 1) (value "ESD") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f08907d"
       (reference "FB1") (unit 1) (value "Ferrite Bead") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
