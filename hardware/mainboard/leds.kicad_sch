@@ -9,8 +9,9 @@
     (date "2022-07-15")
     (rev "v5")
     (company "Winterbloom")
-    (comment 1 "CERN-OHL-P v2")
-    (comment 2 "Alethea Flowers")
+    (comment 1 "Alethea Flowers")
+    (comment 2 "CERN-OHL-P v2")
+    (comment 3 "gemini.wntr.dev")
   )
 
   (lib_symbols
