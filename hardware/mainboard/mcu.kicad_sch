@@ -6,8 +6,8 @@
 
   (title_block
     (title "Castor & Pollux")
-    (date "2021-06-13")
-    (rev "v4")
+    (date "2022-07-15")
+    (rev "v5")
     (company "Winterbloom")
     (comment 1 "CERN-OHL-P v2")
     (comment 2 "Alethea Flowers")

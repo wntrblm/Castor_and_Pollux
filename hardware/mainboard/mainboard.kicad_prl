@@ -69,19 +69,6 @@
     "version": 3
   },
   "project": {
-    "files": [
-      {
-        "name": "mainboard.kicad_pcb",
-        "open": false,
-        "window": {
-          "display": 0,
-          "maximized": true,
-          "pos_x": 116,
-          "pos_y": 113,
-          "size_x": 1280,
-          "size_y": 720
-        }
-      }
-    ]
+    "files": []
   }
 }
