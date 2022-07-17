@@ -62,7 +62,7 @@
       35,
       36
     ],
-    "visible_layers": "0005055_00000000",
+    "visible_layers": "0005055_80000000",
     "zone_display_mode": 1
   },
   "meta": {
@@ -73,6 +73,18 @@
     "files": [
       {
         "name": "mainboard.kicad_sch",
+        "open": false,
+        "window": {
+          "display": 0,
+          "maximized": true,
+          "pos_x": 116,
+          "pos_y": 113,
+          "size_x": 1280,
+          "size_y": 720
+        }
+      },
+      {
+        "name": "mainboard.kicad_pcb",
         "open": false,
         "window": {
           "display": 0,
