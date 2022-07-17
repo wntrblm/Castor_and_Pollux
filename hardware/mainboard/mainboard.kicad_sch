@@ -361,6 +361,12 @@
   )
 
   (symbol_instances
+    (path "/00000000-0000-0000-0000-00005f01694c/3abbe9b5-65f5-4ddb-9443-5283fe39651d"
+      (reference "#FLG01") (unit 1) (value "PWR_FLAG") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-00005f01694c/f199071f-b371-4a3a-98a1-202e35e08c9e"
+      (reference "#FLG02") (unit 1) (value "PWR_FLAG") (footprint "")
+    )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f23bda0"
       (reference "#FLG0104") (unit 1) (value "PWR_FLAG") (footprint "")
     )
@@ -1148,7 +1154,7 @@
       (reference "SW1") (unit 1) (value "RESET") (footprint "winterbloom:Tactile_Switch_4.2mm")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/1ea44c24-5c28-459d-83f2-83160489168c"
-      (reference "SW100") (unit 1) (value "BUTTON") (footprint "winterbloom:Tactile_Switch_6mm")
+      (reference "SW100") (unit 1) (value "BUTTON") (footprint "winterbloom:Tactile_Switch_4.2mm")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-00005f5d89bd"
       (reference "TP1") (unit 1) (value "Ramp") (footprint "TestPoint:TestPoint_Pad_D1.0mm")
