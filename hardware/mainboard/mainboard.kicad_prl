@@ -1,10 +1,10 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 36,
     "active_layer_preset": "",
     "auto_track_width": false,
     "hidden_nets": [],
-    "high_contrast_mode": 1,
+    "high_contrast_mode": 0,
     "net_color_mode": 1,
     "opacity": {
       "pads": 1.0,
@@ -62,7 +62,7 @@
       35,
       36
     ],
-    "visible_layers": "0005075_80000001",
+    "visible_layers": "0005055_00000000",
     "zone_display_mode": 1
   },
   "meta": {
@@ -70,6 +70,19 @@
     "version": 3
   },
   "project": {
-    "files": []
+    "files": [
+      {
+        "name": "mainboard.kicad_sch",
+        "open": false,
+        "window": {
+          "display": 0,
+          "maximized": true,
+          "pos_x": 116,
+          "pos_y": 113,
+          "size_x": 1280,
+          "size_y": 720
+        }
+      }
+    ]
   }
 }
