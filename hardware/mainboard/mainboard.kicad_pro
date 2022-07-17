@@ -407,10 +407,7 @@
         "microvia_diameter": 0.3,
         "microvia_drill": 0.1,
         "name": "Euroack level audio",
-        "nets": [
-          "/castor_mix_out",
-          "/pollux_mix_out"
-        ],
+        "nets": [],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "schematic_color": "rgba(0, 0, 0, 0.000)",
         "track_width": 0.2,
@@ -511,11 +508,11 @@
     ],
     [
       "00000000-0000-0000-0000-00005f016ad7",
-      "Castor"
+      "Pollux"
     ],
     [
       "00000000-0000-0000-0000-00005f0e55e2",
-      "Pollux"
+      "Castor"
     ],
     [
       "00000000-0000-0000-0000-00005f01694c",
@@ -523,7 +520,7 @@
     ],
     [
       "00000000-0000-0000-0000-00005f0d50ce",
-      "Output Mixer"
+      "Mixer & outputs"
     ],
     [
       "31000f0f-e202-4936-af7b-0293ced26715",

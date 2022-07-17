@@ -277,7 +277,7 @@
   )
 
   (no_connect (at 205.74 99.06) (uuid 86ee8fd7-f022-4a7d-9131-7b5d39c0144a))
-  (no_connect (at 205.74 96.52) (uuid 86ee8fd7-f022-4a7d-9131-7b5d39c0144a))
+  (no_connect (at 205.74 96.52) (uuid 86ee8fd7-f022-4a7d-9131-7b5d39c0144b))
 
   (wire (pts (xy 137.16 85.725) (xy 137.16 91.44))
     (stroke (width 0) (type default) (color 0 0 0 0))
