@@ -637,9 +637,6 @@
     (path "/00000000-0000-0000-0000-00005f0d50ce/ecfdfb06-9c4b-489e-8605-f223bb77734d"
       (reference "#PWR091") (unit 1) (value "GND") (footprint "")
     )
-    (path "/00000000-0000-0000-0000-00005f0d50ce/7b38b9d5-6fb6-4a2d-aee0-95d02f748e5f"
-      (reference "#PWR092") (unit 1) (value "GND") (footprint "")
-    )
     (path "/00000000-0000-0000-0000-00005f0d50ce/f1c29137-dad5-4ea4-a088-a3931c6d39d3"
       (reference "#PWR093") (unit 1) (value "GND") (footprint "")
     )
@@ -666,6 +663,15 @@
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-00005eff9c1e"
       (reference "#PWR0101") (unit 1) (value "-12V") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-00005f0d50ce/a332fa14-38f5-4c43-ae42-88def4e4d8f4"
+      (reference "#PWR0102") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-00005f0d50ce/dddd5c66-9471-4a0c-add0-e07835111358"
+      (reference "#PWR0103") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-00005f0d50ce/442d862f-4a15-4df6-ba35-295f7e88706e"
+      (reference "#PWR0104") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f1fb229"
       (reference "C1") (unit 1) (value "22u") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
@@ -889,8 +895,8 @@
     (path "/00000000-0000-0000-0000-00005f016ad7/2ff4a7de-9f52-475f-b08e-ff640af6f7fc"
       (reference "J8") (unit 1) (value "OSC OUT") (footprint "winterbloom:AudioJack_WQP518MA")
     )
-    (path "/00000000-0000-0000-0000-00005f0d50ce/12fba7bd-00e0-4f8e-9f25-5fac0b78ece4"
-      (reference "J9") (unit 1) (value "EXT") (footprint "Connector_JST:JST_GH_BM08B-GHS-TBT_1x08-1MP_P1.25mm_Vertical")
+    (path "/00000000-0000-0000-0000-00005f0d50ce/97551cdf-1b8d-4c7e-bf15-0c29218c8d8d"
+      (reference "J9") (unit 1) (value "EXT") (footprint "winterbloom:Connector_Cortex_Debug_IDC_2x05_P1.27mm_Vertical_Shrouded_SMD")
     )
     (path "/00000000-0000-0000-0000-00005f0d50ce/ad974841-2dae-4877-ac41-300662db0484"
       (reference "J10") (unit 1) (value "MIX") (footprint "winterbloom:AudioJack_WQP518MA")
