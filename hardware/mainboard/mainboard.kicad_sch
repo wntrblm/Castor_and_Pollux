@@ -6,7 +6,7 @@
 
   (title_block
     (title "Castor & Pollux")
-    (date "2022-07-15")
+    (date "2022-07-26")
     (rev "v5")
     (company "Winterbloom")
     (comment 1 "Alethea Flowers")
@@ -345,13 +345,13 @@
 
   (sheet_instances
     (path "/" (page "1"))
-    (path "/00000000-0000-0000-0000-00005f09eaa6" (page "2"))
+    (path "/00000000-0000-0000-0000-00005f01694c" (page "2"))
     (path "/00000000-0000-0000-0000-00005f3674a8" (page "3"))
-    (path "/00000000-0000-0000-0000-00005f016ad7" (page "4"))
-    (path "/00000000-0000-0000-0000-00005f0e55e2" (page "5"))
-    (path "/00000000-0000-0000-0000-00005f01694c" (page "6"))
-    (path "/00000000-0000-0000-0000-00005f0d50ce" (page "7"))
-    (path "/31000f0f-e202-4936-af7b-0293ced26715" (page "8"))
+    (path "/00000000-0000-0000-0000-00005f09eaa6" (page "3"))
+    (path "/00000000-0000-0000-0000-00005f0e55e2" (page "4"))
+    (path "/00000000-0000-0000-0000-00005f016ad7" (page "5"))
+    (path "/00000000-0000-0000-0000-00005f0d50ce" (page "6"))
+    (path "/31000f0f-e202-4936-af7b-0293ced26715" (page "7"))
   )
 
   (symbol_instances
@@ -673,6 +673,9 @@
     (path "/00000000-0000-0000-0000-00005f0d50ce/442d862f-4a15-4df6-ba35-295f7e88706e"
       (reference "#PWR0104") (unit 1) (value "GND") (footprint "")
     )
+    (path "/00000000-0000-0000-0000-00005f09eaa6/0c52d15a-806c-401b-8bec-206a55293a61"
+      (reference "#PWR0105") (unit 1) (value "GND") (footprint "")
+    )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f1fb229"
       (reference "C1") (unit 1) (value "22u") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
@@ -821,10 +824,10 @@
       (reference "C49") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f079176"
-      (reference "D1") (unit 1) (value "30V/1A") (footprint "winterbloom:D_SOD-123")
+      (reference "D1") (unit 1) (value "30V{slash}500mA") (footprint "winterbloom:D_SOD-123")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f078cbc"
-      (reference "D2") (unit 1) (value "30V/1A") (footprint "winterbloom:D_SOD-123")
+      (reference "D2") (unit 1) (value "30V/500mA") (footprint "winterbloom:D_SOD-123")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/b28dcd68-b209-4884-a8ea-8de090b7a72b"
       (reference "D3") (unit 1) (value "ESD") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
@@ -861,6 +864,9 @@
     )
     (path "/31000f0f-e202-4936-af7b-0293ced26715/7890646d-64bf-4f93-a8a6-90787cbce44f"
       (reference "D14") (unit 1) (value "Dotstar") (footprint "winterbloom:LED_APA102_Dotstar_5050")
+    )
+    (path "/00000000-0000-0000-0000-00005f01694c/4eb590b8-f9ea-4308-b696-89b425fc368a"
+      (reference "D15") (unit 1) (value "30V{slash}500mA") (footprint "winterbloom:D_SOD-123")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f08ba03"
       (reference "FB1") (unit 1) (value "600R @ 100MHz") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
