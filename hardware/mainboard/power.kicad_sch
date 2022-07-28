@@ -1535,7 +1535,7 @@
     (property "finalized" "" (id 4) (at 215.9 35.56 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "mpn" "" (id 5) (at 215.9 35.56 0)
+    (property "mpn" "ERJ-2RKF2201X" (id 5) (at 215.9 35.56 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Reqs" "-10V zener current control, 1%, 100 mW, thick film" (id 6) (at 215.9 35.56 0)
