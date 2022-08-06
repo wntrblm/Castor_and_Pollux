@@ -1362,6 +1362,7 @@
     )
   )
 
+
   (junction (at 73.66 43.18) (diameter 0) (color 0 0 0 0)
     (uuid 0b4bb430-3f8e-4839-b325-4cd90bce8def)
   )
@@ -2334,7 +2335,7 @@
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid a42b0fc3-f875-4a7b-b0c8-f45d84b0cbf0)
   )
-  (hierarchical_label "DOTSTAR_CLK" (shape output) (at 58.42 62.23 180)
+  (hierarchical_label "DOTSTAR_CLK" (shape output) (at 58.42 64.77 180)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid b75ae2a1-77b1-47d3-8512-4ee4b71102db)
   )
@@ -2358,7 +2359,7 @@
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid d3dc2301-e1fe-499f-bc1f-31497397fbc4)
   )
-  (hierarchical_label "DOTSTAR_DATA" (shape output) (at 58.42 64.77 180)
+  (hierarchical_label "DOTSTAR_DATA" (shape output) (at 58.42 62.23 180)
     (effects (font (size 1.27 1.27)) (justify right))
     (uuid fdda7488-1785-4301-876b-31d4bd32d914)
   )
