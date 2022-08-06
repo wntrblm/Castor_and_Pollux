@@ -10,6 +10,7 @@
 #include "gem_i2c.h"
 #include "gem_pulseout.h"
 #include "gem_spi.h"
+#include "wntr_gpio.h"
 
 /*
     With the below settings the total time per ADC conversion is
@@ -97,3 +98,9 @@ static const struct GemDotstarCfg GEM_REV5_DOTSTAR_CFG = {
     .count = 8,
     .spi = &GEM_REV5_SPI_CFG,
 };
+
+/*
+    Revision 5 detection pin. On revisions 1-4, this pin is floating.
+    On revision 5 this pin is tied to ground.
+*/
+static const struct WntrGPIOPin rev5_pin_ = WNTR_GPIO_PIN(A, 27);

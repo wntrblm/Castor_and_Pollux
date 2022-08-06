@@ -89,15 +89,16 @@ static void init_() {
     */
     gem_nvm_init();
 
-    /* Tell the world who we are and how we got here. :) */
-    // TODO: Log board revision
-    printf("%s\n", wntr_build_info_string());
-
     /*
-        TODO: Determine hardware revision
+        Since the peripheral configuration depends on the hardware revision,
+        the firmware must detect which hardware revision. This is done by
+        connecting otherwise unused GPIO pins to ground. The firmware checks
+        the value of those pins to determine the hardware revision.
     */
-    // Rev 1 - 4
-    if (false) {
+    WntrGPIOPin_set_as_input(rev5_pin_, true);
+
+    // rev5 pin is floating for revisions < 5, so it gets pulled up.
+    if (WntrGPIOPin_get(rev5_pin_) == true) {
         board_revision_ = 4;
         adc_cfg_ = &GEM_REV1_ADC_CFG;
         adc_inputs_ = GEM_REV1_ADC_INPUTS;
@@ -106,7 +107,7 @@ static void init_() {
         spi_cfg_ = &GEM_REV1_SPI_CFG;
         dotstar_cfg_ = &GEM_REV1_DOTSTAR_CFG;
     }
-    // Rev 5
+    // rev5 pin is tied to ground in revisions > 5.
     else {
         board_revision_ = 5;
         adc_cfg_ = &GEM_REV5_ADC_CFG;
@@ -116,6 +117,9 @@ static void init_() {
         spi_cfg_ = &GEM_REV5_SPI_CFG;
         dotstar_cfg_ = &GEM_REV5_DOTSTAR_CFG;
     }
+
+    /* Tell the world who we are and how we got here. :) */
+    printf("Hello, I am Gemini.\n - hardware: rev%u\n - firmware: %s\n", board_revision_, wntr_build_info_string());
 
     /*
         Peripheral setup
