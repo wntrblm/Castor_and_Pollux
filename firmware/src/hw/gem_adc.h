@@ -32,7 +32,14 @@ struct GemADCInput {
     uint32_t pin;
     /* AIN number for the input */
     uint32_t ain;
+    /* Invert the value? */
+    bool invert;
 };
+
+#define GEM_ADC_INPUT(port_, pin_, ain_)                                                                               \
+    ((struct GemADCInput){WNTR_PORT_##port_, pin_, ADC_INPUTCTRL_MUXPOS_PIN##ain_, false})
+#define GEM_ADC_INPUT_INVERTED(port_, pin_, ain_)                                                                      \
+    ((struct GemADCInput){WNTR_PORT_##port_, pin_, ADC_INPUTCTRL_MUXPOS_PIN##ain_, true})
 
 void gem_adc_init(const struct GemADCConfig* adc, int16_t offset_error, uint16_t gain_error);
 

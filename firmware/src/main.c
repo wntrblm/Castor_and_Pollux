@@ -274,13 +274,15 @@ static void init_() {
         The oscillators aren't completely independent: Pollux is special.
 
         First, if Pollux doesn't have any pitch CV input it'll follow Castor's
-        pitch.
+        pitch. Rev 1-4 detects lack of pitch CV input by checking if Pollux's
+        pitch CV is near zero. Rev 5 uses a switched jack, so it disables
+        the firmware-based detection.
 
         Second, Pollux allows the LFO to modulate its pitch. This allows the
         "chorusing" effect when the two oscillators have matching pitches
         and their outputs are mixed.
     */
-    pollux_.follower_threshold = settings_.pollux_follower_threshold;
+    pollux_.follower_threshold = board_revision_ < 5 ? settings_.pollux_follower_threshold : 0;
     pollux_.lfo_pitch = true;
 }
 
@@ -313,7 +315,7 @@ static void oscillator_task_() {
     */
     fix16_t lfo_value = WntrMixedPeriodicWaveform_step(&lfo_, loop_start_time);
     gem_led_tweak_data.lfo_value = lfo_value;
-    fix16_t pitch_lfo_intensity = UINT12_NORMALIZE(UINT12_INVERT(adc_results_[GEM_IN_CHORUS_POT]));
+    fix16_t pitch_lfo_intensity = UINT12_NORMALIZE(adc_results_[GEM_IN_CHORUS_POT]);
     fix16_t pitch_lfo_value = fix16_mul(settings_.chorus_max_intensity, fix16_mul(pitch_lfo_intensity, lfo_value));
 
     /*

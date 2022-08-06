@@ -36,15 +36,15 @@ static const struct GemADCConfig GEM_REV1_ADC_CFG = {
 };
 
 static const struct GemADCInput GEM_REV1_ADC_INPUTS[] = {
-    {WNTR_PORT_A, 6, ADC_INPUTCTRL_MUXPOS_PIN6},   // CV A
-    {WNTR_PORT_B, 3, ADC_INPUTCTRL_MUXPOS_PIN11},  // CV A Pot
-    {WNTR_PORT_A, 7, ADC_INPUTCTRL_MUXPOS_PIN7},   // CV B
-    {WNTR_PORT_B, 2, ADC_INPUTCTRL_MUXPOS_PIN10},  // CV B Pot
-    {WNTR_PORT_A, 5, ADC_INPUTCTRL_MUXPOS_PIN5},   // Duty A
-    {WNTR_PORT_A, 8, ADC_INPUTCTRL_MUXPOS_PIN16},  // Duty A Pot
-    {WNTR_PORT_B, 9, ADC_INPUTCTRL_MUXPOS_PIN3},   // Duty B
-    {WNTR_PORT_A, 9, ADC_INPUTCTRL_MUXPOS_PIN17},  // Duty B Pot
-    {WNTR_PORT_A, 2, ADC_INPUTCTRL_MUXPOS_PIN0},   // Chorus pot
+    GEM_ADC_INPUT(A, 6, 6),            // CV A
+    GEM_ADC_INPUT_INVERTED(B, 3, 11),  // CV A Pot
+    GEM_ADC_INPUT(A, 7, 7),            // CV B
+    GEM_ADC_INPUT_INVERTED(B, 2, 10),  // CV B Pot
+    GEM_ADC_INPUT(A, 5, 5),            // Duty A
+    GEM_ADC_INPUT_INVERTED(A, 8, 16),  // Duty A Pot
+    GEM_ADC_INPUT(B, 9, 3),            // Duty B
+    GEM_ADC_INPUT_INVERTED(A, 9, 17),  // Duty B Pot
+    GEM_ADC_INPUT_INVERTED(A, 2, 0),   // Chorus pot
 };
 
 /*

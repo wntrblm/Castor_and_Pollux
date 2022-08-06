@@ -11,6 +11,7 @@
 #include "wntr_fuses.h"
 #include "wntr_gpio.h"
 #include "wntr_ramfunc.h"
+#include "wntr_uint12.h"
 
 /* Inputs to scan_next_channel. */
 static const struct GemADCInput* inputs_;
@@ -207,11 +208,17 @@ void ADC_Handler(void) {
         return;
     }
 
+    struct GemADCInput input = inputs_[current_input_idx_];
+
     /*
         Store the result, reading ADC->RESULT automatically clears the
         interrupt flag.
     */
-    results_[current_input_idx_] = ADC->RESULT.reg;
+    uint32_t result = ADC->RESULT.reg;
+    if (input.invert) {
+        result = UINT12_INVERT(result);
+    }
+    results_[current_input_idx_] = result;
 
     /* Scan the next input */
     current_input_idx_ = current_input_idx_ + 1;

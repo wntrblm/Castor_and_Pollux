@@ -128,7 +128,7 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
 
     /* Read the pitch knob and normalize (0.0 -> 1.0) its value. */
     uint16_t knob_adc_code = inputs.adc[osc->pitch_knob_channel];
-    fix16_t knob_value = fix16_sub(F16(1.0), fix16_div(fix16_from_int(knob_adc_code), F16(4095.0)));
+    fix16_t knob_value = fix16_div(fix16_from_int(knob_adc_code), F16(4095.0));
 
     /* Use the range and the normalized value to determine the knob's CV value. */
     knob_value = fix16_add(osc->knob_min, fix16_mul(osc->knob_range, knob_value));
@@ -154,8 +154,8 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
 }
 
 void calculate_pulse_width_(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
-    osc->pulse_width_knob = UINT12_INVERT(inputs.adc[osc->pulse_width_knob_channel]);
-    osc->pulse_width_cv = UINT12_INVERT(inputs.adc[osc->pulse_width_cv_channel]);
+    osc->pulse_width_knob = inputs.adc[osc->pulse_width_knob_channel];
+    osc->pulse_width_cv = inputs.adc[osc->pulse_width_cv_channel];
 
     /*
         The user can configure the LFO to modulate the pulse width. If it's
