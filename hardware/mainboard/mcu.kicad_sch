@@ -2094,11 +2094,11 @@
     (effects (font (size 2.54 2.54) (thickness 0.508) bold) (justify left bottom))
     (uuid 4f879064-2b3b-4874-8b3e-0ee16e07557c)
   )
-  (text "TCC1.WO[1]" (at 33.655 93.345 180)
+  (text "TCC0.WO[6]" (at 33.655 93.345 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 546b468b-4138-45da-952d-c41e77be3316)
   )
-  (text "TCC0.WO[6]" (at 33.655 90.805 180)
+  (text "TCC1.WO[1]" (at 33.655 90.805 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 58802b41-7a90-47d6-8f6a-d68390336383)
   )
@@ -2110,7 +2110,7 @@
     (effects (font (size 2.54 2.54) (thickness 0.508) bold) (justify left bottom))
     (uuid 69dd2104-ae02-4965-8067-cb8200311c52)
   )
-  (text "Power consumption: 10 mA (estimated)\nI2C on SERCOM3\nDotstar SPI on SERCOM1\nOscillator 1 output on TCC1.WO[1]\nOscillator 2 output on TCC0.WO[6]\nVersion 4 and earlier have PA27 floating\nVersion 5 and later have PA27 pulled down"
+  (text "Power consumption: 10 mA (estimated)\nI2C on SERCOM3\nDotstar SPI on SERCOM1\nOscillator 1 output on TCC0.WO[6]\nOscillator 2 output on TCC1.WO[1]\nVersion 4 and earlier have PA27 floating\nVersion 5 and later have PA27 pulled down"
     (at 17.145 35.56 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 6f4b8bdf-f35a-4e7b-a695-36dddb9880b1)
