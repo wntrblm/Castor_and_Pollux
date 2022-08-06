@@ -5,20 +5,18 @@
 */
 
 #include "gem_pulseout.h"
-#include "gem_config.h"
 #include "wntr_ramfunc.h"
 
-static uint32_t timer_2_period_ = 0;
 static bool hard_sync_ = false;
 
 /* Public functions */
 
-void gem_pulseout_init() {
+void gem_pulseout_init(const struct GemPulseOutConfig* po) {
     /* Enable the APB clock for TCC0 & TCC1. */
     PM->APBCMASK.reg |= PM_APBCMASK_TCC0 | PM_APBCMASK_TCC1;
 
     /* Enable GCLK1 and wire it up to TCC0 & TCC1 */
-    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | GEM_PULSEOUT_GCLK | GCLK_CLKCTRL_ID_TCC0_TCC1;
+    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | po->gclk | GCLK_CLKCTRL_ID_TCC0_TCC1;
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
     /* Reset TCCs. */
@@ -36,8 +34,8 @@ void gem_pulseout_init() {
         than the clock. In this case, I'm dividing the 8MHz clock by 16 making the
         TCC operate at 500kHz. This means each count (or "tick") is 2us.
     */
-    TCC0->CTRLA.reg |= GEM_PULSEOUT_GCLK_DIV;
-    TCC1->CTRLA.reg |= GEM_PULSEOUT_GCLK_DIV;
+    TCC0->CTRLA.reg |= po->gclk_div;
+    TCC1->CTRLA.reg |= po->gclk_div;
 
     /* Use "Normal PWM" */
     TCC0->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM;
@@ -51,14 +49,8 @@ void gem_pulseout_init() {
     TCC1->PER.reg = 100;
 
     /* Configure pins. */
-    PORT->Group[GEM_TCC0_PIN_PORT].DIRSET.reg = (1 << GEM_TCC0_PIN);
-    PORT->Group[GEM_TCC0_PIN_PORT].OUTCLR.reg = (1 << GEM_TCC0_PIN);
-    PORT->Group[GEM_TCC0_PIN_PORT].PINCFG[GEM_TCC0_PIN].reg |= PORT_PINCFG_PMUXEN;
-    PORT->Group[GEM_TCC0_PIN_PORT].PMUX[GEM_TCC0_PIN >> 1].reg |= GEM_TCC0_PIN_FUNC;
-    PORT->Group[GEM_TCC1_PIN_PORT].DIRSET.reg = (1 << GEM_TCC1_PIN);
-    PORT->Group[GEM_TCC1_PIN_PORT].OUTCLR.reg = (1 << GEM_TCC1_PIN);
-    PORT->Group[GEM_TCC1_PIN_PORT].PINCFG[GEM_TCC1_PIN].reg |= PORT_PINCFG_PMUXEN;
-    PORT->Group[GEM_TCC1_PIN_PORT].PMUX[GEM_TCC1_PIN >> 1].reg |= GEM_TCC1_PIN_FUNC;
+    WntrGPIOPin_configure_alt(po->tcc0_pin);
+    WntrGPIOPin_configure_alt(po->tcc1_pin);
 
     /* Enable output */
     TCC0->CTRLA.reg |= (TCC_CTRLA_ENABLE);
@@ -72,7 +64,7 @@ void gem_pulseout_init() {
     NVIC_EnableIRQ(TCC0_IRQn);
 }
 
-void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
+void gem_pulseout_set_period(const struct GemPulseOutConfig* po, uint8_t channel, uint32_t period) {
     /* Configure the frequency for the PWM by setting the PER register.
         The value of the PER register determines the frequency in the following
         way:
@@ -85,13 +77,12 @@ void gem_pulseout_set_period(uint8_t channel, uint32_t period) {
     switch (channel) {
         case 0:
             TCC0->PERB.bit.PERB = period;
-            TCC0->CCB[GEM_TCC0_WO].reg = (uint32_t)(period / 2);
+            TCC0->CCB[po->tcc0_wo % 4].reg = (uint32_t)(period / 2);
             break;
 
         case 1:
             TCC1->PERB.bit.PERB = period;
-            TCC1->CCB[GEM_TCC1_WO].reg = (uint32_t)(period / 2);
-            timer_2_period_ = period;
+            TCC1->CCB[po->tcc1_wo % 4].reg = (uint32_t)(period / 2);
             break;
 
         default:

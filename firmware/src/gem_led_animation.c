@@ -16,27 +16,28 @@
 
 struct GemLEDTweakData gem_led_tweak_data = {.lfo_value = F16(0)};
 
-static const uint32_t hue_offsets_[GEM_DOTSTAR_COUNT] = {
-    65355 / GEM_DOTSTAR_COUNT * 2,
-    65355 / GEM_DOTSTAR_COUNT * 2,
-    65355 / GEM_DOTSTAR_COUNT * 6,
+// TODO: This probably needs to be adjusted for rev 5.
+static const uint32_t hue_offsets_[GEM_MAX_DOTSTAR_COUNT] = {
+    65355 / GEM_MAX_DOTSTAR_COUNT * 2,
+    65355 / GEM_MAX_DOTSTAR_COUNT * 2,
+    65355 / GEM_MAX_DOTSTAR_COUNT * 6,
     0,
-    65355 / GEM_DOTSTAR_COUNT,
-    65355 / GEM_DOTSTAR_COUNT * 4,
-    65355 / GEM_DOTSTAR_COUNT * 3,
+    65355 / GEM_MAX_DOTSTAR_COUNT,
+    65355 / GEM_MAX_DOTSTAR_COUNT * 4,
+    65355 / GEM_MAX_DOTSTAR_COUNT * 3,
 };
 static enum GemLEDAnimationMode mode_ = GEM_LED_MODE_NORMAL;
 static uint32_t last_update_;
 static fix16_t phase_a_ = F16(0);
 static uint32_t hue_accum_;
-static uint8_t sparkles_[GEM_DOTSTAR_COUNT];
+static uint8_t sparkles_[GEM_MAX_DOTSTAR_COUNT];
 
 /* Forward declarations. */
 
-static void animation_step_normal_(uint32_t delta) RAMFUNC;
-static void animation_step_hard_sync_(uint32_t delta) RAMFUNC;
-static void animation_step_calibration_(uint32_t ticks);
-static void animation_step_tweak_(uint32_t ticks) RAMFUNC;
+static void animation_step_normal_(const struct GemDotstarCfg* dotstar, uint32_t delta) RAMFUNC;
+static void animation_step_hard_sync_(const struct GemDotstarCfg* dotstar, uint32_t delta) RAMFUNC;
+static void animation_step_calibration_(const struct GemDotstarCfg* dotstar, uint32_t ticks);
+static void animation_step_tweak_(const struct GemDotstarCfg* dotstar, uint32_t ticks) RAMFUNC;
 
 /* Public functions. */
 
@@ -44,7 +45,7 @@ void gem_led_animation_init() { last_update_ = wntr_ticks(); }
 
 void gem_led_animation_set_mode(enum GemLEDAnimationMode mode) { mode_ = mode; }
 
-bool gem_led_animation_step() {
+bool gem_led_animation_step(const struct GemDotstarCfg* dotstar) {
     uint32_t ticks = wntr_ticks();
     uint32_t delta = ticks - last_update_;
     if (delta < GEM_ANIMATION_INTERVAL) {
@@ -55,36 +56,36 @@ bool gem_led_animation_step() {
 
     switch (mode_) {
         case GEM_LED_MODE_NORMAL:
-            animation_step_normal_(delta);
+            animation_step_normal_(dotstar, delta);
             break;
         case GEM_LED_MODE_HARD_SYNC:
-            animation_step_hard_sync_(delta);
+            animation_step_hard_sync_(dotstar, delta);
             break;
         case GEM_LED_MODE_CALIBRATION:
-            animation_step_calibration_(ticks);
+            animation_step_calibration_(dotstar, ticks);
             break;
         case GEM_LED_MODE_TWEAK:
-            animation_step_tweak_(delta);
+            animation_step_tweak_(dotstar, delta);
             break;
         default:
             break;
     }
-    gem_dotstar_update();
+    gem_dotstar_update(dotstar);
 
     return true;
 }
 
 /* Private functions. */
 
-static void animation_step_normal_(uint32_t delta) {
+static void animation_step_normal_(const struct GemDotstarCfg* dotstar, uint32_t delta) {
     phase_a_ += fix16_div(fix16_from_int(delta), F16(2200.0));
     if (phase_a_ > F16(1.0))
         phase_a_ = fix16_sub(phase_a_, F16(1.0));
 
     hue_accum_ += delta * 5;
 
-    for (size_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
-        fix16_t phase_offset = fix16_div(fix16_from_int(i), F16(GEM_DOTSTAR_COUNT));
+    for (size_t i = 0; i < dotstar->count; i++) {
+        fix16_t phase_offset = fix16_div(fix16_from_int(i), fix16_from_int(dotstar->count));
         fix16_t sin_a = wntr_sine_normalized(phase_a_ + phase_offset);
         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
         uint16_t hue = (hue_accum_ + hue_offsets_[i]) % UINT16_MAX;
@@ -107,7 +108,7 @@ static void animation_step_normal_(uint32_t delta) {
     }
 }
 
-static void animation_step_hard_sync_(uint32_t delta) {
+static void animation_step_hard_sync_(const struct GemDotstarCfg* dotstar, uint32_t delta) {
     phase_a_ += fix16_div(fix16_from_int(delta), F16(2200.0));
     if (phase_a_ > F16(1.0))
         phase_a_ = fix16_sub(phase_a_, F16(1.0));
@@ -115,8 +116,8 @@ static void animation_step_hard_sync_(uint32_t delta) {
     hue_accum_ += delta * 5;
     uint16_t hue = hue_accum_ % UINT16_MAX;
 
-    for (size_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
-        fix16_t phase_offset = fix16_div(fix16_from_int(i), F16(GEM_DOTSTAR_COUNT));
+    for (size_t i = 0; i < dotstar->count; i++) {
+        fix16_t phase_offset = fix16_div(fix16_from_int(i), fix16_from_int(dotstar->count));
         fix16_t sin_a = wntr_sine_normalized(phase_a_ + phase_offset);
         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
         uint32_t color;
@@ -138,14 +139,14 @@ static void animation_step_hard_sync_(uint32_t delta) {
     }
 }
 
-static void animation_step_calibration_(uint32_t ticks) {
+static void animation_step_calibration_(const struct GemDotstarCfg* dotstar, uint32_t ticks) {
     fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(2000.0));
     fix16_t sinv = wntr_sine_normalized(bright_time);
     uint8_t value = fix16_to_int(fix16_mul(F16(255.0), sinv));
     uint32_t colora = wntr_colorspace_hsv_to_rgb(50000, 255, value);
     uint32_t colorb = wntr_colorspace_hsv_to_rgb(10000, 255, 255 - value);
 
-    for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) {
+    for (uint8_t i = 0; i < dotstar->count; i++) {
         if (i % 2 == 0) {
             gem_dotstar_set32(i, colora);
         } else {
@@ -154,10 +155,10 @@ static void animation_step_calibration_(uint32_t ticks) {
     }
 }
 
-static void animation_step_tweak_(uint32_t delta) {
+static void animation_step_tweak_(const struct GemDotstarCfg* dotstar, uint32_t delta) {
     hue_accum_ += delta;
 
-    for (uint8_t i = 0; i < GEM_DOTSTAR_COUNT; i++) { gem_dotstar_set32(i, 0); }
+    for (uint8_t i = 0; i < dotstar->count; i++) { gem_dotstar_set32(i, 0); }
 
     if (gem_led_tweak_data.castor_pwm) {
         gem_dotstar_set(0, 0, 255, 255);

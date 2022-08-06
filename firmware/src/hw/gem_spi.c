@@ -5,53 +5,50 @@
 */
 
 #include "gem_spi.h"
-#include "gem_config.h"
-#include "sam.h"
-#include "wntr_gpio.h"
 
-void gem_spi_init() { /* Enable the APB clock for SERCOM. */
-    PM->APBCMASK.reg |= GEM_SPI_SERCOM_APBCMASK;
+void gem_spi_init(const struct GemSPIConfig* spi) { /* Enable the APB clock for SERCOM. */
+    PM->APBCMASK.reg |= spi->apbcmask;
 
     /* Enable GCLK1 for the SERCOM */
-    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | GEM_SPI_GCLK | GEM_SPI_GCLK_CLKCTRL_ID;
+    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | spi->gclk | spi->clkctrl_id;
 
     /* Wait for bus synchronization. */
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
     /* Reset the SERCOM. */
-    GEM_SPI_SERCOM->SPI.CTRLA.bit.ENABLE = 0;
-    while (GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.ENABLE) {};
-    GEM_SPI_SERCOM->SPI.CTRLA.bit.SWRST = 1;
-    while (GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.SWRST || GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.ENABLE) {};
+    spi->sercom->SPI.CTRLA.bit.ENABLE = 0;
+    while (spi->sercom->SPI.SYNCBUSY.bit.ENABLE) {};
+    spi->sercom->SPI.CTRLA.bit.SWRST = 1;
+    while (spi->sercom->SPI.SYNCBUSY.bit.SWRST || spi->sercom->SPI.SYNCBUSY.bit.ENABLE) {};
 
     /* Configure pins for the correct function. */
-    wntr_gpio_configure_alt(GEM_SPI_SCK_PORT, GEM_SPI_SCK_PIN, GEM_SPI_SCK_PIN_FUNC);
-    wntr_gpio_configure_alt(GEM_SPI_SDO_PORT, GEM_SPI_SDO_PIN, GEM_SPI_SDO_PIN_FUNC);
+    WntrGPIOPin_configure_alt(spi->sck_pin);
+    WntrGPIOPin_configure_alt(spi->sdo_pin);
 
     /* Setup SPI controller. */
-    GEM_SPI_SERCOM->SPI.CTRLA.reg = SERCOM_SPI_CTRLA_MODE_SPI_MASTER | SERCOM_SPI_CTRLA_DOPO(GEM_SPI_DOPO);
+    spi->sercom->SPI.CTRLA.reg = SERCOM_SPI_CTRLA_MODE_SPI_MASTER | SERCOM_SPI_CTRLA_DOPO(spi->dopo);
 
-    if (GEM_SPI_POLARITY)
-        GEM_SPI_SERCOM->SPI.CTRLA.bit.CPOL = 1;
-    if (GEM_SPI_PHASE)
-        GEM_SPI_SERCOM->SPI.CTRLA.bit.CPHA = 1;
+    if (spi->polarity)
+        spi->sercom->SPI.CTRLA.bit.CPOL = 1;
+    if (spi->phase)
+        spi->sercom->SPI.CTRLA.bit.CPHA = 1;
 
     /* Set baud */
-    uint32_t baudrate = GEM_SPI_BAUD;
-    if (baudrate == GEM_SPI_GCLK_FREQ) {
-        GEM_SPI_SERCOM->SPI.BAUD.reg = 0x1;
+    uint32_t baudrate = spi->baud;
+    if (baudrate == spi->gclk_freq) {
+        spi->sercom->SPI.BAUD.reg = 0x1;
     } else {
-        GEM_SPI_SERCOM->SPI.BAUD.reg = GEM_SPI_GCLK_FREQ / (2 * baudrate) - 1;
+        spi->sercom->SPI.BAUD.reg = spi->gclk_freq / (2 * baudrate) - 1;
     }
 
     /* Enable the SERCOM. */
-    GEM_SPI_SERCOM->SPI.CTRLA.bit.ENABLE = 1;
-    while (GEM_SPI_SERCOM->SPI.SYNCBUSY.bit.ENABLE) {};
+    spi->sercom->SPI.CTRLA.bit.ENABLE = 1;
+    while (spi->sercom->SPI.SYNCBUSY.bit.ENABLE) {};
 }
 
-void gem_spi_write(const uint8_t* data, size_t len) {
+void gem_spi_write(const struct GemSPIConfig* spi, const uint8_t* data, size_t len) {
     for (size_t i = 0; i < len; i++) {
-        while (!GEM_SPI_SERCOM->SPI.INTFLAG.bit.DRE) {}
-        GEM_SPI_SERCOM->SPI.DATA.reg = data[i];
+        while (!spi->sercom->SPI.INTFLAG.bit.DRE) {}
+        spi->sercom->SPI.DATA.reg = data[i];
     }
 }

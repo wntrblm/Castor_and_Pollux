@@ -7,6 +7,7 @@
 #pragma once
 
 #include "fix16.h"
+#include "gem_dotstar.h"
 #include "wntr_ramfunc.h"
 #include <stdbool.h>
 
@@ -22,6 +23,6 @@ extern struct GemLEDTweakData {
 
 void gem_led_animation_init();
 
-bool gem_led_animation_step() RAMFUNC;
+bool gem_led_animation_step(const struct GemDotstarCfg* dotstar) RAMFUNC;
 
 void gem_led_animation_set_mode(enum GemLEDAnimationMode mode);

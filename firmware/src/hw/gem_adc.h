@@ -13,6 +13,14 @@
 #include <stddef.h>
 #include <stdint.h>
 
+struct GemADCConfig {
+    uint32_t gclk;
+    uint32_t gclk_prescaler;
+    uint32_t sample_time;
+    uint32_t sample_num;
+    uint32_t adjres;
+};
+
 /*
     Input channel descriptor. These settings should be derived from the
     pin multiplexing table in the datasheet.
@@ -26,7 +34,7 @@ struct GemADCInput {
     uint32_t ain;
 };
 
-void gem_adc_init(int16_t offset_error, uint16_t gain_error);
+void gem_adc_init(const struct GemADCConfig* adc, int16_t offset_error, uint16_t gain_error);
 
 /* Configure hardware error correction. */
 void gem_adc_set_error_correction(uint16_t gain, uint16_t offset);

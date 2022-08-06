@@ -6,7 +6,6 @@
 
 #include "gem_adc.h"
 #include "fix16.h"
-#include "gem_config.h"
 #include "sam.h"
 #include "wntr_assert.h"
 #include "wntr_fuses.h"
@@ -29,12 +28,12 @@ static void scan_next_channel() RAMFUNC;
 
 /* Public methods. */
 
-void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
+void gem_adc_init(const struct GemADCConfig* adc, int16_t offset_error, uint16_t gain_error) {
     /* Enable the APB clock for the ADC. */
     PM->APBCMASK.reg |= PM_APBCMASK_ADC;
 
     /* Enable GCLK1 for the ADC */
-    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | GEM_ADC_GCLK | GCLK_CLKCTRL_ID_ADC;
+    GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | adc->gclk | GCLK_CLKCTRL_ID_ADC;
 
     /* Wait for bus synchronization. */
     while (GCLK->STATUS.bit.SYNCBUSY) {};
@@ -57,20 +56,19 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     /* Wait for bus synchronization. */
     while (ADC->STATUS.bit.SYNCBUSY) {};
 
-    ADC->CTRLB.reg |= GEM_ADC_PRESCALER;
+    ADC->CTRLB.reg |= adc->gclk_prescaler;
 
-    ADC->AVGCTRL.reg |= GEM_ADC_SAMPLE_NUM | GEM_ADC_SAMPLE_ADJRES;
+    ADC->AVGCTRL.reg |= adc->sample_num | adc->adjres;
 
-#if GEM_ADC_SAMPLE_NUM == ADC_AVGCTRL_SAMPLENUM_1
-    ADC->CTRLB.reg |= ADC_CTRLB_RESSEL_12BIT;
-#else
-    // 16-bit result needed for multisampling
-    ADC->CTRLB.reg |= ADC_CTRLB_RESSEL_16BIT;
-#endif
+    if (adc->sample_num == ADC_AVGCTRL_SAMPLENUM_1) {
+        ADC->CTRLB.reg |= ADC_CTRLB_RESSEL_12BIT;
+    } else {
+        // 16-bit result needed for multisampling
+        ADC->CTRLB.reg |= ADC_CTRLB_RESSEL_16BIT;
+    }
 
     /* Configure the measurement parameters. */
 
-#ifndef GEM_ADC_USE_EXTERNAL_REF
     /*
     - Use the internal VCC reference. This is 1/2 of what's on VCCA.
         since VCCA is typically 3.3v, this is 1.65v.
@@ -80,14 +78,6 @@ void gem_adc_init(int16_t offset_error, uint16_t gain_error) {
     */
     ADC->REFCTRL.reg |= ADC_REFCTRL_REFSEL_INTVCC1;
     ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_GAIN_DIV2 | ADC_INPUTCTRL_MUXNEG_GND;
-#else
-    /*
-        Use the external voltage reference. Note that the highest this can be is
-        VCC - 0.6v.
-    */
-    ADC->REFCTRL.reg |= ADC_REFCTRL_REFSEL_AREFA;
-    ADC->INPUTCTRL.reg |= ADC_INPUTCTRL_GAIN_1X | ADC_INPUTCTRL_MUXNEG_GND;
-#endif
 
     /* Enable the reference buffer to increase accuracy (at the cost of speed). */
     ADC->REFCTRL.bit.REFCOMP = 1;

@@ -19,10 +19,11 @@ static const uint8_t i2c_addresses_[] = {
 
 static uint8_t address_ = 0;
 
-void gem_mcp_4728_init() {
+void gem_mcp_4728_init(const struct GemI2CConfig* i2c) {
     for (size_t i = 0; i < sizeof(i2c_addresses_) / sizeof(i2c_addresses_[0]); i++) {
         address_ = i2c_addresses_[i];
         enum GemI2CResult result = gem_mcp_4728_write_channel(
+            i2c,
             0,
             (struct GemMCP4278Channel){
                 .value = 0,
@@ -36,17 +37,19 @@ void gem_mcp_4728_init() {
     printf("Could not find MCP4728!\n");
 }
 
-enum GemI2CResult gem_mcp_4728_write_channel(uint8_t channel_no, struct GemMCP4278Channel settings) {
+enum GemI2CResult
+gem_mcp_4728_write_channel(const struct GemI2CConfig* i2c, uint8_t channel_no, struct GemMCP4278Channel settings) {
     uint8_t data[3] = {
         SINGLE_WRITE_CMD | ((channel_no & 0x3) << 1),
         (settings.vref << 7) | (settings.pd << 6) | (settings.gain << 4) | ((settings.value >> 8) & 0xF),
         (settings.value & 0xFF),
     };
 
-    return gem_i2c_write(address_, data, 3);
+    return gem_i2c_write(i2c, address_, data, 3);
 }
 
 enum GemI2CResult gem_mcp_4728_write_channels(
+    const struct GemI2CConfig* i2c,
     struct GemMCP4278Channel ch_a_settings,
     struct GemMCP4278Channel ch_b_settings,
     struct GemMCP4278Channel ch_c_settings,
@@ -62,5 +65,5 @@ enum GemI2CResult gem_mcp_4728_write_channels(
         (ch_d_settings.value & 0xFF),
     };
 
-    return gem_i2c_write(address_, data, 9);
+    return gem_i2c_write(i2c, address_, data, 9);
 }

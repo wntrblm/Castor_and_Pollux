@@ -20,9 +20,11 @@
 struct WntrGPIOPin {
     uint8_t port;
     uint8_t pin;
+    uint8_t alt;
 };
 
-#define WNTR_GPIO_PIN(port_, pin_) ((struct WntrGPIOPin){.port = port_, .pin = pin_})
+#define WNTR_GPIO_PIN(port_, pin_) ((struct WntrGPIOPin){.port = WNTR_PORT_##port_, .pin = pin_, .alt = 0})
+#define WNTR_GPIO_PIN_ALT(port_, pin_, alt_) ((struct WntrGPIOPin){.port = WNTR_PORT_##port_, .pin = pin_, .alt = WNTR_PMUX_##alt_})
 
 void wntr_gpio_set_as_output(uint8_t port, uint8_t pin);
 void wntr_gpio_set_as_input(uint8_t port, uint8_t pin, bool pullup);
@@ -41,6 +43,6 @@ inline static void WntrGPIOPin_set(const struct WntrGPIOPin pin, bool value) {
     wntr_gpio_set(pin.port, pin.pin, value);
 }
 inline static bool WntrGPIOPin_get(const struct WntrGPIOPin pin) { return wntr_gpio_get(pin.port, pin.pin); }
-inline static void WntrGPIOPin_configure_alt(const struct WntrGPIOPin pin, uint8_t alt) {
-    return wntr_gpio_configure_alt(pin.port, pin.pin, alt);
+inline static void WntrGPIOPin_configure_alt(const struct WntrGPIOPin pin) {
+    return wntr_gpio_configure_alt(pin.port, pin.pin, pin.alt);
 }

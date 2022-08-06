@@ -4,7 +4,7 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_sysex_commands.h"
+#include "gem_sysex.h"
 #include "gem_adc.h"
 #include "gem_config.h"
 #include "gem_led_animation.h"
@@ -60,6 +60,9 @@
 
 /* Static variables. */
 
+const struct GemADCInput* adc_inputs_;
+const struct GemI2CConfig* i2c_;
+const struct GemPulseOutConfig* pulse_;
 static bool monitor_enabled_ = false;
 static uint32_t last_monitor_update_ = 0;
 
@@ -87,7 +90,12 @@ static void cmd_0x19_write_settings_(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
-void gem_register_sysex_commands() {
+void gem_sysex_init(
+    const struct GemADCInput* adc_inputs, const struct GemI2CConfig* i2c, const struct GemPulseOutConfig* pulse) {
+    adc_inputs_ = adc_inputs;
+    i2c_ = i2c;
+    pulse_ = pulse;
+
     wntr_midi_register_sysex_command(0x01, cmd_0x01_hello_);
     wntr_midi_register_sysex_command(0x02, cmd_0x02_write_adc_gain_);
     wntr_midi_register_sysex_command(0x03, cmd_0x03_write_adc_offset_);
@@ -188,7 +196,7 @@ static void cmd_0x04_read_adc_(const uint8_t* data, size_t len) {
     (void)(len);
 
     uint8_t channel = data[0];
-    uint16_t result = gem_adc_read_sync(&gem_adc_inputs[channel]);
+    uint16_t result = gem_adc_read_sync(&adc_inputs_[channel]);
 
     PREPARE_RESPONSE(0x04, TEETH_ENCODED_LENGTH(2));
 
@@ -211,6 +219,7 @@ static void cmd_0x05_set_dac_(const uint8_t* data, size_t len) {
     uint16_t d = WNTR_UNPACK_16(request, 6);
 
     __attribute__((unused)) enum GemI2CResult res = gem_mcp_4728_write_channels(
+        i2c_,
         (struct GemMCP4278Channel){
             .value = a,
         },
@@ -235,7 +244,7 @@ static void cmd_0x06_set_period_(const uint8_t* data, size_t len) {
     uint8_t channel = request[0];
     uint32_t period = WNTR_UNPACK_32(request, 1);
 
-    gem_pulseout_set_period(channel, period);
+    gem_pulseout_set_period(pulse_, channel, period);
 
     debug_printf("SysEx 0x06: Set period for osc %u to %u\n", channel, period);
 }

@@ -22,7 +22,7 @@
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
 #include "gem_spi.h"
-#include "gem_sysex_commands.h"
+#include "gem_sysex.h"
 #include "gem_usb.h"
 #include "wntr_bezier.h"
 #include "wntr_build_info.h"

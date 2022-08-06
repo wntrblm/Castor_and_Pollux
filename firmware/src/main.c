@@ -11,11 +11,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Configuration */
+static uint32_t board_revision_;
+static const struct GemADCConfig* adc_cfg_;
+static const struct GemADCInput* adc_inputs_;
+static const struct GemPulseOutConfig* pulse_cfg_;
+static const struct GemI2CConfig* i2c_cfg_;
+static const struct GemSPIConfig* spi_cfg_;
+static const struct GemDotstarCfg* dotstar_cfg_;
+
 /* Inputs */
 static uint32_t adc_results_live_[GEM_IN_COUNT];
 static uint32_t adc_results_snapshot_[GEM_IN_COUNT];
 static uint32_t* adc_results_ = adc_results_live_;
-static struct WntrButton hard_sync_button_ = {.port = GEM_HARD_SYNC_BUTTON_PORT, .pin = GEM_HARD_SYNC_BUTTON_PIN};
+static struct WntrButton hard_sync_button_;
 
 /* State */
 static struct GemSettings settings_;
@@ -81,7 +90,32 @@ static void init_() {
     gem_nvm_init();
 
     /* Tell the world who we are and how we got here. :) */
+    // TODO: Log board revision
     printf("%s\n", wntr_build_info_string());
+
+    /*
+        TODO: Determine hardware revision
+    */
+    // Rev 1 - 4
+    if (false) {
+        board_revision_ = 4;
+        adc_cfg_ = &GEM_REV1_ADC_CFG;
+        adc_inputs_ = GEM_REV1_ADC_INPUTS;
+        pulse_cfg_ = &GEM_REV1_PULSE_OUT_CFG;
+        i2c_cfg_ = &GEM_REV1_I2C_CFG;
+        spi_cfg_ = &GEM_REV1_SPI_CFG;
+        dotstar_cfg_ = &GEM_REV1_DOTSTAR_CFG;
+    }
+    // Rev 5
+    else {
+        board_revision_ = 5;
+        adc_cfg_ = &GEM_REV5_ADC_CFG;
+        adc_inputs_ = GEM_REV5_ADC_INPUTS;
+        pulse_cfg_ = &GEM_REV5_PULSE_OUT_CFG;
+        i2c_cfg_ = &GEM_REV5_I2C_CFG;
+        spi_cfg_ = &GEM_REV5_SPI_CFG;
+        dotstar_cfg_ = &GEM_REV5_DOTSTAR_CFG;
+    }
 
     /*
         Peripheral setup
@@ -91,17 +125,17 @@ static void init_() {
     gem_usb_init();
 
     /* Gemini uses i2c to communicate with the external DAC. */
-    gem_i2c_init();
-    gem_mcp_4728_init();
+    gem_i2c_init(i2c_cfg_);
+    gem_mcp_4728_init(i2c_cfg_);
 
     /* Gemini uses SPI to communicate with the Dotstar LEDs. */
-    gem_spi_init();
+    gem_spi_init(spi_cfg_);
 
     /*
         Gemini uses the TCC peripheral to output the pulse wave needed to
         drive the oscillators.
     */
-    gem_pulseout_init();
+    gem_pulseout_init(pulse_cfg_);
 
     /*
         Global state initialization.
@@ -136,7 +170,7 @@ static void init_() {
     */
 
     /* Register SysEx commands used for factory setup. */
-    gem_register_sysex_commands();
+    gem_sysex_init(adc_inputs_, i2c_cfg_, pulse_cfg_);
 
     /* Enable the Dotstar driver and LED animation. */
     gem_dotstar_init(settings_.led_brightness);
@@ -153,16 +187,18 @@ static void init_() {
         "channel scanning". This frees up the main loop to do other things while
         waiting for new measurements for all the channels.
     */
-    gem_adc_init(settings_.adc_offset_corr, settings_.adc_gain_corr);
+    gem_adc_init(adc_cfg_, settings_.adc_offset_corr, settings_.adc_gain_corr);
 
-    for (size_t i = 0; i < GEM_IN_COUNT; i++) { gem_adc_init_input(&gem_adc_inputs[i]); }
-    gem_adc_start_scanning(gem_adc_inputs, GEM_IN_COUNT, adc_results_live_);
+    for (size_t i = 0; i < GEM_IN_COUNT; i++) { gem_adc_init_input(&(adc_inputs_[i])); }
+    gem_adc_start_scanning(adc_inputs_, GEM_IN_COUNT, adc_results_live_);
 
     /*
         Gemini uses the WntrButton helper for the hard sync button since it
         needs to know when the button is tapped (to toggle hard sync) or
         held (to enter tweak mode).
     */
+    hard_sync_button_.pin = button_pin_.pin;
+    hard_sync_button_.port = button_pin_.port;
     WntrButton_init(&hard_sync_button_);
 
     /*
@@ -309,8 +345,8 @@ static void oscillator_task_() {
         disabled while Gemini modifies the timer configuration.
     */
     __disable_irq();
-    gem_pulseout_set_period(0, castor_.outputs.period);
-    gem_pulseout_set_period(1, pollux_.outputs.period);
+    gem_pulseout_set_period(pulse_cfg_, 0, castor_.outputs.period);
+    gem_pulseout_set_period(pulse_cfg_, 1, pollux_.outputs.period);
     __enable_irq();
 
     /*
@@ -328,11 +364,21 @@ static void oscillator_task_() {
         The output voltage goes into a comparator that compares against the
         ramp waveform to generate a pulse.
     */
-    gem_mcp_4728_write_channels(
-        (struct GemMCP4278Channel){.value = castor_.outputs.ramp_cv},
-        (struct GemMCP4278Channel){.value = castor_.pulse_width},
-        (struct GemMCP4278Channel){.value = pollux_.outputs.ramp_cv},
-        (struct GemMCP4278Channel){.value = pollux_.pulse_width});
+    if (board_revision_ < 5) {
+        gem_mcp_4728_write_channels(
+            i2c_cfg_,
+            (struct GemMCP4278Channel){.value = pollux_.outputs.ramp_cv},
+            (struct GemMCP4278Channel){.value = pollux_.pulse_width},
+            (struct GemMCP4278Channel){.value = castor_.outputs.ramp_cv},
+            (struct GemMCP4278Channel){.value = castor_.pulse_width});
+    } else {
+        gem_mcp_4728_write_channels(
+            i2c_cfg_,
+            (struct GemMCP4278Channel){.value = castor_.outputs.ramp_cv},
+            (struct GemMCP4278Channel){.value = castor_.pulse_width},
+            (struct GemMCP4278Channel){.value = pollux_.outputs.ramp_cv},
+            (struct GemMCP4278Channel){.value = pollux_.pulse_width});
+    }
 
     /*
         Update the loop timer.
@@ -459,7 +505,7 @@ int main(void) {
             every few milliseconds. See GEM_ANIMATION_INTERVAL.
         */
         uint32_t animation_start_time = wntr_ticks();
-        if (gem_led_animation_step()) {
+        if (gem_led_animation_step(dotstar_cfg_)) {
             animation_time_ = wntr_ticks() - animation_start_time;
         }
 

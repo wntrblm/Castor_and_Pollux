@@ -32,9 +32,11 @@ struct GemMCP4278Channel {
     uint16_t value : 12;
 };
 
-void gem_mcp_4728_init();
-enum GemI2CResult gem_mcp_4728_write_channel(uint8_t channel_no, struct GemMCP4278Channel settings);
+void gem_mcp_4728_init(const struct GemI2CConfig* i2c);
+enum GemI2CResult
+gem_mcp_4728_write_channel(const struct GemI2CConfig* i2c, uint8_t channel_no, struct GemMCP4278Channel settings);
 enum GemI2CResult gem_mcp_4728_write_channels(
+    const struct GemI2CConfig* i2c,
     struct GemMCP4278Channel ch_a_settings,
     struct GemMCP4278Channel ch_b_settings,
     struct GemMCP4278Channel ch_c_settings,
