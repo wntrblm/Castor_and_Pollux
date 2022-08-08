@@ -722,16 +722,16 @@
       (reference "C15") (unit 1) (value "10u") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f3699c0"
-      (reference "C16") (unit 1) (value "2.2n") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
+      (reference "C16") (unit 1) (value "2n2") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f36f37d"
-      (reference "C17") (unit 1) (value "2.2n") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
+      (reference "C17") (unit 1) (value "2n2") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f37535b"
-      (reference "C18") (unit 1) (value "2.2n") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
+      (reference "C18") (unit 1) (value "2n2") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f37f2f9"
-      (reference "C19") (unit 1) (value "2.2n") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
+      (reference "C19") (unit 1) (value "2n2") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f39acba"
       (reference "C20") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
@@ -824,10 +824,10 @@
       (reference "C49") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f079176"
-      (reference "D1") (unit 1) (value "30V{slash}500mA") (footprint "winterbloom:D_SOD-123")
+      (reference "D1") (unit 1) (value "PMEG2005EGWJ") (footprint "winterbloom:D_SOD-123")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f078cbc"
-      (reference "D2") (unit 1) (value "30V/500mA") (footprint "winterbloom:D_SOD-123")
+      (reference "D2") (unit 1) (value "PMEG2005EGWJ") (footprint "winterbloom:D_SOD-123")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/b28dcd68-b209-4884-a8ea-8de090b7a72b"
       (reference "D3") (unit 1) (value "ESD") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
@@ -866,16 +866,16 @@
       (reference "D14") (unit 1) (value "Dotstar") (footprint "winterbloom:LED_APA102_Dotstar_5050")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/4eb590b8-f9ea-4308-b696-89b425fc368a"
-      (reference "D15") (unit 1) (value "30V{slash}500mA") (footprint "winterbloom:D_SOD-123")
+      (reference "D15") (unit 1) (value "PMEG2005EGWJ") (footprint "winterbloom:D_SOD-123")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f08ba03"
-      (reference "FB1") (unit 1) (value "600R @ 100MHz") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
+      (reference "FB1") (unit 1) (value "742792651") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f08907d"
-      (reference "FB2") (unit 1) (value "600R @ 100MHz") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
+      (reference "FB2") (unit 1) (value "742792651") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f08106e"
-      (reference "FB3") (unit 1) (value "600R @ 100MHz") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
+      (reference "FB3") (unit 1) (value "742792651") (footprint "Inductor_SMD:L_0603_1608Metric_Pad1.05x0.95mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/64e61b8e-4a29-4e2b-9296-c7d5d85e2aa8"
       (reference "J1") (unit 1) (value "Eurorack Power") (footprint "winterbloom:Eurorack_Power_2x5_Shrouded")
@@ -914,13 +914,13 @@
       (reference "Q2") (unit 1) (value "MMBT3906") (footprint "Package_TO_SOT_SMD:SOT-23")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f097e19"
-      (reference "R1") (unit 1) (value "2.2k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
+      (reference "R1") (unit 1) (value "2k2") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0bdef2"
-      (reference "R2") (unit 1) (value "4.7k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
+      (reference "R2") (unit 1) (value "4k7") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0bdb92"
-      (reference "R3") (unit 1) (value "4.7k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
+      (reference "R3") (unit 1) (value "4k7") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f368c48"
       (reference "R4") (unit 1) (value "100k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
@@ -947,16 +947,16 @@
       (reference "R11") (unit 1) (value "196k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f369771"
-      (reference "R12") (unit 1) (value "48.7k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
+      (reference "R12") (unit 1) (value "48k7") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f36f373"
-      (reference "R13") (unit 1) (value "48.7k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
+      (reference "R13") (unit 1) (value "48k7") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f375351"
-      (reference "R14") (unit 1) (value "61.9k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
+      (reference "R14") (unit 1) (value "61k9") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f37f2f3"
-      (reference "R15") (unit 1) (value "61.9k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
+      (reference "R15") (unit 1) (value "61k9") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-00005ee57a56"
       (reference "R16") (unit 1) (value "10k") (footprint "Resistor_SMD:R_0402_1005Metric_Pad0.72x0.64mm_HandSolder")
@@ -1121,40 +1121,40 @@
       (reference "R69") (unit 1) (value "1k") (footprint "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/9c75e9a6-d703-49f1-8aac-20c112099ea3"
-      (reference "RV1") (unit 1) (value "CASTOR PITCH") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV1") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/3e07b953-6d72-418a-9470-7e8ae45eec8b"
-      (reference "RV2") (unit 1) (value "POLLUX PITCH") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV2") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/4dc89026-dcee-43d9-be5b-65b1a94b6972"
-      (reference "RV3") (unit 1) (value "LFO") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV3") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/e7f54cef-1ef9-47ba-b3bc-b1e84091cb72"
-      (reference "RV4") (unit 1) (value "CASTOR DUTY") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV4") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/0cac308a-f0c7-4e77-910d-41ab1ab7e0b4"
-      (reference "RV5") (unit 1) (value "POLLUX DUTY") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV5") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/df3a3c8f-d90b-4907-b972-3ee928818942"
-      (reference "RV6") (unit 1) (value "RAMP") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV6") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/7cf96d89-984b-41e5-a822-21d0b82f70de"
-      (reference "RV7") (unit 1) (value "PULSE") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV7") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/7802a7f0-f5c1-4f78-9d39-0fd520864fe8"
-      (reference "RV8") (unit 1) (value "SUB") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV8") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/df3a3c8f-d90b-4907-b972-3ee928818942"
-      (reference "RV9") (unit 1) (value "RAMP") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV9") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/7cf96d89-984b-41e5-a822-21d0b82f70de"
-      (reference "RV10") (unit 1) (value "PULSE") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV10") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/7802a7f0-f5c1-4f78-9d39-0fd520864fe8"
-      (reference "RV11") (unit 1) (value "SUB") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV11") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f0d50ce/c99bf11a-db6b-48cf-a550-53c29e1d21c9"
-      (reference "RV12") (unit 1) (value "CROSSFADE") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV12") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/e00a6b5c-a371-4dde-9a0a-b00c5a27cdbe"
       (reference "SW1") (unit 1) (value "RESET") (footprint "winterbloom:Tactile_Switch_4.2mm")
