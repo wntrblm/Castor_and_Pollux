@@ -7,7 +7,7 @@
 #pragma once
 
 #include "fix16.h"
-#include "gem_config.h"
+#include "gem_adc_channels.h"
 #include "wntr_error_correction.h"
 #include "wntr_ramfunc.h"
 #include "wntr_smoothie.h"
@@ -15,6 +15,11 @@
 #include <stdint.h>
 
 /* The core logic for updating Gemini's oscillators based on external input. */
+
+struct GemOscillatorInputConfig {
+    fix16_t cv_min;
+    fix16_t cv_max;
+};
 
 struct GemOscillatorInputs {
     uint32_t* adc;
@@ -29,13 +34,17 @@ struct GemOscillatorOutputs {
 };
 
 struct GemOscillator {
-    /* Configuration */
+    /* Unchanging configuration */
     uint8_t number;
     enum GemADCChannel pitch_cv_channel;
     enum GemADCChannel pitch_knob_channel;
     enum GemADCChannel pulse_width_cv_channel;
     enum GemADCChannel pulse_width_knob_channel;
-    fix16_t base_offset;
+    fix16_t cv_min;
+    fix16_t cv_max;
+
+    /* Configuration from settings */
+    fix16_t cv_base_offset;
     fix16_t knob_min;
     fix16_t knob_range;
     uint16_t follower_threshold;
@@ -65,7 +74,9 @@ void GemOscillator_init(
     enum GemADCChannel pulse_width_knob_channel,
     fix16_t smooth_initial_gain,
     fix16_t smooth_sensitivity,
-    fix16_t base_offset,
+    fix16_t cv_base_offset,
+    fix16_t cv_min,
+    fix16_t cv_max,
     fix16_t knob_min,
     fix16_t knob_max,
     bool lfo_pwm,

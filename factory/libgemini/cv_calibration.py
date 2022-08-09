@@ -13,7 +13,9 @@ from wintertools.print import print
 from libgemini import adc_errors, gemini
 
 RESOLUTION = 4096
-RANGE = 6.0
+V_MIN = -0.5
+V_MAX = 6.1
+V_RANGE = abs(V_MIN) + abs(V_MAX)
 CHANNEL = gemini.Gemini.ADC.CV_A
 NUM_CALIBRATION_POINTS = 50
 SAMPLE_COUNT = 64
@@ -21,11 +23,11 @@ SAMPLE_COUNT = 64
 
 def _code_to_volts(code):
     code = RESOLUTION - 1 - code
-    return RANGE - ((code / (RESOLUTION - 1)) * RANGE)
+    return V_MIN + (V_RANGE - ((code / (RESOLUTION - 1)) * V_RANGE))
 
 
 def _volts_to_code(volts):
-    code = volts / RANGE * (RESOLUTION - 1)
+    code = (volts - V_MIN) / V_RANGE * (RESOLUTION - 1)
     code = RESOLUTION - 1 - code
     return int(code)
 
@@ -47,10 +49,10 @@ def run():
     gem.enable_adc_error_correction()
     hubble.VOUT1B.voltage = 0
 
-    volts_per_step = RANGE / NUM_CALIBRATION_POINTS
+    volts_per_step = V_RANGE / NUM_CALIBRATION_POINTS
 
     calibration_points = {
-        n * volts_per_step: _volts_to_code(n * volts_per_step)
+        V_MIN + (n * volts_per_step): _volts_to_code(V_MIN + (n * volts_per_step))
         for n in range(NUM_CALIBRATION_POINTS + 1)
     }
 
@@ -113,10 +115,10 @@ def run():
                     height=500,
                     x_axis=reportcard.Axis(
                         label="Input (V)",
-                        min=0.0,
-                        min_label="0",
-                        max=RANGE,
-                        max_label=f"{RANGE:0.1f}",
+                        min=V_MIN,
+                        min_label="{V_MIN:0.1f}",
+                        max=V_MAX,
+                        max_label=f"{V_MAX:0.1f}",
                     ),
                     y_axis=reportcard.Axis(
                         label="Error (¢)",

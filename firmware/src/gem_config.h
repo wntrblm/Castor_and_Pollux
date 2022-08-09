@@ -14,20 +14,6 @@
 #include "wntr_gpio.h"
 #include <stdint.h>
 
-/* Names for ADC inputs */
-enum GemADCChannel {
-    GEM_IN_CV_A = 0,
-    GEM_IN_CV_A_POT = 1,
-    GEM_IN_CV_B = 2,
-    GEM_IN_CV_B_POT = 3,
-    GEM_IN_DUTY_A = 4,
-    GEM_IN_DUTY_A_POT = 5,
-    GEM_IN_DUTY_B = 6,
-    GEM_IN_DUTY_B_POT = 7,
-    GEM_IN_CHORUS_POT = 8,
-    GEM_IN_COUNT = 9,
-};
-
 /* Dotstar/animation constants */
 
 #define GEM_MAX_DOTSTAR_COUNT 8
@@ -39,6 +25,5 @@ static const struct WntrGPIOPin button_pin_ = WNTR_GPIO_PIN(B, 8);
 
 /* Behavioral constants. */
 
-#define GEM_CV_INPUT_RANGE F16(6.0)
-#define GEM_CV_BASE_OFFSET F16(1.0)
+#define GEM_CV_DEFAULT_BASE_OFFSET F16(1.0)
 #define GEM_TWEAK_MAX_LFO_FREQUENCY F16(5)

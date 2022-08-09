@@ -9,6 +9,7 @@
 #include "gem_adc.h"
 #include "gem_dotstar.h"
 #include "gem_i2c.h"
+#include "gem_oscillator.h"
 #include "gem_pulseout.h"
 #include "gem_spi.h"
 
@@ -48,6 +49,13 @@ static const struct GemADCInput GEM_REV1_ADC_INPUTS[] = {
 };
 
 /*
+    Configuration for the oscillator's input range
+*/
+static const struct GemOscillatorInputConfig GEM_REV1_OSC_INPUT_CFG = {.cv_min = F16(0.0), .cv_max = F16(6.0)};
+
+/*
+    Configuration for the square wave outputs for each oscillator.
+
     Rev 1-4:
     TCC0 WO7 / PA17 for Castor
     TCC1 WO1 / PA11 for Pollux

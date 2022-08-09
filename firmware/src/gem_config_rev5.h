@@ -48,6 +48,13 @@ static const struct GemADCInput GEM_REV5_ADC_INPUTS[] = {
 };
 
 /*
+    Configuration for the oscillator's input range
+*/
+static const struct GemOscillatorInputConfig GEM_REV5_OSC_INPUT_CFG = {.cv_min = F16(-0.5), .cv_max = F16(6.1)};
+
+/*
+    Configuration for the square wave outputs for each oscillator.
+
     Rev 5:
     TCC0 WO6 / PA12 for Castor
     TCC1 WO1 / PA11 for Pollux

@@ -15,6 +15,7 @@
 static uint32_t board_revision_;
 static const struct GemADCConfig* adc_cfg_;
 static const struct GemADCInput* adc_inputs_;
+static const struct GemOscillatorInputConfig* osc_input_cfg_;
 static const struct GemPulseOutConfig* pulse_cfg_;
 static const struct GemI2CConfig* i2c_cfg_;
 static const struct GemSPIConfig* spi_cfg_;
@@ -102,6 +103,7 @@ static void init_() {
         board_revision_ = 4;
         adc_cfg_ = &GEM_REV1_ADC_CFG;
         adc_inputs_ = GEM_REV1_ADC_INPUTS;
+        osc_input_cfg_ = &GEM_REV1_OSC_INPUT_CFG;
         pulse_cfg_ = &GEM_REV1_PULSE_OUT_CFG;
         i2c_cfg_ = &GEM_REV1_I2C_CFG;
         spi_cfg_ = &GEM_REV1_SPI_CFG;
@@ -112,6 +114,7 @@ static void init_() {
         board_revision_ = 5;
         adc_cfg_ = &GEM_REV5_ADC_CFG;
         adc_inputs_ = GEM_REV5_ADC_INPUTS;
+        osc_input_cfg_ = &GEM_REV5_OSC_INPUT_CFG;
         pulse_cfg_ = &GEM_REV5_PULSE_OUT_CFG;
         i2c_cfg_ = &GEM_REV5_I2C_CFG;
         spi_cfg_ = &GEM_REV5_SPI_CFG;
@@ -250,6 +253,8 @@ static void init_() {
         settings_.smooth_initial_gain,
         settings_.smooth_sensitivity,
         settings_.base_cv_offset,
+        osc_input_cfg_->cv_min,
+        osc_input_cfg_->cv_max,
         settings_.castor_knob_min,
         settings_.castor_knob_max,
         settings_.castor_lfo_pwm,
@@ -265,6 +270,8 @@ static void init_() {
         settings_.smooth_initial_gain,
         settings_.smooth_sensitivity,
         settings_.base_cv_offset,
+        osc_input_cfg_->cv_min,
+        osc_input_cfg_->cv_max,
         settings_.pollux_knob_min,
         settings_.pollux_knob_max,
         settings_.pollux_lfo_pwm,
