@@ -6,7 +6,7 @@
 
   (title_block
     (title "Castor & Pollux")
-    (date "2022-08-09")
+    (date "2022-08-10")
     (rev "v6")
     (company "Winterbloom")
     (comment 1 "Alethea Flowers")
@@ -524,6 +524,12 @@
     (path "/00000000-0000-0000-0000-00005f09eaa6/cc00468d-6a97-459c-94e7-f68337ac45ea"
       (reference "#PWR025") (unit 1) (value "GND") (footprint "")
     )
+    (path "/00000000-0000-0000-0000-00005f01694c/86345f9f-2d05-4434-b21f-5aec940d9ad9"
+      (reference "#PWR026") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-00005f01694c/61fe4f35-6654-4169-99bb-37d6b90f6eef"
+      (reference "#PWR027") (unit 1) (value "GND") (footprint "")
+    )
     (path "/00000000-0000-0000-0000-00005f3674a8/189b5523-7a3e-4a75-ba5c-29f33a76473c"
       (reference "#PWR037") (unit 1) (value "GND") (footprint "")
     )
@@ -910,6 +916,12 @@
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-00005f0018f0"
       (reference "C49") (unit 1) (value "100n") (footprint "winterbloom:C_0402_HandSolder")
+    )
+    (path "/00000000-0000-0000-0000-00005f01694c/ba35a0b5-8ee1-4a7f-9612-5c069c56c5cc"
+      (reference "C50") (unit 1) (value "22u") (footprint "winterbloom:C_0805_HandSolder")
+    )
+    (path "/00000000-0000-0000-0000-00005f01694c/3806ca06-f878-4ed0-b8c2-cd7662d0c229"
+      (reference "C51") (unit 1) (value "22u") (footprint "winterbloom:C_0805_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f079176"
       (reference "D1") (unit 1) (value "30V") (footprint "winterbloom:D_SOD-123")
