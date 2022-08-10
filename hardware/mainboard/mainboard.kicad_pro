@@ -530,6 +530,10 @@
     [
       "31000f0f-e202-4936-af7b-0293ced26715",
       "LEDs"
+    ],
+    [
+      "c72a522e-4dc4-4b2a-852d-76eeaba3c3f8",
+      "Potentiometers"
     ]
   ],
   "text_variables": {}
