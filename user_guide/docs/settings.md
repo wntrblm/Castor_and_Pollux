@@ -68,7 +68,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     </div>
     </div>
     <!-- Settings controls -->
-    <div id="settings_section" class="hidden">
+    <div id="settings_section" class="">
     <div class="section-divider">Settings</div>
     <div class="columns">
         <div class="column field">
@@ -225,7 +225,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
                 </div>
                 <div class="column">
                     <div class="select is-full-width">
-                        <select id="lfo_2_waveshape" name="lfo_2_waveshape" data-bind-type="int">
+                        <select id="lfo_2_waveshape" name="lfo_2_waveshape" data-bind data-bind-type="int">
                             <option value="0">Triangle</option>
                             <option value="1">Sine</option>
                             <option value="2">Sawtooth</option>
