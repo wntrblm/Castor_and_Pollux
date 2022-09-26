@@ -450,7 +450,7 @@
       )
       (symbol "+3.3V_1_1"
         (pin power_in line (at 0 0 90) (length 0) hide
-          (name "+3V3" (effects (font (size 1.27 1.27))))
+          (name "+3.3V" (effects (font (size 1.27 1.27))))
           (number "1" (effects (font (size 1.27 1.27))))
         )
       )
@@ -1344,7 +1344,7 @@
     (property "Notes" "Analog power filter" (id 7) (at 121.285 111.76 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Rating" "200mA" (id 8) (at 121.2469 109.22 90)
+    (property "Rating" "500mA" (id 8) (at 121.2469 109.22 90)
       (effects (font (size 1 1)))
     )
     (pin "1" (uuid 9944031e-8c25-4d1f-91dc-39902c9c1dee))

@@ -530,6 +530,9 @@
     (path "/00000000-0000-0000-0000-00005f01694c/61fe4f35-6654-4169-99bb-37d6b90f6eef"
       (reference "#PWR027") (unit 1) (value "GND") (footprint "")
     )
+    (path "/31000f0f-e202-4936-af7b-0293ced26715/b793999d-d373-4be8-bab4-fd5ca88123e7"
+      (reference "#PWR028") (unit 1) (value "+3.3V") (footprint "")
+    )
     (path "/00000000-0000-0000-0000-00005f3674a8/189b5523-7a3e-4a75-ba5c-29f33a76473c"
       (reference "#PWR037") (unit 1) (value "GND") (footprint "")
     )
@@ -697,9 +700,6 @@
     )
     (path "/00000000-0000-0000-0000-00005f0d50ce/f1c29137-dad5-4ea4-a088-a3931c6d39d3"
       (reference "#PWR093") (unit 1) (value "GND") (footprint "")
-    )
-    (path "/31000f0f-e202-4936-af7b-0293ced26715/d8e8e966-eca2-4add-b30f-b6c9926e57d0"
-      (reference "#PWR094") (unit 1) (value "+3V3") (footprint "")
     )
     (path "/31000f0f-e202-4936-af7b-0293ced26715/c718d922-3c9a-4e6a-a084-aef0bd33960b"
       (reference "#PWR095") (unit 1) (value "GND") (footprint "")
@@ -1224,40 +1224,40 @@
       (reference "R69") (unit 1) (value "1k") (footprint "winterbloom:R_0603_HandSolder")
     )
     (path "/c72a522e-4dc4-4b2a-852d-76eeaba3c3f8/b9fe0a04-d0e0-4a05-b193-05a16c7a6ab8"
-      (reference "RV1") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV1") (unit 1) (value "Castor pitch") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/c72a522e-4dc4-4b2a-852d-76eeaba3c3f8/a5a91a58-b7d5-4372-9282-4ffcdc51b503"
-      (reference "RV2") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV2") (unit 1) (value "Pollux pitch") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/c72a522e-4dc4-4b2a-852d-76eeaba3c3f8/fa6d4f57-5fb1-4f46-b46a-ba0b82676cfb"
-      (reference "RV3") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV3") (unit 1) (value "LFO") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/c72a522e-4dc4-4b2a-852d-76eeaba3c3f8/beaebef8-ba2b-40ad-b458-544eda2fd51c"
-      (reference "RV4") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV4") (unit 1) (value "Castor duty") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/c72a522e-4dc4-4b2a-852d-76eeaba3c3f8/0327c762-4ddb-4609-b2c1-921e96abf03d"
-      (reference "RV5") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV5") (unit 1) (value "Pollux duty") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/df3a3c8f-d90b-4907-b972-3ee928818942"
-      (reference "RV6") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV6") (unit 1) (value "Ramp level") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/7cf96d89-984b-41e5-a822-21d0b82f70de"
-      (reference "RV7") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV7") (unit 1) (value "Pulse level") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/7802a7f0-f5c1-4f78-9d39-0fd520864fe8"
-      (reference "RV8") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV8") (unit 1) (value "Sub level") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/df3a3c8f-d90b-4907-b972-3ee928818942"
-      (reference "RV9") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV9") (unit 1) (value "Ramp level") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/7cf96d89-984b-41e5-a822-21d0b82f70de"
-      (reference "RV10") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV10") (unit 1) (value "Pulse level") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/7802a7f0-f5c1-4f78-9d39-0fd520864fe8"
-      (reference "RV11") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV11") (unit 1) (value "Sub level") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f0d50ce/c99bf11a-db6b-48cf-a550-53c29e1d21c9"
-      (reference "RV12") (unit 1) (value "A10k") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
+      (reference "RV12") (unit 1) (value "Crossfade") (footprint "winterbloom:Potentiometer_Alpha_R0904N")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/e00a6b5c-a371-4dde-9a0a-b00c5a27cdbe"
       (reference "SW1") (unit 1) (value "RESET") (footprint "winterbloom:Tactile_Switch_4.2mm")
