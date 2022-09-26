@@ -6,7 +6,7 @@
 
   (title_block
     (title "Castor & Pollux")
-    (date "2022-08-10")
+    (date "2022-09-26")
     (rev "v6")
     (company "Winterbloom")
     (comment 1 "Alethea Flowers")
@@ -771,7 +771,7 @@
       (reference "#PWR0117") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/8ee91d39-c0f0-4630-bbe9-2d49aba4a21e"
-      (reference "#PWR?") (unit 1) (value "+3.3VA") (footprint "")
+      (reference "#PWR0118") (unit 1) (value "+3.3VA") (footprint "")
     )
     (path "/00000000-0000-0000-0000-00005f01694c/00000000-0000-0000-0000-00005f1fb229"
       (reference "C1") (unit 1) (value "22u") (footprint "winterbloom:C_0805_HandSolder")

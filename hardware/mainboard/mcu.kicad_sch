@@ -6,7 +6,7 @@
 
   (title_block
     (title "Castor & Pollux")
-    (date "2022-08-09")
+    (date "2022-09-26")
     (rev "v6")
     (company "Winterbloom")
     (comment 1 "Alethea Flowers")
@@ -2922,7 +2922,7 @@
   (symbol (lib_id "power:+3.3VA") (at 58.42 69.85 90) (unit 1)
     (in_bom yes) (on_board yes)
     (uuid 8ee91d39-c0f0-4630-bbe9-2d49aba4a21e)
-    (property "Reference" "#PWR?" (id 0) (at 62.23 69.85 0)
+    (property "Reference" "#PWR0118" (id 0) (at 62.23 69.85 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3.3VA" (id 1) (at 52.07 69.85 90))
