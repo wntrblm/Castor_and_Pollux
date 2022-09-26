@@ -1080,13 +1080,13 @@
       (reference "R21") (unit 1) (value "10k") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-00005efb5405"
-      (reference "R22") (unit 1) (value "47k") (footprint "winterbloom:R_0402_HandSolder")
+      (reference "R22") (unit 1) (value "100k") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-00005efc1d83"
-      (reference "R23") (unit 1) (value "47k") (footprint "winterbloom:R_0402_HandSolder")
+      (reference "R23") (unit 1) (value "100k") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-00005ef9c5f8"
-      (reference "R24") (unit 1) (value "47k") (footprint "winterbloom:R_0402_HandSolder")
+      (reference "R24") (unit 1) (value "100k") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-00005efb53da"
       (reference "R25") (unit 1) (value "10k") (footprint "winterbloom:R_0402_HandSolder")
@@ -1149,13 +1149,13 @@
       (reference "R44") (unit 1) (value "10k") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/00000000-0000-0000-0000-00005efb5405"
-      (reference "R45") (unit 1) (value "47k") (footprint "winterbloom:R_0402_HandSolder")
+      (reference "R45") (unit 1) (value "100k") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/00000000-0000-0000-0000-00005efc1d83"
-      (reference "R46") (unit 1) (value "47k") (footprint "winterbloom:R_0402_HandSolder")
+      (reference "R46") (unit 1) (value "100k") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/00000000-0000-0000-0000-00005ef9c5f8"
-      (reference "R47") (unit 1) (value "47k") (footprint "winterbloom:R_0402_HandSolder")
+      (reference "R47") (unit 1) (value "100k") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f016ad7/00000000-0000-0000-0000-00005efb53da"
       (reference "R48") (unit 1) (value "10k") (footprint "winterbloom:R_0402_HandSolder")
