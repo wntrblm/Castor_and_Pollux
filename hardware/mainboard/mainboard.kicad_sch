@@ -6,7 +6,7 @@
 
   (title_block
     (title "Castor & Pollux")
-    (date "2022-09-26")
+    (date "2022-10-07")
     (rev "v6")
     (company "Winterbloom")
     (comment 1 "Alethea Flowers")
@@ -1011,7 +1011,7 @@
       (reference "J10") (unit 1) (value "MIX") (footprint "winterbloom:AudioJack_WQP518MA")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/1631c852-cb29-4217-a209-6ddec0c7eb63"
-      (reference "J11") (unit 1) (value "USB ALT") (footprint "Connector_JST:JST_PH_S4B-PH-SM4-TB_1x04-1MP_P2.00mm_Horizontal")
+      (reference "J11") (unit 1) (value "USB ALT") (footprint "winterbloom:SolderWirePad_1x04_SMD_2x5mm")
     )
     (path "/00000000-0000-0000-0000-00005f0e55e2/00000000-0000-0000-0000-0000601956fb"
       (reference "Q1") (unit 1) (value "MMBT3906") (footprint "Package_TO_SOT_SMD:SOT-23")
