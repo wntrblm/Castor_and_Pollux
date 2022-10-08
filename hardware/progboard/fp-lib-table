@@ -1,4 +1,0 @@
-(fp_lib_table
-  (lib (name Connectors)(type KiCad)(uri /Users/stargirl/workspace/SparkFun-KiCad-Libraries/Footprints/Connectors.pretty)(options "")(descr ""))
-  (lib (name progboard)(type KiCad)(uri ${KIPRJMOD}/progboard.pretty)(options "")(descr ""))
-)
