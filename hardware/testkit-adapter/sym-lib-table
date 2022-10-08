@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name testkit-adapter-rescue)(type Legacy)(uri ${KIPRJMOD}/testkit-adapter-rescue.lib)(options "")(descr ""))
-)
