@@ -33,8 +33,6 @@ void GemOscillator_init(
     enum GemADCChannel pitch_knob_channel,
     enum GemADCChannel pulse_width_cv_channel,
     enum GemADCChannel pulse_width_knob_channel,
-    fix16_t smooth_initial_gain,
-    fix16_t smooth_sensitivity,
     fix16_t base_offset,
     fix16_t knob_min,
     fix16_t knob_max,
@@ -55,27 +53,17 @@ void GemOscillator_init(
     osc->pulse_width_bitmask = pulse_width_bitmask;
 
     osc->outputs = (struct GemOscillatorOutputs){};
-    osc->smooth.initial_gain = smooth_initial_gain;
-    osc->smooth.sensitivity = smooth_sensitivity;
-    osc->smooth._lowpass1 = F16(0);
-    osc->smooth._lowpass2 = F16(0);
     osc->pitch = F16(0);
     osc->pulse_width = 2048;
 }
 
 void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
+
     calculate_pitch_cv_(osc, inputs);
     calculate_pulse_width_(osc, inputs);
 }
 
 void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
-    /*
-        Apply dynamic smoothing to reduce noise from the ADC inputs.
-        This is done in post update so that main() can grab Castor's unfiltered
-        value so if Pollux is following Castor it will be lock-step instead of
-        lagging slightly behind.
-    */
-    osc->pitch = WntrSmoothie_step(&osc->smooth, osc->pitch);
 
     /* Apply LFO to pitch if its enabled for this oscillator. */
     if (osc->lfo_pitch) {

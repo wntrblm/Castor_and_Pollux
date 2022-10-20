@@ -10,7 +10,6 @@
 #include "gem_config.h"
 #include "wntr_error_correction.h"
 #include "wntr_ramfunc.h"
-#include "wntr_smoothie.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -45,7 +44,6 @@ struct GemOscillator {
 
     /* State */
     struct GemOscillatorOutputs outputs;
-    struct WntrSmoothie smooth;
     fix16_t pitch_knob;
     fix16_t pitch_cv;
     fix16_t pitch;
@@ -63,8 +61,6 @@ void GemOscillator_init(
     enum GemADCChannel pitch_knob_channel,
     enum GemADCChannel pulse_width_cv_channel,
     enum GemADCChannel pulse_width_knob_channel,
-    fix16_t smooth_initial_gain,
-    fix16_t smooth_sensitivity,
     fix16_t base_offset,
     fix16_t knob_min,
     fix16_t knob_max,

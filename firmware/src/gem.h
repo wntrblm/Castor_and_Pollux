@@ -36,7 +36,6 @@
 #include "wntr_periodic_waveform.h"
 #include "wntr_random.h"
 #include "wntr_serial_number.h"
-#include "wntr_smoothie.h"
 #include "wntr_ticks.h"
 #include "wntr_uint12.h"
 #include "wntr_waveforms.h"
