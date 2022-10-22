@@ -21,12 +21,6 @@ struct GemOscillatorInputs {
     fix16_t lfo_pulse_width;
 };
 
-struct GemOscillatorOutputs {
-    fix16_t pitch_cv;
-    uint32_t period;
-    uint16_t ramp_cv;
-};
-
 struct GemOscillator {
     /* Configuration */
     uint8_t number;
@@ -43,9 +37,10 @@ struct GemOscillator {
     uint16_t pulse_width_bitmask;
 
     /* State */
-    struct GemOscillatorOutputs outputs;
-    fix16_t pitch_knob;
+    uint32_t pulseout_period;
+    uint16_t ramp_cv;
     fix16_t pitch_cv;
+    fix16_t pitch_knob;
     fix16_t pitch;
     uint16_t pulse_width_knob;
     uint16_t pulse_width_cv;
@@ -70,5 +65,3 @@ void GemOscillator_init(
 void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) RAMFUNC;
 
 void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) RAMFUNC;
-
-void GemOscillatorOutputs_calculate(uint8_t osc, fix16_t pitch_cv, struct GemOscillatorOutputs* out) RAMFUNC;
