@@ -201,8 +201,8 @@ def generate_build(configuration, run_generators, enable_tidy, enable_format):
         # Look-up tables
         buildgen.py_generated_file_build(
             writer,
-            "scripts/generate_lookup_tables.py",
-            "src/generated/gem_lookup_tables.c",
+            "scripts/generate_ramp_table_data.py",
+            "src/generated/gem_ramp_table_data.c",
         )
 
     # Formatting and linting
