@@ -25,18 +25,18 @@
 /* Max impedance is 17,617 kOhms */
 #define GEM_ADC_SAMPLE_TIME 1
 
-/* Record and average 16 samples for each measurement. */
-#define GEM_ADC_SAMPLE_NUM ADC_AVGCTRL_SAMPLENUM_16
+/* Record and average 32 samples for each measurement. */
+#define GEM_ADC_SAMPLE_NUM ADC_AVGCTRL_SAMPLENUM_32
 #define GEM_ADC_SAMPLE_ADJRES ADC_AVGCTRL_ADJRES(4)
 
 /*
     With the above settings the total time per ADC conversion is
-    24.67 microseconds.
+    35.33 microseconds.
 
-    With Gemini's 9 channels it takes at least 198 microseconds to measure all
+    With Gemini's 9 channels it takes at least 318 microseconds to measure all
     channels. There's a bit of added overhead because the CPU has to switch
-    channels between each measurement. This means that the effective sample
-    rate for Gemini is about 5 kHz.
+    channels between each measurement. This means that the effective incoming
+    sample rate for Gemini is about 3 kHz.
 
     See: https://blog.thea.codes/getting-the-most-out-of-the-samd21-adc/
 */
@@ -46,50 +46,50 @@
     scan.
 */
 static const struct GemADCInput gem_adc_inputs[] = {
-    {WNTR_PORT_A, 6, ADC_INPUTCTRL_MUXPOS_PIN6},   // CV A
-    {WNTR_PORT_B, 3, ADC_INPUTCTRL_MUXPOS_PIN11},  // CV A Pot
-    {WNTR_PORT_A, 7, ADC_INPUTCTRL_MUXPOS_PIN7},   // CV B
-    {WNTR_PORT_B, 2, ADC_INPUTCTRL_MUXPOS_PIN10},  // CV B Pot
     {WNTR_PORT_A, 5, ADC_INPUTCTRL_MUXPOS_PIN5},   // Duty A
     {WNTR_PORT_A, 8, ADC_INPUTCTRL_MUXPOS_PIN16},  // Duty A Pot
     {WNTR_PORT_B, 9, ADC_INPUTCTRL_MUXPOS_PIN3},   // Duty B
     {WNTR_PORT_A, 9, ADC_INPUTCTRL_MUXPOS_PIN17},  // Duty B Pot
     {WNTR_PORT_A, 2, ADC_INPUTCTRL_MUXPOS_PIN0},   // Chorus pot
+    {WNTR_PORT_B, 3, ADC_INPUTCTRL_MUXPOS_PIN11},  // CV A Pot
+    {WNTR_PORT_B, 2, ADC_INPUTCTRL_MUXPOS_PIN10},  // CV B Pot
+    /* Pitch CV inputs are read last so they'll be as fresh as possible
+       when the ADC is done scanning all channels. */
+    {WNTR_PORT_A, 6, ADC_INPUTCTRL_MUXPOS_PIN6},  // CV A
+    {WNTR_PORT_A, 7, ADC_INPUTCTRL_MUXPOS_PIN7},  // CV B
 };
 
 /* Gives useful names to the inputs above. */
 enum GemADCChannel {
-    GEM_IN_CV_A,
-    GEM_IN_CV_A_POT,
-    GEM_IN_CV_B,
-    GEM_IN_CV_B_POT,
     GEM_IN_DUTY_A,
     GEM_IN_DUTY_A_POT,
     GEM_IN_DUTY_B,
     GEM_IN_DUTY_B_POT,
     GEM_IN_CHORUS_POT,
+    GEM_IN_CV_A_POT,
+    GEM_IN_CV_B_POT,
+    GEM_IN_CV_A,
+    GEM_IN_CV_B,
     GEM_IN_COUNT,
 };
+
+/*
+    Square wave output configuration
+    - PA17 for Castor
+    - PA16 for Pollux (rev 0)
+    - PA11 for Pollux (rev 1)
+*/
+
+#define CASTOR_SQUARE_WAVE_PIN WNTR_GPIO_PIN(WNTR_PORT_A, 17)
+#define POLLUX_SQUARE_WAVE_PIN WNTR_GPIO_PIN(WNTR_PORT_A, 11)
 
 /* Pulse out/TCC configuration. */
 
 #define GEM_PULSEOUT_GCLK GCLK_CLKCTRL_GEN_GCLK1
-#define GEM_PULSEOUT_GCLK_DIV TCC_CTRLA_PRESCALER_DIV1
-
-/*
-    TCC0 WO7 / PA17 for Castor
-    TCC2 WO0 / PA16 for Pollux (rev 0)
-    TCC1 WO1 / PA11 for Pollux (rev 1)
-*/
-
-#define GEM_TCC0_PIN_PORT WNTR_PORT_A
-#define GEM_TCC0_PIN 17
-#define GEM_TCC0_PIN_FUNC PORT_PMUX_PMUXO_F
+#define GEM_TCC_GCLK_FREQUENCY 8000000
+#define CASTOR_SQUARE_WAVE_PIN_ALT WNTR_PMUX_F_TCC
+#define POLLUX_SQUARE_WAVE_PIN_ALT WNTR_PMUX_E_TC_TCC
 #define GEM_TCC0_WO 3
-
-#define GEM_TCC1_PIN_PORT WNTR_PORT_A
-#define GEM_TCC1_PIN 11
-#define GEM_TCC1_PIN_FUNC PORT_PMUX_PMUXO_E
 #define GEM_TCC1_WO 1
 
 /* I2C configuration for the DAC. */
@@ -100,7 +100,7 @@ enum GemADCChannel {
 /* Hz */
 #define GEM_I2C_BAUDRATE 400000
 /* Nanoseconds */
-#define GEM_I2C_RISE_TIME 300
+#define GEM_I2C_RISE_TIME 100
 #define GEM_I2C_SERCOM SERCOM1
 #define GEM_I2C_SERCOM_APBCMASK PM_APBCMASK_SERCOM1
 #define GEM_I2C_GCLK_CLKCTRL_ID GCLK_CLKCTRL_ID_SERCOM1_CORE
@@ -145,4 +145,4 @@ enum GemADCChannel {
 
 #define GEM_CV_INPUT_RANGE F16(6.0)
 #define GEM_CV_BASE_OFFSET F16(1.0)
-#define GEM_TWEAK_MAX_LFO_FREQUENCY F16(5)
+#define GEM_TWEAK_MAX_LFO_FREQ F16(5)
