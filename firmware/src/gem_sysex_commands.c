@@ -8,9 +8,8 @@
 #include "gem_adc.h"
 #include "gem_config.h"
 #include "gem_led_animation.h"
-#include "gem_lookup_tables.h"
 #include "gem_mcp4728.h"
-#include "gem_pulseout.h"
+#include "gem_ramp_table.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
 #include "gem_usb.h"
@@ -232,12 +231,13 @@ static void cmd_0x06_set_period_(const uint8_t* data, size_t len) {
     (void)(len);
     DECODE_TEETH_REQUEST(5);
 
-    uint8_t channel = request[0];
-    uint32_t period = WNTR_UNPACK_32(request, 1);
+    // uint8_t channel = request[0];
+    // uint32_t period = WNTR_UNPACK_32(request, 1);
 
-    gem_pulseout_set_period(channel, period);
+    // TODO!
+    // gem_pulseout_set_period(channel, period);
 
-    debug_printf("SysEx 0x06: Set period for osc %u to %u\n", channel, period);
+    // debug_printf("SysEx 0x06: Set period for osc %u to %u\n", channel, period);
 }
 
 static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len) {
@@ -288,11 +288,11 @@ static void cmd_0x19_write_settings_(const uint8_t* data, size_t len) {
 }
 
 static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
-    /* Request (teeth): ENTRY(1) PERIOD(4) CASTOR_CODE(2) POLLUX_CODE(2) */
+    /* Request (teeth): ENTRY(1) PITCH_CV(4) CASTOR_CODE(2) POLLUX_CODE(2) */
     DECODE_TEETH_REQUEST(9);
 
     size_t entry = request[0];
-    uint32_t period = WNTR_UNPACK_32(request, 1);
+    // uint32_t period = WNTR_UNPACK_32(request, 1);
     uint16_t castor_code = WNTR_UNPACK_16(request, 5);
     uint16_t pollux_code = WNTR_UNPACK_16(request, 7);
 
@@ -300,7 +300,7 @@ static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
         return;
     }
 
-    gem_ramp_table[entry].period = period;
+    // gem_ramp_table[entry].period = period;
     gem_ramp_table[entry].castor_ramp_cv = castor_code;
     gem_ramp_table[entry].pollux_ramp_cv = pollux_code;
 
@@ -308,9 +308,8 @@ static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
     RESPONSE_0(0x0A);
 
     debug_printf(
-        "SysEXx 0x0A: Set LUT entry %u to period=%u, castor_ramp_cv=%u, pollux_ramp_cv=%u\n",
+        "SysEXx 0x0A: Set LUT entry %u to pitch_cv=UNUSED, castor_ramp_cv=%u, pollux_ramp_cv=%u\n",
         entry,
-        period,
         castor_code,
         pollux_code);
 }
@@ -319,7 +318,7 @@ static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    gem_save_ramp_table();
+    gem_ramp_table_save();
 
     debug_printf("SysEx 0x0B: Saved LUT table to NVRAM\n");
 }
@@ -328,7 +327,7 @@ static void cmd_0x0C_erase_lut_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    gem_erase_ramp_table();
+    gem_ramp_table_erase();
 
     debug_printf("SysEx 0x0B: Erased LUT table from NVRAM\n");
 }

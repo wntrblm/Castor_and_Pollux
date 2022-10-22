@@ -8,6 +8,7 @@
 
 #include "fix16.h"
 #include "gem_config.h"
+#include "gem_nco.h"
 #include "wntr_error_correction.h"
 #include "wntr_ramfunc.h"
 #include <stdbool.h>
@@ -19,12 +20,6 @@ struct GemOscillatorInputs {
     uint32_t* adc;
     fix16_t lfo_pitch;
     fix16_t lfo_pulse_width;
-};
-
-struct GemOscillatorOutputs {
-    fix16_t pitch_cv;
-    uint32_t period;
-    uint16_t ramp_cv;
 };
 
 struct GemOscillator {
@@ -43,9 +38,11 @@ struct GemOscillator {
     uint16_t pulse_width_bitmask;
 
     /* State */
-    struct GemOscillatorOutputs outputs;
-    fix16_t pitch_knob;
+    struct GemNCO nco;
+    uint32_t pulseout_period;
+    uint16_t ramp_cv;
     fix16_t pitch_cv;
+    fix16_t pitch_knob;
     fix16_t pitch;
     uint16_t pulse_width_knob;
     uint16_t pulse_width_cv;
@@ -70,5 +67,3 @@ void GemOscillator_init(
 void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) RAMFUNC;
 
 void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) RAMFUNC;
-
-void GemOscillatorOutputs_calculate(uint8_t osc, fix16_t pitch_cv, struct GemOscillatorOutputs* out) RAMFUNC;

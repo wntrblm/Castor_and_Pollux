@@ -64,13 +64,16 @@ void gem_clocks_init() {
     SystemCoreClock = 48000000;
 
     /* Configure GCLK1 to follow the 8MHz oscillator.
-        This is used to clock the ADC & TCC peripherals.
-    */
+        This is used to clock the ADC & TCC peripherals. */
 
     /* Disable division */
     GCLK->GENDIV.reg = GCLK_GENDIV_ID(1) | GCLK_GENDIV_DIV(1);
-
     GCLK->GENCTRL.reg = GCLK_GENCTRL_ID(1) | GCLK_GENCTRL_SRC_OSC8M | GCLK_GENCTRL_GENEN;
 
     while (GCLK->STATUS.reg & GCLK_STATUS_SYNCBUSY) {};
+
+    /* Wire up the 8MHz clock to GCLK3 divided down to a 500kHz clock */
+
+    GCLK->GENDIV.reg = GCLK_GENDIV_ID(3) | GCLK_GENDIV_DIV(16);
+    GCLK->GENCTRL.reg = GCLK_GENCTRL_ID(3) | GCLK_GENCTRL_SRC_OSC8M | GCLK_GENCTRL_GENEN;
 }

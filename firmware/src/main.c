@@ -11,6 +11,14 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* Forward declaration */
+#if (GEM_SQUARE_OUT_STRATEGY == GEM_SQUARE_OUT_STRATEGY_TIMER)
+static void timer_callback_() RAMFUNC;
+#endif
+#if (GEM_SQUARE_OUT_STRATEGY == GEM_SQUARE_OUT_STRATEGY_PULSE)
+static void pulse_ovf_callback_(uint8_t inst) RAMFUNC;
+#endif
+
 /* Inputs */
 static uint32_t adc_results_live_[GEM_IN_COUNT];
 static uint32_t adc_results_snapshot_[GEM_IN_COUNT];
@@ -28,7 +36,7 @@ static struct {
 static struct WntrMixedPeriodicWaveform lfo_;
 static struct GemOscillator castor_;
 static struct GemOscillator pollux_;
-static bool hard_sync_ = false;
+static volatile bool hard_sync_ = false;
 
 /* Timekeeping */
 static uint32_t animation_time_ = 0;
@@ -98,12 +106,6 @@ static void init_() {
     gem_spi_init();
 
     /*
-        Gemini uses the TCC peripheral to output the pulse wave needed to
-        drive the oscillators.
-    */
-    gem_pulseout_init();
-
-    /*
         Global state initialization.
     */
 
@@ -111,7 +113,7 @@ static void init_() {
         Gemini uses a pseudo-random number generator for the LED animation.
         To keep things simple, it just uses its serial number as the seed.
         If it needs to be more fancy in the future it could be changed to read
-        the a floating ADC input and use that as the seed.
+        a floating ADC input and use that as the seed.
     */
     uint8_t serial_number[WNTR_SERIAL_NUMBER_LEN];
     wntr_serial_number(serial_number);
@@ -125,11 +127,11 @@ static void init_() {
     GemSettings_print(&settings_);
 
     /*
-        Gemini also stores a "DAC code" table in NVM. This table is used to
+        Gemini also stores a ramp table in NVM. This table is used to
         compensate for amplitude loss in the ramp waveform as frequency
         increases.
     */
-    gem_load_ramp_table();
+    gem_ramp_table_load();
 
     /*
         Driver configuration.
@@ -238,16 +240,87 @@ static void init_() {
     */
     pollux_.follower_threshold = settings_.pollux_follower_threshold;
     pollux_.lfo_pitch = true;
+
+    /* Configure the square wave output for the oscillators */
+
+#if (GEM_SQUARE_OUT_STRATEGY == GEM_SQUARE_OUT_STRATEGY_PULSE)
+    gem_pulseout_init(pulse_ovf_callback_);
+#elif (GEM_SQUARE_OUT_STRATEGY == GEM_SQUARE_OUT_STRATEGY_TIMER)
+    /*
+        GPIO pins used to output the square waveform for each oscillator
+    */
+    WntrGPIOPin_set_as_output(CASTOR_SQUARE_WAVE_PIN);
+    WntrGPIOPin_set_as_output(POLLUX_SQUARE_WAVE_PIN);
+    gem_timer_init(timer_callback_);
+#endif
 }
+
+/*
+    This callback is called from the pulseout overflow/underflow callback.
+*/
+static void pulse_ovf_callback_(uint8_t inst) {
+    (void)inst;
+    if (hard_sync_) {
+        TCC1->CTRLBSET.reg = TCC_CTRLBSET_CMD_RETRIGGER;
+    }
+}
+
+static inline __attribute__((always_inline)) void update_dac_() {
+    /*
+        Update the DAC outputs with the new charge and pulse width
+        values.
+
+        Each oscillator requires two DAC outputs.
+
+        The first one is used to compensation for amplitude loss as frequency
+        increases. Higher voltage allows the ramp core's integrating capacitor
+        to charge more quickly and reach a higher voltage before the timer
+        resets the ramp.
+
+        The second is used to control the pulse-width of the pulse waveform.
+        The output voltage goes into a comparator that compares against the
+        ramp waveform to generate a pulse.
+    */
+    gem_mcp_4728_write_channels(
+        (struct GemMCP4278Channel){.value = castor_.ramp_cv},
+        (struct GemMCP4278Channel){.value = castor_.pulse_width},
+        (struct GemMCP4278Channel){.value = pollux_.ramp_cv},
+        (struct GemMCP4278Channel){.value = pollux_.pulse_width});
+}
+
+/*
+    This callback is called from the 32.786 kHz timer and is used to update
+    the oscillator outputs.
+*/
+#if (GEM_SQUARE_OUT_STRATEGY == GEM_SQUARE_OUT_STRATEGY_TIMER)
+static __attribute__((optimize(2))) void timer_callback_() {
+    bool castor_cycled = GemNCO_step(&(castor_.nco));
+    GemNCO_step(&(pollux_.nco));
+
+    if (castor_cycled && hard_sync_) {
+        pollux_.nco.phase = castor_.nco.phase;
+    }
+
+    if (castor_.nco.phase & (1ull << 31)) {
+        PORT->Group[CASTOR_SQUARE_WAVE_PIN.port].OUTSET.reg = (1 << CASTOR_SQUARE_WAVE_PIN.pin);
+    } else {
+        PORT->Group[CASTOR_SQUARE_WAVE_PIN.port].OUTCLR.reg = (1 << CASTOR_SQUARE_WAVE_PIN.pin);
+    }
+    if (pollux_.nco.phase & (1ull << 31)) {
+        PORT->Group[POLLUX_SQUARE_WAVE_PIN.port].OUTSET.reg = (1 << POLLUX_SQUARE_WAVE_PIN.pin);
+    } else {
+        PORT->Group[POLLUX_SQUARE_WAVE_PIN.port].OUTCLR.reg = (1 << POLLUX_SQUARE_WAVE_PIN.pin);
+    }
+}
+#endif
 
 /*
     This task handles taking in the input state (from the ADC and PORT) and
     updating the oscillators, recalculating their outputs, and applying the
     outputs to the pulse generators and DACs.
 */
-static void oscillator_task_() RAMFUNC;
 
-static void oscillator_task_() {
+static RAMFUNC void oscillator_task_() {
     uint32_t loop_start_time = wntr_ticks();
 
     /* Toggle hard sync if the button has been tapped. */
@@ -256,10 +329,8 @@ static void oscillator_task_() {
     if (WntrButton_tapped(&hard_sync_button_)) {
         hard_sync_ = !hard_sync_;
         if (hard_sync_) {
-            gem_pulseout_hard_sync(true);
             gem_led_animation_set_mode(GEM_LED_MODE_HARD_SYNC);
         } else {
-            gem_pulseout_hard_sync(false);
             gem_led_animation_set_mode(GEM_LED_MODE_NORMAL);
         }
     }
@@ -305,30 +376,10 @@ static void oscillator_task_() {
         disabled while Gemini modifies the timer configuration.
     */
     __disable_irq();
-    gem_pulseout_set_period(0, castor_.outputs.period);
-    gem_pulseout_set_period(1, pollux_.outputs.period);
+    gem_pulseout_set_period(0, castor_.pulseout_period);
+    gem_pulseout_set_period(1, pollux_.pulseout_period);
+    update_dac_();
     __enable_irq();
-
-    /*
-        Update the DAC outputs with the new charge and pulse width
-        values.
-
-        Each oscillator requires two DAC outputs.
-
-        The first one is used to compensation for amplitude loss as frequency
-        increases. Higher voltage allows the ramp core's integrating capacitor
-        to charge more quickly and reach a higher voltage before the timer
-        resets the ramp.
-
-        The second is used to control the pulse-width of the pulse waveform.
-        The output voltage goes into a comparator that compares against the
-        ramp waveform to generate a pulse.
-    */
-    gem_mcp_4728_write_channels(
-        (struct GemMCP4278Channel){.value = castor_.outputs.ramp_cv},
-        (struct GemMCP4278Channel){.value = castor_.pulse_width},
-        (struct GemMCP4278Channel){.value = pollux_.outputs.ramp_cv},
-        (struct GemMCP4278Channel){.value = pollux_.pulse_width});
 
     /*
         Update the loop timer.
@@ -391,7 +442,7 @@ static void tweak_task_() {
         /* Chorus intensity knob controls the LFO frequency in tweak mode. */
         IF_WAGGLED(chorus_pot_code, GEM_IN_CHORUS_POT)
             fix16_t frequency_value = UINT12_NORMALIZE(chorus_pot_code);
-            lfo_state_.frequencies[0] = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQUENCY);
+            lfo_state_.frequencies[0] = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQ);
         IF_WAGGLED_END
 
         /* PWM Knobs control whether or not the LFO gets routed to them. */

@@ -6,6 +6,9 @@
 
 #include "gem_oscillator.h"
 #include "gem_config.h"
+#include "gem_math.h"
+#include "gem_pulseout.h"
+#include "gem_ramp_table.h"
 #include "wntr_bezier.h"
 #include "wntr_uint12.h"
 
@@ -52,32 +55,44 @@ void GemOscillator_init(
     osc->lfo_pitch = false;
     osc->pulse_width_bitmask = pulse_width_bitmask;
 
-    osc->outputs = (struct GemOscillatorOutputs){};
+    osc->nco = (struct GemNCO){};
+    osc->ramp_cv = 0;
     osc->pitch = F16(0);
     osc->pulse_width = 2048;
 }
 
 void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
-
     calculate_pitch_cv_(osc, inputs);
     calculate_pulse_width_(osc, inputs);
 }
 
 void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
-
     /* Apply LFO to pitch if its enabled for this oscillator. */
     if (osc->lfo_pitch) {
         osc->pitch = fix16_add(osc->pitch, inputs.lfo_pitch);
     }
 
-    /* Limit the pitch value so that its with the note table. */
+    /* Limit the pitch value so that its within the note table. */
     osc->pitch = fix16_clamp(osc->pitch, F16(0), F16(7));
 
     /*
         Use the note and charge look-up tables to calculate the outputs for the
         oscillator.
     */
-    GemOscillatorOutputs_calculate(osc->number, osc->pitch, &osc->outputs);
+
+    fix16_t freq_hz = gem_voct_to_frequency(osc->pitch);
+
+    osc->ramp_cv = gem_ramp_table_lookup(osc->number, osc->pitch);
+
+    uint32_t freq_whole = fix16_to_int(freq_hz);
+    uint32_t freq_frac = freq_hz & 0xFFFF;
+    uint64_t freq_millihz = (freq_whole * 100) + (freq_frac * 100 / 0xFFFF);
+
+#if (GEM_SQUARE_OUT_STRATEGY == GEM_SQUARE_OUT_STRATEGY_PULSE)
+    osc->pulseout_period = gem_pulseout_frequency_to_period(freq_millihz);
+#elif (GEM_SQUARE_OUT_STRATEGY == GEM_SQUARE_OUT_STRATEGY_TIMER)
+    GemNCO_set_frequency(&(osc->nco), freq_millihz, GEM_TC_TIMER_FREQ * 100);
+#endif
 }
 
 /* Private functions */
@@ -87,7 +102,6 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
         The basic pitch CV determination formula is:
         (base offset) + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
     */
-
     uint16_t cv_adc_code = inputs.adc[osc->pitch_cv_channel];
 
     /*
