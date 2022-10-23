@@ -25,13 +25,13 @@ def set_oscillators_to_note(note, calibration=reference_calibration):
     )
 
     gem.set_dac(charge_code_castor, 2048, charge_code_pollux, 2048)
-    gem.set_period(0, period)
-    gem.set_period(1, period)
+    gem.set_frequency(0, freq)
+    gem.set_frequency(1, freq)
 
 
 def sweep_notes(calibration=reference_calibration):
     for n in range(12, 94):
-        set_oscillators_to_note(n, calibration=reference_calibration)
+        set_oscillators_to_note(n, calibration=calibration)
         time.sleep(0.5)
 
 

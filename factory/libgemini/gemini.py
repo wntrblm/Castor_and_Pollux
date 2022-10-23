@@ -13,7 +13,7 @@ from wintertools import midi, teeth
 from libgemini import gem_monitor_update, gem_settings
 
 
-def _fix16(val):
+def _encode_fix16(val):
     if val >= 0:
         return int(val * 65536.0 + 0.5)
     else:
@@ -26,10 +26,7 @@ class SysExCommands(enum.IntEnum):
     WRITE_ADC_OFFSET = 0x03
     READ_ADC = 0x04
     SET_DAC = 0x05
-    SET_FREQ = 0x06
     RESET_SETTINGS = 0x07
-    READ_SETTINGS = 0x18
-    WRITE_SETTINGS = 0x19
     WRITE_LUT_ENTRY = 0x0A
     WRITE_LUT = 0x0B
     ERASE_LUT = 0x0C
@@ -40,6 +37,9 @@ class SysExCommands(enum.IntEnum):
     SOFT_RESET = 0x11
     ENTER_CALIBRATION = 0x12
     RESET_INTO_BOOTLOADER = 0x13
+    READ_SETTINGS = 0x18
+    WRITE_SETTINGS = 0x19
+    SET_FREQ = 0x20
 
 
 class Gemini(midi.MIDIDevice):
@@ -47,15 +47,15 @@ class Gemini(midi.MIDIDevice):
     SYSEX_MARKER = 0x77
 
     class ADC(enum.IntEnum):
-        CV_A = 0
-        CV_A_POT = 1
-        CV_B = 2
-        CV_B_POT = 3
-        DUTY_A = 4
-        DUTY_A_POT = 5
-        DUTY_B = 6
-        DUTY_B_POT = 7
-        CHORUS_POT = 8
+        DUTY_A = 0
+        DUTY_A_POT = 1
+        DUTY_B = 2
+        DUTY_B_POT = 3
+        CHORUS_POT = 4
+        CV_A_POT = 5
+        CV_B_POT = 6
+        CV_A = 7
+        CV_B = 8
 
     def __init__(self):
         super().__init__()
@@ -92,8 +92,8 @@ class Gemini(midi.MIDIDevice):
         data = struct.pack(">HHHH", a, b, c, d)
         self.sysex(SysExCommands.SET_DAC, data=data, encode=True)
 
-    def set_period(self, ch, val):
-        data = struct.pack(">BI", ch, val)
+    def set_frequency(self, ch, val):
+        data = struct.pack(">BI", ch, _encode_fix16(val))
         self.sysex(SysExCommands.SET_FREQ, data=data, encode=True)
 
     def set_adc_gain_error_int(self, val):
