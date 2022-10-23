@@ -79,9 +79,7 @@ void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorIn
     */
 
     fix16_t freq_hz = gem_voct_to_frequency(osc->pitch);
-    uint32_t freq_whole = fix16_to_int(freq_hz);
-    uint32_t freq_frac = freq_hz & 0xFFFF;
-    uint64_t freq_millihz = (freq_whole * 100) + (freq_frac * 100 / 0xFFFF);
+    uint64_t freq_millihz = gem_frequency_to_millihertz_f16_u64(freq_hz);
 
     osc->pulseout_period = gem_pulseout_frequency_to_period(freq_millihz);
     osc->ramp_cv = gem_ramp_table_lookup(osc->number, osc->pitch);

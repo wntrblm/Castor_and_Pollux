@@ -100,3 +100,9 @@ inline static __attribute__((always_inline)) fix16_t gem_voct_to_frequency(fix16
 
     return fix16_mul(F16(16.35159783), fix16_exp(fix16_mul(cv, F16(0.6931471765))));
 }
+
+inline static uint64_t __attribute__((always_inline)) gem_frequency_to_millihertz_f16_u64(fix16_t freq_hz) {
+    uint32_t freq_whole = fix16_to_int(freq_hz);
+    uint32_t freq_frac = freq_hz & 0xFFFF;
+    return (freq_whole * 100) + (freq_frac * 100 / 0xFFFF);
+}
