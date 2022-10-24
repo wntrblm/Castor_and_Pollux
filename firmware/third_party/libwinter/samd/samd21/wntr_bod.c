@@ -4,10 +4,10 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_bod.h"
+#include "wntr_bod.h"
 #include "sam.h"
 
-void gem_wait_for_stable_voltage() {
+void wntr_bod_wait_for_stable_voltage() {
     /*
         Configure the BOD to monitor for at least 3.0 volts and wait for
         VDD to reach that level.

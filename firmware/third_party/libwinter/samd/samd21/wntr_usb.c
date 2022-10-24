@@ -10,7 +10,7 @@
 #include "tusb.h"
 #include "wntr_gpio.h"
 
-void gem_usb_init() {
+void wntr_usb_init() {
     /* Enable the APB clock for USB. */
     PM->APBBMASK.reg |= PM_APBBMASK_USB;
     PM->AHBMASK.reg |= PM_AHBMASK_USB;
@@ -34,6 +34,6 @@ void gem_usb_init() {
     tusb_init();
 }
 
-void gem_usb_task() { tud_task(); }
+void wntr_usb_task() { tud_task(); }
 
 void USB_Handler(void) { tud_int_handler(0); }

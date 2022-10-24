@@ -4,10 +4,10 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_nvm.h"
 #include "gem_ramp_table.h"
 #include "printf.h"
 #include "wntr_assert.h"
+#include "wntr_nvm.h"
 #include "wntr_pack.h"
 #include <stdbool.h>
 #include <string.h>
@@ -42,7 +42,7 @@ void gem_ramp_table_load() {
     }
 
     // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
-    gem_nvm_read((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
+    wntr_nvm_read((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
 
     if (param_table_load_buf_[BUFFER_LEN - 1] != VALID_TABLE_MARKER) {
         printf("No valid LUT table.\r\n");
@@ -71,12 +71,12 @@ void gem_ramp_table_save() {
     param_table_load_buf_[BUFFER_LEN - 1] = VALID_TABLE_MARKER;
 
     // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
-    gem_nvm_write((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
+    wntr_nvm_write((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
 }
 
 void gem_ramp_table_erase() {
     memset(param_table_load_buf_, 0xFF, BUFFER_LEN);
 
     // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
-    gem_nvm_write((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
+    wntr_nvm_write((uint32_t)(&_nvm_lut_base_address), param_table_load_buf_, BUFFER_LEN);
 }

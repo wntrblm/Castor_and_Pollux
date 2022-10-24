@@ -48,26 +48,6 @@ static void init_() {
         Core system initialization.
     */
 
-    /*
-        Before doing *anything*, wait for the voltage to stabilize and ensure
-        the fuses are set correctly.
-    */
-    gem_wait_for_stable_voltage();
-    wntr_check_bootprot_fuse();
-
-    /* Enable the Micro Trace Buffer for better debug stacktraces. */
-    wntr_mtb_init();
-
-    /* Configure clocks & timekeeping. */
-    gem_clocks_init();
-    wntr_ticks_init();
-
-    /*
-        Initialize NVM/Flash storage access - this is needed so that settings
-        can be saved to and loaded from NVM.
-    */
-    gem_nvm_init();
-
     /* Tell the world who we are and how we got here. :) */
     printf("%s\n", wntr_build_info_string());
 
@@ -76,7 +56,7 @@ static void init_() {
     */
 
     /* Gemini uses USB MIDI for editing settings and factory configuration. */
-    gem_usb_init();
+    wntr_usb_init();
 
     /* Gemini uses i2c to communicate with the external DAC. */
     gem_i2c_init();
@@ -458,7 +438,7 @@ int main(void) {
             Gemini doesn't use an RTOS, instead, it just runs a few tasks that
             are expected to be behave and yield time to other tasks.
         */
-        gem_usb_task();
+        wntr_usb_task();
         midi_task_();
 
         /*

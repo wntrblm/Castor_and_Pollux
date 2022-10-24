@@ -4,7 +4,7 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_nvm.h"
+#include "wntr_nvm.h"
 #include "sam.h"
 
 #define NVM_MEMORY ((volatile uint16_t*)FLASH_ADDR)
@@ -16,11 +16,9 @@ static void write_page(uint32_t dst, uint8_t* buf, size_t len);
 
 /* Public functions. */
 
-void gem_nvm_init() {}
-
 /* These routines are largely adapted from ASF4's hal_nvmctrl.c. */
 
-void gem_nvm_read(uint32_t src, uint8_t* buf, size_t len) {
+void wntr_nvm_read(uint32_t src, uint8_t* buf, size_t len) {
     uint32_t nvm_address = src / 2;
     uint32_t i;
     uint16_t data;
@@ -52,7 +50,7 @@ void gem_nvm_read(uint32_t src, uint8_t* buf, size_t len) {
     }
 }
 
-void gem_nvm_write(uint32_t dst, const uint8_t* buf, size_t len) {
+void wntr_nvm_write(uint32_t dst, const uint8_t* buf, size_t len) {
     uint8_t tmp_buffer[NVMCTRL_ROW_PAGES][NVMCTRL_PAGE_SIZE];
     uint32_t row_start_addr, row_end_addr;
     uint32_t i, j, k;
@@ -64,7 +62,7 @@ void gem_nvm_write(uint32_t dst, const uint8_t* buf, size_t len) {
 
         /* store the erase data into temp buffer before write */
         for (i = 0; i < NVMCTRL_ROW_PAGES; i++) {
-            gem_nvm_read(row_start_addr + i * NVMCTRL_PAGE_SIZE, tmp_buffer[i], NVMCTRL_PAGE_SIZE);
+            wntr_nvm_read(row_start_addr + i * NVMCTRL_PAGE_SIZE, tmp_buffer[i], NVMCTRL_PAGE_SIZE);
         }
 
         /* temp buffer update */

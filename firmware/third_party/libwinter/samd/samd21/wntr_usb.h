@@ -6,6 +6,15 @@
 
 #pragma once
 
-/* Routines for interacting with the SAM D21's brown out detector (BOD33) */
+#include <stdbool.h>
+#include <stdint.h>
 
-void gem_wait_for_stable_voltage();
+/*
+    Routines for managing USB.
+
+    These are thin wrappers over tinyUSB.
+*/
+
+void wntr_usb_init();
+
+void wntr_usb_task();

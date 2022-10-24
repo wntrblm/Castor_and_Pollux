@@ -8,4 +8,4 @@
 
 /* Routines for configuring the SAMD21's clock system. */
 
-void gem_clocks_init();
+void wntr_system_clocks_init();

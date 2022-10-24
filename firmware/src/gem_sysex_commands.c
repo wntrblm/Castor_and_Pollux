@@ -14,7 +14,6 @@
 #include "gem_ramp_table.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
-#include "gem_usb.h"
 #include "printf.h"
 #include "teeth.h"
 #include "wntr_assert.h"
@@ -25,6 +24,7 @@
 #include "wntr_pack.h"
 #include "wntr_serial_number.h"
 #include "wntr_ticks.h"
+#include "wntr_usb.h"
 #include <string.h>
 
 /* Macros & defs */

@@ -4,11 +4,11 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-#include "gem_clocks.h"
+#include "wntr_system_clocks.h"
 #include "sam.h"
 #include "wntr_fuses.h"
 
-void gem_clocks_init() {
+void wntr_system_clocks_init() {
     /* Switch CPU to 8Mhz for now by disabling the prescaler */
     SYSCTRL->OSC8M.reg |= SYSCTRL_OSC8M_ENABLE;
     SYSCTRL->OSC8M.bit.PRESC = 0;
