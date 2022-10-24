@@ -46,12 +46,19 @@ SRCS = [
     # the build to the program. The header is at src/lib/gem_build_info.h
     "build/generated_build_info.c",
     # libwinter is common winterbloom code.
-    "third_party/libwinter/*.c",
     "third_party/libwinter/samd/*.c",
     "third_party/libwinter/samd/samd21/*.c",
-    # Contains the main entrypoint for the processor and the ARM exception
-    # table. TODO: this should be pulled into the application.
-    "third_party/samd21/gcc/gcc/startup_samd21.c",
+    "third_party/libwinter/teeth.c",
+    "third_party/libwinter/wntr_assert.c",
+    "third_party/libwinter/wntr_bezier.c",
+    "third_party/libwinter/wntr_button.c",
+    "third_party/libwinter/wntr_colorspace.c",
+    "third_party/libwinter/wntr_error_correction.c",
+    "third_party/libwinter/wntr_midi_core.c",
+    "third_party/libwinter/wntr_midi_sysex_dispatcher.c",
+    "third_party/libwinter/wntr_periodic_waveform.c",
+    "third_party/libwinter/wntr_random.c",
+    "third_party/libwinter/wntr_ticks.c",
     # Tiny printf
     "third_party/printf/*.c",
     # For fix16_t
@@ -201,8 +208,8 @@ def generate_build(configuration, run_generators, enable_tidy, enable_format):
         # Look-up tables
         buildgen.py_generated_file_build(
             writer,
-            "scripts/generate_lookup_tables.py",
-            "src/generated/gem_lookup_tables.c",
+            "scripts/generate_ramp_table_data.py",
+            "src/generated/gem_ramp_table_data.c",
         )
 
     # Formatting and linting

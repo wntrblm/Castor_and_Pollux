@@ -9,6 +9,7 @@
 /* Routines for controlling the MCP4728 quad 12-bit DAC over I2C. */
 
 #include "gem_i2c.h"
+#include "wntr_ramfunc.h"
 
 struct GemMCP4278Channel {
     /* Voltage reference selection
@@ -33,7 +34,8 @@ struct GemMCP4278Channel {
 };
 
 void gem_mcp_4728_init(const struct GemI2CConfig* i2c);
-enum GemI2CResult
+
+RAMFUNC enum GemI2CResult
 gem_mcp_4728_write_channel(const struct GemI2CConfig* i2c, uint8_t channel_no, struct GemMCP4278Channel settings);
 enum GemI2CResult gem_mcp_4728_write_channels(
     const struct GemI2CConfig* i2c,

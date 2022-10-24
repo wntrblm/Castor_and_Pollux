@@ -6,10 +6,10 @@
 
 #include "gem_settings_load_save.h"
 #include "gem_config.h"
-#include "gem_nvm.h"
 #include "printf.h"
 #include "sam.h"
 #include "wntr_assert.h"
+#include "wntr_nvm.h"
 #include <stdarg.h>
 
 #define SETTINGS_MARKER_V1 0x65
@@ -99,7 +99,7 @@ bool GemSettings_load(struct GemSettings* settings) {
     uint8_t data[GEMSETTINGS_PACKED_SIZE + 1];
 
     // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
-    gem_nvm_read((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
+    wntr_nvm_read((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
 
     uint8_t marker = data[0];
 
@@ -134,7 +134,7 @@ void GemSettings_save(struct GemSettings* settings) {
     WNTR_ASSERT(result.status == STRUCTY_RESULT_OKAY);
 
     // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
-    gem_nvm_write((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
+    wntr_nvm_write((uint32_t)(&_nvm_settings_base_address), data, GEMSETTINGS_PACKED_SIZE + 1);
 
     printf("Saved settings: \n");
     GemSettings_print(settings);
@@ -144,5 +144,5 @@ void GemSettings_erase() {
     /* Just erase the marker byte. */
     uint8_t data[1] = {0xFF};
     // NOLINTNEXTLINE(clang-diagnostic-pointer-to-int-cast)
-    gem_nvm_write((uint32_t)(&_nvm_settings_base_address), data, 1);
+    wntr_nvm_write((uint32_t)(&_nvm_settings_base_address), data, 1);
 }

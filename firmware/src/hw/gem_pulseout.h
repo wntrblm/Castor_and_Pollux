@@ -18,15 +18,23 @@
 
 struct GemPulseOutConfig {
     uint32_t gclk;
-    uint32_t gclk_div;
+    uint32_t gclk_freq;
     struct WntrGPIOPin tcc0_pin;
     uint32_t tcc0_wo;
     struct WntrGPIOPin tcc1_pin;
     uint32_t tcc1_wo;
 };
 
-void gem_pulseout_init(const struct GemPulseOutConfig* po);
+typedef void (*gem_pulseout_ovf_callback)(uint8_t inst);
 
+void gem_pulseout_init(const struct GemPulseOutConfig* po, gem_pulseout_ovf_callback ovf_callback);
 void gem_pulseout_set_period(const struct GemPulseOutConfig* po, uint8_t channel, uint32_t period) RAMFUNC;
 
-void gem_pulseout_hard_sync(bool state) RAMFUNC;
+inline static uint32_t gem_pulseout_frequency_to_period(const struct GemPulseOutConfig* po, uint32_t freq_millihertz) {
+    return (((po->gclk_freq * 100) / freq_millihertz) - 1);
+}
+
+inline static void
+gem_pulseout_set_frequency(const struct GemPulseOutConfig* po, uint8_t channel, uint32_t freq_millihertz) {
+    gem_pulseout_set_period(po, channel, gem_pulseout_frequency_to_period(po, freq_millihertz));
+}

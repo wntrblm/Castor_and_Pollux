@@ -5,13 +5,19 @@
 */
 
 #include "gem_pulseout.h"
+#include "gem_config.h"
 #include "wntr_ramfunc.h"
 
-static bool hard_sync_ = false;
+/* Forward declarations */
+static void setup_tcc_(Tcc* tcc, size_t wo, const struct WntrGPIOPin pin);
+
+/* Static globals */
+
+static gem_pulseout_ovf_callback ovf_callback_;
 
 /* Public functions */
 
-void gem_pulseout_init(const struct GemPulseOutConfig* po) {
+void gem_pulseout_init(const struct GemPulseOutConfig* po, gem_pulseout_ovf_callback ovf_callback) {
     /* Enable the APB clock for TCC0 & TCC1. */
     PM->APBCMASK.reg |= PM_APBCMASK_TCC0 | PM_APBCMASK_TCC1;
 
@@ -19,48 +25,13 @@ void gem_pulseout_init(const struct GemPulseOutConfig* po) {
     GCLK->CLKCTRL.reg = GCLK_CLKCTRL_CLKEN | po->gclk | GCLK_CLKCTRL_ID_TCC0_TCC1;
     while (GCLK->STATUS.bit.SYNCBUSY) {};
 
-    /* Reset TCCs. */
-    TCC0->CTRLA.bit.ENABLE = 0;
-    while (TCC0->SYNCBUSY.bit.ENABLE) {};
-    TCC0->CTRLA.bit.SWRST = 1;
-    while (TCC0->SYNCBUSY.bit.SWRST || TCC0->CTRLA.bit.SWRST) {};
-    TCC1->CTRLA.bit.ENABLE = 0;
-    while (TCC1->SYNCBUSY.bit.ENABLE) {};
-    TCC1->CTRLA.bit.SWRST = 1;
-    while (TCC1->SYNCBUSY.bit.SWRST || TCC1->CTRLA.bit.SWRST) {};
+    setup_tcc_(TCC0, po->tcc0_wo, po->tcc0_pin);
+    setup_tcc_(TCC1, po->tcc1_wo, po->tcc1_pin);
 
-    /* Configure the clock prescaler for each TCC.
-        This lets you divide up the clocks frequency to make the TCC count slower
-        than the clock. In this case, I'm dividing the 8MHz clock by 16 making the
-        TCC operate at 500kHz. This means each count (or "tick") is 2us.
-    */
-    TCC0->CTRLA.reg |= po->gclk_div;
-    TCC1->CTRLA.reg |= po->gclk_div;
-
-    /* Use "Normal PWM" */
-    TCC0->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM;
-    while (TCC0->SYNCBUSY.bit.WAVE) {};
-    TCC1->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM;
-    while (TCC1->SYNCBUSY.bit.WAVE) {};
-
-    /* We have to set some sort of period to begin with, otherwise the
-        double-buffered writes won't work. */
-    TCC0->PER.reg = 100;
-    TCC1->PER.reg = 100;
-
-    /* Configure pins. */
-    WntrGPIOPin_configure_alt(po->tcc0_pin);
-    WntrGPIOPin_configure_alt(po->tcc1_pin);
-
-    /* Enable output */
-    TCC0->CTRLA.reg |= (TCC_CTRLA_ENABLE);
-    while (TCC0->SYNCBUSY.bit.ENABLE) {};
-    TCC1->CTRLA.reg |= (TCC_CTRLA_ENABLE);
-    while (TCC1->SYNCBUSY.bit.ENABLE) {};
-
-    /* Enable interrupt. */
+    /* Enable interrupts */
+    ovf_callback_ = ovf_callback;
     TCC0->INTENSET.bit.OVF = 1;
-    NVIC_SetPriority(TCC0_IRQn, 1);
+    NVIC_SetPriority(TCC0_IRQn, 0);
     NVIC_EnableIRQ(TCC0_IRQn);
 }
 
@@ -76,12 +47,12 @@ void gem_pulseout_set_period(const struct GemPulseOutConfig* po, uint8_t channel
     */
     switch (channel) {
         case 0:
-            TCC0->PERB.bit.PERB = period;
+            TCC0->PER.bit.PER = period;
             TCC0->CCB[po->tcc0_wo % 4].reg = (uint32_t)(period / 2);
             break;
 
         case 1:
-            TCC1->PERB.bit.PERB = period;
+            TCC1->PER.bit.PER = period;
             TCC1->CCB[po->tcc1_wo % 4].reg = (uint32_t)(period / 2);
             break;
 
@@ -90,14 +61,48 @@ void gem_pulseout_set_period(const struct GemPulseOutConfig* po, uint8_t channel
     }
 }
 
-void gem_pulseout_hard_sync(bool state) { hard_sync_ = state; }
+/* Interrupt handlers */
 
-void TCC0_Handler(void) RAMFUNC;
-
-void TCC0_Handler(void) {
-    TCC0->INTFLAG.reg = TCC_INTFLAG_OVF;
-
-    if (hard_sync_) {
-        TCC1->CTRLBSET.reg = TCC_CTRLBSET_CMD_RETRIGGER;
+void RAMFUNC TCC0_Handler(void) {
+    TCC0->INTFLAG.reg = TCC_INTFLAG_MASK;
+    if (ovf_callback_) {
+        ovf_callback_(0);
     }
+}
+
+/* Private functions */
+
+static void setup_tcc_(Tcc* tcc, size_t wo, const struct WntrGPIOPin pin) {
+    /* Reset */
+    tcc->CTRLA.bit.ENABLE = 0;
+    while (tcc->SYNCBUSY.bit.ENABLE) {};
+    tcc->CTRLA.bit.SWRST = 1;
+    while (tcc->SYNCBUSY.bit.SWRST || tcc->CTRLA.bit.SWRST) {};
+
+    /* Configure the TCC
+    - No clock division.
+    - Change the direction to count downwards, which makes it easier to change the PER register
+        without worrying about the counter counting past the TOP value. See Datasheet Figure 31-10.
+    */
+    tcc->CTRLA.reg |= TCC_CTRLA_PRESCALER_DIV1;
+    tcc->CTRLBSET.bit.DIR = 1;
+
+    /* Configure the waveform output.
+    - Use "Normal PWM", which generates a full cycle of a square wave every period.
+    - Invert the polarity of the square wave outputs.
+    */
+    tcc->WAVE.reg = TCC_WAVE_WAVEGEN_NPWM | TCC_WAVE_POL0 | TCC_WAVE_POL1 | TCC_WAVE_POL2 | TCC_WAVE_POL3;
+    while (tcc->SYNCBUSY.bit.WAVE) {};
+
+    /* Give the period and compare registers initial values */
+    tcc->PER.bit.PER = 100;
+    tcc->CC[wo].reg = 1;
+
+    /* Configure pins. */
+    WntrGPIOPin_set_as_output(pin);
+    WntrGPIOPin_configure_alt(pin);
+
+    /* Enable the timer */
+    tcc->CTRLA.reg |= (TCC_CTRLA_ENABLE);
+    while (tcc->SYNCBUSY.bit.ENABLE) {};
 }

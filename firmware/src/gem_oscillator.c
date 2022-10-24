@@ -6,6 +6,9 @@
 
 #include "gem_oscillator.h"
 #include "gem_config.h"
+#include "gem_math.h"
+#include "gem_pulseout.h"
+#include "gem_ramp_table.h"
 #include "wntr_bezier.h"
 #include "wntr_uint12.h"
 
@@ -33,8 +36,6 @@ void GemOscillator_init(
     enum GemADCChannel pitch_knob_channel,
     enum GemADCChannel pulse_width_cv_channel,
     enum GemADCChannel pulse_width_knob_channel,
-    fix16_t smooth_initial_gain,
-    fix16_t smooth_sensitivity,
     fix16_t cv_base_offset,
     fix16_t cv_min,
     fix16_t cv_max,
@@ -57,12 +58,7 @@ void GemOscillator_init(
     osc->lfo_pwm = lfo_pwm;
     osc->lfo_pitch = false;
     osc->pulse_width_bitmask = pulse_width_bitmask;
-
-    osc->outputs = (struct GemOscillatorOutputs){};
-    osc->smooth.initial_gain = smooth_initial_gain;
-    osc->smooth.sensitivity = smooth_sensitivity;
-    osc->smooth._lowpass1 = F16(0);
-    osc->smooth._lowpass2 = F16(0);
+    osc->ramp_cv = 0;
     osc->pitch = F16(0);
     osc->pulse_width = 2048;
 }
@@ -72,28 +68,25 @@ void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs 
     calculate_pulse_width_(osc, inputs);
 }
 
-void GemOscillator_post_update(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
-    /*
-        Apply dynamic smoothing to reduce noise from the ADC inputs.
-        This is done in post update so that main() can grab Castor's unfiltered
-        value so if Pollux is following Castor it will be lock-step instead of
-        lagging slightly behind.
-    */
-    osc->pitch = WntrSmoothie_step(&osc->smooth, osc->pitch);
-
+void GemOscillator_post_update(
+    const struct GemPulseOutConfig* pulseout, struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
     /* Apply LFO to pitch if its enabled for this oscillator. */
     if (osc->lfo_pitch) {
         osc->pitch = fix16_add(osc->pitch, inputs.lfo_pitch);
     }
 
-    /* Limit the pitch value so that its with the note table. */
+    /* Limit the pitch value so that its within the note table. */
     osc->pitch = fix16_clamp(osc->pitch, F16(0), F16(7));
 
     /*
         Use the note and charge look-up tables to calculate the outputs for the
         oscillator.
     */
-    GemOscillatorOutputs_calculate(osc->number, osc->pitch, &osc->outputs);
+    fix16_t freq_hz = gem_voct_to_frequency(osc->pitch);
+    uint64_t freq_millihz = gem_frequency_to_millihertz_f16_u64(freq_hz);
+
+    osc->pulseout_period = gem_pulseout_frequency_to_period(pulseout, freq_millihz);
+    osc->ramp_cv = gem_ramp_table_lookup(osc->number, osc->pitch);
 }
 
 /* Private functions */
@@ -103,7 +96,6 @@ static void calculate_pitch_cv_(struct GemOscillator* osc, struct GemOscillatorI
         The basic pitch CV determination formula is:
         (base offset) + (CV in * CV_RANGE) + ((CV knob * KNOB_RANGE) - KNOB_RANGE / 2)
     */
-
     uint16_t cv_adc_code = inputs.adc[osc->pitch_cv_channel];
 
     /*

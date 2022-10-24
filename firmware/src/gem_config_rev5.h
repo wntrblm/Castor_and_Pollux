@@ -28,23 +28,23 @@ static const struct GemADCConfig GEM_REV5_ADC_CFG = {
     // Gemini has GCLK0 @ 48Mhz so 48MHz / 32 = 1,500 kHz ADC clock.
     .gclk = GCLK_CLKCTRL_GEN_GCLK0,
     .gclk_prescaler = ADC_CTRLB_PRESCALER_DIV32,
-    // Max impedance is 59,851 kOhms
-    .sample_time = 5,
+    // Max impedance is 17,617 kOhms
+    .sample_time = 1,
     // Record and average 32 samples for each measurement.
     .sample_num = ADC_AVGCTRL_SAMPLENUM_32,
     .adjres = ADC_AVGCTRL_ADJRES(4),
 };
 
 static const struct GemADCInput GEM_REV5_ADC_INPUTS[] = {
-    GEM_ADC_INPUT(A, 7, 7),           // CV A
-    GEM_ADC_INPUT(B, 2, 10),          // CV A Pot
-    GEM_ADC_INPUT(A, 6, 6),           // CV B
-    GEM_ADC_INPUT(B, 3, 11),          // CV B Pot
     GEM_ADC_INPUT_INVERTED(A, 5, 5),  // Duty A
     GEM_ADC_INPUT(A, 10, 18),         // Duty A Pot
     GEM_ADC_INPUT_INVERTED(B, 9, 3),  // Duty B
     GEM_ADC_INPUT(A, 8, 16),          // Duty B Pot
     GEM_ADC_INPUT(A, 9, 17),          // Chorus pot
+    GEM_ADC_INPUT(B, 2, 10),          // CV A Pot
+    GEM_ADC_INPUT(B, 3, 11),          // CV B Pot
+    GEM_ADC_INPUT(A, 7, 7),           // CV A
+    GEM_ADC_INPUT(A, 6, 6),           // CV B
 };
 
 /*
@@ -61,7 +61,7 @@ static const struct GemOscillatorInputConfig GEM_REV5_OSC_INPUT_CFG = {.cv_min =
 */
 static const struct GemPulseOutConfig GEM_REV5_PULSE_OUT_CFG = {
     .gclk = GCLK_CLKCTRL_GEN_GCLK1,
-    .gclk_div = TCC_CTRLA_PRESCALER_DIV1,
+    .gclk_freq = 8000000,
     .tcc0_pin = WNTR_GPIO_PIN_ALT(A, 12, F),
     .tcc0_wo = 6,
     .tcc1_pin = WNTR_GPIO_PIN_ALT(A, 11, E),
@@ -75,8 +75,8 @@ static const struct GemI2CConfig GEM_REV5_I2C_CFG = {
     .gclk = GCLK_CLKCTRL_GEN_GCLK1,
     .gclk_freq = 8000000,
     .baudrate = 400000,
-    .rise_time = 300,
-    .wait_timeout = 100000,
+    .rise_time = 30,
+    .wait_timeout = 10000,
     .sercom = SERCOM3,
     .apbcmask = PM_APBCMASK_SERCOM3,
     .clkctrl_id = GCLK_CLKCTRL_ID_SERCOM3_CORE,
@@ -110,4 +110,4 @@ static const struct GemDotstarCfg GEM_REV5_DOTSTAR_CFG = {
     Revision 5 detection pin. On revisions 1-4, this pin is floating.
     On revision 5 this pin is tied to ground.
 */
-static const struct WntrGPIOPin rev5_pin_ = WNTR_GPIO_PIN(A, 27);
+#define GEM_REV5_PIN WNTR_GPIO_PIN(A, 27)

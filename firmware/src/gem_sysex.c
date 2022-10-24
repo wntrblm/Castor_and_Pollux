@@ -8,12 +8,12 @@
 #include "gem_adc.h"
 #include "gem_config.h"
 #include "gem_led_animation.h"
-#include "gem_lookup_tables.h"
+#include "gem_math.h"
 #include "gem_mcp4728.h"
 #include "gem_pulseout.h"
+#include "gem_ramp_table.h"
 #include "gem_settings.h"
 #include "gem_settings_load_save.h"
-#include "gem_usb.h"
 #include "printf.h"
 #include "teeth.h"
 #include "wntr_assert.h"
@@ -24,6 +24,7 @@
 #include "wntr_pack.h"
 #include "wntr_serial_number.h"
 #include "wntr_ticks.h"
+#include "wntr_usb.h"
 #include <string.h>
 
 /* Macros & defs */
@@ -73,7 +74,6 @@ static void cmd_0x02_write_adc_gain_(const uint8_t* data, size_t len);
 static void cmd_0x03_write_adc_offset_(const uint8_t* data, size_t len);
 static void cmd_0x04_read_adc_(const uint8_t* data, size_t len);
 static void cmd_0x05_set_dac_(const uint8_t* data, size_t len);
-static void cmd_0x06_set_period_(const uint8_t* data, size_t len);
 static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len);
 static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len);
 static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len);
@@ -87,6 +87,7 @@ static void cmd_0x12_enter_calibration_mode_(const uint8_t* data, size_t len);
 static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len);
 static void cmd_0x18_read_settings_(const uint8_t* data, size_t len);
 static void cmd_0x19_write_settings_(const uint8_t* data, size_t len);
+static void cmd_0x20_set_frequency_(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
@@ -101,7 +102,6 @@ void gem_sysex_init(
     wntr_midi_register_sysex_command(0x03, cmd_0x03_write_adc_offset_);
     wntr_midi_register_sysex_command(0x04, cmd_0x04_read_adc_);
     wntr_midi_register_sysex_command(0x05, cmd_0x05_set_dac_);
-    wntr_midi_register_sysex_command(0x06, cmd_0x06_set_period_);
     wntr_midi_register_sysex_command(0x07, cmd_0x07_erase_settings_);
     wntr_midi_register_sysex_command(0x0A, cmd_0x0A_write_lut_entry_);
     wntr_midi_register_sysex_command(0x0B, cmd_0x0B_write_lut_);
@@ -115,6 +115,7 @@ void gem_sysex_init(
     wntr_midi_register_sysex_command(0x13, cmd_0x13_reset_into_bootloader_);
     wntr_midi_register_sysex_command(0x18, cmd_0x18_read_settings_);
     wntr_midi_register_sysex_command(0x19, cmd_0x19_write_settings_);
+    wntr_midi_register_sysex_command(0x20, cmd_0x20_set_frequency_);
 };
 
 void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
@@ -236,19 +237,6 @@ static void cmd_0x05_set_dac_(const uint8_t* data, size_t len) {
     debug_printf("SysEx 0x04: Set DACs to %u, %u, %u, %u. Result: %u\n", a, b, c, d, res);
 }
 
-static void cmd_0x06_set_period_(const uint8_t* data, size_t len) {
-    /* Request (teeth): CHANNEL(1) PERIOD(4) */
-    (void)(len);
-    DECODE_TEETH_REQUEST(5);
-
-    uint8_t channel = request[0];
-    uint32_t period = WNTR_UNPACK_32(request, 1);
-
-    gem_pulseout_set_period(pulse_, channel, period);
-
-    debug_printf("SysEx 0x06: Set period for osc %u to %u\n", channel, period);
-}
-
 static void cmd_0x07_erase_settings_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
@@ -297,11 +285,10 @@ static void cmd_0x19_write_settings_(const uint8_t* data, size_t len) {
 }
 
 static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
-    /* Request (teeth): ENTRY(1) PERIOD(4) CASTOR_CODE(2) POLLUX_CODE(2) */
+    /* Request (teeth): ENTRY(1) PITCH_CV(4) (unused) CASTOR_CODE(2) POLLUX_CODE(2) */
     DECODE_TEETH_REQUEST(9);
 
     size_t entry = request[0];
-    uint32_t period = WNTR_UNPACK_32(request, 1);
     uint16_t castor_code = WNTR_UNPACK_16(request, 5);
     uint16_t pollux_code = WNTR_UNPACK_16(request, 7);
 
@@ -309,7 +296,6 @@ static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
         return;
     }
 
-    gem_ramp_table[entry].period = period;
     gem_ramp_table[entry].castor_ramp_cv = castor_code;
     gem_ramp_table[entry].pollux_ramp_cv = pollux_code;
 
@@ -317,9 +303,8 @@ static void cmd_0x0A_write_lut_entry_(const uint8_t* data, size_t len) {
     RESPONSE_0(0x0A);
 
     debug_printf(
-        "SysEXx 0x0A: Set LUT entry %u to period=%u, castor_ramp_cv=%u, pollux_ramp_cv=%u\n",
+        "SysEX 0x0A: Set LUT entry %u to pitch_cv=UNUSED, castor_ramp_cv=%u, pollux_ramp_cv=%u\n",
         entry,
-        period,
         castor_code,
         pollux_code);
 }
@@ -328,7 +313,7 @@ static void cmd_0x0B_write_lut_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    gem_save_ramp_table();
+    gem_ramp_table_save();
 
     debug_printf("SysEx 0x0B: Saved LUT table to NVRAM\n");
 }
@@ -337,7 +322,7 @@ static void cmd_0x0C_erase_lut_(const uint8_t* data, size_t len) {
     (void)(data);
     (void)(len);
 
-    gem_erase_ramp_table();
+    gem_ramp_table_erase();
 
     debug_printf("SysEx 0x0B: Erased LUT table from NVRAM\n");
 }
@@ -419,4 +404,18 @@ static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len) {
     debug_printf("SysEx 0x13: Reset into bootloader.\n");
 
     wntr_reset_into_bootloader();
+}
+
+static void cmd_0x20_set_frequency_(const uint8_t* data, size_t len) {
+    /* Request (teeth): CHANNEL(1) FREQUENCY(4) */
+    (void)(len);
+    DECODE_TEETH_REQUEST(5);
+
+    uint8_t channel = request[0];
+    fix16_t freq_hz = WNTR_UNPACK_32(request, 1);
+
+    uint64_t freq_millihz = gem_frequency_to_millihertz_f16_u64(freq_hz);
+    gem_pulseout_set_frequency(pulse_, channel, freq_millihz);
+
+    debug_printf("SysEx 0x20: Set period for osc %u to %u milliHertz\n", channel, freq_millihz);
 }
