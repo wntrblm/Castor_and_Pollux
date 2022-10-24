@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name "testkit-adapter-rescue")(type "Legacy")(uri "${KIPRJMOD}/hubble-lens-rescue.lib")(options "")(descr ""))
+  (lib (name "hubble-lens-rescue")(type "Legacy")(uri "${KIPRJMOD}/hubble-lens-rescue.lib")(options "")(descr ""))
 )
