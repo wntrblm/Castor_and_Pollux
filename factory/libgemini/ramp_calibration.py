@@ -81,7 +81,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
                 ),
             )
 
-            print(f"Calibrating ramp for {frequency=:.2f} Hz {period=}")
+            print(f"Calibrating ramp for {frequency=:.2f} Hz")
 
             # If we've measured more than twice, we have enough info to determine
             # the slope of the charge voltage - it should be pretty much linear, so
@@ -98,7 +98,7 @@ def _calibrate_oscillator(gem, scope, oscillator):
                     f"[italic]Guessed DAC code as {dac_code} from slope {slope:02f}[/]"
                 )
 
-            gem.set_period(oscillator, period)
+            gem.set_frequency(oscillator, frequency)
 
             if dac_code < 4095:
                 calibrated_code = _manual_seek(gem, dac_code)
@@ -128,8 +128,8 @@ def run(save):
     time.sleep(0.1)
 
     initial_period, initial_dac_code = next(iter(period_to_dac_code.items()))
-    gem.set_period(0, initial_period)
-    gem.set_period(1, initial_period)
+    gem.set_frequency(0, oscillators.timer_period_to_frequency(initial_period))
+    gem.set_frequency(1, oscillators.timer_period_to_frequency(initial_period))
     gem.set_dac(initial_dac_code, 2048, initial_dac_code, 2048)
 
     # scope.reset()
