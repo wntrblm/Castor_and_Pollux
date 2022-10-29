@@ -96,7 +96,7 @@ static void setup_tcc_(Tcc* tcc, size_t wo, const struct WntrGPIOPin pin) {
 
     /* Give the period and compare registers initial values */
     tcc->PER.bit.PER = 100;
-    tcc->CC[wo].reg = 1;
+    tcc->CC[wo % 4].reg = 1;
 
     /* Configure pins. */
     WntrGPIOPin_set_as_output(pin);
