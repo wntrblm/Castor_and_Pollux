@@ -295,7 +295,7 @@ static inline __attribute__((always_inline)) void update_dac_() {
         The output voltage goes into a comparator that compares against the
         ramp waveform to generate a pulse.
     */
-    if (board_revision_ < 5) {
+    if (board_revision_ >= 5) {
         gem_mcp_4728_write_channels(
             i2c_cfg_,
             (struct GemMCP4278Channel){.value = pollux_.ramp_cv},

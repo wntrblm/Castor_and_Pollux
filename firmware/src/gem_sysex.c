@@ -411,7 +411,7 @@ static void cmd_0x20_set_frequency_(const uint8_t* data, size_t len) {
     (void)(len);
     DECODE_TEETH_REQUEST(5);
 
-    uint8_t channel = request[0];
+    uint8_t channel = request[0] == 1 ? 0 : 1;
     fix16_t freq_hz = WNTR_UNPACK_32(request, 1);
 
     uint64_t freq_millihz = gem_frequency_to_millihertz_f16_u64(freq_hz);

@@ -13,7 +13,7 @@ from wintertools import midi, teeth
 from libgemini import gem_monitor_update, gem_settings
 
 
-def _fix16(val):
+def _encode_fix16(val):
     if val >= 0:
         return int(val * 65536.0 + 0.5)
     else:
