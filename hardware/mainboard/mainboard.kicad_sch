@@ -1023,10 +1023,10 @@
       (reference "R1") (unit 1) (value "2k2") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0bdef2"
-      (reference "R2") (unit 1) (value "4k7") (footprint "winterbloom:R_0402_HandSolder")
+      (reference "R2") (unit 1) (value "2k2") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f09eaa6/00000000-0000-0000-0000-00005f0bdb92"
-      (reference "R3") (unit 1) (value "4k7") (footprint "winterbloom:R_0402_HandSolder")
+      (reference "R3") (unit 1) (value "2k2") (footprint "winterbloom:R_0402_HandSolder")
     )
     (path "/00000000-0000-0000-0000-00005f3674a8/00000000-0000-0000-0000-00005f368c48"
       (reference "R4") (unit 1) (value "100k") (footprint "winterbloom:R_0402_HandSolder")
