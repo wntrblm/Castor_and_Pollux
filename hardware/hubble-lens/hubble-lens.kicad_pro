@@ -458,7 +458,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "hubble-lens.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
