@@ -30,3 +30,6 @@ fp-info-cache
 gerbers/
 *-backups/
 */#auto_saved_files#
+
+# FreeCAD files
+*.FCStd1
