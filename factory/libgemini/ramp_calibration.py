@@ -179,7 +179,7 @@ def run(save):
         gem.write_lut()
 
         print("✓ Saved ramp table to NVM")
-        print("checksum: {checksum:04x}")
+        print(f"checksum: {checksum:04x}")
 
     else:
         print("[italic]Dry run enabled, ramp table not saved to device.[/]")

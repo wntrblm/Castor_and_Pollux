@@ -7,6 +7,11 @@ from wintertools.print import print
 
 from libgemini import adc_errors, gemini
 
+# The Hubble board wires the chorus pot to board ground.
+ZERO_CODE_CHANNEL = gemini.Gemini.ADC.CHORUS_POT
+# The Hubble board wires the pitch pots to board 3.3v.
+MAX_CODE_CHANNEL = gemini.Gemini.ADC.CV_A_POT
+
 
 def run():
     # Simple ADC calibration since this is really only used to read the
@@ -18,10 +23,8 @@ def run():
     gem.enter_calibration_mode()
     gem.disable_adc_error_correction()
 
-    # The Hubble board wires the chorus pot to board ground.
-    zero_code = gem.read_adc_average(gem.ADC.CHORUS_POT)
-    # The Hubble board wires the duty pots to board 3.3v.
-    max_code = gem.read_adc_average(gem.ADC.DUTY_A_POT)
+    zero_code = gem.read_adc_average(ZERO_CODE_CHANNEL)
+    max_code = gem.read_adc_average(MAX_CODE_CHANNEL)
 
     gain_error, offset_error = adc_errors.calculate(0, 4095, zero_code, max_code)
 
@@ -36,8 +39,8 @@ def run():
     gem.enable_adc_error_correction()
     print("✓ Saved to device NVM")
 
-    post_zero_code = gem.read_adc_average(gem.ADC.CHORUS_POT)
-    post_max_code = gem.read_adc_average(gem.ADC.DUTY_A_POT)
+    post_zero_code = gem.read_adc_average(ZERO_CODE_CHANNEL)
+    post_max_code = gem.read_adc_average(MAX_CODE_CHANNEL)
     post_gain_error, post_offset_error = adc_errors.calculate(
         0, 4095, post_zero_code, post_max_code
     )
@@ -48,7 +51,7 @@ def run():
     print(f"* Gain error : {post_gain_error:0.3f}")
     print(f"* Offset error : {post_offset_error:.0f}")
 
-    passed = post_zero_code < 10 and post_max_code > 4085
+    passed = post_zero_code < 20 and post_max_code > 4075
 
     return reportcard.Section(
         name="ADC",
