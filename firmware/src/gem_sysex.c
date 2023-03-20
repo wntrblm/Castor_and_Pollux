@@ -118,6 +118,8 @@ void gem_sysex_init(
     wntr_midi_register_sysex_command(0x20, cmd_0x20_set_frequency_);
 };
 
+bool gem_sysex_monitor_enabled() { return monitor_enabled_; }
+
 void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update) {
     if (!monitor_enabled_) {
         return;

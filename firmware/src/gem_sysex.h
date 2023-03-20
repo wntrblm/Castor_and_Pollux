@@ -19,4 +19,5 @@
 void gem_sysex_init(
     const struct GemADCInput* adc_inputs, const struct GemI2CConfig* i2c, const struct GemPulseOutConfig* pulse);
 
+bool gem_sysex_monitor_enabled();
 void gem_sysex_send_monitor_update(struct GemMonitorUpdate* update);

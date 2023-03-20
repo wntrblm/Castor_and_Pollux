@@ -163,8 +163,7 @@ static void init_() {
 
     /*
         Gemini uses the WntrButton helper for the hard sync button since it
-        needs to know when the button is tapped (to toggle hard sync) or
-        held (to enter tweak mode).
+        needs to know when the button is tapped vs held.
     */
     hard_sync_button_.pin = button_pin_.pin;
     hard_sync_button_.port = button_pin_.port;
@@ -319,7 +318,7 @@ static inline __attribute__((always_inline)) void update_dac_() {
 */
 
 static RAMFUNC void oscillator_task_() {
-    uint32_t loop_start_time = wntr_ticks();
+    uint32_t now = wntr_ticks();
 
     /* Toggle hard sync if the button has been tapped. */
     WntrButton_update(&hard_sync_button_);
@@ -336,7 +335,7 @@ static RAMFUNC void oscillator_task_() {
     /*
         Update the internal LFO used for modulating pitch and pulse width.
     */
-    fix16_t lfo_value = WntrMixedPeriodicWaveform_step(&lfo_, loop_start_time);
+    fix16_t lfo_value = WntrMixedPeriodicWaveform_step(&lfo_, now);
     gem_led_tweak_data.lfo_value = lfo_value;
     fix16_t pitch_lfo_intensity = UINT12_NORMALIZE(adc_results_[GEM_IN_CHORUS_POT]);
     fix16_t pitch_lfo_value = fix16_mul(settings_.chorus_max_intensity, fix16_mul(pitch_lfo_intensity, lfo_value));
@@ -379,16 +378,22 @@ static RAMFUNC void oscillator_task_() {
     __enable_irq();
 
     update_dac_();
+}
 
-    /*
-        Update the loop timer.
-    */
-    uint16_t loop_time = (uint16_t)(wntr_ticks() - loop_start_time);
+static uint16_t last_loop_time_ = 0;
+
+static RAMFUNC void monitor_task_() {
+    if (!gem_sysex_monitor_enabled()) {
+        return;
+    }
 
     /*
         To help with testing and debugging, Gemini can send its state over
         MIDI SysEx to the monitoring script in `/factory/monitor.py`.
     */
+
+    uint16_t loop_time = (uint16_t)(wntr_ticks() - last_loop_time_);
+
     struct GemMonitorUpdate monitor_update = {
         .castor_pitch_knob = castor_.pitch_knob,
         .castor_pitch_cv = castor_.pitch_cv,
@@ -399,12 +404,15 @@ static RAMFUNC void oscillator_task_() {
         .pollux_pulse_width_knob = pollux_.pulse_width_knob,
         .pollux_pulse_width_cv = pollux_.pulse_width_cv,
         .button_state = hard_sync_button_.state,
-        .lfo_intensity = pitch_lfo_intensity,
+        // TODO: Re-enable
+        //.lfo_intensity = pitch_lfo_intensity,
         .loop_time = loop_time,
         .animation_time = (uint16_t)(animation_time_),
         .sample_time = (uint16_t)(idle_cycles_)};
 
     gem_sysex_send_monitor_update(&monitor_update);
+
+    last_loop_time_ = wntr_ticks();
 }
 
 /*
@@ -520,6 +528,7 @@ int main(void) {
             last_sample_time = wntr_ticks();
             oscillator_task_();
             tweak_task_();
+            monitor_task_();
             idle_cycles_ = 0;
         } else {
             idle_cycles_++;
