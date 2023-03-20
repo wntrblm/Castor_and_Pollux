@@ -12,6 +12,7 @@
 #include "gem_i2c.h"
 #include "gem_led_animation.h"
 #include "gem_mcp4728.h"
+#include "gem_mode.h"
 #include "gem_monitor_update.h"
 #include "gem_oscillator.h"
 #include "gem_pulseout.h"

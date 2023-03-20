@@ -36,16 +36,22 @@ void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs 
     fix16_t pitch;
     bool zero = UINT12_INVERT(inputs.pitch_cv_code) < osc->nonzero_threshold;
 
-    // "coarse" pitch mode is used when the pitch jack isn't connected.
-    if (!osc->can_follow && zero) {
-        pitch = fix16_add(osc->pitch_offset, gem_oscillator_calc_pitch_knob(F16(0), F16(6), 0, inputs.pitch_knob_code));
-        // TODO: quantize
+    // "coarse" pitch mode is used when the pitch jack isn't connected to Castor
+    if (osc->number == 0 && zero) {
+        pitch = gem_oscillator_calc_pitch_knob(F16(0), F16(6), 0, inputs.pitch_knob_code);
+
+        // quantize
+        pitch = fix16_mul(pitch, F16(12));
+        pitch = fix16_floor(fix16_add(pitch, F16(0.5)));
+        pitch = fix16_div(pitch, F16(12));
+
+        pitch = fix16_add(osc->pitch_offset, pitch);
     }
 
-    // "follow" mode is used when the pitch jack is unpatched and we're working with the
-    // second oscillator.
+    // "follow" mode is used by Pollux when both Castor & Pollux don't have any
+    // pitch CV patched.
     // pitch = reference pitch + knob
-    else if (osc->can_follow && zero) {
+    else if (osc->number == 1 && zero) {
         pitch = fix16_add(
             inputs.reference_pitch,
             gem_oscillator_calc_pitch_knob(

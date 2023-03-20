@@ -11,7 +11,7 @@
 /* Constants and macros */
 
 #define DEBOUNCE_TRESHOLD 2 /* Milliseconds */
-#define HOLD_THRESHOLD 200  /* Miliseconds */
+#define HOLD_THRESHOLD 500  /* Miliseconds */
 
 /* Public functions */
 

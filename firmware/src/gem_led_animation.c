@@ -26,16 +26,19 @@ static const uint32_t hue_offsets_[GEM_MAX_DOTSTAR_COUNT] = {
     65355 / GEM_MAX_DOTSTAR_COUNT * 4,
     65355 / GEM_MAX_DOTSTAR_COUNT * 3,
 };
-static enum GemLEDAnimationMode mode_ = GEM_LED_MODE_NORMAL;
+static enum GemMode mode_ = GEM_MODE_NORMAL;
 static uint32_t last_update_;
 static fix16_t phase_a_ = F16(0);
 static uint32_t hue_accum_;
 static uint8_t sparkles_[GEM_MAX_DOTSTAR_COUNT];
+static bool transitioning_ = false;
 
 /* Forward declarations. */
 
+static void animation_step_transition_(const struct GemDotstarCfg* dotstar, uint32_t delta) RAMFUNC;
+static void animation_step_sparkles_(const struct GemDotstarCfg* dotstar, uint32_t delta) RAMFUNC;
 static void animation_step_normal_(const struct GemDotstarCfg* dotstar, uint32_t delta) RAMFUNC;
-static void animation_step_hard_sync_(const struct GemDotstarCfg* dotstar, uint32_t delta) RAMFUNC;
+// static void animation_step_single_hue_(const struct GemDotstarCfg* dotstar, uint16_t hue, uint32_t delta) RAMFUNC;
 static void animation_step_calibration_(const struct GemDotstarCfg* dotstar, uint32_t ticks);
 static void animation_step_tweak_(const struct GemDotstarCfg* dotstar, uint32_t ticks) RAMFUNC;
 
@@ -43,7 +46,11 @@ static void animation_step_tweak_(const struct GemDotstarCfg* dotstar, uint32_t 
 
 void gem_led_animation_init() { last_update_ = wntr_ticks(); }
 
-void gem_led_animation_set_mode(enum GemLEDAnimationMode mode) { mode_ = mode; }
+void gem_led_animation_set_mode(enum GemMode mode) {
+    mode_ = mode;
+    phase_a_ = F16(0);
+    transitioning_ = true;
+}
 
 bool gem_led_animation_step(const struct GemDotstarCfg* dotstar) {
     uint32_t ticks = wntr_ticks();
@@ -54,28 +61,97 @@ bool gem_led_animation_step(const struct GemDotstarCfg* dotstar) {
 
     last_update_ = ticks;
 
-    switch (mode_) {
-        case GEM_LED_MODE_NORMAL:
-            animation_step_normal_(dotstar, delta);
-            break;
-        case GEM_LED_MODE_HARD_SYNC:
-            animation_step_hard_sync_(dotstar, delta);
-            break;
-        case GEM_LED_MODE_CALIBRATION:
-            animation_step_calibration_(dotstar, ticks);
-            break;
-        case GEM_LED_MODE_TWEAK:
-            animation_step_tweak_(dotstar, delta);
-            break;
-        default:
-            break;
+    if (transitioning_) {
+        animation_step_transition_(dotstar, delta);
+    } else {
+        switch (mode_) {
+            case GEM_MODE_NORMAL:
+                animation_step_normal_(dotstar, delta);
+                animation_step_sparkles_(dotstar, delta);
+                break;
+            case GEM_MODE_LFO_PWM:
+                animation_step_normal_(dotstar, delta);
+                animation_step_sparkles_(dotstar, delta);
+                break;
+            case GEM_MODE_LFO_FM:
+                animation_step_normal_(dotstar, delta);
+                animation_step_sparkles_(dotstar, delta);
+                break;
+            case GEM_MODE_HARD_SYNC:
+                animation_step_normal_(dotstar, delta);
+                animation_step_sparkles_(dotstar, delta);
+                break;
+            case GEM_MODE_CALIBRATION:
+                animation_step_calibration_(dotstar, ticks);
+                break;
+            case GEM_MODE_FLAG_TWEAK:
+                animation_step_tweak_(dotstar, delta);
+                break;
+            default:
+                break;
+        }
     }
+
     gem_dotstar_update(dotstar);
 
     return true;
 }
 
 /* Private functions. */
+
+static void animation_step_transition_(const struct GemDotstarCfg* dotstar, uint32_t delta) {
+    phase_a_ += fix16_div(fix16_from_int(delta), F16(1000.0));
+    if (phase_a_ > F16(1.0)) {
+        transitioning_ = false;
+    }
+
+    uint16_t hue = 0;
+    uint8_t sat = 255;
+
+    switch (mode_) {
+        case GEM_MODE_NORMAL:
+            hue = 13107;
+            break;
+        case GEM_MODE_LFO_FM:
+            hue = 21845;
+            break;
+        case GEM_MODE_LFO_PWM:
+            hue = 39321;
+            break;
+        case GEM_MODE_HARD_SYNC:
+            hue = 52428;
+            break;
+        default:
+            break;
+    }
+
+    for (size_t i = 0; i < dotstar->count; i++) {
+        uint8_t value = (uint8_t)(fix16_to_int(fix16_mul(fix16_sub(F16(1), phase_a_), F16(255))));
+        uint32_t color = wntr_colorspace_hsv_to_rgb(hue, sat, value);
+        gem_dotstar_set32(i, color);
+    }
+}
+
+static void animation_step_sparkles_(const struct GemDotstarCfg* dotstar, uint32_t delta) {
+    for (size_t i = 0; i < dotstar->count; i++) {
+
+        if (wntr_random32() % 400 == 0)
+            sparkles_[i] = 255;
+
+        if (sparkles_[i] == 0) {
+            continue;
+        }
+
+        uint16_t hue = (hue_accum_ + hue_offsets_[i]) % UINT16_MAX;
+        uint32_t color = wntr_colorspace_hsv_to_rgb(hue, 255 - sparkles_[i], 127);
+        gem_dotstar_set32(i, color);
+
+        if (sparkles_[i] <= delta / 4)
+            sparkles_[i] = 0;
+        else
+            sparkles_[i] -= delta / 4;
+    }
+}
 
 static void animation_step_normal_(const struct GemDotstarCfg* dotstar, uint32_t delta) {
     phase_a_ += fix16_div(fix16_from_int(delta), F16(2200.0));
@@ -89,55 +165,25 @@ static void animation_step_normal_(const struct GemDotstarCfg* dotstar, uint32_t
         fix16_t sin_a = wntr_sine_normalized(phase_a_ + phase_offset);
         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
         uint16_t hue = (hue_accum_ + hue_offsets_[i]) % UINT16_MAX;
-        uint32_t color;
-
-        if (wntr_random32() % 400 == 0)
-            sparkles_[i] = 255;
-
-        if (sparkles_[i] == 0) {
-            color = wntr_colorspace_hsv_to_rgb(hue, 255, value);
-        } else {
-            color = wntr_colorspace_hsv_to_rgb(hue, 255 - sparkles_[i], value);
-            if (sparkles_[i] <= delta / 4)
-                sparkles_[i] = 0;
-            else
-                sparkles_[i] -= delta / 4;
-        }
-
+        uint32_t color = wntr_colorspace_hsv_to_rgb(hue, 255, value);
         gem_dotstar_set32(i, color);
     }
 }
 
-static void animation_step_hard_sync_(const struct GemDotstarCfg* dotstar, uint32_t delta) {
-    phase_a_ += fix16_div(fix16_from_int(delta), F16(2200.0));
-    if (phase_a_ > F16(1.0))
-        phase_a_ = fix16_sub(phase_a_, F16(1.0));
+// static void animation_step_single_hue_(const struct GemDotstarCfg* dotstar, uint16_t hue, uint32_t delta) {
+//     phase_a_ += fix16_div(fix16_from_int(delta), F16(2200.0));
+//     if (phase_a_ > F16(1.0))
+//         phase_a_ = fix16_sub(phase_a_, F16(1.0));
 
-    hue_accum_ += delta * 5;
-    uint16_t hue = hue_accum_ % UINT16_MAX;
-
-    for (size_t i = 0; i < dotstar->count; i++) {
-        fix16_t phase_offset = fix16_div(fix16_from_int(i), fix16_from_int(dotstar->count));
-        fix16_t sin_a = wntr_sine_normalized(phase_a_ + phase_offset);
-        uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
-        uint32_t color;
-
-        if (wntr_random32() % 400 == 0)
-            sparkles_[i] = 255;
-
-        if (sparkles_[i] == 0) {
-            color = wntr_colorspace_hsv_to_rgb(hue, 255, value);
-        } else {
-            color = wntr_colorspace_hsv_to_rgb(hue, 255 - sparkles_[i], value);
-            if (sparkles_[i] <= delta / 4)
-                sparkles_[i] = 0;
-            else
-                sparkles_[i] -= delta / 4;
-        }
-
-        gem_dotstar_set32(i, color);
-    }
-}
+//     hue_accum_ = hue;
+//     for (size_t i = 0; i < dotstar->count; i++) {
+//         fix16_t phase_offset = fix16_div(fix16_from_int(i), fix16_from_int(dotstar->count));
+//         fix16_t sin_a = wntr_sine_normalized(phase_a_ + phase_offset);
+//         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
+//         uint32_t color = wntr_colorspace_hsv_to_rgb(hue, 255, value);
+//         gem_dotstar_set32(i, color);
+//     }
+// }
 
 static void animation_step_calibration_(const struct GemDotstarCfg* dotstar, uint32_t ticks) {
     fix16_t bright_time = fix16_div(fix16_from_int(ticks / 2), F16(2000.0));

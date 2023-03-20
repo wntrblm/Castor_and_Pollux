@@ -29,7 +29,7 @@ static const struct GemDotstarCfg* dotstar_cfg_;
 static uint32_t adc_results_live_[GEM_IN_COUNT];
 static uint32_t adc_results_snapshot_[GEM_IN_COUNT];
 static uint32_t* adc_results_ = adc_results_live_;
-static struct WntrButton hard_sync_button_;
+static struct WntrButton button_;
 
 /* State */
 static struct GemSettings settings_;
@@ -42,7 +42,7 @@ static struct {
 static struct WntrMixedPeriodicWaveform lfo_;
 static struct GemOscillator castor_;
 static struct GemOscillator pollux_;
-static bool hard_sync_ = false;
+static enum GemMode mode_ = GEM_MODE_NORMAL;
 
 /* Timekeeping */
 static uint32_t animation_time_ = 0;
@@ -165,9 +165,9 @@ static void init_() {
         Gemini uses the WntrButton helper for the hard sync button since it
         needs to know when the button is tapped vs held.
     */
-    hard_sync_button_.pin = button_pin_.pin;
-    hard_sync_button_.port = button_pin_.port;
-    WntrButton_init(&hard_sync_button_);
+    button_.pin = button_pin_.pin;
+    button_.port = button_pin_.port;
+    WntrButton_init(&button_);
 
     /*
         Oscillator configuration and initialization.
@@ -229,10 +229,10 @@ static void init_() {
         .pulse_width_bitmask = settings_.pulse_width_bitmask,
         // If Pollux doesn't have any pitch CV input it'll follow Castor's
         // pitch. Rev 1-4 detects lack of pitch CV input by checking if Pollux's
-        // pitch CV is near zero. Rev 5 uses a switched jack, so it disables
-        // the firmware-based detection.
-        .can_follow = board_revision_ < 5,
-        .nonzero_threshold = board_revision_ < 5 ? settings_.pollux_follower_threshold : 0,
+        // pitch CV is near zero. Rev 5 has a switched jack, but still does
+        // the near zero check to follow Castor when both pitch inputs are
+        // unpatched.
+        .nonzero_threshold = settings_.pollux_follower_threshold,
         // Pollux allows the LFO to modulate its pitch. This allows the
         // "chorusing" effect when the two oscillators have matching pitches
         // and their outputs are mixed.
@@ -264,7 +264,7 @@ static wntr_periodic_waveform_function lfo_waveshape_setting_to_func_(uint8_t n)
 */
 static void pulse_ovf_callback_(uint8_t inst) {
     (void)inst;
-    if (hard_sync_) {
+    if (mode_ == GEM_MODE_HARD_SYNC) {
         TCC1->CTRLBSET.reg = TCC_CTRLBSET_CMD_RETRIGGER;
     }
 }
@@ -310,18 +310,6 @@ static inline __attribute__((always_inline)) void update_dac_() {
 
 static RAMFUNC void oscillator_task_() {
     uint32_t now = wntr_ticks();
-
-    /* Toggle hard sync if the button has been tapped. */
-    WntrButton_update(&hard_sync_button_);
-
-    if (WntrButton_tapped(&hard_sync_button_)) {
-        hard_sync_ = !hard_sync_;
-        if (hard_sync_) {
-            gem_led_animation_set_mode(GEM_LED_MODE_HARD_SYNC);
-        } else {
-            gem_led_animation_set_mode(GEM_LED_MODE_NORMAL);
-        }
-    }
 
     /*
         Update the internal LFO used for modulating pitch and pulse width.
@@ -416,7 +404,7 @@ static RAMFUNC void monitor_task_() {
             gem_oscillator_calc_pitch_cv(pollux_.pitch_cv_min, pollux_.pitch_cv_max, adc_results_live_[GEM_IN_CV_B]),
         .pollux_pulse_width_knob = adc_results_live_[GEM_IN_DUTY_B_POT],
         .pollux_pulse_width_cv = adc_results_live_[GEM_IN_DUTY_B],
-        .button_state = hard_sync_button_.state,
+        .button_state = button_.state,
         // TODO: Re-enable
         //.lfo_intensity = pitch_lfo_intensity,
         .loop_time = loop_time,
@@ -429,47 +417,53 @@ static RAMFUNC void monitor_task_() {
 }
 
 /*
-    This task is responsible for dealing with the "tweak" interface: when the
-    hard sync button is held down the user can customize module settings using
-    the input knobs.
+    This task is responsible for switching modes as well as dealing with the
+    "tweak" interface: when the button is held down the user can customize
+    module settings using the input knobs.
 */
 
 #define IF_WAGGLED(variable, channel)                                                                                  \
     uint16_t variable = adc_results_live_[channel];                                                                    \
     int32_t variable##_delta = variable - adc_results_snapshot_[channel];                                              \
-    if (labs(variable##_delta) > 50) {                                                                                 \
-        variable = UINT12_INVERT(variable);
+    if (labs(variable##_delta) > 50) {
 #define IF_WAGGLED_END }
 
-static void tweak_task_() {
-    if (WntrButton_held(&hard_sync_button_)) {
-        /*
-            Tweak mode takes over the interface, so don't let the
-            oscillator_step task see changes to the ADC inputs while we're
-            in tweak mode.
+static RAMFUNC void mode_and_tweak_task_() {
+    WntrButton_update(&button_);
 
-            This is done by taking a "snapshot" of the current ADC readings and
-            pointing oscillator_step's `adc_results` to the snapshot. When
-            exiting tweak mode the `adc_results` pointer is set back to the
-            live ADC results.
-        */
-        if (WntrButton_hold_started(&hard_sync_button_)) {
-            memcpy(adc_results_snapshot_, adc_results_live_, GEM_IN_COUNT * sizeof(uint32_t));
-            adc_results_ = adc_results_snapshot_;
-            gem_led_animation_set_mode(GEM_LED_MODE_TWEAK);
-        }
+    // If the button was just tapped the change to the next mode.
+    if (WntrButton_tapped(&button_)) {
+        mode_ = (mode_ + 1) % GEM_MODE_COUNT;
+        gem_led_animation_set_mode(mode_);
+    }
 
+    // Tweak mode takes over the interface, so don't let the
+    // oscillator_step task see changes to the ADC inputs while we're
+    // in tweak mode.
+    //
+    // This is done by taking a "snapshot" of the current ADC readings and
+    // pointing oscillator_step's `adc_results` to the snapshot. When
+    // exiting tweak mode the `adc_results` pointer is set back to the
+    // live ADC results.
+    if (WntrButton_hold_started(&button_)) {
+        memcpy(adc_results_snapshot_, adc_results_live_, GEM_IN_COUNT * sizeof(adc_results_live_[0]));
+        adc_results_ = adc_results_snapshot_;
+        gem_led_animation_set_mode(GEM_MODE_FLAG_TWEAK);
+    }
+
+    // Tweak!
+    if (WntrButton_held(&button_)) {
         /* Chorus intensity knob controls the LFO frequency in tweak mode. */
         IF_WAGGLED(chorus_pot_code, GEM_IN_CHORUS_POT)
             fix16_t frequency_value = UINT12_NORMALIZE(chorus_pot_code);
             lfo_state_.frequencies[0] = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQ);
         IF_WAGGLED_END
-    } else {
-        /* If we just left tweak mode, undo the ADC result trickery. */
-        if (WntrButton_hold_ended(&hard_sync_button_)) {
-            adc_results_ = adc_results_live_;
-            gem_led_animation_set_mode(hard_sync_ ? GEM_LED_MODE_HARD_SYNC : GEM_LED_MODE_NORMAL);
-        }
+    }
+
+    // If we just left tweak mode, undo the ADC result trickery.
+    if (WntrButton_hold_ended(&button_)) {
+        adc_results_ = adc_results_live_;
+        gem_led_animation_set_mode(mode_);
     }
 }
 
@@ -496,6 +490,7 @@ int main(void) {
         */
         wntr_usb_task();
         midi_task_();
+        mode_and_tweak_task_();
 
         /*
             The LED animation task internally ensures that it only runs once
@@ -516,7 +511,6 @@ int main(void) {
             sample_time_ = (uint16_t)(wntr_ticks() - last_sample_time);
             last_sample_time = wntr_ticks();
             oscillator_task_();
-            tweak_task_();
             monitor_task_();
             idle_cycles_ = 0;
         } else {

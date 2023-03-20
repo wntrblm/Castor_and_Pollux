@@ -371,7 +371,7 @@ static void cmd_0x10_monitor_(const uint8_t* data, size_t len) {
 
     if (data[0] > 0) {
         gem_adc_resume_scanning();
-        gem_led_animation_set_mode(GEM_LED_MODE_NORMAL);
+        gem_led_animation_set_mode(GEM_MODE_NORMAL);
         monitor_enabled_ = true;
     } else {
         monitor_enabled_ = false;
@@ -394,7 +394,7 @@ static void cmd_0x12_enter_calibration_mode_(const uint8_t* data, size_t len) {
     (void)len;
 
     gem_adc_stop_scanning();
-    gem_led_animation_set_mode(GEM_LED_MODE_CALIBRATION);
+    gem_led_animation_set_mode(GEM_MODE_CALIBRATION);
 
     debug_printf("SysEx 0x12: Enter calibration mode.\n");
 }

@@ -8,12 +8,11 @@
 
 #include "fix16.h"
 #include "gem_dotstar.h"
+#include "gem_mode.h"
 #include "wntr_ramfunc.h"
 #include <stdbool.h>
 
 /* Routines for animating the LEDs on Gemini's front panel. */
-
-enum GemLEDAnimationMode { GEM_LED_MODE_NORMAL, GEM_LED_MODE_CALIBRATION, GEM_LED_MODE_HARD_SYNC, GEM_LED_MODE_TWEAK };
 
 extern struct GemLEDTweakData {
     fix16_t lfo_value;
@@ -25,4 +24,4 @@ void gem_led_animation_init();
 
 bool gem_led_animation_step(const struct GemDotstarCfg* dotstar) RAMFUNC;
 
-void gem_led_animation_set_mode(enum GemLEDAnimationMode mode);
+void gem_led_animation_set_mode(enum GemMode mode);
