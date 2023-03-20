@@ -50,7 +50,8 @@ static const struct GemADCInput GEM_REV5_ADC_INPUTS[] = {
 /*
     Configuration for the oscillator's input range
 */
-static const struct GemOscillatorInputConfig GEM_REV5_OSC_INPUT_CFG = {.cv_min = F16(-0.5), .cv_max = F16(6.1)};
+static const struct GemOscillatorInputConfig GEM_REV5_OSC_INPUT_CFG = {
+    .pitch_cv_min = F16(-0.5), .pitch_cv_max = F16(6.1)};
 
 /*
     Configuration for the square wave outputs for each oscillator.

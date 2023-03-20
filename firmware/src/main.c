@@ -204,50 +204,41 @@ static void init_() {
         (struct WntrErrorCorrection){.offset = settings_.cv_offset_error, .gain = settings_.cv_gain_error},
         settings_.pitch_knob_nonlinearity);
 
-    GemOscillator_init(
-        &castor_,
-        0,
-        GEM_IN_CV_A,
-        GEM_IN_CV_A_POT,
-        GEM_IN_DUTY_A,
-        GEM_IN_DUTY_A_POT,
-        settings_.base_cv_offset,
-        osc_input_cfg_->cv_min,
-        osc_input_cfg_->cv_max,
-        settings_.castor_knob_min,
-        settings_.castor_knob_max,
-        settings_.castor_lfo_pwm,
-        settings_.pulse_width_bitmask);
+    castor_ = (struct GemOscillator){
+        .number = 0,
+        .pitch_offset = settings_.base_cv_offset,
+        .pitch_cv_min = osc_input_cfg_->pitch_cv_min,
+        .pitch_cv_max = osc_input_cfg_->pitch_cv_max,
+        .lfo_pitch_factor = settings_.chorus_max_intensity,
+        .pitch_knob_min = settings_.castor_knob_min,
+        .pitch_knob_max = settings_.castor_knob_max,
+        .pulse_width_bitmask = settings_.pulse_width_bitmask,
+        .can_follow = false,
+        .nonzero_threshold = settings_.pollux_follower_threshold,
+    };
+    GemOscillator_init(&castor_);
 
-    GemOscillator_init(
-        &pollux_,
-        1,
-        GEM_IN_CV_B,
-        GEM_IN_CV_B_POT,
-        GEM_IN_DUTY_B,
-        GEM_IN_DUTY_B_POT,
-        settings_.base_cv_offset,
-        osc_input_cfg_->cv_min,
-        osc_input_cfg_->cv_max,
-        settings_.pollux_knob_min,
-        settings_.pollux_knob_max,
-        settings_.pollux_lfo_pwm,
-        settings_.pulse_width_bitmask);
-
-    /*
-        The oscillators aren't completely independent: Pollux is special.
-
-        First, if Pollux doesn't have any pitch CV input it'll follow Castor's
-        pitch. Rev 1-4 detects lack of pitch CV input by checking if Pollux's
-        pitch CV is near zero. Rev 5 uses a switched jack, so it disables
-        the firmware-based detection.
-
-        Second, Pollux allows the LFO to modulate its pitch. This allows the
-        "chorusing" effect when the two oscillators have matching pitches
-        and their outputs are mixed.
-    */
-    pollux_.follower_threshold = board_revision_ < 5 ? settings_.pollux_follower_threshold : 0;
-    pollux_.lfo_pitch = true;
+    pollux_ = (struct GemOscillator){
+        .number = 1,
+        .pitch_offset = settings_.base_cv_offset,
+        .pitch_cv_min = osc_input_cfg_->pitch_cv_min,
+        .pitch_cv_max = osc_input_cfg_->pitch_cv_max,
+        .lfo_pitch_factor = settings_.chorus_max_intensity,
+        .pitch_knob_min = settings_.pollux_knob_min,
+        .pitch_knob_max = settings_.pollux_knob_max,
+        .pulse_width_bitmask = settings_.pulse_width_bitmask,
+        // If Pollux doesn't have any pitch CV input it'll follow Castor's
+        // pitch. Rev 1-4 detects lack of pitch CV input by checking if Pollux's
+        // pitch CV is near zero. Rev 5 uses a switched jack, so it disables
+        // the firmware-based detection.
+        .can_follow = board_revision_ < 5,
+        .nonzero_threshold = board_revision_ < 5 ? settings_.pollux_follower_threshold : 0,
+        // Pollux allows the LFO to modulate its pitch. This allows the
+        // "chorusing" effect when the two oscillators have matching pitches
+        // and their outputs are mixed.
+        .apply_lfo_to_pitch = true,
+    };
+    GemOscillator_init(&pollux_);
 
     /* Configure the square wave output for the oscillators */
     gem_pulseout_init(pulse_cfg_, pulse_ovf_callback_);
@@ -337,14 +328,19 @@ static RAMFUNC void oscillator_task_() {
     */
     fix16_t lfo_value = WntrMixedPeriodicWaveform_step(&lfo_, now);
     gem_led_tweak_data.lfo_value = lfo_value;
-    fix16_t pitch_lfo_intensity = UINT12_NORMALIZE(adc_results_[GEM_IN_CHORUS_POT]);
-    fix16_t pitch_lfo_value = fix16_mul(settings_.chorus_max_intensity, fix16_mul(pitch_lfo_intensity, lfo_value));
+    fix16_t lfo_amplitude = UINT12_NORMALIZE(adc_results_[GEM_IN_CHORUS_POT]);
 
     /*
         Update both oscillator's internal state based on the ADC inputs.
     */
     struct GemOscillatorInputs inputs = {
-        .adc = adc_results_, .lfo_pulse_width = lfo_value, .lfo_pitch = pitch_lfo_value};
+        .pitch_cv_code = adc_results_[GEM_IN_CV_A],
+        .pitch_knob_code = adc_results_[GEM_IN_CV_A_POT],
+        .pulse_cv_code = adc_results_[GEM_IN_DUTY_A],
+        .pulse_knob_code = adc_results_[GEM_IN_DUTY_A_POT],
+        .lfo_amplitude = lfo_amplitude,
+        .lfo_phase = lfo_value,
+    };
 
     GemOscillator_update(&castor_, inputs);
 
@@ -354,15 +350,22 @@ static RAMFUNC void oscillator_task_() {
 
         If GemOscillator_update detects no input it'll use the value set here.
     */
+    inputs = (struct GemOscillatorInputs){
+        .pitch_cv_code = adc_results_[GEM_IN_CV_B],
+        .pitch_knob_code = adc_results_[GEM_IN_CV_B_POT],
+        .pulse_cv_code = adc_results_[GEM_IN_DUTY_B],
+        .pulse_knob_code = adc_results_[GEM_IN_DUTY_B_POT],
+        .lfo_amplitude = lfo_amplitude,
+        .lfo_phase = lfo_value,
+        .reference_pitch = castor_.pitch,
+    };
     pollux_.pitch = castor_.pitch;
     GemOscillator_update(&pollux_, inputs);
 
-    /*
-        Oscillator post-update applies pitch smoothing and limiting and
-        finalizes the outputs.
-    */
-    GemOscillator_post_update(pulse_cfg_, &castor_, inputs);
-    GemOscillator_post_update(pulse_cfg_, &pollux_, inputs);
+    // Oscillator post-update applies final values to the oscillator state.
+    // TODO: I can maybe put this in update()?
+    GemOscillator_post_update(pulse_cfg_, &castor_);
+    GemOscillator_post_update(pulse_cfg_, &pollux_);
 
     /*
         Update the timers with their new values calculated from their
@@ -395,14 +398,24 @@ static RAMFUNC void monitor_task_() {
     uint16_t loop_time = (uint16_t)(wntr_ticks() - last_loop_time_);
 
     struct GemMonitorUpdate monitor_update = {
-        .castor_pitch_knob = castor_.pitch_knob,
-        .castor_pitch_cv = castor_.pitch_cv,
-        .castor_pulse_width_knob = castor_.pulse_width_knob,
-        .castor_pulse_width_cv = castor_.pulse_width_cv,
-        .pollux_pitch_knob = pollux_.pitch_knob,
-        .pollux_pitch_cv = pollux_.pitch_cv,
-        .pollux_pulse_width_knob = pollux_.pulse_width_knob,
-        .pollux_pulse_width_cv = pollux_.pulse_width_cv,
+        .castor_pitch_knob = gem_oscillator_calc_pitch_knob(
+            castor_.pitch_knob_min,
+            castor_.pitch_knob_max,
+            settings_.pitch_knob_nonlinearity,
+            adc_results_live_[GEM_IN_CV_A_POT]),
+        .castor_pitch_cv =
+            gem_oscillator_calc_pitch_cv(castor_.pitch_cv_min, castor_.pitch_cv_max, adc_results_live_[GEM_IN_CV_A]),
+        .castor_pulse_width_knob = adc_results_live_[GEM_IN_DUTY_A_POT],
+        .castor_pulse_width_cv = adc_results_live_[GEM_IN_DUTY_A],
+        .pollux_pitch_knob = gem_oscillator_calc_pitch_knob(
+            pollux_.pitch_knob_min,
+            pollux_.pitch_knob_max,
+            settings_.pitch_knob_nonlinearity,
+            adc_results_live_[GEM_IN_CV_B_POT]),
+        .pollux_pitch_cv =
+            gem_oscillator_calc_pitch_cv(pollux_.pitch_cv_min, pollux_.pitch_cv_max, adc_results_live_[GEM_IN_CV_B]),
+        .pollux_pulse_width_knob = adc_results_live_[GEM_IN_DUTY_B_POT],
+        .pollux_pulse_width_cv = adc_results_live_[GEM_IN_DUTY_B],
         .button_state = hard_sync_button_.state,
         // TODO: Re-enable
         //.lfo_intensity = pitch_lfo_intensity,
@@ -451,30 +464,6 @@ static void tweak_task_() {
             fix16_t frequency_value = UINT12_NORMALIZE(chorus_pot_code);
             lfo_state_.frequencies[0] = fix16_mul(frequency_value, GEM_TWEAK_MAX_LFO_FREQ);
         IF_WAGGLED_END
-
-        /* PWM Knobs control whether or not the LFO gets routed to them. */
-        IF_WAGGLED(castor_duty_code, GEM_IN_DUTY_A_POT)
-            if (castor_duty_code < 2048) {
-                castor_.lfo_pwm = false;
-            } else {
-                castor_.lfo_pwm = true;
-            }
-        IF_WAGGLED_END
-
-        IF_WAGGLED(pollux_duty_code, GEM_IN_DUTY_B_POT)
-            if (pollux_duty_code < 2048) {
-                pollux_.lfo_pwm = false;
-            } else {
-                pollux_.lfo_pwm = true;
-            }
-        IF_WAGGLED_END
-
-        /*
-            Tweak mode uses the LEDs to tell the user what the settings are.
-        */
-        gem_led_tweak_data.castor_pwm = castor_.lfo_pwm;
-        gem_led_tweak_data.pollux_pwm = pollux_.lfo_pwm;
-
     } else {
         /* If we just left tweak mode, undo the ADC result trickery. */
         if (WntrButton_hold_ended(&hard_sync_button_)) {

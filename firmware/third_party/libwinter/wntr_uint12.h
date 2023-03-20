@@ -19,3 +19,5 @@
 #define UINT12_NORMALIZE_F(value) (fix16_div(value, F16(4095.0)))
 #define UINT12_NORMALIZE(value) (UINT12_NORMALIZE_F(fix16_from_int(value)))
 #define UINT12_CLAMP(value) value = value > 4095 ? 4095 : value
+#define UINT12_MOD(value) value = value % 4095
+
