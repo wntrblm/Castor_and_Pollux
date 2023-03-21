@@ -85,6 +85,12 @@ bool GemSettings_check(uint8_t marker, struct GemSettings* settings) {
         DEFAULT_FIELD(pulse_width_bitmask);
     }
 
+    /* V5 added osc8m_freq */
+    if (marker < SETTINGS_MARKER_V4) {
+        printf("Upgrading settings from v4 to v5.\n");
+        DEFAULT_FIELD(osc8m_freq);
+    }
+
     return true;
 
 fail:

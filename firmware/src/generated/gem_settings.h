@@ -9,7 +9,7 @@
 
 #include "fix16.h"
 
-#define GEMSETTINGS_PACKED_SIZE 74
+#define GEMSETTINGS_PACKED_SIZE 78
 
 struct GemSettings {
     /* The ADC's internal gain correction register. */
@@ -68,6 +68,10 @@ struct GemSettings {
     caused pulse width modulation to "step".
      */
     uint16_t pulse_width_bitmask;
+    /*
+    Measured 8MHz oscillator frequency, used to fine tune the output pitch.
+     */
+    uint32_t osc8m_freq;
 };
 
 void GemSettings_init(struct GemSettings* inst);

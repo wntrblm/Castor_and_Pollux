@@ -5,7 +5,7 @@
 
 #include "gem_settings.h"
 
-#define _PACK_STRING "HhHiiiiiiiiiiH??iiiBBiiH"
+#define _PACK_STRING "HhHiiiiiiiiiiH??iiiBBiiHI"
 
 void GemSettings_init(struct GemSettings* inst) {
     inst->adc_gain_corr = 2048;
@@ -32,6 +32,7 @@ void GemSettings_init(struct GemSettings* inst) {
     inst->lfo_1_factor = F16(1);
     inst->lfo_2_factor = F16(0);
     inst->pulse_width_bitmask = 4095;
+    inst->osc8m_freq = 8000000;
 }
 
 struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* buf) {
@@ -62,7 +63,8 @@ struct StructyResult GemSettings_pack(const struct GemSettings* inst, uint8_t* b
         inst->lfo_2_waveshape,
         inst->lfo_1_factor,
         inst->lfo_2_factor,
-        inst->pulse_width_bitmask);
+        inst->pulse_width_bitmask,
+        inst->osc8m_freq);
 }
 
 struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t* buf) {
@@ -93,7 +95,8 @@ struct StructyResult GemSettings_unpack(struct GemSettings* inst, const uint8_t*
         &inst->lfo_2_waveshape,
         &inst->lfo_1_factor,
         &inst->lfo_2_factor,
-        &inst->pulse_width_bitmask);
+        &inst->pulse_width_bitmask,
+        &inst->osc8m_freq);
 }
 
 void GemSettings_print(const struct GemSettings* inst) {
@@ -183,4 +186,5 @@ void GemSettings_print(const struct GemSettings* inst) {
         STRUCTY_PRINTF("- lfo_2_factor: %s\n", fix16buf);
     }
     STRUCTY_PRINTF("- pulse_width_bitmask: %u\n", inst->pulse_width_bitmask);
+    STRUCTY_PRINTF("- osc8m_freq: %u\n", inst->osc8m_freq);
 }

@@ -63,7 +63,7 @@
 
 const struct GemADCInput* adc_inputs_;
 const struct GemI2CConfig* i2c_;
-const struct GemPulseOutConfig* pulse_;
+struct GemPulseOutConfig* pulse_;
 static bool monitor_enabled_ = false;
 static uint32_t last_monitor_update_ = 0;
 
@@ -88,11 +88,12 @@ static void cmd_0x13_reset_into_bootloader_(const uint8_t* data, size_t len);
 static void cmd_0x18_read_settings_(const uint8_t* data, size_t len);
 static void cmd_0x19_write_settings_(const uint8_t* data, size_t len);
 static void cmd_0x20_set_frequency_(const uint8_t* data, size_t len);
+static void cmd_0x21_set_osc8m_freq_(const uint8_t* data, size_t len);
 
 /* Public functions. */
 
 void gem_sysex_init(
-    const struct GemADCInput* adc_inputs, const struct GemI2CConfig* i2c, const struct GemPulseOutConfig* pulse) {
+    const struct GemADCInput* adc_inputs, const struct GemI2CConfig* i2c, struct GemPulseOutConfig* pulse) {
     adc_inputs_ = adc_inputs;
     i2c_ = i2c;
     pulse_ = pulse;
@@ -116,6 +117,7 @@ void gem_sysex_init(
     wntr_midi_register_sysex_command(0x18, cmd_0x18_read_settings_);
     wntr_midi_register_sysex_command(0x19, cmd_0x19_write_settings_);
     wntr_midi_register_sysex_command(0x20, cmd_0x20_set_frequency_);
+    wntr_midi_register_sysex_command(0x21, cmd_0x21_set_osc8m_freq_);
 };
 
 bool gem_sysex_monitor_enabled() { return monitor_enabled_; }
@@ -420,4 +422,14 @@ static void cmd_0x20_set_frequency_(const uint8_t* data, size_t len) {
     gem_pulseout_set_frequency(pulse_, channel, freq_millihz);
 
     debug_printf("SysEx 0x20: Set period for osc %u to %u milliHertz\n", channel, freq_millihz);
+}
+
+static void cmd_0x21_set_osc8m_freq_(const uint8_t* data, size_t len) {
+    /* Request (teeth): FREQUENCY(4) */
+    (void)(len);
+    DECODE_TEETH_REQUEST(4);
+
+    pulse_->gclk_freq = WNTR_UNPACK_32(request, 0);
+
+    debug_printf("SysEx 0x21: Set pulseout osc8m frequency to %u Hz\n", pulse_->gclk_freq);
 }

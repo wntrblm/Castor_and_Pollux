@@ -80,3 +80,10 @@ class GemSettings:
     caused pulse width modulation to "step".
     """
     pulse_width_bitmask: uint16 = 0xFFF
+
+    # Added in V5
+
+    """
+    Measured 8MHz oscillator frequency, used to fine tune the output pitch.
+    """
+    osc8m_freq: uint32 = 8_000_000

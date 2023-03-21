@@ -4,7 +4,7 @@
 import Struct from "./structy.js";
 
 class GemSettings extends Struct {
-  static _pack_string = "HhHiiiiiiiiiiH??iiiBBiiH";
+  static _pack_string = "HhHiiiiiiiiiiH??iiiBBiiHI";
   static _fields = [
     { name: "adc_gain_corr", kind: "uint16", default: 2048 },
     { name: "adc_offset_corr", kind: "int16", default: 0 },
@@ -30,9 +30,10 @@ class GemSettings extends Struct {
     { name: "lfo_1_factor", kind: "fix16", default: 1 },
     { name: "lfo_2_factor", kind: "fix16", default: 0 },
     { name: "pulse_width_bitmask", kind: "uint16", default: 4095 },
+    { name: "osc8m_freq", kind: "uint32", default: 8000000 },
   ];
 
-  static packed_size = 74;
+  static packed_size = 78;
 
   constructor(values = {}) {
     super(values);

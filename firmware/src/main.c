@@ -20,10 +20,10 @@ static uint32_t board_revision_;
 static const struct GemADCConfig* adc_cfg_;
 static const struct GemADCInput* adc_inputs_;
 static const struct GemOscillatorInputConfig* osc_input_cfg_;
-static const struct GemPulseOutConfig* pulse_cfg_;
 static const struct GemI2CConfig* i2c_cfg_;
 static const struct GemSPIConfig* spi_cfg_;
 static const struct GemDotstarCfg* dotstar_cfg_;
+static struct GemPulseOutConfig pulse_cfg_;
 
 /* Inputs */
 static uint32_t adc_results_live_[GEM_IN_COUNT];
@@ -72,7 +72,7 @@ static void init_() {
         adc_cfg_ = &GEM_REV1_ADC_CFG;
         adc_inputs_ = GEM_REV1_ADC_INPUTS;
         osc_input_cfg_ = &GEM_REV1_OSC_INPUT_CFG;
-        pulse_cfg_ = &GEM_REV1_PULSE_OUT_CFG;
+        pulse_cfg_ = GEM_REV1_PULSE_OUT_CFG;
         i2c_cfg_ = &GEM_REV1_I2C_CFG;
         spi_cfg_ = &GEM_REV1_SPI_CFG;
         dotstar_cfg_ = &GEM_REV1_DOTSTAR_CFG;
@@ -83,7 +83,7 @@ static void init_() {
         adc_cfg_ = &GEM_REV5_ADC_CFG;
         adc_inputs_ = GEM_REV5_ADC_INPUTS;
         osc_input_cfg_ = &GEM_REV5_OSC_INPUT_CFG;
-        pulse_cfg_ = &GEM_REV5_PULSE_OUT_CFG;
+        pulse_cfg_ = GEM_REV5_PULSE_OUT_CFG;
         i2c_cfg_ = &GEM_REV5_I2C_CFG;
         spi_cfg_ = &GEM_REV5_SPI_CFG;
         dotstar_cfg_ = &GEM_REV5_DOTSTAR_CFG;
@@ -139,7 +139,7 @@ static void init_() {
     */
 
     /* Register SysEx commands used for factory setup. */
-    gem_sysex_init(adc_inputs_, i2c_cfg_, pulse_cfg_);
+    gem_sysex_init(adc_inputs_, i2c_cfg_, &pulse_cfg_);
 
     /* Enable the Dotstar driver and LED animation. */
     gem_dotstar_init(settings_.led_brightness);
@@ -241,7 +241,8 @@ static void init_() {
     GemOscillator_init(&pollux_);
 
     /* Configure the square wave output for the oscillators */
-    gem_pulseout_init(pulse_cfg_, pulse_ovf_callback_);
+    pulse_cfg_.gclk_freq = settings_.osc8m_freq;
+    gem_pulseout_init(&pulse_cfg_, pulse_ovf_callback_);
 }
 
 static wntr_periodic_waveform_function lfo_waveshape_setting_to_func_(uint8_t n) {
@@ -354,8 +355,8 @@ static RAMFUNC void oscillator_task_() {
 
     // Oscillator post-update applies final values to the oscillator state.
     // TODO: I can maybe put this in update()?
-    GemOscillator_post_update(pulse_cfg_, &castor_);
-    GemOscillator_post_update(pulse_cfg_, &pollux_);
+    GemOscillator_post_update(&pulse_cfg_, &castor_);
+    GemOscillator_post_update(&pulse_cfg_, &pollux_);
 
     /*
         Update the timers with their new values calculated from their
@@ -366,8 +367,8 @@ static RAMFUNC void oscillator_task_() {
         disabled while Gemini modifies the timer configuration.
     */
     __disable_irq();
-    gem_pulseout_set_period(pulse_cfg_, 0, castor_.pulseout_period);
-    gem_pulseout_set_period(pulse_cfg_, 1, pollux_.pulseout_period);
+    gem_pulseout_set_period(&pulse_cfg_, 0, castor_.pulseout_period);
+    gem_pulseout_set_period(&pulse_cfg_, 1, pollux_.pulseout_period);
     __enable_irq();
 
     update_dac_();

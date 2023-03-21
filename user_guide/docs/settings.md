@@ -246,33 +246,26 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             </p>
         </div>
     </div>
-    <div class="columns">
-        <div class="column">
-            <div class="field">
-                <label class="label" for="smooth_initial_gain">CV smoothing initial gain</label>
-                <input class="input" type="range" name="smooth_initial_gain" value="0.1" step="0.05" min="0" max="1" data-bind data-bind-type="float" data-binding-precision="4" />
-                <span class="units"><span data-display-value-for="smooth_initial_gain" data-display-format="percent"></span> percent</span>
-            </div>
-            <div class="field">
-                <label class="label" for="smooth_sensitivity">CV smoothing sensitivity</label>
-                <input class="input" type="range" name="smooth_sensitivity" value="20" step="1" min="0" max="100" data-bind data-bind-type="float" />
-                <span class="units"><span data-display-value-for="smooth_sensitivity"></span>x multiplier</span>
-            </div>
-        </div>
-        <div class="column">
-            <p class="notification help-text">
-                These settings control how the module filters the pitch CV inputs. Due to inherent limitations with converting analog pitch CV to a digital pitch value, such as noise and transient errors, it's necessary to basically <em>low-pass filter</em> (or <em>slew limit</em>) the readings. The module's filter is a little more sophisticated than that- it is a self-modulated low-pass filter. The <strong>initial gain setting</strong> determines the minimum effect of a new reading on the ongoing average - so if it is 0.1% then it will effect the ongoing average by 10%, if it is 1.0 then previous readings are essentially ignored because it effects the ongoing average by 100%. The <strong>sensitivity</strong> setting determines how much the low-pass filter can self-modulate. Higher settings means that the module will be more reactive to large changes in the CV input, whereas lower settings will cause the module to react very slowly to any change in the CV input.
-            </p>
-        </div>
-    </div>
     <div class="section-divider">Danger zone</div>
     <div class="columns">
         <div class="column field">
-            <p>These settings are calibrated during assembly and <strong>do not have default values</strong>. Changing these settings can cause your module to behave incorrectly. It's highly recommended that you write down these settings before making changes in case you need to restore them.</p>
+            <p>These settings are calibrated during assembly and <strong>do not have default values</strong>. Changing these settings can cause your module to behave incorrectly, so do not touch them unless you know what you're doing or have been asked to do so by support. It's highly recommended that you write down these settings before making changes in case you need to restore them.</p>
             <label class="checkbox danger-zone" for="allow_danger">
                 <input class="checkbox" type="checkbox" id="allow_danger" />
                 Let me edit dangerous settings
             </label>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column field">
+            <label class="label" for="osc8m_freq">8 MHz clock measured frequency</label>
+            <input class="input is-dangerous" type="number" name="osc8m_freq" min="7000000" max="9000000" value="8000000" readonly data-bind data-bind-type="int"/>
+            <span class="units">Hertz</span>
+        </div>
+        <div class="column">
+            <p class="notification help-text">
+                Castor & Pollux uses an internal 8 MHz clock to generate the frequency signals for the oscillators. The actual frequency of this oscillator can vary between 7.94 MHz and 8.06 MHz. This setting is set to compensate for that so that the oscillator outputs are in tune.
+            </p>
         </div>
     </div>
     <div class="columns">
