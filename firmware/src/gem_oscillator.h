@@ -27,7 +27,7 @@ struct GemOscillatorInputs {
     uint16_t pulse_cv_code;
     uint16_t pulse_knob_code;
     fix16_t reference_pitch;
-    fix16_t lfo_phase;
+    fix16_t lfo_value;
     fix16_t lfo_amplitude;
 };
 

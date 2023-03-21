@@ -69,7 +69,7 @@ void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs 
     }
 
     if (osc->apply_lfo_to_pitch) {
-        fix16_t fm = fix16_mul(osc->lfo_pitch_factor, fix16_mul(inputs.lfo_phase, inputs.lfo_amplitude));
+        fix16_t fm = fix16_mul(osc->lfo_pitch_factor, fix16_mul(inputs.lfo_value, inputs.lfo_amplitude));
         pitch = fix16_add(pitch, fm);
     }
 
@@ -80,7 +80,7 @@ void GemOscillator_update(struct GemOscillator* osc, struct GemOscillatorInputs 
         inputs.pulse_cv_code,
         inputs.pulse_knob_code,
         osc->apply_lfo_to_pulse,
-        inputs.lfo_phase,
+        inputs.lfo_value,
         osc->pulse_width_bitmask);
 }
 

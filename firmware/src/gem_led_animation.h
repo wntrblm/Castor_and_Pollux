@@ -14,11 +14,10 @@
 
 /* Routines for animating the LEDs on Gemini's front panel. */
 
-extern struct GemLEDTweakData {
+extern struct GemLEDInputs {
     fix16_t lfo_value;
-    bool castor_pwm;
-    bool pollux_pwm;
-} gem_led_tweak_data;
+    fix16_t lfo_amplitude;
+} gem_led_inputs;
 
 void gem_led_animation_init();
 

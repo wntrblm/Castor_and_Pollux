@@ -315,8 +315,10 @@ static RAMFUNC void oscillator_task_() {
         Update the internal LFO used for modulating pitch and pulse width.
     */
     fix16_t lfo_value = WntrMixedPeriodicWaveform_step(&lfo_, now);
-    gem_led_tweak_data.lfo_value = lfo_value;
     fix16_t lfo_amplitude = UINT12_NORMALIZE(adc_results_[GEM_IN_CHORUS_POT]);
+
+    gem_led_inputs.lfo_value = lfo_value;
+    gem_led_inputs.lfo_amplitude = lfo_amplitude;
 
     /*
         Update both oscillator's internal state based on the ADC inputs.
@@ -327,7 +329,7 @@ static RAMFUNC void oscillator_task_() {
         .pulse_cv_code = adc_results_[GEM_IN_DUTY_A],
         .pulse_knob_code = adc_results_[GEM_IN_DUTY_A_POT],
         .lfo_amplitude = lfo_amplitude,
-        .lfo_phase = lfo_value,
+        .lfo_value = lfo_value,
     };
 
     GemOscillator_update(&castor_, inputs);
@@ -344,7 +346,7 @@ static RAMFUNC void oscillator_task_() {
         .pulse_cv_code = adc_results_[GEM_IN_DUTY_B],
         .pulse_knob_code = adc_results_[GEM_IN_DUTY_B_POT],
         .lfo_amplitude = lfo_amplitude,
-        .lfo_phase = lfo_value,
+        .lfo_value = lfo_value,
         .reference_pitch = castor_.pitch,
     };
     pollux_.pitch = castor_.pitch;

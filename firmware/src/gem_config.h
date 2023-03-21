@@ -17,7 +17,7 @@
 /* Dotstar/animation constants */
 
 #define GEM_MAX_DOTSTAR_COUNT 8
-#define GEM_ANIMATION_INTERVAL 50
+#define GEM_ANIMATION_INTERVAL 48
 
 /* Hard sync button configuration. */
 
