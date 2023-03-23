@@ -18,20 +18,23 @@ PROGRAM = "gemini-firmware-test"
 
 SRCS = [
     "../tests/**/*.c",
-    "../src/gem_oscillator_outputs.c",
     "../src/gem_oscillator.c",
-    "../src/generated/gem_lookup_tables.c",
+    "../src/generated/gem_ramp_table_data.c",
+    "../src/gem_ramp_table_lookup.c",
     "../third_party/libwinter/wntr_assert.c",
     "../third_party/libwinter/wntr_bezier.c",
     "../third_party/libwinter/wntr_error_correction.c",
     "../third_party/libfixmath/fix16.c",
     "../third_party/libfixmath/fix16_str.c",
+    "../third_party/libfixmath/fix16_exp.c",
     "../third_party/munit/munit.c",
 ]
 
 INCLUDES = [
     "../tests/stubs",
     "../src/hw",
+    "../src/drivers",
+    "../src/lib",
     "../third_party/libwinter/samd",
     "../third_party/libwinter/samd/samd21",
     "../third_party/samd21/include",
