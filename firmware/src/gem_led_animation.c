@@ -23,8 +23,8 @@
 /* Static variables */
 
 struct GemLEDInputs gem_led_inputs = {
-    .lfo_value = F16(0),
     .lfo_amplitude = F16(0),
+    .lfo_gain = F16(0),
 };
 
 // TODO: These need to be swapped between rev 1 vs rev 5
@@ -92,6 +92,8 @@ bool gem_led_animation_step(const struct GemDotstarCfg* dotstar) {
 
     if (transitioning_) {
         animation_step_transition_(dotstar, delta);
+    } else if (gem_led_inputs.tweaking) {
+        animation_step_tweak_(dotstar, delta);
     } else {
         switch (mode_) {
             case GEM_MODE_NORMAL:
@@ -112,9 +114,6 @@ bool gem_led_animation_step(const struct GemDotstarCfg* dotstar) {
                 break;
             case GEM_MODE_CALIBRATION:
                 animation_step_calibration_(dotstar, ticks);
-                break;
-            case GEM_MODE_FLAG_TWEAK:
-                animation_step_tweak_(dotstar, delta);
                 break;
             default:
                 break;
@@ -170,7 +169,7 @@ static void animation_step_sparkles_(const struct GemDotstarCfg* dotstar, uint32
     const fix16_t flicker_factor = F16(25);
     const fix16_t flicker_freq = F16(800.0);
 
-    uint32_t spawn_rate = 500 - fix16_to_int(fix16_mul(gem_led_inputs.lfo_amplitude, F16(400)));
+    uint32_t spawn_rate = 500 - fix16_to_int(fix16_mul(gem_led_inputs.lfo_gain, F16(400)));
     uint8_t decay_step = (uint8_t)(fix16_to_int(fix16_mul(fix16_from_int(delta), decay_rate)));
 
     phase_sparkle_ += fix16_div(fix16_from_int(delta), flicker_freq);
@@ -250,9 +249,9 @@ static void animation_step_tweak_(const struct GemDotstarCfg* dotstar, uint32_t 
     //     gem_dotstar_set(3, 255, 0, 255);
     // }
 
-    fix16_t lfoadj = fix16_div(fix16_add(gem_led_inputs.lfo_value, F16(1.0)), F16(2.0));
-    uint8_t lfo_value = fix16_to_int(fix16_mul(F16(255.0), lfoadj)) & 0xFF;
-    gem_dotstar_set32(4, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
-    gem_dotstar_set32(5, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
-    gem_dotstar_set32(6, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, lfo_value));
+    fix16_t lfoadj = fix16_div(fix16_add(gem_led_inputs.lfo_amplitude, F16(1.0)), F16(2.0));
+    uint8_t val = fix16_to_int(fix16_mul(F16(255.0), lfoadj)) & 0xFF;
+    gem_dotstar_set32(4, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, val));
+    gem_dotstar_set32(5, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, val));
+    gem_dotstar_set32(6, wntr_colorspace_hsv_to_rgb(UINT16_MAX / 12 * 2, 255, val));
 }

@@ -15,8 +15,9 @@
 /* Routines for animating the LEDs on Gemini's front panel. */
 
 extern struct GemLEDInputs {
-    fix16_t lfo_value;
     fix16_t lfo_amplitude;
+    fix16_t lfo_gain;
+    bool tweaking;
 } gem_led_inputs;
 
 void gem_led_animation_init();
