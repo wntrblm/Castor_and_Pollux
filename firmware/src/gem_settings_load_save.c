@@ -16,8 +16,9 @@
 #define SETTINGS_MARKER_V2 0x66
 #define SETTINGS_MARKER_V3 0x67
 #define SETTINGS_MARKER_V4 0x68
+#define SETTINGS_MARKER_V5 0x69
 #define SETTINGS_MARKER_MIN SETTINGS_MARKER_V1
-#define SETTINGS_MARKER_MAX SETTINGS_MARKER_V4
+#define SETTINGS_MARKER_MAX SETTINGS_MARKER_V5
 
 #define LIMIT_F16_FIELD(field, min, max)                                                                               \
     if (settings->field < F16(min) || settings->field > F16(max)) {                                                    \
@@ -86,7 +87,7 @@ bool GemSettings_check(uint8_t marker, struct GemSettings* settings) {
     }
 
     /* V5 added osc8m_freq */
-    if (marker < SETTINGS_MARKER_V4) {
+    if (marker < SETTINGS_MARKER_V5) {
         printf("Upgrading settings from v4 to v5.\n");
         DEFAULT_FIELD(osc8m_freq);
     }
