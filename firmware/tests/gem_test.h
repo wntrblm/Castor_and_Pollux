@@ -53,6 +53,13 @@ inline static void print_f16(const fix16_t val) {
     {                                                                                                                  \
         fix16_t abs_ = fix16_abs(fix16_sub(val, target));                                                              \
         fix16_t eps_ = F16(epsilon);                                                                                   \
+        if (abs_ > eps_) {                                                                                             \
+            printf("\nAssertion failed, expected ");                                                                   \
+            print_f16(target);                                                                                         \
+            printf(" actual ");                                                                                        \
+            print_f16(val);                                                                                            \
+            printf("\n");                                                                                              \
+        }                                                                                                              \
         munit_assert_int32(abs_, <=, eps_);                                                                            \
     }
 
