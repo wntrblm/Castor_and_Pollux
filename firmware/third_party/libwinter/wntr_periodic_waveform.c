@@ -51,6 +51,7 @@ void WntrMixedPeriodicWaveform_init(
     waveform->frequencies = frequencies;
     waveform->factors = factors;
     waveform->phases = phases;
+    waveform->amplitude = F16(0);
     waveform->_last_update = start_time;
     for (size_t n = 0; n < waveform->count; n++) { waveform->phases[n] = F16(0); }
 }
@@ -70,6 +71,8 @@ fix16_t WntrMixedPeriodicWaveform_step(struct WntrMixedPeriodicWaveform* wavefor
         fix16_t waveform_value = waveform->functions[n](waveform->phases[n]);
         accum = fix16_add(accum, fix16_mul(waveform->factors[n], waveform_value));
     }
+
+    waveform->amplitude = accum;
 
     return accum;
 }

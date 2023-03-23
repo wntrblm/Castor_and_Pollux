@@ -55,6 +55,7 @@ struct WntrMixedPeriodicWaveform {
     fix16_t* frequencies;
     fix16_t* factors;
     fix16_t* phases;
+    fix16_t amplitude;
     uint32_t _last_update;
 };
 
