@@ -11,7 +11,7 @@ class GemMonitorUpdate:
     pollux_pulse_width_cv: uint16 = 0
 
     button_state: bool = False
-    lfo_intensity: fix16 = 0
+    lfo_gain: fix16 = 0
 
     loop_time: uint16 = 0
     animation_time: uint16 = 0

@@ -17,7 +17,7 @@ void GemMonitorUpdate_init(struct GemMonitorUpdate* inst) {
     inst->pollux_pulse_width_knob = 0;
     inst->pollux_pulse_width_cv = 0;
     inst->button_state = false;
-    inst->lfo_intensity = F16(0);
+    inst->lfo_gain = F16(0);
     inst->loop_time = 0;
     inst->animation_time = 0;
     inst->sample_time = 0;
@@ -37,7 +37,7 @@ struct StructyResult GemMonitorUpdate_pack(const struct GemMonitorUpdate* inst, 
         inst->pollux_pulse_width_knob,
         inst->pollux_pulse_width_cv,
         inst->button_state,
-        inst->lfo_intensity,
+        inst->lfo_gain,
         inst->loop_time,
         inst->animation_time,
         inst->sample_time);
@@ -57,7 +57,7 @@ struct StructyResult GemMonitorUpdate_unpack(struct GemMonitorUpdate* inst, cons
         &inst->pollux_pulse_width_knob,
         &inst->pollux_pulse_width_cv,
         &inst->button_state,
-        &inst->lfo_intensity,
+        &inst->lfo_gain,
         &inst->loop_time,
         &inst->animation_time,
         &inst->sample_time);
@@ -93,8 +93,8 @@ void GemMonitorUpdate_print(const struct GemMonitorUpdate* inst) {
     STRUCTY_PRINTF("- button_state: %u\n", inst->button_state);
     {
         char fix16buf[13];
-        fix16_to_str(inst->lfo_intensity, fix16buf, 2);
-        STRUCTY_PRINTF("- lfo_intensity: %s\n", fix16buf);
+        fix16_to_str(inst->lfo_gain, fix16buf, 2);
+        STRUCTY_PRINTF("- lfo_gain: %s\n", fix16buf);
     }
     STRUCTY_PRINTF("- loop_time: %u\n", inst->loop_time);
     STRUCTY_PRINTF("- animation_time: %u\n", inst->animation_time);

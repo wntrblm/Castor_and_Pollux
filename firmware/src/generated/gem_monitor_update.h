@@ -21,7 +21,7 @@ struct GemMonitorUpdate {
     uint16_t pollux_pulse_width_knob;
     uint16_t pollux_pulse_width_cv;
     bool button_state;
-    fix16_t lfo_intensity;
+    fix16_t lfo_gain;
     uint16_t loop_time;
     uint16_t animation_time;
     uint16_t sample_time;
