@@ -131,7 +131,7 @@ fail:
 
 void GemSettings_save(struct GemSettings* settings) {
     uint8_t data[GEMSETTINGS_PACKED_SIZE + 1];
-    data[0] = SETTINGS_MARKER_V4;
+    data[0] = SETTINGS_MARKER_V5;
 
     GemSettings_check(data[0], settings);
 

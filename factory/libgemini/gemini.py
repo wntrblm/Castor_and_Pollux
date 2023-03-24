@@ -40,6 +40,7 @@ class SysExCommands(enum.IntEnum):
     READ_SETTINGS = 0x18
     WRITE_SETTINGS = 0x19
     SET_FREQ = 0x20
+    SET_OSC8M_FREQ = 0x21
 
 
 class Gemini(midi.MIDIDevice):
@@ -161,3 +162,7 @@ class Gemini(midi.MIDIDevice):
 
     def reset_into_bootloader(self):
         self.sysex(SysExCommands.RESET_INTO_BOOTLOADER)
+
+    def set_osc8m_freq(self, freq: int):
+        data = struct.pack(">I", freq)
+        self.sysex(SysExCommands.SET_OSC8M_FREQ, data=data, encode=True)
