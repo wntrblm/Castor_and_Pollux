@@ -2,6 +2,8 @@
 # Published under the standard MIT License.
 # Full text available at: https://opensource.org/licenses/MIT
 
+import json
+import pathlib
 import time
 
 from wintertools.print import print
@@ -76,19 +78,31 @@ def run():
         gem.save_settings(settings)
         print("✓ Saved to device NVM")
 
+    local_copy = pathlib.Path("calibrations") / f"{gem.get_serial_number()}.ramp.json"
+    local_copy.parent.mkdir(parents=True, exist_ok=True)
+
+    with local_copy.open("w") as fh:
+        data = {
+            "expected_note_frequency": TEST_NOTE_FREQ,
+            "measured_note_frequency": measured_note_freq,
+            "measured_clock_frequency": measured_clock_freq,
+        }
+        json.dump(data, fh)
+        print(f"[italic]Saved to {local_copy}[/]")
+
     return reportcard.Section(
         name="Tuning",
         items=[
             reportcard.PassFailItem(label="8 MHz clock", value=passed),
             reportcard.LabelValueItem(
-                label="Measured clock frequency",
+                label="Measured clock",
                 value=f"{measured_clock_freq:0,.0f} Hz",
             ),
             reportcard.LabelValueItem(
-                label="Measured note frequency", value=f"{measured_note_freq:.3f} Hz"
+                label="Measured note", value=f"{measured_note_freq:.3f} Hz"
             ),
             reportcard.LabelValueItem(
-                label="Measured note frequency after adjustment",
+                label="Adjusted note",
                 value=f"{post_measured_note_freq:0.3f} Hz",
             ),
             reportcard.LabelValueItem(
@@ -100,4 +114,8 @@ def run():
 
 
 if __name__ == "__main__":
-    print(run())
+    REPORT = reportcard.Report(name="Castor & Pollux")
+    REPORT.sections.append(run())
+    REPORT.ulid = "TESTTESTTESTTEST"
+    reportcard.render_html(REPORT)
+    print(REPORT)
