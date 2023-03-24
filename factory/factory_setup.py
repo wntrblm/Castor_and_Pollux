@@ -4,7 +4,13 @@ from hubble import Hubble
 from wintertools import fw_fetch, jlink, reportcard, thermalprinter
 from wintertools.print import print
 
-from libgemini import adc_calibration, cv_calibration, gemini, ramp_calibration
+from libgemini import (
+    adc_calibration,
+    cv_calibration,
+    gemini,
+    ramp_calibration,
+    clock_calibration,
+)
 
 DEVICE_NAME = "winterbloom_gemini"
 JLINK_DEVICE = "ATSAMD21G18"
@@ -60,6 +66,11 @@ def main():
         default=["firmware", "ramp", "adc", "cv"],
         help="Select which setup stages to run.",
     )
+    parser.add_argument(
+        "--force-report",
+        type=bool,
+        help="Generate a report even if not all steps are run.",
+    )
 
     args = parser.parse_args()
 
@@ -84,6 +95,10 @@ def main():
         print("# Calibrating pitch CV")
         REPORT.sections.append(cv_calibration.run())
 
+    if "clock" in args.stages:
+        print("# Calibrating 8 MHz clock")
+        REPORT.sections.append(clock_calibration.run())
+
     if "ramp" in args.stages:
         print("# Calibrating ramps")
         REPORT.sections.append(ramp_calibration.run(save=True))
@@ -91,7 +106,13 @@ def main():
     gem = gemini.Gemini.get()
     gem.soft_reset()
 
-    if args.stages != ["firmware", "ramp", "adc", "cv"]:
+    if not args.force_report and args.stages != [
+        "firmware",
+        "clock",
+        "ramp",
+        "adc",
+        "cv",
+    ]:
         print("!! Not all stages run, not creating report.")
         return
 
