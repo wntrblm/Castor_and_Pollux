@@ -5,19 +5,36 @@
 
 #include "gem_monitor_update.h"
 
-#define _PACK_STRING "iiHHiiHH?iHHH"
+#define _PACK_STRING "B?HHHHHHHHBiHIHHHHHHHiBiHIHHHH"
 
 void GemMonitorUpdate_init(struct GemMonitorUpdate* inst) {
-    inst->castor_pitch_knob = F16(0);
-    inst->castor_pitch_cv = F16(0);
-    inst->castor_pulse_width_knob = 0;
-    inst->castor_pulse_width_cv = 0;
-    inst->pollux_pitch_knob = F16(0);
-    inst->pollux_pitch_cv = F16(0);
-    inst->pollux_pulse_width_knob = 0;
-    inst->pollux_pulse_width_cv = 0;
-    inst->button_state = false;
-    inst->lfo_gain = F16(0);
+    inst->mode = 0;
+    inst->tweaking = false;
+    inst->lfo_knob = 0;
+    inst->tweak_lfo_knob = 0;
+    inst->castor_pitch_knob = 0;
+    inst->castor_pitch_cv = 0;
+    inst->castor_pulse_knob = 0;
+    inst->castor_pulse_cv = 0;
+    inst->castor_tweak_pitch_knob = 0;
+    inst->castor_tweak_pulse_knob = 0;
+    inst->castor_pitch_behavior = 0;
+    inst->castor_pitch = F16(0);
+    inst->castor_pulse_width = 0;
+    inst->castor_period = 0;
+    inst->castor_ramp = 0;
+    inst->pollux_pitch_knob = 0;
+    inst->pollux_pitch_cv = 0;
+    inst->pollux_pulse_knob = 0;
+    inst->pollux_pulse_cv = 0;
+    inst->pollux_tweak_pitch_knob = 0;
+    inst->pollux_tweak_pulse_knob = 0;
+    inst->pollux_reference_pitch = F16(0);
+    inst->pollux_pitch_behavior = 0;
+    inst->pollux_pitch = F16(0);
+    inst->pollux_pulse_width = 0;
+    inst->pollux_period = 0;
+    inst->pollux_ramp = 0;
     inst->loop_time = 0;
     inst->animation_time = 0;
     inst->sample_time = 0;
@@ -28,16 +45,33 @@ struct StructyResult GemMonitorUpdate_pack(const struct GemMonitorUpdate* inst, 
         _PACK_STRING,
         buf,
         GEMMONITORUPDATE_PACKED_SIZE,
+        inst->mode,
+        inst->tweaking,
+        inst->lfo_knob,
+        inst->tweak_lfo_knob,
         inst->castor_pitch_knob,
         inst->castor_pitch_cv,
-        inst->castor_pulse_width_knob,
-        inst->castor_pulse_width_cv,
+        inst->castor_pulse_knob,
+        inst->castor_pulse_cv,
+        inst->castor_tweak_pitch_knob,
+        inst->castor_tweak_pulse_knob,
+        inst->castor_pitch_behavior,
+        inst->castor_pitch,
+        inst->castor_pulse_width,
+        inst->castor_period,
+        inst->castor_ramp,
         inst->pollux_pitch_knob,
         inst->pollux_pitch_cv,
-        inst->pollux_pulse_width_knob,
-        inst->pollux_pulse_width_cv,
-        inst->button_state,
-        inst->lfo_gain,
+        inst->pollux_pulse_knob,
+        inst->pollux_pulse_cv,
+        inst->pollux_tweak_pitch_knob,
+        inst->pollux_tweak_pulse_knob,
+        inst->pollux_reference_pitch,
+        inst->pollux_pitch_behavior,
+        inst->pollux_pitch,
+        inst->pollux_pulse_width,
+        inst->pollux_period,
+        inst->pollux_ramp,
         inst->loop_time,
         inst->animation_time,
         inst->sample_time);
@@ -48,16 +82,33 @@ struct StructyResult GemMonitorUpdate_unpack(struct GemMonitorUpdate* inst, cons
         _PACK_STRING,
         buf,
         GEMMONITORUPDATE_PACKED_SIZE,
+        &inst->mode,
+        &inst->tweaking,
+        &inst->lfo_knob,
+        &inst->tweak_lfo_knob,
         &inst->castor_pitch_knob,
         &inst->castor_pitch_cv,
-        &inst->castor_pulse_width_knob,
-        &inst->castor_pulse_width_cv,
+        &inst->castor_pulse_knob,
+        &inst->castor_pulse_cv,
+        &inst->castor_tweak_pitch_knob,
+        &inst->castor_tweak_pulse_knob,
+        &inst->castor_pitch_behavior,
+        &inst->castor_pitch,
+        &inst->castor_pulse_width,
+        &inst->castor_period,
+        &inst->castor_ramp,
         &inst->pollux_pitch_knob,
         &inst->pollux_pitch_cv,
-        &inst->pollux_pulse_width_knob,
-        &inst->pollux_pulse_width_cv,
-        &inst->button_state,
-        &inst->lfo_gain,
+        &inst->pollux_pulse_knob,
+        &inst->pollux_pulse_cv,
+        &inst->pollux_tweak_pitch_knob,
+        &inst->pollux_tweak_pulse_knob,
+        &inst->pollux_reference_pitch,
+        &inst->pollux_pitch_behavior,
+        &inst->pollux_pitch,
+        &inst->pollux_pulse_width,
+        &inst->pollux_period,
+        &inst->pollux_ramp,
         &inst->loop_time,
         &inst->animation_time,
         &inst->sample_time);
@@ -66,36 +117,45 @@ struct StructyResult GemMonitorUpdate_unpack(struct GemMonitorUpdate* inst, cons
 void GemMonitorUpdate_print(const struct GemMonitorUpdate* inst) {
     // TODO: Print pointer address.
     STRUCTY_PRINTF("Struct GemMonitorUpdate:\n");
+    STRUCTY_PRINTF("- mode: %u\n", inst->mode);
+    STRUCTY_PRINTF("- tweaking: %u\n", inst->tweaking);
+    STRUCTY_PRINTF("- lfo_knob: %u\n", inst->lfo_knob);
+    STRUCTY_PRINTF("- tweak_lfo_knob: %u\n", inst->tweak_lfo_knob);
+    STRUCTY_PRINTF("- castor_pitch_knob: %u\n", inst->castor_pitch_knob);
+    STRUCTY_PRINTF("- castor_pitch_cv: %u\n", inst->castor_pitch_cv);
+    STRUCTY_PRINTF("- castor_pulse_knob: %u\n", inst->castor_pulse_knob);
+    STRUCTY_PRINTF("- castor_pulse_cv: %u\n", inst->castor_pulse_cv);
+    STRUCTY_PRINTF("- castor_tweak_pitch_knob: %u\n", inst->castor_tweak_pitch_knob);
+    STRUCTY_PRINTF("- castor_tweak_pulse_knob: %u\n", inst->castor_tweak_pulse_knob);
+    STRUCTY_PRINTF("- castor_pitch_behavior: %u\n", inst->castor_pitch_behavior);
     {
         char fix16buf[13];
-        fix16_to_str(inst->castor_pitch_knob, fix16buf, 2);
-        STRUCTY_PRINTF("- castor_pitch_knob: %s\n", fix16buf);
+        fix16_to_str(inst->castor_pitch, fix16buf, 2);
+        STRUCTY_PRINTF("- castor_pitch: %s\n", fix16buf);
     }
+    STRUCTY_PRINTF("- castor_pulse_width: %u\n", inst->castor_pulse_width);
+    STRUCTY_PRINTF("- castor_period: %u\n", inst->castor_period);
+    STRUCTY_PRINTF("- castor_ramp: %u\n", inst->castor_ramp);
+    STRUCTY_PRINTF("- pollux_pitch_knob: %u\n", inst->pollux_pitch_knob);
+    STRUCTY_PRINTF("- pollux_pitch_cv: %u\n", inst->pollux_pitch_cv);
+    STRUCTY_PRINTF("- pollux_pulse_knob: %u\n", inst->pollux_pulse_knob);
+    STRUCTY_PRINTF("- pollux_pulse_cv: %u\n", inst->pollux_pulse_cv);
+    STRUCTY_PRINTF("- pollux_tweak_pitch_knob: %u\n", inst->pollux_tweak_pitch_knob);
+    STRUCTY_PRINTF("- pollux_tweak_pulse_knob: %u\n", inst->pollux_tweak_pulse_knob);
     {
         char fix16buf[13];
-        fix16_to_str(inst->castor_pitch_cv, fix16buf, 2);
-        STRUCTY_PRINTF("- castor_pitch_cv: %s\n", fix16buf);
+        fix16_to_str(inst->pollux_reference_pitch, fix16buf, 2);
+        STRUCTY_PRINTF("- pollux_reference_pitch: %s\n", fix16buf);
     }
-    STRUCTY_PRINTF("- castor_pulse_width_knob: %u\n", inst->castor_pulse_width_knob);
-    STRUCTY_PRINTF("- castor_pulse_width_cv: %u\n", inst->castor_pulse_width_cv);
+    STRUCTY_PRINTF("- pollux_pitch_behavior: %u\n", inst->pollux_pitch_behavior);
     {
         char fix16buf[13];
-        fix16_to_str(inst->pollux_pitch_knob, fix16buf, 2);
-        STRUCTY_PRINTF("- pollux_pitch_knob: %s\n", fix16buf);
+        fix16_to_str(inst->pollux_pitch, fix16buf, 2);
+        STRUCTY_PRINTF("- pollux_pitch: %s\n", fix16buf);
     }
-    {
-        char fix16buf[13];
-        fix16_to_str(inst->pollux_pitch_cv, fix16buf, 2);
-        STRUCTY_PRINTF("- pollux_pitch_cv: %s\n", fix16buf);
-    }
-    STRUCTY_PRINTF("- pollux_pulse_width_knob: %u\n", inst->pollux_pulse_width_knob);
-    STRUCTY_PRINTF("- pollux_pulse_width_cv: %u\n", inst->pollux_pulse_width_cv);
-    STRUCTY_PRINTF("- button_state: %u\n", inst->button_state);
-    {
-        char fix16buf[13];
-        fix16_to_str(inst->lfo_gain, fix16buf, 2);
-        STRUCTY_PRINTF("- lfo_gain: %s\n", fix16buf);
-    }
+    STRUCTY_PRINTF("- pollux_pulse_width: %u\n", inst->pollux_pulse_width);
+    STRUCTY_PRINTF("- pollux_period: %u\n", inst->pollux_period);
+    STRUCTY_PRINTF("- pollux_ramp: %u\n", inst->pollux_ramp);
     STRUCTY_PRINTF("- loop_time: %u\n", inst->loop_time);
     STRUCTY_PRINTF("- animation_time: %u\n", inst->animation_time);
     STRUCTY_PRINTF("- sample_time: %u\n", inst->sample_time);

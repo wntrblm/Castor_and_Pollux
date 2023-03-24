@@ -432,28 +432,31 @@ static RAMFUNC void lfo_task_() {
 static RAMFUNC void oscillator_task_() {
 
     // Update both oscillator's internal state based on the ADC inputs.
-    castor_inputs_.lfo_amplitude = lfo_.amplitude;
+    castor_inputs_.mode = mode_;
     castor_inputs_.pitch_cv_code = adc_results_[GEM_IN_CV_A];
-    castor_inputs_.pulse_cv_code = adc_results_[GEM_IN_DUTY_A];
     castor_inputs_.pitch_knob_code = knobs_.pitch_a;
-    castor_inputs_.pulse_knob_code = knobs_.duty_a;
-    castor_inputs_.lfo_knob_code = knobs_.lfo;
     castor_inputs_.tweak_pitch_knob_code = tweak_knobs_.pitch_a;
+    castor_inputs_.pulse_cv_code = adc_results_[GEM_IN_DUTY_A];
+    castor_inputs_.pulse_knob_code = knobs_.duty_a;
     castor_inputs_.tweak_pulse_knob_code = tweak_knobs_.duty_a;
+    castor_inputs_.lfo_knob_code = knobs_.lfo;
     castor_inputs_.tweak_lfo_knob_code = tweak_knobs_.lfo;
+    castor_inputs_.reference_pitch = F16(0);
+    castor_inputs_.lfo_amplitude = lfo_.amplitude;
 
     GemOscillator_update(&castor_, castor_inputs_);
 
+    pollux_inputs_.mode = mode_;
+    pollux_inputs_.pitch_cv_code = adc_results_[GEM_IN_CV_B];
+    pollux_inputs_.pitch_knob_code = knobs_.pitch_b;
+    pollux_inputs_.tweak_pitch_knob_code = tweak_knobs_.pitch_b;
+    pollux_inputs_.pulse_cv_code = adc_results_[GEM_IN_DUTY_B];
+    pollux_inputs_.pulse_knob_code = knobs_.duty_b;
+    pollux_inputs_.tweak_pulse_knob_code = tweak_knobs_.duty_b;
+    pollux_inputs_.lfo_knob_code = knobs_.lfo;
+    pollux_inputs_.tweak_lfo_knob_code = tweak_knobs_.lfo;
     pollux_inputs_.reference_pitch = castor_.pitch;
     pollux_inputs_.lfo_amplitude = lfo_.amplitude;
-    pollux_inputs_.pitch_cv_code = adc_results_[GEM_IN_CV_B];
-    pollux_inputs_.pulse_cv_code = adc_results_[GEM_IN_DUTY_B];
-    pollux_inputs_.pitch_knob_code = knobs_.pitch_a;
-    pollux_inputs_.pulse_knob_code = knobs_.duty_b;
-    pollux_inputs_.lfo_knob_code = knobs_.lfo;
-    pollux_inputs_.tweak_pitch_knob_code = tweak_knobs_.pitch_b;
-    pollux_inputs_.tweak_pulse_knob_code = tweak_knobs_.duty_b;
-    pollux_inputs_.tweak_lfo_knob_code = tweak_knobs_.lfo;
 
     GemOscillator_update(&pollux_, pollux_inputs_);
 
@@ -484,14 +487,42 @@ static RAMFUNC void monitor_task_() {
 
     // To help with testing and debugging, Gemini can send its state over
     // MIDI SysEx to the monitoring script in `/factory/monitor.py`.
-
     uint16_t loop_time = (uint16_t)(wntr_ticks() - last_loop_time_);
 
-    // TODO: Add the inputs here.
     struct GemMonitorUpdate monitor_update = {
-        .pollux_pulse_width_knob = adc_results_[GEM_IN_DUTY_B_POT],
-        .pollux_pulse_width_cv = adc_results_[GEM_IN_DUTY_B],
-        .button_state = button_.state,
+        .mode = mode_,
+
+        .tweaking = tweaking_,
+        .lfo_knob = knobs_.lfo,
+        .tweak_lfo_knob = tweak_knobs_.lfo,
+
+        .castor_pitch_knob = castor_inputs_.pitch_knob_code,
+        .castor_pitch_cv = castor_inputs_.pitch_cv_code,
+        .castor_pulse_knob = castor_inputs_.pulse_knob_code,
+        .castor_pulse_cv = castor_inputs_.pulse_cv_code,
+        .castor_tweak_pitch_knob = castor_inputs_.tweak_pitch_knob_code,
+        .castor_tweak_pulse_knob = castor_inputs_.tweak_pulse_knob_code,
+
+        .castor_pitch_behavior = castor_.pitch_behavior,
+        .castor_pitch = castor_.pitch,
+        .castor_pulse_width = castor_.pulse_width,
+        .castor_period = castor_.pulseout_period,
+        .castor_ramp = castor_.ramp_cv,
+
+        .pollux_pitch_knob = pollux_inputs_.pitch_knob_code,
+        .pollux_pitch_cv = pollux_inputs_.pitch_cv_code,
+        .pollux_pulse_knob = pollux_inputs_.pulse_knob_code,
+        .pollux_pulse_cv = pollux_inputs_.pulse_cv_code,
+        .pollux_tweak_pitch_knob = pollux_inputs_.tweak_pitch_knob_code,
+        .pollux_tweak_pulse_knob = pollux_inputs_.tweak_pulse_knob_code,
+
+        .pollux_reference_pitch = pollux_inputs_.reference_pitch,
+        .pollux_pitch_behavior = pollux_.pitch_behavior,
+        .pollux_pitch = pollux_.pitch,
+        .pollux_pulse_width = pollux_.pulse_width,
+        .pollux_period = pollux_.pulseout_period,
+        .pollux_ramp = pollux_.ramp_cv,
+
         .loop_time = loop_time,
         .animation_time = (uint16_t)(animation_time_),
         .sample_time = (uint16_t)(idle_cycles_)};

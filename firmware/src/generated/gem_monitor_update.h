@@ -9,19 +9,36 @@
 
 #include "fix16.h"
 
-#define GEMMONITORUPDATE_PACKED_SIZE 35
+#define GEMMONITORUPDATE_PACKED_SIZE 66
 
 struct GemMonitorUpdate {
-    fix16_t castor_pitch_knob;
-    fix16_t castor_pitch_cv;
-    uint16_t castor_pulse_width_knob;
-    uint16_t castor_pulse_width_cv;
-    fix16_t pollux_pitch_knob;
-    fix16_t pollux_pitch_cv;
-    uint16_t pollux_pulse_width_knob;
-    uint16_t pollux_pulse_width_cv;
-    bool button_state;
-    fix16_t lfo_gain;
+    uint8_t mode;
+    bool tweaking;
+    uint16_t lfo_knob;
+    uint16_t tweak_lfo_knob;
+    uint16_t castor_pitch_knob;
+    uint16_t castor_pitch_cv;
+    uint16_t castor_pulse_knob;
+    uint16_t castor_pulse_cv;
+    uint16_t castor_tweak_pitch_knob;
+    uint16_t castor_tweak_pulse_knob;
+    uint8_t castor_pitch_behavior;
+    fix16_t castor_pitch;
+    uint16_t castor_pulse_width;
+    uint32_t castor_period;
+    uint16_t castor_ramp;
+    uint16_t pollux_pitch_knob;
+    uint16_t pollux_pitch_cv;
+    uint16_t pollux_pulse_knob;
+    uint16_t pollux_pulse_cv;
+    uint16_t pollux_tweak_pitch_knob;
+    uint16_t pollux_tweak_pulse_knob;
+    fix16_t pollux_reference_pitch;
+    uint8_t pollux_pitch_behavior;
+    fix16_t pollux_pitch;
+    uint16_t pollux_pulse_width;
+    uint32_t pollux_period;
+    uint16_t pollux_ramp;
     uint16_t loop_time;
     uint16_t animation_time;
     uint16_t sample_time;

@@ -1,17 +1,36 @@
 class GemMonitorUpdate:
+    mode: uint8 = 0
 
-    castor_pitch_knob: fix16 = 0
-    castor_pitch_cv: fix16 = 0
-    castor_pulse_width_knob: uint16 = 0
-    castor_pulse_width_cv: uint16 = 0
+    tweaking: bool = False
+    lfo_knob: uint16 = 0
+    tweak_lfo_knob: uint16 = 0
 
-    pollux_pitch_knob: fix16 = 0
-    pollux_pitch_cv: fix16 = 0
-    pollux_pulse_width_knob: uint16 = 0
-    pollux_pulse_width_cv: uint16 = 0
+    castor_pitch_knob: uint16 = 0
+    castor_pitch_cv: uint16 = 0
+    castor_pulse_knob: uint16 = 0
+    castor_pulse_cv: uint16 = 0
+    castor_tweak_pitch_knob: uint16 = 0
+    castor_tweak_pulse_knob: uint16 = 0
 
-    button_state: bool = False
-    lfo_gain: fix16 = 0
+    castor_pitch_behavior: uint8 = 0
+    castor_pitch: fix16 = 0
+    castor_pulse_width: uint16 = 0
+    castor_period: uint32 = 0
+    castor_ramp: uint16 = 0
+
+    pollux_pitch_knob: uint16 = 0
+    pollux_pitch_cv: uint16 = 0
+    pollux_pulse_knob: uint16 = 0
+    pollux_pulse_cv: uint16 = 0
+    pollux_tweak_pitch_knob: uint16 = 0
+    pollux_tweak_pulse_knob: uint16 = 0
+
+    pollux_reference_pitch: fix16 = 0
+    pollux_pitch_behavior: uint8 = 0
+    pollux_pitch: fix16 = 0
+    pollux_pulse_width: uint16 = 0
+    pollux_period: uint32 = 0
+    pollux_ramp: uint16 = 0
 
     loop_time: uint16 = 0
     animation_time: uint16 = 0
