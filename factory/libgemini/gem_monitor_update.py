@@ -9,30 +9,64 @@ import structy
 
 @dataclass
 class GemMonitorUpdate(structy.Struct):
-    _PACK_STRING : ClassVar[str] = "iiHHiiHH?iHHH"
+    _PACK_STRING : ClassVar[str] = "B?HHHHHHHHBiHIHHHHHHHiBiHIHHHH"
 
-    PACKED_SIZE : ClassVar[int] = 35
+    PACKED_SIZE : ClassVar[int] = 66
     """The total size of the struct once packed."""
 
-    castor_pitch_knob: structy.Fix16 = 0
+    mode: int = 0
 
-    castor_pitch_cv: structy.Fix16 = 0
+    tweaking: bool = False
 
-    castor_pulse_width_knob: int = 0
+    lfo_knob: int = 0
 
-    castor_pulse_width_cv: int = 0
+    tweak_lfo_knob: int = 0
 
-    pollux_pitch_knob: structy.Fix16 = 0
+    castor_pitch_knob: int = 0
 
-    pollux_pitch_cv: structy.Fix16 = 0
+    castor_pitch_cv: int = 0
 
-    pollux_pulse_width_knob: int = 0
+    castor_pulse_knob: int = 0
 
-    pollux_pulse_width_cv: int = 0
+    castor_pulse_cv: int = 0
 
-    button_state: bool = False
+    castor_tweak_pitch_knob: int = 0
 
-    lfo_intensity: structy.Fix16 = 0
+    castor_tweak_pulse_knob: int = 0
+
+    castor_pitch_behavior: int = 0
+
+    castor_pitch: structy.Fix16 = 0
+
+    castor_pulse_width: int = 0
+
+    castor_period: int = 0
+
+    castor_ramp: int = 0
+
+    pollux_pitch_knob: int = 0
+
+    pollux_pitch_cv: int = 0
+
+    pollux_pulse_knob: int = 0
+
+    pollux_pulse_cv: int = 0
+
+    pollux_tweak_pitch_knob: int = 0
+
+    pollux_tweak_pulse_knob: int = 0
+
+    pollux_reference_pitch: structy.Fix16 = 0
+
+    pollux_pitch_behavior: int = 0
+
+    pollux_pitch: structy.Fix16 = 0
+
+    pollux_pulse_width: int = 0
+
+    pollux_period: int = 0
+
+    pollux_ramp: int = 0
 
     loop_time: int = 0
 
