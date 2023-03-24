@@ -36,6 +36,13 @@ struct GemOscillatorInputs {
     fix16_t lfo_amplitude;
 };
 
+enum GemOscillatorPitchBehavior {
+    GEM_PITCH_COARSE,
+    GEM_PITCH_MULTIPLY,
+    GEM_PITCH_FOLLOW,
+    GEM_PITCH_FINE,
+};
+
 struct GemOscillator {
     /* Unchanging configuration */
     uint8_t number;
@@ -56,6 +63,7 @@ struct GemOscillator {
     uint16_t ramp_cv;
     fix16_t pitch;
     uint16_t pulse_width;
+    enum GemOscillatorPitchBehavior pitch_behavior;
 };
 
 void gem_oscillator_init(struct WntrErrorCorrection pitch_cv_adc_error_correction, fix16_t pitch_knob_nonlinearity);

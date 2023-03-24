@@ -68,6 +68,8 @@ static void GemOscillator_update_pitch_(struct GemOscillator* osc, const struct 
     // "coarse" pitch behavior is used when the pitch jack isn't connected to
     // Castor
     if (is_castor && is_zero) {
+        osc->pitch_behavior = GEM_PITCH_COARSE;
+
         pitch = gem_oscillator_calc_pitch_knob_(F16(0), F16(6), 0, inputs.pitch_knob_code);
 
         // quantize
@@ -80,6 +82,8 @@ static void GemOscillator_update_pitch_(struct GemOscillator* osc, const struct 
     // "follow" but doesn't allow Pollux's frequency to go below Castor's but
     // instead sets Pollux's frequency 0 to 3 octaves higher than Castor's.
     else if (is_pollux && is_hard_sync) {
+        osc->pitch_behavior = GEM_PITCH_MULTIPLY;
+
         if (is_zero) {
             pitch = inputs.reference_pitch;
             // Importantly, this does *not* add the base pitch offset.
@@ -94,6 +98,8 @@ static void GemOscillator_update_pitch_(struct GemOscillator* osc, const struct 
     // "follow" behavior is used by Pollux when both Castor & Pollux don't have
     // any pitch CV patched.
     else if (is_pollux && is_zero) {
+        osc->pitch_behavior = GEM_PITCH_FOLLOW;
+
         pitch = fix16_add(
             inputs.reference_pitch,
             gem_oscillator_calc_pitch_knob_(
@@ -105,6 +111,8 @@ static void GemOscillator_update_pitch_(struct GemOscillator* osc, const struct 
     // "fine" pitch behavior is used when the pitch jack is connected to a CV
     // source.
     else {
+        osc->pitch_behavior = GEM_PITCH_FINE;
+
         pitch = gem_oscillator_calc_pitch_cv_(osc->pitch_cv_min, osc->pitch_cv_max, inputs.pitch_cv_code);
         pitch = fix16_add(
             pitch,
