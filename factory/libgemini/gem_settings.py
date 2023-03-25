@@ -9,9 +9,9 @@ import structy
 
 @dataclass
 class GemSettings(structy.Struct):
-    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??iiiBBiiHI"
+    _PACK_STRING : ClassVar[str] = "HhHiiiiiiiiiiH??iiiBBiiHI??"
 
-    PACKED_SIZE : ClassVar[int] = 78
+    PACKED_SIZE : ClassVar[int] = 80
     """The total size of the struct once packed."""
 
     adc_gain_corr: int = 2048
@@ -43,21 +43,27 @@ class GemSettings(structy.Struct):
 
     cv_gain_error: structy.Fix16 = 1.0
 
-    smooth_initial_gain: structy.Fix16 = 0.1
-    """Pitch input CV smoothing parameters."""
+    removed_smooth_initial_gain: structy.Fix16 = 0.1
+    """(Removed) Pitch input CV smoothing parameters."""
 
-    smooth_sensitivity: structy.Fix16 = 30.0
+    removed_smooth_sensitivity: structy.Fix16 = 30.0
 
-    pollux_follower_threshold: int = 100
-    """This is the "deadzone" for Pollux's pitch CV input, basically, it
-            should be around 0v and it's the point where Pollux starts following
-            Castor's pitch CV. By default this is 100 code points to allow some
-            variance in time and temperature."""
+    zero_detection_threshold: int = 350
+    """ This is used to detect whether the pitch CV inputs have something
+            patched. Basically, C&P checks if the input is near 0V and if it is,
+            it assumes nothing is patched. If you routinely send 0V CV into C&P
+            this can cause unexpected behavior, so in the case you can disable
+            zero detection with zero_detection_enabled.
 
-    castor_lfo_pwm: bool = False
-    """Route LFO to PWM for oscillators"""
+            The default is 350 which corresponds to just over 0V for C&P II.
 
-    pollux_lfo_pwm: bool = False
+            (previously named pollux_follower_threshold)
+        """
+
+    removed_castor_lfo_pwm: bool = False
+    """(Removed) Route LFO to PWM for oscillators"""
+
+    removed_pollux_lfo_pwm: bool = False
 
     pitch_knob_nonlinearity: structy.Fix16 = 0.6
     """The firmware adjusts the pitch CV knobs so that it's easier to tune
@@ -97,4 +103,15 @@ class GemSettings(structy.Struct):
     osc8m_freq: int = 8000000
     """
         Measured 8MHz oscillator frequency, used to fine tune the output pitch.
+        """
+
+    zero_detection_enabled: bool = True
+    """
+        Enables or disables zero volt detection used to check whether a patch
+        cable is present at the pitch inputs.
+        """
+
+    quantization_enabled: bool = True
+    """
+        Enables or disables quantization when Castor is in "Coarse" mode
         """

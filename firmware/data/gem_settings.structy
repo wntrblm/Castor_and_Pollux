@@ -26,19 +26,25 @@ class GemSettings:
     cv_offset_error: fix16 = 0.0
     cv_gain_error: fix16 = 1.0
 
-    """Pitch input CV smoothing parameters."""
-    smooth_initial_gain: fix16 = 0.1
-    smooth_sensitivity: fix16 = 30.0
+    """(Removed) Pitch input CV smoothing parameters."""
+    removed_smooth_initial_gain: fix16 = 0.1
+    removed_smooth_sensitivity: fix16 = 30.0
 
-    """This is the "deadzone" for Pollux's pitch CV input, basically, it
-        should be around 0v and it's the point where Pollux starts following
-        Castor's pitch CV. By default this is 100 code points to allow some
-        variance in time and temperature."""
-    pollux_follower_threshold: uint16 = 100
+    """ This is used to detect whether the pitch CV inputs have something
+        patched. Basically, C&P checks if the input is near 0V and if it is,
+        it assumes nothing is patched. If you routinely send 0V CV into C&P
+        this can cause unexpected behavior, so in the case you can disable
+        zero detection with zero_detection_enabled.
 
-    """Route LFO to PWM for oscillators"""
-    castor_lfo_pwm: bool = False
-    pollux_lfo_pwm: bool = False
+        The default is 350 which corresponds to just over 0V for C&P II.
+
+        (previously named pollux_follower_threshold)
+    """
+    zero_detection_threshold: uint16 = 350
+
+    """(Removed) Route LFO to PWM for oscillators"""
+    removed_castor_lfo_pwm: bool = False
+    removed_pollux_lfo_pwm: bool = False
 
     """The firmware adjusts the pitch CV knobs so that it's easier to tune
         the oscillators. It does this by spreading the values near the center
@@ -87,3 +93,14 @@ class GemSettings:
     Measured 8MHz oscillator frequency, used to fine tune the output pitch.
     """
     osc8m_freq: uint32 = 8_000_000
+
+    """
+    Enables or disables zero volt detection used to check whether a patch
+    cable is present at the pitch inputs.
+    """
+    zero_detection_enabled: bool = True
+
+    """
+    Enables or disables quantization when Castor is in "Coarse" mode
+    """
+    quantization_enabled: bool = True

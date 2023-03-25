@@ -9,7 +9,7 @@
 
 #include "fix16.h"
 
-#define GEMSETTINGS_PACKED_SIZE 78
+#define GEMSETTINGS_PACKED_SIZE 80
 
 struct GemSettings {
     /* The ADC's internal gain correction register. */
@@ -30,17 +30,23 @@ struct GemSettings {
     /* Error correction for the ADC readings for the CV input. */
     fix16_t cv_offset_error;
     fix16_t cv_gain_error;
-    /* Pitch input CV smoothing parameters. */
-    fix16_t smooth_initial_gain;
-    fix16_t smooth_sensitivity;
-    /* This is the "deadzone" for Pollux's pitch CV input, basically, it
-        should be around 0v and it's the point where Pollux starts following
-        Castor's pitch CV. By default this is 100 code points to allow some
-        variance in time and temperature. */
-    uint16_t pollux_follower_threshold;
-    /* Route LFO to PWM for oscillators */
-    bool castor_lfo_pwm;
-    bool pollux_lfo_pwm;
+    /* (Removed) Pitch input CV smoothing parameters. */
+    fix16_t removed_smooth_initial_gain;
+    fix16_t removed_smooth_sensitivity;
+    /*  This is used to detect whether the pitch CV inputs have something
+        patched. Basically, C&P checks if the input is near 0V and if it is,
+        it assumes nothing is patched. If you routinely send 0V CV into C&P
+        this can cause unexpected behavior, so in the case you can disable
+        zero detection with zero_detection_enabled.
+
+        The default is 350 which corresponds to just over 0V for C&P II.
+
+        (previously named pollux_follower_threshold)
+     */
+    uint16_t zero_detection_threshold;
+    /* (Removed) Route LFO to PWM for oscillators */
+    bool removed_castor_lfo_pwm;
+    bool removed_pollux_lfo_pwm;
     /* The firmware adjusts the pitch CV knobs so that it's easier to tune
         the oscillators. It does this by spreading the values near the center
         of the knob out so that the range at the center is more fine. This
@@ -72,6 +78,15 @@ struct GemSettings {
     Measured 8MHz oscillator frequency, used to fine tune the output pitch.
      */
     uint32_t osc8m_freq;
+    /*
+    Enables or disables zero volt detection used to check whether a patch
+    cable is present at the pitch inputs.
+     */
+    bool zero_detection_enabled;
+    /*
+    Enables or disables quantization when Castor is in "Coarse" mode
+     */
+    bool quantization_enabled;
 };
 
 void GemSettings_init(struct GemSettings* inst);

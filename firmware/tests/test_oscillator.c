@@ -23,7 +23,9 @@ struct GemOscillator osc = {
     .pitch_knob_max = F16(1.0),
     .pulse_width_bitmask = 0xFFFF,
     .can_follow = false,
-    .nonzero_threshold = 10,
+    .zero_detection_enabled = true,
+    .zero_detection_threshold = 10,
+    .quantization_enabled = true,
 };
 
 TEST_CASE_BEGIN(coarse_pitch)

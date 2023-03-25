@@ -51,10 +51,12 @@ struct GemOscillator {
     bool can_follow;
 
     /* Configuration from settings */
+    bool quantization_enabled;
     fix16_t pitch_offset;
     fix16_t pitch_knob_min;
     fix16_t pitch_knob_max;
-    uint16_t nonzero_threshold;
+    bool zero_detection_enabled;
+    uint16_t zero_detection_threshold;
     uint16_t pulse_width_bitmask;
     fix16_t lfo_pitch_factor;
 

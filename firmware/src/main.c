@@ -293,7 +293,9 @@ static void init_() {
         .pitch_knob_max = settings_.castor_knob_max,
         .pulse_width_bitmask = settings_.pulse_width_bitmask,
         .can_follow = false,
-        .nonzero_threshold = settings_.pollux_follower_threshold,
+        .zero_detection_enabled = settings_.zero_detection_enabled,
+        .zero_detection_threshold = settings_.zero_detection_threshold,
+        .quantization_enabled = settings_.quantization_enabled,
     };
     GemOscillator_init(&castor_);
 
@@ -311,7 +313,8 @@ static void init_() {
         // pitch CV is near zero. Rev 5 has a switched jack, but still does
         // the near zero check to follow Castor when both pitch inputs are
         // unpatched.
-        .nonzero_threshold = settings_.pollux_follower_threshold,
+        .zero_detection_enabled = settings_.zero_detection_enabled,
+        .zero_detection_threshold = settings_.zero_detection_threshold,
     };
     GemOscillator_init(&pollux_);
 

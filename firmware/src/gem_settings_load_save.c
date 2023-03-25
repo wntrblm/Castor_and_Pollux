@@ -54,8 +54,6 @@ bool GemSettings_check(uint8_t marker, struct GemSettings* settings) {
     LIMIT_F16_FIELD(pollux_knob_min, -10.0, 0.0);
     LIMIT_F16_FIELD(chorus_max_intensity, 0.0, 1.0);
     LIMIT_F16_FIELD(lfo_1_frequency, 0.0, 50.0);
-    LIMIT_F16_FIELD(smooth_initial_gain, 0.0, 1.0);
-    LIMIT_F16_FIELD(smooth_sensitivity, 0.0, 100.0);
     LIMIT_F16_FIELD(pitch_knob_nonlinearity, 0.3, 1.0);
 
     /* V2 added base_cv_offset field. */
@@ -86,10 +84,12 @@ bool GemSettings_check(uint8_t marker, struct GemSettings* settings) {
         DEFAULT_FIELD(pulse_width_bitmask);
     }
 
-    /* V5 added osc8m_freq */
+    /* V5 added osc8m_freq, zero_detection_enabled, and quantization_enabled */
     if (marker < SETTINGS_MARKER_V5) {
         printf("Upgrading settings from v4 to v5.\n");
         DEFAULT_FIELD(osc8m_freq);
+        DEFAULT_FIELD(zero_detection_enabled);
+        DEFAULT_FIELD(quantization_enabled);
     }
 
     return true;

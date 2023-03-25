@@ -63,7 +63,7 @@ static void GemOscillator_update_pitch_(struct GemOscillator* osc, const struct 
     bool is_pollux = osc->number == 1;
     bool is_hard_sync = inputs.mode == GEM_MODE_HARD_SYNC;
 
-    bool is_zero = UINT12_INVERT(inputs.pitch_cv_code) < osc->nonzero_threshold;
+    bool is_zero = osc->zero_detection_enabled && (UINT12_INVERT(inputs.pitch_cv_code) < osc->zero_detection_threshold);
 
     // "coarse" pitch behavior is used when the pitch jack isn't connected to
     // Castor
@@ -73,9 +73,11 @@ static void GemOscillator_update_pitch_(struct GemOscillator* osc, const struct 
         pitch = gem_oscillator_calc_pitch_knob_(F16(0), F16(6), 0, inputs.pitch_knob_code);
 
         // quantize
-        pitch = fix16_mul(pitch, F16(12));
-        pitch = fix16_floor(fix16_add(pitch, F16(0.5)));
-        pitch = fix16_div(pitch, F16(12));
+        if (osc->quantization_enabled) {
+            pitch = fix16_mul(pitch, F16(12));
+            pitch = fix16_floor(fix16_add(pitch, F16(0.5)));
+            pitch = fix16_div(pitch, F16(12));
+        }
     }
 
     // "multiply" behavior is used by Pollux in hard sync mode. It's similar to
