@@ -13,7 +13,7 @@ To use this editor:
 If you run into issues, feel free to [reach out](mailto:support@winterbloom.com).
 
 <div class="field">
-    <button class="button is-primary is-large is-fullwidth" type="button" id="connect">Connect</button>
+    <button class="button is-primary is-large" type="button" id="connect">Connect</button>
     <p id="connect_info" class="notification hidden"></p>
 </div>
 
@@ -321,7 +321,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             </div>
         </div>
     </div>
-    <div class="section-divider">Save & restart</div>
+    <div class="section-divider"></div>
     <div class="field">
         <button class="button is-primary is-large is-fullwidth" type="button" id="save_button">Save &amp; restart</button>
     </div>

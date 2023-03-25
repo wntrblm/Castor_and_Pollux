@@ -175,6 +175,7 @@ $on(ui.connect_btn, "click", async function () {
     ui.connect_btn.classList.remove("is-primary");
     ui.connect_btn.classList.add("is-success");
     ui.connect_btn.innerText = "Connected";
+    ui.connect_btn.classList.add("hidden");
     ui.connect_info.classList.add("hidden");
     ui.connect_info.innerText = "";
     ui.settings_section.classList.remove("hidden");
