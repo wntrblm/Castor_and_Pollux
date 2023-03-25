@@ -9,6 +9,7 @@
 #include "gem_adc.h"
 #include "gem_dotstar.h"
 #include "gem_i2c.h"
+#include "gem_led_animation.h"
 #include "gem_oscillator.h"
 #include "gem_pulseout.h"
 #include "gem_spi.h"
@@ -106,4 +107,26 @@ static const struct GemSPIConfig GEM_REV1_SPI_CFG = {
 static const struct GemDotstarCfg GEM_REV1_DOTSTAR_CFG = {
     .count = 7,
     .spi = &GEM_REV1_SPI_CFG,
+};
+
+/*
+    Animation configuration
+*/
+static const struct GemLEDCfg GEM_REV1_LED_CFG = {
+    .hue_offsets =
+        {
+            0,
+            8169,
+            16338,
+            24508,
+            32677,
+            40846,
+            49016,
+            57185,
+        },
+    .vertical_pos_index = {0, 7, 1, 2, 6, 3, 5, 4},
+    .pwm_a_led = 5,
+    .pwm_b_led = 3,
+    .fm_a_led = 6,
+    .fm_b_led = 1,
 };

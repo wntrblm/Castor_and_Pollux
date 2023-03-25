@@ -48,6 +48,7 @@ static const struct GemOscillatorInputConfig* osc_input_cfg_;
 static const struct GemI2CConfig* i2c_cfg_;
 static const struct GemSPIConfig* spi_cfg_;
 static const struct GemDotstarCfg* dotstar_cfg_;
+static const struct GemLEDCfg* led_cfg_;
 static struct GemPulseOutConfig pulse_cfg_;
 
 /* Inputs */
@@ -165,6 +166,7 @@ static void init_() {
         i2c_cfg_ = &GEM_REV1_I2C_CFG;
         spi_cfg_ = &GEM_REV1_SPI_CFG;
         dotstar_cfg_ = &GEM_REV1_DOTSTAR_CFG;
+        led_cfg_ = &GEM_REV1_LED_CFG;
     }
 
     // rev5 pin is tied to ground in revisions > 5.
@@ -177,6 +179,7 @@ static void init_() {
         i2c_cfg_ = &GEM_REV5_I2C_CFG;
         spi_cfg_ = &GEM_REV5_SPI_CFG;
         dotstar_cfg_ = &GEM_REV5_DOTSTAR_CFG;
+        led_cfg_ = &GEM_REV5_LED_CFG;
     }
 
     // Tell the world who we are and how we got here. :)
@@ -227,7 +230,7 @@ static void init_() {
 
     /* Enable the Dotstar driver and LED animation. */
     gem_dotstar_init(settings_.led_brightness);
-    gem_led_animation_init();
+    gem_led_animation_init(*led_cfg_);
     gem_led_animation_set_mode(mode_);
 
     // Set up the SAMD21's ADC.
@@ -424,6 +427,8 @@ static RAMFUNC void lfo_task_() {
     // the animations.
     gem_led_inputs.lfo_amplitude = lfo_.amplitude;
     gem_led_inputs.lfo_gain = UINT12_NORMALIZE(knobs_.lfo);
+    gem_led_inputs.lfo_mod_a = knobs_.duty_a;
+    gem_led_inputs.lfo_mod_b = knobs_.duty_b;
 }
 
 /*

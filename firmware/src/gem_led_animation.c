@@ -23,22 +23,15 @@
 /* Static variables */
 
 struct GemLEDInputs gem_led_inputs = {
+    .tweaking = false,
     .lfo_amplitude = F16(0),
     .lfo_gain = F16(0),
+    .lfo_mod_a = 0,
+    .lfo_mod_b = 0,
 };
 
-// TODO: These need to be swapped between rev 1 vs rev 5
-static const uint32_t hue_offsets_[GEM_MAX_DOTSTAR_COUNT] = {
-    0,
-    65355 / GEM_MAX_DOTSTAR_COUNT * 1,
-    65355 / GEM_MAX_DOTSTAR_COUNT * 2,
-    65355 / GEM_MAX_DOTSTAR_COUNT * 3,
-    65355 / GEM_MAX_DOTSTAR_COUNT * 4,
-    65355 / GEM_MAX_DOTSTAR_COUNT * 5,
-    65355 / GEM_MAX_DOTSTAR_COUNT * 6,
-    65355 / GEM_MAX_DOTSTAR_COUNT * 7,
-};
-static const size_t leds_vertical_pos_index_[GEM_MAX_DOTSTAR_COUNT] = {0, 7, 1, 2, 6, 3, 5, 4};
+static struct GemLEDCfg cfg_;
+
 static enum GemMode mode_ = GEM_MODE_NORMAL;
 static uint32_t last_update_;
 static fix16_t phase_a_ = F16(0);
@@ -57,7 +50,10 @@ static void animation_step_tweak_(const struct GemDotstarCfg* dotstar, uint32_t 
 
 /* Public functions. */
 
-void gem_led_animation_init() { last_update_ = wntr_ticks(); }
+void gem_led_animation_init(const struct GemLEDCfg cfg) {
+    cfg_ = cfg;
+    last_update_ = wntr_ticks();
+}
 
 void gem_led_animation_set_mode(enum GemMode mode) {
     mode_ = mode;
@@ -155,7 +151,7 @@ static void animation_step_transition_(const struct GemDotstarCfg* dotstar, uint
         uint8_t v = (uint8_t)MINMAX((fix16_to_int(fix16_mul(F16(255), factor))), 0, 255);
         uint32_t color = wntr_colorspace_hsv_to_rgb(hue_accum_, 255, 255 - v);
 
-        size_t led_index = leds_vertical_pos_index_[dotstar->count - 1 - i];
+        size_t led_index = cfg_.vertical_pos_index[dotstar->count - 1 - i];
         gem_dotstar_set32(led_index, color);
     }
 }
@@ -183,7 +179,7 @@ static void animation_step_sparkles_(const struct GemDotstarCfg* dotstar, uint32
             continue;
         }
 
-        uint16_t hue = (hue_accum_ + hue_offsets_[i]) % UINT16_MAX;
+        uint16_t hue = (hue_accum_ + cfg_.hue_offsets[i]) % UINT16_MAX;
         uint8_t sat = (uint8_t)MINMAX(-base_sat + (255 - sparkles_[i]), 0, 255);
         int32_t val = MIN(sparkles_[i] * val_factor, 255);
 
@@ -212,9 +208,20 @@ static void animation_step_normal_(const struct GemDotstarCfg* dotstar, uint32_t
         fix16_t phase_offset = fix16_div(fix16_from_int(i), fix16_from_int(dotstar->count));
         fix16_t sin_a = wntr_sine_normalized(phase_a_ + phase_offset);
         uint8_t value = 20 + fix16_to_int(fix16_mul(sin_a, F16(235)));
-        uint16_t hue = (hue_accum_ + hue_offsets_[i]) % UINT16_MAX;
+        uint16_t hue = mode_ == GEM_MODE_HARD_SYNC ? hue_accum_ : (hue_accum_ + cfg_.hue_offsets[i]) % UINT16_MAX;
         uint32_t color = wntr_colorspace_hsv_to_rgb(hue, 255, value);
         gem_dotstar_set32(i, color);
+    }
+
+    if (mode_ == GEM_MODE_LFO_PWM || mode_ == GEM_MODE_LFO_FM) {
+        uint8_t val = 127 + fix16_to_int(fix16_mul(F16(127), gem_led_inputs.lfo_amplitude));
+        uint16_t hue_a = (49151 * gem_led_inputs.lfo_mod_a) >> 12;
+        uint16_t hue_b = (49151 * gem_led_inputs.lfo_mod_b) >> 12;
+        uint32_t color_a = wntr_colorspace_hsv_to_rgb(hue_a, 255, val);
+        uint32_t color_b = wntr_colorspace_hsv_to_rgb(hue_b, 255, val);
+
+        gem_dotstar_set32(mode_ == GEM_MODE_LFO_PWM ? cfg_.pwm_a_led : cfg_.fm_a_led, color_a);
+        gem_dotstar_set32(mode_ == GEM_MODE_LFO_PWM ? cfg_.pwm_b_led : cfg_.fm_b_led, color_b);
     }
 }
 
