@@ -133,7 +133,52 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
                 makes the knobs non-linear. This setting controls how "intense"
                 that non-linearity is. <code>0.33%</code> is equivalent to a linear
                 response. Higher values make it easier and easier to tune the
-                oscillator but sacrifices the range, values lower than <code>33%</code> willmake it harder to tune and aren't recommended. This is <code>60%</code> by default.
+                oscillator but sacrifices the range, values lower than <code>33%</code>
+                will make it harder to tune and aren't recommended. This is
+                <code>60%</code> by default.
+            </p>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="field">
+                <label class="label">Quantization</label>
+            </div>
+            <div class="field">
+                <label class="checkbox" for="quantization_enabled">
+                    <input class="checkbox" type="checkbox" id="quantization_enabled" name="quantization_enabled" value="on" data-bind />
+                    Enable Castor's semitone quantization
+                </label>
+            </div>
+        </div>
+        <div class="column">
+            <p class="notification help-text">
+                When nothing is patched into Castor's pitch CV input, Castor's pitch knob becomes a <em>coarse</em> pitch knob that sweeps across 6 octaves. By default, in this situation Castor will quantize to the nearest semitone. You can disable this to get continuous frequency changes.
+            </p>
+        </div>
+    </div>
+    <div class="columns">
+        <div class="column">
+            <div class="field">
+                <label class="label">Jack detection</label>
+            </div>
+            <div class="field">
+                <label class="checkbox" for="zero_detection_enabled">
+                    <input class="checkbox" type="checkbox" id="zero_detection_enabled" name="zero_detection_enabled" value="on" data-bind />
+                    Enable pitch jack detection
+                </label>
+            </div>
+            <div class="field">
+                <label class="label" for="zero_detection_threshold">Zero detection threshold</label>
+                <input class="input" type="number" name="zero_detection_threshold" min="0" max="800" value="100" data-bind data-bind-type="int"/>
+                <span class="units"><span data-display-value-for="zero_detection_threshold"></span> code points
+            </div>
+        </div>
+        <div class="column">
+            <p class="notification help-text">
+                These settings determine how C&P detects the presence or absence of a signal at the pitch CV jacks. C&P does this by checking if the signal at the jack is <code>0V</code>.<br/>
+                <br/>
+                The intended behavior is that when no cable is patched to Castor's pitch input, it'll switch to "coarse" pitch behavior. Likewise for Pollux, if there's no cable patch to its pitch CV then it will follow Castor. However, some users may find this behavior undesirable, especially if you often send pitch CV of around <code>0V</code>.
             </p>
         </div>
     </div>
@@ -205,30 +250,6 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     <div class="columns">
         <div class="column">
             <div class="field">
-                <label class="label">LFO routing</label>
-            </div>
-            <div class="field">
-                <label class="checkbox" for="castor_lfo_pwm">
-                    <input class="checkbox" type="checkbox" id="castor_lfo_pwm" name="castor_lfo_pwm" value="on" data-bind />
-                    Route LFO to Castor's pulse width
-                </label>
-            </div>
-            <div class="field">
-                <label class="checkbox" for="pollux_lfo_pwm">
-                    <input class="checkbox" type="checkbox" id="pollux_lfo_pwm" name="pollux_lfo_pwm" value="on" data-bind />
-                    Route LFO to Pollux's pulse width
-                </label>
-            </div>
-        </div>
-        <div class="column">
-            <p class="notification help-text">
-                These settings control whether the internal LFO is used to modulate the pulse width of each oscillator by default. The routing can be enabled or disabled at any time by holding <em>hard sync</em> button and moving the oscillator's <em>pulse width</em> knob, this just enables or disables it at start-up.
-            </p>
-        </div>
-    </div>
-    <div class="columns">
-        <div class="column">
-            <div class="field">
                 <label class="label">Pulse width behavior</label>
                 <div class="select is-full-width">
                     <select id="pulse_width_bitmask" name="pulse_width_bitmask" data-bind data-bind-type="int">
@@ -265,18 +286,6 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         <div class="column">
             <p class="notification help-text">
                 Castor & Pollux uses an internal 8 MHz clock to generate the frequency signals for the oscillators. The actual frequency of this oscillator can vary between 7.94 MHz and 8.06 MHz. This setting is set to compensate for that so that the oscillator outputs are in tune.
-            </p>
-        </div>
-    </div>
-    <div class="columns">
-        <div class="column field">
-            <label class="label" for="pollux_follower_threshold">Pollux follower threshold</label>
-            <input class="input is-dangerous" type="number" name="pollux_follower_threshold" min="0" max="500" value="100" readonly data-bind data-bind-type="int"/>
-            <span class="units"><span data-display-value-for="pollux_follower_threshold"></span> code points, <span data-display-value-for="pollux_follower_threshold" data-display-formatter="((input.valueAsNumber / 4096) * 6.0).toFixed(2);"></span> volts</span>
-        </div>
-        <div class="column">
-            <p class="notification help-text">
-                These settings controls how Pollux determines when to follow Castor. The intended behavior is that when no cable is attached to Pollux's pitch CV jack, it will follow Castor's pitch. The module detects this condition by seeing if the input jack is reading 0 volts. Sometimes due to analog conversion errors this threshold needs to be adjusted. Lower thresholds may lead to glitchy behavior as the noise measures above and below the threshold, and higher settings may lead to Pollux ignoring the pitch CV input on lower notes.
             </p>
         </div>
     </div>
