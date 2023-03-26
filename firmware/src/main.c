@@ -396,6 +396,9 @@ static RAMFUNC void analog_input_task_() {
     KNOB_UPDATE(duty_a, GEM_IN_DUTY_A_POT);
     KNOB_UPDATE(duty_b, GEM_IN_DUTY_B_POT);
     KNOB_UPDATE(lfo, GEM_IN_CHORUS_POT);
+
+    gem_led_inputs.pitch_tweak_a = tweak_knobs_.pitch_a;
+    gem_led_inputs.pitch_tweak_b = tweak_knobs_.pitch_b;
 }
 
 /*
