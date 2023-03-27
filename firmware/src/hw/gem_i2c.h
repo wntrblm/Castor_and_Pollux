@@ -10,6 +10,7 @@
 
 #include "sam.h"
 #include "wntr_gpio.h"
+#include "wntr_ramfunc.h"
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -36,4 +37,4 @@ enum GemI2CResult {
 
 void gem_i2c_init(const struct GemI2CConfig* cfg);
 
-enum GemI2CResult gem_i2c_write(const struct GemI2CConfig* cfg, uint8_t address, uint8_t* data, size_t len);
+RAMFUNC enum GemI2CResult gem_i2c_write(const struct GemI2CConfig* cfg, uint8_t address, uint8_t* data, size_t len);
