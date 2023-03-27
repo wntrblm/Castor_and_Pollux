@@ -15,12 +15,12 @@
 
 /*
     With the below settings the total time per ADC conversion is
-    78 microseconds.
+    24.67 microseconds.
 
-    With Gemini's 9 channels it takes at least 702 microseconds to measure all
-    channels. There's a bit of added overhead because the CPU has to switch
+    With Gemini's 9 channels it takes at least 198 microseconds to measure
+    all channels. There's a bit of added overhead because the CPU has to switch
     channels between each measurement. This means that the effective sample
-    rate for Gemini is about 1.4 kHz.
+    rate for Gemini is about 5 kHz.
 
     See: https://blog.thea.codes/getting-the-most-out-of-the-samd21-adc/
 */
@@ -31,8 +31,8 @@ static const struct GemADCConfig GEM_REV5_ADC_CFG = {
     .gclk_prescaler = ADC_CTRLB_PRESCALER_DIV32,
     // Max impedance is 17,617 kOhms
     .sample_time = 1,
-    // Record and average 32 samples for each measurement.
-    .sample_num = ADC_AVGCTRL_SAMPLENUM_32,
+    // Record and average 16 samples for each measurement.
+    .sample_num = ADC_AVGCTRL_SAMPLENUM_16,
     .adjres = ADC_AVGCTRL_ADJRES(4),
 };
 
