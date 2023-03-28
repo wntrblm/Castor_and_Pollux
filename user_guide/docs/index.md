@@ -8,7 +8,7 @@
 
 -   Available [assembled](https://winterbloom.com/shop/castor-and-pollux) or as a [kit](https://winterbloom.com/shop/castor-and-pollux-kit)
 -   14 HP
--   `+12 V` @ `100 mA`, `-12 V` @ `35 mA`
+-   `+12 V @ 100 mA`, `-12 V @ 35 mA`
 -   `25 mm` deep
 -   2 separate oscillators
 -   7 octave range
@@ -28,9 +28,25 @@ We want you to have a wonderful experience with your module. If you need help or
 -   File a bug [on GitHub](https://github.com/wntrblm/Castor_and_Pollux/issues)
 -   Reach out on our [Discord][discord]
 
+## Version differences
+
+![Illustration of Castor & Pollux I and Castor & Pollux II](images/V1%20vs%20V2.svg)
+
+Castor & Pollux has two different versions in the wild with significant changes between them. Fortunately, both versions are fundamentally the same brains with different user interfaces. Changes made by Castor & Pollux II include:
+
+-   Replacing the pitch trimpots with large knobs
+-   Replacing the pulse width, lfo, and crossfade trimpots with large knobs
+-   Moving the input and output jacks to the bottom edge of the module
+-   Moving the individual waveform outputs to a seperate expander
+-   Consolidating the two separate circuit boards into a single board
+-   Adding additional ESD protection to all input jacks
+-   Adding an additional LED
+
+Both versions use the same firmware and behave the same way. This manual applies to both versions, however, the illustrations shown here depict Castor & Pollux II. We made sure that all interface elements use the same symbols and labels between the versions. If you run into trouble, don't hesitate to [reach out](#getting-support-and-help).
+
 ## Installation
 
-![TODO](Illustration/picture of power connection)
+![Illustration/picture of power connection](TODO)
 
 To install this into your Eurorack setup, connect a Eurorack power cable from your power supply to the back of the module. **Note that even though the power connector on the module is keyed, double check that the red stripe is on the side labeled `red stripe`!**. Once power is connected, secure your module to your rack rails using screws.
 
@@ -49,7 +65,7 @@ Each oscillator, `⍺` and `β`, is controlled by its associated knobs and CV in
 -   The large pitch knob and pitch CV input control the oscillator's **pitch** (frequency).
 -   The smaller pulse width knob and pulse width CV input control the oscillator's **pulse width**.
 
-You can learn more about these inputs in the [pitch](#TODO) and [pulse width](TODO) sections.
+You can learn more about these inputs in the [pitch behavior](#pitch-behavior) section.
 
 Each oscillator has a single output jack, `★`, which is controlled by its mixer:
 
@@ -67,7 +83,7 @@ Next up, in the very middle there's a the LFO knob, `φ`:
 
 ![Illustration of the LFO knob](images/5%20-%20LFO.svg)
 
-This [internal LFO](#TODO) can be used to modulate several parameters in interesting ways depending on the [mode](#modes--tweaking).
+This [internal LFO](#internal-low-frequency-oscillator) can be used to modulate several parameters in interesting ways depending on the [mode](#modes--tweaking).
 
 Last, but not least, there is a single button in the center that's used for changing modes and enabling the tweak overlay:
 
@@ -140,7 +156,7 @@ When [nothing](#jack-detection) is patched into Castor's pitch CV jack, `Coarse`
 
 ![Illustration of fine pitch behavior](images/9%20-%20Fine.svg)
 
-If there is a signal patched into Castor's pitch CV jack, `Fine` behavior is used. The input CV should be between `0 V` and `6 V`. The pitch knob offsets the input CV by `±1 octave`. The pitch knob has a sort of ["virtual notch"](#TODO) at the 12 o' clock position to help you dial in the frequency you're looking for.
+If there is a signal patched into Castor's pitch CV jack, `Fine` behavior is used. The input CV should be between `0 V` and `6 V`. The pitch knob offsets the input CV by `±1 octave`. The pitch knob has a sort of ["virtual notch"](#tuning) at the 12 o' clock position to help you dial in the frequency you're looking for.
 
 Pollux also uses `Fine` behavior but will _follow_ Castor if nothing is patched into its pitch CV jack. Pollux doesn't ever use `Coarse` behavior.
 
@@ -148,7 +164,7 @@ Pollux also uses `Fine` behavior but will _follow_ Castor if nothing is patched 
 
 ![Illustration of multiply pitch behavior](images/10%20-%20multiply.svg)
 
-Finally, Pollux uses `Multiply` behavior when in [Hard Sync](#TODO) mode. In this case, Pollux follows Castor and the knob adds up to three octaves.
+Finally, Pollux uses `Multiply` behavior when in [Hard Sync](#hard-sync) mode. In this case, Pollux follows Castor and the knob adds up to three octaves.
 
 ### Jack detection
 
@@ -182,7 +198,7 @@ First, the pitch knobs have a "virtual notch" because of their **non-linear** re
 
 ![Illustration of tweak mode pitch tuning](images/11%20-%20extra%20fine.svg)
 
-Second, the [tweak](#TODO) overlay allows you even more finely adjust tuning. Holding down the button and turning the pitch knob allows you to apply an additional ±2.5 semitone offset. This offset is applied to the oscillator regardless of the [pitch behavior](#pitch-behavior) or the current [mode](#TODO).
+Second, the [tweak](#modes--tweaking) overlay allows you even more finely adjust tuning. Holding down the button and turning the pitch knob allows you to apply an additional `±2.5 semitone` offset. This offset is applied to the oscillator regardless of the [pitch behavior](#pitch-behavior) or the current [mode](#modes--tweaking).
 
 ## Waveshapes
 
@@ -439,7 +455,7 @@ Hard sync mode's controls are the same as [chorus mode](#chorus-mode) except tha
 
 Castor & Pollux II includes a small expander that provides individual output jacks for each oscillator's [waveshapes](#waveshapes).
 
-![TODO](Photo of connecting the expander to C&P)
+![Photo of connecting the expander to C&P](TODO)
 
 To use the expander, connect the small ribbon cable to the back of Castor & Pollux in the header labeled `Expander`. Connect the other end to the matching header on the back of the expander. Secure the expander to your case using screws.
 
