@@ -134,7 +134,9 @@ static void GemOscillator_update_pitch_(struct GemOscillator* osc, const struct 
         fm_amount = UINT12_NORMALIZE(inputs.pulse_cv_code + inputs.pulse_knob_code);
     }
 
-    if (fm_amount != F16(0)) {
+    fm_amount = fix16_sub(fm_amount, GEM_FM_DEADZONE);
+
+    if (fm_amount > F16(0)) {
         fix16_t fm = fix16_mul(osc->lfo_pitch_factor, fix16_mul(inputs.lfo_amplitude, fm_amount));
         pitch = fix16_add(pitch, fm);
     }
@@ -193,7 +195,7 @@ gem_oscillator_calc_pitch_knob_(fix16_t knob_min, fix16_t knob_max, fix16_t nonl
 }
 
 static void GemOscillator_update_pulse_width_(struct GemOscillator* osc, struct GemOscillatorInputs inputs) {
-    uint16_t pulse_width = 0x0;
+    int32_t pulse_width = 2048;
 
     // In normal and hard sync modes, the CV & knob directly control the pulse
     // width.
@@ -215,17 +217,21 @@ static void GemOscillator_update_pulse_width_(struct GemOscillator* osc, struct 
         fix16_t lfo_factor = UINT12_NORMALIZE(inputs.pulse_knob_code + inputs.pulse_cv_code);
         if (inputs.tweak_pulse_knob_code != UINT16_MAX) {
             pulse_width = inputs.tweak_pulse_knob_code;
-        } else {
-            pulse_width = 2048;
         }
-        pulse_width += fix16_to_int(fix16_mul(F16(2048), fix16_mul(lfo_factor, inputs.lfo_amplitude)));
+        pulse_width +=
+            fix16_to_int(fix16_mul(F16(GEM_PULSE_WIDTH_MOD_MAX), fix16_mul(lfo_factor, inputs.lfo_amplitude)));
     }
 
+    // Up until this point, pulse width is defined as 0 -> 4095, however, the pulse width's
+    // usable range is slightly lower than that.  This adjusts the value into that range.
+    // Equivalent to (pulse_width * 4095) * GEM_PULSE_MAX
+    pulse_width = (((pulse_width << 16) / 4095) * GEM_PULSE_WIDTH_MAX) >> 16;
+
     // Wrap-around
-    UINT12_MOD(pulse_width);
+    pulse_width %= GEM_PULSE_WIDTH_MAX;
 
     // Apply the pulse width bitmask to emulate the old "steppy" behavior
-    pulse_width &= osc->pulse_width_bitmask;
+    pulse_width = (uint16_t)(pulse_width) & (osc->pulse_width_bitmask);
 
     osc->pulse_width = pulse_width;
 }

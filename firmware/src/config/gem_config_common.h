@@ -45,4 +45,7 @@ static const struct WntrGPIOPin button_pin_ = WNTR_GPIO_PIN(B, 8);
 /* Behavioral constants. */
 
 #define GEM_CV_DEFAULT_BASE_OFFSET F16(1.0)
-#define GEM_TWEAK_MAX_LFO_FREQ F16(5)
+#define GEM_TWEAK_MAX_LFO_FREQ F16(6)
+#define GEM_PULSE_WIDTH_MAX (3100)
+#define GEM_PULSE_WIDTH_MOD_MAX (1920)
+#define GEM_FM_DEADZONE F16(0.02)

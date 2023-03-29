@@ -44,7 +44,7 @@ TEST_CASE_BEGIN(coarse_pitch)
     // This should result in the lowest note, so it should give us 1.0V as
     // the final pitch, since osc->pitch_offset is 1.0.
 
-    inputs.pitch_cv_code = 4096;
+    inputs.pitch_cv_code = 4095;
     inputs.pitch_knob_code = 0;
 
     GemOscillator_update(&osc, inputs);
@@ -56,7 +56,7 @@ TEST_CASE_BEGIN(coarse_pitch)
     // Thi should be in the middle of the range (0 -> 6, so 3) plus the pitch
     // offset, so 4.0.
 
-    inputs.pitch_cv_code = 4096;
+    inputs.pitch_cv_code = 4095;
     inputs.pitch_knob_code = 2048;
 
     GemOscillator_update(&osc, inputs);
@@ -69,7 +69,7 @@ TEST_CASE_BEGIN(coarse_pitch)
     // This should quantize to the closest semitone, so it should be the same
     // as the previous scenario.
 
-    inputs.pitch_cv_code = 4096;
+    inputs.pitch_cv_code = 4095;
     inputs.pitch_knob_code = 2052;
 
     GemOscillator_update(&osc, inputs);
@@ -81,8 +81,8 @@ TEST_CASE_BEGIN(coarse_pitch)
     // This should also be "coarse" mode but the note should be in the top
     // of the range (0 -> 6, so 6) plus the pitch offset, so 7.0.
 
-    inputs.pitch_cv_code = 4096;
-    inputs.pitch_knob_code = 4096;
+    inputs.pitch_cv_code = 4095;
+    inputs.pitch_knob_code = 4095;
 
     GemOscillator_update(&osc, inputs);
     ASSERT_FIX16_CLOSE(osc.pitch, F16(7.0), 0.01);
@@ -124,7 +124,7 @@ TEST_CASE_BEGIN(fine_pitch)
     //
     // This should result in a one octave higher.
     inputs.pitch_cv_code = 2048;
-    inputs.pitch_knob_code = 4096;
+    inputs.pitch_knob_code = 4095;
 
     GemOscillator_update(&osc, inputs);
     ASSERT_FIX16_CLOSE(osc.pitch, F16(5.00), 0.01);
@@ -165,7 +165,7 @@ TEST_CASE_BEGIN(extra_fine_pitch)
     // - Same as above except the pitch tweak knob is fully CW.
     //
     // This should result in the same as above +0.2.
-    inputs.tweak_pitch_knob_code = 4096;
+    inputs.tweak_pitch_knob_code = 4095;
 
     GemOscillator_update(&osc, inputs);
     ASSERT_FIX16_CLOSE(osc.pitch, F16(4.20), 0.01);
@@ -179,7 +179,7 @@ TEST_CASE_BEGIN(follow_pitch)
 
     struct GemOscillatorInputs inputs = {
         .mode = GEM_MODE_NORMAL,
-        .pitch_cv_code = 4096,
+        .pitch_cv_code = 4095,
         .tweak_pitch_knob_code = UINT16_MAX,
     };
 
@@ -210,7 +210,7 @@ TEST_CASE_BEGIN(follow_pitch)
     //
     // This should result in a one octave higher than the reference pitch.
     inputs.reference_pitch = F16(3.33);
-    inputs.pitch_knob_code = 4096;
+    inputs.pitch_knob_code = 4095;
 
     GemOscillator_update(&osc, inputs);
     ASSERT_FIX16_CLOSE(osc.pitch, F16(4.33), 0.01);
@@ -236,7 +236,7 @@ TEST_CASE_BEGIN(normal_mode_lfo_fm)
     osc.number = 1;
     inputs.pitch_cv_code = 2048;
     inputs.lfo_amplitude = F16(1.0);
-    inputs.lfo_knob_code = 4096;
+    inputs.lfo_knob_code = 4095;
     osc.lfo_pitch_factor = F16(0.5);
 
     GemOscillator_update(&osc, inputs);
@@ -261,7 +261,7 @@ TEST_CASE_BEGIN(normal_mode_lfo_fm)
     inputs.pulse_cv_code = 400;
 
     GemOscillator_update(&osc, inputs);
-    munit_assert_int16(osc.pulse_width, ==, 2048 + 400);
+    munit_assert_int16(osc.pulse_width, ==, 2047 + 400);
 TEST_CASE_END
 
 TEST_CASE_BEGIN(pwm_mode)
@@ -287,7 +287,7 @@ TEST_CASE_BEGIN(pwm_mode)
     inputs.pitch_knob_code = 2048;
     inputs.pitch_cv_code = 2048;
     inputs.lfo_amplitude = F16(-1.0);
-    inputs.lfo_knob_code = 4096;
+    inputs.lfo_knob_code = 4095;
 
     GemOscillator_update(&osc, inputs);
     ASSERT_FIX16_CLOSE(osc.pitch, F16(4), 0.01);
@@ -303,14 +303,14 @@ TEST_CASE_BEGIN(pwm_mode)
     inputs.lfo_amplitude = F16(-1.0);
 
     GemOscillator_update(&osc, inputs);
-    munit_assert_int16(osc.pulse_width, ==, 2048 - 1024);
+    munit_assert_int16(osc.pulse_width, ==, 2048 - 1025);
 
     // Scenario:
     // - Same as above but the LFO's amplitude is at +1.0
     inputs.lfo_amplitude = F16(1.0);
 
     GemOscillator_update(&osc, inputs);
-    munit_assert_int16(osc.pulse_width, ==, 2048 + 1024);
+    munit_assert_int16(osc.pulse_width, ==, 2048 + 1023);
 
     // Scenario:
     // - Pulse knob fully CCW
@@ -322,7 +322,7 @@ TEST_CASE_BEGIN(pwm_mode)
     inputs.lfo_amplitude = F16(-1.0);
 
     GemOscillator_update(&osc, inputs);
-    munit_assert_int16(osc.pulse_width, ==, 2048 - 1024);
+    munit_assert_int16(osc.pulse_width, ==, 2048 - 1025);
 
     // Scenario:
     // - Pulse knob fully CCW
@@ -337,7 +337,7 @@ TEST_CASE_BEGIN(pwm_mode)
     inputs.lfo_amplitude = F16(-1.0);
 
     GemOscillator_update(&osc, inputs);
-    munit_assert_int16(osc.pulse_width, ==, 2000);
+    munit_assert_int16(osc.pulse_width, ==, 1999);
 TEST_CASE_END
 
 TEST_CASE_BEGIN(fm_mode)
@@ -393,7 +393,7 @@ TEST_CASE_BEGIN(fm_mode)
     inputs.tweak_pulse_knob_code = 2060;
 
     GemOscillator_update(&osc, inputs);
-    munit_assert_int16(osc.pulse_width, ==, 2060);
+    munit_assert_int16(osc.pulse_width, ==, 2059);
 TEST_CASE_END
 
 TEST_CASE_BEGIN(hard_sync_mode)
@@ -404,7 +404,7 @@ TEST_CASE_BEGIN(hard_sync_mode)
 
     struct GemOscillatorInputs inputs = {
         .mode = GEM_MODE_HARD_SYNC,
-        .pitch_cv_code = 4096,
+        .pitch_cv_code = 4095,
         .tweak_pitch_knob_code = UINT16_MAX,
     };
 
@@ -435,7 +435,7 @@ TEST_CASE_BEGIN(hard_sync_mode)
     //
     // This should result in Pollux's frequency being 3V higher than
     // Castor's
-    inputs.pitch_knob_code = 4096;
+    inputs.pitch_knob_code = 4095;
 
     GemOscillator_update(&osc, inputs);
     ASSERT_FIX16_CLOSE(osc.pitch, F16(6.33), 0.01);

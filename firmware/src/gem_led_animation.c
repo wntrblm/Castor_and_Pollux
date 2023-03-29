@@ -248,7 +248,7 @@ static void animation_step_tweak_(const struct GemDotstarCfg* dotstar, uint32_t 
     for (uint8_t i = 0; i < dotstar->count; i++) { gem_dotstar_set32(i, 0); }
 
     uint8_t lfo_val = 127 + fix16_to_int(fix16_mul(F16(127), gem_led_inputs.lfo_amplitude));
-    gem_dotstar_set32(cfg_.lfo_tweak_led, wntr_colorspace_hsv_to_rgb(32677, 255, lfo_val));
+    gem_dotstar_set32(cfg_.lfo_tweak_led, wntr_colorspace_hsv_to_rgb(49016, 255, lfo_val));
 
     uint16_t pitch_hue;
     uint8_t pitch_val;
