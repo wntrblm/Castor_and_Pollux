@@ -154,32 +154,33 @@ static void init_() {
     // the firmware must detect which hardware revision. This is done by
     // connecting otherwise unused GPIO pins to ground. The firmware checks
     // the value of those pins to determine the hardware revision.
-    WntrGPIOPin_set_as_input(GEM_REV5_PIN, true);
+    WntrGPIOPin_set_as_input(GEM_II_PIN, true);
 
-    // rev5 pin is floating for revisions < 5, so it gets pulled up.
-    if (WntrGPIOPin_get(GEM_REV5_PIN) == true) {
+    // This pin is floating for C&PI (board revisions < 5), so it gets pulled
+    // up.
+    if (WntrGPIOPin_get(GEM_II_PIN) == true) {
         board_revision_ = 4;
         adc_cfg_ = &GEM_ADC_CFG;
-        adc_inputs_ = GEM_REV1_ADC_INPUTS;
-        osc_input_cfg_ = &GEM_REV1_OSC_INPUT_CFG;
-        pulse_cfg_ = GEM_REV1_PULSE_OUT_CFG;
-        i2c_cfg_ = &GEM_REV1_I2C_CFG;
-        spi_cfg_ = &GEM_REV1_SPI_CFG;
-        dotstar_cfg_ = &GEM_REV1_DOTSTAR_CFG;
-        led_cfg_ = &GEM_REV1_LED_CFG;
+        adc_inputs_ = GEM_I_ADC_INPUTS;
+        osc_input_cfg_ = &GEM_I_OSC_INPUT_CFG;
+        pulse_cfg_ = GEM_I_PULSE_OUT_CFG;
+        i2c_cfg_ = &GEM_I_I2C_CFG;
+        spi_cfg_ = &GEM_I_SPI_CFG;
+        dotstar_cfg_ = &GEM_I_DOTSTAR_CFG;
+        led_cfg_ = &GEM_I_LED_CFG;
     }
 
     // rev5 pin is tied to ground in revisions > 5.
     else {
         board_revision_ = 5;
         adc_cfg_ = &GEM_ADC_CFG;
-        adc_inputs_ = GEM_REV5_ADC_INPUTS;
-        osc_input_cfg_ = &GEM_REV5_OSC_INPUT_CFG;
-        pulse_cfg_ = GEM_REV5_PULSE_OUT_CFG;
-        i2c_cfg_ = &GEM_REV5_I2C_CFG;
-        spi_cfg_ = &GEM_REV5_SPI_CFG;
-        dotstar_cfg_ = &GEM_REV5_DOTSTAR_CFG;
-        led_cfg_ = &GEM_REV5_LED_CFG;
+        adc_inputs_ = GEM_II_ADC_INPUTS;
+        osc_input_cfg_ = &GEM_II_OSC_INPUT_CFG;
+        pulse_cfg_ = GEM_II_PULSE_OUT_CFG;
+        i2c_cfg_ = &GEM_II_I2C_CFG;
+        spi_cfg_ = &GEM_II_SPI_CFG;
+        dotstar_cfg_ = &GEM_II_DOTSTAR_CFG;
+        led_cfg_ = &GEM_II_LED_CFG;
     }
 
     // Tell the world who we are and how we got here. :)
@@ -312,8 +313,8 @@ static void init_() {
         .pitch_knob_max = settings_.pollux_knob_max,
         .pulse_width_bitmask = settings_.pulse_width_bitmask,
         // If Pollux doesn't have any pitch CV input it'll follow Castor's
-        // pitch. Rev 1-4 detects lack of pitch CV input by checking if Pollux's
-        // pitch CV is near zero. Rev 5 has a switched jack, but still does
+        // pitch. C&PI detects lack of pitch CV input by checking if Pollux's
+        // pitch CV is near zero. C&PII has a switched jack, but still does
         // the near zero check to follow Castor when both pitch inputs are
         // unpatched.
         .zero_detection_enabled = settings_.zero_detection_enabled,

@@ -14,7 +14,7 @@
 #include "gem_pulseout.h"
 #include "gem_spi.h"
 
-static const struct GemADCInput GEM_REV1_ADC_INPUTS[] = {
+static const struct GemADCInput GEM_I_ADC_INPUTS[] = {
     GEM_ADC_INPUT(A, 5, 5),            // Duty A
     GEM_ADC_INPUT_INVERTED(A, 8, 16),  // Duty A Pot
     GEM_ADC_INPUT(B, 9, 3),            // Duty B
@@ -29,8 +29,10 @@ static const struct GemADCInput GEM_REV1_ADC_INPUTS[] = {
 /*
     Configuration for the oscillator's input range
 */
-static const struct GemOscillatorInputConfig GEM_REV1_OSC_INPUT_CFG = {
-    .pitch_cv_min = F16(0.0), .pitch_cv_max = F16(6.0)};
+static const struct GemOscillatorInputConfig GEM_I_OSC_INPUT_CFG = {
+    .pitch_cv_min = F16(0.0),
+    .pitch_cv_max = F16(6.0),
+};
 
 /*
     Configuration for the square wave outputs for each oscillator.
@@ -39,7 +41,7 @@ static const struct GemOscillatorInputConfig GEM_REV1_OSC_INPUT_CFG = {
     TCC0 WO7 / PA17 for Castor
     TCC1 WO1 / PA11 for Pollux
 */
-static const struct GemPulseOutConfig GEM_REV1_PULSE_OUT_CFG = {
+static const struct GemPulseOutConfig GEM_I_PULSE_OUT_CFG = {
     .gclk = GCLK_CLKCTRL_GEN_GCLK1,
     .gclk_freq = 8000000,
     .tcc0_pin = WNTR_GPIO_PIN_ALT(A, 17, F),
@@ -51,7 +53,7 @@ static const struct GemPulseOutConfig GEM_REV1_PULSE_OUT_CFG = {
 /*
     DAC I2C configuration
 */
-static const struct GemI2CConfig GEM_REV1_I2C_CFG = {
+static const struct GemI2CConfig GEM_I_I2C_CFG = {
     .gclk = GCLK_CLKCTRL_GEN_GCLK1,
     .gclk_freq = 8000000,
     .baudrate = 400000,
@@ -67,7 +69,7 @@ static const struct GemI2CConfig GEM_REV1_I2C_CFG = {
 /*
     Dotstar & SPI configuration
 */
-static const struct GemSPIConfig GEM_REV1_SPI_CFG = {
+static const struct GemSPIConfig GEM_I_SPI_CFG = {
     .gclk = GCLK_CLKCTRL_GEN_GCLK0,
     .gclk_freq = 48000000,
     .baud = 8000000,
@@ -81,15 +83,15 @@ static const struct GemSPIConfig GEM_REV1_SPI_CFG = {
     .sdo_pin = WNTR_GPIO_PIN_ALT(B, 22, D),
 };
 
-static const struct GemDotstarCfg GEM_REV1_DOTSTAR_CFG = {
+static const struct GemDotstarCfg GEM_I_DOTSTAR_CFG = {
     .count = 7,
-    .spi = &GEM_REV1_SPI_CFG,
+    .spi = &GEM_I_SPI_CFG,
 };
 
 /*
     Animation configuration
 */
-static const struct GemLEDCfg GEM_REV1_LED_CFG = {
+static const struct GemLEDCfg GEM_I_LED_CFG = {
     .hue_offsets =
         {
             0,

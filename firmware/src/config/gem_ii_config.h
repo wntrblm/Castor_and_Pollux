@@ -13,7 +13,7 @@
 #include "gem_spi.h"
 #include "wntr_gpio.h"
 
-static const struct GemADCInput GEM_REV5_ADC_INPUTS[] = {
+static const struct GemADCInput GEM_II_ADC_INPUTS[] = {
     GEM_ADC_INPUT_INVERTED(A, 5, 5),  // Duty A
     GEM_ADC_INPUT(A, 10, 18),         // Duty A Pot
     GEM_ADC_INPUT_INVERTED(B, 9, 3),  // Duty B
@@ -28,7 +28,7 @@ static const struct GemADCInput GEM_REV5_ADC_INPUTS[] = {
 /*
     Configuration for the oscillator's input range
 */
-static const struct GemOscillatorInputConfig GEM_REV5_OSC_INPUT_CFG = {
+static const struct GemOscillatorInputConfig GEM_II_OSC_INPUT_CFG = {
     .pitch_cv_min = F16(-0.5), .pitch_cv_max = F16(6.1)};
 
 /*
@@ -38,7 +38,7 @@ static const struct GemOscillatorInputConfig GEM_REV5_OSC_INPUT_CFG = {
     TCC0 WO6 / PA12 for Castor
     TCC1 WO1 / PA11 for Pollux
 */
-static const struct GemPulseOutConfig GEM_REV5_PULSE_OUT_CFG = {
+static const struct GemPulseOutConfig GEM_II_PULSE_OUT_CFG = {
     .gclk = GCLK_CLKCTRL_GEN_GCLK1,
     .gclk_freq = 8000000,
     .tcc0_pin = WNTR_GPIO_PIN_ALT(A, 12, F),
@@ -50,7 +50,7 @@ static const struct GemPulseOutConfig GEM_REV5_PULSE_OUT_CFG = {
 /*
     DAC I2C configuration
 */
-static const struct GemI2CConfig GEM_REV5_I2C_CFG = {
+static const struct GemI2CConfig GEM_II_I2C_CFG = {
     .gclk = GCLK_CLKCTRL_GEN_GCLK1,
     .gclk_freq = 8000000,
     .baudrate = 400000,
@@ -66,7 +66,7 @@ static const struct GemI2CConfig GEM_REV5_I2C_CFG = {
 /*
     Dotstar SPI configuration
 */
-static const struct GemSPIConfig GEM_REV5_SPI_CFG = {
+static const struct GemSPIConfig GEM_II_SPI_CFG = {
     .gclk = GCLK_CLKCTRL_GEN_GCLK0,
     .gclk_freq = 48000000,
     .baud = 8000000,
@@ -80,15 +80,15 @@ static const struct GemSPIConfig GEM_REV5_SPI_CFG = {
     .sdo_pin = WNTR_GPIO_PIN_ALT(A, 0, D),
 };
 
-static const struct GemDotstarCfg GEM_REV5_DOTSTAR_CFG = {
+static const struct GemDotstarCfg GEM_II_DOTSTAR_CFG = {
     .count = 8,
-    .spi = &GEM_REV5_SPI_CFG,
+    .spi = &GEM_II_SPI_CFG,
 };
 
 /*
     Animation configuration
 */
-static const struct GemLEDCfg GEM_REV5_LED_CFG = {
+static const struct GemLEDCfg GEM_II_LED_CFG = {
     .hue_offsets =
         {
             0,
@@ -111,7 +111,8 @@ static const struct GemLEDCfg GEM_REV5_LED_CFG = {
 };
 
 /*
-    Revision 5 detection pin. On revisions 1-4, this pin is floating.
-    On revision 5 this pin is tied to ground.
+    C&PII (board rev 5+) has this pin tied to ground. On C&PI, this pin is
+    unused and left floating. It's used to detect which hardware revision the
+    firmware is running on.
 */
-#define GEM_REV5_PIN WNTR_GPIO_PIN(A, 27)
+#define GEM_II_PIN WNTR_GPIO_PIN(A, 27)

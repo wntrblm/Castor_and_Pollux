@@ -8,6 +8,6 @@
 
 /* Global configuration for all of Gemini's hardware and behavior. */
 
-#include "gem_config_common.h"
-#include "gem_config_rev1.h"
-#include "gem_config_rev5.h"
+#include "gem_common_config.h"
+#include "gem_i_config.h"
+#include "gem_ii_config.h"
