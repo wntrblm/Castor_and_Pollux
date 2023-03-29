@@ -159,7 +159,7 @@ static void init_() {
     // rev5 pin is floating for revisions < 5, so it gets pulled up.
     if (WntrGPIOPin_get(GEM_REV5_PIN) == true) {
         board_revision_ = 4;
-        adc_cfg_ = &GEM_REV1_ADC_CFG;
+        adc_cfg_ = &GEM_ADC_CFG;
         adc_inputs_ = GEM_REV1_ADC_INPUTS;
         osc_input_cfg_ = &GEM_REV1_OSC_INPUT_CFG;
         pulse_cfg_ = GEM_REV1_PULSE_OUT_CFG;
@@ -172,7 +172,7 @@ static void init_() {
     // rev5 pin is tied to ground in revisions > 5.
     else {
         board_revision_ = 5;
-        adc_cfg_ = &GEM_REV5_ADC_CFG;
+        adc_cfg_ = &GEM_ADC_CFG;
         adc_inputs_ = GEM_REV5_ADC_INPUTS;
         osc_input_cfg_ = &GEM_REV5_OSC_INPUT_CFG;
         pulse_cfg_ = GEM_REV5_PULSE_OUT_CFG;

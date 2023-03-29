@@ -78,6 +78,7 @@ SRCS = [
 ]
 
 INCLUDES = [
+    "src/config",
     "third_party/samd21/include",
     "third_party/cmsis/include",
 ]
