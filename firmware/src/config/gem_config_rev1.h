@@ -73,11 +73,11 @@ static const struct GemSPIConfig GEM_REV1_SPI_CFG = {
     .baud = 8000000,
     .polarity = 0,
     .phase = 0,
-    .sercom = SERCOM1,
-    .apbcmask = PM_APBCMASK_SERCOM1,
-    .clkctrl_id = GCLK_CLKCTRL_ID_SERCOM1_CORE,
-    .dopo = 0x0, /* Pad 0 is data, pad 1 is clock */
-    .sck_pin = WNTR_GPIO_PIN_ALT(A, 0, D),
+    .sercom = SERCOM5,
+    .apbcmask = PM_APBCMASK_SERCOM5,
+    .clkctrl_id = GCLK_CLKCTRL_ID_SERCOM5_CORE,
+    .dopo = 0x1, /* Pad 3 is data, pad 2 is clock */
+    .sck_pin = WNTR_GPIO_PIN_ALT(B, 23, D),
     .sdo_pin = WNTR_GPIO_PIN_ALT(B, 22, D),
 };
 
@@ -102,11 +102,11 @@ static const struct GemLEDCfg GEM_REV1_LED_CFG = {
             57185,
         },
     .vertical_pos_index = {4, 5, 3, 6, 0, 2, 1},
-    .lfo_tweak_led = 6,
-    .pitch_a_tweak_led = 5,
+    .lfo_tweak_led = 2,
+    .pitch_a_tweak_led = 1,
     .pitch_b_tweak_led = 3,
-    .pwm_a_led = 0,
-    .pwm_b_led = 2,
-    .fm_a_led = 0,
-    .fm_b_led = 2,
+    .pwm_a_led = 6,
+    .pwm_b_led = 4,
+    .fm_a_led = 6,
+    .fm_b_led = 4,
 };
