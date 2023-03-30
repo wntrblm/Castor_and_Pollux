@@ -30,7 +30,7 @@ We want you to have a wonderful experience with your module. If you need help or
 
 ## Version differences
 
-![Illustration of Castor & Pollux I and Castor & Pollux II](images/V1%20vs%20V2.svg)
+![Illustration of Castor & Pollux I and Castor & Pollux II](images/V1%20vs%20V2.svg){.dark-invert}
 
 Castor & Pollux has two different versions in the wild with significant changes between them. Fortunately, both versions are fundamentally the same brains with different user interfaces. Changes made by Castor & Pollux II include:
 
@@ -46,7 +46,7 @@ Both versions use the same firmware and behave the same way. This manual applies
 
 ## Installation
 
-![Illustration/picture of power connection](TODO)
+![Illustration of power connection](images/Power%20connection.svg){.dark-invert}
 
 To install this into your Eurorack setup, connect a Eurorack power cable from your power supply to the back of the module. **Note that even though the power connector on the module is keyed, double check that the red stripe is on the side labeled `red stripe`!**. Once power is connected, secure your module to your rack rails using screws.
 
@@ -54,13 +54,13 @@ To install this into your Eurorack setup, connect a Eurorack power cable from yo
 
 Castor & Pollux is has two separate but _intertwined_ oscillators. It's possible to control each oscillator independently, but they truly shine when used together. Castor & Pollux's design is focused around the connection between these two oscillators and modulating their parameters using the internal LFO.
 
-![Illustration of Castor & Pollux's interface with elements for the separate oscillators highlighted](images/1%20-%20Overview.svg)
+![Illustration of Castor & Pollux's interface with elements for the separate oscillators highlighted](images/1%20-%20Overview.svg){.dark-invert}
 
 Castor & Pollux's front panel is arranged so that Castor's inputs, outputs, and controls are on the **left** whereas the corresponding elements are mirrored on the **right** for Pollux. The center contains controls for the internal LFO and crossfade mixer:
 
 Each oscillator, `⍺` and `β`, is controlled by its associated knobs and CV input jacks:
 
-![Illustration of the knobs and input jacks](images/2%20-%20Osc%20controls.svg)
+![Illustration of the knobs and input jacks](images/2%20-%20Osc%20controls.svg){.dark-invert}
 
 -   The large pitch knob and pitch CV input control the oscillator's **pitch** (frequency).
 -   The smaller pulse width knob and pulse width CV input control the oscillator's **pulse width**.
@@ -69,25 +69,25 @@ You can learn more about these inputs in the [pitch behavior](#pitch-behavior) s
 
 Each oscillator has a single output jack, `★`, which is controlled by its mixer:
 
-![Illustration of the oscillator's outputs](images/3%20-%20Osc%20outputs.svg)
+![Illustration of the oscillator's outputs](images/3%20-%20Osc%20outputs.svg){.dark-invert}
 
 Each oscillator generates three waveforms: _saw_, _pulse_, and _sub_. The three mixing knobs control how much of each waveform is present in the oscillator's output. You can read more about the sound of each waveshape in the [waveshapes](#waveshapes) section.
 
 Next, the output of the two oscillators is combined together by the _crossfade mixer_:
 
-![Illustration of the crossfade mixer and its output jack](images/4%20-%20Crossfader.svg)
+![Illustration of the crossfade mixer and its output jack](images/4%20-%20Crossfader.svg){.dark-invert}
 
 The crossfader's knob, `Σ`, determines which oscillator is more prominent in the mix at the crossfade output, `♊️`. The [oscillator stacking](#oscillator-stacking) section has more details and sound samples of combining the oscillators together.
 
 Next up, in the very middle there's a the LFO knob, `φ`:
 
-![Illustration of the LFO knob](images/5%20-%20LFO.svg)
+![Illustration of the LFO knob](images/5%20-%20LFO.svg){.dark-invert}
 
 This [internal LFO](#internal-low-frequency-oscillator) can be used to modulate several parameters in interesting ways depending on the [mode](#modes--tweaking).
 
 Last, but not least, there is a single button in the center that's used for changing modes and enabling the tweak overlay:
 
-![Illustration of the button](images/6%20-%20Button.svg)
+![Illustration of the button](images/6%20-%20Button.svg){.dark-invert}
 
 You can learn more about the different modes and tweaking in the [modes & tweaking section](#modes--tweaking).
 
@@ -99,7 +99,7 @@ If you're not sure where to start with Castor & Pollux this section has a few pa
 
 First, dip your toes in by putting together this patch:
 
-![Illustration of the first patch](images/7%20-%20Patch%201.svg)
+![Illustration of the first patch](images/7%20-%20Patch%201.svg){.dark-invert}
 
 -   Turn all the knobs and trimpots fully counter-clockwise
 -   Turn the ramp mix trimpot for Castor fully clockwise
@@ -113,7 +113,7 @@ You can keep playing around with this patch by moving the mix trimpots for each 
 
 Ready for more? Try out this patch:
 
-![Illustration of the second patch](images/8%20-%20Patch%202.svg)
+![Illustration of the second patch](images/8%20-%20Patch%202.svg){.dark-invert}
 
 -   Turn Castor's pitch knob and pulse knob to 12 o' clock
 -   Turn at least one of Castor's mix trimpots clockwise
@@ -126,7 +126,7 @@ Castor should now be playing notes based on the CV you're sending it. You can tu
 
 Okay, one last patch and we'll send you on your way:
 
-![Illustration of the third patch](images/9%20-%20Patch%203.svg)
+![Illustration of the third patch](images/9%20-%20Patch%203.svg){.dark-invert}
 
 -   Turn Castor's pitch knob and pulse knob to 12 o' clock
 -   Turn Pollux's pitch knob and pulse knob to 12 o' clock
@@ -148,13 +148,13 @@ Due to the intertwined nature of Castor & Pollux's oscillators, the effect of th
 
 ### Coarse
 
-![Illustration of coarse pitch behavior](images/8%20-%20Coarse.svg)
+![Illustration of coarse pitch behavior](images/8%20-%20Coarse.svg){.dark-invert}
 
 When [nothing](#jack-detection) is patched into Castor's pitch CV jack, `Coarse` behavior is used. Castor's pitch is determined by its pitch knob which sweeps through six octaves and quantizes to the nearest semitone.
 
 ### Fine
 
-![Illustration of fine pitch behavior](images/9%20-%20Fine.svg)
+![Illustration of fine pitch behavior](images/9%20-%20Fine.svg){.dark-invert}
 
 If there is a signal patched into Castor's pitch CV jack, `Fine` behavior is used. The input CV should be between `0 V` and `6 V`. The pitch knob offsets the input CV by `±1 octave`. The pitch knob has a sort of ["virtual notch"](#tuning) at the 12 o' clock position to help you dial in the frequency you're looking for.
 
@@ -162,7 +162,7 @@ Pollux also uses `Fine` behavior but will _follow_ Castor if nothing is patched 
 
 ### Multiply
 
-![Illustration of multiply pitch behavior](images/10%20-%20multiply.svg)
+![Illustration of multiply pitch behavior](images/10%20-%20multiply.svg){.dark-invert}
 
 Finally, Pollux uses `Multiply` behavior when in [Hard Sync](#hard-sync) mode. In this case, Pollux follows Castor and the knob adds up to three octaves.
 
@@ -196,7 +196,7 @@ In order to make tuning easier, Castor & Pollux provides two ways of using the p
 
 First, the pitch knobs have a "virtual notch" because of their **non-linear** response: they are less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out the little illustration above and notice that with the non-linear response it's much easier to tune to frequencies around `440 Hz`. This non-linear response only happens when the oscillator is using the `Follow` [pitch behavior](#pitch-behavior). You can configure how strong this effect is using the [settings editor](#editing-module-settings).
 
-![Illustration of tweak mode pitch tuning](images/11%20-%20extra%20fine.svg)
+![Illustration of tweak mode pitch tuning](images/11%20-%20extra%20fine.svg){.dark-invert}
 
 Second, the [tweak](#modes--tweaking) overlay allows you even more finely adjust tuning. Holding down the button and turning the pitch knob allows you to apply an additional `±2.5 semitone` offset. This offset is applied to the oscillator regardless of the [pitch behavior](#pitch-behavior) or the current [mode](#modes--tweaking).
 
@@ -363,11 +363,11 @@ Castor & Pollux has four different _modes_ that change the overall module's func
 -   [LFO FM](#lfo-fm-mode) mode uses the internal LFO to modulate both oscillator's frequency.
 -   [Hard Sync](#hard-sync-mode) mode produces metallic sounds by syncing Pollux's ramp core to Castor's.
 
-![Illustration of tapping the button](images/12%20-%20tap%20button.svg)
+![Illustration of tapping the button](images/12%20-%20tap%20button.svg){.dark-invert}
 
 To cycle between modes, **tap** the button in the middle and the module will play a short animation to show that it has switched modes.
 
-![Illustration of holding the button](images/13%20-%20hold%20button.svg)
+![Illustration of holding the button](images/13%20-%20hold%20button.svg){.dark-invert}
 
 On the other hand, **holding** the button will turn on the tweak overlay. This gives you access to additional parameters depending on the mode. When moving in and out of the tweak overlay, the knobs get "latched" so that they don't immediately cause changes - similar how many synthesizers work when loading patches. The parameter only starts changing once you've moved the knob. In all modes, the pitch knobs control the extra-fine [tuning](#tuning).
 
@@ -375,11 +375,11 @@ On the other hand, **holding** the button will turn on the tweak overlay. This g
 
 Castor & Pollux's default mode is the _Chorus_ mode. This mode is inspired by the original Juno's analog chorus circuit, however, instead of applying the chorus affect _after_ sound generation, Castor & Pollux's chorusing works by varying the frequency of the second oscillator using its [internal low-frequency oscillator](#internal-low-frequency-oscillator). This means you have to [use both oscillators](#oscillator-stacking) in order to hear this effect and it works best if Pollux is _following_ Castor's pitch.
 
-![Illustration of chorus controls](images/14%20-%20lfo%20controls.svg)
+![Illustration of chorus controls](images/14%20-%20lfo%20controls.svg){.dark-invert}
 
 The LFO knob, `φ`, determines the intensity of chorusing from none when fully counter-clockwise to its maximum at fully clockwise. The crossfade mixer, `Σ`, also has an impact on the intensity of the chorus.
 
-![Illustration of chorus tweak controls](images/15%20-%20lfo%20tweaks.svg)
+![Illustration of chorus tweak controls](images/15%20-%20lfo%20tweaks.svg){.dark-invert}
 
 When holding the tweak button, the LFO knob, `φ`, controls the LFO's frequency.
 
@@ -406,11 +406,11 @@ Here are some sound samples of chorusing:
 
 LFO PWM mode uses the internal LFO to modulate the _pulse width_ of each oscillator. This only affects the _pulse_ [waveshape](#waveshapes).
 
-![Illustration of the LFO PWM controls](images/16%20-%20lfo%20pwm.svg)
+![Illustration of the LFO PWM controls](images/16%20-%20lfo%20pwm.svg){.dark-invert}
 
 The LFO knob, `φ`, determines the _frequency_ of the internal LFO. Meanwhile, each oscillator's pulse width knob controls the depth of modulation from none when fully counter-clockwise to its maximum at fully clockwise. Any signal patched into the pulse width jack is summed with the knob.
 
-![Illustration of the LFO PWM tweak controls](images/17%20-%20lfo%20pwm%20tweaks.svg)
+![Illustration of the LFO PWM tweak controls](images/17%20-%20lfo%20pwm%20tweaks.svg){.dark-invert}
 
 When holding the tweak button, each oscillator's pulse width knob controls the _center_ of the pulse width modulation.
 
@@ -418,13 +418,13 @@ When holding the tweak button, each oscillator's pulse width knob controls the _
 
 LFO FM mode uses the internal LFO to modulate the _pitch_ for each oscillator. This is similar to the [Chorus mode](#chorus-mode), except it applies to both oscillators instead of just Pollux.
 
-![Illustration of LFO FM controls](images/18%20-%20lfo%20fm.svg)
+![Illustration of LFO FM controls](images/18%20-%20lfo%20fm.svg){.dark-invert}
 
 The LFO knob, `φ`, determines the _frequency_ of the internal LFO. Meanwhile, each oscillator's pulse width knob controls the depth of pitch modulation from none when fully counter-clockwise to its maximum at fully clockwise.
 
 Unlike the LFO PWM mode, the pulse width jack has no impact on modulation.
 
-![Illustration of LFO FM tweak controls](images/19%20-%20lfo%20pwm%20tweaks.svg)
+![Illustration of LFO FM tweak controls](images/19%20-%20lfo%20pwm%20tweaks.svg){.dark-invert}
 
 When holding the tweak button, each oscillator's pulse width knob controls the oscillator's pulse width.
 
@@ -451,26 +451,39 @@ Hard sync mode's controls are the same as [chorus mode](#chorus-mode) except tha
 
 ## Expander
 
-![Illustration of C&P & expader next to each other](images/22%20-%20expander.svg)
+![Illustration of C&P & expader next to each other](images/22%20-%20expander.svg){.dark-invert}
 
 Castor & Pollux II includes a small expander that provides individual output jacks for each oscillator's [waveshapes](#waveshapes).
 
-![Photo of connecting the expander to C&P](TODO)
+![Illustration of connecting the expander to C&P](images/Expander%20connection.svg){.dark-invert}
 
 To use the expander, connect the small ribbon cable to the back of Castor & Pollux in the header labeled `Expander`. Connect the other end to the matching header on the back of the expander. Secure the expander to your case using screws.
 
 !!! fairy "Lost cable?"
     Happens to the best of us. [Contact us](mailto:support@winterbloom.com) to get a replacement or grab a 10-pin 2x5 Socket-Socket 1.27mm IDC cable (also called a SWD cable) like these from [Adafruit](https://www.adafruit.com/product/1675) and [Sparkfun](https://www.sparkfun.com/products/15364).
 
+## Connecting with USB
+
+You can connect Castor & Pollux to your computer using a standard micro USB cable, which lets you [edit settings](#editing-module-settings) and [update the firmware](#updating-the-firmware).
+
+![Illustration of connecting Castor & Pollux to USB](images/USB%20connection.svg){.dark-invert}
+
+The micro USB port is located on the backside of the module. Once you've connected a cable, be careful not to put too much stress on the connector as it's possible to damage the connector with enough force.
+
+!!! fairy "Power"
+    Castor & Pollux II is happy to run on USB power when editing settings and updating firmware, but Castor & Pollux I needs to be powered from your rack power supply while connected to USB.
+
 ## Editing module settings
 
-Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, there is a little microcontroller brain inside that's orchestrating everything. There are lots of settings you can tweak over USB, such as the LED brightness, the range of the pitch knobs, quantization, and more. Head over to the [web-based settings editor](settings) to tweak to your heart's content.
+Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, there is a little microcontroller brain inside that's orchestrating everything. There are lots of settings you can tweak over USB, such as the LED brightness, the range of the pitch knobs, quantization, and more.
+
+Connect your module to your computer using [a USB cable](#connecting-with-usb) and then head over to the [web-based settings editor](settings) to tweak to your heart's content. You don't need to install any software or drivers.
 
 ## Updating the firmware
 
 1. Download the latest firmware [from GitHub](https://github.com/wntrblm/Castor_and_Pollux/releases/latest). It will be a `.uf2` file.
-1. Connect Castor & Pollux to your computer via USB. The USB port is located underneath the panel. Note that you still have to power the module from a Eurorack power supply.
-1. Place Castor & Pollux in bootloader mode by quickly pressing the reset button twice. The reset button is located just below the USB port. Once in bootloader mode, you should see a drive on your computer named `GEMINIBOOT`.
+1. Connect your module to your computer using [a USB cable](#connecting-with-usb).
+1. Place Castor & Pollux in bootloader mode by quickly pressing the `Reset` button twice. The reset button is the small button next to the USB port. Once in bootloader mode, you should see an external drive on your computer named `GEMINIBOOT`.
 1. Copy the `.uf2` file from step 1 to the `GEMINIBOOT` drive. The module should restart by itself.
 
 ## Open source hardware & software
