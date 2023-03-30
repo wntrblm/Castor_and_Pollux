@@ -24,7 +24,11 @@ export default class Gemini {
         const response = await this.midi.transact(
             new Uint8Array([0xf0, 0x77, 0x0f, 0xf7])
         );
-        return Uint8Array_to_hex(Teeth.decode(strip_response(response)));
+        const decoded = Teeth.decode(strip_response(response));
+        return {
+            serial: Uint8Array_to_hex(decoded.slice(0, 16)),
+            revision: decoded.at(16) ?? 4,
+        };
     }
 
     async load_settings() {
@@ -58,9 +62,7 @@ export default class Gemini {
 
     async soft_reset() {
         /* Command 0x11: soft reset */
-        await this.midi.transact(
-            new Uint8Array([0xf0, 0x77, 0x11, 0xf7])
-        );
+        await this.midi.transact(new Uint8Array([0xf0, 0x77, 0x11, 0xf7]));
     }
 
     async read_adc(channel) {
@@ -75,20 +77,53 @@ export default class Gemini {
 
     async read_adc_average(channel, samples) {
         const results = [];
-        for(let i = 0; i < samples; i++) {
+        for (let i = 0; i < samples; i++) {
             results.push(await this.read_adc(channel));
         }
-        return results.reduce((x, y) => { return x + y; }, 0) / results.length;
+        return (
+            results.reduce((x, y) => {
+                return x + y;
+            }, 0) / results.length
+        );
     }
 
-    code_to_volts(code) {
-        code = 4095 - code;
-        return 6.0 - ((code / 4095) * 6.0);
+    code_to_volts(rev, code) {
+        const resolution = 4096;
+        const res_m_1 = resolution - 1;
+        let v_min, v_max;
+
+        if (rev < 5) {
+            v_min = 0;
+            v_max = 6;
+        } else {
+            v_min = -0.5;
+            v_max = 6.1;
+        }
+
+        const v_range = Math.abs(v_min) + Math.abs(v_max);
+
+        code = res_m_1 - code;
+
+        return v_min + (v_range - (code / res_m_1) * v_range);
     }
 
-    volts_to_code(volts) {
-        let code = volts / 6.0 * 4095
-        code = 4095 - code
-        return code
+    volts_to_code(rev, volts) {
+        const resolution = 4096;
+        const res_m_1 = resolution - 1;
+        let v_min, v_max;
+
+        if (rev < 5) {
+            v_min = 0;
+            v_max = 6;
+        } else {
+            v_min = -0.5;
+            v_max = 6.1;
+        }
+
+        const v_range = Math.abs(v_min) + Math.abs(v_max);
+
+        let code = ((volts - v_min) / v_range) * res_m_1;
+        code = res_m_1 - code;
+        return code;
     }
 }

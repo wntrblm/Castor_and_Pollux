@@ -43,6 +43,16 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
                 </div>
             </div>
             <div class="field device-info">
+                <label class="label" for="harware_revision">Hardware revision</label>
+                <div class="control">
+                    <div class="field">
+                        <div class="control is-expanded">
+                            <input class="input device-info" id="hardware_revision" type="text" name="hardware_revision" readonly value="" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field device-info">
                 <label class="label" for="serial_number">Serial number</label>
                 <div class="control">
                     <div class="field has-addons">
@@ -58,7 +68,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
         </div>
         <div class="column">
             <p class="notification help-text">
-                This is your Castor & Pollux's current firmware version and serial number. We might ask you for this information if you reach out for help.
+                This is your Castor & Pollux's current firmware version, hardware revision, and serial number. We might ask you for this information if you reach out for help. C&PI is hardware revisions 1 through 4 and C&PII is hardware revisions 5 and above.
             </p>
             <p id="firmware_outdated" class="notification is-danger hidden">
                 <span class="fairy" title="Hey, Listen!">🧚‍♀️</span>
@@ -68,7 +78,7 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
     </div>
     </div>
     <!-- Settings controls -->
-    <div id="settings_section" class="">
+    <div id="settings_section" class="hidden">
     <div class="section-divider">Settings</div>
     <div class="columns">
         <div class="column field">

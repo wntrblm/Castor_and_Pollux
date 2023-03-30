@@ -26,6 +26,7 @@ const ui = {
     firmware_outdated: $e("firmware_outdated"),
     firmware_incompatible: $e("firmware_incompatible"),
     serial_number: $e("serial_number"),
+    hardware_revision: $e("hardware_revision"),
     restore_adc_calibration_btn: $e("restore_adc_calibration"),
     lfo_waveform_canvas: $e("lfo-waveform-canvas"),
     tuning: {
@@ -36,7 +37,7 @@ const ui = {
         gain_error_result: $e("gain_error_result"),
         offset_error_result: $e("offset_error_result"),
         save: $e("save_tuning"),
-    }
+    },
 };
 
 const midi = new MIDI("Gemini");
@@ -46,6 +47,7 @@ const settings = new GemSettings();
 const minimum_firmware_version = new Date(2021, 7, 31);
 let gemini_firmware_version = null;
 let gemini_serial_number = null;
+let gemini_hardware_revision = null;
 
 /*
   Factory calibrations are stored on GCS. This allows retrieving it.
@@ -145,13 +147,18 @@ $on(ui.connect_btn, "click", async function () {
 
     gemini_firmware_version = await gemini.get_version();
     ui.firmware_version.value = `${gemini_firmware_version}`;
-    gemini_serial_number = await gemini.get_serial_number();
+
+    const serial_num_result = await gemini.get_serial_number();
+    gemini_serial_number = serial_num_result.serial;
+    gemini_hardware_revision = serial_num_result.revision;
     ui.serial_number.value = `${gemini_serial_number}`;
+    ui.hardware_revision.value = `v${gemini_hardware_revision}`;
 
     ui.info_section.classList.remove("hidden");
 
     if (!check_firmware_version()) {
         console.log("Firmware too old, bailing. :(");
+        ui.connect_info.classList.add("hidden");
         return;
     }
 
@@ -312,9 +319,9 @@ const tuning_info = {
     three_volt: 0,
     gain_error: 0,
     offset_error: 0,
-}
+};
 
-$on(ui.tuning.measure_one, "click", async function() {
+$on(ui.tuning.measure_one, "click", async function () {
     tuning_info.one_volt = await gemini.read_adc_average(0, 20);
     ui.tuning.measure_one_result.value = tuning_info.one_volt;
 
@@ -328,27 +335,34 @@ $on(ui.tuning.measure_one, "click", async function() {
     ui.tuning.save.disabled = true;
 });
 
-$on(ui.tuning.measure_three, "click", async function() {
+$on(ui.tuning.measure_three, "click", async function () {
     tuning_info.three_volt = await gemini.read_adc_average(0, 20);
     ui.tuning.measure_three_result.value = tuning_info.three_volt;
 
-    if(!tuning_info.one_volt) return;
+    if (!tuning_info.one_volt) return;
 
-    const expected_low = gemini.volts_to_code(1.0);
-    const expected_high = gemini.volts_to_code(3.0);
+    const expected_low = gemini.volts_to_code(gemini_hardware_revision, 1.0);
+    const expected_high = gemini.volts_to_code(gemini_hardware_revision, 3.0);
+    console.log(expected_low, expected_high);
     const measured_low = tuning_info.one_volt;
     const measured_high = tuning_info.three_volt;
-    tuning_info.gain_error = ((expected_high - expected_low) / (measured_high - measured_low)).toFixed(4);
-    tuning_info.offset_error = ((measured_low * tuning_info.gain_error) - expected_low).toFixed(1);
+    tuning_info.gain_error = (
+        (expected_high - expected_low) /
+        (measured_high - measured_low)
+    ).toFixed(4);
+    tuning_info.offset_error = (
+        measured_low * tuning_info.gain_error -
+        expected_low
+    ).toFixed(1);
 
     ui.tuning.gain_error_result.value = tuning_info.gain_error;
     ui.tuning.offset_error_result.value = tuning_info.offset_error;
     ui.tuning.save.disabled = false;
 });
 
-$on(ui.tuning.save, "click", function() {
-    if(tuning_info.gain_error === null) return;
-    if(tuning_info.offset_error === null) return;
+$on(ui.tuning.save, "click", function () {
+    if (tuning_info.gain_error === null) return;
+    if (tuning_info.offset_error === null) return;
 
     settings.cv_gain_error = tuning_info.gain_error;
     settings.cv_offset_error = tuning_info.offset_error;
