@@ -41,7 +41,7 @@ static wntr_periodic_waveform_function lfo_waveshape_setting_to_func_(uint8_t n)
 
 /* Configuration */
 
-static uint32_t board_revision_;
+static uint8_t board_revision_;
 static const struct GemADCConfig* adc_cfg_;
 static const struct GemADCInput* adc_inputs_;
 static const struct GemOscillatorInputConfig* osc_input_cfg_;
@@ -227,7 +227,7 @@ static void init_() {
     //
 
     /* Register SysEx commands used for factory setup. */
-    gem_sysex_init(adc_inputs_, i2c_cfg_, &pulse_cfg_);
+    gem_sysex_init(board_revision_, adc_inputs_, i2c_cfg_, &pulse_cfg_);
 
     /* Enable the Dotstar driver and LED animation. */
     gem_dotstar_init(settings_.led_brightness);

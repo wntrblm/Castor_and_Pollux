@@ -61,6 +61,7 @@
 
 /* Static variables. */
 
+static uint8_t hw_ver_;
 const struct GemADCInput* adc_inputs_;
 const struct GemI2CConfig* i2c_;
 struct GemPulseOutConfig* pulse_;
@@ -93,7 +94,12 @@ static void cmd_0x21_set_osc8m_freq_(const uint8_t* data, size_t len);
 /* Public functions. */
 
 void gem_sysex_init(
-    const struct GemADCInput* adc_inputs, const struct GemI2CConfig* i2c, struct GemPulseOutConfig* pulse) {
+    uint8_t hw_ver,
+    const struct GemADCInput* adc_inputs,
+    const struct GemI2CConfig* i2c,
+    struct GemPulseOutConfig* pulse) {
+
+    hw_ver_ = hw_ver;
     adc_inputs_ = adc_inputs;
     i2c_ = i2c;
     pulse_ = pulse;
@@ -352,16 +358,20 @@ static void cmd_0x0E_enable_adc_corr_(const uint8_t* data, size_t len) {
 }
 
 static void cmd_0x0F_get_serial_no_(const uint8_t* data, size_t len) {
-    /* Response (teeth): SERIAL_NO(24) */
+    /* Response (teeth): SERIAL_NO(24) HARDWARE_VERSION(1) */
     (void)(data);
     (void)(len);
 
-    PREPARE_RESPONSE(0x0F, TEETH_ENCODED_LENGTH(WNTR_SERIAL_NUMBER_LEN));
+    const size_t raw_response_len = WNTR_SERIAL_NUMBER_LEN + 1;
 
-    uint8_t serial_no[WNTR_SERIAL_NUMBER_LEN];
+    PREPARE_RESPONSE(0x0F, TEETH_ENCODED_LENGTH(raw_response_len));
+
+    uint8_t serial_no[raw_response_len];
     wntr_serial_number(serial_no);
 
-    teeth_encode(serial_no, WNTR_SERIAL_NUMBER_LEN, response);
+    serial_no[raw_response_len - 1] = hw_ver_;
+
+    teeth_encode(serial_no, raw_response_len, response);
 
     SEND_RESPONSE();
 
