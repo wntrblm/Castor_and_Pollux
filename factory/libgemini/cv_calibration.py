@@ -21,9 +21,8 @@ NUM_CALIBRATION_POINTS = 50
 SAMPLE_COUNT = 64
 
 
-def _code_to_volts(code):
-    code = RESOLUTION - 1 - code
-    return V_MIN + (V_RANGE - ((code / (RESOLUTION - 1)) * V_RANGE))
+def _relative_code_to_volts(code):
+    return V_RANGE * (code / (RESOLUTION - 1))
 
 
 def _volts_to_code(volts):
@@ -89,8 +88,9 @@ def run():
     for voltage, expected in calibration_points.items():
         measured = post_measurements[voltage]
         diff = expected - measured
-        diff_in_volts = _code_to_volts(diff)
+        diff_in_volts = _relative_code_to_volts(diff)
         diff_in_cents = diff_in_volts / (1 / 12) * 100
+        print(f"{voltage=} {measured=}, {expected=}, {diff=}, {diff_in_volts=}, {diff_in_cents=}")
         report_data.append((voltage, diff_in_cents))
 
     passed = (0.99 < post_gain_error < 1.01) and (-5 < post_offset_error < 5)

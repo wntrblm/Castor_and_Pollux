@@ -63,7 +63,7 @@ def main():
         "--stages",
         type=str,
         nargs="*",
-        default=["firmware", "ramp", "adc", "cv", "clock"],
+        default=["firmware", "clock", "ramp", "adc", "cv"],
         help="Select which setup stages to run.",
     )
     parser.add_argument(
