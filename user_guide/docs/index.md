@@ -14,10 +14,10 @@
 -   7 octave range
 -   9 total outputs with waveform outputs and onboard mixers
 -   Pitch CV input jacks (`0 V` to `6 V`) and pitch knobs (`-1` to `+1 octave`, configurable)
--   Pulse-width CV input jacks and knobs
+-   Pulse width CV input jacks and knobs
 -   Hard sync
 -   Hardware chorusing
--   Internal low-frequency oscillator
+-   Internal low-frequency oscillator (LFO)
 -   [ModularGrid page](https://www.modulargrid.net/e/winterbloom-castor-pollux)
 
 ## Getting support and help
@@ -35,11 +35,11 @@ We want you to have a wonderful experience with your module. If you need help or
 Castor & Pollux has two different versions in the wild with significant changes between them. Fortunately, both versions are fundamentally the same brains with different user interfaces. Changes made by Castor & Pollux II include:
 
 -   Replacing the pitch trimpots with large knobs
--   Replacing the pulse width, lfo, and crossfade trimpots with large knobs
+-   Replacing the pulse width, LFO, and crossfade trimpots with knobs
 -   Moving the input and output jacks to the bottom edge of the module
--   Moving the individual waveform outputs to a seperate expander
+-   Moving the individual waveform outputs to a separate expander
 -   Consolidating the two separate circuit boards into a single board
--   Adding additional ESD protection to all input jacks
+-   Adding additional [ESD](https://en.wikipedia.org/wiki/Electrostatic_discharge) protection to all input jacks
 -   Adding an additional LED
 
 Both versions use the same firmware and behave the same way. This manual applies to both versions, however, the illustrations shown here depict Castor & Pollux II. We made sure that all interface elements use the same symbols and labels between the versions. If you run into trouble, don't hesitate to [reach out](#getting-support-and-help).
@@ -48,7 +48,7 @@ Both versions use the same firmware and behave the same way. This manual applies
 
 ![Illustration of power connection](images/Power%20connection.svg){.dark-invert}
 
-To install this into your Eurorack setup, connect a Eurorack power cable from your power supply to the back of the module. **Note that even though the power connector on the module is keyed, double check that the red stripe is on the side labeled `red stripe`!**. Once power is connected, secure your module to your rack rails using screws.
+To install this into your Eurorack setup, connect a Eurorack power cable from your power supply to the back of the module. **Note that even though the power connector on the module is keyed, double check that the red stripe is on the side labeled `red stripe`!** Once power is connected, secure your module to your rack rails using screws.
 
 ## Overview
 
@@ -71,7 +71,7 @@ Each oscillator has a single output jack, `★`, which is controlled by its mixe
 
 ![Illustration of the oscillator's outputs](images/3%20-%20Osc%20outputs.svg){.dark-invert}
 
-Each oscillator generates three waveforms: _saw_, _pulse_, and _sub_. The three mixing knobs control how much of each waveform is present in the oscillator's output. You can read more about the sound of each waveshape in the [waveshapes](#waveshapes) section.
+Each oscillator generates three waveshapes: _saw_, _pulse_, and _sub_. The three mixing knobs control how much of each waveshape is present in the oscillator's output. You can read more about the sound of each waveshape in the [waveshapes](#waveshapes) section.
 
 Next, the output of the two oscillators is combined together by the _crossfade mixer_:
 
@@ -93,7 +93,7 @@ You can learn more about the different modes and tweaking in the [modes & tweaki
 
 ## First steps
 
-If you're not sure where to start with Castor & Pollux this section has a few patches to get you up and running.
+If you're not sure where to start with Castor & Pollux this section has a few patches to get you up and running. Grab your patch cables and follow along.
 
 ### Patch one
 
@@ -139,6 +139,8 @@ Okay, one last patch and we'll send you on your way:
 
 This is where things get fun- at this point, Castor & Pollux should both be playing (roughly) the same pitch and they're both coming through the crossfade output jack. Now, slowly wiggle Pollux's pitch knob. This is the most basic form of [oscillator stacking](#oscillator-stacking) and it's your gateway to the big, raw, and fun sounds of Castor & Pollux.
 
+Now that you have a feel for Castor & Pollux, check out the rest of the manual to learn all about its various features, behaviors, and sounds.
+
 ## Pitch behavior
 
 Due to the intertwined nature of Castor & Pollux's oscillators, the effect of the pitch CV jack and knobs take on different _behaviors_ in different circumstances.
@@ -168,11 +170,11 @@ Finally, Pollux uses `Multiply` behavior when in [Hard Sync](#hard-sync) mode. I
 
 ### Jack detection
 
-Castor & Pollux detects whether a signal is patched into the pitch jacks by checking if the signal is above 0 Volts. In many cases this works well, however, you may run into issues if you use a sequencer or controller that often sends 0 Volt signals. Castor & Pollux will think that a jack isn't detected and erroneously switch to a different [pitch behavior](#pitch-behavior). If this is something you're running into you can disable jack detection using the [settings editor](#editing-module-settings).
+Castor & Pollux detects whether a signal is patched into the pitch jacks by checking if the signal is above `0 V`. In many cases this works well, however, you may run into issues if you use a sequencer or controller that often sends `0 V` signals. Castor & Pollux will think that a jack isn't detected and erroneously switch to a different [pitch behavior](#pitch-behavior). If this is something you're running into you can disable jack detection using the [settings editor](#editing-module-settings).
 
 ## Tuning
 
-Castor & Pollux is an analog oscillator with a digital brain. It's calibrated during assembly to accurately track 1 Volt / octave on the _pitch CV jacks_ and you can use the _pitch knobs_ to adjust the tuning of each oscillator.
+Castor & Pollux is an analog oscillator with a digital brain. It's calibrated during assembly to accurately track `1 V / octave` on the **pitch CV jacks** and you can use the **pitch knobs** to adjust the tuning of each oscillator.
 
 In order to make tuning easier, Castor & Pollux provides two ways of using the pitch knob to dial in the perfect frequency.
 
@@ -198,17 +200,20 @@ First, the pitch knobs have a "virtual notch" because of their **non-linear** re
 
 ![Illustration of tweak mode pitch tuning](images/11%20-%20extra%20fine.svg){.dark-invert}
 
-Second, the [tweak](#modes--tweaking) overlay allows you even more finely adjust tuning. Holding down the button and turning the pitch knob allows you to apply an additional `±2.5 semitone` offset. This offset is applied to the oscillator regardless of the [pitch behavior](#pitch-behavior) or the current [mode](#modes--tweaking).
+Second, the [tweak](#modes--tweaking) overlay allows extra-fine control over tuning. Holding down the button and turning the pitch knob allows you to apply an additional `±2.5 semitone` offset. This offset is applied to the oscillator regardless of the [pitch behavior](#pitch-behavior) or the current [mode](#modes--tweaking).
 
 ## Waveshapes
 
 Just like the Juno, Castor & Pollux generates three waveshapes: ramp, pulse, and sub.
 
-The ramp wave looks like this (click the image to start and stop the animation):
+The ramp wave looks like this:
 
 <div class="interactive">
     <canvas id="ramp" width="640" height="480" class="waveform teal"></canvas>
 </div>
+
+click the image to start and stop the animation
+{.image-caption}
 
 !!! fairy "Simulation vs reality"
     These are _simulations_ of perfect waveshapes. Castor & Pollux's waveshapes are generated by analog circuitry and they don't quite look _exactly_ like these examples. That's a good thing - the analog weirdness is what adds character to the module.
@@ -451,7 +456,7 @@ Hard sync mode's controls are the same as [chorus mode](#chorus-mode) except tha
 
 ## Expander
 
-![Illustration of C&P & expader next to each other](images/22%20-%20expander.svg){.dark-invert}
+![Illustration of C&P & expander next to each other](images/22%20-%20expander.svg){.dark-invert}
 
 Castor & Pollux II includes a small expander that provides individual output jacks for each oscillator's [waveshapes](#waveshapes).
 
@@ -484,14 +489,14 @@ Connect your module to your computer using [a USB cable](#connecting-with-usb) a
 1. Download the latest firmware [from GitHub](https://github.com/wntrblm/Castor_and_Pollux/releases/latest). It will be a `.uf2` file.
 1. Connect your module to your computer using [a USB cable](#connecting-with-usb).
 1. Place Castor & Pollux in bootloader mode by quickly pressing the `Reset` button twice. The reset button is the small button next to the USB port. Once in bootloader mode, you should see an external drive on your computer named `GEMINIBOOT`.
-1. Copy the `.uf2` file from step 1 to the `GEMINIBOOT` drive. The module should restart by itself.
+1. Copy the `.uf2` file from step one to the `GEMINIBOOT` drive. The module should restart by itself.
 
 ## Open source hardware & software
 
 Castor & Pollux is completely open source and hacking is encouraged.
 
 -   The [firmware](https://github.com/wntrblm/Castor_and_Pollux/tree/main/firmware) is available under the [MIT License](https://github.com/wntrblm/Castor_and_Pollux/tree/main/firmware/LICENSE). Note that the firmware uses some third-party libraries that are under different, but compatible terms. Read the full text of the license for more details.
--   The [hardware designs](https://github.com/wntrblm/Castor_and_Pollux/tree/main/hardware) are available under the permissive [CERN-OHL-P v2](https://cern-ohl.web.cern.ch/) license, and is designed using [KiCAD](https://kicad.org/), which is free and open-source. You can open the hardware files using KiCAD, or you can check out a PDF of the schematics for the [mainboard](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/mainboard/mainboard.pdf) and the [jackboard](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/jackboard/jackboard.pdf).
+-   The [hardware designs](https://github.com/wntrblm/Castor_and_Pollux/tree/main/hardware) are available under the permissive [CERN-OHL-P v2](https://cern-ohl.web.cern.ch/) license, and is designed using [KiCAD](https://kicad.org/), which is free and open-source. You can open the hardware files using KiCAD, or you can download a PDF of the [schematics](https://github.com/wntrblm/Castor_and_Pollux/raw/main/hardware/mainboard/mainboard.pdf).
 
 ![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware](https://certification.oshwa.org/us001060.html).
 
@@ -505,19 +510,25 @@ Because Eurorack has a vast number of possible combinations of power supplies, m
 
 We encourage tinkering, however, we will not refund, repair, or replace any products that have been modified.
 
-We have stress tested Castor & Pollux under the following conditions. These are provided for reference only; we do not guarentee that that the module will function under these conditions.
+We have stress tested Castor & Pollux under the following conditions. These are provided for reference only; we do not guarantee that that the module will function under these conditions.
 
--   Continuous run time: at least 48 hours
--   Overvoltage from power supply: at least `±18 volts`
--   Reverse voltage from power supply: at least `±18 volts`
--   Undervoltage from power supply: as low as `±10 volts`
--   Over and under voltage on inputs: at least `±8 volts`
--   Output connected to another output: at least `±8 volts`
--   Output shorted to ground: at least 60 minutes
+-   Continuous run time: at least `48 hours`
+-   Overvoltage from power supply: at least `±18 V`
+-   Reverse voltage from power supply: at least `±18 V`
+-   Undervoltage from power supply: as low as `±10 V`
+-   Over and under voltage on inputs: at least `±8 V`
+-   Output connected to another output: at least `±8 V`
+-   Output shorted to ground: at least `60 minutes`
 
 ## Acknowledgments and thanks
 
-Castor & Pollux would not be possible without the help of the Adafruit, support from Microchip, and the volumes of literature documenting and analyzing the Juno's DCO design.
+Castor & Pollux would not be possible without the help of the Adafruit, support from Microchip, and the volumes of literature documenting and analyzing the Juno's DCO design. We would also like to acknowledge the following individuals for their outstanding support:
+
+- Jeremy Blake
+- Kris Kaiser
+- Stephen McCaul
+- Sarah Ocean
+- Izaak Hollander
 
 [discord]: https://discord.gg/UpfqghQ
 
