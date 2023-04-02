@@ -63,7 +63,7 @@ def main():
         "--stages",
         type=str,
         nargs="*",
-        default=["firmware", "ramp", "adc", "cv"],
+        default=["firmware", "ramp", "adc", "cv", "clock"],
         help="Select which setup stages to run.",
     )
     parser.add_argument(
@@ -113,7 +113,8 @@ def main():
         "adc",
         "cv",
     ]:
-        print("!! Not all stages run, not creating report.")
+        print(REPORT)
+        print("!! Not all stages run, not saving report.")
         return
 
     print(REPORT)

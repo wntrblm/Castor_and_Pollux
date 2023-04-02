@@ -12,14 +12,13 @@ from wintertools import oscilloscope, reportcard
 from libgemini import gemini, oscillators
 
 SCOPE_CHANNEL = "c1"
-SCOPE_TRIGGER_LEVEL = "0V"
+SCOPE_TRIGGER_LEVEL = "0.5V"
 SCOPE_VERTICAL_OFFSET = "0V"
 SCOPE_VERTICAL_DIVISION = "1V"
 SCOPE_SETTLE_TIME = 2
-OSCILLATOR = 1
+OSCILLATOR = 0
 TEST_NOTE_FREQ = 880
 MAX_DEVIATION = 0.3
-
 
 def run():
     # Calibrates the tuning by indirectly measuring the actual frequency of the
@@ -33,7 +32,7 @@ def run():
     scope.set_intensity(50, 100)
 
     scope.enable_channel(SCOPE_CHANNEL)
-    scope.disable_channel(SCOPE_CHANNEL)
+    scope.disable_channel("c2")
     scope.set_trigger_level(SCOPE_CHANNEL, SCOPE_TRIGGER_LEVEL)
     scope.set_vertical_division(SCOPE_CHANNEL, SCOPE_VERTICAL_DIVISION)
     scope.set_vertical_offset(SCOPE_CHANNEL, SCOPE_VERTICAL_OFFSET)
@@ -43,6 +42,7 @@ def run():
     gem.enter_calibration_mode()
     gem.set_osc8m_freq(8_000_000)
     gem.set_frequency(OSCILLATOR, TEST_NOTE_FREQ)
+    gem.set_dac(2048, 2048, 2048, 2048)
 
     print(f"Waiting {SCOPE_SETTLE_TIME}s for scope to settle")
     time.sleep(SCOPE_SETTLE_TIME)
@@ -59,7 +59,7 @@ def run():
     print("Re-measuring with adjusted clock")
 
     gem.set_osc8m_freq(measured_clock_freq)
-    gem.set_frequency(1, TEST_NOTE_FREQ)
+    gem.set_frequency(OSCILLATOR, TEST_NOTE_FREQ)
 
     print(f"Waiting {SCOPE_SETTLE_TIME}s for scope to settle")
     time.sleep(SCOPE_SETTLE_TIME)
@@ -78,7 +78,7 @@ def run():
         gem.save_settings(settings)
         print("✓ Saved to device NVM")
 
-    local_copy = pathlib.Path("calibrations") / f"{gem.get_serial_number()}.ramp.json"
+    local_copy = pathlib.Path("calibrations") / f"{gem.get_serial_number()}.clock.json"
     local_copy.parent.mkdir(parents=True, exist_ok=True)
 
     with local_copy.open("w") as fh:
