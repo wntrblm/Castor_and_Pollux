@@ -254,7 +254,7 @@ Place a washer on the shaft of each of the six 9mm pots.
 <figure data-layered>
   <img src="../images/kit/55 - washer.webp" class="active">
   <img src="../images/kit/56 - washer.webp">
-  <img src="../images/kit/57 - washer.webp">
+  <img src="../images/kit/57 - washers.webp">
 </figure>
 
 With the washers in place, place the nuts onto the shafts and tighten them in place.
