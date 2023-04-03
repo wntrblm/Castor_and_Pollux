@@ -1,0 +1,51 @@
+figure[data-layered] {
+    margin: 0;
+}
+
+figure[data-layered] img {
+    display: none;
+}
+
+figure[data-layered] img.active {
+    display: block;
+}
+
+figure[data-layered] .buttons {
+    margin: -1.5em auto 2em auto;
+    width: 100%;
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-radius: 0.2rem;
+
+    --elevation-shadow-color: rgba(180, 180, 180, 0.3);
+    box-shadow: -0.2rem -0.2rem 0.4rem rgba(180, 180, 180, 0.2),
+        0.1rem 0.15rem 0.15rem var(--elevation-shadow-color),
+        0.2rem 0.3rem 0.3rem var(--elevation-shadow-color);
+}
+
+figure[data-layered] .buttons button {
+    font-size: 1rem;
+    border: 1px solid transparent;
+    background: var(--color-purple-1);
+    color: white;
+    padding: 0.2rem 1rem;
+    transition: background 300ms ease;
+}
+
+figure[data-layered] .buttons button:hover,
+figure[data-layered] .buttons button:focus,
+figure[data-layered] .buttons button.active {
+    background: var(--color-purple-3);
+}
+
+figure[data-layered] .buttons button:first-child {
+    border-top-left-radius: 0.2rem;
+    border-bottom-left-radius: 0.2rem;
+}
+
+figure[data-layered] .buttons button:last-child {
+    border-top-right-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+}
