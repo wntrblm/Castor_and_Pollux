@@ -48,4 +48,4 @@ static const struct WntrGPIOPin button_pin_ = WNTR_GPIO_PIN(B, 8);
 #define GEM_TWEAK_MAX_LFO_FREQ F16(6)
 #define GEM_PULSE_WIDTH_MAX (3100)
 #define GEM_PULSE_WIDTH_MOD_MAX (1920)
-#define GEM_FM_DEADZONE F16(0.02)
+#define GEM_FM_DEADZONE F16(0.06)

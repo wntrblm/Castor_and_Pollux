@@ -369,8 +369,18 @@ TEST_CASE_BEGIN(fm_mode)
     GemOscillator_update(&osc, inputs);
     ASSERT_FIX16_CLOSE(osc.pitch, F16(3.5), 0.01);
 
+    // Scenario
+    // - Same as above, but with the pulse knob all the way CCW.
+    //
+    // Should not offset the pitch at all.
+    inputs.pulse_knob_code = 0;
+
+    GemOscillator_update(&osc, inputs);
+    ASSERT_FIX16_CLOSE(osc.pitch, F16(4.0), 0.01);
+
     // Scenario:
     // - Same as above, just with the LFO amplitude at 1.0.
+    inputs.pulse_knob_code = 2048;
     inputs.lfo_amplitude = F16(1.0);
 
     GemOscillator_update(&osc, inputs);
