@@ -15,7 +15,7 @@ from wintertools import tui
 
 from libgemini.oscillators import timer_period_to_frequency
 
-calibration_files = Path(Path(__file__).parent, "../calibrations").glob("*.ramp.json")
+calibration_files = Path(Path(__file__).parent, "../calibrations").glob("*.clock.json")
 reference_calibration_file = Path(Path(__file__).parent, "reference_calibration.py")
 
 
@@ -24,8 +24,15 @@ def run(dry_run=False):
     pollux_calibration_values = {}
 
     for filepath in calibration_files:
+        filepath = Path(str(filepath).replace(".clock.json", ".ramp.json"))
+
+        if not filepath.exists():
+            continue
+
         with filepath.open("r") as fh:
             data = json.load(fh)
+
+        print(filepath, list(data.keys()))
 
         for key, value in data["castor"].items():
             if key not in castor_calibration_values:

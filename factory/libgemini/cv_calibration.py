@@ -65,7 +65,7 @@ def run():
     print("Measuring zero volt threshold")
     hubble.VOUT1B.voltage = 0
     zero_volt_reading = gem.read_adc_average(CHANNEL, SAMPLE_COUNT)
-    zero_volt_threshold = round(zero_volt_reading + ZERO_VOLT_MARGIN)
+    zero_volt_threshold = 4095 - round(zero_volt_reading) + ZERO_VOLT_MARGIN
 
     print(
         f"Zero volt reading: {zero_volt_reading:0.1f}, threshold: {zero_volt_threshold}"
@@ -101,9 +101,6 @@ def run():
         diff = expected - measured
         diff_in_volts = _relative_code_to_volts(diff)
         diff_in_cents = diff_in_volts / (1 / 12) * 100
-        print(
-            f"{voltage=} {measured=}, {expected=}, {diff=}, {diff_in_volts=}, {diff_in_cents=}"
-        )
         report_data.append((voltage, diff_in_cents))
 
     passed = (0.99 < post_gain_error < 1.01) and (-5 < post_offset_error < 5)
@@ -123,7 +120,7 @@ def run():
                 label="Adj offset error", value=f"{post_offset_error:+0.1f}"
             ),
             reportcard.LabelValueItem(
-                label="Zero volt reading", value=f"{zero_volt_reading:+0.1f}"
+                label="Zero volt threshold", value=f"{zero_volt_threshold}"
             ),
             reportcard.LineGraphItem(
                 series=reportcard.Series(data=report_data),
