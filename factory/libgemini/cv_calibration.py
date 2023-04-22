@@ -19,6 +19,7 @@ V_RANGE = abs(V_MIN) + abs(V_MAX)
 CHANNEL = gemini.Gemini.ADC.CV_A
 NUM_CALIBRATION_POINTS = 50
 SAMPLE_COUNT = 64
+ZERO_VOLT_MARGIN = 20  # About 32 mV
 
 
 def _relative_code_to_volts(code):
@@ -61,9 +62,19 @@ def run():
 
     print(f"Measured gain={pre_gain_error:.3f}, offset={pre_offset_error:.1f}")
 
+    print("Measuring zero volt threshold")
+    hubble.VOUT1B.voltage = 0
+    zero_volt_reading = gem.read_adc_average(CHANNEL, SAMPLE_COUNT)
+    zero_volt_threshold = round(zero_volt_reading + ZERO_VOLT_MARGIN)
+
+    print(
+        f"Zero volt reading: {zero_volt_reading:0.1f}, threshold: {zero_volt_threshold}"
+    )
+
     settings = gem.read_settings()
     settings.cv_gain_error = pre_gain_error
     settings.cv_offset_error = pre_offset_error
+    settings.zero_detection_threshold = zero_volt_threshold
     gem.save_settings(settings)
     print("✓ Saved to device NVM.")
 
@@ -90,7 +101,9 @@ def run():
         diff = expected - measured
         diff_in_volts = _relative_code_to_volts(diff)
         diff_in_cents = diff_in_volts / (1 / 12) * 100
-        print(f"{voltage=} {measured=}, {expected=}, {diff=}, {diff_in_volts=}, {diff_in_cents=}")
+        print(
+            f"{voltage=} {measured=}, {expected=}, {diff=}, {diff_in_volts=}, {diff_in_cents=}"
+        )
         report_data.append((voltage, diff_in_cents))
 
     passed = (0.99 < post_gain_error < 1.01) and (-5 < post_offset_error < 5)
@@ -108,6 +121,9 @@ def run():
             ),
             reportcard.LabelValueItem(
                 label="Adj offset error", value=f"{post_offset_error:+0.1f}"
+            ),
+            reportcard.LabelValueItem(
+                label="Zero volt reading", value=f"{zero_volt_reading:+0.1f}"
             ),
             reportcard.LineGraphItem(
                 series=reportcard.Series(data=report_data),
