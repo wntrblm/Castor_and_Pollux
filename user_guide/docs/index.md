@@ -79,7 +79,7 @@ Next, the output of the two oscillators is combined together by the _crossfade m
 
 The crossfader's knob, `Σ`, determines which oscillator is more prominent in the mix at the crossfade output, `♊️`. The [oscillator stacking](#oscillator-stacking) section has more details and sound samples of combining the oscillators together.
 
-Next up, in the very middle there's a the LFO knob, `φ`:
+Next up, in the very middle there's the LFO knob, `φ`:
 
 ![Illustration of the LFO knob](images/5%20-%20LFO.svg){.dark-invert}
 
