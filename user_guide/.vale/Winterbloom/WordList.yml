@@ -1,0 +1,23 @@
+extends: substitution
+message: "Use '%s' instead of '%s'."
+link: "https://developers.google.com/style/word-list"
+level: warning
+ignorecase: true
+action:
+    name: replace
+swap:
+    "(?:e-mail|e-mail)": email
+    "(?:file ?path|path ?name)": path
+    "(?:kill|terminate|abort)": stop|exit|cancel|end
+    "(?:ok)": okay
+    "un(?:check|select)": clear
+    check box: checkbox
+    disabled?: turn off|off
+    file name: filename
+    in order to: to
+    open-source: open source
+    regex: regular expression
+    sign into: sign in to
+    style sheet: stylesheet
+    tablename: table name
+    url: URL
