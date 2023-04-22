@@ -44,7 +44,7 @@ const midi = new MIDI("Gemini");
 const gemini = new Gemini(midi);
 const settings = new GemSettings();
 /* The lowest compatible firmware version */
-const minimum_firmware_version = new Date(2021, 7, 31);
+const minimum_firmware_version = new Date(2023, 4, 21);
 let gemini_firmware_version = null;
 let gemini_serial_number = null;
 let gemini_hardware_revision = null;
