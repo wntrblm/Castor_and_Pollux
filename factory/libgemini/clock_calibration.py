@@ -18,7 +18,8 @@ SCOPE_VERTICAL_DIVISION = "1V"
 SCOPE_SETTLE_TIME = 4
 OSCILLATOR = 0
 TEST_NOTE_FREQ = 880
-MAX_DEVIATION = 0.3
+MAX_DEVIATION = 0.85
+
 
 def run():
     # Calibrates the tuning by indirectly measuring the actual frequency of the

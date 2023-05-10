@@ -4,6 +4,8 @@
 
 """Monitor Gemini's inputs."""
 
+from dataclasses import dataclass
+import math
 import pathlib
 import time
 import sys
@@ -24,6 +26,78 @@ GRAPH_CHARS = "▁▂▃▄▅▆▇█"
 SPINNER_CHARS = "🌑🌒🌓🌔🌕🌖🌗🌘"
 
 spinner_index = 0
+
+
+@dataclass
+class _TestStatus:
+    def pitch_knob_a_sweep(self):
+        return self.pitch_knob_a_max > 3900 and self.pitch_knob_a_min < 200
+
+    def pitch_knob_b_sweep(self):
+        return self.pitch_knob_b_max > 3900 and self.pitch_knob_b_min < 200
+
+    def pulse_knob_a_sweep(self):
+        return self.pulse_knob_a_max > 3900 and self.pulse_knob_a_min < 200
+
+    def pulse_knob_b_sweep(self):
+        return self.pulse_knob_b_max > 3900 and self.pulse_knob_b_min < 200
+
+    def lfo_knob_sweep(self):
+        return self.lfo_knob_max > 3900 and self.lfo_knob_min < 200
+
+    def pitch_jack_a_sweep(self):
+        return self.pitch_jack_a_max > 3000 and self.pitch_jack_a_min < 700
+
+    def pitch_jack_b_sweep(self):
+        return self.pitch_jack_b_max > 3000 and self.pitch_jack_b_min < 700
+
+    def pulse_jack_a_sweep(self):
+        return self.pulse_jack_a_max > 3000 and self.pulse_jack_a_min < 700
+
+    def pulse_jack_b_sweep(self):
+        return self.pulse_jack_b_max > 3000 and self.pulse_jack_b_min < 700
+
+    pitch_knob_a_min: float = math.inf
+    pitch_knob_a_max: float = -math.inf
+    pitch_knob_b_min: float = math.inf
+    pitch_knob_b_max: float = -math.inf
+    pulse_knob_a_min: float = math.inf
+    pulse_knob_a_max: float = -math.inf
+    pulse_knob_b_min: float = math.inf
+    pulse_knob_b_max: float = -math.inf
+    lfo_knob_min: float = math.inf
+    lfo_knob_max: float = -math.inf
+    pitch_jack_a_min: float = math.inf
+    pitch_jack_a_max: float = -math.inf
+    pitch_jack_b_min: float = math.inf
+    pitch_jack_b_max: float = -math.inf
+    pulse_jack_a_min: float = math.inf
+    pulse_jack_a_max: float = -math.inf
+    pulse_jack_b_min: float = math.inf
+    pulse_jack_b_max: float = -math.inf
+
+    def update(self, update):
+        self.pitch_knob_a_min = min(self.pitch_knob_a_min, update.castor_pitch_knob)
+        self.pitch_knob_a_max = max(self.pitch_knob_a_max, update.castor_pitch_knob)
+        self.pitch_knob_b_min = min(self.pitch_knob_b_min, update.pollux_pitch_knob)
+        self.pitch_knob_b_max = max(self.pitch_knob_b_max, update.pollux_pitch_knob)
+        self.pulse_knob_a_min = min(self.pulse_knob_a_min, update.castor_pulse_knob)
+        self.pulse_knob_a_max = max(self.pulse_knob_a_max, update.castor_pulse_knob)
+        self.pulse_knob_b_min = min(self.pulse_knob_b_min, update.pollux_pulse_knob)
+        self.pulse_knob_b_max = max(self.pulse_knob_b_max, update.pollux_pulse_knob)
+        self.lfo_knob_min = min(self.lfo_knob_min, update.lfo_knob)
+        self.lfo_knob_max = max(self.lfo_knob_max, update.lfo_knob)
+        self.pitch_jack_a_min = min(self.pitch_jack_a_min, update.castor_pitch_cv)
+        self.pitch_jack_a_max = max(self.pitch_jack_a_max, update.castor_pitch_cv)
+
+        if abs(update.castor_pitch_cv - update.pollux_pitch_cv) > 10:
+            self.pitch_jack_b_min = min(self.pitch_jack_b_min, update.pollux_pitch_cv)
+            self.pitch_jack_b_max = max(self.pitch_jack_b_max, update.pollux_pitch_cv)
+
+        self.pulse_jack_a_min = min(self.pulse_jack_a_min, update.castor_pulse_cv)
+        self.pulse_jack_a_max = max(self.pulse_jack_a_max, update.castor_pulse_cv)
+        self.pulse_jack_b_min = min(self.pulse_jack_b_min, update.pollux_pulse_cv)
+        self.pulse_jack_b_max = max(self.pulse_jack_b_max, update.pollux_pulse_cv)
 
 
 def _color_range(v, low, high, color=(66, 224, 245)):
@@ -56,7 +130,7 @@ def _format_cv(v, invert=False):
     return start, mid, bar, end
 
 
-def _draw(update):
+def _draw(update, test_status: _TestStatus):
     global spinner_index
 
     spinner_index = (spinner_index + 1) % len(SPINNER_CHARS)
@@ -268,6 +342,31 @@ def _draw(update):
         "┃",
     )
     print("┗", "━" * 47, "┛", sep="")
+    print(
+        f"  {'[green]✓' if test_status.pitch_knob_a_sweep() else 'x'}  pitch knob a sweep"
+    )
+    print(
+        f"  {'[green]✓' if test_status.pulse_knob_a_sweep() else 'x'}  pulse knob a sweep"
+    )
+    print(
+        f"  {'[green]✓' if test_status.pitch_knob_b_sweep() else 'x'}  pitch knob b sweep"
+    )
+    print(
+        f"  {'[green]✓' if test_status.pulse_knob_b_sweep() else 'x'}  pulse knob b sweep"
+    )
+    print(f"  {'[green]✓' if test_status.lfo_knob_sweep() else 'x'}  lfo knob sweep")
+    print(
+        f"  {'[green]✓' if test_status.pitch_jack_a_sweep() else 'x'}  pitch jack a sweep"
+    )
+    print(
+        f"  {'[green]✓' if test_status.pulse_jack_a_sweep() else 'x'}  pulse jack a sweep"
+    )
+    print(
+        f"  {'[green]✓' if test_status.pitch_jack_b_sweep() else 'x'}  pitch jack b sweep"
+    )
+    print(
+        f"  {'[green]✓' if test_status.pulse_jack_b_sweep() else 'x'}  pulse jack b sweep"
+    )
 
 
 def _check_firmware_version(gem):
@@ -311,6 +410,8 @@ def main(stats=False):
 
     print(settings)
 
+    test_status = _TestStatus()
+
     gem.enable_monitor()
 
     output = tui.Updateable(clear_all=False)
@@ -319,7 +420,8 @@ def main(stats=False):
         while True:
             update = gem.monitor()
 
-            _draw(update)
+            test_status.update(update)
+            _draw(update, test_status)
 
             output.update()
 

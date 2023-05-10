@@ -129,7 +129,7 @@ def run():
                     x_axis=reportcard.Axis(
                         label="Input (V)",
                         min=V_MIN,
-                        min_label="{V_MIN:0.1f}",
+                        min_label=f"{V_MIN:0.1f}",
                         max=V_MAX,
                         max_label=f"{V_MAX:0.1f}",
                     ),
