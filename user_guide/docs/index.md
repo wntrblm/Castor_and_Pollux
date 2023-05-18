@@ -60,7 +60,7 @@ To install this into your Eurorack setup, connect a Eurorack power cable from yo
 
 ## Overview
 
-Castor & Pollux is has two separate but _intertwined_ oscillators. It's possible to control each oscillator independently, but they truly shine when used together. Castor & Pollux's design is focused around the connection between these two oscillators and modulating their parameters using the internal LFO.
+Castor & Pollux has two separate but _intertwined_ oscillators. It's possible to control each oscillator independently, but they truly shine when used together. Castor & Pollux's design is focused around the connection between these two oscillators and modulating their parameters using the internal LFO.
 
 ![Illustration of Castor & Pollux's interface with elements for the separate oscillators highlighted](images/1%20-%20Overview.svg){.dark-invert}
 
