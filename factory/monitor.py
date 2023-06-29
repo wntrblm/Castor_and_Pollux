@@ -90,7 +90,7 @@ class _TestStatus:
         self.pitch_jack_a_min = min(self.pitch_jack_a_min, update.castor_pitch_cv)
         self.pitch_jack_a_max = max(self.pitch_jack_a_max, update.castor_pitch_cv)
 
-        if abs(update.castor_pitch_cv - update.pollux_pitch_cv) > 10:
+        if update.castor_pitch_cv < 500:
             self.pitch_jack_b_min = min(self.pitch_jack_b_min, update.pollux_pitch_cv)
             self.pitch_jack_b_max = max(self.pitch_jack_b_max, update.pollux_pitch_cv)
 
