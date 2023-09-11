@@ -370,6 +370,14 @@ If you run into issues, feel free to [reach out](mailto:support@winterbloom.com)
             </p>
         </div>
     </div>
+    <div id="monitor_section" class="hidden">
+        <div class="section-divider"></div>
+        <div class="field">
+            <label class="label">Monitor</label>
+            <button class="button is-warning" type="button" id="enable_monitor">Enable monitoring</button>
+            <pre class="code" id="monitor_output">monitor output</pre>
+        </div>
+    </div>
     <div class="section-divider"></div>
     <div class="field">
         <button class="button is-primary is-large is-fullwidth" type="button" id="save_button">Save &amp; restart</button>

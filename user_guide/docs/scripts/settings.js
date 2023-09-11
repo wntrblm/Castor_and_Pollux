@@ -38,6 +38,11 @@ const ui = {
         offset_error_result: $e("offset_error_result"),
         save: $e("save_tuning"),
     },
+    monitoring: {
+        section: $e("monitor_section"),
+        enable: $e("enable_monitor"),
+        output: $e("monitor_output"),
+    },
 };
 
 const midi = new MIDI("Gemini");
@@ -370,4 +375,16 @@ $on(ui.tuning.save, "click", function () {
     ui.settings_form.update();
     ui.save_btn.scrollIntoView();
     ui.save_btn.click();
+});
+
+/*
+    Monitoring
+*/
+if (window.location.hash == "#monitor") {
+    ui.monitoring.section.classList.remove("hidden");
+}
+$on(ui.monitoring.enable, "click", function () {
+    gemini.enable_monitoring((msg) => {
+        ui.monitoring.output.innerText = JSON.stringify(msg, undefined, 2);
+    });
 });

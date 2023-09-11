@@ -1,6 +1,7 @@
 import * as Teeth from "../winterjs/teeth.js";
 import { Uint8Array_to_hex } from "../winterjs/utils.js";
 import GemSettings from "./gem_settings.js";
+import GemMonitorUpdate from "./gem_monitor_update.js";
 
 function strip_response(response) {
     return response.data.slice(3, -1);
@@ -63,6 +64,27 @@ export default class Gemini {
     async soft_reset() {
         /* Command 0x11: soft reset */
         await this.midi.transact(new Uint8Array([0xf0, 0x77, 0x11, 0xf7]));
+    }
+
+    async enable_monitoring(callback) {
+        /* Command 0x10: monitor */
+        await this.midi.transact(
+            new Uint8Array([0xf0, 0x77, 0x10, 0x01, 0xf7])
+        );
+
+        this.midi.input.onmidimessage = function (msg) {
+            const encoded_data = strip_response(msg);
+            const decoded_data = Teeth.decode(encoded_data);
+            const update = GemMonitorUpdate.unpack(decoded_data);
+            callback(update);
+        };
+    }
+
+    async disable_monitoring() {
+        /* Command 0x10: monitor */
+        await this.midi.transact(
+            new Uint8Array([0xf0, 0x77, 0x10, 0x01, 0xf7])
+        );
     }
 
     async read_adc(channel) {

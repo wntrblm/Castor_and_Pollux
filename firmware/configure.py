@@ -204,6 +204,7 @@ def generate_build(configuration, run_generators, enable_tidy, enable_format):
             "data/gem_monitor_update.structy",
             c="src/generated",
             py="../factory/libgemini",
+            js="../user_guide/docs/scripts",
         )
 
         # Look-up tables
