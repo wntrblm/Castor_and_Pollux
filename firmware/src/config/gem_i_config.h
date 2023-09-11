@@ -15,9 +15,9 @@
 #include "gem_spi.h"
 
 static const struct GemADCInput GEM_I_ADC_INPUTS[] = {
-    GEM_ADC_INPUT(A, 5, 5),            // Duty A
+    GEM_ADC_INPUT_INVERTED(A, 5, 5),   // Duty A
     GEM_ADC_INPUT_INVERTED(A, 8, 16),  // Duty A Pot
-    GEM_ADC_INPUT(B, 9, 3),            // Duty B
+    GEM_ADC_INPUT_INVERTED(B, 9, 3),   // Duty B
     GEM_ADC_INPUT_INVERTED(A, 9, 17),  // Duty B Pot
     GEM_ADC_INPUT_INVERTED(A, 2, 0),   // Chorus pot
     GEM_ADC_INPUT_INVERTED(B, 3, 11),  // CV A Pot
