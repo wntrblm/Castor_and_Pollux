@@ -327,7 +327,7 @@ const tuning_info = {
 };
 
 $on(ui.tuning.measure_one, "click", async function () {
-    tuning_info.one_volt = await gemini.read_adc_average(0, 20);
+    tuning_info.one_volt = await gemini.read_adc_average(7, 20);
     ui.tuning.measure_one_result.value = tuning_info.one_volt;
 
     tuning_info.gain_error = null;
@@ -341,7 +341,7 @@ $on(ui.tuning.measure_one, "click", async function () {
 });
 
 $on(ui.tuning.measure_three, "click", async function () {
-    tuning_info.three_volt = await gemini.read_adc_average(0, 20);
+    tuning_info.three_volt = await gemini.read_adc_average(7, 20);
     ui.tuning.measure_three_result.value = tuning_info.three_volt;
 
     if (!tuning_info.one_volt) return;
