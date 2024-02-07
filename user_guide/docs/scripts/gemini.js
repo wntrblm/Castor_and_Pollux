@@ -2,6 +2,7 @@ import * as Teeth from "../winterjs/teeth.js";
 import { Uint8Array_to_hex } from "../winterjs/utils.js";
 import GemSettings from "./gem_settings.js";
 import GemMonitorUpdate from "./gem_monitor_update.js";
+import _struct from "./struct.mjs";
 
 function strip_response(response) {
     return response.data.slice(3, -1);
@@ -27,7 +28,7 @@ export default class Gemini {
         );
         const decoded = Teeth.decode(strip_response(response));
         return {
-            serial: Uint8Array_to_hex(decoded.slice(0, 16)),
+            serial: Uint8Array_to_hex(decoded.slice(0, 17)),
             revision: decoded.at(16) ?? 4,
         };
     }
@@ -84,6 +85,23 @@ export default class Gemini {
         /* Command 0x10: monitor */
         await this.midi.transact(
             new Uint8Array([0xf0, 0x77, 0x10, 0x01, 0xf7])
+        );
+    }
+
+    async write_lut_entry(index, period, castor_value, pollux_value) {
+        /* (command 0x0A - write lut entry) */
+        const request = pack_and_encode_request(0x0a, ">BIHH", [
+            index,
+            period,
+            castor_value,
+            pollux_value,
+        ]);
+        return await this.midi.transact(new Uint8Array(request));
+    }
+
+    async save_lut_table() {
+        return await this.midi.transact(
+            new Uint8Array([0xf0, 0x77, 0x0b, 0xf7])
         );
     }
 
@@ -148,4 +166,18 @@ export default class Gemini {
         code = res_m_1 - code;
         return code;
     }
+}
+
+function pack_and_encode_request(command, format_str, args) {
+    const packed = _struct(format_str).pack(...args);
+    return encode_request(command, new Uint8Array(packed));
+}
+
+function encode_request(command, data) {
+    const encoded_data = Teeth.encode(data);
+    const midi_message = new Uint8Array(4 + encoded_data.length);
+    midi_message.set([0xf0, 0x77, command]);
+    midi_message.set(encoded_data, 3);
+    midi_message[midi_message.length - 1] = 0xf7;
+    return midi_message;
 }

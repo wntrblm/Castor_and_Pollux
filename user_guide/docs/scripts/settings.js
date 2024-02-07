@@ -43,6 +43,11 @@ const ui = {
         enable: $e("enable_monitor"),
         output: $e("monitor_output"),
     },
+    ramp: {
+        section: $e("ramp_section"),
+        swap_btn: $e("ramp_swap"),
+        output: $e("ramp_output"),
+    },
 };
 
 const midi = new MIDI("Gemini");
@@ -53,6 +58,9 @@ const minimum_firmware_version = new Date(2023, 3, 21);
 let gemini_firmware_version = null;
 let gemini_serial_number = null;
 let gemini_hardware_revision = null;
+let adc_calibration_backup = null;
+let afe_calibration_backup = null;
+let ramp_calibration_backup = null;
 
 /*
   Factory calibrations are stored on GCS. This allows retrieving it.
@@ -64,33 +72,56 @@ async function fetch_calibration(serial_no, type) {
     );
 
     if (!response.ok) {
-        throw `Could not find ${type} calibration data for CPU ID ${serial_no}`;
+        console.warn(
+            `Could not find ${type} calibration data for CPU ID ${serial_no}`
+        );
+        return null;
     }
 
-    let calibration_data = await response.json();
-
-    return calibration_data;
+    return await response.json();
 }
 
 async function check_for_backups() {
-    /* Check and see if there's a backup for the ADC data. */
-    try {
-        await fetch_calibration(gemini_serial_number, "adc");
-    } catch {
+    adc_calibration_backup = await fetch_calibration(
+        gemini_serial_number,
+        "adc"
+    );
+    afe_calibration_backup = await fetch_calibration(
+        gemini_serial_number,
+        "afe"
+    );
+    ramp_calibration_backup = await fetch_calibration(
+        gemini_serial_number,
+        "ramp"
+    );
+
+    /* Check and see if there's a backup for  data. */
+    if (!adc_calibration_backup && !afe_calibration_backup) {
         ui.restore_adc_calibration_btn.disabled = true;
         ui.restore_adc_calibration_btn.classList.remove("is-warning");
         ui.restore_adc_calibration_btn.classList.add("is-dark");
     }
+
+    if (!ramp_calibration_backup) {
+        ui.ramp.swap_btn.disabled = true;
+        ui.ramp.swap_btn.classList.remove("is-warning");
+        ui.ramp.swap_btn.classList.add("is-dark");
+    }
 }
 
-async function restore_adc_calibration() {
-    let adc_calibration = await fetch_calibration(gemini_serial_number, "adc");
-    let afe_calibration = await fetch_calibration(gemini_serial_number, "afe");
-
-    settings.adc_gain_corr = Math.round(adc_calibration.gain_error * 2048);
-    settings.adc_offset_corr = Math.round(adc_calibration.offset_error);
-    settings.cv_gain_error = afe_calibration.gain_error;
-    settings.cv_offset_error = afe_calibration.offset_error;
+async function restore_backup_calibration() {
+    if (adc_calibration_backup) {
+        settings.adc_gain_corr = Math.round(
+            adc_calibration_backup.gain_error * 2048
+        );
+        settings.adc_offset_corr = Math.round(
+            adc_calibration_backup.offset_error
+        );
+    }
+    if (afe_calibration_backup) {
+        settings.cv_gain_error = afe_calibration_backup.gain_error;
+        settings.cv_offset_error = afe_calibration_backup.offset_error;
+    }
 
     ui.settings_form.update();
 }
@@ -225,7 +256,7 @@ $on(ui.save_btn, "click", async function () {
 });
 
 $on(ui.restore_adc_calibration_btn, "click", async function () {
-    await restore_adc_calibration();
+    await restore_backup_calibration();
 });
 
 /*
@@ -387,4 +418,41 @@ $on(ui.monitoring.enable, "click", function () {
     gemini.enable_monitoring((msg) => {
         ui.monitoring.output.innerText = JSON.stringify(msg, undefined, 2);
     });
+});
+
+/*
+    Ramp calibration swap
+*/
+if (window.location.hash == "#ramp") {
+    ui.ramp.section.classList.remove("hidden");
+}
+$on(ui.ramp.swap_btn, "click", async function () {
+    console.log(ramp_calibration_backup);
+
+    const periods = Object.keys(ramp_calibration_backup["castor"])
+        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10))
+        .reverse();
+
+    for (let i = 0; i < periods.length; i++) {
+        const period = periods[i];
+        const period_number = parseInt(period, 10);
+        let castor_value = ramp_calibration_backup["castor"][period];
+        let pollux_value = ramp_calibration_backup["pollux"][period];
+
+        // swap em
+        [castor_value, pollux_value] = [pollux_value, castor_value];
+
+        await gemini.write_lut_entry(
+            i,
+            period_number,
+            castor_value,
+            pollux_value
+        );
+
+        ui.ramp.output.innerText += `Set ${i}: period=${period}, castor=${pollux_value}, pollux=${castor_value}\n`;
+    }
+
+    await gemini.save_lut_table();
+
+    ui.ramp.output.innerText += `Saved to NVM`;
 });
