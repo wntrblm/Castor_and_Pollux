@@ -543,6 +543,23 @@ We have stress tested Castor & Pollux under the following conditions. These are 
 -   Output connected to another output: at least `±8 V`
 -   Output shorted to ground: at least `60 minutes`
 
+## Errata
+
+### Ramp table swap
+
+**Affected units**
+:   This applies to All Castor & Pollux II units shipped prior to February 7th, 2024. Castor & Pollux I units are not affected.
+
+**Description**
+:   Due to an error during calibration, the internal ramp calibration tables for the two oscillators are swapped. This table is used to correct the amplitude of the ramp waveform, so when the tables are swapped the waveform appears distorted.
+<figure data-layered>
+  <img title="Distorted" src="../images/ramp-distorted.png" class="active">
+  <img title="Correct" src="../images/ramp-correct.png">
+</figure>
+
+**Corrective action**
+:   This errata can be resolved with just a computer and USB cable. Connect your unit to your computer [via usb](#connecting-with-usb), open the settings editor using [this specific link](/settings#ramp), press the "connect" button, then scroll all the way to the bottom and press the "swap ramp calibration" button. If this does not work for you, please reach out to us at support@winterbloom.com for assistance.
+
 ## Acknowledgments and thanks
 
 Castor & Pollux would not be possible without the help of the Adafruit, support from Microchip, and the volumes of literature documenting and analyzing the Juno's DCO design. We would also like to acknowledge the following individuals for their outstanding support:
@@ -560,3 +577,5 @@ Castor & Pollux would not be possible without the help of the Adafruit, support 
 <script type="module" src="scripts/waveforms.js"></script>
 <link rel="stylesheet" href="/winterjs/audio-player.css">
 <script type="module" src="/winterjs/audio-player.js"></script>
+<script type="module" src="../scripts/layered.js"></script>
+<link rel="stylesheet" href="../styles/layered.css" />

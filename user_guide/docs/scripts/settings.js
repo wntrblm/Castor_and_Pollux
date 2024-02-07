@@ -454,5 +454,5 @@ $on(ui.ramp.swap_btn, "click", async function () {
 
     await gemini.save_lut_table();
 
-    ui.ramp.output.innerText += `Saved to NVM`;
+    ui.ramp.output.innerText += `Saved to NVM\n`;
 });
