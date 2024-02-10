@@ -219,8 +219,7 @@ static void GemOscillator_update_pulse_width_(struct GemOscillator* osc, struct 
         if (inputs.tweak_pulse_knob_code != UINT16_MAX) {
             pulse_width = inputs.tweak_pulse_knob_code;
         }
-        pulse_width +=
-            (fix16_mul(F16(GEM_PULSE_WIDTH_MOD_MAX), fix16_mul(lfo_factor, inputs.lfo_amplitude))) >> 16;
+        pulse_width += (fix16_mul(F16(GEM_PULSE_WIDTH_MOD_MAX), fix16_mul(lfo_factor, inputs.lfo_amplitude))) >> 16;
     }
 
     // Up until this point, pulse width is defined as 0 -> 4095, however, the pulse width's
