@@ -13,6 +13,7 @@
 #include "gem_test.h"
 #include "gem_pulseout.h"
 #include "wntr_uint12.h"
+#include <inttypes.h>
 #include <math.h>
 
 const struct WntrErrorCorrection error_correction = {.offset = F16(0), .gain = F16(1)};
@@ -485,7 +486,7 @@ TEST_CASE_BEGIN(cv_pitch_period_conversion)
         print_f16(cv);
         printf(" V freq = ");
         print_f16(freq);
-        printf(" Hz millihertz = %llu mHz period = %u, roundtrip = %f Hz, diff = %f ppm", mhertz, period, roundtrip, diff);
+        printf(" Hz millihertz = %" PRIu64 " mHz period = %" PRIu32 ", roundtrip = %f Hz, diff = %f ppm", mhertz, period, roundtrip, diff);
     }
     printf("\n");
 TEST_CASE_END
