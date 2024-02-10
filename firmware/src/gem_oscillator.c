@@ -152,6 +152,7 @@ static void GemOscillator_update_pitch_(struct GemOscillator* osc, const struct 
     pitch = fix16_clamp(pitch, F16(0), F16(7));
 
     osc->pitch = pitch;
+    // osc->pitch = fix16_add(fix16_mul(pitch, F16(0.9)), fix16_mul(osc->pitch, F16(0.1)));
 }
 
 static fix16_t gem_oscillator_calc_pitch_cv_(fix16_t cv_min, fix16_t cv_max, uint16_t adc_code) {
@@ -219,7 +220,7 @@ static void GemOscillator_update_pulse_width_(struct GemOscillator* osc, struct 
             pulse_width = inputs.tweak_pulse_knob_code;
         }
         pulse_width +=
-            fix16_to_int(fix16_mul(F16(GEM_PULSE_WIDTH_MOD_MAX), fix16_mul(lfo_factor, inputs.lfo_amplitude)));
+            (fix16_mul(F16(GEM_PULSE_WIDTH_MOD_MAX), fix16_mul(lfo_factor, inputs.lfo_amplitude))) >> 16;
     }
 
     // Up until this point, pulse width is defined as 0 -> 4095, however, the pulse width's

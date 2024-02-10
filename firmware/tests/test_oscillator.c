@@ -9,8 +9,11 @@
 #include "fix16.h"
 #include "gem_config.h"
 #include "gem_oscillator.h"
+#include "gem_math.h"
 #include "gem_test.h"
+#include "gem_pulseout.h"
 #include "wntr_uint12.h"
+#include <math.h>
 
 const struct WntrErrorCorrection error_correction = {.offset = F16(0), .gain = F16(1)};
 struct GemOscillator osc = {
@@ -303,7 +306,7 @@ TEST_CASE_BEGIN(pwm_mode)
     inputs.lfo_amplitude = F16(-1.0);
 
     GemOscillator_update(&osc, inputs);
-    munit_assert_int16(osc.pulse_width, ==, 2048 - 1025);
+    munit_assert_int16(osc.pulse_width, ==, 2048 - 1026);
 
     // Scenario:
     // - Same as above but the LFO's amplitude is at +1.0
@@ -322,7 +325,7 @@ TEST_CASE_BEGIN(pwm_mode)
     inputs.lfo_amplitude = F16(-1.0);
 
     GemOscillator_update(&osc, inputs);
-    munit_assert_int16(osc.pulse_width, ==, 2048 - 1025);
+    munit_assert_int16(osc.pulse_width, ==, 2048 - 1026);
 
     // Scenario:
     // - Pulse knob fully CCW
@@ -463,6 +466,30 @@ TEST_CASE_BEGIN(hard_sync_mode)
     ASSERT_FIX16_CLOSE(osc.pitch, F16(5.5), 0.01);
 TEST_CASE_END
 
+
+#define PERIOD_TO_FREQ(v) (8000000.0 / (1.0 * ((double)(v) + 1.0)))
+
+TEST_CASE_BEGIN(cv_pitch_period_conversion)
+    size_t steps = 100;
+    double step_size = 0.0001;
+    struct GemPulseOutConfig po = {.gclk_freq = 8000000};
+
+    for(size_t i = 0; i < steps; i++) {
+        fix16_t cv = fix16_from_dbl(4.0 + (step_size * (double)(i)));
+        fix16_t freq = gem_voct_to_frequency(cv);
+        uint64_t mhertz = gem_frequency_to_millihertz_f16_u64(freq);
+        uint32_t period = gem_pulseout_frequency_to_period(&po, mhertz);
+        double roundtrip = PERIOD_TO_FREQ(period);
+        double diff = fabs(roundtrip - fix16_to_dbl(freq)) / fix16_to_dbl(freq) * 1000000.0;
+        printf("\ncv = ");
+        print_f16(cv);
+        printf(" V freq = ");
+        print_f16(freq);
+        printf(" Hz millihertz = %llu mHz period = %u, roundtrip = %f Hz, diff = %f ppm", mhertz, period, roundtrip, diff);
+    }
+    printf("\n");
+TEST_CASE_END
+
 static MunitTest test_suite_tests[] = {
     {.name = "coarse pitch", .test = test_coarse_pitch},
     {.name = "follow pitch", .test = test_follow_pitch},
@@ -472,6 +499,7 @@ static MunitTest test_suite_tests[] = {
     {.name = "pwm mode", .test = test_pwm_mode},
     {.name = "fm mode", .test = test_fm_mode},
     {.name = "hard sync", .test = test_hard_sync_mode},
+    {.name = "cv/pitch/period conversion", .test = test_cv_pitch_period_conversion},
     {.test = NULL},
 };
 
