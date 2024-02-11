@@ -1,0 +1,104 @@
+name: Build
+
+on:
+    pull_request:
+    push:
+        branches:
+            - main
+
+jobs:
+    build:
+        name: Lint, build, and test firmware code
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Install dependencies
+              run: |
+                  sudo apt-get update -qq
+                  sudo apt-get install -qq eatmydata
+                  sudo eatmydata apt-get install -qq \
+                    ninja-build \
+                    wget \
+                    clang \
+                    clang-tools \
+                    clang-tidy \
+                    clang-format \
+                    libasound2-dev
+                  echo "~/.local/bin" >> $GITHUB_PATH
+
+            - name: Cache ~/.local
+              id: cache-local
+              uses: actions/cache@v3
+              with:
+                  path: ~/.local
+                  key: cache-local
+
+            - name: Install ARM embedded toolchain
+              if: steps.cache-local.outputs.cache-hit != 'true'
+              run: |
+                  mkdir -p ~/.local
+                  wget --no-verbose "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz?rev=e434b9ea4afc4ed7998329566b764309&hash=CA590209F5774EE1C96E6450E14A3E26"
+                  tar -C ~/.local --strip-components=1 -xaf arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz
+
+            - name: Set up Python 3.12
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.12"
+
+            - name: Show versions
+              run: |
+                  ninja --version
+                  python3 --version
+                  clang-format --version
+                  clang-tidy --version
+                  gcc --version
+                  arm-none-eabi-gcc --version
+
+            - name: Checkout code
+              uses: actions/checkout@v4
+              # Required so that build_info.mk can properly construct a buildinfo
+              # string.
+              with:
+                  fetch-depth: 2
+
+            - name: Install firmware build dependencies
+              run: |
+                  python3.12 -m pip install wheel
+                  python3.12 -m pip install -r firmware/requirements.txt
+
+            - name: Check firmware code formatting
+              run: |
+                  cd firmware
+                  python3.12 configure.py --skip-checks --no-generators --enable-tidy
+                  ninja format
+                  git diff --color --exit-code src
+
+            - name: Lint firmware
+              run: |
+                  cd firmware
+                  clang-tidy -dump-config
+                  ninja tidy
+
+            - name: Build firmware
+              run: |
+                  cd firmware
+                  python3.12 configure.py --no-format
+                  ninja
+
+            - name: Upload firmware artifacts
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: gemini-firmware.elf
+                  path: firmware/build/gemini-firmware.*
+                  if-no-files-found: error
+
+            - name: Build test runner
+              run: |
+                  cd firmware/tests
+                  python3 configure.py
+                  ninja
+
+            - name: Run tests
+              run: |
+                  cd firmware/tests
+                  build/gemini-firmware-test
