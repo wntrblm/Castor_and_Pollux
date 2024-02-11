@@ -68,7 +68,7 @@ inline static void print_f16(const fix16_t val) {
 
 /* Suites */
 
-MunitSuite test_midi_core_suite;
-MunitSuite test_voice_params_suite;
-MunitSuite test_bezier_suite;
-MunitSuite test_oscillator_suite;
+extern MunitSuite test_midi_core_suite;
+extern MunitSuite test_voice_params_suite;
+extern MunitSuite test_bezier_suite;
+extern MunitSuite test_oscillator_suite;

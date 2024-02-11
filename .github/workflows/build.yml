@@ -28,7 +28,7 @@ jobs:
 
             - name: Cache ~/.local
               id: cache-local
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: ~/.local
                   key: cache-local
@@ -37,8 +37,8 @@ jobs:
               if: steps.cache-local.outputs.cache-hit != 'true'
               run: |
                   mkdir -p ~/.local
-                  wget --no-verbose "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz?rev=e434b9ea4afc4ed7998329566b764309&hash=CA590209F5774EE1C96E6450E14A3E26"
-                  tar -C ~/.local --strip-components=1 -xaf arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz
+                  wget --no-verbose -O arm.tar.xz "https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz?rev=e434b9ea4afc4ed7998329566b764309&hash=CA590209F5774EE1C96E6450E14A3E26"
+                  tar -C ~/.local --strip-components=1 -xaf arm.tar.xz
 
             - name: Set up Python 3.12
               uses: actions/setup-python@v5
@@ -86,9 +86,9 @@ jobs:
                   ninja
 
             - name: Upload firmware artifacts
-            - uses: actions/upload-artifact@v4
+              uses: actions/upload-artifact@v4
               with:
-                  name: gemini-firmware.elf
+                  name: gemini-firmware
                   path: firmware/build/gemini-firmware.*
                   if-no-files-found: error
 
