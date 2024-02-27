@@ -1,27 +1,48 @@
-site_name: Winterbloom Castor & Pollux User Guide
+site_name: Castor & Pollux
 site_url: https://gemini.wntr.dev
-copyright: "© 2023 Winterbloom LLC, licensed under Creative Commons CC BY-SA 4.0"
 repo_url: "https://github.com/wntrblm/Castor_and_Pollux"
 edit_uri: edit/main/user_guide/docs
 theme:
-    name: winterbloom
+    name: wintersong
+plugins: []
 markdown_extensions:
+    - abbr
     - admonition
     - def_list
     - attr_list
+    - footnotes
+    - md_in_html
     - toc:
           permalink: "#"
           toc_depth: 2-2
+    - pymdownx.arithmatex:
+          generic: true
+    - pymdownx.betterem:
+          smart_enable: all
+    - pymdownx.blocks.tab:
+          alternate_style: true
+    - pymdownx.caret
+    - pymdownx.details
     - pymdownx.highlight:
-          use_pygments: True
+          anchor_linenums: true
+          line_spans: __span
+          pygments_lang_class: true
+    - pymdownx.inlinehilite
+    - pymdownx.keys
+    - pymdownx.magiclink:
+          hide_protocol: true
+          repo_url_shortener: true
+          social_url_shortener: true
+          normalize_issue_symbols: true
+          repo_url_shorthand: true
+          user: wntrblm
+          repo: winter
+    - pymdownx.mark
     - pymdownx.superfences
-    - pymdownx.magiclink
-    - md_in_html
-    - markdown_link_attr_modifier:
-          new_tab: "external_only"
-          custom_attrs:
-              referrerpolicy: "origin"
+    - pymdownx.tasklist:
+          custom_checkbox: true
+    - pymdownx.tilde
 nav:
-    - "User Guide": index.md
-    - "Kit Build Instructions": build.md
-    - "Settings Editor": settings.md
+    - "Guide": index.md
+    - "Build": build.md
+    - "Settings": settings.md

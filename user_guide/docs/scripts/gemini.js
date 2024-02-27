@@ -1,5 +1,5 @@
-import * as Teeth from "../winterjs/teeth.js";
-import { Uint8Array_to_hex } from "../winterjs/utils.js";
+import { Teeth } from "/winter.js";
+import { Uint8Array_to_hex } from "./utils.js";
 import GemSettings from "./gem_settings.js";
 import GemMonitorUpdate from "./gem_monitor_update.js";
 import _struct from "./struct.mjs";

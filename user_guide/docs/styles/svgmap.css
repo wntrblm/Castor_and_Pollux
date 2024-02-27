@@ -1,9 +1,0 @@
-object[data-is-svg-map] {
-    max-height: 90vh;
-}
-
-.svgmap-help-text {
-    text-align: center;
-    font-style: italic;
-    font-size: 80%;
-}

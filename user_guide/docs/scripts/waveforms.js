@@ -4,8 +4,8 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-import { $e, $on } from "../winterjs/utils.js";
-import * as forms from "../winterjs/forms.js";
+import { $e, $on } from "./utils.js";
+import * as forms from "./forms.js";
 
 /* Global parameters for every waveform display. */
 const frequency = 3.0;

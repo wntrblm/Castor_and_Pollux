@@ -35,7 +35,7 @@ We want you to have a wonderful experience with your module. If you need help or
 
 ## Version differences
 
-![Illustration of Castor & Pollux I and Castor & Pollux II](images/V1%20vs%20V2.svg){.dark-invert}
+![Illustration of Castor & Pollux I and Castor & Pollux II](images/V1%20vs%20V2.svg)
 
 Castor & Pollux has two different versions in the wild with significant changes between them. Fortunately, both versions are fundamentally the same brains with different user interfaces. Changes made by Castor & Pollux II include:
 
@@ -54,7 +54,7 @@ Both versions use the same firmware and behave the same way. This manual applies
 
 ## Installation
 
-![Illustration of power connection](images/Power%20connection.svg){.dark-invert}
+![Illustration of power connection](images/Power%20connection.svg)
 
 To install this into your Eurorack setup, connect a Eurorack power cable from your power supply to the back of the module. **Note that even though there's a keyed power connector on the module, double check that the red stripe is on the side labeled `red stripe`!** Once you've connected the power cable, secure your module to your rack rails using screws.
 
@@ -62,40 +62,40 @@ To install this into your Eurorack setup, connect a Eurorack power cable from yo
 
 Castor & Pollux has two separate but _intertwined_ oscillators. It's possible to control each oscillator independently, but they truly shine when used together. Castor & Pollux's design is focused around the connection between these two oscillators and modulating their parameters using the internal LFO.
 
-![Illustration of Castor & Pollux's interface with elements for the separate oscillators highlighted](images/1%20-%20Overview.svg){.dark-invert}
+![Illustration of Castor & Pollux's interface with elements for the separate oscillators highlighted](images/1%20-%20Overview.svg)
 
 Castor & Pollux's front panel is arranged so that Castor's inputs, outputs, and controls are on the **left** whereas the corresponding elements are mirrored on the **right** for Pollux. The center contains controls for the internal LFO and crossfade mixer:
 
-Each oscillator, `⍺` and `β`, is controlled by its associated knobs and CV input jacks:
+Each oscillator, ++"⍺"++ and ++"β"++, is controlled by its associated knobs and CV input jacks:
 
-![Illustration of the knobs and input jacks](images/2%20-%20Osc%20controls.svg){.dark-invert}
+![Illustration of the knobs and input jacks](images/2%20-%20Osc%20controls.svg)
 
 -   The large pitch knob and pitch CV input control the oscillator's **pitch** (frequency).
 -   The smaller pulse width knob and pulse width CV input control the oscillator's **pulse width**.
 
 You can learn more about these inputs in the [pitch behavior](#pitch-behavior) section.
 
-Each oscillator has a single output jack, `★`, and corresponding mixing knobs:
+Each oscillator has a single output jack, ++"★"++, and corresponding mixing knobs:
 
-![Illustration of the oscillator's outputs](images/3%20-%20Osc%20outputs.svg){.dark-invert}
+![Illustration of the oscillator's outputs](images/3%20-%20Osc%20outputs.svg)
 
 Each oscillator generates three waveshapes: _saw_, _pulse_, and _sub_. The three mixing knobs control how much of each waveshape is present in the oscillator's output. You can read more about the sound of each waveshape in the [waveshapes](#waveshapes) section.
 
 Next, the _crossfade mixer_ combines the output of the two oscillators together:
 
-![Illustration of the crossfade mixer and its output jack](images/4%20-%20Crossfader.svg){.dark-invert}
+![Illustration of the crossfade mixer and its output jack](images/4%20-%20Crossfader.svg)
 
-The crossfader's knob, `Σ`, determines which oscillator is more prominent in the mix at the crossfade output, `♊️`. The [oscillator stacking](#oscillator-stacking) section has more details and sound samples of combining the oscillators together.
+The crossfader's knob, ++"Σ"++, determines which oscillator is more prominent in the mix at the crossfade output, `♊️`. The [oscillator stacking](#oscillator-stacking) section has more details and sound samples of combining the oscillators together.
 
-Next up, in the very middle there's the LFO knob, `φ`:
+Next up, in the very middle there's the LFO knob, ++"φ"++:
 
-![Illustration of the LFO knob](images/5%20-%20LFO.svg){.dark-invert}
+![Illustration of the LFO knob](images/5%20-%20LFO.svg)
 
 This [internal LFO](#internal-low-frequency-oscillator) can be used to modulate several parameters in interesting ways depending on the [mode](#modes--tweaking).
 
 Last, but not least, there is a single button in the center that's used for changing modes and enabling the tweak overlay:
 
-![Illustration of the button](images/6%20-%20Button.svg){.dark-invert}
+![Illustration of the button](images/6%20-%20Button.svg)
 
 You can learn more about the different modes and tweaking in the [modes & tweaking section](#modes--tweaking).
 
@@ -107,7 +107,7 @@ If you're not sure where to start with Castor & Pollux this section has a few pa
 
 First, dip your toes in by putting together this patch:
 
-![Illustration of the first patch](images/7%20-%20Patch%201.svg){.dark-invert}
+![Illustration of the first patch](images/7%20-%20Patch%201.svg)
 
 -   Turn all the knobs and trimpots fully counter-clockwise
 -   Turn the ramp mix trimpot for Castor fully clockwise
@@ -121,7 +121,7 @@ You can keep playing around with this patch by moving the mix trimpots for each 
 
 Ready for more? Try out this patch:
 
-![Illustration of the second patch](images/8%20-%20Patch%202.svg){.dark-invert}
+![Illustration of the second patch](images/8%20-%20Patch%202.svg)
 
 -   Turn Castor's pitch knob and pulse knob to 12 o' clock
 -   Turn at least one of Castor's mix trimpots clockwise
@@ -134,7 +134,7 @@ Castor should now be playing notes based on the CV you're sending it. You can tu
 
 Okay, one last patch and you'll be ready for anything:
 
-![Illustration of the third patch](images/9%20-%20Patch%203.svg){.dark-invert}
+![Illustration of the third patch](images/9%20-%20Patch%203.svg)
 
 -   Turn Castor's pitch knob and pulse knob to 12 o' clock
 -   Turn Pollux's pitch knob and pulse knob to 12 o' clock
@@ -158,13 +158,13 @@ Due to the intertwined nature of Castor & Pollux's oscillators, the effect of th
 
 ### Coarse
 
-![Illustration of coarse pitch behavior](images/8%20-%20Coarse.svg){.dark-invert}
+![Illustration of coarse pitch behavior](images/8%20-%20Coarse.svg)
 
 When [nothing](#jack-detection) is patched into Castor's pitch CV jack, `Coarse` behavior is used. Castor's pitch is determined by its pitch knob which sweeps through six octaves and quantizes to the nearest semitone.
 
 ### Fine
 
-![Illustration of fine pitch behavior](images/9%20-%20Fine.svg){.dark-invert}
+![Illustration of fine pitch behavior](images/9%20-%20Fine.svg)
 
 If there is a signal patched into Castor's pitch CV jack, `Fine` behavior is used. The input CV should be between `0 V` and `6 V`. The pitch knob offsets the input CV by `±1 octave`. The pitch knob has a sort of ["virtual notch"](#tuning) at the 12 o' clock position to help you dial in the frequency you're looking for.
 
@@ -172,7 +172,7 @@ Pollux also uses `Fine` behavior but _follows_ Castor if nothing is patched into
 
 ### Multiply
 
-![Illustration of multiply pitch behavior](images/10%20-%20multiply.svg){.dark-invert}
+![Illustration of multiply pitch behavior](images/10%20-%20multiply.svg)
 
 Finally, Pollux uses `Multiply` behavior when in [Hard Sync](#hard-sync) mode. In this case, Pollux follows Castor and the knob adds up to three octaves.
 
@@ -196,17 +196,15 @@ To make tuning easier, Castor & Pollux provides two ways of using the pitch knob
         <output id="non_linear_tune" name="non_linear_tune" class="teal">440 Hz</output>
     </div>
     <form id="tuning-form">
-        <div class="slider">
-            <input type="range" id="tuning_slider" name="tuning_slider"
-                    min="-1.0" max="1.0" step="0.001" value="0.0">
-            <label for="tuning_slider">pitch knob</label>
-        </div>
+        <label for="tuning_slider">pitch knob</label>
+        <input type="range" id="tuning_slider" name="tuning_slider"
+                min="-1.0" max="1.0" step="0.001" value="0.0">
     </form>
 </div>
 
 First, the pitch knobs have a "virtual notch" because of their **non-linear** response: they're less sensitive in the middle of their range than the edges. It's usually easier to understand this visually, so try out the little illustration above and notice that with the non-linear response it's much easier to tune to frequencies around `440 Hz`. This non-linear response only happens when the oscillator is using the `Follow` [pitch behavior](#pitch-behavior). You can configure how strong this effect is using the [settings editor](#editing-module-settings).
 
-![Illustration of tweak mode pitch tuning](images/11%20-%20extra%20fine.svg){.dark-invert}
+![Illustration of tweak mode pitch tuning](images/11%20-%20extra%20fine.svg)
 
 Second, the [tweak](#modes--tweaking) overlay allows extra-fine control over tuning. Holding down the button and turning the pitch knob allows you to apply an additional `±2.5 semitone` offset. This offset is applied to the oscillator regardless of the [pitch behavior](#pitch-behavior) or the current [mode](#modes--tweaking).
 
@@ -228,24 +226,18 @@ click the image to start and stop the animation
 
 The ramp sounds like this:
 
-<div class="winter-audio-player">
-    <audio title="ramp wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_octaves.mp3"></audio>
-</div>
+<winter-audio-player title="ramp wave" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_octaves.mp3"></winter-audio-player>
 
-<div class="winter-audio-player">
-    <audio title="ramp with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_filtered.mp3"></audio>
-</div>
+<winter-audio-player title="ramp with filter" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_filtered.mp3"></winter-audio-player>
 
 The pulse wave depends on the pulse width CV and knob. You can vary the pulse width in this animation to see how it affects the waveshape:
 
 <div class="interactive">
     <canvas id="pulse" width="640" height="480" class="waveform purple"></canvas>
     <form id="pulse-form">
-        <div class="slider">
-            <input type="range" id="pulse-width" name="width"
-                    min="0" max="1.0" step="0.01" value="0.5" data-bind data-bind-type="float">
-            <label for="pulse-width">pulse width</label>
-        </div>
+        <label for="pulse-width">pulse width</label>
+        <input type="range" id="pulse-width" name="width"
+                min="0" max="1.0" step="0.01" value="0.5" data-bind data-bind-type="float">
     </form>
 </div>
 
@@ -253,17 +245,11 @@ You can also use [internal low-frequency oscillator](#internal-low-frequency-osc
 
 Here are some examples of the pulse wave's sounds:
 
-<div class="winter-audio-player">
-    <audio title="pulse wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_octaves.mp3"></audio>
-</div>
+<winter-audio-player title="pulse wave" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_octaves.mp3"></winter-audio-player>
 
-<div class="winter-audio-player">
-    <audio title="pulse with pulse-width modulation" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_pwm.mp3"></audio>
-</div>
+<winter-audio-player title="pulse with pulse-width modulation" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_pwm.mp3"></winter-audio-player>
 
-<div class="winter-audio-player">
-    <audio title="pulse with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_filtered.mp3"></audio>
-</div>
+<winter-audio-player title="pulse with filter" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_filtered.mp3"></winter-audio-player>
 
 Finally, there's the sub waveshape. It's a square wave that's one octave lower. Here's what it looks like:
 
@@ -273,13 +259,9 @@ Finally, there's the sub waveshape. It's a square wave that's one octave lower. 
 
 And here are some sound samples of the sub waveshape:
 
-<div class="winter-audio-player">
-    <audio title="sub wave" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_octaves.mp3"></audio>
-</div>
+<winter-audio-player title="sub wave" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_octaves.mp3"></winter-audio-player>
 
-<div class="winter-audio-player">
-    <audio title="sub with filter" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_filtered.mp3"></audio>
-</div>
+<winter-audio-player title="sub with filter" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_filtered.mp3"></winter-audio-player>
 
 These waveshapes can be mixed together to produce much more complex and interesting variants - try playing with the sliders under this animation to see how it affects the waveshape:
 
@@ -311,17 +293,11 @@ These waveshapes can be mixed together to produce much more complex and interest
 
 Here are some sound samples of various mixes:
 
-<div class="winter-audio-player">
-    <audio title="ramp & sub" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_sub.mp3"></audio>
-</div>
+<winter-audio-player title="ramp & sub" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_sub.mp3"></winter-audio-player>
 
-<div class="winter-audio-player">
-    <audio title="sub & pulse" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_square_with_pwm.mp3"></audio>
-</div>
+<winter-audio-player title="sub & pulse" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_square_with_pwm.mp3"></winter-audio-player>
 
-<div class="winter-audio-player">
-    <audio title="various mixes" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/waveform_mixing.mp3"></audio>
-</div>
+<winter-audio-player title="various mixes" src="https://storage.googleapis.com/files.winterbloom.com/gemini/waveform_mixing.mp3"></winter-audio-player>
 
 ## Oscillator stacking
 
@@ -347,17 +323,11 @@ You can play around with this interactive animation to see how detuning and mixi
 
 This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here are some sound samples of oscillator stacking:
 
-<div class="winter-audio-player">
-    <audio title="stacked complex waveforms" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/stacked_complex.mp3"></audio>
-</div>
+<winter-audio-player title="stacked complex waveforms" src="https://storage.googleapis.com/files.winterbloom.com/gemini/stacked_complex.mp3"> </winter-audio-player>
 
-<div class="winter-audio-player">
-    <audio title="stacked sub & ramp" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/twilight.mp3"></audio>
-</div>
+<winter-audio-player title="stacked sub & ramp" src="https://storage.googleapis.com/files.winterbloom.com/gemini/twilight.mp3"> </winter-audio-player>
 
-<div class="winter-audio-player">
-    <audio title="stacked sub & pulse" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/steps.mp3"></audio>
-</div>
+<winter-audio-player title="stacked sub & pulse" src="https://storage.googleapis.com/files.winterbloom.com/gemini/steps.mp3"> </winter-audio-player>
 
 ## Internal low-frequency oscillator
 
@@ -376,11 +346,11 @@ Castor & Pollux has four different _modes_ that change the  module's overall fun
 -   [LFO FM](#lfo-fm-mode) mode uses the internal LFO to modulate both oscillator's frequency.
 -   [Hard Sync](#hard-sync-mode) mode produces metallic sounds by syncing Pollux's ramp core to Castor's.
 
-![Illustration of tapping the button](images/12%20-%20tap%20button.svg){.dark-invert}
+![Illustration of tapping the button](images/12%20-%20tap%20button.svg)
 
 To cycle between modes, **tap** the button in the middle and the module will play a short animation to show that it has switched modes.
 
-![Illustration of holding the button](images/13%20-%20hold%20button.svg){.dark-invert}
+![Illustration of holding the button](images/13%20-%20hold%20button.svg)
 
 On the other hand, **holding** the button turns on the tweak overlay. This gives you access to additional parameters depending on the mode. When moving in and out of the tweak overlay, the knobs get "latched" so that they don't immediately cause changes - similar how many synthesizers work when loading patches. The parameter only starts changing once you've moved the knob. In all modes, the pitch knobs control the extra-fine [tuning](#tuning).
 
@@ -388,11 +358,11 @@ On the other hand, **holding** the button turns on the tweak overlay. This gives
 
 Castor & Pollux's default mode is the _Chorus_ mode. This mode is inspired by the original Juno's analog chorus circuit, however, instead of applying the chorus affect _after_ sound generation, Castor & Pollux's chorusing works by varying the frequency of the second oscillator using its [internal low-frequency oscillator](#internal-low-frequency-oscillator). This means you have to [use both oscillators](#oscillator-stacking) to hear this effect and it works best if Pollux is _following_ Castor's pitch.
 
-![Illustration of chorus controls](images/14%20-%20lfo%20controls.svg){.dark-invert}
+![Illustration of chorus controls](images/14%20-%20lfo%20controls.svg)
 
 The LFO knob, `φ`, determines the intensity of chorusing from none when fully counter-clockwise to its maximum at fully clockwise. The crossfade mixer, `Σ`, also has an impact on the intensity of the chorus.
 
-![Illustration of chorus tweak controls](images/15%20-%20lfo%20tweaks.svg){.dark-invert}
+![Illustration of chorus tweak controls](images/15%20-%20lfo%20tweaks.svg)
 
 When holding the tweak button, the LFO knob, `φ`, controls the LFO's frequency.
 
@@ -411,19 +381,17 @@ You can play around with this interactive animation to see how the chorusing amo
 
 Here are some sound samples of chorusing:
 
-<div class="winter-audio-player">
-    <audio title="chorusing" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/chorusing.mp3"></audio>
-</div>
+<winter-audio-player title="chorusing" src="https://storage.googleapis.com/files.winterbloom.com/gemini/chorusing.mp3"></winter-audio-player>
 
 ### LFO PWM
 
 LFO PWM mode uses the internal LFO to modulate the _pulse width_ of each oscillator. This only affects the _pulse_ [waveshape](#waveshapes).
 
-![Illustration of the LFO PWM controls](images/16%20-%20lfo%20pwm.svg){.dark-invert}
+![Illustration of the LFO PWM controls](images/16%20-%20lfo%20pwm.svg)
 
 The LFO knob, `φ`, determines the _frequency_ of the internal LFO. Meanwhile, each oscillator's pulse width knob controls the depth of modulation from none when fully counter-clockwise to its maximum at fully clockwise. Any signal patched into the pulse width jack is summed with the knob.
 
-![Illustration of the LFO PWM tweak controls](images/17%20-%20lfo%20pwm%20tweaks.svg){.dark-invert}
+![Illustration of the LFO PWM tweak controls](images/17%20-%20lfo%20pwm%20tweaks.svg)
 
 When holding the tweak button, each oscillator's pulse width knob controls the _center_ of the pulse width modulation.
 
@@ -431,13 +399,13 @@ When holding the tweak button, each oscillator's pulse width knob controls the _
 
 LFO FM mode uses the internal LFO to modulate the _pitch_ for each oscillator. This is similar to the [Chorus mode](#chorus-mode), except it applies to both oscillators instead of just Pollux.
 
-![Illustration of LFO FM controls](images/18%20-%20lfo%20fm.svg){.dark-invert}
+![Illustration of LFO FM controls](images/18%20-%20lfo%20fm.svg)
 
 The LFO knob, `φ`, determines the _frequency_ of the internal LFO. Meanwhile, each oscillator's pulse width knob controls the depth of pitch modulation from none when fully counter-clockwise to its maximum at fully clockwise.
 
 Unlike the LFO PWM mode, the pulse width jack has no impact on modulation.
 
-![Illustration of LFO FM tweak controls](images/19%20-%20lfo%20pwm%20tweaks.svg){.dark-invert}
+![Illustration of LFO FM tweak controls](images/19%20-%20lfo%20pwm%20tweaks.svg)
 
 When holding the tweak button, each oscillator's pulse width knob controls the oscillator's pulse width.
 
@@ -453,9 +421,7 @@ Since hard sync only affects Pollux, you'll have to use either Pollux's output o
 
 Here are some sound samples of hard sync:
 
-<div class="winter-audio-player">
-    <audio title="hard sync" controls crossorigin="anonymous" src="https://storage.googleapis.com/files.winterbloom.com/gemini/hard_sync.mp3"></audio>
-</div>
+<winter-audio-player title="hard sync" src="https://storage.googleapis.com/files.winterbloom.com/gemini/hard_sync.mp3"></winter-audio-player>
 
 Hard sync mode's controls are the same as [chorus mode](#chorus-mode) except that Pollux's pitch knob uses the [Multiply behavior](#pitch-behavior):
 
@@ -466,11 +432,11 @@ Hard sync mode's controls are the same as [chorus mode](#chorus-mode) except tha
 
 ## Expander
 
-![Illustration of C&P & expander next to each other](images/22%20-%20expander.svg){.dark-invert}
+![Illustration of C&P & expander next to each other](images/22%20-%20expander.svg)
 
 Castor & Pollux II includes a small expander that provides individual output jacks for each oscillator's [waveshapes](#waveshapes).
 
-![Illustration of connecting the expander to C&P](images/Expander%20connection.svg){.dark-invert}
+![Illustration of connecting the expander to C&P](images/Expander%20connection.svg)
 
 To use the expander, connect the small ribbon cable to the back of Castor & Pollux in the header labeled `Expander`. Connect the other end to the matching header on the back of the expander. Secure the expander to your case using screws.
 
@@ -484,7 +450,7 @@ To use the expander, connect the small ribbon cable to the back of Castor & Poll
 
 You can connect Castor & Pollux to your computer using a standard micro USB cable, which lets you [edit settings](#editing-module-settings) and [update the firmware](#updating-the-firmware).
 
-![Illustration of connecting Castor & Pollux to USB](images/USB%20connection.svg){.dark-invert}
+![Illustration of connecting Castor & Pollux to USB](images/USB%20connection.svg)
 
 The micro USB port is located on the backside of the module. Once you've connected a cable, be careful not to put too much stress on the connector as it's possible to damage the connector with enough force.
 
@@ -513,7 +479,7 @@ Castor & Pollux is completely open source and hacking is encouraged.
 -   The [firmware][firmware source] is available under the [MIT License]. Note that the firmware uses some third-party libraries that are under different, but compatible terms. Read the full text of the license for more details.
 -   The [hardware designs][hardware source] are available under the permissive [CERN-OHL-P v2] license, and is designed using [KiCAD], which is also free and open source. You can open the hardware files using KiCAD, or you can download a PDF of the [schematics].
 
-![Open Source Hardware Association mark](images/oshw.svg){class=oshw} Castor & Pollux is [certified open source hardware][oshwa certification].
+![Open Source Hardware Association mark](images/oshw.svg){:.small .inline} Castor & Pollux is [certified open source hardware][oshwa certification].
 
 [firmware source]: https://github.com/wntrblm/Castor_and_Pollux/tree/main/firmware
 [hardware source]: https://github.com/wntrblm/Castor_and_Pollux/tree/main/hardware
@@ -575,7 +541,3 @@ Castor & Pollux would not be possible without the help of the Adafruit, support 
 
 <link rel="stylesheet" href="styles/waveforms.css">
 <script type="module" src="scripts/waveforms.js"></script>
-<link rel="stylesheet" href="/winterjs/audio-player.css">
-<script type="module" src="/winterjs/audio-player.js"></script>
-<script type="module" src="../scripts/layered.js"></script>
-<link rel="stylesheet" href="../styles/layered.css" />

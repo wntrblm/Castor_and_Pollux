@@ -34,44 +34,25 @@ Before jumping in, make sure you have:
 
 Your kit should contain the following items. If any are missing please email us at support@winterbloom.com.
 
-<object
-    alt="Kit contents"
-    data-is-svg-map
-    data-list="kit-contents-img-datalist"
-    data-stylesheet="/styles/kit-contents-svgmap.css"
-    data-info-text-template="kit-contents-img-info-text"
-    data="../images/kit/kit-contents.svg"
-    height="100%"
-    id="kit-contents-img"
-    type="image/svg+xml"
-    width="100%">
-</object>
-<template id="kit-contents-img-info-text">
-    <g id="info-text-container">
-        <rect data-size-to="info-text"></rect>
-        <text id="info-text">Test test test</text>
-    </g>
-</template>
-<datalist id="kit-contents-img-datalist">
-    <option value="faceplate">Faceplate</option>
-    <option value="mainboard">Mainboard</option>
-    <option value="expander-board">Expander board</option>
-    <option value="expander-faceplate">Expander faceplate</option>
-    <option value="rubber-bands">Rubber bands (2)</option>
-    <option value="expander-cable">Expander cable</option>
-    <option value="button">Tactile switch</option>
-    <option value="cap">Tactile switch cap</option>
-    <option value="power-header">Eurorack power header</option>
-    <option value="jack-nuts">Nuts for 1/8" jacks (13)</option>
-    <option value="jacks">1/8" jacks (13)</option>
-    <option value="small-knobs">Small knobs (4)</option>
-    <option value="big-knobs">Big knobs (2)</option>
-    <option value="trimpots">Tall trimmer pots (6)</option>
-    <option value="pots">9mm pots (6)</option>
-    <option value="pot-washers-and-nuts">Washers and nuts for 9mm pots (6)</option>
-</datalist>
-<script type="module" src="/scripts/svgmap.js"></script>
-<link rel="stylesheet" href="/styles/svgmap.css"/>
+
+<winter-image-map src="../images/kit/kit-contents.svg">
+    <winter-image-map-item id="faceplate">Faceplate</winter-image-map-item>
+    <winter-image-map-item id="mainboard">Mainboard</winter-image-map-item>
+    <winter-image-map-item id="expander-board">Expander board</winter-image-map-item>
+    <winter-image-map-item id="expander-faceplate">Expander faceplate</winter-image-map-item>
+    <winter-image-map-item id="rubber-bands">Rubber bands (2)</winter-image-map-item>
+    <winter-image-map-item id="expander-cable">Expander cable</winter-image-map-item>
+    <winter-image-map-item id="button">Tactile switch</winter-image-map-item>
+    <winter-image-map-item id="cap">Tactile switch cap</winter-image-map-item>
+    <winter-image-map-item id="power-header">Eurorack power header</winter-image-map-item>
+    <winter-image-map-item id="jack-nuts">Nuts for 1/8" jacks (13)</winter-image-map-item>
+    <winter-image-map-item id="jacks">1/8" jacks (13)</winter-image-map-item>
+    <winter-image-map-item id="small-knobs">Small knobs (4)</winter-image-map-item>
+    <winter-image-map-item id="big-knobs">Big knobs (2)</winter-image-map-item>
+    <winter-image-map-item id="trimpots">Tall trimmer pots (6)</winter-image-map-item>
+    <winter-image-map-item id="pots">9mm pots (6)</winter-image-map-item>
+    <winter-image-map-item id="pot-washers-and-nuts">Washers and nuts for 9mm pots (6)</winter-image-map-item>
+</winter-image-map>
 
 - (1) Mainboard
 - (1) Faceplate
@@ -102,11 +83,11 @@ The power connector goes on the **back** side of the board. When placing **note 
 
 Once placed, make sure to push it flush against the board and then solder the 10 pins on the front side of the board. Be careful here and avoid touching the small components near the pins with your iron.
 
-<figure data-layered>
-  <img title="1" src="../images/kit/6 - power header.webp" class="active">
-  <img title="2" src="../images/kit/7 - power header.webp">
-  <img title="3" src="../images/kit/8 - power header.webp">
-</figure>
+<winter-carousel>
+  <img src="../images/kit/6 - power header.webp">
+  <img src="../images/kit/7 - power header.webp">
+  <img src="../images/kit/8 - power header.webp">
+</winter-carousel>
 
 !!! warning "Watch out for those LEDs!"
     Avoid touching the LEDs with your iron- they really don't like being melted and they're very hard to replace.
@@ -125,14 +106,14 @@ One of the six pots has been modified - its pins are shorter and bent outwards. 
 
 Place five of the six pots onto the mainboard in the spots labeled `pitch`, `duty`, and `lfo`. You may need to bend or straighten the mounting legs on the pots to get them in place.
 
-<figure data-layered>
-  <img src="../images/kit/12 - pots.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/12 - pots.webp">
   <img src="../images/kit/13 - pots.webp">
   <img src="../images/kit/14 - pots.webp">
   <img src="../images/kit/15 - pots.webp">
   <img src="../images/kit/16 - pots.webp">
   <img src="../images/kit/17 - pots.webp">
-</figure>
+</winter-carousel>
 
 Take the remaining, modified pot and place it on the spot labeled `crossfade`. This pot will not be as secure as the others, but make sure the pins line up with the pads on the as board shown below.
 
@@ -140,35 +121,35 @@ Take the remaining, modified pot and place it on the spot labeled `crossfade`. T
 
 Next, take one of the 1/8" jacks and place it into the spot at the center bottom edge of the board labeled `mix`:
 
-<figure data-layered>
-  <img src="../images/kit/19 - jack.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/19 - jack.webp">
   <img src="../images/kit/20 - jack.webp">
-</figure>
+</winter-carousel>
 
 Next, carefully place the faceplate onto the front of the module. Make sure all of the pots and the jack are aligned and resting in their respective holes.
 
-<figure data-layered>
-  <img src="../images/kit/21 - panel.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/21 - panel.webp">
   <img src="../images/kit/30 - panel.webp">
   <img src="../images/kit/22 - panel.webp">
-</figure>
+</winter-carousel>
 
 Take one of the rubber bands and wrap it around the board and faceplate twice to hold the faceplate in place during the next few steps.
 
-<figure data-layered>
-  <img src="../images/kit/23 - rubber band.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/23 - rubber band.webp">
   <img src="../images/kit/24 - rubber band.webp">
-</figure>
+</winter-carousel>
 
 Flip the whole thing upside-down and solder the pots and jack in place.
 
-<figure data-layered>
-  <img src="../images/kit/25 - soldering.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/25 - soldering.webp">
   <img src="../images/kit/26 - soldering.webp">
   <img src="../images/kit/27 - soldering.webp">
   <img src="../images/kit/28 - soldering.webp">
   <img src="../images/kit/29 - soldering jack.webp">
-</figure>
+</winter-carousel>
 
 !!! warning
     Take extra care not to hit any of the surface mount components with your iron.
@@ -179,11 +160,11 @@ Next, flip the assembly rightside-up and remove the rubber bands and faceplate.
 
 Finally, solder the legs of the modified pot to the pads on the board. Take care not to accidentally bridge the legs together. If you find that the legs are misaligned, you can flip the board back over and melt the solder on the mounting legs and twist it back into alignment.
 
-<figure data-layered>
-  <img src="../images/kit/31 - special pot.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/31 - special pot.webp">
   <img src="../images/kit/32 - soldering special pot.webp">
   <img src="../images/kit/33 - soldering special pot.webp">
-</figure>
+</winter-carousel>
 
 ## Tactile switch
 
@@ -197,10 +178,10 @@ Place the tactile switch on the spot labeled `btn` on the mainboard. Make sure i
 
 Next, place the cap on top of the tactile switch and press in firmly to completely seat it on the switch.
 
-<figure data-layered>
-  <img src="../images/kit/36 - button.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/36 - button.webp">
   <img src="../images/kit/37 - button.webp">
-</figure>
+</winter-carousel>
 
 ## Jacks and trimpots
 
@@ -210,38 +191,38 @@ Next up is all six trimpots and six of the 1/8" jacks.
 
 Start from the **right** side of the board and place the pots and jacks for `ramp`, `pulse`, `duty`, `sub`, `pitch`, and `out`.
 
-<figure data-layered>
-  <img src="../images/kit/39 - trimpots.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/39 - trimpots.webp">
   <img src="../images/kit/40 - trimpots.webp">
   <img src="../images/kit/41 - jacks.webp">
   <img src="../images/kit/42 - trimpots.webp">
   <img src="../images/kit/43 - jacks.webp">
   <img src="../images/kit/44 - jacks.webp">
-</figure>
+</winter-carousel>
 
 Continue on the left side with the pots and jacks for `pulse`, `ramp`, `sub`, `duty`, `out`, and `pitch`.
 
-<figure data-layered>
-  <img src="../images/kit/45 - trimpots.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/45 - trimpots.webp">
   <img src="../images/kit/46 - trimpots.webp">
   <img src="../images/kit/47 - placements.webp">
-</figure>
+</winter-carousel>
 
 Next, place the faceplate and rubber band just as you did earlier.
 
-<figure data-layered>
-  <img src="../images/kit/48 - panel.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/48 - panel.webp">
   <img src="../images/kit/49 - rubber band.webp">
   <img src="../images/kit/50 - rubber band.webp">
   <img src="../images/kit/51 - rubber band.webp">
-</figure>
+</winter-carousel>
 
 Flip the module upside-down and solder the pots and jacks into place.
 
-<figure data-layered>
-  <img src="../images/kit/52 - soldering.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/52 - soldering.webp">
   <img src="../images/kit/53 - soldering.webp">
-</figure>
+</winter-carousel>
 
 ## Nuts
 
@@ -251,19 +232,19 @@ Now that everything is soldered in place the next step is to secure the faceplat
 
 Place a washer on the shaft of each of the six 9mm pots.
 
-<figure data-layered>
-  <img src="../images/kit/55 - washer.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/55 - washer.webp">
   <img src="../images/kit/56 - washer.webp">
   <img src="../images/kit/57 - washers.webp">
-</figure>
+</winter-carousel>
 
 With the washers in place, place the nuts onto the shafts and tighten them in place.
 
-<figure data-layered>
-  <img src="../images/kit/58 - nut.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/58 - nut.webp">
   <img src="../images/kit/59 - nut.webp">
   <img src="../images/kit/60 - nuts.webp">
-</figure>
+</winter-carousel>
 
 Next up is the seven hex nuts for the 1/8 jacks.
 
@@ -271,11 +252,11 @@ Next up is the seven hex nuts for the 1/8 jacks.
 
 Place the nuts on each jack and tighten them in place.
 
-<figure data-layered>
-  <img src="../images/kit/62 - nut.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/62 - nut.webp">
   <img src="../images/kit/63 - nut.webp">
   <img src="../images/kit/64 - nuts.webp">
-</figure>
+</winter-carousel>
 
 
 ## Knobs
@@ -290,11 +271,11 @@ Start by loosening the set screw on each of the knobs using a small flat head sc
 
 Next, turn all of the potentiometers fully counterclockwise. Place the two large knobs on the top two shafts with the indicator line at the 7 o' clock position. Tighten the set screws to secure the knobs in place.
 
-<figure data-layered>
-  <img src="../images/kit/67 - knob.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/67 - knob.webp">
   <img src="../images/kit/68 - knob.webp">
   <img src="../images/kit/69 - knobs.webp">
-</figure>
+</winter-carousel>
 
 Repeat the same process for the four smaller knobs.
 
@@ -316,31 +297,31 @@ To assemble the expander, you'll need the expander faceplate, six 1/8" jacks, si
 
 Start by placing all six of the 1/8" jacks onto the front side of the expander board.
 
-<figure data-layered>
-  <img src="../images/kit/73 - jack.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/73 - jack.webp">
   <img src="../images/kit/74 - jacks.webp">
-</figure>
+</winter-carousel>
 
 Next, place the faceplate onto the jacks and temporarily hold it in place using a rubber band.
 
-<figure data-layered>
-  <img src="../images/kit/75 - panel.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/75 - panel.webp">
   <img src="../images/kit/76 - rubber band.webp">
-</figure>
+</winter-carousel>
 
 Flip it upside-down and solder all of the jacks into place.
 
-<figure data-layered>
-  <img src="../images/kit/77 - soldering.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/77 - soldering.webp" >
   <img src="../images/kit/78 - soldering.webp">
-</figure>
+</winter-carousel>
 
 Flip it rightside-up and secure the faceplate using the hex nuts.
 
-<figure data-layered>
-  <img src="../images/kit/79 - nut.webp" class="active">
+<winter-carousel>
+  <img src="../images/kit/79 - nut.webp">
   <img src="../images/kit/80 - nuts.webp">
-</figure>
+</winter-carousel>
 
 & you're finished!
 
@@ -349,6 +330,3 @@ Flip it rightside-up and secure the faceplate using the hex nuts.
 Congrats on building your very own Castor & Pollux, we hope you had a lovely time! Don't forget to go check out the [User's Guide](/). We'd love to see your work, feel free to tag us on social media - we're `@wntrblm` on [Twitter](https://twitter.com/wntrblm) and [Instagram](https://instagram.com/wntrblm).
 
 If you have any feedback or ran into any issues, feel free to drop us an email at support@winterbloom.com or file a issue on [GitHub](https://github.com/wntrblm/Castor_and_Pollux).
-
-<script type="module" src="../scripts/layered.js"></script>
-<link rel="stylesheet" href="../styles/layered.css" />

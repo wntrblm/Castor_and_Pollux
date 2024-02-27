@@ -1,4 +1,3 @@
-mkdocs>=1.1.0
-git+https://github.com/theacodes/winterbloom_mkdocs_theme.git#winterbloom_mkdocs_theme
-pymdown-extensions>=8.1.0
-markdown_link_attr_modifier>=0.1.7
+mkdocs>=1.5.3
+git+https://github.com/wntrblm/wintersong.git#wintersong
+pymdown-extensions>=10.5

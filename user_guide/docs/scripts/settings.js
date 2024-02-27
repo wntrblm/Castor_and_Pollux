@@ -4,9 +4,9 @@
     Full text available at: https://opensource.org/licenses/MIT
 */
 
-import { $e, $on } from "../winterjs/utils.js";
-import * as forms from "../winterjs/forms.js";
-import MIDI from "../winterjs/midi.js";
+import { MIDI } from "/winter.js";
+import { $e, $on } from "./utils.js";
+import * as forms from "./forms.js";
 import GemSettings from "./gem_settings.js";
 import Gemini from "./gemini.js";
 import GitHub from "./github.js";
@@ -16,10 +16,9 @@ const ui = {
     info_section: $e("info_section"),
     settings_section: $e("settings_section"),
     save_btn: $e("save_button"),
-    dangerous_fields: [
-        ...document.querySelectorAll("#settings_editor .is-dangerous"),
-    ],
     allow_danger: $e("allow_danger"),
+    danger_section: $e("danger_section"),
+    dangerous_section_content: $e("danger_section_content"),
     connect_btn: $e("connect"),
     connect_info: $e("connect_info"),
     firmware_version: $e("firmware_version"),
@@ -53,8 +52,6 @@ const ui = {
 const midi = new MIDI("Gemini");
 const gemini = new Gemini(midi);
 const settings = new GemSettings();
-/* The lowest compatible firmware version */
-const minimum_firmware_version = new Date(2023, 3, 21);
 let gemini_firmware_version = null;
 let gemini_serial_number = null;
 let gemini_hardware_revision = null;
@@ -126,24 +123,6 @@ async function restore_backup_calibration() {
     ui.settings_form.update();
 }
 
-function check_firmware_version() {
-    let [year, month, day] = gemini_firmware_version
-        .split(" ")[0]
-        .split(".")
-        .map((x) => parseInt(x, 10));
-
-    let version_date = new Date(year, month - 1, day);
-
-    console.log(year, month, day, version_date, minimum_firmware_version);
-
-    if (version_date < minimum_firmware_version) {
-        ui.firmware_incompatible.classList.remove("hidden");
-        return false;
-    }
-
-    return true;
-}
-
 async function check_for_new_firmware() {
     let gh = new GitHub();
     let release_info = null;
@@ -154,31 +133,35 @@ async function check_for_new_firmware() {
         );
     } catch (e) {
         console.log("Error while fetching latest firmware: ", e);
-        return;
+        return false;
     }
 
     if (gemini_firmware_version.includes(release_info.tag_name)) {
-        return;
+        return false;
     }
 
-    let link = ui.firmware_outdated.querySelector("a");
-    link.href = release_info.html_url;
-    link.innerText = `${release_info.name} (${release_info.tag_name})`;
-    ui.firmware_outdated.classList.remove("hidden");
+    return true;
 }
 
 $on(ui.connect_btn, "click", async function () {
-    ui.connect_info.classList.remove("is-danger", "hidden");
-    ui.connect_info.innerText = "Connecting";
+    const connect_info_p = ui.connect_info.querySelector("p");
+
+    ui.connect_btn.innerText = "Connecting";
+    ui.connect_btn.disabled = true;
+    connect_info_p.innerText = "";
+    ui.connect_info.hidden = true;
 
     try {
         await midi.connect();
     } catch (err) {
         console.log(err);
-        ui.connect_info.classList.add("is-danger");
-        ui.connect_info.innerText =
+        connect_info_p.innerText =
             "Couldn't connect, check connection and power and try again?";
+        ui.connect_info.hidden = false;
         return;
+    } finally {
+        ui.connect_btn.innerText = "Connect";
+        ui.connect_btn.disabled = false;
     }
 
     gemini_firmware_version = await gemini.get_version();
@@ -190,15 +173,13 @@ $on(ui.connect_btn, "click", async function () {
     ui.serial_number.value = `${gemini_serial_number}`;
     ui.hardware_revision.value = `v${gemini_hardware_revision}`;
 
-    ui.info_section.classList.remove("hidden");
+    ui.info_section.hidden = false;
 
-    if (!check_firmware_version()) {
+    if (await check_for_new_firmware()) {
         console.log("Firmware too old, bailing. :(");
-        ui.connect_info.classList.add("hidden");
+        ui.firmware_incompatible.hidden = false;
         return;
     }
-
-    check_for_new_firmware();
 
     /* Load settings & update the form. */
     let loaded_settings = false;
@@ -215,8 +196,7 @@ $on(ui.connect_btn, "click", async function () {
     }
 
     if (!loaded_settings) {
-        ui.connect_info.classList.add("is-danger");
-        ui.connect_info.innerText =
+        connect_info_p.innerText =
             "Couldn't load settings, check connection, power, and try resetting the module.";
         return;
     }
@@ -224,13 +204,11 @@ $on(ui.connect_btn, "click", async function () {
     ui.settings_form.update();
     draw_lfo_waveform();
 
-    ui.connect_btn.classList.remove("is-primary");
-    ui.connect_btn.classList.add("is-success");
+    ui.connect_btn.disabled = true;
     ui.connect_btn.innerText = "Connected";
-    ui.connect_btn.classList.add("hidden");
-    ui.connect_info.classList.add("hidden");
-    ui.connect_info.innerText = "";
-    ui.settings_section.classList.remove("hidden");
+    ui.connect_info.hidden = true;
+    ui.settings_section.hidden = false;
+    ui.danger_section.hidden = false;
 
     check_for_backups();
 });
@@ -263,13 +241,7 @@ $on(ui.restore_adc_calibration_btn, "click", async function () {
     Enable/disable dangerous settings.
 */
 $on(ui.allow_danger, "change", function () {
-    for (const elem of ui.dangerous_fields) {
-        if (elem.type === "range") {
-            elem.disabled = !ui.allow_danger.checked;
-        } else {
-            elem.readOnly = !ui.allow_danger.checked;
-        }
-    }
+    ui.dangerous_section_content.hidden = !ui.allow_danger.checked;
 });
 
 /*
@@ -412,7 +384,7 @@ $on(ui.tuning.save, "click", function () {
     Monitoring
 */
 if (window.location.hash == "#monitor") {
-    ui.monitoring.section.classList.remove("hidden");
+    ui.monitoring.section.hidden = false;
 }
 $on(ui.monitoring.enable, "click", function () {
     gemini.enable_monitoring((msg) => {
@@ -424,7 +396,7 @@ $on(ui.monitoring.enable, "click", function () {
     Ramp calibration swap
 */
 if (window.location.hash == "#ramp") {
-    ui.ramp.section.classList.remove("hidden");
+    ui.ramp.section.hidden = false;
 }
 $on(ui.ramp.swap_btn, "click", async function () {
     console.log(ramp_calibration_backup);
