@@ -43,6 +43,6 @@ markdown_extensions:
           custom_checkbox: true
     - pymdownx.tilde
 nav:
-    - "Guide": index.md
+    - "Manual": index.md
     - "Build": build.md
     - "Settings": settings.md
