@@ -344,8 +344,8 @@ Castor & Pollux has four different _modes_ that change the  module's overall fun
 ![Illustration of modes](images/23%20-%20Modes.svg)
 
 -   [Chorus](#chorus-mode) mode, the default mode, uses the internal LFO to modulate Pollux's frequency. This is indicated with a *teal* animation.
--   [LFO PWM](#lfo-pwm-mode) mode uses the internal LFO to modulate both oscillator's pulse width. This is indicated with an *orange* animation.
--   [LFO FM](#lfo-fm-mode) mode uses the internal LFO to modulate both oscillator's frequency. This is indicated with a *green* animation.
+-   [LFO PWM](#lfo-pwm-mode) mode uses the internal LFO to modulate the pulse with of both oscillators. This is indicated with an *orange* animation.
+-   [LFO FM](#lfo-fm-mode) mode uses the internal LFO to modulate the frequency of both oscillators. This is indicated with a *green* animation.
 -   [Hard Sync](#hard-sync-mode) mode produces metallic sounds by syncing Pollux's ramp core to Castor's. This is indicated with a *pink* animation.
 
 ![Illustration of tapping the button](images/12%20-%20tap%20button.svg)
