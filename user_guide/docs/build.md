@@ -287,7 +287,7 @@ Congrats, you finished building your very own Castor & Pollux!
 
 ![Completed module](images/kit/71%20-%20finished.webp)
 
-Continue reading to finish assembling the expander if you'd like. Don't forget to go check out the [User's Guide](/). We'd love to see your work, feel free to tag us on social media - we're `@wntrblm` on [Twitter](https://twitter.com/wntrblm) and [Instagram](https://instagram.com/wntrblm).
+Continue reading to finish assembling the expander if you'd like. Don't forget to go check out the [User's Guide](index.md). We'd love to see your work, feel free to tag us on social media - we're `@wntrblm` on [Twitter](https://twitter.com/wntrblm) and [Instagram](https://instagram.com/wntrblm).
 
 ## Expander
 
@@ -327,6 +327,6 @@ Flip it rightside-up and secure the faceplate using the hex nuts.
 
 ## All done
 
-Congrats on building your very own Castor & Pollux, we hope you had a lovely time! Don't forget to go check out the [User's Guide](/). We'd love to see your work, feel free to tag us on social media - we're `@wntrblm` on [Twitter](https://twitter.com/wntrblm) and [Instagram](https://instagram.com/wntrblm).
+Congrats on building your very own Castor & Pollux, we hope you had a lovely time! Don't forget to go check out the [User's Guide](index.md). We'd love to see your work, feel free to tag us on social media - we're `@wntrblm` on [Twitter](https://twitter.com/wntrblm) and [Instagram](https://instagram.com/wntrblm).
 
 If you have any feedback or ran into any issues, feel free to drop us an email at support@winterbloom.com or file a issue on [GitHub](https://github.com/wntrblm/Castor_and_Pollux).

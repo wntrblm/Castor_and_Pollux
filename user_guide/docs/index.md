@@ -463,7 +463,7 @@ The micro USB port is located on the backside of the module. Once you've connect
 
 Even though Castor & Pollux uses analog circuitry to make its beautiful sounds, there is a little microcontroller brain inside that's orchestrating everything. There are lots of settings you can tweak over USB, such as the LED brightness, the range of the pitch knobs, quantization, and more.
 
-Connect your module to your computer using [a USB cable](#connecting-with-usb) and then head over to the [web-based settings editor](settings) to tweak to your heart's content. You don't need to install any software or drivers.
+Connect your module to your computer using [a USB cable](#connecting-with-usb) and then head over to the [web-based settings editor](settings.md) to tweak to your heart's content. You don't need to install any software or drivers.
 
 ## Updating the firmware
 
@@ -526,7 +526,7 @@ We have stress tested Castor & Pollux under the following conditions. These are 
 </figure>
 
 **Corrective action**
-:   This errata can be resolved with just a computer and USB cable. Connect your unit to your computer [via usb](#connecting-with-usb), open the settings editor using [this specific link](/settings#ramp), press the "connect" button, then scroll all the way to the bottom and press the "swap ramp calibration" button. If this does not work for you, please reach out to us at support@winterbloom.com for assistance.
+:   This errata can be resolved with just a computer and USB cable. Connect your unit to your computer [via usb](#connecting-with-usb), open the settings editor using [this specific link](settings.md#ramp), press the "connect" button, then scroll all the way to the bottom and press the "swap ramp calibration" button. If this does not work for you, please reach out to us at support@winterbloom.com for assistance.
 
 ## Acknowledgments and thanks
 
