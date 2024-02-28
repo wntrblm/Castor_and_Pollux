@@ -1,0 +1,62 @@
+.interactive {
+    padding: var(--winter-spacing-m);
+    max-width: 640px;
+    margin: var(--winter-block-spacing) auto;
+}
+
+.card {
+    box-shadow: var(--winter-shadow-s);
+}
+
+.card canvas {
+    box-shadow: none;
+}
+
+canvas.teal {
+    background: var(--winter-teal-3);
+}
+
+canvas.purple {
+    background: var(--winter-purple-3);
+}
+
+canvas.red {
+    background: var(--winter-red-3);
+}
+
+canvas.teal2 {
+    background: var(--winter-teal-2);
+}
+
+canvas.purple2 {
+    background: var(--winter-purple-2);
+}
+
+canvas.red2 {
+    background: var(--winter-red-2);
+}
+
+.interactive {
+}
+
+.interactive canvas {
+    width: 100%;
+}
+
+.interactive label {
+    margin-block: 0 var(--winter-spacing-s);
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.interactive output {
+    margin-block: var(--winter-spacing-l);
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.3em;
+    border-radius: 5px;
+    background-color: var(--color-purple-500);
+    color: white;
+}

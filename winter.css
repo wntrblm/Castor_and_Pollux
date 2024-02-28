@@ -1,0 +1,1883 @@
+@import "https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Space+Grotesk:wght@300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap";
+@import "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=block";
+
+/* src/styles/reset.css */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* src/styles/fonts.css */
+
+/* src/styles/colors.css */
+:root {
+  --winter-white: #fff;
+  --winter-black: #000;
+  --winter-not-quite-black: #333;
+  --winter-yellow-1: rgb(184, 125, 33);
+  --winter-yellow-2: rgb(219, 161, 64);
+  --winter-yellow-3: rgb(250, 194, 105);
+  --winter-yellow-4: rgb(255, 214, 143);
+  --winter-yellow-5: rgb(255, 229, 186);
+  --winter-red-1: rgb(191, 36, 54);
+  --winter-red-2: rgb(217, 74, 92);
+  --winter-red-3: rgb(245, 115, 128);
+  --winter-red-4: rgb(250, 153, 163);
+  --winter-red-5: rgb(252, 194, 201);
+  --winter-teal-1: rgb(38, 120, 128);
+  --winter-teal-2: rgb(64, 140, 148);
+  --winter-teal-3: rgb(102, 173, 181);
+  --winter-teal-4: rgb(153, 209, 214);
+  --winter-teal-5: rgb(204, 237, 240);
+  --winter-purple-1: rgb(94, 64, 158);
+  --winter-purple-2: rgb(125, 97, 186);
+  --winter-purple-3: rgb(163, 138, 214);
+  --winter-purple-4: rgb(199, 184, 237);
+  --winter-purple-5: rgb(235, 227, 250);
+}
+:root {
+  --color-red-50: #fff8f8;
+  --color-red-100: #ffe9e9;
+  --color-red-200: #ffc7c9;
+  --color-red-300: #fea5a9;
+  --color-red-400: #f8818b;
+  --color-red-500: #d96772;
+  --color-red-600: #b0555d;
+  --color-red-700: #93494f;
+  --color-red-800: #753b40;
+  --color-red-900: #542d2f;
+  --color-orange-50: #fff9f5;
+  --color-orange-100: #fdeadd;
+  --color-orange-200: #facca8;
+  --color-orange-300: #f6ad72;
+  --color-orange-400: #f18c30;
+  --color-orange-500: #de6a00;
+  --color-orange-600: #b35800;
+  --color-orange-700: #964b00;
+  --color-orange-800: #773d00;
+  --color-orange-900: #582d00;
+  --color-yellow-50: #fdfaec;
+  --color-yellow-100: #f9eebf;
+  --color-yellow-200: #eed45a;
+  --color-yellow-300: #d3bd4a;
+  --color-yellow-400: #b7a540;
+  --color-yellow-500: #9a8c36;
+  --color-yellow-600: #7c722c;
+  --color-yellow-700: #686025;
+  --color-yellow-800: #534d1e;
+  --color-yellow-900: #3d3916;
+  --color-green-50: #f1fdf3;
+  --color-green-100: #cef8d6;
+  --color-green-200: #79ec91;
+  --color-green-300: #6bd280;
+  --color-green-400: #5db770;
+  --color-green-500: #4f9b5e;
+  --color-green-600: #407e4d;
+  --color-green-700: #366a41;
+  --color-green-800: #2b5534;
+  --color-green-900: #203f26;
+  --color-mint-50: #e9fff4;
+  --color-mint-100: #abffd6;
+  --color-mint-200: #73ebb1;
+  --color-mint-300: #65d19e;
+  --color-mint-400: #58b68b;
+  --color-mint-500: #499a75;
+  --color-mint-600: #3b7d60;
+  --color-mint-700: #316a51;
+  --color-mint-800: #275541;
+  --color-mint-900: #1d3e30;
+  --color-cyan-50: #eefdff;
+  --color-cyan-100: #c2f7ff;
+  --color-cyan-200: #7ce4f4;
+  --color-cyan-300: #6ecad9;
+  --color-cyan-400: #60b1bd;
+  --color-cyan-500: #5195a0;
+  --color-cyan-600: #427982;
+  --color-cyan-700: #37666e;
+  --color-cyan-800: #2c5258;
+  --color-cyan-900: #213c41;
+  --color-blue-50: #f5fbff;
+  --color-blue-100: #ddf0ff;
+  --color-blue-200: #abdaff;
+  --color-blue-300: #8cc3ed;
+  --color-blue-400: #7aaacf;
+  --color-blue-500: #678fae;
+  --color-blue-600: #54758e;
+  --color-blue-700: #476278;
+  --color-blue-800: #394f60;
+  --color-blue-900: #2a3a46;
+  --color-purple-50: #fbf9ff;
+  --color-purple-100: #f2eaff;
+  --color-purple-200: #deccff;
+  --color-purple-300: #cbafff;
+  --color-purple-400: #b791ff;
+  --color-purple-500: #9d75e6;
+  --color-purple-600: #8060bc;
+  --color-purple-700: #6c519e;
+  --color-purple-800: #56417f;
+  --color-purple-900: #40305d;
+  --color-violet-50: #fcf9fd;
+  --color-violet-100: #f5eaf7;
+  --color-violet-200: #e7ccec;
+  --color-violet-300: #d8afe0;
+  --color-violet-400: #c991d5;
+  --color-violet-500: #b770c7;
+  --color-violet-600: #a34cba;
+  --color-violet-700: #9037a8;
+  --color-violet-800: #722e85;
+  --color-violet-900: #53255f;
+  --color-pink-50: #fff8fb;
+  --color-pink-100: #ffe8f0;
+  --color-pink-200: #ffc5d9;
+  --color-pink-300: #fea2c2;
+  --color-pink-400: #f77ea8;
+  --color-pink-500: #d16a8e;
+  --color-pink-600: #aa5674;
+  --color-pink-700: #8f4962;
+  --color-pink-800: #733a4e;
+  --color-pink-900: #552b3a;
+  --color-gray-50: #fafafa;
+  --color-gray-100: #eeedef;
+  --color-gray-200: #d5d4d8;
+  --color-gray-300: #bdbcc2;
+  --color-gray-400: #a5a4ab;
+  --color-gray-500: #8c8a93;
+  --color-gray-600: #726f7b;
+  --color-gray-700: #615e6b;
+  --color-gray-800: #4e4a59;
+  --color-gray-900: #3a3647;
+}
+
+/* src/styles/tokens.css */
+:root {
+  --winter-border-radius-s: 0.1875rem;
+  --winter-border-radius-m: 0.25rem;
+  --winter-border-radius-l: 0.5rem;
+  --winter-border-radius-xl: 1rem;
+  --winter-border-radius-circle: 50%;
+  --winter-border-radius-pill: 9999px;
+  --winter-shadow-color-hsl:
+    261,
+    32%,
+    28%;
+  --winter-shadow-alpha-xs: 0.2;
+  --winter-shadow-blur-alpha-xs: 0.05;
+  --winter-shadow-alpha-s: 0.2;
+  --winter-shadow-blur-alpha-s: 0.1;
+  --winter-shadow-alpha-m: 0.3;
+  --winter-shadow-blur-alpha-m: 0.15;
+  --winter-shadow-alpha-l: 0.3;
+  --winter-shadow-blur-alpha-l: 0.15;
+  --winter-shadow-color-xs: hsl( var(--winter-shadow-color-hsl), var(--winter-shadow-alpha-xs) );
+  --winter-shadow-blur-color-xs: hsl( var(--winter-shadow-color-hsl), var(--winter-shadow-blur-alpha-xs) );
+  --winter-shadow-color-s: hsl( var(--winter-shadow-color-hsl), var(--winter-shadow-alpha-s) );
+  --winter-shadow-blur-color-s: hsl( var(--winter-shadow-color-hsl), var(--winter-shadow-blur-alpha-s) );
+  --winter-shadow-color-m: hsl( var(--winter-shadow-color-hsl), var(--winter-shadow-alpha-m) );
+  --winter-shadow-blur-color-m: hsl( var(--winter-shadow-color-hsl), var(--winter-shadow-blur-alpha-m) );
+  --winter-shadow-color-l: hsl( var(--winter-shadow-color-hsl), var(--winter-shadow-alpha-l) );
+  --winter-shadow-blur-color-l: hsl( var(--winter-shadow-color-hsl), var(--winter-shadow-blur-alpha-l) );
+  --winter-shadow-xs: 1px 1px 1px 0 var(--winter-shadow-color-xs), 0 0 10px 0 var(--winter-shadow-blur-color-xs);
+  --winter-shadow-s: 3px 3px 1px 0 var(--winter-shadow-color-s), 0 0 10px 0 var(--winter-shadow-blur-color-s);
+  --winter-shadow-m: 6px 6px 3px 0 var(--winter-shadow-color-m), 0 0 10px 0 var(--winter-shadow-blur-color-m);
+  --winter-shadow-l: 10px 10px 3px 0 var(--winter-shadow-color-l), 0 0 10px 0 var(--winter-shadow-blur-color-l);
+  --winter-spacing-xxxs: 0.125rem;
+  --winter-spacing-xxs: 0.25rem;
+  --winter-spacing-xs: 0.5rem;
+  --winter-spacing-s: 0.75rem;
+  --winter-spacing-m: 1rem;
+  --winter-spacing-l: 1.25rem;
+  --winter-spacing-xl: 1.75rem;
+  --winter-spacing-xxl: 2.25rem;
+  --winter-spacing-xxxl: 3rem;
+  --winter-spacing-xxxxl: 4.5rem;
+  --winter-duration-xs: 50ms;
+  --winter-duration-s: 150ms;
+  --winter-duration-m: 250ms;
+  --winter-duration-l: 500ms;
+  --winter-duration-xl: 1000ms;
+  --winter-font-serif:
+    "Nunito",
+    Georgia,
+    "Times New Roman",
+    serif;
+  --winter-font-sans:
+    "Nunito Sans",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  --winter-font-mono:
+    "IBM Plex Mono",
+    ui-monospace,
+    SFMono-Regular,
+    SF Mono,
+    Menlo,
+    Consolas,
+    Liberation Mono,
+    monospace;
+  --winter-font-decorative: "Space Grotesk", system-ui;
+  --winter-font-size-base: 20px;
+  --winter-font-size-xxs: 0.625rem;
+  --winter-font-size-xs: 0.75rem;
+  --winter-font-size-s: 0.875rem;
+  --winter-font-size-m: 1rem;
+  --winter-font-size-l: 1.25rem;
+  --winter-font-size-xl: 1.5rem;
+  --winter-font-size-xxl: 1.75rem;
+  --winter-font-size-xxxl: 2rem;
+  --winter-font-size-xxxxl: 2.25rem;
+  --winter-font-weight-light: 300;
+  --winter-font-weight-normal: 400;
+  --winter-font-weight-semibold: 500;
+  --winter-font-weight-bold: 700;
+  --winter-letter-spacing-xs: -0.03em;
+  --winter-letter-spacing-s: -0.015em;
+  --winter-letter-spacing-m: normal;
+  --winter-letter-spacing-l: 0.075em;
+  --winter-letter-spacing-xl: 0.15em;
+  --winter-line-height-xs: 1;
+  --winter-line-height-s: 1.25;
+  --winter-line-height-m: 1.6;
+  --winter-line-height-l: 1.8;
+  --winter-line-height-xl: 2.2;
+  --winter-focus-outline-color: var(--color-gray-800);
+  --winter-focus-outline: 1px solid var(--winter-focus-outline-color);
+  --winter-focus-outline-offset: 0px;
+  --winter-bg: var(--winter-white);
+  --winter-fg: var(--winter-not-quite-black);
+  --winter-header-font: var(--winter-font-decorative);
+  --winter-header-font-size: var(--winter-font-size-l);
+  --winter-header-font-weight: var(--winter-font-weight-normal);
+  --winter-header-line-height: var(--winter-line-height-m);
+  --winter-header-icon-size: var(--winter-font-size-xl);
+  --winter-header-block-spacing-top: 2rem;
+  --winter-header-block-spacing-bottom: 0rem;
+  --winter-header-bg: transparent;
+  --winter-header-fg: var(--winter-purple-1);
+  --winter-header-accent: var(--winter-teal-1);
+  --winter-header-divider: 0.15rem solid var(--winter-header-fg);
+  --winter-header-name-font-size: var(--winter-font-size-xxxxl);
+  --winter-header-name-font-weight: var(--winter-font-weight-bold);
+  --winter-footer-font: var(--winter-font-decorative);
+  --winter-footer-font-size: var(--winter-font-size-xs);
+  --winter-footer-font-weight: var(--winter-font-weight-normal);
+  --winter-footer-line-height: var(--winter-line-height-s);
+  --winter-footer-block-spacing-top: 2rem;
+  --winter-footer-block-spacing-bottom: 3rem;
+  --winter-footer-fg: var(--winter-purple-1);
+  --winter-footer-accent: var(--winter-teal-1);
+  --winter-footer-divider: 0.15rem solid var(--winter-footer-fg);
+  --winter-heading-spacing: var(--winter-spacing-xxl);
+  --winter-heading-fg: var(--winter-purple-1);
+  --winter-heading-font: var(--winter-font-decorative);
+  --winter-heading-font-weight: var(--winter-font-weight-semibold);
+  --winter-heading-line-height: var(--winter-line-height-s);
+  --winter-heading-link-fg: var(--winter-teal-4);
+  --winter-link-fg: var(--color-mint-600);
+  --winter-link-bg: transparent;
+  --winter-link-decoration: underline;
+  --winter-link-hover-fg: var(--color-pink-600);
+  --winter-link-hover-bg: transparent;
+  --winter-link-hover-decoration: underline;
+  --winter-code-font-size: 85%;
+  --winter-code-padding: 0.12em 0.5em;
+  --winter-code-fg: var(--winter-white);
+  --winter-code-bg: var(--winter-not-quite-black);
+  --winter-code-border-radius: var(--winter-border-radius-s);
+  --winter-code-shadow: var(--winter-shadow-s);
+  --winter-kbd-font: var(--winter-font-mono);
+  --winter-kbd-font-size: 90%;
+  --winter-kbd-font-weight: var(--winter-font-weight-semibold);
+  --winter-kbd-font-style: italic;
+  --winter-kbd-padding: 0.12em 0.5em 0.12em 0.4em;
+  --winter-kbd-fg: var(--winter-white);
+  --winter-kbd-bg: var(--color-purple-600);
+  --winter-kbd-combinator-fg: var(--color-gray-600);
+  --winter-kbd-border-radius: var(--winter-border-radius-s);
+  --winter-kbd-shadow: var(--winter-shadow-s);
+  --winter-mark-fg: inherit;
+  --winter-mark-bg: var(--color-yellow-100);
+  --winter-abbr-border: 0.1em dashed color-mix(in srgb, currentColor 40%, white);
+  --winter-block-spacing: var(--winter-spacing-l);
+  --winter-pre-font-size: var(--winter-font-size-m);
+  --winter-pre-line-height: var(--winter-line-height-s);
+  --winter-pre-padding: 1rem;
+  --winter-pre-fg: var(--winter-white);
+  --winter-pre-bg: var(--winter-not-quite-black);
+  --winter-pre-scrollbar: var(--color-gray-500);
+  --winter-pre-scrollbar-hover: var(--winter-purple-3);
+  --winter-list-indent: var(--winter-spacing-m);
+  --winter-list-spacing: var(--winter-spacing-xxs);
+  --winter-desc-list-block-spacing: var(--winter-spacing-m);
+  --winter-desc-list-padding: var(--winter-spacing-s);
+  --winter-desc-term-font: var(--winter-font-decorative);
+  --winter-desc-term-font-size: var(--winter-font-size-l);
+  --winter-desc-term-fg: var(--winter-teal-1);
+  --winter-table-font-size: var(--winter-font-size-m);
+  --winter-table-border: var(--color-purple-200);
+  --winter-table-heading-border: var(--winter-purple-2);
+  --winter-table-padding: var(--winter-spacing-xxs) var(--winter-spacing-xs);
+  --winter-table-striped-bg: var(--color-purple-50);
+  --winter-table-hover-bg: var(--color-purple-100);
+  --winter-blockquote-padding: var(--winter-spacing-m);
+  --winter-blockquote-font: var(--winter-font-serif);
+  --winter-blockquote-font-size: var(--winter-font-size-m);
+  --winter-blockquote-fg: var(--winter-not-quite-black);
+  --winter-blockquote-bg: var(--color-white);
+  --winter-hr-border-color: var(--winter-purple-3);
+  --winter-hr-border: 0.15rem solid var(--winter-hr-border-color);
+  --winter-button-font: var(--winter-font-mono);
+  --winter-button-font-size: 90%;
+  --winter-button-font-weight: var(--winter-font-weight-semibold);
+  --winter-button-font-style: normal;
+  --winter-button-padding: 0.12em 0.5em 0.12em 0.5em;
+  --winter-button-combinator-fg: var(--color-gray-600);
+  --winter-button-border-radius: var(--winter-border-radius-s);
+  --winter-button-shadow: var(--winter-shadow-s);
+  --winter-button-fg: var(--winter-white);
+  --winter-button-bg: var(--color-purple-600);
+  --winter-button-hover-fg: var(--winter-white);
+  --winter-button-hover-bg: var(--color-purple-500);
+  --winter-button-active-fg: var(--winter-white);
+  --winter-button-active-bg: var(--color-purple-700);
+  --winter-button-disabled-fg: var(--color-gray-200);
+  --winter-button-disabled-bg: var(--color-gray-600);
+  --winter-button-outline-bg: var(--winter-white);
+  --winter-button-outline-disabled-bg: var(--color-gray-100);
+  --winter-button-secondary-fg: var(--winter-white);
+  --winter-button-secondary-bg: var(--color-blue-500);
+  --winter-button-secondary-hover-fg: var(--winter-white);
+  --winter-button-secondary-hover-bg: var(--color-blue-400);
+  --winter-button-secondary-active-fg: var(--winter-white);
+  --winter-button-secondary-active-bg: var(--color-blue-600);
+  --winter-button-secondary-disabled-fg: var(--color-gray-200);
+  --winter-button-secondary-disabled-bg: var(--color-blue-700);
+  --winter-button-contrast-fg: var(--winter-black);
+  --winter-button-contrast-bg: var(--color-cyan-200);
+  --winter-button-contrast-hover-fg: var(--winter-black);
+  --winter-button-contrast-hover-bg: var(--color-cyan-100);
+  --winter-button-contrast-active-fg: var(--winter-black);
+  --winter-button-contrast-active-bg: var(--color-cyan-50);
+  --winter-button-contrast-disabled-fg: var(--color-gray-200);
+  --winter-button-contrast-disabled-bg: var(--color-cyan-400);
+  --winter-button-danger-fg: var(--winter-white);
+  --winter-button-danger-bg: var(--color-red-400);
+  --winter-button-danger-hover-fg: var(--winter-white);
+  --winter-button-danger-hover-bg: var(--color-red-300);
+  --winter-button-danger-active-fg: var(--winter-white);
+  --winter-button-danger-active-bg: var(--color-red-500);
+  --winter-button-danger-disabled-fg: var(--color-gray-200);
+  --winter-button-danger-disabled-bg: var(--color-red-500);
+  --winter-input-fg: var(--winter-not-quite-black);
+  --winter-input-bg: var(--color-purple-50);
+  --winter-input-accent: var(--winter-purple-3);
+  --winter-input-border-radius: var(--winter-border-radius-s);
+  --winter-input-block-spacing: var(--winter-spacing-s);
+  --winter-input-font-weight: var(--winter-font-weight-m);
+  --winter-input-font-size: var(--winter-font-size-m);
+  --winter-input-padding: 0.2em 0.5em;
+  --winter-input-disabled-fg: var(--color-gray-600);
+  --winter-input-disabled-bg: var(--color-gray-50);
+  --winter-input-disabled-accent: var(--color-gray-200);
+  --winter-input-readonly-fg: var(--color-gray-800);
+  --winter-input-readonly-bg: var(--color-gray-50);
+  --winter-input-readonly-accent: var(--color-gray-500);
+  --winter-input-active-fg: var(--color-blue-800);
+  --winter-input-active-bg: var(--color-blue-50);
+  --winter-input-active-accent: var(--color-blue-500);
+  --winter-input-valid-fg: var(--color-green-800);
+  --winter-input-valid-bg: var(--color-green-50);
+  --winter-input-valid-accent: var(--color-green-500);
+  --winter-input-invalid-fg: var(--color-red-800);
+  --winter-input-invalid-bg: var(--color-red-50);
+  --winter-input-invalid-accent: var(--color-red-500);
+  --winter-label-font-size: inherit;
+  --winter-label-font-family: var(--winter-font-decorative);
+  --winter-label-font-weight: var(--winter-font-weight-semibold);
+  --winter-label-fg: currentColor;
+  --winter-checkbox-size: 1.75rem;
+  --winter-checkbox-fg: var(--winter-purple-2);
+  --winter-checkbox-active-fg: var(--color-blue-500);
+  --winter-checkbox-disabled-fg: var(--color-gray-500);
+  --winter-range-padding: 0.5em 0;
+  --winter-range-track-radius: 5rem;
+  --winter-range-track-size: 0.375rem;
+  --winter-range-thumb-size: 1.25rem;
+  --winter-range-bg: var(--color-purple-200);
+  --winter-range-fg: var(--winter-purple-3);
+  --winter-range-active-bg: var(--color-purple-200);
+  --winter-range-active-fg: var(--winter-purple-2);
+  --winter-range-active-thumb-size: 1.4rem;
+  --winter-form-aside-padding: var(--winter-spacing-xs) var(--winter-spacing-s);
+  --winter-form-aside-font: var(--winter-font-serif);
+  --winter-form-aside-font-size: var(--winter-font-size-s);
+  --winter-form-aside-fg: currentColor;
+  --winter-form-aside-bg: var(--color-white);
+  --winter-form-aside-accent: var(--winter-purple-4);
+  --winter-admonition-font: var(--winter-font-serif);
+  --winter-admonition-font-size: var(--winter-font-size-m);
+  --winter-admonition-fg: var(--winter-fg);
+  --winter-admonition-bg: var(--winter-bg);
+  --winter-admonition-accent: var(--winter-teal-1);
+  --winter-admonition-icon: "info";
+  --winter-admonition-padding: var(--winter-spacing-xs) var(--winter-spacing-s);
+  --winter-admonition-title-font: var(--winter-font-decorative);
+  --winter-admonition-title-font-size: var(--winter-font-size-l);
+  --winter-admonition-body-spacing: var(--winter-spacing-s);
+  --winter-admonition-note-accent: var(--winter-teal-1);
+  --winter-admonition-note-fg: var(--winter-admonition-fg);
+  --winter-admonition-note-bg: var(--winter-admonition-bg);
+  --winter-admonition-note-icon: "stylus";
+  --winter-admonition-info-accent: var(--winter-teal-2);
+  --winter-admonition-info-fg: var(--winter-admonition-fg);
+  --winter-admonition-info-bg: var(--winter-admonition-bg);
+  --winter-admonition-info-icon: "info";
+  --winter-admonition-tip-accent: var(--winter-teal-2);
+  --winter-admonition-tip-fg: var(--winter-admonition-fg);
+  --winter-admonition-tip-bg: var(--winter-admonition-bg);
+  --winter-admonition-tip-icon: "lightbulb";
+  --winter-admonition-success-accent: var(--color-green-400);
+  --winter-admonition-success-fg: var(--winter-admonition-fg);
+  --winter-admonition-success-bg: var(--winter-admonition-bg);
+  --winter-admonition-success-icon: "check";
+  --winter-admonition-question-accent: var(--color-mint-400);
+  --winter-admonition-question-fg: var(--winter-admonition-fg);
+  --winter-admonition-question-bg: var(--winter-admonition-bg);
+  --winter-admonition-question-icon: "help";
+  --winter-admonition-warning-accent: var(--color-yellow-300);
+  --winter-admonition-warning-fg: var(--winter-admonition-fg);
+  --winter-admonition-warning-bg: var(--winter-admonition-bg);
+  --winter-admonition-warning-icon: "warning";
+  --winter-admonition-failure-accent: var(--color-red-500);
+  --winter-admonition-failure-fg: var(--winter-admonition-fg);
+  --winter-admonition-failure-bg: var(--winter-admonition-bg);
+  --winter-admonition-failure-icon: "close";
+  --winter-admonition-danger-accent: var(--color-red-600);
+  --winter-admonition-danger-fg: var(--winter-admonition-fg);
+  --winter-admonition-danger-bg: var(--winter-admonition-bg);
+  --winter-admonition-danger-icon: "report";
+  --winter-admonition-bug-accent: var(--color-violet-500);
+  --winter-admonition-bug-fg: var(--winter-admonition-fg);
+  --winter-admonition-bug-bg: var(--winter-admonition-bg);
+  --winter-admonition-bug-icon: "bug_report";
+  --winter-admonition-example-accent: var(--color-purple-500);
+  --winter-admonition-example-fg: var(--winter-admonition-fg);
+  --winter-admonition-example-bg: var(--winter-admonition-bg);
+  --winter-admonition-example-icon: "developer_guide";
+  --winter-admonition-quote-accent: var(--color-gray-600);
+  --winter-admonition-quote-fg: var(--winter-admonition-fg);
+  --winter-admonition-quote-bg: var(--winter-admonition-bg);
+  --winter-admonition-quote-icon: "format_quote";
+  --winter-admonition-fairy-accent: var(--color-pink-500);
+  --winter-admonition-fairy-fg: var(--winter-admonition-fg);
+  --winter-admonition-fairy-bg: var(--winter-admonition-bg);
+  --winter-admonition-fairy-icon: "\1f9da";
+  --winter-footnote-font-size: var(--winter-font-size-s);
+  --winter-footnote-fg: var(--color-gray-700);
+  --winter-footnote-divider-color: var(--color-gray-200);
+  --winter-footnote-divider: 0.1rem solid var(--winter-footnote-divider-color);
+}
+@media screen {
+  html.dark {
+    --winter-near-black: color-mix( in srgb, var(--color-purple-900) 30%, var(--winter-bg) );
+    --winter-bg: var(--winter-black);
+    --winter-fg: var(--winter-white);
+    --winter-shadow-color-hsl:
+      260,
+      48.1%,
+      75%;
+    --winter-header-fg: var(--winter-purple-3);
+    --winter-header-accent: var(--winter-teal-3);
+    --winter-footer-fg: var(--winter-purple-3);
+    --winter-heading-fg: var(--winter-purple-3);
+    --winter-heading-link-fg: var(--winter-teal-1);
+    --winter-link-fg: var(--color-mint-300);
+    --winter-link-hover-fg: var(--color-pink-300);
+    --winter-code-fg: var(--winter-white);
+    --winter-code-bg: var(--winter-not-quite-black);
+    --winter-kbd-fg: var(--winter-white);
+    --winter-kbd-bg: var(--color-purple-600);
+    --winter-kbd-combinator-fg: var(--color-gray-600);
+    --winter-mark-fg: inherit;
+    --winter-mark-bg: var(--color-yellow-600);
+    --winter-pre-fg: var(--winter-white);
+    --winter-pre-bg: var(--winter-not-quite-black);
+    --winter-desc-term-fg: var(--winter-teal-1);
+    --winter-table-border: var(--color-purple-900);
+    --winter-table-heading-border: var(--color-purple-400);
+    --winter-table-striped-bg: var(--winter-near-black);
+    --winter-table-hover-bg: var(--color-purple-900);
+    --winter-blockquote-fg: var(--color-purple-200);
+    --winter-blockquote-bg: var(--winter-near-black);
+    --winter-hr-border-color: var(--color-purple-900);
+    --winter-desc-term-fg: var(--winter-teal-4);
+    --winter-button-outline-bg: var(--winter-black);
+    --winter-button-outline-disabled-bg: var(--color-gray-900);
+    --winter-input-fg: var(--winter-white);
+    --winter-input-bg: var(--color-purple-900);
+    --winter-input-disabled-fg: var(--color-gray-100);
+    --winter-input-disabled-bg: var(--color-gray-900);
+    --winter-input-readonly-fg: var(--color-gray-50);
+    --winter-input-readonly-bg: var(--color-gray-800);
+    --winter-input-active-fg: var(--winter-white);
+    --winter-input-active-bg: var(--color-blue-900);
+    --winter-input-valid-fg: var(--color-green-100);
+    --winter-input-valid-bg: var(--color-green-900);
+    --winter-input-invalid-fg: var(--color-red-100);
+    --winter-input-invalid-bg: var(--color-red-900);
+    --winter-checkbox-fg: var(--winter-purple-4);
+    --winter-checkbox-active-fg: var(--color-blue-100);
+    --winter-checkbox-disabled-fg: var(--color-gray-500);
+    --winter-range-bg: var(--color-purple-800);
+    --winter-range-fg: var(--winter-purple-4);
+    --winter-range-active-bg: var(--color-purple-500);
+    --winter-range-active-fg: var(--winter-purple-5);
+    --winter-admonition-fg: var(--winter-fg);
+    --winter-admonition-bg: var(--winter-near-black);
+    --winter-admonition-accent: var(--winter-teal-3);
+    --winter-admonition-note-accent: var(--winter-teal-3);
+    --winter-admonition-info-accent: var(--winter-teal-4);
+    --winter-admonition-tip-accent: var(--winter-teal-4);
+    --winter-admonition-success-accent: var(--color-green-300);
+    --winter-admonition-question-accent: var(--color-mint-300);
+    --winter-admonition-warning-accent: var(--color-yellow-200);
+    --winter-admonition-failure-accent: var(--color-red-400);
+    --winter-admonition-danger-accent: var(--color-red-500);
+    --winter-admonition-bug-accent: var(--color-violet-400);
+    --winter-admonition-example-accent: var(--color-purple-500);
+    --winter-admonition-quote-accent: var(--color-gray-400);
+    --winter-admonition-fairy-accent: var(--color-pink-400);
+    --winter-admonition-fairy-icon: "\1f9da";
+    --winter-footnote-fg: var(--color-gray-500);
+    --winter-footnote-divider-color: var(--color-gray-900);
+  }
+}
+
+/* src/styles/globals.css */
+.hidden,
+[hidden] {
+  display: none !important;
+}
+
+/* src/styles/layout.css */
+body {
+  width: 100%;
+  margin: 0;
+  overflow-x: hidden;
+}
+body :is(header, main, footer) {
+  display: block;
+  width: 100%;
+  max-width: 980px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.grid {
+  display: grid;
+  --min: 15ch;
+  --gap: 1rem;
+  display: grid;
+  grid-gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min)), 1fr));
+  align-items: start;
+}
+.grid.col-2 {
+  grid-template-columns: 1fr 1fr;
+}
+.grid.col-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.grid.col-4 {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.grid.col-1-2 {
+  grid-template-columns: 1fr 2fr;
+}
+.grid.col-2-1 {
+  grid-template-columns: 2fr 1fr;
+}
+.grid.col-1-3 {
+  grid-template-columns: 1fr 3fr;
+}
+.grid.col-3-1 {
+  grid-template-columns: 3fr 1fr;
+}
+
+/* src/styles/nav.css */
+header {
+  padding-top: var(--winter-header-block-spacing-top);
+  margin-bottom: var(--winter-header-block-spacing-bottom);
+  font-family: var(--winter-header-font);
+  font-size: var(--winter-header-font-size);
+  font-weight: var(--winter-header-font-weight);
+  line-height: var(--winter-header-line-height);
+  color: var(--winter-header-fg);
+  background: var(--winter-header-bg);
+}
+header > nav:first-of-type {
+  font-size: var(--winter-header-name-font-size);
+  font-weight: var(--winter-header-name-font-weight);
+  border-bottom: var(--winter-header-divider);
+}
+header > nav:first-of-type ul a {
+  margin-bottom: -0.25lh;
+  --outline-color: var(--winter-bg);
+  --outline-size: 0.15em;
+  text-shadow:
+    calc(var(--outline-size) * -1) 0px 0px var(--outline-color),
+    calc(var(--outline-size) * -0.5) 0px 0px var(--outline-color),
+    calc(var(--outline-size) * 0.5) 0px 0px var(--outline-color),
+    var(--outline-size) 0px 0px var(--outline-color);
+}
+header > nav:first-of-type ul img.logo {
+  margin-bottom: -0.15lh;
+  height: 0.5lh;
+  width: auto;
+}
+header > nav:first-of-type :is(a, [role=link]) {
+  color: var(--winter-header-fg);
+  display: inline-block;
+  text-decoration: none;
+}
+header > nav:first-of-type :is(a, [role=link]):hover {
+  text-decoration: none;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+}
+nav ul {
+  display: flex;
+  align-items: center;
+  margin-block: 0;
+  padding: 0;
+  list-style: none;
+}
+nav li {
+  display: flex;
+  align-items: center;
+}
+nav :is(a, [role=link]) {
+  color: var(--winter-header-fg);
+  background: var(--winter-header-bg);
+  display: inline-block;
+  text-decoration: none;
+}
+nav :is(a, [role=link]):is([aria-current], :hover, :active, :focus) {
+  color: var(--winter-header-fg);
+  background: var(--winter-header-bg);
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+}
+nav ul.has-dividers li:not(:first-child) {
+  margin-inline-start: 1.2em;
+}
+nav ul.has-dividers li:not(:last-child) a::after {
+  color: var(--winter-header-fg);
+  position: absolute;
+  margin-inline-start: 0.4em;
+  content: "/";
+  text-align: center;
+  pointer-events: none;
+}
+nav :is(winter-icon, winter-dark-mode) {
+  font-size: var(--winter-header-icon-size);
+}
+nav winter-dark-mode:hover {
+  color: var(--winter-header-accent);
+}
+
+/* src/styles/footer.css */
+body > footer {
+  margin-top: var(--winter-footer-block-spacing-top);
+  padding-top: 0.5em;
+  padding-bottom: var(--winter-footer-block-spacing-bottom);
+  font-family: var(--winter-footer-font);
+  font-size: var(--winter-footer-font-size);
+  font-weight: var(--winter-footer-font-weight);
+  line-height: var(--winter-footer-line-height);
+  color: var(--winter-footer-fg);
+  background: var(--winter-footer-bg);
+  border-top: var(--winter-footer-divider);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+body > footer ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-block: 0;
+  padding: 0;
+  list-style: none;
+}
+body > footer ul:first-child {
+  align-items: flex-start;
+}
+body > footer ul:last-child {
+  align-items: flex-end;
+}
+body > footer :is(a, [role=link]) {
+  color: var(--winter-footer-fg);
+  background: transparent;
+  display: inline-block;
+  text-decoration: none;
+}
+body > footer :is(a, [role=link]):is([aria-current], :hover, :active, :focus) {
+  color: var(--winter-footer-fg);
+  background: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+}
+
+/* src/styles/content.css */
+html,
+body {
+  font-family: var(--winter-font-serif);
+  font-size: var(--winter-font-size-base);
+  font-weight: var(--winter-font-weight-normal);
+  font-feature-settings: "kern", "liga";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: var(--winter-letter-spacing-normal);
+  line-height: var(--winter-line-height-m);
+}
+body {
+  color: var(--winter-fg);
+  background: var(--winter-bg);
+}
+main :is(h1, h2, h3, h4, h5, h6) {
+  display: block flow-root;
+  width: 100%;
+  position: relative;
+  font-family: var(--winter-heading-font);
+  font-weight: var(--winter-heading-font-weight);
+  line-height: var(--winter-heading-line-height);
+  color: var(--winter-heading-fg);
+}
+main :is(h1, h2, h3, h4, h5, h6):not(:first-child) {
+  margin-block-start: var(--winter-heading-spacing);
+}
+main :is(h1, h2, h3, h4, h5, h6) a.headerlink {
+  position: absolute;
+  top: 0;
+  left: -1.25ch;
+  height: 100%;
+  display: inline-flex;
+  align-items: center;
+  color: var(--winter-heading-link-fg);
+  text-decoration: none;
+  font-size: 75%;
+}
+main :is(h1, h2, h3, h4, h5, h6) a.headerlink:is([aria-current], :hover, :active, :focus) {
+  text-decoration: none;
+}
+main h1 {
+  font-size: var(--winter-font-size-xxxl);
+}
+main h2 {
+  font-size: var(--winter-font-size-xxxl);
+}
+main h3 {
+  font-size: var(--winter-font-size-xxl);
+}
+main h4 {
+  font-size: var(--winter-font-size-xl);
+}
+main h5 {
+  font-size: var(--winter-font-size-l);
+}
+main h6 {
+  font-size: var(--winter-font-size-l);
+}
+main :is(h2 + :is(h2, h3, h4, h5, h6), h3 + :is(h3, h4, h5, h6), h4 + :is(h4, h5, h6), h5 + :is(h5, h6), h6 + :is(h6)) {
+  margin-block-start: 0;
+}
+main :is(h2 + :is(h2, h3, h4, h5, h6), h3 + :is(h3, h4, h5, h6), h4 + :is(h4, h5, h6), h5 + :is(h5, h6), h6 + :is(h6)):not(:first-child) {
+  margin-block-start: 0;
+}
+main.hide-title h1 {
+  display: none;
+}
+main section {
+  margin-block: var(--winter-block-spacing);
+}
+main :is(p, ol, ul, pre, blockquote, figure, hr, dl) {
+  margin-block: var(--winter-block-spacing);
+}
+main :is(ol, ul) {
+  padding: 0;
+  margin-inline-start: var(--winter-list-indent);
+}
+main :is(ol, ul):not([hidden]) {
+  display: flow-root;
+}
+main :is(ol, ul) ol {
+  list-style-type: lower-alpha;
+}
+main :is(ol, ul) ol ol {
+  list-style-type: lower-roman;
+}
+main :is(ol, ul) li {
+  margin-inline-start: var(--winter-list-indent);
+  margin-bottom: var(--winter-list-spacing);
+}
+main :is(ol, ul) li:last-child {
+  margin-bottom: 0;
+}
+main :is(ol, ul) li :is(ul, ol) {
+  margin-block: var(--winter-list-spacing);
+}
+main code {
+  font-family: var(--winter-font-mono);
+  font-size: var(--winter-code-font-size);
+  color: var(--winter-code-fg);
+  background: var(--winter-code-bg);
+  padding: var(--winter-code-padding);
+  border: 1px solid transparent;
+  border-radius: var(--winter-code-border-radius);
+  box-shadow: var(--winter-code-shadow);
+  word-break: break-word;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+main pre {
+  -webkit-overflow-scrolling: touch;
+  white-space: pre;
+  word-wrap: normal;
+  overflow-x: auto;
+  font-family: var(--winter-font-mono);
+  font-size: var(--winter-pre-font-size);
+  line-height: var(--winter-pre-line-height);
+  color: var(--winter-pre-fg);
+  background: var(--winter-pre-bg);
+  padding: var(--winter-pre-padding);
+  box-shadow: var(--winter-code-shadow);
+  scrollbar-width: thin;
+  scrollbar-color: var(--winter-pre-scrollbar) transparent;
+}
+main pre code {
+  font-size: 1em;
+  color: currentColor;
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+main pre:hover {
+  scrollbar-color: var(--winter-pre-scrollbar-hover) transparent;
+}
+main pre:hover::-webkit-scrollbar-thumb {
+  background-color: var(--winter-pre-scrollbar-hover);
+}
+main pre::-webkit-scrollbar {
+  width: 0.25rem;
+  height: 0.25rem;
+}
+main pre::-webkit-scrollbar-thumb {
+  background-color: var(--winter-pre-scrollbar);
+}
+main blockquote {
+  font-family: var(--winter-blockquote-font);
+  font-size: var(--winter-blockquote-font-size);
+  color: var(--winter-blockquote-fg);
+  background: var(--winter-blockquote-bg);
+  border-inline-start: 0.15rem solid var(--winter-blockquote-fg);
+  padding: var(--winter-blockquote-padding);
+  box-shadow: var(--winter-shadow-s);
+}
+main blockquote p:first-child {
+  margin-block-start: 0;
+}
+main blockquote p:last-child {
+  margin-block-end: 0;
+}
+main hr {
+  display: flow-root;
+  border: none;
+  border-bottom: var(--winter-hr-border);
+}
+main dl dt {
+  margin-block-start: var(--winter-desc-list-block-spacing);
+  font-family: var(--winter-desc-term-font);
+  font-size: var(--winter-desc-term-font-size);
+  color: var(--winter-desc-term-fg);
+  border-left: 0.15rem solid var(--winter-desc-term-fg);
+  padding-inline: var(--winter-desc-list-padding);
+}
+main dl dd {
+  border-left: 0.15rem solid var(--winter-desc-term-fg);
+  padding-inline: var(--winter-desc-list-padding);
+  padding-block-end: 0;
+}
+main :is(a:not([role=button]), [role=link]) {
+  color: var(--winter-link-fg);
+  background: var(--winter-link-bg);
+  text-decoration: var(--winter-link-decoration);
+}
+main :is(a:not([role=button]), [role=link]):is([aria-current], :hover, :active, :focus) {
+  color: var(--winter-link-hover-fg);
+  background: var(--winter-link-hover-bg);
+  text-decoration: var(--winter-link-hover-decoration);
+}
+main mark {
+  color: var(--winter-mark-fg);
+  background-color: var(--winter-mark-bg);
+  word-break: break-word;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+main small {
+  font-size: 0.8em;
+  line-height: inherit;
+}
+main :is(sub, sup) {
+  position: relative;
+  font-size: 0.8em;
+  line-height: 0;
+  vertical-align: baseline;
+}
+main sub {
+  bottom: -0.25em;
+}
+main sup {
+  top: -0.5em;
+}
+main abbr {
+  text-decoration: none;
+  cursor: help;
+  border-bottom: var(--winter-abbr-border);
+}
+main kbd {
+  font-family: var(--winter-kbd-font);
+  font-size: var(--winter-kbd-font-size);
+  font-style: var(--winter-kbd-font-style);
+  font-weight: var(--winter-kbd-font-weight);
+  color: var(--winter-kbd-fg);
+  background: var(--winter-kbd-bg);
+  padding: var(--winter-kbd-padding);
+  border-radius: var(--winter-kbd-border-radius);
+  box-shadow: var(--winter-kbd-shadow);
+  border: 1px solid transparent;
+  word-break: break-word;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+main :is(img, svg, video, canvas, audio, object) {
+  margin-block: var(--winter-block-spacing);
+  margin-inline: auto;
+  max-width: 100%;
+  height: auto;
+  box-shadow: var(--winter-shadow-s);
+}
+main img.inline {
+  float: unset;
+  display: inline;
+  margin: 0.5em;
+  vertical-align: middle;
+}
+main img[align] {
+  margin: 1em;
+  max-width: 50%;
+}
+main img[align=left] {
+  margin-left: 0;
+}
+main img[align=right] {
+  margin-right: 0;
+}
+main img.small {
+  max-width: 10%;
+}
+main img.quarter {
+  max-width: 25%;
+}
+main img.half {
+  max-width: 50%;
+}
+main img[src$=".svg"] {
+  box-shadow: none;
+}
+main svg {
+  box-shadow: none;
+}
+.dark main img[src$=".svg"]:not(.no-invert) {
+  filter: invert(1) hue-rotate(180deg);
+}
+main table {
+  margin-block: var(--winter-block-spacing);
+  max-width: 100%;
+  overflow: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: var(--winter-table-font-size);
+  border-color: var(--winter-table-border);
+  border-style: solid;
+  border-width: 0;
+}
+main table tr {
+  border-color: inherit;
+  border-style: inherit;
+  border-width: 0;
+}
+main table tr:nth-child(2n) {
+  background: var(--winter-table-striped-bg);
+}
+main table tr:is(:hover, [aria-selected]) {
+  background: var(--winter-table-hover-bg);
+}
+main table :is(th, td) {
+  border-color: inherit;
+  border-style: inherit;
+  padding: var(--winter-table-padding);
+  background: transparent;
+  min-width: 8rem;
+}
+main table :is(th, td):not([align]) {
+  text-align: left;
+}
+main table th {
+  border-width: 0 0 2px;
+}
+main table td {
+  border-width: 0 0 1px;
+}
+main table :is(thead, tbody) {
+  border-color: inherit;
+  border-style: inherit;
+  border-width: 0;
+}
+main table thead {
+  border-color: var(--winter-table-heading-border);
+}
+main div:has(> table.is-page-width) {
+  position: relative;
+  width: 100svw;
+  max-width: 100svw;
+  margin-inline: -50svw;
+  left: 50%;
+  right: 50%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0;
+  padding-inline: 1rem;
+  margin-block: var(--winter-block-spacing);
+}
+main table.is-page-width {
+  margin: 0;
+  padding: 0;
+  max-width: unset;
+}
+main table.is-high-density {
+  white-space: wrap;
+  font-family: var(--winter-font-mono);
+  font-size: var(--winter-font-size-xs);
+  padding: 0.25em 0.5em;
+}
+main table.is-high-density :is(th, td) {
+  width: fit-content;
+  min-width: 100px;
+}
+main .inline {
+  float: inline-start;
+  width: 40%;
+  margin-inline-end: var(--winter-block-spacing);
+  margin-top: 0;
+}
+main .inline.end {
+  float: inline-end;
+  margin-inline: var(--winter-block-spacing);
+}
+
+/* src/styles/buttons.css */
+button,
+[role=button],
+a[role=button],
+input[type=reset],
+input[type=submit],
+input[type=button] {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 8ch;
+  min-height: 2.2rem;
+  text-align: center;
+  line-height: inherit;
+  vertical-align: middle;
+  --normal-fg: var(--winter-button-fg);
+  --normal-bg: var(--winter-button-bg);
+  --active-fg: var(--winter-button-active-fg);
+  --active-bg: var(--winter-button-active-bg);
+  --hover-fg: var(--winter-button-hover-fg);
+  --hover-bg: var(--winter-button-hover-bg);
+  --disabled-fg: var(--winter-button-disabled-fg);
+  --disabled-bg: var(--winter-button-disabled-bg);
+  --outline-fg: var(--normal-bg);
+  --outline-hover-fg: var(--hover-bg);
+  --outline-active-fg: var(--active-bg);
+  --outline-disabled-fg: var(--disabled-bg);
+  --fg: var(--normal-fg);
+  --bg: var(--normal-bg);
+  --shadow: var(--winter-button-shadow);
+  font-family: var(--winter-button-font);
+  font-size: var(--winter-button-font-size);
+  font-style: var(--winter-button-font-style);
+  font-weight: var(--winter-button-font-weight);
+  padding: var(--winter-button-padding);
+  border-radius: var(--winter-button-border-radius);
+  border: 0.15em solid transparent;
+  box-shadow: var(--shadow);
+  color: var(--fg);
+  background: var(--bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]):disabled {
+  --fg: var(--disabled-fg);
+  --bg: var(--disabled-bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]):disabled:hover {
+  cursor: not-allowed;
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]):not(:disabled):is(:hover, :focus) {
+  --fg: var(--hover-fg);
+  --bg: var(--hover-bg);
+  text-decoration: none;
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]):not(:disabled):active {
+  --fg: var(--active-fg);
+  --bg: var(--active-bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]):focus {
+  outline: var(--winter-focus-outline);
+  outline-offset: var(--winter-focus-outline-offset);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]).secondary {
+  --normal-fg: var(--winter-button-secondary-fg);
+  --normal-bg: var(--winter-button-secondary-bg);
+  --active-fg: var(--winter-button-secondary-active-fg);
+  --active-bg: var(--winter-button-secondary-active-bg);
+  --hover-fg: var(--winter-button-secondary-hover-fg);
+  --hover-bg: var(--winter-button-secondary-hover-bg);
+  --disabled-fg: var(--winter-button-secondary-disabled-fg);
+  --disabled-bg: var(--winter-button-secondary-disabled-bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]).contrast {
+  --normal-fg: var(--winter-button-contrast-fg);
+  --normal-bg: var(--winter-button-contrast-bg);
+  --active-fg: var(--winter-button-contrast-active-fg);
+  --active-bg: var(--winter-button-contrast-active-bg);
+  --hover-fg: var(--winter-button-contrast-hover-fg);
+  --hover-bg: var(--winter-button-contrast-hover-bg);
+  --disabled-fg: var(--winter-button-contrast-disabled-fg);
+  --disabled-bg: var(--winter-button-contrast-disabled-bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]).danger {
+  --normal-fg: var(--winter-button-danger-fg);
+  --normal-bg: var(--winter-button-danger-bg);
+  --active-fg: var(--winter-button-danger-active-fg);
+  --active-bg: var(--winter-button-danger-active-bg);
+  --hover-fg: var(--winter-button-danger-hover-fg);
+  --hover-bg: var(--winter-button-danger-hover-bg);
+  --disabled-fg: var(--winter-button-danger-disabled-fg);
+  --disabled-bg: var(--winter-button-danger-disabled-bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]).outline {
+  --fg: var(--outline-fg);
+  --bg: var(--winter-button-outline-bg);
+  border: 0.15em solid currentColor;
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]).outline:is(:hover, :focus) {
+  --fg: var(--outline-hover-fg);
+  --bg: var(--winter-button-outline-bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]).outline:active {
+  --fg: var(--outline-active-fg);
+  --bg: var(--winter-button-outline-bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]).outline:disabled {
+  --fg: var(--outline-disabled-fg);
+  --bg: var(--winter-button-outline-disabled-bg);
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]):has(winter-icon) {
+  min-width: unset;
+  gap: 0.25em;
+}
+:is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]):not(:has(span)) winter-icon {
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+}
+
+/* src/styles/forms.css */
+input:not([type=checkbox], [type=radio], [type=range], [type=file]),
+select,
+textarea {
+  appearance: none;
+}
+main form {
+  margin-block: var(--winter-block-spacing);
+}
+main form section {
+  margin-block: var(--winter-block-spacing);
+}
+main form section h2 {
+  margin-block-end: var(--winter-spacing-l);
+}
+main form section aside {
+  margin-block: var(--winter-block-spacing);
+  font-family: var(--winter-form-aside-font);
+  font-size: var(--winter-form-aside-font-size);
+  color: var(--winter-form-aside-fg);
+  background: var(--winter-form-aside-bg);
+  border-inline-start: 0.15rem solid var(--winter-form-aside-accent);
+  padding: var(--winter-form-aside-padding);
+  box-shadow: var(--winter-shadow-xs);
+}
+main form section aside p:first-child {
+  margin-block-start: 0;
+}
+main form section .grid {
+  --gap: 0.5rem 1.5rem;
+}
+main form section .grid .grid {
+  --gap: 0.5rem 1rem;
+}
+main form section :is(label, h2) + :is(img, figure, canvas) {
+  margin-block-start: 0;
+}
+label:has(+ input, + select, + textarea, + [role=group]) {
+  display: block;
+}
+input:not([type=checkbox], [type=radio]),
+button[type=submit],
+select,
+textarea,
+label:has(input) {
+  display: block;
+  width: 100%;
+  margin-block-end: var(--winter-input-block-spacing);
+}
+label:not(:has(input[type=checkbox], input[type=radio])) {
+  color: var(--winter-label-fg);
+  font-weight: var(--winter-label-font-weight);
+  font-family: var(--winter-label-font-family);
+  font-size: var(--winter-label-font-size);
+}
+input:not([type=range], [type=checkbox], [type=radio], [type=range], [type=submit], [type=button]),
+select,
+textarea {
+  --fg: var(--winter-input-fg);
+  --bg: var(--winter-input-bg);
+  --accent: var(--winter-input-accent);
+  --border: 1px solid var(--accent);
+  outline: none;
+  border: var(--border);
+  border-radius: var(--winter-input-border-radius);
+  color: var(--fg);
+  background: var(--bg);
+  font-size: var(--winter-input-font-size);
+  font-weight: var(--winter-input-font-weight);
+  box-shadow: var(--winter-input-shadow);
+  padding: var(--winter-input-padding);
+}
+:is(input:not([type=range], [type=checkbox], [type=radio], [type=range], [type=submit], [type=button]), select, textarea):is(:active, :hover, :focus) {
+  --fg: var(--winter-input-active-fg);
+  --bg: var(--winter-input-active-bg);
+  --accent: var(--winter-input-active-accent);
+}
+:is(input:not([type=range], [type=checkbox], [type=radio], [type=range], [type=submit], [type=button]), select, textarea):focus {
+  outline: var(--winter-focus-outline);
+  outline-offset: var(--winter-focus-outline-offset);
+}
+:is(input:not([type=range], [type=checkbox], [type=radio], [type=range], [type=submit], [type=button]), select, textarea):disabled {
+  --fg: var(--winter-input-disabled-fg);
+  --bg: var(--winter-input-disabled-bg);
+  --accent: var(--winter-input-disabled-accent);
+}
+:is(input:not([type=range], [type=checkbox], [type=radio], [type=range], [type=submit], [type=button]), select, textarea):disabled:hover {
+  cursor: not-allowed;
+}
+:is(input:not([type=range], [type=checkbox], [type=radio], [type=range], [type=submit], [type=button]), select, textarea)[readonly] {
+  --fg: var(--winter-input-readonly-fg);
+  --bg: var(--winter-input-readonly-bg);
+  --accent: var(--winter-input-readonly-accent);
+}
+:is(input:not([type=range], [type=checkbox], [type=radio], [type=range], [type=submit], [type=button]), select, textarea):is(:user-invalid, [aria-invalid=true]) {
+  --fg: var(--winter-input-invalid-fg);
+  --bg: var(--winter-input-invalid-bg);
+  --accent: var(--winter-input-invalid-accent);
+}
+:is(input:not([type=range], [type=checkbox], [type=radio], [type=range], [type=submit], [type=button]), select, textarea):is(:user-valid, [aria-invalid=false]) {
+  --fg: var(--winter-input-valid-fg);
+  --bg: var(--winter-input-valid-bg);
+  --accent: var(--winter-input-valid-accent);
+}
+label:has([type=checkbox], [type=radio]) {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: min-content auto;
+  gap: 0.1em;
+  align-items: center;
+}
+label:has([type=checkbox], [type=radio]):has([disabled]) {
+  cursor: not-allowed;
+}
+input[type=checkbox],
+input[type=radio] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  margin: 0;
+  color: var(--winter-checkbox-fg);
+  font-size: var(--winter-checkbox-size);
+  height: 1em;
+  margin-left: -0.1em;
+  display: grid;
+  place-content: center;
+}
+:is(input[type=checkbox], input[type=radio])::before {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  content: var(--unchecked-char, "\e835");
+}
+:is(input[type=checkbox], input[type=radio]):checked::before {
+  content: var(--checked-char, "\e834");
+}
+:is(input[type=checkbox], input[type=radio]):is(:active, :hover, :focus) {
+  color: var(--winter-checkbox-active-fg);
+}
+:is(input[type=checkbox], input[type=radio]):disabled {
+  color: var(--winter-checkbox-disabled-fg);
+  cursor: not-allowed;
+}
+input[type=radio] {
+  --checked-char: "\e837";
+  --unchecked-char: "\e836";
+}
+label:has(input[type=checkbox]):has(+ label > input[type=checkbox]) {
+  margin-block-end: 0;
+}
+label:has(input[type=radio]):has(+ label > input[type=radio]) {
+  margin-block-end: 0;
+}
+input[type=range] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  padding: var(--winter-range-padding);
+  --size: var(--winter-range-thumb-size);
+  --fg: var(--winter-range-fg);
+  --bg: var(--winter-range-bg);
+  --margin-top: calc( (var(--size) * -0.5) + (var(--winter-range-track-size) * 0.5) );
+}
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  border-radius: var(--winter-range-track-radius);
+  background-color: var(--bg);
+  height: var(--winter-range-track-size);
+}
+input[type=range]::-moz-range-track {
+  width: 100%;
+  border-radius: var(--winter-range-track-radius);
+  background-color: var(--bg);
+  height: var(--winter-range-track-size);
+}
+input[type=range]::-ms-track {
+  width: 100%;
+  border-radius: var(--winter-range-track-radius);
+  background-color: var(--bg);
+  height: var(--winter-range-track-size);
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: var(--size);
+  height: var(--size);
+  margin-top: var(--margin-top);
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  background-color: var(--fg);
+  cursor: pointer;
+}
+input[type=range]::-moz-range-thumb {
+  -webkit-appearance: none;
+  width: var(--size);
+  height: var(--size);
+  margin-top: var(--margin-top);
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  background-color: var(--fg);
+  cursor: pointer;
+}
+input[type=range]::-ms-thumb {
+  -webkit-appearance: none;
+  width: var(--size);
+  height: var(--size);
+  margin-top: var(--margin-top);
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  background-color: var(--fg);
+  cursor: pointer;
+}
+input[type=range]:is(:hover, :active, :focus) {
+  --size: var(--winter-range-active-thumb-size);
+  --fg: var(--winter-range-active-fg);
+  --bg: var(--winter-range-active-bg);
+}
+:is(input:not([type=checkbox], [type=radio]), select, textarea):has(+ small) {
+  margin-block-end: 0;
+}
+:is(input:not([type=checkbox], [type=radio]), select, textarea) + small {
+  display: block;
+  width: 100%;
+  margin-block-end: var(--winter-input-block-spacing);
+  color: var(--winter-input-accent);
+}
+:is(input:not([type=checkbox], [type=radio]), select, textarea):is(:user-invalid, [aria-invalid=true]) + small {
+  color: var(--winter-input-invalid-accent);
+}
+:is(input:not([type=checkbox], [type=radio]), select, textarea):is(:user-valid, [aria-invalid=false]) + small {
+  color: var(--winter-input-valid-accent);
+}
+form [role=group] {
+  display: flex;
+  width: 100%;
+  vertical-align: middle;
+  --winter-button-shadow: none;
+  margin-block-end: var(--winter-input-block-spacing);
+}
+form [role=group] > * {
+  margin-block-end: 0;
+}
+form [role=group] :is(input, select):first-child {
+  border-right: none;
+}
+form [role=group] :is(button, input[type=submit], input[type=button], input[type=reset]) {
+  min-height: unset;
+}
+
+/* src/styles/group.css */
+[role=group] {
+  display: inline-flex;
+  vertical-align: middle;
+}
+form [role=group] {
+  display: flex;
+  width: 100%;
+}
+[role=group] :not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+[role=group] :not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+[role=group]:has(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]) {
+  box-shadow: var(--winter-button-shadow);
+  border-radius: var(--winter-button-border-radius);
+}
+[role=group]:has(button:focus, [role=button]:focus, a[role=button]:focus, input[type=reset]:focus, input[type=submit]:focus, input[type=button]:focus) {
+  outline: var(--winter-focus-outline);
+  outline-offset: var(--winter-focus-outline-offset);
+}
+[role=group] :is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]) {
+  --shadow: none;
+}
+[role=group] :is(button, [role=button], a[role=button], input[type=reset], input[type=submit], input[type=button]):focus {
+  outline: none;
+}
+
+/* src/styles/admonitions.css */
+.admonition {
+  --fg: var(--winter-admonition-fg);
+  --bg: var(--winter-admonition-bg);
+  --accent: var(--winter-admonition-accent);
+  --icon: var(--winter-admonition-icon);
+  display: flow-root;
+  margin-block: var(--winter-block-spacing);
+  padding: var(--winter-admonition-padding);
+  font-family: var(--winter-admonition-font);
+  font-size: var(--winter-admonition-font-size);
+  border-inline-start: 0.15rem solid var(--accent);
+  color: var(--fg);
+  background: var(--bg);
+  page-break-inside: avoid;
+  box-shadow: var(--winter-shadow-s);
+}
+.admonition .admonition-title {
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  height: 1lh;
+  font-family: var(--winter-admonition-title-font);
+  font-size: var(--winter-admonition-title-font-size);
+  white-space: pre-wrap;
+  margin-block: 0;
+}
+.admonition .admonition-title::before {
+  content: var(--icon);
+  display: inline-flex;
+  align-items: center;
+  padding-inline-end: 0.15ch;
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: inherit;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+.admonition .admonition-title abbr {
+  border-bottom: none;
+}
+.admonition p {
+  margin-block: var(--winter-admonition-body-spacing);
+}
+.admonition p:last-child {
+  margin-block-end: 0;
+}
+.admonition.note {
+  --fg: var(--winter-admonition-note-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-note-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-note-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-note-icon, var(--winter-admonition-icon) );
+}
+.admonition.info {
+  --fg: var(--winter-admonition-info-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-info-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-info-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-info-icon, var(--winter-admonition-icon) );
+}
+.admonition.tip {
+  --fg: var(--winter-admonition-tip-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-tip-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-tip-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-tip-icon, var(--winter-admonition-icon) );
+}
+.admonition.success {
+  --fg: var(--winter-admonition-success-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-success-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-success-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-success-icon, var(--winter-admonition-icon) );
+}
+.admonition.question {
+  --fg: var(--winter-admonition-question-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-question-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-question-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-question-icon, var(--winter-admonition-icon) );
+}
+.admonition.warning {
+  --fg: var(--winter-admonition-warning-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-warning-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-warning-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-warning-icon, var(--winter-admonition-icon) );
+}
+.admonition.failure {
+  --fg: var(--winter-admonition-failure-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-failure-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-failure-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-failure-icon, var(--winter-admonition-icon) );
+}
+.admonition.danger {
+  --fg: var(--winter-admonition-danger-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-danger-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-danger-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-danger-icon, var(--winter-admonition-icon) );
+}
+.admonition.bug {
+  --fg: var(--winter-admonition-bug-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-bug-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-bug-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-bug-icon, var(--winter-admonition-icon) );
+}
+.admonition.example {
+  --fg: var(--winter-admonition-example-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-example-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-example-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-example-icon, var(--winter-admonition-icon) );
+}
+.admonition.quote {
+  --fg: var(--winter-admonition-quote-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-quote-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-quote-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-quote-icon, var(--winter-admonition-icon) );
+}
+.admonition.fairy {
+  --fg: var(--winter-admonition-fairy-fg, var(--winter-admonition-fg));
+  --bg: var(--winter-admonition-fairy-bg, var(--winter-admonition-bg));
+  --accent: var( --winter-admonition-fairy-accent, var(--winter-admonition-accent) );
+  --icon: var( --winter-admonition-fairy-icon, var(--winter-admonition-icon) );
+}
+
+/* src/styles/footnotes.css */
+.footnote-ref {
+  text-decoration: none;
+}
+.footnote-backref {
+  text-decoration: none;
+}
+.footnote {
+  font-size: var(--winter-footnote-font-size);
+  color: var(--winter-footnote-fg);
+}
+.footnote hr {
+  border-bottom: var(--winter-footnote-divider);
+}
+.footnote > ol {
+  margin-inline-start: 0;
+}
+.footnote > ol > li:first-child p {
+  margin-block-start: 0;
+}
+
+/* src/styles/keys.css */
+main .keys span {
+  margin-inline: 0.1em;
+  color: var(--winter-kbd-combinator-fg);
+}
+main .keys kbd::before,
+main .keys kbd::after {
+  font-family: var(--winter-font-sans);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  user-select: none;
+}
+main .keys kbd::before {
+  margin-right: 0.25ch;
+}
+main .keys kbd::after {
+  margin-left: 0.25ch;
+}
+main .keys :is(.key-alt, .key-left-alt, .key-right-alt)::before {
+  content: "\2387";
+}
+main .keys :is(.key-command, .key-left-command, .key-right-command)::before {
+  content: "\2318";
+}
+main .keys :is(.key-control, .key-left-control, .key-right-control)::before {
+  content: "\2303";
+}
+main .keys :is(.key-meta, .key-left-meta, .key-right-meta)::before {
+  content: "\25c6";
+}
+main .keys :is(.key-option, .key-left-option, .key-right-option)::before {
+  content: "\2325";
+}
+main .keys :is(.key-shift, .key-left-shift, .key-right-shift)::before {
+  content: "\21e7";
+}
+main .keys :is(.key-super, .key-left-super, .key-right-super)::before {
+  content: "\2756";
+}
+main .keys :is(.key-windows, .key-left-windows, .key-right-windows)::before {
+  content: "\229e";
+}
+main .keys .key-arrow-left::before {
+  content: "\2190";
+}
+main .keys .key-arrow-right::before {
+  content: "\2192";
+}
+main .keys .key-arrow-up::before {
+  content: "\2191";
+}
+main .keys .key-arrow-down::before {
+  content: "\2193";
+}
+main .keys .key-backspace::before {
+  content: "\232b";
+}
+main .keys .key-backtab::before {
+  content: "\21e4";
+}
+main .keys .key-caps-lock::before {
+  content: "\21ea";
+}
+main .keys .key-clear::before {
+  content: "\2327";
+}
+main .keys .key-context-menu::before {
+  content: "\2630";
+}
+main .keys .key-delete::before {
+  content: "\2326";
+}
+main .keys .key-eject::before {
+  content: "\23cf";
+}
+main .keys .key-end::before {
+  content: "\2913";
+}
+main .keys .key-escape::before {
+  content: "\238b";
+}
+main .keys .key-home::before {
+  content: "\2912";
+}
+main .keys .key-insert::before {
+  content: "\2380";
+}
+main .keys .key-page-down::before {
+  content: "\21df";
+}
+main .keys .key-page-up::before {
+  content: "\21de";
+}
+main .keys .key-print-screen::before {
+  content: "\2399";
+}
+main .keys .key-tab::after {
+  content: "\21e5";
+}
+main .keys .key-enter::after {
+  content: "\23ce";
+}
+main .keys .key-num-enter::after {
+  content: "\2324";
+}
+
+/* src/styles/components.css */
+main :is(winter-audio-player, winter-carousel, winter-image-map) {
+  --elevation-shadow: var(--winter-shadow-s);
+}
+main winter-audio-player {
+  width: 640px;
+  max-width: 80%;
+  margin: 2em auto;
+}
+main winter-carousel img {
+  margin: 0;
+}
+main winter-pcb-assembly canvas {
+  border-radius: 10px;
+}
+main winter-pcb-assembly canvas.back {
+  transform: scaleX(-1);
+}
+main winter-pcb-assembly table.bom-table {
+  width: 100%;
+}
+main winter-pcb-assembly table.bom-table :is(th:first-child, td:first-child) {
+  min-width: unset;
+  width: 2rem;
+  white-space: nowrap;
+}
+
+/* src/styles/responsive.css */
+@media screen and (max-width: 980px) {
+  body {
+    padding-inline: var(--winter-spacing-xs);
+  }
+  body > header {
+    padding-top: 0.5rem;
+    border-bottom: var(--winter-header-divider);
+  }
+  body > header nav:first-of-type ul img.logo {
+    display: none;
+  }
+  body > header nav ul.has-dividers {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  body > header nav ul.has-dividers :is(li, li:not(:last-child)) {
+    margin-inline-start: 0;
+  }
+  body > header nav ul.has-dividers :is(li, li:not(:last-child)) a::after {
+    content: "";
+  }
+  body > header nav ul:last-child {
+    align-items: flex-start;
+  }
+  body > footer {
+    flex-direction: column;
+    align-items: center;
+  }
+  body > footer :is(ul, ul:first-child) {
+    align-items: center;
+  }
+  main :is(h1, h2, h3, h4, h5, h6) .headerlink {
+    display: none;
+  }
+  main winter-audio-player {
+    max-width: 100%;
+  }
+}
+
+/* src/styles/index.css */
+/*# sourceMappingURL=winter.css.map */
