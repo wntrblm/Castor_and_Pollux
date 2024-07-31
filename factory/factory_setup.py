@@ -1,7 +1,11 @@
 import argparse
+import pathlib
+import time
 
+import rtmidi
+import rtmidi.midiutil
 from hubble import Hubble
-from wintertools import fw_fetch, jlink, reportcard, thermalprinter
+from wintertools import fw_fetch, jlink, reportcard, thermalprinter, fs
 from wintertools.print import print
 
 from libgemini import (
@@ -55,6 +59,82 @@ def get_firmware_and_serial():
     )
 
 
+def has_midi_in_port(port_name):
+    midiin = rtmidi.MidiIn(rtmidi.midiutil.get_api_from_environment())
+    try:
+        ports = midiin.get_ports()
+        for port in ports:
+            if port_name in port:
+                return True
+        return False
+    finally:
+        midiin.delete()
+
+
+def get_geminiboot():
+    try:
+        return pathlib.Path(fs.find_drive_by_name("GEMINIBOOT"))
+    except RuntimeError:
+        return None
+
+
+def upload_new_bootloader(path):
+    print("Copying bootloader...")
+    try:
+        fs.copyfile(".cache/update-bootloader.winterbloom_gemini.uf2", path / "firmware.uf2")
+    except FileNotFoundError:
+        pass
+
+
+def upload_new_firmware(path):
+    print("Copying firmware...")
+    try:
+        fs.copyfile("../firmware/build/gemini-firmware.uf2", path / "firmware.uf2")
+    except FileNotFoundError:
+        pass
+
+
+def flash_new_firmware():
+    print("Flashing bootloader and firmware...")
+    fw_fetch.latest_bootloader(DEVICE_NAME)
+    jlink.run(JLINK_DEVICE, JLINK_SCRIPT)
+
+
+def setup_firmware_and_bootloader():
+    geminiboot = get_geminiboot()
+    has_midi = has_midi_in_port(gemini.Gemini.MIDI_PORT_NAME)
+
+    # If already connected in the bootloader, copy new bootloader and then
+    # copy new firmware.
+    if geminiboot:
+        print("GEMINIBOOT found, updating bootloader and firmware...")
+        upload_new_bootloader(geminiboot)
+        fs.wait_for_drive("GEMINIBOOT")
+        upload_new_firmware(geminiboot)
+
+    elif has_midi:
+        print("Gemini MIDI port found, booting into bootloader and updating bootloader and firmware...")
+        gem = gemini.Gemini.get()
+        gem.reset_into_bootloader()
+        gem.close()
+        gemini.Gemini._instance = None
+
+        geminiboot = pathlib.Path(fs.wait_for_drive("GEMINIBOOT"))
+        upload_new_bootloader(geminiboot)
+        fs.wait_for_drive("GEMINIBOOT")
+        upload_new_firmware(geminiboot)
+        time.sleep(3)
+
+    else:
+        print("No port or drive detected, flashing blank board")
+        flash_new_firmware()
+
+    gem = gemini.Gemini.get()
+    version = gem.get_firmware_version()
+
+    print("✓ Firmware version {version}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
@@ -79,8 +159,7 @@ def main():
 
     if "firmware" in args.stages:
         print("# Programming firmware")
-        fw_fetch.latest_bootloader(DEVICE_NAME)
-        jlink.run(JLINK_DEVICE, JLINK_SCRIPT)
+        setup_firmware_and_bootloader()
 
     if "erase_nvm" in args.stages:
         erase_nvm()
