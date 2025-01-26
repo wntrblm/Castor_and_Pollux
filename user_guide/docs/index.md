@@ -91,13 +91,13 @@ Next up, in the very middle there's the LFO knob, ++"φ"++:
 
 ![Illustration of the LFO knob](images/5%20-%20LFO.svg)
 
-This [internal LFO](#internal-low-frequency-oscillator) can be used to modulate several parameters in interesting ways depending on the [mode](#modes--tweaking).
+This [internal LFO](#internal-low-frequency-oscillator) can be used to modulate several parameters in interesting ways depending on the [mode](#modes-tweaking).
 
 Last, but not least, there is a single button in the center that's used for changing modes and enabling the tweak overlay:
 
 ![Illustration of the button](images/6%20-%20Button.svg)
 
-You can learn more about the different modes and tweaking in the [modes & tweaking section](#modes--tweaking).
+You can learn more about the different modes and tweaking in the [modes & tweaking section](#modes-tweaking).
 
 ## First steps
 
@@ -113,7 +113,7 @@ First, dip your toes in by putting together this patch:
 -   Turn the ramp mix trimpot for Castor fully clockwise
 -   Patch Castor's output jack to your rack's output or headphones module
 
-You should hear a low, rumbly bass sound. Turn Castor's pitch knob (the big knob at the top left) and you'll hear Castor sweep through its range. This is called _coarse_ behavior and it's explained in more detail in the [pitch](#pitch) section.
+You should hear a low, rumbly bass sound. Turn Castor's pitch knob (the big knob at the top left) and you'll hear Castor sweep through its range. This is called _coarse_ behavior and it's explained in more detail in the [pitch](#pitch-behavior) section.
 
 You can keep playing around with this patch by moving the mix trimpots for each of the waveshapes to hear how they sound. You can also jump down to the [waveshapes](#waveshapes) section to learn more about those.
 
@@ -128,7 +128,7 @@ Ready for more? Try out this patch:
 -   Patch some V/oct CV from a sequencer, controller, or other source into Castor's pitch CV input jack.
 -   Patch Castor's output jack to your rack's output or headphones module
 
-Castor should now be playing notes based on the CV you're sending it. You can turn Castor's big pitch knob to tune/detune relative to the input. This is called _fine_ behavior and it's also explained in more detail in the [pitch](#pitch) section.
+Castor should now be playing notes based on the CV you're sending it. You can turn Castor's big pitch knob to tune/detune relative to the input. This is called _fine_ behavior and it's also explained in more detail in the [pitch](#pitch-behavior) section.
 
 ### Patch three
 
@@ -206,7 +206,7 @@ First, the pitch knobs have a "virtual notch" because of their **non-linear** re
 
 ![Illustration of tweak mode pitch tuning](images/11%20-%20extra%20fine.svg)
 
-Second, the [tweak](#modes--tweaking) overlay allows extra-fine control over tuning. Holding down the button and turning the pitch knob allows you to apply an additional `±2.5 semitone` offset. This offset is applied to the oscillator regardless of the [pitch behavior](#pitch-behavior) or the current [mode](#modes--tweaking).
+Second, the [tweak](#modes-tweaking) overlay allows extra-fine control over tuning. Holding down the button and turning the pitch knob allows you to apply an additional `±2.5 semitone` offset. This offset is applied to the oscillator regardless of the [pitch behavior](#pitch-behavior) or the current [mode](#modes-tweaking).
 
 ## Waveshapes
 
@@ -226,9 +226,9 @@ click the image to start and stop the animation
 
 The ramp sounds like this:
 
-<winter-audio-player title="ramp wave" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_octaves.mp3"></winter-audio-player>
+<winter-audio-player title="ramp wave" src="resources/ramp_octaves.mp3"></winter-audio-player>
 
-<winter-audio-player title="ramp with filter" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_filtered.mp3"></winter-audio-player>
+<winter-audio-player title="ramp with filter" src="resources/ramp_filtered.mp3"></winter-audio-player>
 
 The pulse wave depends on the pulse width CV and knob. You can vary the pulse width in this animation to see how it affects the waveshape:
 
@@ -245,11 +245,11 @@ You can also use [internal low-frequency oscillator](#internal-low-frequency-osc
 
 Here are some examples of the pulse wave's sounds:
 
-<winter-audio-player title="pulse wave" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_octaves.mp3"></winter-audio-player>
+<winter-audio-player title="pulse wave" src="resources/square_octaves.mp3"></winter-audio-player>
 
-<winter-audio-player title="pulse with pulse-width modulation" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_pwm.mp3"></winter-audio-player>
+<winter-audio-player title="pulse with pulse-width modulation" src="resources/square_pwm.mp3"></winter-audio-player>
 
-<winter-audio-player title="pulse with filter" src="https://storage.googleapis.com/files.winterbloom.com/gemini/square_filtered.mp3"></winter-audio-player>
+<winter-audio-player title="pulse with filter" src="resources/square_filtered.mp3"></winter-audio-player>
 
 Finally, there's the sub waveshape. It's a square wave that's one octave lower. Here's what it looks like:
 
@@ -259,9 +259,9 @@ Finally, there's the sub waveshape. It's a square wave that's one octave lower. 
 
 And here are some sound samples of the sub waveshape:
 
-<winter-audio-player title="sub wave" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_octaves.mp3"></winter-audio-player>
+<winter-audio-player title="sub wave" src="resources/sub_octaves.mp3"></winter-audio-player>
 
-<winter-audio-player title="sub with filter" src="https://storage.googleapis.com/files.winterbloom.com/gemini/sub_filtered.mp3"></winter-audio-player>
+<winter-audio-player title="sub with filter" src="resources/sub_filtered.mp3"></winter-audio-player>
 
 These waveshapes can be mixed together to produce much more complex and interesting variants - try playing with the sliders under this animation to see how it affects the waveshape:
 
@@ -293,11 +293,11 @@ These waveshapes can be mixed together to produce much more complex and interest
 
 Here are some sound samples of various mixes:
 
-<winter-audio-player title="ramp & sub" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_sub.mp3"></winter-audio-player>
+<winter-audio-player title="ramp & sub" src="resources/ramp_and_sub.mp3"></winter-audio-player>
 
-<winter-audio-player title="sub & pulse" src="https://storage.googleapis.com/files.winterbloom.com/gemini/ramp_and_square_with_pwm.mp3"></winter-audio-player>
+<winter-audio-player title="sub & pulse" src="resources/ramp_and_square_with_pwm.mp3"></winter-audio-player>
 
-<winter-audio-player title="various mixes" src="https://storage.googleapis.com/files.winterbloom.com/gemini/waveform_mixing.mp3"></winter-audio-player>
+<winter-audio-player title="various mixes" src="resources/waveform_mixing.mp3"></winter-audio-player>
 
 ## Oscillator stacking
 
@@ -323,15 +323,15 @@ You can play around with this interactive animation to see how detuning and mixi
 
 This animation just uses the ramp waveshape, but the crossfader takes the mix from each oscillator's mixer, so you can combine many different waveshapes. Here are some sound samples of oscillator stacking:
 
-<winter-audio-player title="stacked complex waveforms" src="https://storage.googleapis.com/files.winterbloom.com/gemini/stacked_complex.mp3"> </winter-audio-player>
+<winter-audio-player title="stacked complex waveforms" src="resources/stacked_complex.mp3"> </winter-audio-player>
 
-<winter-audio-player title="stacked sub & ramp" src="https://storage.googleapis.com/files.winterbloom.com/gemini/twilight.mp3"> </winter-audio-player>
+<winter-audio-player title="stacked sub & ramp" src="resources/twilight.mp3"> </winter-audio-player>
 
-<winter-audio-player title="stacked sub & pulse" src="https://storage.googleapis.com/files.winterbloom.com/gemini/steps.mp3"> </winter-audio-player>
+<winter-audio-player title="stacked sub & pulse" src="resources/steps.mp3"> </winter-audio-player>
 
 ## Internal low-frequency oscillator
 
-Castor & Pollux's built-in low-frequency oscillator can be used to modulate various parameters depending on the current [mode](#modes--tweaking).
+Castor & Pollux's built-in low-frequency oscillator can be used to modulate various parameters depending on the current [mode](#modes-tweaking).
 
 ![Illustration of LFO waveshape](images/20%20-%20lfo%20waveshape.svg)
 
@@ -343,10 +343,10 @@ Castor & Pollux has four different _modes_ that change the  module's overall fun
 
 ![Illustration of modes](images/23%20-%20Modes.svg)
 
--   [Chorus](#chorus-mode) mode, the default mode, uses the internal LFO to modulate Pollux's frequency. This is indicated with a *teal* animation.
--   [LFO PWM](#lfo-pwm-mode) mode uses the internal LFO to modulate the pulse with of both oscillators. This is indicated with an *orange* animation.
--   [LFO FM](#lfo-fm-mode) mode uses the internal LFO to modulate the frequency of both oscillators. This is indicated with a *green* animation.
--   [Hard Sync](#hard-sync-mode) mode produces metallic sounds by syncing Pollux's ramp core to Castor's. This is indicated with a *pink* animation.
+-   [Chorus](#chorus) mode, the default mode, uses the internal LFO to modulate Pollux's frequency. This is indicated with a *teal* animation.
+-   [LFO PWM](#lfo-pwm) mode uses the internal LFO to modulate the pulse with of both oscillators. This is indicated with an *orange* animation.
+-   [LFO FM](#lfo-fm) mode uses the internal LFO to modulate the frequency of both oscillators. This is indicated with a *green* animation.
+-   [Hard Sync](#hard-sync) mode produces metallic sounds by syncing Pollux's ramp core to Castor's. This is indicated with a *pink* animation.
 
 ![Illustration of tapping the button](images/12%20-%20tap%20button.svg)
 
@@ -383,7 +383,7 @@ You can play around with this interactive animation to see how the chorusing amo
 
 Here are some sound samples of chorusing:
 
-<winter-audio-player title="chorusing" src="https://storage.googleapis.com/files.winterbloom.com/gemini/chorusing.mp3"></winter-audio-player>
+<winter-audio-player title="chorusing" src="resources/chorusing.mp3"></winter-audio-player>
 
 ### LFO PWM
 
@@ -399,7 +399,7 @@ When holding the tweak button, each oscillator's pulse width knob controls the _
 
 ### LFO FM
 
-LFO FM mode uses the internal LFO to modulate the _pitch_ for each oscillator. This is similar to the [Chorus mode](#chorus-mode), except it applies to both oscillators instead of just Pollux.
+LFO FM mode uses the internal LFO to modulate the _pitch_ for each oscillator. This is similar to the [Chorus mode](#chorus), except it applies to both oscillators instead of just Pollux.
 
 ![Illustration of LFO FM controls](images/18%20-%20lfo%20fm.svg)
 
@@ -423,9 +423,9 @@ Since hard sync only affects Pollux, you'll have to use either Pollux's output o
 
 Here are some sound samples of hard sync:
 
-<winter-audio-player title="hard sync" src="https://storage.googleapis.com/files.winterbloom.com/gemini/hard_sync.mp3"></winter-audio-player>
+<winter-audio-player title="hard sync" src="resources/hard_sync.mp3"></winter-audio-player>
 
-Hard sync mode's controls are the same as [chorus mode](#chorus-mode) except that Pollux's pitch knob uses the [Multiply behavior](#pitch-behavior):
+Hard sync mode's controls are the same as [chorus mode](#chorus) except that Pollux's pitch knob uses the [Multiply behavior](#pitch-behavior):
 
 !!! fairy "Hey, listen!"
     Due to the way hard sync works, you shouldn't set the second oscillator to a _lower_ frequency than the first. It'll just result in the sound growing softer since the second oscillator doesn't have enough time to output a complete wave cycle.
