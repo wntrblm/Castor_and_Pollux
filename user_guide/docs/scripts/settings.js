@@ -65,7 +65,7 @@ let ramp_calibration_backup = null;
 
 async function fetch_calibration(serial_no, type) {
     let response = await fetch(
-        `https://storage.googleapis.com/files.winterbloom.com/calibrations/gemini/${serial_no}.${type}.json`
+        `https://raw.githubusercontent.com/wntrblm/calibrations/refs/heads/main/gemini/${serial_no}.${type}.json`
     );
 
     if (!response.ok) {
