@@ -1,0 +1,274 @@
+# Copyright (c) 2021 Alethea Katherine Flowers.
+# Published under the standard MIT License.
+# Full text available at: https://opensource.org/licenses/MIT
+
+import json
+import pathlib
+import statistics
+
+from wintertools import reportcard, tui
+from wintertools.print import print
+
+from libgemini import adc_errors, gemini
+
+RESOLUTION = 4096
+V_MIN = -0.5
+V_MAX = 6.1
+V_RANGE = abs(V_MIN) + abs(V_MAX)
+CHANNEL = gemini.Gemini.ADC.CV_A
+NUM_CALIBRATION_POINTS = 8 # NUM_CALIBRATION_POINTS must be >= 8
+SAMPLE_COUNT = 64
+ZERO_VOLT_MARGIN = 20  # About 32 mV
+
+def get_firmware_and_serial():
+    print("# Firmware & serial")
+
+    gem = gemini.Gemini.get()
+    fw_version = gem.get_firmware_version()
+    serial = gem.get_serial_number()
+
+    print(f"Firmware version: {fw_version}")
+    print(f"Serial number: {serial}")
+
+    REPORT.ulid = serial
+    REPORT.sections.append(
+        reportcard.Section(
+            name="Firmware",
+            items=[
+                reportcard.LabelValueItem(
+                    label="Version", value=fw_version, class_="stack"
+                ),
+                reportcard.LabelValueItem(
+                    label="Serial number", value=serial, class_="stack"
+                ),
+            ],
+        )
+    )
+
+def _relative_code_to_volts(code):
+    return V_RANGE * (code / (RESOLUTION - 1))
+
+
+def _volts_to_code(volts):
+    code = (volts - V_MIN) / V_RANGE * (RESOLUTION - 1)
+    code = RESOLUTION - 1 - code
+    return int(code)
+
+
+def _format_diff(diff):
+    r, g, b = map(
+        lambda x: int(x * 255),
+        tui.gradient((0.0, 1.0, 0.0), (1.0, 0.0, 0.0), abs(diff) / 100),
+    )
+    return f"[rgb({r},{g},{b})]{diff:0.1f}[/]"
+
+
+def _measure_range(gem, calibration_points, post_measure=lambda x: x):
+    output = tui.Updateable()
+
+    results = {}
+    diffs = []
+
+    for n, (voltage, expected_code) in enumerate(calibration_points.items(), 1):
+
+
+        print(
+            f"[bold]Measuring point {n}/{len(calibration_points)}:[/] {voltage:0.3f} volts"
+        )
+        print(f"expected:      {expected_code}")
+        input(f"\nSend {voltage:0.3f} to pitch CV input A (Left hand side). Press Enter when ready")
+
+
+        # time.sleep(0.02)
+
+        result = gem.read_adc_average(CHANNEL, SAMPLE_COUNT)
+        result = post_measure(result)
+        results[voltage] = result
+
+        diff = result - expected_code
+
+        if abs(diff) > 300:
+            raise ValueError(
+                f"Reading too far out of range. Expected {expected_code}, measured: {result:.1f}, diff: {diff:.1f}"
+            )
+
+        print(f"measured:      {result:.1f}")
+        print(f"diff:          {_format_diff(diff)}")
+
+        diffs.append(diff)
+        if len(diffs) > 1:
+            avg = statistics.mean(diffs)
+            dev = statistics.stdev(diffs)
+            print(f"avg: {_format_diff(avg)} σ {dev:0.3f}")
+
+    print(calibration_points.values())
+    print(results.values())
+
+    # Exclude the last measurement, since it's *definitely* out of the range
+    # and therefore intentionally an outlier
+    gain_error, offset_error = adc_errors.calculate_avg_errors(
+        list(calibration_points.values()), list(results.values())[:-1]
+    )
+
+    return results, gain_error, offset_error
+
+def run():
+    gem = gemini.Gemini.get()
+    report_section = reportcard.Section(name="Pitch CV")
+
+    gem.enter_calibration_mode()
+    gem.enable_adc_error_correction()
+
+    volts_per_step = V_RANGE / NUM_CALIBRATION_POINTS
+
+    calibration_points = {
+        V_MIN + (n * volts_per_step): _volts_to_code(V_MIN + (n * volts_per_step))
+        for n in range(NUM_CALIBRATION_POINTS + 1)
+    }
+
+    print()
+    print(f"Calling _measure_range()...in {volts_per_step} Volt increments starting at {V_MIN}\n")
+
+    pre_measurements, pre_gain_error, pre_offset_error = _measure_range(
+        gem, calibration_points
+    )
+
+    print(f"Measured gain={pre_gain_error:.3f}, offset={pre_offset_error:.1f}")
+
+    print("Measuring zero volt threshold")
+    input(f"\nSend 0 Volts to pitch CV inputs. Press Enter when ready")
+    zero_volt_reading = gem.read_adc_average(CHANNEL, SAMPLE_COUNT)
+    zero_volt_threshold = 4095 - round(zero_volt_reading) + ZERO_VOLT_MARGIN
+
+    print(
+        f"Zero volt reading: {zero_volt_reading:0.1f}, threshold: {zero_volt_threshold}"
+    )
+
+    settings = gem.read_settings()
+    settings.cv_gain_error = pre_gain_error
+    settings.cv_offset_error = pre_offset_error
+    settings.zero_detection_threshold = zero_volt_threshold
+    gem.save_settings(settings)
+    print(settings)
+
+    print()
+    print("✓ Saved to device NVM.")
+    print()
+
+    print("Taking measurements with new calibration...")
+
+    post_measurements, post_gain_error, post_offset_error = _measure_range(
+        gem,
+        calibration_points,
+        post_measure=lambda x: adc_errors.apply_correction(
+            x, pre_gain_error, pre_offset_error
+        ),
+    )
+
+    print(
+        f"[bold]Adjusted gain={post_gain_error:.3f}, offset={post_offset_error:.1f}[/]"
+    )
+
+    report_data = []
+    for voltage, expected in calibration_points.items():
+        measured = post_measurements[voltage]
+        diff = expected - measured
+        diff_in_volts = _relative_code_to_volts(diff)
+        diff_in_cents = diff_in_volts / (1 / 12) * 100
+        report_data.append((voltage, diff_in_cents))
+
+    passed = (0.99 < post_gain_error < 1.01) and (-5 < post_offset_error < 5)
+        
+    print("\n\n-------------------------------------------------")
+    print(f"post_gain_error: {post_gain_error}. Should be > 0.99 and < 1.01")
+    print(f"post_offset_error: {post_offset_error}. Should be > -5 and < 5")
+
+    if passed:
+    	print.success()
+    else:
+    	print.failure()
+    	print(f"Calibration failed: post_zero_code < 20 or post_max_code < 4075")
+    	print("Passing conditions:")
+    	print("(0.99 < post_gain_error < 1.01) and (-5 < post_offset_error < 5)")
+    print()
+
+    report_section.items.extend(
+        [
+            reportcard.PassFailItem(label="Calibration", value=passed),
+            reportcard.LabelValueItem(
+                label="Gain error", value=f"{pre_gain_error:0.3f}"
+            ),
+            reportcard.LabelValueItem(
+                label="Offset error", value=f"{pre_offset_error:+0.1f}"
+            ),
+            reportcard.LabelValueItem(
+                label="Adj gain error", value=f"{post_gain_error:0.3f}"
+            ),
+            reportcard.LabelValueItem(
+                label="Adj offset error", value=f"{post_offset_error:+0.1f}"
+            ),
+            reportcard.LabelValueItem(
+                label="Zero volt threshold", value=f"{zero_volt_threshold}"
+            ),
+            reportcard.LineGraphItem(
+                series=reportcard.Series(data=report_data),
+                graph=reportcard.LineGraph(
+                    height=500,
+                    x_axis=reportcard.Axis(
+                        label="Input (V)",
+                        min=V_MIN,
+                        min_label=f"{V_MIN:0.1f}",
+                        max=V_MAX,
+                        max_label=f"{V_MAX:0.1f}",
+                    ),
+                    y_axis=reportcard.Axis(
+                        label="Error (¢)",
+                        min=-100,
+                        min_label="-100",
+                        max=100,
+                        max_label="+100",
+                    ),
+                    grid_lines=reportcard.GridLines(
+                        x_step=0.1,
+                        y_step=0.25,
+                    ),
+                    center_line=True,
+                ),
+            ),
+        ]
+    )
+
+    dest = pathlib.Path(f"calibrations/{gem.serial_number}.afe.json")
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    with open(dest, "w") as fh:
+        json.dump(
+            {
+                "offset_error": pre_offset_error,
+                "gain_error": pre_gain_error,
+                "points": calibration_points,
+                "pre": pre_measurements,
+                "post": post_measurements,
+            },
+            fh,
+            indent=2,
+        )
+        print(f"[italic]Saved measurement data to {fh.name}[/]")
+
+    return report_section
+
+
+if __name__ == "__main__":
+
+    print()
+    print("> This script calibrates the Pitch CV Inputs using Pitch CV A (Left hand side)")
+    print("!! Please confirm the following are true, then press ENTER to continue:")
+    print("* This machine connected to the main board USB port")
+    print("* There is not a drive visible named GEMINIBOOT. If so, please power cycle the main board")
+    print("* The main board is connected to eurorack power")
+    input()
+
+    REPORT = reportcard.Report(name="Castor & Pollux")
+    get_firmware_and_serial()
+    
+    REPORT.sections.append(run())
+    print(REPORT)
