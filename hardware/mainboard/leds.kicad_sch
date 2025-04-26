@@ -1,761 +1,1888 @@
-(kicad_sch (version 20230121) (generator eeschema)
-
-  (uuid 64159b3e-0e1b-46d3-aa46-f7e99b7b3cf6)
-
-  (paper "USLetter")
-
-  (title_block
-    (title "Castor & Pollux")
-    (date "2022-10-07")
-    (rev "v6")
-    (company "Winterbloom")
-    (comment 1 "Alethea Flowers")
-    (comment 2 "CERN-OHL-P v2")
-    (comment 3 "gemini.wntr.dev")
-  )
-
-  (lib_symbols
-    (symbol "power:+3.3V" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
-      (property "Reference" "#PWR" (at 0 -3.81 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "Value" "+3.3V" (at 0 3.556 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Footprint" "" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "Datasheet" "" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_keywords" "power-flag" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_description" "Power symbol creates a global label with name \"+3.3V\"" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (symbol "+3.3V_0_1"
-        (polyline
-          (pts
-            (xy -0.762 1.27)
-            (xy 0 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 0 0)
-            (xy 0 2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 0 2.54)
-            (xy 0.762 1.27)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-      )
-      (symbol "+3.3V_1_1"
-        (pin power_in line (at 0 0 90) (length 0) hide
-          (name "+3.3V" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27))))
-        )
-      )
-    )
-    (symbol "power:GND" (power) (pin_names (offset 0)) (in_bom yes) (on_board yes)
-      (property "Reference" "#PWR" (at 0 -6.35 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "Value" "GND" (at 0 -3.81 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Footprint" "" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "Datasheet" "" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_keywords" "power-flag" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_description" "Power symbol creates a global label with name \"GND\" , ground" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (symbol "GND_0_1"
-        (polyline
-          (pts
-            (xy 0 0)
-            (xy 0 -1.27)
-            (xy 1.27 -1.27)
-            (xy 0 -2.54)
-            (xy -1.27 -1.27)
-            (xy 0 -1.27)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-      )
-      (symbol "GND_1_1"
-        (pin power_in line (at 0 0 270) (length 0) hide
-          (name "GND" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27))))
-        )
-      )
-    )
-    (symbol "winterbloom:Dotstar" (in_bom yes) (on_board yes)
-      (property "Reference" "D" (at -3.81 5.715 0)
-        (effects (font (size 1.27 1.27)) (justify right bottom))
-      )
-      (property "Value" "Dotstar" (at 0.635 -5.715 0)
-        (effects (font (size 1.27 1.27)) (justify left top))
-      )
-      (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 1.27 -7.62 0)
-        (effects (font (size 1.27 1.27)) (justify left top) hide)
-      )
-      (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 2.54 -9.525 0)
-        (effects (font (size 1.27 1.27)) (justify left top) hide)
-      )
-      (property "MPN" "SK9822" (at 5.08 -10.16 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_keywords" "RGB LED addressable 8bit pwm 5bit greyscale dotstar SK9822 APA101" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "ki_description" "5050 Dotstar RGB LED with integrated controller SK9822 APA102" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (symbol "Dotstar_0_0"
-        (text "RGB" (at 2.286 -4.191 0)
-          (effects (font (size 0.762 0.762)))
-        )
-      )
-      (symbol "Dotstar_0_1"
-        (polyline
-          (pts
-            (xy 1.27 -3.556)
-            (xy 1.778 -3.556)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 1.27 -2.54)
-            (xy 1.778 -2.54)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 4.699 -3.556)
-            (xy 2.667 -3.556)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 2.286 -2.54)
-            (xy 1.27 -3.556)
-            (xy 1.27 -3.048)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 2.286 -1.524)
-            (xy 1.27 -2.54)
-            (xy 1.27 -2.032)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 3.683 -1.016)
-            (xy 3.683 -3.556)
-            (xy 3.683 -4.064)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 4.699 -1.524)
-            (xy 2.667 -1.524)
-            (xy 3.683 -3.556)
-            (xy 4.699 -1.524)
-          )
-          (stroke (width 0) (type default))
-          (fill (type none))
-        )
-        (rectangle (start 5.08 5.08) (end -5.08 -5.08)
-          (stroke (width 0.254) (type default))
-          (fill (type background))
-        )
-      )
-      (symbol "Dotstar_1_1"
-        (pin input line (at -7.62 2.54 0) (length 2.54)
-          (name "DI" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27))))
-        )
-        (pin input line (at -7.62 0 0) (length 2.54)
-          (name "CI" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27))))
-        )
-        (pin power_in line (at 0 -7.62 90) (length 2.54)
-          (name "GND" (effects (font (size 1.27 1.27))))
-          (number "3" (effects (font (size 1.27 1.27))))
-        )
-        (pin power_in line (at 0 7.62 270) (length 2.54)
-          (name "VCC" (effects (font (size 1.27 1.27))))
-          (number "4" (effects (font (size 1.27 1.27))))
-        )
-        (pin output line (at 7.62 0 180) (length 2.54)
-          (name "CO" (effects (font (size 1.27 1.27))))
-          (number "5" (effects (font (size 1.27 1.27))))
-        )
-        (pin output line (at 7.62 2.54 180) (length 2.54)
-          (name "DO" (effects (font (size 1.27 1.27))))
-          (number "6" (effects (font (size 1.27 1.27))))
-        )
-      )
-    )
-  )
-
-  (junction (at 165.735 114.3) (diameter 0) (color 0 0 0 0)
-    (uuid 03cd4598-572a-4120-94e8-ab626f239c54)
-  )
-  (junction (at 104.775 114.3) (diameter 0) (color 0 0 0 0)
-    (uuid 051c11bc-424f-47dc-bdd2-6a6581c25346)
-  )
-  (junction (at 142.875 114.3) (diameter 0) (color 0 0 0 0)
-    (uuid 17fb6bdd-8045-4b4f-957f-95a42d08f2b4)
-  )
-  (junction (at 104.775 87.63) (diameter 0) (color 0 0 0 0)
-    (uuid 1bb23a89-eb50-450f-ba60-84905b1ac1f7)
-  )
-  (junction (at 150.495 87.63) (diameter 0) (color 0 0 0 0)
-    (uuid 32ae11cf-5c78-4b62-ab29-280d67d2e000)
-  )
-  (junction (at 150.495 114.3) (diameter 0) (color 0 0 0 0)
-    (uuid 3bf3d740-281f-4ca3-ab77-d5f65cb1155f)
-  )
-  (junction (at 135.255 87.63) (diameter 0) (color 0 0 0 0)
-    (uuid 402f28b2-a67a-4c39-866b-699f4a9b0a8c)
-  )
-  (junction (at 180.975 114.3) (diameter 0) (color 0 0 0 0)
-    (uuid 550cfd05-15df-4716-836e-c484399d74ea)
-  )
-  (junction (at 165.735 87.63) (diameter 0) (color 0 0 0 0)
-    (uuid 62639fc5-fa46-4289-b0a4-4374b5cde212)
-  )
-  (junction (at 180.975 87.63) (diameter 0) (color 0 0 0 0)
-    (uuid a95d4765-d660-4425-b560-c8ac7163ec7f)
-  )
-  (junction (at 120.015 87.63) (diameter 0) (color 0 0 0 0)
-    (uuid aa6c0d36-e142-489b-b9cb-7f5fc973b44c)
-  )
-  (junction (at 135.255 114.3) (diameter 0) (color 0 0 0 0)
-    (uuid bed1e3bf-2fc2-4499-8459-8ee8799e94d1)
-  )
-  (junction (at 142.875 87.63) (diameter 0) (color 0 0 0 0)
-    (uuid c5694773-5a6f-47d4-9935-a01a32d3d2d8)
-  )
-  (junction (at 120.015 114.3) (diameter 0) (color 0 0 0 0)
-    (uuid c950503f-c063-4735-833b-9ca60d12a3fc)
-  )
-  (junction (at 150.495 108.585) (diameter 0) (color 0 0 0 0)
-    (uuid fbf2e741-6e0d-4d4b-9325-29cd28c8152c)
-  )
-
-  (no_connect (at 203.835 100.965) (uuid 86ee8fd7-f022-4a7d-9131-7b5d39c0144a))
-  (no_connect (at 203.835 98.425) (uuid 86ee8fd7-f022-4a7d-9131-7b5d39c0144b))
-
-  (wire (pts (xy 135.255 87.63) (xy 135.255 93.345))
-    (stroke (width 0) (type default))
-    (uuid 04485433-a9cd-4160-b759-cb93f338b211)
-  )
-  (wire (pts (xy 120.015 87.63) (xy 120.015 93.345))
-    (stroke (width 0) (type default))
-    (uuid 14677626-85da-4612-ae6e-218bca932dfc)
-  )
-  (polyline (pts (xy 68.58 73.66) (xy 68.58 127))
-    (stroke (width 0.5) (type solid))
-    (uuid 15add1c4-764c-4724-a8bc-c5cf31f02f36)
-  )
-
-  (wire (pts (xy 104.775 87.63) (xy 120.015 87.63))
-    (stroke (width 0) (type default))
-    (uuid 15fe0683-43e1-4da0-816a-442cb93da6db)
-  )
-  (wire (pts (xy 196.215 114.3) (xy 180.975 114.3))
-    (stroke (width 0) (type default))
-    (uuid 1a059140-3c75-4044-948c-7c22847ae89e)
-  )
-  (polyline (pts (xy 218.44 127) (xy 68.58 127))
-    (stroke (width 0.5) (type solid))
-    (uuid 1b3ee76f-3c77-4277-b3d4-2d76995b71e5)
-  )
-  (polyline (pts (xy 218.44 73.66) (xy 218.44 127))
-    (stroke (width 0.5) (type solid))
-    (uuid 23172ccd-1ea5-4303-bbcb-589f32203eb1)
-  )
-
-  (wire (pts (xy 180.975 87.63) (xy 165.735 87.63))
-    (stroke (width 0) (type default))
-    (uuid 3151a422-6ab0-4dda-b02e-a7d5aa74c9f2)
-  )
-  (wire (pts (xy 142.875 87.63) (xy 150.495 87.63))
-    (stroke (width 0) (type default))
-    (uuid 3651aebc-678d-4e1f-b95d-1df1939869df)
-  )
-  (wire (pts (xy 89.535 114.3) (xy 89.535 108.585))
-    (stroke (width 0) (type default))
-    (uuid 37aa83aa-d44c-4f7f-ae80-7fcaebb29537)
-  )
-  (wire (pts (xy 180.975 108.585) (xy 180.975 114.3))
-    (stroke (width 0) (type default))
-    (uuid 4016d52a-17a0-45ee-ae34-d8c4e5e703f5)
-  )
-  (wire (pts (xy 104.775 108.585) (xy 104.775 114.3))
-    (stroke (width 0) (type default))
-    (uuid 403e88cb-ca07-4706-81ea-98c17a4c24be)
-  )
-  (wire (pts (xy 150.495 114.3) (xy 142.875 114.3))
-    (stroke (width 0) (type default))
-    (uuid 415ab3a2-ffc0-4e58-8257-b02bb1f9b41c)
-  )
-  (wire (pts (xy 104.775 87.63) (xy 104.775 93.345))
-    (stroke (width 0) (type default))
-    (uuid 45a4268a-1a87-4010-a620-7252540432f4)
-  )
-  (wire (pts (xy 104.775 114.3) (xy 89.535 114.3))
-    (stroke (width 0) (type default))
-    (uuid 4aa97733-d502-4179-b0d3-f613f8174376)
-  )
-  (wire (pts (xy 120.015 108.585) (xy 120.015 114.3))
-    (stroke (width 0) (type default))
-    (uuid 505646fd-8749-42e3-959c-aa18d87120e1)
-  )
-  (wire (pts (xy 135.255 114.3) (xy 120.015 114.3))
-    (stroke (width 0) (type default))
-    (uuid 514c0ccc-8ba2-4c2f-a99e-cc0f188f7d7a)
-  )
-  (wire (pts (xy 180.975 114.3) (xy 165.735 114.3))
-    (stroke (width 0) (type default))
-    (uuid 52903da6-1a01-4839-b088-dcd569ba67d5)
-  )
-  (polyline (pts (xy 68.58 73.66) (xy 218.44 73.66))
-    (stroke (width 0.5) (type solid))
-    (uuid 57fcaaea-dd11-4c05-8e2f-b9007a6f033b)
-  )
-
-  (wire (pts (xy 89.535 87.63) (xy 89.535 93.345))
-    (stroke (width 0) (type default))
-    (uuid 5b219191-382c-4851-ba5d-89b95e93311c)
-  )
-  (wire (pts (xy 196.215 93.345) (xy 196.215 87.63))
-    (stroke (width 0) (type default))
-    (uuid 5d9ad0b8-e9ef-49e7-8e73-8adcd3357278)
-  )
-  (wire (pts (xy 150.495 87.63) (xy 150.495 93.345))
-    (stroke (width 0) (type default))
-    (uuid 6a667aec-e9a4-41b8-901a-f0994152a8d6)
-  )
-  (wire (pts (xy 135.255 87.63) (xy 142.875 87.63))
-    (stroke (width 0) (type default))
-    (uuid 6ae2211b-40d3-464f-a817-5c03500481bd)
-  )
-  (wire (pts (xy 180.975 87.63) (xy 180.975 93.345))
-    (stroke (width 0) (type default))
-    (uuid 7941cf98-1e7e-43d6-add2-548db408c9dd)
-  )
-  (wire (pts (xy 142.875 114.3) (xy 135.255 114.3))
-    (stroke (width 0) (type default))
-    (uuid 7c2dc7fc-ab32-40bf-b455-47c7626a00b6)
-  )
-  (wire (pts (xy 165.735 108.585) (xy 165.735 114.3))
-    (stroke (width 0) (type default))
-    (uuid 814de24e-d947-433e-a02e-d0385df3155b)
-  )
-  (wire (pts (xy 120.015 114.3) (xy 104.775 114.3))
-    (stroke (width 0) (type default))
-    (uuid 8e633000-b956-4cca-a834-9e972328acc7)
-  )
-  (wire (pts (xy 89.535 87.63) (xy 104.775 87.63))
-    (stroke (width 0) (type default))
-    (uuid 8f3c9a1a-1c23-496c-8800-115c3f8e4436)
-  )
-  (wire (pts (xy 150.495 108.585) (xy 150.495 114.3))
-    (stroke (width 0) (type default))
-    (uuid 9a472b51-488c-42ac-b6e2-e881d295d624)
-  )
-  (wire (pts (xy 150.495 107.95) (xy 150.495 108.585))
-    (stroke (width 0) (type default))
-    (uuid a06faf0a-d836-4900-a76f-b3b6deb7bbcc)
-  )
-  (wire (pts (xy 165.735 87.63) (xy 150.495 87.63))
-    (stroke (width 0) (type default))
-    (uuid a16b15bd-c19d-478e-a509-c11be71a2808)
-  )
-  (wire (pts (xy 196.215 87.63) (xy 180.975 87.63))
-    (stroke (width 0) (type default))
-    (uuid b0a53ef4-5de9-4d2a-8105-6e3c4f1b5b0a)
-  )
-  (wire (pts (xy 120.015 87.63) (xy 135.255 87.63))
-    (stroke (width 0) (type default))
-    (uuid c1028188-dadc-436a-935c-6e60eaa4f6b8)
-  )
-  (wire (pts (xy 135.255 108.585) (xy 135.255 114.3))
-    (stroke (width 0) (type default))
-    (uuid ccbe7674-fff4-4f66-900b-5b273be87d2a)
-  )
-  (wire (pts (xy 165.735 87.63) (xy 165.735 93.345))
-    (stroke (width 0) (type default))
-    (uuid d688818c-05c1-446e-ae7a-69e348cc9271)
-  )
-  (wire (pts (xy 165.735 114.3) (xy 150.495 114.3))
-    (stroke (width 0) (type default))
-    (uuid d98d33db-7f51-4089-99c4-b918684eca72)
-  )
-  (wire (pts (xy 196.215 108.585) (xy 196.215 114.3))
-    (stroke (width 0) (type default))
-    (uuid deb21303-6919-446d-9c60-fc12da1807f7)
-  )
-
-  (text "RGB LEDs" (at 69.85 79.375 0)
-    (effects (font (size 2.54 2.54) (thickness 0.508) bold) (justify left bottom))
-    (uuid 716e06f8-0039-4e32-b8ce-3c718b34b5af)
-  )
-
-  (hierarchical_label "DATA" (shape input) (at 81.915 98.425 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid 3fb3c77e-cc2b-41f8-96a8-3d47383db72c)
-  )
-  (hierarchical_label "CLK" (shape input) (at 81.915 100.965 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid db7dbb8f-2240-4fae-a204-a3e7f176eeb6)
-  )
-
-  (symbol (lib_id "winterbloom:Dotstar") (at 180.975 100.965 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 0abf25b2-71de-4a59-9436-b460c67fa30f)
-    (property "Reference" "D13" (at 181.61 94.615 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "Dotstar" (at 181.61 107.315 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 182.245 108.585 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 183.515 110.49 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "MPN" "SK9822" (at 186.055 111.125 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid f6066f46-84bd-41f9-a7fa-6fc101c24eac))
-    (pin "2" (uuid 3d3a2fa0-0706-4116-ae29-9d2e8312c5d3))
-    (pin "3" (uuid d90702d2-11dd-4ef5-8b56-388851a79d73))
-    (pin "4" (uuid 5acb59e7-746d-4ae8-8432-cff218b89c5f))
-    (pin "5" (uuid 6ef460f7-8b8d-4f06-8f1c-866dd6bf3704))
-    (pin "6" (uuid 91c17414-e57f-4a19-a9ad-907a1ecad17a))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "D13") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "winterbloom:Dotstar") (at 165.735 100.965 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 178d426a-6de1-4ca9-9964-904f01e3865a)
-    (property "Reference" "D12" (at 166.37 94.615 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "Dotstar" (at 166.37 107.315 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 167.005 108.585 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 168.275 110.49 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "MPN" "SK9822" (at 170.815 111.125 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 2e675565-a0a2-429d-bad6-7df9505cb40e))
-    (pin "2" (uuid a9963bb7-dfcc-42f1-a8bc-b2f6b4124b2e))
-    (pin "3" (uuid 1474ea9a-748c-436e-95a7-9768861d676a))
-    (pin "4" (uuid 0c52e79f-4b5e-4abb-87be-62c1fc851ffb))
-    (pin "5" (uuid c8abfd5e-a128-46fb-b777-362b45a3f1f5))
-    (pin "6" (uuid 89e4a359-7391-4a3c-bba6-3acf63bb861d))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "D12") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "winterbloom:Dotstar") (at 89.535 100.965 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 1b604843-d868-47e5-8a9d-26ef5a132da6)
-    (property "Reference" "D7" (at 90.17 94.615 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "Dotstar" (at 90.17 107.315 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 90.805 108.585 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 92.075 110.49 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "MPN" "SK9822" (at 94.615 111.125 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 71ed2a31-2e90-4218-ac97-6c540c4886f5))
-    (pin "2" (uuid 5dca959b-9552-4155-a630-81c0af1ae6ae))
-    (pin "3" (uuid c4408fc8-6d8f-4f27-a916-3bc62d84c86b))
-    (pin "4" (uuid 0fad21ac-14e1-4b2d-a93d-aea8152a172a))
-    (pin "5" (uuid becceb9b-da72-47f2-85d8-127d83e4a417))
-    (pin "6" (uuid df9ccb54-767b-4551-a5db-76b70ff5d641))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "D7") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "winterbloom:Dotstar") (at 150.495 100.965 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 39243f8b-b03f-434e-af85-f736ac586e61)
-    (property "Reference" "D11" (at 151.13 94.615 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "Dotstar" (at 151.13 107.315 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 151.765 108.585 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 153.035 110.49 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "MPN" "SK9822" (at 155.575 111.125 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 622cc14b-32c0-43a8-b539-fe4af6ff8180))
-    (pin "2" (uuid 25e32003-e54d-4179-afca-e6ff9cb27cc6))
-    (pin "3" (uuid f8032283-2692-4cee-abc8-9286a4623296))
-    (pin "4" (uuid 46962747-b521-45ed-ae70-af885fa06eed))
-    (pin "5" (uuid 17adb69b-282d-428b-8acf-7d28ce70b15c))
-    (pin "6" (uuid c545771a-1c93-4e34-8125-85dd903479e6))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "D11") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "winterbloom:Dotstar") (at 135.255 100.965 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 4e9a3bec-59d8-4d64-bba0-8aa262338741)
-    (property "Reference" "D10" (at 135.89 94.615 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "Dotstar" (at 135.89 107.315 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 136.525 108.585 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 137.795 110.49 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "MPN" "SK9822" (at 140.335 111.125 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 8141af7d-b4b1-4883-85ae-014b95a98275))
-    (pin "2" (uuid f0329df2-1fea-42c1-bf1b-f920e22a3b59))
-    (pin "3" (uuid a9a6e708-4a2e-457d-8299-7cc9f3b62642))
-    (pin "4" (uuid 4d9bcc51-2f59-4b75-b020-70c4d9e10a63))
-    (pin "5" (uuid 3a3d68d1-99c4-4e59-b058-93cfd4a3c6a6))
-    (pin "6" (uuid 5611cf36-b192-494c-8f96-149382d9ba1c))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "D10") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "winterbloom:Dotstar") (at 196.215 100.965 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 7890646d-64bf-4f93-a8a6-90787cbce44f)
-    (property "Reference" "D14" (at 196.85 94.615 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "Dotstar" (at 196.85 107.315 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 197.485 108.585 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 198.755 110.49 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "MPN" "SK9822" (at 201.295 111.125 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid f15664b2-49b1-4f89-bb45-eca10764411c))
-    (pin "2" (uuid 4d60bcf7-4a9e-4671-b402-306dc76ffc7e))
-    (pin "3" (uuid 980355d6-b7a2-4693-9040-e737601517c4))
-    (pin "4" (uuid 1fcdc498-b4f2-4a20-aaa2-987d74a0647b))
-    (pin "5" (uuid 01b4e815-0533-4cee-8b4e-4ba859e922c5))
-    (pin "6" (uuid 3cf0cce5-41f8-486f-9310-930d510440bb))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "D14") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "winterbloom:Dotstar") (at 120.015 100.965 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid 7daa9e81-b352-4b72-946a-1d25535cf0d5)
-    (property "Reference" "D9" (at 120.65 94.615 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "Dotstar" (at 120.65 107.315 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 121.285 108.585 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 122.555 110.49 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "MPN" "SK9822" (at 125.095 111.125 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 44704cc7-1bbe-47ad-91d7-a5d6d53db77e))
-    (pin "2" (uuid 66ade106-4f23-4e75-a4cb-6742d3ef7d79))
-    (pin "3" (uuid 76463d91-5024-4cf6-86a2-ea3f710214b6))
-    (pin "4" (uuid c04831eb-58bd-436c-8028-bfbf24ed7ef4))
-    (pin "5" (uuid 5d3a9c65-9611-4726-8045-c041da0599eb))
-    (pin "6" (uuid 06daae31-1c18-43e0-ab74-94da8bd023a3))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "D9") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:+3.3V") (at 142.875 87.63 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid b793999d-d373-4be8-bab4-fd5ca88123e7)
-    (property "Reference" "#PWR028" (at 142.875 91.44 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+3.3V" (at 142.875 82.55 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 142.875 87.63 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 142.875 87.63 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid f8474327-bfe1-4a9a-9d48-73a96d184ca4))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "#PWR028") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GND") (at 142.875 114.3 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid c718d922-3c9a-4e6a-a084-aef0bd33960b)
-    (property "Reference" "#PWR095" (at 142.875 120.65 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 142.875 118.745 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Footprint" "" (at 142.875 114.3 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 142.875 114.3 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 76b435c6-0a7e-42be-ad3e-4d168632ef0c))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "#PWR095") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "winterbloom:Dotstar") (at 104.775 100.965 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
-    (uuid faab86cc-9964-4aff-b9de-c210ef7993da)
-    (property "Reference" "D8" (at 105.41 94.615 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "Dotstar" (at 105.41 107.315 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "winterbloom:LED_APA102_Dotstar_5050" (at 106.045 108.585 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html" (at 107.315 110.49 0)
-      (effects (font (size 1.27 1.27)) (justify left top) hide)
-    )
-    (property "MPN" "SK9822" (at 109.855 111.125 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 58260adb-e954-4a4b-991a-e9eee725e176))
-    (pin "2" (uuid 70b5e587-0d30-41f9-85bd-a004adbdf967))
-    (pin "3" (uuid d752a2cb-8a26-4a60-b3f9-2e506b3c34e4))
-    (pin "4" (uuid 2a96d4b1-daa1-497a-911b-ff4a0b5411cb))
-    (pin "5" (uuid 8c4dae98-4566-40f7-baa2-62bf9988a044))
-    (pin "6" (uuid 915ab032-3788-4916-9240-7b719e6cd44b))
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
-          (reference "D8") (unit 1)
-        )
-      )
-    )
-  )
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "64159b3e-0e1b-46d3-aa46-f7e99b7b3cf6")
+	(paper "USLetter")
+	(title_block
+		(title "Castor & Pollux")
+		(date "2022-10-07")
+		(rev "v6")
+		(company "Winterbloom")
+		(comment 1 "Alethea Flowers")
+		(comment 2 "CERN-OHL-P v2")
+		(comment 3 "gemini.wntr.dev")
+	)
+	(lib_symbols
+		(symbol "power:+3.3V"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "+3.3V"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"+3.3V\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "power-flag"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "+3.3V_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "+3.3V_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(hide yes)
+					(name "+3.3V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "power:GND"
+			(power)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "power-flag"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "winterbloom:Dotstar"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at -3.81 5.715 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify right bottom)
+				)
+			)
+			(property "Value" "Dotstar"
+				(at 0.635 -5.715 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+				)
+			)
+			(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+				(at 1.27 -7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+				(at 2.54 -9.525 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left top)
+					(hide yes)
+				)
+			)
+			(property "Description" "5050 Dotstar RGB LED with integrated controller SK9822 APA102"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MPN" "SK9822"
+				(at 5.08 -10.16 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "RGB LED addressable 8bit pwm 5bit greyscale dotstar SK9822 APA101"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "Dotstar_0_0"
+				(text "RGB"
+					(at 2.286 -4.191 0)
+					(effects
+						(font
+							(size 0.762 0.762)
+						)
+					)
+				)
+			)
+			(symbol "Dotstar_0_1"
+				(polyline
+					(pts
+						(xy 1.27 -2.54) (xy 1.778 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -3.556) (xy 1.778 -3.556)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.286 -1.524) (xy 1.27 -2.54) (xy 1.27 -2.032)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.286 -2.54) (xy 1.27 -3.556) (xy 1.27 -3.048)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 3.683 -1.016) (xy 3.683 -3.556) (xy 3.683 -4.064)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 4.699 -1.524) (xy 2.667 -1.524) (xy 3.683 -3.556) (xy 4.699 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 4.699 -3.556) (xy 2.667 -3.556)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start 5.08 5.08)
+					(end -5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "Dotstar_1_1"
+				(pin input line
+					(at -7.62 2.54 0)
+					(length 2.54)
+					(name "DI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 2.54)
+					(name "CI"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 7.62 270)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 7.62 2.54 180)
+					(length 2.54)
+					(name "DO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 7.62 0 180)
+					(length 2.54)
+					(name "CO"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(text "RGB LEDs"
+		(exclude_from_sim no)
+		(at 69.85 79.375 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+				(thickness 0.508)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "716e06f8-0039-4e32-b8ce-3c718b34b5af")
+	)
+	(junction
+		(at 165.735 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "03cd4598-572a-4120-94e8-ab626f239c54")
+	)
+	(junction
+		(at 104.775 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "051c11bc-424f-47dc-bdd2-6a6581c25346")
+	)
+	(junction
+		(at 142.875 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "17fb6bdd-8045-4b4f-957f-95a42d08f2b4")
+	)
+	(junction
+		(at 104.775 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1bb23a89-eb50-450f-ba60-84905b1ac1f7")
+	)
+	(junction
+		(at 150.495 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "32ae11cf-5c78-4b62-ab29-280d67d2e000")
+	)
+	(junction
+		(at 150.495 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3bf3d740-281f-4ca3-ab77-d5f65cb1155f")
+	)
+	(junction
+		(at 135.255 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "402f28b2-a67a-4c39-866b-699f4a9b0a8c")
+	)
+	(junction
+		(at 180.975 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "550cfd05-15df-4716-836e-c484399d74ea")
+	)
+	(junction
+		(at 165.735 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "62639fc5-fa46-4289-b0a4-4374b5cde212")
+	)
+	(junction
+		(at 180.975 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a95d4765-d660-4425-b560-c8ac7163ec7f")
+	)
+	(junction
+		(at 120.015 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "aa6c0d36-e142-489b-b9cb-7f5fc973b44c")
+	)
+	(junction
+		(at 135.255 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bed1e3bf-2fc2-4499-8459-8ee8799e94d1")
+	)
+	(junction
+		(at 142.875 87.63)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c5694773-5a6f-47d4-9935-a01a32d3d2d8")
+	)
+	(junction
+		(at 120.015 114.3)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c950503f-c063-4735-833b-9ca60d12a3fc")
+	)
+	(junction
+		(at 150.495 108.585)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "fbf2e741-6e0d-4d4b-9325-29cd28c8152c")
+	)
+	(no_connect
+		(at 203.835 100.965)
+		(uuid "86ee8fd7-f022-4a7d-9131-7b5d39c0144a")
+	)
+	(no_connect
+		(at 203.835 98.425)
+		(uuid "86ee8fd7-f022-4a7d-9131-7b5d39c0144b")
+	)
+	(wire
+		(pts
+			(xy 135.255 87.63) (xy 135.255 93.345)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "04485433-a9cd-4160-b759-cb93f338b211")
+	)
+	(wire
+		(pts
+			(xy 120.015 87.63) (xy 120.015 93.345)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "14677626-85da-4612-ae6e-218bca932dfc")
+	)
+	(polyline
+		(pts
+			(xy 68.58 73.66) (xy 68.58 127)
+		)
+		(stroke
+			(width 0.5)
+			(type solid)
+		)
+		(uuid "15add1c4-764c-4724-a8bc-c5cf31f02f36")
+	)
+	(wire
+		(pts
+			(xy 104.775 87.63) (xy 120.015 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "15fe0683-43e1-4da0-816a-442cb93da6db")
+	)
+	(wire
+		(pts
+			(xy 196.215 114.3) (xy 180.975 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a059140-3c75-4044-948c-7c22847ae89e")
+	)
+	(polyline
+		(pts
+			(xy 218.44 127) (xy 68.58 127)
+		)
+		(stroke
+			(width 0.5)
+			(type solid)
+		)
+		(uuid "1b3ee76f-3c77-4277-b3d4-2d76995b71e5")
+	)
+	(polyline
+		(pts
+			(xy 218.44 73.66) (xy 218.44 127)
+		)
+		(stroke
+			(width 0.5)
+			(type solid)
+		)
+		(uuid "23172ccd-1ea5-4303-bbcb-589f32203eb1")
+	)
+	(wire
+		(pts
+			(xy 180.975 87.63) (xy 165.735 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3151a422-6ab0-4dda-b02e-a7d5aa74c9f2")
+	)
+	(wire
+		(pts
+			(xy 142.875 87.63) (xy 150.495 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3651aebc-678d-4e1f-b95d-1df1939869df")
+	)
+	(wire
+		(pts
+			(xy 89.535 114.3) (xy 89.535 108.585)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "37aa83aa-d44c-4f7f-ae80-7fcaebb29537")
+	)
+	(wire
+		(pts
+			(xy 180.975 108.585) (xy 180.975 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4016d52a-17a0-45ee-ae34-d8c4e5e703f5")
+	)
+	(wire
+		(pts
+			(xy 104.775 108.585) (xy 104.775 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "403e88cb-ca07-4706-81ea-98c17a4c24be")
+	)
+	(wire
+		(pts
+			(xy 150.495 114.3) (xy 142.875 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "415ab3a2-ffc0-4e58-8257-b02bb1f9b41c")
+	)
+	(wire
+		(pts
+			(xy 104.775 87.63) (xy 104.775 93.345)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "45a4268a-1a87-4010-a620-7252540432f4")
+	)
+	(wire
+		(pts
+			(xy 104.775 114.3) (xy 89.535 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4aa97733-d502-4179-b0d3-f613f8174376")
+	)
+	(wire
+		(pts
+			(xy 120.015 108.585) (xy 120.015 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "505646fd-8749-42e3-959c-aa18d87120e1")
+	)
+	(wire
+		(pts
+			(xy 135.255 114.3) (xy 120.015 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "514c0ccc-8ba2-4c2f-a99e-cc0f188f7d7a")
+	)
+	(wire
+		(pts
+			(xy 180.975 114.3) (xy 165.735 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52903da6-1a01-4839-b088-dcd569ba67d5")
+	)
+	(polyline
+		(pts
+			(xy 68.58 73.66) (xy 218.44 73.66)
+		)
+		(stroke
+			(width 0.5)
+			(type solid)
+		)
+		(uuid "57fcaaea-dd11-4c05-8e2f-b9007a6f033b")
+	)
+	(wire
+		(pts
+			(xy 89.535 87.63) (xy 89.535 93.345)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b219191-382c-4851-ba5d-89b95e93311c")
+	)
+	(wire
+		(pts
+			(xy 196.215 93.345) (xy 196.215 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5d9ad0b8-e9ef-49e7-8e73-8adcd3357278")
+	)
+	(wire
+		(pts
+			(xy 150.495 87.63) (xy 150.495 93.345)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6a667aec-e9a4-41b8-901a-f0994152a8d6")
+	)
+	(wire
+		(pts
+			(xy 135.255 87.63) (xy 142.875 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6ae2211b-40d3-464f-a817-5c03500481bd")
+	)
+	(wire
+		(pts
+			(xy 180.975 87.63) (xy 180.975 93.345)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7941cf98-1e7e-43d6-add2-548db408c9dd")
+	)
+	(wire
+		(pts
+			(xy 142.875 114.3) (xy 135.255 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c2dc7fc-ab32-40bf-b455-47c7626a00b6")
+	)
+	(wire
+		(pts
+			(xy 165.735 108.585) (xy 165.735 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "814de24e-d947-433e-a02e-d0385df3155b")
+	)
+	(wire
+		(pts
+			(xy 120.015 114.3) (xy 104.775 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e633000-b956-4cca-a834-9e972328acc7")
+	)
+	(wire
+		(pts
+			(xy 89.535 87.63) (xy 104.775 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8f3c9a1a-1c23-496c-8800-115c3f8e4436")
+	)
+	(wire
+		(pts
+			(xy 150.495 108.585) (xy 150.495 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9a472b51-488c-42ac-b6e2-e881d295d624")
+	)
+	(wire
+		(pts
+			(xy 150.495 107.95) (xy 150.495 108.585)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a06faf0a-d836-4900-a76f-b3b6deb7bbcc")
+	)
+	(wire
+		(pts
+			(xy 165.735 87.63) (xy 150.495 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a16b15bd-c19d-478e-a509-c11be71a2808")
+	)
+	(wire
+		(pts
+			(xy 196.215 87.63) (xy 180.975 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b0a53ef4-5de9-4d2a-8105-6e3c4f1b5b0a")
+	)
+	(wire
+		(pts
+			(xy 120.015 87.63) (xy 135.255 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1028188-dadc-436a-935c-6e60eaa4f6b8")
+	)
+	(wire
+		(pts
+			(xy 135.255 108.585) (xy 135.255 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ccbe7674-fff4-4f66-900b-5b273be87d2a")
+	)
+	(wire
+		(pts
+			(xy 165.735 87.63) (xy 165.735 93.345)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d688818c-05c1-446e-ae7a-69e348cc9271")
+	)
+	(wire
+		(pts
+			(xy 165.735 114.3) (xy 150.495 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d98d33db-7f51-4089-99c4-b918684eca72")
+	)
+	(wire
+		(pts
+			(xy 196.215 108.585) (xy 196.215 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "deb21303-6919-446d-9c60-fc12da1807f7")
+	)
+	(hierarchical_label "DATA"
+		(shape input)
+		(at 81.915 98.425 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3fb3c77e-cc2b-41f8-96a8-3d47383db72c")
+	)
+	(hierarchical_label "CLK"
+		(shape input)
+		(at 81.915 100.965 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "db7dbb8f-2240-4fae-a204-a3e7f176eeb6")
+	)
+	(symbol
+		(lib_id "winterbloom:Dotstar")
+		(at 180.975 100.965 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0abf25b2-71de-4a59-9436-b460c67fa30f")
+		(property "Reference" "D13"
+			(at 181.61 94.615 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Dotstar"
+			(at 181.61 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+			(at 182.245 108.585 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+			(at 183.515 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 180.975 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SK9822"
+			(at 186.055 111.125 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f6066f46-84bd-41f9-a7fa-6fc101c24eac")
+		)
+		(pin "2"
+			(uuid "3d3a2fa0-0706-4116-ae29-9d2e8312c5d3")
+		)
+		(pin "3"
+			(uuid "d90702d2-11dd-4ef5-8b56-388851a79d73")
+		)
+		(pin "4"
+			(uuid "5acb59e7-746d-4ae8-8432-cff218b89c5f")
+		)
+		(pin "5"
+			(uuid "6ef460f7-8b8d-4f06-8f1c-866dd6bf3704")
+		)
+		(pin "6"
+			(uuid "91c17414-e57f-4a19-a9ad-907a1ecad17a")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "D13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "winterbloom:Dotstar")
+		(at 165.735 100.965 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "178d426a-6de1-4ca9-9964-904f01e3865a")
+		(property "Reference" "D12"
+			(at 166.37 94.615 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Dotstar"
+			(at 166.37 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+			(at 167.005 108.585 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+			(at 168.275 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 165.735 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SK9822"
+			(at 170.815 111.125 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2e675565-a0a2-429d-bad6-7df9505cb40e")
+		)
+		(pin "2"
+			(uuid "a9963bb7-dfcc-42f1-a8bc-b2f6b4124b2e")
+		)
+		(pin "3"
+			(uuid "1474ea9a-748c-436e-95a7-9768861d676a")
+		)
+		(pin "4"
+			(uuid "0c52e79f-4b5e-4abb-87be-62c1fc851ffb")
+		)
+		(pin "5"
+			(uuid "c8abfd5e-a128-46fb-b777-362b45a3f1f5")
+		)
+		(pin "6"
+			(uuid "89e4a359-7391-4a3c-bba6-3acf63bb861d")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "D12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "winterbloom:Dotstar")
+		(at 89.535 100.965 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1b604843-d868-47e5-8a9d-26ef5a132da6")
+		(property "Reference" "D7"
+			(at 90.17 94.615 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Dotstar"
+			(at 90.17 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+			(at 90.805 108.585 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+			(at 92.075 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 89.535 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SK9822"
+			(at 94.615 111.125 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "71ed2a31-2e90-4218-ac97-6c540c4886f5")
+		)
+		(pin "2"
+			(uuid "5dca959b-9552-4155-a630-81c0af1ae6ae")
+		)
+		(pin "3"
+			(uuid "c4408fc8-6d8f-4f27-a916-3bc62d84c86b")
+		)
+		(pin "4"
+			(uuid "0fad21ac-14e1-4b2d-a93d-aea8152a172a")
+		)
+		(pin "5"
+			(uuid "becceb9b-da72-47f2-85d8-127d83e4a417")
+		)
+		(pin "6"
+			(uuid "df9ccb54-767b-4551-a5db-76b70ff5d641")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "D7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "winterbloom:Dotstar")
+		(at 150.495 100.965 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "39243f8b-b03f-434e-af85-f736ac586e61")
+		(property "Reference" "D11"
+			(at 151.13 94.615 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Dotstar"
+			(at 151.13 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+			(at 151.765 108.585 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+			(at 153.035 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 150.495 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SK9822"
+			(at 155.575 111.125 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "622cc14b-32c0-43a8-b539-fe4af6ff8180")
+		)
+		(pin "2"
+			(uuid "25e32003-e54d-4179-afca-e6ff9cb27cc6")
+		)
+		(pin "3"
+			(uuid "f8032283-2692-4cee-abc8-9286a4623296")
+		)
+		(pin "4"
+			(uuid "46962747-b521-45ed-ae70-af885fa06eed")
+		)
+		(pin "5"
+			(uuid "17adb69b-282d-428b-8acf-7d28ce70b15c")
+		)
+		(pin "6"
+			(uuid "c545771a-1c93-4e34-8125-85dd903479e6")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "D11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "winterbloom:Dotstar")
+		(at 135.255 100.965 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "4e9a3bec-59d8-4d64-bba0-8aa262338741")
+		(property "Reference" "D10"
+			(at 135.89 94.615 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Dotstar"
+			(at 135.89 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+			(at 136.525 108.585 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+			(at 137.795 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 135.255 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SK9822"
+			(at 140.335 111.125 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8141af7d-b4b1-4883-85ae-014b95a98275")
+		)
+		(pin "2"
+			(uuid "f0329df2-1fea-42c1-bf1b-f920e22a3b59")
+		)
+		(pin "3"
+			(uuid "a9a6e708-4a2e-457d-8299-7cc9f3b62642")
+		)
+		(pin "4"
+			(uuid "4d9bcc51-2f59-4b75-b020-70c4d9e10a63")
+		)
+		(pin "5"
+			(uuid "3a3d68d1-99c4-4e59-b058-93cfd4a3c6a6")
+		)
+		(pin "6"
+			(uuid "5611cf36-b192-494c-8f96-149382d9ba1c")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "D10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "winterbloom:Dotstar")
+		(at 196.215 100.965 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7890646d-64bf-4f93-a8a6-90787cbce44f")
+		(property "Reference" "D14"
+			(at 196.85 94.615 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Dotstar"
+			(at 196.85 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+			(at 197.485 108.585 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+			(at 198.755 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 196.215 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SK9822"
+			(at 201.295 111.125 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "f15664b2-49b1-4f89-bb45-eca10764411c")
+		)
+		(pin "2"
+			(uuid "4d60bcf7-4a9e-4671-b402-306dc76ffc7e")
+		)
+		(pin "3"
+			(uuid "980355d6-b7a2-4693-9040-e737601517c4")
+		)
+		(pin "4"
+			(uuid "1fcdc498-b4f2-4a20-aaa2-987d74a0647b")
+		)
+		(pin "5"
+			(uuid "01b4e815-0533-4cee-8b4e-4ba859e922c5")
+		)
+		(pin "6"
+			(uuid "3cf0cce5-41f8-486f-9310-930d510440bb")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "D14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "winterbloom:Dotstar")
+		(at 120.015 100.965 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7daa9e81-b352-4b72-946a-1d25535cf0d5")
+		(property "Reference" "D9"
+			(at 120.65 94.615 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Dotstar"
+			(at 120.65 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+			(at 121.285 108.585 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+			(at 122.555 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 120.015 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SK9822"
+			(at 125.095 111.125 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "44704cc7-1bbe-47ad-91d7-a5d6d53db77e")
+		)
+		(pin "2"
+			(uuid "66ade106-4f23-4e75-a4cb-6742d3ef7d79")
+		)
+		(pin "3"
+			(uuid "76463d91-5024-4cf6-86a2-ea3f710214b6")
+		)
+		(pin "4"
+			(uuid "c04831eb-58bd-436c-8028-bfbf24ed7ef4")
+		)
+		(pin "5"
+			(uuid "5d3a9c65-9611-4726-8045-c041da0599eb")
+		)
+		(pin "6"
+			(uuid "06daae31-1c18-43e0-ab74-94da8bd023a3")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "D9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3.3V")
+		(at 142.875 87.63 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b793999d-d373-4be8-bab4-fd5ca88123e7")
+		(property "Reference" "#PWR028"
+			(at 142.875 91.44 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3.3V"
+			(at 142.875 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 142.875 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 142.875 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 142.875 87.63 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f8474327-bfe1-4a9a-9d48-73a96d184ca4")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "#PWR028")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 142.875 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c718d922-3c9a-4e6a-a084-aef0bd33960b")
+		(property "Reference" "#PWR095"
+			(at 142.875 120.65 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 142.875 118.745 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 142.875 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 142.875 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 142.875 114.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "76b435c6-0a7e-42be-ad3e-4d168632ef0c")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "#PWR095")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "winterbloom:Dotstar")
+		(at 104.775 100.965 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "faab86cc-9964-4aff-b9de-c210ef7993da")
+		(property "Reference" "D8"
+			(at 105.41 94.615 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Dotstar"
+			(at 105.41 107.315 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "winterbloom:LED_APA102_Dotstar_5050"
+			(at 106.045 108.585 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.alibaba.com/product-detail/High-Efficiency-SK9822-Similar-APA102-5050_62326807400.html"
+			(at 107.315 110.49 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 104.775 100.965 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "MPN" "SK9822"
+			(at 109.855 111.125 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "58260adb-e954-4a4b-991a-e9eee725e176")
+		)
+		(pin "2"
+			(uuid "70b5e587-0d30-41f9-85bd-a004adbdf967")
+		)
+		(pin "3"
+			(uuid "d752a2cb-8a26-4a60-b3f9-2e506b3c34e4")
+		)
+		(pin "4"
+			(uuid "2a96d4b1-daa1-497a-911b-ff4a0b5411cb")
+		)
+		(pin "5"
+			(uuid "8c4dae98-4566-40f7-baa2-62bf9988a044")
+		)
+		(pin "6"
+			(uuid "915ab032-3788-4916-9240-7b719e6cd44b")
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7/31000f0f-e202-4936-af7b-0293ced26715"
+					(reference "D8")
+					(unit 1)
+				)
+			)
+		)
+	)
 )

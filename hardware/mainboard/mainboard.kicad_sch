@@ -1,473 +1,1139 @@
-(kicad_sch (version 20230121) (generator eeschema)
-
-  (uuid 6e47ee4f-b36d-4cb2-9b20-31f755e664f7)
-
-  (paper "USLetter")
-
-  (title_block
-    (title "Castor & Pollux")
-    (date "2022-10-07")
-    (rev "v6")
-    (company "Winterbloom")
-    (comment 1 "Alethea Flowers")
-    (comment 2 "CERN-OHL-P v2")
-    (comment 3 "gemini.wntr.dev")
-  )
-
-  (lib_symbols
-  )
-
-
-  (wire (pts (xy 195.58 100.33) (xy 210.82 100.33))
-    (stroke (width 0) (type default))
-    (uuid 1855f11c-ea07-4f58-b910-6ff7186d1f44)
-  )
-  (wire (pts (xy 63.5 149.86) (xy 78.74 149.86))
-    (stroke (width 0) (type default))
-    (uuid 36c0c771-0141-4bfc-a76d-ebd677ec9316)
-  )
-  (wire (pts (xy 63.5 146.05) (xy 78.74 146.05))
-    (stroke (width 0) (type default))
-    (uuid 39beef7c-8b1a-4a3d-acc1-ef0ed2fc1467)
-  )
-  (wire (pts (xy 139.7 96.52) (xy 154.94 96.52))
-    (stroke (width 0) (type default))
-    (uuid 55e3bb66-bc08-439e-9995-e3ad6dfabd10)
-  )
-  (wire (pts (xy 139.7 49.53) (xy 154.94 49.53))
-    (stroke (width 0) (type default))
-    (uuid 610640f2-a9fe-4da2-b36b-b69689621db7)
-  )
-  (wire (pts (xy 139.7 146.05) (xy 154.94 146.05))
-    (stroke (width 0) (type default))
-    (uuid 68be556e-ef4e-49ad-8ac8-969d290ed103)
-  )
-  (wire (pts (xy 139.7 92.71) (xy 154.94 92.71))
-    (stroke (width 0) (type default))
-    (uuid 6e12d592-e2ed-40a8-8e69-b940f4c733dc)
-  )
-  (wire (pts (xy 139.7 53.34) (xy 154.94 53.34))
-    (stroke (width 0) (type default))
-    (uuid 88728192-81a8-477f-acad-c1edfd0ee2de)
-  )
-  (wire (pts (xy 63.5 103.505) (xy 78.74 103.505))
-    (stroke (width 0) (type default))
-    (uuid 8a3e6623-3de3-4640-a92b-e22e7600febe)
-  )
-  (wire (pts (xy 63.5 142.24) (xy 78.74 142.24))
-    (stroke (width 0) (type default))
-    (uuid 8cec63a3-0579-4a63-82ab-7ed4883392f3)
-  )
-  (wire (pts (xy 195.58 49.53) (xy 210.82 49.53))
-    (stroke (width 0) (type default))
-    (uuid 93a4ea55-3173-4beb-8c84-7a36ad665d13)
-  )
-  (wire (pts (xy 195.58 104.14) (xy 210.82 104.14))
-    (stroke (width 0) (type default))
-    (uuid 9aad5a4d-c76b-4263-8bcb-49dee4c29470)
-  )
-  (wire (pts (xy 195.58 92.71) (xy 210.82 92.71))
-    (stroke (width 0) (type default))
-    (uuid 9f73c5f7-19ba-4d3e-971f-6a7cce653036)
-  )
-  (wire (pts (xy 63.5 153.67) (xy 78.74 153.67))
-    (stroke (width 0) (type default))
-    (uuid a1c4a6ac-8335-43fa-9b8d-b4eaa15cb00c)
-  )
-  (wire (pts (xy 63.5 92.075) (xy 78.74 92.075))
-    (stroke (width 0) (type default))
-    (uuid a7a772bf-3646-49c8-9142-e9b8b4b9c65a)
-  )
-  (wire (pts (xy 139.7 45.72) (xy 154.94 45.72))
-    (stroke (width 0) (type default))
-    (uuid b76c8385-d3f9-479b-9836-7aff6eeacfb0)
-  )
-  (wire (pts (xy 63.5 95.885) (xy 78.74 95.885))
-    (stroke (width 0) (type default))
-    (uuid b78e7c00-cdc2-47cb-adcb-7f816ed4fb63)
-  )
-  (wire (pts (xy 195.58 57.15) (xy 210.82 57.15))
-    (stroke (width 0) (type default))
-    (uuid bac40980-70a1-4403-b5a4-11fd77c9c668)
-  )
-  (wire (pts (xy 63.5 138.43) (xy 78.74 138.43))
-    (stroke (width 0) (type default))
-    (uuid be585e55-f97f-4945-9fc9-1fb78587a018)
-  )
-  (wire (pts (xy 195.58 53.34) (xy 210.82 53.34))
-    (stroke (width 0) (type default))
-    (uuid be688100-dbc3-43a0-94d5-0a07b6dc1c58)
-  )
-  (wire (pts (xy 63.5 99.695) (xy 78.74 99.695))
-    (stroke (width 0) (type default))
-    (uuid be745b16-1b50-4732-815b-e7e0dc393883)
-  )
-  (wire (pts (xy 195.58 96.52) (xy 210.82 96.52))
-    (stroke (width 0) (type default))
-    (uuid c79707df-61ce-4c1f-9d92-3f11d24f2c1f)
-  )
-  (wire (pts (xy 139.7 100.33) (xy 154.94 100.33))
-    (stroke (width 0) (type default))
-    (uuid cd451ea9-a5e2-4cee-97e1-32e62b84bacc)
-  )
-  (wire (pts (xy 63.5 134.62) (xy 78.74 134.62))
-    (stroke (width 0) (type default))
-    (uuid e687f36d-00e7-4585-ba26-9f73e0cdd7a4)
-  )
-  (wire (pts (xy 139.7 142.24) (xy 154.94 142.24))
-    (stroke (width 0) (type default))
-    (uuid f2d91ce8-7aec-41aa-9516-227561b61d20)
-  )
-  (wire (pts (xy 195.58 45.72) (xy 210.82 45.72))
-    (stroke (width 0) (type default))
-    (uuid fda9bf39-74c9-4d88-a038-90d866697914)
-  )
-
-  (sheet (at 25.4 33.02) (size 38.1 33.02) (fields_autoplaced)
-    (stroke (width 0) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 00000000-0000-0000-0000-00005f01694c)
-    (property "Sheetname" "Power" (at 25.4 31.6734 0)
-      (effects (font (size 2.54 2.54)) (justify left bottom))
-    )
-    (property "Sheetfile" "power.kicad_sch" (at 25.4 66.6246 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7" (page "2"))
-      )
-    )
-  )
-
-  (sheet (at 154.94 80.645) (size 40.64 33.02) (fields_autoplaced)
-    (stroke (width 0) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 00000000-0000-0000-0000-00005f016ad7)
-    (property "Sheetname" "Pollux" (at 154.94 79.2984 0)
-      (effects (font (size 2.54 2.54)) (justify left bottom))
-    )
-    (property "Sheetfile" "castor.kicad_sch" (at 154.94 114.2496 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "SQUARE_IN" input (at 154.94 92.71 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 916ba7de-9480-4218-9528-fcedf94bbb9b)
-    )
-    (pin "CHARGE_CV_IN" input (at 154.94 96.52 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid d137c643-7385-4b8a-8bbb-ed5e0d6ee114)
-    )
-    (pin "PWM_CV_IN" input (at 154.94 100.33 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid d1e4d445-5444-434d-b3d6-b63f86ff5236)
-    )
-    (pin "MIX_OUT" output (at 195.58 104.14 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid ee21c9e7-958e-4c9b-a387-94d2e21a8925)
-    )
-    (pin "RAMP_OUT" output (at 195.58 92.71 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid af8d0f5f-cd29-4f3a-bfdb-65e3044887a4)
-    )
-    (pin "PULSE_OUT" output (at 195.58 96.52 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 2fc396c7-b19d-4f06-baf8-1654bb305d3f)
-    )
-    (pin "SUB_OUT" output (at 195.58 100.33 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid ba539854-d181-4c10-af79-f286022354b9)
-    )
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7" (page "5"))
-      )
-    )
-  )
-
-  (sheet (at 78.74 33.02) (size 60.96 127) (fields_autoplaced)
-    (stroke (width 0) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 00000000-0000-0000-0000-00005f09eaa6)
-    (property "Sheetname" "MCU" (at 78.74 31.6734 0)
-      (effects (font (size 2.54 2.54)) (justify left bottom))
-    )
-    (property "Sheetfile" "mcu.kicad_sch" (at 78.74 160.6046 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "CASTOR_CHARGE_CV" output (at 139.7 49.53 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 06a0150c-8375-4dc1-ace8-0aa65f40d382)
-    )
-    (pin "CASTOR_PWM_CV" output (at 139.7 53.34 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 29edd7e2-67bf-45e8-a193-a049d17c6be1)
-    )
-    (pin "POLLUX_CHARGE_CV" output (at 139.7 96.52 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 40f82e5f-0858-4074-a323-22188f983bf5)
-    )
-    (pin "POLLUX_PWM_CV" output (at 139.7 100.33 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 92aaef79-6a24-43a4-8e47-8db2e4a4be4d)
-    )
-    (pin "CASTOR_SQUARE_OUT" output (at 139.7 45.72 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid b4238c2e-0013-40da-8da3-7d9fdfa0f64b)
-    )
-    (pin "POLLUX_SQUARE_OUT" output (at 139.7 92.71 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 2aba3497-0895-4c0a-bc36-5695489477f0)
-    )
-    (pin "DOTSTAR_DATA" output (at 139.7 142.24 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid fcf5cf68-46f9-4114-9816-2017dd11565b)
-    )
-    (pin "DOTSTAR_CLK" output (at 139.7 146.05 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid a042d7c2-fd8f-4029-804c-1f4dd83235c8)
-    )
-    (pin "CASTOR_PITCH_IN" input (at 78.74 92.075 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid d43b9ea9-2ffb-4b38-aa13-8eb0bd0deeda)
-    )
-    (pin "POLLUX_PITCH_IN" input (at 78.74 95.885 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid e4cda289-8dda-425a-b093-c4c9fbef2d3f)
-    )
-    (pin "CASTOR_DUTY_IN" input (at 78.74 99.695 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 0127e427-39ef-43b9-81f7-6a2d70689e32)
-    )
-    (pin "POLLUX_DUTY_IN" input (at 78.74 103.505 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 3c0454b1-5531-4cec-bc00-0d93afabadf8)
-    )
-    (pin "CASTOR_PITCH_POT" input (at 78.74 134.62 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid ebda427b-c49f-43c2-9985-ae25fa936acd)
-    )
-    (pin "POLLUX_PITCH_POT" input (at 78.74 142.24 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 61d3a502-0812-4d9b-bad2-880b0e7f54a6)
-    )
-    (pin "BUTTON" input (at 78.74 153.67 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 425acbd5-fe40-4985-a991-1ed9a46bbc6d)
-    )
-    (pin "LFO_POT" input (at 78.74 149.86 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid d673f553-eba8-4b13-b4ed-df34b483fac8)
-    )
-    (pin "POLLUX_DUTY_POT" input (at 78.74 146.05 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid bf85edd0-112f-4f3e-831c-3af3eb4e41ec)
-    )
-    (pin "CASTOR_DUTY_POT" input (at 78.74 138.43 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 249139be-6aac-4376-ad45-a790dbd01a0c)
-    )
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7" (page "3"))
-      )
-    )
-  )
-
-  (sheet (at 210.82 33.655) (size 43.18 81.28) (fields_autoplaced)
-    (stroke (width 0) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 00000000-0000-0000-0000-00005f0d50ce)
-    (property "Sheetname" "Mixer & outputs" (at 210.82 32.3084 0)
-      (effects (font (size 2.54 2.54)) (justify left bottom))
-    )
-    (property "Sheetfile" "outputmixer.kicad_sch" (at 210.82 115.5196 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "CASTOR_MIX_IN" input (at 210.82 57.15 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 83b02cde-6529-4ecb-85c5-636345ec49d1)
-    )
-    (pin "POLLUX_MIX_IN" input (at 210.82 104.14 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 87ba4f27-c2d0-4831-8436-0123270ca3b7)
-    )
-    (pin "CASTOR_RAMP_IN" input (at 210.82 45.72 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid cd9e24c7-ee34-4f08-838d-ffcac3cc82d6)
-    )
-    (pin "CASTOR_PULSE_IN" input (at 210.82 49.53 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid f7423355-0d5f-4d97-b0c9-e7bf98325c81)
-    )
-    (pin "CASTOR_SUB_IN" input (at 210.82 53.34 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 26517c2d-3c67-4ca2-9ced-4abd5443e82d)
-    )
-    (pin "POLLUX_RAMP_IN" input (at 210.82 92.71 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 97f1d1c6-4f2f-4f61-a4a5-9058b0f8b732)
-    )
-    (pin "POLLUX_PULSE_IN" input (at 210.82 96.52 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 301275f6-e7ed-4c3a-bf65-b6873090fd34)
-    )
-    (pin "POLLUX_SUB_IN" input (at 210.82 100.33 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid d04bf3b7-4feb-4d64-ba03-8dddfff1b8a4)
-    )
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7" (page "6"))
-      )
-    )
-  )
-
-  (sheet (at 154.94 34.29) (size 40.64 33.655) (fields_autoplaced)
-    (stroke (width 0) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 00000000-0000-0000-0000-00005f0e55e2)
-    (property "Sheetname" "Castor" (at 154.94 32.9434 0)
-      (effects (font (size 2.54 2.54)) (justify left bottom))
-    )
-    (property "Sheetfile" "castor.kicad_sch" (at 154.94 68.5296 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "SQUARE_IN" input (at 154.94 45.72 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 7f96c50f-c08a-4edc-8e39-23102afefa86)
-    )
-    (pin "CHARGE_CV_IN" input (at 154.94 49.53 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 953a6687-5341-434d-93cf-4e1f148b8a19)
-    )
-    (pin "PWM_CV_IN" input (at 154.94 53.34 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid dde5dd20-3dac-4c90-8563-06de034960d9)
-    )
-    (pin "MIX_OUT" output (at 195.58 57.15 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 8142c3bf-dd1c-4700-8c44-d7385c05cfcc)
-    )
-    (pin "RAMP_OUT" output (at 195.58 45.72 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 9b7fb792-45a0-4c21-bb91-9443d53ebd14)
-    )
-    (pin "PULSE_OUT" output (at 195.58 49.53 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 5b9bafa6-6b55-4e98-8f2b-200481f5f7c8)
-    )
-    (pin "SUB_OUT" output (at 195.58 53.34 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 8c05e878-0d47-49f2-a344-d3ee1dbdbda0)
-    )
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7" (page "4"))
-      )
-    )
-  )
-
-  (sheet (at 25.4 81.28) (size 38.1 33.02) (fields_autoplaced)
-    (stroke (width 0) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 00000000-0000-0000-0000-00005f3674a8)
-    (property "Sheetname" "Analog inputs" (at 25.4 79.9334 0)
-      (effects (font (size 2.54 2.54)) (justify left bottom))
-    )
-    (property "Sheetfile" "analogins.kicad_sch" (at 25.4 114.8846 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "CASTOR_PITCH_CV" output (at 63.5 92.075 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid a7f521f0-4fce-42eb-9a55-8f67f124a10c)
-    )
-    (pin "POLLUX_PITCH_CV" output (at 63.5 95.885 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid bcf5dcdb-06b3-4273-b74d-63efa917f403)
-    )
-    (pin "CASTOR_DUTY_CV" output (at 63.5 99.695 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid a9abfeb3-6862-420b-b3af-d652528bb545)
-    )
-    (pin "POLLUX_DUTY_CV" output (at 63.5 103.505 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid e4fb384c-aab9-4d8b-b21b-f0061236944c)
-    )
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7" (page "3"))
-      )
-    )
-  )
-
-  (sheet (at 154.94 127.635) (size 40.64 33.02) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 31000f0f-e202-4936-af7b-0293ced26715)
-    (property "Sheetname" "LEDs" (at 154.94 126.2884 0)
-      (effects (font (size 2.54 2.54)) (justify left bottom))
-    )
-    (property "Sheetfile" "leds.kicad_sch" (at 154.94 161.2396 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "CLK" input (at 154.94 146.05 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid a86d3614-aa57-4080-9e04-8105905a6bb1)
-    )
-    (pin "DATA" input (at 154.94 142.24 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 1bf1ff71-9548-4b31-bdcc-ab2e65e46e68)
-    )
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7" (page "7"))
-      )
-    )
-  )
-
-  (sheet (at 25.4 127) (size 38.1 33.02) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid c72a522e-4dc4-4b2a-852d-76eeaba3c3f8)
-    (property "Sheetname" "Potentiometers" (at 25.4 125.6534 0)
-      (effects (font (size 2.54 2.54)) (justify left bottom))
-    )
-    (property "Sheetfile" "potentiometers.kicad_sch" (at 25.4 160.6046 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "POLLUX_PITCH_POT" output (at 63.5 142.24 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid d83b45ea-00dc-4d56-8707-9f005648da65)
-    )
-    (pin "CASTOR_DUTY_POT" output (at 63.5 138.43 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 863426e7-06cc-40e6-8d9c-e02b22789384)
-    )
-    (pin "POLLUX_DUTY_POT" output (at 63.5 146.05 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 759bb244-4f69-49c8-9111-b0861cace1b0)
-    )
-    (pin "BUTTON" output (at 63.5 153.67 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 98d30ad0-d49a-4e4e-946d-9cc6120f3247)
-    )
-    (pin "LFO_POT" output (at 63.5 149.86 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid d4c5299f-8b61-4fa0-a3cb-1bd11d6815be)
-    )
-    (pin "CASTOR_PITCH_POT" output (at 63.5 134.62 0)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid aa9dba09-6983-4d8f-981f-8e9b56823e9f)
-    )
-    (instances
-      (project "mainboard"
-        (path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7" (page "9"))
-      )
-    )
-  )
-
-  (sheet_instances
-    (path "/" (page "1"))
-  )
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "6e47ee4f-b36d-4cb2-9b20-31f755e664f7")
+	(paper "USLetter")
+	(title_block
+		(title "Castor & Pollux")
+		(date "2022-10-07")
+		(rev "v6")
+		(company "Winterbloom")
+		(comment 1 "Alethea Flowers")
+		(comment 2 "CERN-OHL-P v2")
+		(comment 3 "gemini.wntr.dev")
+	)
+	(lib_symbols)
+	(wire
+		(pts
+			(xy 195.58 100.33) (xy 210.82 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1855f11c-ea07-4f58-b910-6ff7186d1f44")
+	)
+	(wire
+		(pts
+			(xy 63.5 149.86) (xy 78.74 149.86)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "36c0c771-0141-4bfc-a76d-ebd677ec9316")
+	)
+	(wire
+		(pts
+			(xy 63.5 146.05) (xy 78.74 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "39beef7c-8b1a-4a3d-acc1-ef0ed2fc1467")
+	)
+	(wire
+		(pts
+			(xy 139.7 96.52) (xy 154.94 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "55e3bb66-bc08-439e-9995-e3ad6dfabd10")
+	)
+	(wire
+		(pts
+			(xy 139.7 49.53) (xy 154.94 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "610640f2-a9fe-4da2-b36b-b69689621db7")
+	)
+	(wire
+		(pts
+			(xy 139.7 146.05) (xy 154.94 146.05)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "68be556e-ef4e-49ad-8ac8-969d290ed103")
+	)
+	(wire
+		(pts
+			(xy 139.7 92.71) (xy 154.94 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6e12d592-e2ed-40a8-8e69-b940f4c733dc")
+	)
+	(wire
+		(pts
+			(xy 139.7 53.34) (xy 154.94 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "88728192-81a8-477f-acad-c1edfd0ee2de")
+	)
+	(wire
+		(pts
+			(xy 63.5 103.505) (xy 78.74 103.505)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8a3e6623-3de3-4640-a92b-e22e7600febe")
+	)
+	(wire
+		(pts
+			(xy 63.5 142.24) (xy 78.74 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8cec63a3-0579-4a63-82ab-7ed4883392f3")
+	)
+	(wire
+		(pts
+			(xy 195.58 49.53) (xy 210.82 49.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "93a4ea55-3173-4beb-8c84-7a36ad665d13")
+	)
+	(wire
+		(pts
+			(xy 195.58 104.14) (xy 210.82 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9aad5a4d-c76b-4263-8bcb-49dee4c29470")
+	)
+	(wire
+		(pts
+			(xy 195.58 92.71) (xy 210.82 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9f73c5f7-19ba-4d3e-971f-6a7cce653036")
+	)
+	(wire
+		(pts
+			(xy 63.5 153.67) (xy 78.74 153.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a1c4a6ac-8335-43fa-9b8d-b4eaa15cb00c")
+	)
+	(wire
+		(pts
+			(xy 63.5 92.075) (xy 78.74 92.075)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7a772bf-3646-49c8-9142-e9b8b4b9c65a")
+	)
+	(wire
+		(pts
+			(xy 139.7 45.72) (xy 154.94 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b76c8385-d3f9-479b-9836-7aff6eeacfb0")
+	)
+	(wire
+		(pts
+			(xy 63.5 95.885) (xy 78.74 95.885)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b78e7c00-cdc2-47cb-adcb-7f816ed4fb63")
+	)
+	(wire
+		(pts
+			(xy 195.58 57.15) (xy 210.82 57.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bac40980-70a1-4403-b5a4-11fd77c9c668")
+	)
+	(wire
+		(pts
+			(xy 63.5 138.43) (xy 78.74 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be585e55-f97f-4945-9fc9-1fb78587a018")
+	)
+	(wire
+		(pts
+			(xy 195.58 53.34) (xy 210.82 53.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be688100-dbc3-43a0-94d5-0a07b6dc1c58")
+	)
+	(wire
+		(pts
+			(xy 63.5 99.695) (xy 78.74 99.695)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "be745b16-1b50-4732-815b-e7e0dc393883")
+	)
+	(wire
+		(pts
+			(xy 195.58 96.52) (xy 210.82 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c79707df-61ce-4c1f-9d92-3f11d24f2c1f")
+	)
+	(wire
+		(pts
+			(xy 139.7 100.33) (xy 154.94 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cd451ea9-a5e2-4cee-97e1-32e62b84bacc")
+	)
+	(wire
+		(pts
+			(xy 63.5 134.62) (xy 78.74 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e687f36d-00e7-4585-ba26-9f73e0cdd7a4")
+	)
+	(wire
+		(pts
+			(xy 139.7 142.24) (xy 154.94 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f2d91ce8-7aec-41aa-9516-227561b61d20")
+	)
+	(wire
+		(pts
+			(xy 195.58 45.72) (xy 210.82 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fda9bf39-74c9-4d88-a038-90d866697914")
+	)
+	(sheet
+		(at 25.4 33.02)
+		(size 38.1 33.02)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "00000000-0000-0000-0000-00005f01694c")
+		(property "Sheetname" "Power"
+			(at 25.4 31.6734 0)
+			(effects
+				(font
+					(size 2.54 2.54)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "power.kicad_sch"
+			(at 25.4 66.6246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 154.94 80.645)
+		(size 40.64 33.02)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "00000000-0000-0000-0000-00005f016ad7")
+		(property "Sheetname" "Pollux"
+			(at 154.94 79.2984 0)
+			(effects
+				(font
+					(size 2.54 2.54)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "castor.kicad_sch"
+			(at 154.94 114.2496 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "SQUARE_IN" input
+			(at 154.94 92.71 180)
+			(uuid "916ba7de-9480-4218-9528-fcedf94bbb9b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CHARGE_CV_IN" input
+			(at 154.94 96.52 180)
+			(uuid "d137c643-7385-4b8a-8bbb-ed5e0d6ee114")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "PWM_CV_IN" input
+			(at 154.94 100.33 180)
+			(uuid "d1e4d445-5444-434d-b3d6-b63f86ff5236")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "MIX_OUT" output
+			(at 195.58 104.14 0)
+			(uuid "ee21c9e7-958e-4c9b-a387-94d2e21a8925")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "RAMP_OUT" output
+			(at 195.58 92.71 0)
+			(uuid "af8d0f5f-cd29-4f3a-bfdb-65e3044887a4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "PULSE_OUT" output
+			(at 195.58 96.52 0)
+			(uuid "2fc396c7-b19d-4f06-baf8-1654bb305d3f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SUB_OUT" output
+			(at 195.58 100.33 0)
+			(uuid "ba539854-d181-4c10-af79-f286022354b9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 78.74 33.02)
+		(size 60.96 127)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "00000000-0000-0000-0000-00005f09eaa6")
+		(property "Sheetname" "MCU"
+			(at 78.74 31.6734 0)
+			(effects
+				(font
+					(size 2.54 2.54)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "mcu.kicad_sch"
+			(at 78.74 160.6046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "CASTOR_CHARGE_CV" output
+			(at 139.7 49.53 0)
+			(uuid "06a0150c-8375-4dc1-ace8-0aa65f40d382")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "CASTOR_PWM_CV" output
+			(at 139.7 53.34 0)
+			(uuid "29edd7e2-67bf-45e8-a193-a049d17c6be1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "POLLUX_CHARGE_CV" output
+			(at 139.7 96.52 0)
+			(uuid "40f82e5f-0858-4074-a323-22188f983bf5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "POLLUX_PWM_CV" output
+			(at 139.7 100.33 0)
+			(uuid "92aaef79-6a24-43a4-8e47-8db2e4a4be4d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "CASTOR_SQUARE_OUT" output
+			(at 139.7 45.72 0)
+			(uuid "b4238c2e-0013-40da-8da3-7d9fdfa0f64b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "POLLUX_SQUARE_OUT" output
+			(at 139.7 92.71 0)
+			(uuid "2aba3497-0895-4c0a-bc36-5695489477f0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DOTSTAR_DATA" output
+			(at 139.7 142.24 0)
+			(uuid "fcf5cf68-46f9-4114-9816-2017dd11565b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "DOTSTAR_CLK" output
+			(at 139.7 146.05 0)
+			(uuid "a042d7c2-fd8f-4029-804c-1f4dd83235c8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "CASTOR_PITCH_IN" input
+			(at 78.74 92.075 180)
+			(uuid "d43b9ea9-2ffb-4b38-aa13-8eb0bd0deeda")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POLLUX_PITCH_IN" input
+			(at 78.74 95.885 180)
+			(uuid "e4cda289-8dda-425a-b093-c4c9fbef2d3f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CASTOR_DUTY_IN" input
+			(at 78.74 99.695 180)
+			(uuid "0127e427-39ef-43b9-81f7-6a2d70689e32")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POLLUX_DUTY_IN" input
+			(at 78.74 103.505 180)
+			(uuid "3c0454b1-5531-4cec-bc00-0d93afabadf8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CASTOR_PITCH_POT" input
+			(at 78.74 134.62 180)
+			(uuid "ebda427b-c49f-43c2-9985-ae25fa936acd")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POLLUX_PITCH_POT" input
+			(at 78.74 142.24 180)
+			(uuid "61d3a502-0812-4d9b-bad2-880b0e7f54a6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "BUTTON" input
+			(at 78.74 153.67 180)
+			(uuid "425acbd5-fe40-4985-a991-1ed9a46bbc6d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "LFO_POT" input
+			(at 78.74 149.86 180)
+			(uuid "d673f553-eba8-4b13-b4ed-df34b483fac8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POLLUX_DUTY_POT" input
+			(at 78.74 146.05 180)
+			(uuid "bf85edd0-112f-4f3e-831c-3af3eb4e41ec")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CASTOR_DUTY_POT" input
+			(at 78.74 138.43 180)
+			(uuid "249139be-6aac-4376-ad45-a790dbd01a0c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 210.82 33.655)
+		(size 43.18 81.28)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "00000000-0000-0000-0000-00005f0d50ce")
+		(property "Sheetname" "Mixer & outputs"
+			(at 210.82 32.3084 0)
+			(effects
+				(font
+					(size 2.54 2.54)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "outputmixer.kicad_sch"
+			(at 210.82 115.5196 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "CASTOR_MIX_IN" input
+			(at 210.82 57.15 180)
+			(uuid "83b02cde-6529-4ecb-85c5-636345ec49d1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POLLUX_MIX_IN" input
+			(at 210.82 104.14 180)
+			(uuid "87ba4f27-c2d0-4831-8436-0123270ca3b7")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CASTOR_RAMP_IN" input
+			(at 210.82 45.72 180)
+			(uuid "cd9e24c7-ee34-4f08-838d-ffcac3cc82d6")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CASTOR_PULSE_IN" input
+			(at 210.82 49.53 180)
+			(uuid "f7423355-0d5f-4d97-b0c9-e7bf98325c81")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CASTOR_SUB_IN" input
+			(at 210.82 53.34 180)
+			(uuid "26517c2d-3c67-4ca2-9ced-4abd5443e82d")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POLLUX_RAMP_IN" input
+			(at 210.82 92.71 180)
+			(uuid "97f1d1c6-4f2f-4f61-a4a5-9058b0f8b732")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POLLUX_PULSE_IN" input
+			(at 210.82 96.52 180)
+			(uuid "301275f6-e7ed-4c3a-bf65-b6873090fd34")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "POLLUX_SUB_IN" input
+			(at 210.82 100.33 180)
+			(uuid "d04bf3b7-4feb-4d64-ba03-8dddfff1b8a4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7"
+					(page "6")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 154.94 34.29)
+		(size 40.64 33.655)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "00000000-0000-0000-0000-00005f0e55e2")
+		(property "Sheetname" "Castor"
+			(at 154.94 32.9434 0)
+			(effects
+				(font
+					(size 2.54 2.54)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "castor.kicad_sch"
+			(at 154.94 68.5296 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "SQUARE_IN" input
+			(at 154.94 45.72 180)
+			(uuid "7f96c50f-c08a-4edc-8e39-23102afefa86")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "CHARGE_CV_IN" input
+			(at 154.94 49.53 180)
+			(uuid "953a6687-5341-434d-93cf-4e1f148b8a19")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "PWM_CV_IN" input
+			(at 154.94 53.34 180)
+			(uuid "dde5dd20-3dac-4c90-8563-06de034960d9")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "MIX_OUT" output
+			(at 195.58 57.15 0)
+			(uuid "8142c3bf-dd1c-4700-8c44-d7385c05cfcc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "RAMP_OUT" output
+			(at 195.58 45.72 0)
+			(uuid "9b7fb792-45a0-4c21-bb91-9443d53ebd14")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "PULSE_OUT" output
+			(at 195.58 49.53 0)
+			(uuid "5b9bafa6-6b55-4e98-8f2b-200481f5f7c8")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "SUB_OUT" output
+			(at 195.58 53.34 0)
+			(uuid "8c05e878-0d47-49f2-a344-d3ee1dbdbda0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 25.4 81.28)
+		(size 38.1 33.02)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "00000000-0000-0000-0000-00005f3674a8")
+		(property "Sheetname" "Analog inputs"
+			(at 25.4 79.9334 0)
+			(effects
+				(font
+					(size 2.54 2.54)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "analogins.kicad_sch"
+			(at 25.4 114.8846 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "CASTOR_PITCH_CV" output
+			(at 63.5 92.075 0)
+			(uuid "a7f521f0-4fce-42eb-9a55-8f67f124a10c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "POLLUX_PITCH_CV" output
+			(at 63.5 95.885 0)
+			(uuid "bcf5dcdb-06b3-4273-b74d-63efa917f403")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "CASTOR_DUTY_CV" output
+			(at 63.5 99.695 0)
+			(uuid "a9abfeb3-6862-420b-b3af-d652528bb545")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "POLLUX_DUTY_CV" output
+			(at 63.5 103.505 0)
+			(uuid "e4fb384c-aab9-4d8b-b21b-f0061236944c")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 154.94 127.635)
+		(size 40.64 33.02)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "31000f0f-e202-4936-af7b-0293ced26715")
+		(property "Sheetname" "LEDs"
+			(at 154.94 126.2884 0)
+			(effects
+				(font
+					(size 2.54 2.54)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "leds.kicad_sch"
+			(at 154.94 161.2396 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "CLK" input
+			(at 154.94 146.05 180)
+			(uuid "a86d3614-aa57-4080-9e04-8105905a6bb1")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(pin "DATA" input
+			(at 154.94 142.24 180)
+			(uuid "1bf1ff71-9548-4b31-bdcc-ab2e65e46e68")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7"
+					(page "7")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 25.4 127)
+		(size 38.1 33.02)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "c72a522e-4dc4-4b2a-852d-76eeaba3c3f8")
+		(property "Sheetname" "Potentiometers"
+			(at 25.4 125.6534 0)
+			(effects
+				(font
+					(size 2.54 2.54)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "potentiometers.kicad_sch"
+			(at 25.4 160.6046 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "POLLUX_PITCH_POT" output
+			(at 63.5 142.24 0)
+			(uuid "d83b45ea-00dc-4d56-8707-9f005648da65")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "CASTOR_DUTY_POT" output
+			(at 63.5 138.43 0)
+			(uuid "863426e7-06cc-40e6-8d9c-e02b22789384")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "POLLUX_DUTY_POT" output
+			(at 63.5 146.05 0)
+			(uuid "759bb244-4f69-49c8-9111-b0861cace1b0")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BUTTON" output
+			(at 63.5 153.67 0)
+			(uuid "98d30ad0-d49a-4e4e-946d-9cc6120f3247")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "LFO_POT" output
+			(at 63.5 149.86 0)
+			(uuid "d4c5299f-8b61-4fa0-a3cb-1bd11d6815be")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "CASTOR_PITCH_POT" output
+			(at 63.5 134.62 0)
+			(uuid "aa9dba09-6983-4d8f-981f-8e9b56823e9f")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "mainboard"
+				(path "/6e47ee4f-b36d-4cb2-9b20-31f755e664f7"
+					(page "9")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
 )
