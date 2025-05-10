@@ -2,7 +2,7 @@
 
 Castor & Pollux is a Roland Juno-inspired oscillator in Eurorack format.
 
-More details available at https://winterbloom.com/store/winterbloom-castor-and-pollux
+More details available at https://winterbloom.com/shop/winterbloom-castor-and-pollux
 
 ## Repository layout
 
