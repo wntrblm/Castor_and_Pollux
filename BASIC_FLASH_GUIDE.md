@@ -3,9 +3,11 @@
 This guide is written for someone new to flashing firmware onto hardware, or
 needs guidance getting started with Python.
 
-Warning: This guide was not written by a member of the Winterbloom team, but
-was rather contributed by a third-party trying this for the first time. If in
-doubt, [CONTRIUBTING.md](./CONTRIBUTING.md) should be considered authoritative.
+> [!WARNING]
+> This guide was not written by a member of the Winterbloom team, but
+> was rather contributed by a third-party trying this for the first time. If in
+> doubt, [CONTRIUBTING.md](./CONTRIBUTING.md) should be considered
+> authoritative.
 
 Assumptions:
   * Access to a computer such that:
@@ -13,6 +15,18 @@ Assumptions:
     * With a flavour of Linux installed, or the ability to install Linux
   * Access to a [black magic debug probe](https://black-magic.org/index.html)
     or similar hardware
+  * Access to a bench PSU or similar, and an oscilloscope or tuner to perform
+    the calibration.
+      * The PSU must be capable of outputting a range of voltages between -0.5V
+        and 6.1V accurately
+      * The oscilloscope must be capable of indicating the frequency of the
+        input.
+
+> [!TIP]
+> Consult [the designer's tool list](https://thea.codes/tools.html#testing) for
+> the same list of tools used when developing the module. These may be excessive
+> for the construction and calibration of a Castor and Pollux module.
+
 
 ## Acquiring the firmware
 
@@ -112,11 +126,13 @@ The commands will:
 
 1. Connect to your debug probe.
 2. Ensure that the probe monitors the voltage.
-3. Scans for any connected debug probe.
+3. Scans for any connected debug probe. You should see your device listed here,
+   if not, you probably need to check your connection to the board.
 4. Attaches to the first (and hopefully only) listed device.
 5. "This command instructs GDB to allow access to memory outside of the devices
-   known memory map."
-6. Load the relevant executable and transfers it to the device's memory
+   known memory map." I can't remember if I ran this, or if it had any effect.
+6. Load the relevant executable and transfers it to the device's memory - if the
+   `.bin` file doesn't work, try the `.elf`.
 7. Verifies that the files match.
 8. Execute the program
 8. Execute the program
@@ -126,10 +142,10 @@ The commands will:
 ```
 target extended-remote /dev/ttyACM0 # Or wherever your probe is mounted
 monitor tpwr enable
-monitor auto_scan # You should see your device listed here, if not, you probably need to check your connection to the board.
-attach 1 # There should only be one thing, unless you've done something really magical
-set mem inaccessible-by-default off # I can't remember if I ran this, or if it had any effect
-load ~/uf2-samdx1/build/winterbloom_gemini/bootloader-winterbloom_gemini-{...}.bin # I think it was the bin, or it'll be the elf
+monitor auto_scan
+attach 1
+set mem inaccessible-by-default off # 
+load ${UF2_DIR}/build/winterbloom_gemini/bootloader-winterbloom_gemini-{...}.bin
 compare-sections
 start
 run
@@ -149,3 +165,4 @@ in the order as listed in [`alt_scripts.md`](./factory/alt_scripts.md),
 following the instructions for each calibration step.
 
 At this point, you should have a working and calibrated Castor and Pollux unit.
+
